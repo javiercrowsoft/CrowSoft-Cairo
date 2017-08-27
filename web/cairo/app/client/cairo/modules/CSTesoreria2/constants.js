@@ -270,6 +270,14 @@
       MOVIMIENTO_FONDO_TMP: "MovimientoFondoTMP",
       MF_TMP_ID: "mfTMP_id",
 
+      // FacturaVentaCobranza
+      FACTURA_VENTA_COBRANZA_TMP: "FacturaVentaCobranzaTMP",
+      FV_COBZ_ID: "fvcobz_id",
+      FV_COBZ_IMPORTE: "fvcobz_importe",
+      FV_COBZ_COTIZACION: "fvcobz_cotizacion",
+      FV_COBZ_TMP_ID: "fvcobzTMP_id",
+      FV_COBZ_IMPORTE_ORIGEN: "fvcobz_importeOrigen",
+
       // Movimiento de Fondos
       MOVIMIENTO_FONDO: "MovimientoFondo",
       MF_ID: "mf_id",

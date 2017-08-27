@@ -299,23 +299,26 @@
             else {
               return M.showWarningWithFalse(getText(3583, ""));
                                      // No se pudo determinar si esta factura genera automaticamente una orden de
-                                     // pago. Vuelva a intentar gurdar la aplicación.
+                                     // pago. Vuelva a intentar guardar la aplicación.
             }
           })
           .whenSuccess(function() {
             ordenPagoSaveNotaCredito(register);
             ordenPagoSaveOrdenPago(register);
+            return true;
           });
 
-        return p.then(function() {
-          DB.saveTransaction(
+        return p.whenSuccess(function() {
+
+          return DB.saveTransaction(
             register,
             false,
             "",
             Cairo.Constants.CLIENT_SAVE_FUNCTION,
             C_MODULE,
             SAVE_ERROR_MESSAGE
-          )
+          );
+
         }).then(
 
           function(result) {
@@ -325,16 +328,13 @@
                 return M.showWarningWithFalse(result.errors.getMessage());
               }
               else {
-
                 return load().then(
                   function(success) {
-
                     if(success) {
-
                       if(m_client !== null) {
                         m_client.refresh(self, m_fcId);
                       }
-                    };
+                    }
                     return success;
                   }
                 );

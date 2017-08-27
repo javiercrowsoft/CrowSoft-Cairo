@@ -9,12 +9,12 @@
 
             var getText = Cairo.Language.getText;
 
-            var TITLE = getText(1908, ""); // Aplicación Factura de Compra
-            var SAVE_ERROR_MESSAGE = getText(1907, ""); // Error al grabar la factura de compra
+            var TITLE = getText(2124, ""); // Aplicación Cobranza
+            var SAVE_ERROR_MESSAGE = getText(2098, ""); // Error al grabar la cobranza
 
             var Dialogs = Cairo.Dialogs;
 
-            var C_MODULE = "cFacturaCompraAplic";
+            var C_MODULE = "cCobranzaAplic";
 
             var P = Cairo.Promises;
             var C = Cairo.General.Constants;
@@ -95,9 +95,9 @@
 
                     // Edit Apply
                     //
-                    if(!Cairo.Database.getData(mTesoreriaConstantes.COBRANZA, mTesoreriaConstantes.COBZ_ID, m_cobzId, Cairo.Constants.EMP_ID, m_emp_id)) { return false; }
+                    if(!Cairo.Database.getData(CT.COBRANZA, CT.COBZ_ID, m_cobzId, C.EMP_ID, m_emp_id)) { return false; }
 
-                    if(!Cairo.Database.getData(Cairo.Constants.EMPRESA, Cairo.Constants.EMP_ID, m_emp_id, Cairo.Constants.EMP_NAME, m_emp_nombre)) { return false; }
+                    if(!Cairo.Database.getData(Cairo.Constants.EMPRESA, C.EMP_ID, m_emp_id, Cairo.Constants.EMP_NAME, m_emp_nombre)) { return false; }
 
                     pEdit();
                 }
@@ -372,65 +372,65 @@
                     f = property.getGrid().getRows().add(null);
 
                     elem = row.add(null);
-                    elem.setValue(Cairo.Database.valField(m_data.aplic[_i], mTesoreriaConstantes.FV_COBZ_ID));
+                    elem.setValue(Cairo.Database.valField(m_data.aplic[_i], CT.FV_COBZ_ID));
                     elem.setKey(KI_FVCOB_ID);
 
                     elem = row.add(null);
-                    elem.setValue(Cairo.Database.valField(m_data.aplic[_i], mTesoreriaConstantes.FVD_ID));
+                    elem.setValue(Cairo.Database.valField(m_data.aplic[_i], CT.FVD_ID));
                     elem.setKey(KI_FVD_ID);
 
                     elem = row.add(null);
-                    elem.setValue(Cairo.Database.valField(m_data.aplic[_i], mTesoreriaConstantes.FVP_ID));
+                    elem.setValue(Cairo.Database.valField(m_data.aplic[_i], CT.FVP_ID));
                     elem.setKey(KI_FVP_ID);
 
                     elem = row.add(null);
-                    elem.setValue(Cairo.Database.valField(m_data.aplic[_i], mTesoreriaConstantes.DOC_NAME));
+                    elem.setValue(Cairo.Database.valField(m_data.aplic[_i], CT.DOC_NAME));
                     elem.setKey(KI_DOC);
 
                     elem = row.add(null);
-                    elem.setValue(Cairo.Database.valField(m_data.aplic[_i], mTesoreriaConstantes.FV_NRODOC));
-                    elem.setId(Cairo.Database.valField(m_data.aplic[_i], mTesoreriaConstantes.FV_ID));
+                    elem.setValue(Cairo.Database.valField(m_data.aplic[_i], CT.FV_NRODOC));
+                    elem.setId(Cairo.Database.valField(m_data.aplic[_i], CT.FV_ID));
                     elem.setKey(KI_FV_ID);
 
                     elem = row.add(null);
-                    if(rs.getFields(mTesoreriaConstantes.FVD_FECHA) === null) {
-                        if(rs.getFields(mTesoreriaConstantes.FVP_FECHA) === null) {
+                    if(rs.getFields(CT.FVD_FECHA) === null) {
+                        if(rs.getFields(CT.FVP_FECHA) === null) {
                             elem.setValue("");
                         }
                         else {
-                            elem.setValue(Cairo.Database.valField(m_data.aplic[_i], mTesoreriaConstantes.FVP_FECHA));
+                            elem.setValue(Cairo.Database.valField(m_data.aplic[_i], CT.FVP_FECHA));
                         }
                     }
                     else {
-                        elem.setValue(Cairo.Database.valField(m_data.aplic[_i], mTesoreriaConstantes.FVD_FECHA));
+                        elem.setValue(Cairo.Database.valField(m_data.aplic[_i], CT.FVD_FECHA));
                     }
                     elem.setKey(KI_FECHA);
 
                     elem = row.add(null);
-                    elem.setValue(Cairo.Database.valField(m_data.aplic[_i], mTesoreriaConstantes.FVD_PENDIENTE));
+                    elem.setValue(Cairo.Database.valField(m_data.aplic[_i], CT.FVD_PENDIENTE));
                     elem.setKey(KI_PENDIENTE);
 
                     elem = row.add(null);
-                    elem.setValue(Cairo.Database.valField(m_data.aplic[_i], mTesoreriaConstantes.FV_COBZ_IMPORTE));
+                    elem.setValue(Cairo.Database.valField(m_data.aplic[_i], CT.FV_COBZ_IMPORTE));
                     elem.setKey(KI_APLICADO);
 
                     elem = row.add(null);
-                    cotizacion = Cairo.Database.valField(m_data.aplic[_i], mTesoreriaConstantes.FV_COBZ_COTIZACION);
+                    cotizacion = Cairo.Database.valField(m_data.aplic[_i], CT.FV_COBZ_COTIZACION);
                     if(cotizacion !== 0) {
                         elem.setValue(cotizacion);
                     }
                     elem.setKey(KI_COTIZACION);
 
                     elem = row.add(null);
-                    elem.setValue(Cairo.Database.valField(m_data.aplic[_i], mTesoreriaConstantes.FVD_PENDIENTE));
+                    elem.setValue(Cairo.Database.valField(m_data.aplic[_i], CT.FVD_PENDIENTE));
                     elem.setKey(KI_PENDIENTE2);
 
                     elem = row.add(null);
-                    elem.setValue(Cairo.Database.valField(m_data.aplic[_i], mTesoreriaConstantes.FV_COBZ_IMPORTE));
+                    elem.setValue(Cairo.Database.valField(m_data.aplic[_i], CT.FV_COBZ_IMPORTE));
                     elem.setKey(KI_APLICADO2);
 
                     elem = row.add(null);
-                    elem.setValue(Cairo.Database.valField(m_data.aplic[_i], mTesoreriaConstantes.FV_COBZ_IMPORTE));
+                    elem.setValue(Cairo.Database.valField(m_data.aplic[_i], CT.FV_COBZ_IMPORTE));
                     elem.setKey(KI_APLICADO3);
 
                 }
@@ -670,23 +670,18 @@
 
                 var register = null;
 
-                var mouse = null;
-                mouse = new cMouseWait();
-
-                DoEvents:(DoEvents: DoEvents: DoEvents);
-
                 register = new cRegister();
-                register.setFieldId(mTesoreriaConstantes.COBZ_TMPID);
-                register.setTable(mTesoreriaConstantes.COBRANZATMP);
+                register.setFieldId(CT.COBZ_TMP_ID);
+                register.setTable(CT.COBRANZA_TMP);
 
                 register.setId(Cairo.Constants.NEW_ID);
 
-                register.getFields().add2(mTesoreriaConstantes.COBZ_NUMERO, 0, Cairo.Constants.Types.long);
-                register.getFields().add2(mTesoreriaConstantes.CLI_ID, Cairo.Constants.NO_ID, Cairo.Constants.Types.long);
-                register.getFields().add2(mTesoreriaConstantes.SUC_ID, Cairo.Constants.NO_ID, Cairo.Constants.Types.long);
-                register.getFields().add2(mTesoreriaConstantes.DOC_ID, Cairo.Constants.NO_ID, Cairo.Constants.Types.long);
+                register.getFields().add2(CT.COBZ_NUMERO, 0, Cairo.Constants.Types.long);
+                register.getFields().add2(CT.CLI_ID, Cairo.Constants.NO_ID, Cairo.Constants.Types.long);
+                register.getFields().add2(CT.SUC_ID, Cairo.Constants.NO_ID, Cairo.Constants.Types.long);
+                register.getFields().add2(CT.DOC_ID, Cairo.Constants.NO_ID, Cairo.Constants.Types.long);
                 register.getFields().add2(C.EST_ID, Cairo.Constants.NO_ID, Cairo.Constants.Types.long);
-                register.getFields().add2(mTesoreriaConstantes.COBZ_ID, m_cobzId, Cairo.Constants.Types.id);
+                register.getFields().add2(CT.COBZ_ID, m_cobzId, Cairo.Constants.Types.id);
 
                 register.getFields().setHaveLastUpdate(true);
                 register.getFields().setHaveWhoModify(true);
@@ -746,8 +741,8 @@
                     row = pGetItems().getRows().item(_i);
 
                     var register = new Cairo.Database.Register();
-                    register.setFieldId(mTesoreriaConstantes.FV_COBZ_TMPID);
-                    register.setTable(mTesoreriaConstantes.FACTURAVENTACOBRANZATMP);
+                    register.setFieldId(CT.FV_COBZ_TMP_ID);
+                    register.setTable(CT.FACTURA_VENTA_COBRANZA_TMP);
                     register.setId(Cairo.Constants.NEW_ID);
 
                     bSave = false;
@@ -761,25 +756,25 @@
                             cell = row.item(_j);
                             switch (cell.getKey()) {
                                 case KI_FV_ID:
-                                    register.getFields().add2(mTesoreriaConstantes.FV_ID, cell.getId(), Cairo.Constants.Types.id);
+                                    register.getFields().add2(CT.FV_ID, cell.getId(), Cairo.Constants.Types.id);
                                     break;
 
                                 case KI_FVD_ID:
-                                    register.getFields().add2(mTesoreriaConstantes.FVD_ID, Cairo.Util.val(cell.getValue()), Cairo.Constants.Types.id);
+                                    register.getFields().add2(CT.FVD_ID, Cairo.Util.val(cell.getValue()), Cairo.Constants.Types.id);
                                     break;
 
                                 case KI_FVP_ID:
-                                    register.getFields().add2(mTesoreriaConstantes.FVP_ID, Cairo.Util.val(cell.getValue()), Cairo.Constants.Types.id);
+                                    register.getFields().add2(CT.FVP_ID, Cairo.Util.val(cell.getValue()), Cairo.Constants.Types.id);
                                     break;
 
                                 case KI_APLICADO:
                                     importe = Cairo.Util.val(cell.getValue());
-                                    register.getFields().add2(mTesoreriaConstantes.FV_COBZ_IMPORTE, importe, Cairo.Constants.Types.double);
+                                    register.getFields().add2(CT.FV_COBZ_IMPORTE, importe, Cairo.Constants.Types.double);
                                     break;
 
                                 case KI_COTIZACION:
                                     cotizacion = Cairo.Util.val(cell.getValue());
-                                    register.getFields().add2(mTesoreriaConstantes.FV_COBZ_COTIZACION, cotizacion, Cairo.Constants.Types.double);
+                                    register.getFields().add2(CT.FV_COBZ_COTIZACION, cotizacion, Cairo.Constants.Types.double);
                                     break;
                             }
                         }
@@ -787,10 +782,10 @@
 
                     if(bSave) {
 
-                        register.getFields().add2(mTesoreriaConstantes.FV_COBZ_IMPORTE_ORIGEN, DivideByCero(importe, cotizacion), Cairo.Constants.Types.double);
-                        register.getFields().add2(mTesoreriaConstantes.FV_COBZ_ID, 0, Cairo.Constants.Types.long);
-                        register.getFields().add2(mTesoreriaConstantes.COBZ_ID, 0, Cairo.Constants.Types.long);
-                        register.getFields().add2(mTesoreriaConstantes.COBZ_TMPID, id, Cairo.Constants.Types.id);
+                        register.getFields().add2(CT.FV_COBZ_IMPORTE_ORIGEN, DivideByCero(importe, cotizacion), Cairo.Constants.Types.double);
+                        register.getFields().add2(CT.FV_COBZ_ID, 0, Cairo.Constants.Types.long);
+                        register.getFields().add2(CT.COBZ_ID, 0, Cairo.Constants.Types.long);
+                        register.getFields().add2(CT.COBZ_TMP_ID, id, Cairo.Constants.Types.id);
 
                         register.getFields().setHaveLastUpdate(false);
                         register.getFields().setHaveWhoModify(false);
@@ -815,19 +810,19 @@
                 for (i = 1; i <= vCtaCte[].Length; i++) {
 
                     register = new cRegister();
-                    register.setFieldId(mTesoreriaConstantes.COBZI_TMPID);
-                    register.setTable(mTesoreriaConstantes.COBRANZAITEMTMP);
+                    register.setFieldId(CT.COBZI_TMPID);
+                    register.setTable(CT.COBRANZAITEMTMP);
                     register.setId(Cairo.Constants.NEW_ID);
 
-                    register.getFields().add2(mTesoreriaConstantes.CUE_ID, vCtaCte[i].cue_id, Cairo.Constants.Types.id);
-                    register.getFields().add2(mTesoreriaConstantes.COBZI_IMPORTE_ORIGEN, vCtaCte[i].importeOrigen, Cairo.Constants.Types.currency);
-                    register.getFields().add2(mTesoreriaConstantes.COBZI_IMPORTE, vCtaCte[i].importe, Cairo.Constants.Types.currency);
+                    register.getFields().add2(CT.CUE_ID, vCtaCte[i].cue_id, Cairo.Constants.Types.id);
+                    register.getFields().add2(CT.COBZI_IMPORTE_ORIGEN, vCtaCte[i].importeOrigen, Cairo.Constants.Types.currency);
+                    register.getFields().add2(CT.COBZI_IMPORTE, vCtaCte[i].importe, Cairo.Constants.Types.currency);
 
-                    register.getFields().add2(mTesoreriaConstantes.COBZI_ORDEN, i, Cairo.Constants.Types.integer);
-                    register.getFields().add2(mTesoreriaConstantes.COBZI_TIPO, csECobranzaItemTipo.cSECOBZITCTACTE, Cairo.Constants.Types.integer);
-                    register.getFields().add2(mTesoreriaConstantes.COBZ_TMPID, id, Cairo.Constants.Types.id);
-                    register.getFields().add2(mTesoreriaConstantes.COBZI_ID, id, Cairo.Constants.Types.long);
-                    register.getFields().add2(mTesoreriaConstantes.COBZI_OTRO_TIPO, csEItemOtroTipo.cSEOTROHABER, Cairo.Constants.Types.integer);
+                    register.getFields().add2(CT.COBZI_ORDEN, i, Cairo.Constants.Types.integer);
+                    register.getFields().add2(CT.COBZI_TIPO, csECobranzaItemTipo.cSECOBZITCTACTE, Cairo.Constants.Types.integer);
+                    register.getFields().add2(CT.COBZ_TMP_ID, id, Cairo.Constants.Types.id);
+                    register.getFields().add2(CT.COBZI_ID, id, Cairo.Constants.Types.long);
+                    register.getFields().add2(CT.COBZI_OTRO_TIPO, csEItemOtroTipo.cSEOTROHABER, Cairo.Constants.Types.integer);
 
                     register.getFields().setHaveLastUpdate(false);
                     register.getFields().setHaveWhoModify(false);

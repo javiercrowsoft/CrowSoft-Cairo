@@ -9,12 +9,12 @@
 
             var getText = Cairo.Language.getText;
 
-            var TITLE = getText(1908, ""); // Aplicación Factura de Compra
-            var SAVE_ERROR_MESSAGE = getText(1907, ""); // Error al grabar la factura de compra
+            var TITLE = getText(1927, ""); // Aplicación Orden de Compra
+            var SAVE_ERROR_MESSAGE = getText(2170, ""); // Error al grabar la orden de compra
 
             var Dialogs = Cairo.Dialogs;
 
-            var C_MODULE = "cFacturaCompraAplic";
+            var C_MODULE = "cOrdenCompraAplic";
 
             var P = Cairo.Promises;
             var C = Cairo.General.Constants;
@@ -172,9 +172,9 @@
 
                     // Edit Apply
                     //
-                    if(!Cairo.Database.getData(mComprasConstantes.ORDENCOMPRA, mComprasConstantes.OC_ID, m_ocId, Cairo.Constants.EMP_ID, m_emp_id)) { return _rtn; }
+                    if(!Cairo.Database.getData(mComprasConstantes.ORDENCOMPRA, mComprasConstantes.OC_ID, m_ocId, C.EMP_ID, m_emp_id)) { return _rtn; }
 
-                    if(!Cairo.Database.getData(Cairo.Constants.EMPRESA, Cairo.Constants.EMP_ID, m_emp_id, Cairo.Constants.EMP_NAME, m_emp_nombre)) { return _rtn; }
+                    if(!Cairo.Database.getData(Cairo.Constants.EMPRESA, C.EMP_ID, m_emp_id, Cairo.Constants.EMP_NAME, m_emp_nombre)) { return _rtn; }
 
                     _rtn = pEdit();
                 }

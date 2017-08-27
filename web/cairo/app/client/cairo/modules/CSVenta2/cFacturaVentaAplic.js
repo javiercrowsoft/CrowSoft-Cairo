@@ -9,12 +9,12 @@
 
             var getText = Cairo.Language.getText;
 
-            var TITLE = getText(1908, ""); // Aplicación Factura de Compra
-            var SAVE_ERROR_MESSAGE = getText(1907, ""); // Error al grabar la factura de compra
+            var TITLE = getText(1649, ""); // Aplicación Factura de Venta
+            var SAVE_ERROR_MESSAGE = getText(2220, ""); // Error al grabar la factura de venta
 
             var Dialogs = Cairo.Dialogs;
 
-            var C_MODULE = "cFacturaCompraAplic";
+            var C_MODULE = "cFacturaVentaAplic";
 
             var P = Cairo.Promises;
             var C = Cairo.General.Constants;
@@ -30,36 +30,6 @@
             var Types = Cairo.Constants.Types;
             var valField = DB.valField;
             var valFieldDateValue = DB.valFieldDateValue;
-
-            // FacturaVentaCobranza
-            var CSTFACTURAVENTACOBRANZATMP = "FacturaVentaCobranzaTMP";
-            var CSCFV_COBZ_ID = "fvcobz_id";
-            var CSCFV_COBZ_IMPORTE = "fvcobz_importe";
-            var CSCFV_COBZ_COTIZACION = "fvcobz_cotizacion";
-            var CSCFV_COBZ_TMPID = "fvcobzTMP_id";
-            var CSCFV_COBZ_IMPORTE_ORIGEN = "fvcobz_importeOrigen";
-
-            // Cobranza
-            var CSCCOBZ_NUMERO = "cobz_numero";
-            var CSCCOBZ_NRO_DOC = "cobz_nrodoc";
-            var CSCCOBZ_ID = "cobz_id";
-            var CSCCOBZ_FECHA = "cobz_fecha";
-            var CSCCOBZ_PENDIENTE = "cobz_pendiente";
-            var CSCCOBZ_COTIZACION = "cobz_cotizacion";
-
-            // CobranzaTMP
-            var CSTCOBRANZATMP = "CobranzaTMP";
-            var CSCCOBZ_TMPID = "cobzTMP_id";
-
-            // FacturaVentaDeuda
-            var CSCFVD_ID = "fvd_id";
-            var CSCFVD_FECHA = "fvd_fecha";
-            var CSCFVD_PENDIENTE = "fvd_pendiente";
-
-            // FacturaVentaPago
-            var CSCFVP_ID = "fvp_id";
-            var CSCFVP_FECHA = "fvp_fecha";
-            var CSCFVP_IMPORTE = "fvp_importe";
 
             // CobranzaItemTMP
             var CSTCOBRANZAITEMTMP = "CobranzaItemTMP";
@@ -83,10 +53,10 @@
             var CSCFV_NC_ID = "fvnc_id";
             var CSCFV_ID_NOTA_CREDITO = "fv_id_notacredito";
             var CSCFV_ID_FACTURA = "fv_id_factura";
-            var CSCFVD_ID_NOTA_CREDITO = "fvd_id_notacredito";
-            var CSCFVD_ID_FACTURA = "fvd_id_factura";
-            var CSCFVP_ID_NOTA_CREDITO = "fvp_id_notacredito";
-            var CSCFVP_ID_FACTURA = "fvp_id_factura";
+            var CT.FVD_ID_NOTA_CREDITO = "fvd_id_notacredito";
+            var CT.FVD_ID_FACTURA = "fvd_id_factura";
+            var CT.FVP_ID_NOTA_CREDITO = "fvp_id_notacredito";
+            var CT.FVP_ID_FACTURA = "fvp_id_factura";
 
             var CSCNRO_DOC = "nrodoc";
             var CSCPENDIENTE = "Pendiente";
@@ -281,9 +251,9 @@
 
                     // Edit Apply
                     //
-                    if(!Cairo.Database.getData(mVentaConstantes.FACTURAVENTA, mVentaConstantes.FV_ID, m_fvId, Cairo.Constants.EMP_ID, m_emp_id)) { return false; }
+                    if(!Cairo.Database.getData(mVentaConstantes.FACTURAVENTA, mVentaConstantes.FV_ID, m_fvId, C.EMP_ID, m_emp_id)) { return false; }
 
-                    if(!Cairo.Database.getData(Cairo.Constants.EMPRESA, Cairo.Constants.EMP_ID, m_emp_id, Cairo.Constants.EMP_NAME, m_emp_nombre)) { return false; }
+                    if(!Cairo.Database.getData(Cairo.Constants.EMPRESA, C.EMP_ID, m_emp_id, Cairo.Constants.EMP_NAME, m_emp_nombre)) { return false; }
 
                     pEdit();
                 }
@@ -1711,7 +1681,7 @@
 
                     while (!rs.isEOF()) {
 
-                        i = pCobAddToCreditos(Cairo.Database.valField(rs.getFields(), CSCCOBZ_ID), Cairo.Database.valField(rs.getFields(), CSCFVD_ID), Cairo.Database.valField(rs.getFields(), CSCFVP_ID), idx);
+                        i = pCobAddToCreditos(Cairo.Database.valField(rs.getFields(), CT.COBZ_ID), Cairo.Database.valField(rs.getFields(), CT.FVD_ID), Cairo.Database.valField(rs.getFields(), CT.FVP_ID), idx);
 
                         // Documento
                         //
@@ -1732,17 +1702,17 @@
 
                         // Cobranza
                         //
-                        m_vCobzNC[i].cobz_id = Cairo.Database.valField(rs.getFields(), CSCCOBZ_ID);
-                        m_vCobzNC[i].fecha = Cairo.Database.valField(rs.getFields(), CSCCOBZ_FECHA);
-                        m_vCobzNC[i].cotizacion = Cairo.Database.valField(rs.getFields(), CSCFV_COBZ_COTIZACION);
+                        m_vCobzNC[i].cobz_id = Cairo.Database.valField(rs.getFields(), CT.COBZ_ID);
+                        m_vCobzNC[i].fecha = Cairo.Database.valField(rs.getFields(), CT.COBZ_FECHA);
+                        m_vCobzNC[i].cotizacion = Cairo.Database.valField(rs.getFields(), CT.FV_COBZ_COTIZACION);
 
                         // Aplicaciones
 
-                        vAplicaciones.fvcobz_id = Cairo.Database.valField(rs.getFields(), CSCFV_COBZ_ID);
+                        vAplicaciones.fvcobz_id = Cairo.Database.valField(rs.getFields(), CT.FV_COBZ_ID);
                         vAplicaciones.fvnc_id = Cairo.Database.valField(rs.getFields(), CSCFV_NC_ID);
 
-                        vAplicaciones.fvp_id = Cairo.Database.valField(rs.getFields(), CSCFVP_ID);
-                        vAplicaciones.fvd_id = Cairo.Database.valField(rs.getFields(), CSCFVD_ID);
+                        vAplicaciones.fvp_id = Cairo.Database.valField(rs.getFields(), CT.FVP_ID);
+                        vAplicaciones.fvd_id = Cairo.Database.valField(rs.getFields(), CT.FVD_ID);
 
                         vAplicaciones.Aplicado = Cairo.Database.valField(rs.getFields(), CSCAPLICADO);
 
@@ -1819,11 +1789,11 @@
                     elem = row.add(null);D.Status.pendientenull);
 
                     elem = row.add(null);
-                    elem.setId(Cairo.Database.valField(rs.getFields(), CSCFVD_ID));
+                    elem.setId(Cairo.Database.valField(rs.getFields(), CT.FVD_ID));
                     elem.setKey(KIV_FVD_ID);
 
                     elem = row.add(null);
-                    elem.setId(Cairo.Database.valField(rs.getFields(), CSCFVP_ID));
+                    elem.setId(Cairo.Database.valField(rs.getFields(), CT.FVP_ID));
                     elem.setKey(KIV_FVP_ID);
 
                     elem = row.add(null);
@@ -1873,9 +1843,9 @@
                     while (!rs.isEOF()) {
 
                         i = i + 1;
-                        m_vCobzNC[i].cobz_id = Cairo.Database.valField(rs.getFields(), CSCCOBZ_ID);
+                        m_vCobzNC[i].cobz_id = Cairo.Database.valField(rs.getFields(), CT.COBZ_ID);
                         m_vCobzNC[i].fv_id = Cairo.Database.valField(rs.getFields(), mVentaConstantes.FV_ID);
-                        m_vCobzNC[i].fvd_id = Cairo.Database.valField(rs.getFields(), CSCFVD_ID);
+                        m_vCobzNC[i].fvd_id = Cairo.Database.valField(rs.getFields(), CT.FVD_ID);
 
                         m_vCobzNC[i].docNombre = Cairo.Database.valField(rs.getFields(), mVentaConstantes.DOC_NAME);
                         m_vCobzNC[i].nroDoc = Cairo.Database.valField(rs.getFields(), CSCNRO_DOC);
@@ -2486,21 +2456,21 @@
                                     register.getFields().add2(CSCFV_ID_NOTA_CREDITO, m_fvId, Cairo.Constants.Types.id);
                                     register.getFields().add2(CSCFV_ID_FACTURA, m_vCobzNC[i].fv_id, Cairo.Constants.Types.id);
 
-                                    register.getFields().add2(CSCFVD_ID_NOTA_CREDITO, m_vCobzNC[i].vAplicaciones[j].fvd_id, Cairo.Constants.Types.id);
-                                    register.getFields().add2(CSCFVD_ID_FACTURA, m_vCobzNC[i].fvd_id, Cairo.Constants.Types.id);
+                                    register.getFields().add2(CT.FVD_ID_NOTA_CREDITO, m_vCobzNC[i].vAplicaciones[j].fvd_id, Cairo.Constants.Types.id);
+                                    register.getFields().add2(CT.FVD_ID_FACTURA, m_vCobzNC[i].fvd_id, Cairo.Constants.Types.id);
 
-                                    register.getFields().add2(CSCFVP_ID_NOTA_CREDITO, m_vCobzNC[i].vAplicaciones[j].fvp_id, Cairo.Constants.Types.id);
-                                    register.getFields().add2(CSCFVP_ID_FACTURA, m_vCobzNC[i].fvp_id, Cairo.Constants.Types.id);
+                                    register.getFields().add2(CT.FVP_ID_NOTA_CREDITO, m_vCobzNC[i].vAplicaciones[j].fvp_id, Cairo.Constants.Types.id);
+                                    register.getFields().add2(CT.FVP_ID_FACTURA, m_vCobzNC[i].fvp_id, Cairo.Constants.Types.id);
                                 }
                                 else {
                                     register.getFields().add2(CSCFV_ID_NOTA_CREDITO, m_vCobzNC[i].fv_id, Cairo.Constants.Types.id);
                                     register.getFields().add2(CSCFV_ID_FACTURA, m_fvId, Cairo.Constants.Types.id);
 
-                                    register.getFields().add2(CSCFVD_ID_NOTA_CREDITO, m_vCobzNC[i].fvd_id, Cairo.Constants.Types.id);
-                                    register.getFields().add2(CSCFVD_ID_FACTURA, m_vCobzNC[i].vAplicaciones[j].fvd_id, Cairo.Constants.Types.id);
+                                    register.getFields().add2(CT.FVD_ID_NOTA_CREDITO, m_vCobzNC[i].fvd_id, Cairo.Constants.Types.id);
+                                    register.getFields().add2(CT.FVD_ID_FACTURA, m_vCobzNC[i].vAplicaciones[j].fvd_id, Cairo.Constants.Types.id);
 
-                                    register.getFields().add2(CSCFVP_ID_NOTA_CREDITO, m_vCobzNC[i].fvp_id, Cairo.Constants.Types.id);
-                                    register.getFields().add2(CSCFVP_ID_FACTURA, m_vCobzNC[i].vAplicaciones[j].fvp_id, Cairo.Constants.Types.id);
+                                    register.getFields().add2(CT.FVP_ID_NOTA_CREDITO, m_vCobzNC[i].fvp_id, Cairo.Constants.Types.id);
+                                    register.getFields().add2(CT.FVP_ID_FACTURA, m_vCobzNC[i].vAplicaciones[j].fvp_id, Cairo.Constants.Types.id);
                                 }
 
                                 register.getFields().add2(CSCFV_NC_IMPORTE, m_vCobzNC[i].vAplicaciones[j].Aplicado, Cairo.Constants.Types.double);
@@ -2582,24 +2552,19 @@
             var pSaveCobranzaAux = function(cobzId,  fvTMPId,  aplic) {
                 var register = null;
 
-                var mouse = null;
-                mouse = new cMouseWait();
-
-                DoEvents:(DoEvents: DoEvents: DoEvents);
-
                 register = new cRegister();
-                register.setFieldId(CSCCOBZ_TMPID);
-                register.setTable(CSTCOBRANZATMP);
+                register.setFieldId(CT.COBZ_TMP_ID);
+                register.setTable(CT.COBRANZA_TMP);
 
                 register.setId(Cairo.Constants.NEW_ID);
 
                 register.getFields().add2(mVentaConstantes.FV_TMPID, fvTMPId, Cairo.Constants.Types.id);
-                register.getFields().add2(CSCCOBZ_NUMERO, 0, Cairo.Constants.Types.long);
+                register.getFields().add2(CT.COBZ_NUMERO, 0, Cairo.Constants.Types.long);
                 register.getFields().add2(mVentaConstantes.CLI_ID, Cairo.Constants.NO_ID, Cairo.Constants.Types.long);
                 register.getFields().add2(mVentaConstantes.SUC_ID, Cairo.Constants.NO_ID, Cairo.Constants.Types.long);
                 register.getFields().add2(mVentaConstantes.DOC_ID, Cairo.Constants.NO_ID, Cairo.Constants.Types.long);
                 register.getFields().add2(C.EST_ID, Cairo.Constants.NO_ID, Cairo.Constants.Types.long);
-                register.getFields().add2(CSCCOBZ_ID, cobzId, Cairo.Constants.Types.id);
+                register.getFields().add2(CT.COBZ_ID, cobzId, Cairo.Constants.Types.id);
 
                 register.getFields().setHaveLastUpdate(true);
                 register.getFields().setHaveWhoModify(true);
@@ -2630,21 +2595,21 @@
                             if(m_vCobzNC[i].vAplicaciones[j].Aplicado > 0 || m_vCobzNC[i].vAplicaciones[j].fvcobz_id) {
 
                                 var register = new Cairo.Database.Register();
-                                register.setFieldId(CSCFV_COBZ_TMPID);
-                                register.setTable(CSTFACTURAVENTACOBRANZATMP);
+                                register.setFieldId(CT.FV_COBZ_TMP_ID);
+                                register.setTable(FACTURA_VENTA_COBRANZA_TMP);
                                 register.setId(Cairo.Constants.NEW_ID);
 
-                                register.getFields().add2(CSCCOBZ_ID, m_vCobzNC[i].cobz_id, Cairo.Constants.Types.long);
-                                register.getFields().add2(CSCCOBZ_TMPID, id, Cairo.Constants.Types.id);
+                                register.getFields().add2(CT.COBZ_ID, m_vCobzNC[i].cobz_id, Cairo.Constants.Types.long);
+                                register.getFields().add2(CT.COBZ_TMP_ID, id, Cairo.Constants.Types.id);
 
                                 register.getFields().add2(mVentaConstantes.FV_ID, m_fvId, Cairo.Constants.Types.id);
-                                register.getFields().add2(CSCFVD_ID, m_vCobzNC[i].vAplicaciones[j].fvd_id, Cairo.Constants.Types.id);
-                                register.getFields().add2(CSCFVP_ID, m_vCobzNC[i].vAplicaciones[j].fvp_id, Cairo.Constants.Types.id);
-                                register.getFields().add2(CSCFV_COBZ_ID, m_vCobzNC[i].vAplicaciones[j].fvcobz_id, Cairo.Constants.Types.long);
+                                register.getFields().add2(CT.FVD_ID, m_vCobzNC[i].vAplicaciones[j].fvd_id, Cairo.Constants.Types.id);
+                                register.getFields().add2(CT.FVP_ID, m_vCobzNC[i].vAplicaciones[j].fvp_id, Cairo.Constants.Types.id);
+                                register.getFields().add2(CT.FV_COBZ_ID, m_vCobzNC[i].vAplicaciones[j].fvcobz_id, Cairo.Constants.Types.long);
 
-                                register.getFields().add2(CSCFV_COBZ_COTIZACION, m_vCobzNC[i].cotizacion, Cairo.Constants.Types.double);
-                                register.getFields().add2(CSCFV_COBZ_IMPORTE, m_vCobzNC[i].vAplicaciones[j].Aplicado, Cairo.Constants.Types.double);
-                                register.getFields().add2(CSCFV_COBZ_IMPORTE_ORIGEN, DivideByCero(m_vCobzNC[i].vAplicaciones[j].Aplicado, m_vCobzNC[i].cotizacion), Cairo.Constants.Types.double);
+                                register.getFields().add2(CT.FV_COBZ_COTIZACION, m_vCobzNC[i].cotizacion, Cairo.Constants.Types.double);
+                                register.getFields().add2(CT.FV_COBZ_IMPORTE, m_vCobzNC[i].vAplicaciones[j].Aplicado, Cairo.Constants.Types.double);
+                                register.getFields().add2(CT.FV_COBZ_IMPORTE_ORIGEN, DivideByCero(m_vCobzNC[i].vAplicaciones[j].Aplicado, m_vCobzNC[i].cotizacion), Cairo.Constants.Types.double);
 
                                 register.getFields().setHaveLastUpdate(false);
                                 register.getFields().setHaveWhoModify(false);
@@ -2678,7 +2643,7 @@
 
                 register.getFields().add2(CSCCOBZI_ORDEN, 1, Cairo.Constants.Types.integer);
                 register.getFields().add2(CSCCOBZI_TIPO, csECobranzaItemTipo.csECobziTCtaCte, Cairo.Constants.Types.integer);
-                register.getFields().add2(CSCCOBZ_TMPID, id, Cairo.Constants.Types.id);
+                register.getFields().add2(CT.COBZ_TMP_ID, id, Cairo.Constants.Types.id);
                 register.getFields().add2(CSCCOBZI_ID, id, Cairo.Constants.Types.long);
                 register.getFields().add2(CSCCOBZI_OTRO_TIPO, csECobranzaItemOtroTipo.csEOtroHaber, Cairo.Constants.Types.integer);
 
@@ -2746,7 +2711,7 @@
 
                     if(rs.isEOF()) { return _rtn; }
 
-                    cotizacion = Cairo.Database.valField(rs.getFields(), CSCCOBZ_COTIZACION);
+                    cotizacion = Cairo.Database.valField(rs.getFields(), CT.COBZ_COTIZACION);
 
                     _rtn = true;
 
