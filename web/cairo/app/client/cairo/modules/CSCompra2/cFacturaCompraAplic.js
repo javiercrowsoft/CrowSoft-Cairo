@@ -2089,7 +2089,7 @@
       var ordenPagoSaveNotaCredito = function(mainRegister) {
         var transaction = DB.createTransaction();
 
-        transaction.setTable(CC.ORDEN_FACTURA_COMPRA_TMP);
+        transaction.setTable(CT.FACTURA_COMPRA_NOTA_CREDITO_TMP);
 
         for(var i = 0, count = m_vOpgNC.length; i < count; i += 1) {
 
@@ -2143,7 +2143,7 @@
       var ordenPagoSaveOrdenPago = function(mainRegister) {
         var transaction = DB.createTransaction();
 
-        transaction.setTable(CC.ORDEN_PAGO_TMP);
+        transaction.setTable(CT.ORDEN_PAGO_TMP);
 
         var ordenPagos = ordenPagoGetOrdenPagos();
         for(var i = 0, count = ordenPagos.length; i < count; i += 1) {
