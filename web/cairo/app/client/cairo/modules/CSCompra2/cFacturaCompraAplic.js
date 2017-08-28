@@ -665,20 +665,22 @@
         var fields = register.getFields();
 
         fields.add(CC.FC_ID, m_fcId, Types.id);
+        fields.add(C.DOC_ID, m_docId, Types.id);
+        /* TODO: remove
         fields.add(CC.FC_NUMERO, 0, Types.long);
         fields.add(CC.FC_NRODOC, "", Types.text);
         fields.add(C.PROV_ID, 0, Types.long);
         fields.add(C.SUC_ID, 0, Types.long);
-        fields.add(C.DOC_ID, m_docId, Types.id);
         fields.add(C.CPG_ID, C.CondicionPagoTipo.fechaDocumento, Types.id);
         fields.add(CC.FC_GRABAR_ASIENTO, 0, Types.boolean);
         fields.add(C.EST_ID, D.Status.pendiente, Types.id);
+         */
       };
 
-     var itemLoadAplicItems = function() {
+      var itemLoadAplicItems = function() {
         itemLoadAplicAplicados();
         itemLoadAplicCreditos();
-     };
+      };
 
       var setGridItems = function(property) {
 
@@ -2187,11 +2189,13 @@
 
         var fields = register.getFields();
 
+        /*
         fields.add(CT.OPG_NUMERO, 0, Types.long);
         fields.add(C.PROV_ID, NO_ID, Types.long);
         fields.add(C.SUC_ID, NO_ID, Types.long);
         fields.add(C.DOC_ID, NO_ID, Types.long);
         fields.add(C.EST_ID, NO_ID, Types.long);
+        */
         fields.add(CT.OPG_ID, opgId, Types.id);
 
         ordenPagoSaveItems(register, opgId);
@@ -2222,7 +2226,7 @@
                 var fields = register.getFields();
 
                 fields.add(CT.OPG_ID, m_vOpgNC[i].opg_id, Types.long);
-                fields.add(CC.FC_ID, m_fcId, Types.id);
+                /* TODO: remove fields.add(CC.FC_ID, m_fcId, Types.id);*/
                 fields.add(CT.FCD_ID, m_vOpgNC[i].vAplicaciones[j].fcd_id, Types.id);
                 fields.add(CT.FCP_ID, m_vOpgNC[i].vAplicaciones[j].fcp_id, Types.id);
                 fields.add(CT.FC_OPG_ID, m_vOpgNC[i].vAplicaciones[j].fcopg_id, Types.long);

@@ -40,6 +40,7 @@ object C {
 
   val FC_ID = "fc_id"
   val FCD_ID = "fcd_id"
+  val FCP_ID = "fcp_id"
 
   // MovimientoFondo
   val DEPOSITO_BANCO_ID = "ids"

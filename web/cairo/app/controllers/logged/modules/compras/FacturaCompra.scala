@@ -194,6 +194,7 @@ case class FacturaCompraParamsData(
 object FacturaCompras extends Controller with ProvidesUser {
 
   val GC = models.cairo.modules.general.C
+  val TC = models.cairo.modules.tesoreria.C
 
   val facturaCompraParamsForm: Form[FacturaCompraParamsData] = Form(
     mapping(
@@ -243,6 +244,74 @@ object FacturaCompras extends Controller with ProvidesUser {
                                GC.CCOS_ID, C.FCPERC_DESCRIP, C.FCPERC_ORIGEN, C.FCPERC_ORDEN)
 
   val facturaRemito = List(C.RCI_ID, C.RC_FC_CANTIDAD, C.FCI_ID)
+
+  val facturaCompraAplicForm: Form[FacturaCompraAplic] = Form(
+    mapping(
+      C.FC_ID -> number,
+      GC.DOC_ID -> number,
+      C.FACTURA_COMPRA_NOTA_CREDITO_TMP -> mapping(
+        GC.ITEMS -> Forms.list[FacturaCompraNotaCreditoItem](
+          mapping(
+            TC.FC_ID_NOTA_CREDITO -> number,
+            TC.FC_ID_FACTURA -> number,
+            TC.FCD_ID_NOTA_CREDITO -> number,
+            TC.FCD_ID_FACTURA -> number,
+            TC.FCP_ID_NOTA_CREDITO -> number,
+            TC.FCP_ID_FACTURA -> number,
+            TC.FC_NC_IMPORTE -> of(Global.doubleFormat),
+            TC.FC_NC_ID-> number
+          )(FacturaCompraNotaCreditoItem.apply)(FacturaCompraNotaCreditoItem.unapply)
+        )
+      )(FacturaCompraNotaCredito.apply)(FacturaCompraNotaCredito.unapply),
+      TC.ORDEN_PAGO_TMP -> mapping(
+        GC.ITEMS -> Forms.list[FacturaCompraOrdenPagoItem](
+          mapping(
+            TC.OPG_ID -> number,
+            TC.ORDEN_PAGO_ITEM_CUENTA_CORRIENTE_TMP -> Forms.list[PagoItem](
+              mapping(
+                TC.OPG_ID -> number,
+                TC.FCP_ID -> number,
+                TC.FC_OPG_ID -> number,
+                TC.FC_OPG_COTIZACION -> of(Global.doubleFormat),
+                TC.FC_OPG_IMPORTE -> of(Global.doubleFormat),
+                TC.FC_OPG_IMPORTE_ORIGEN -> of(Global.doubleFormat)
+              )(PagoItem.apply)(PagoItem.unapply)
+            ),
+            TC.ORDEN_PAGO_ITEM_CUENTA_CORRIENTE_TMP -> Forms.list[PagoCtaCte](
+              mapping(
+                GC.CUE_ID -> number,
+                TC.OPGI_IMPORTE_ORIGEN -> of(Global.doubleFormat),
+                TC.OPGI_IMPORTE -> of(Global.doubleFormat),
+                TC.OPGI_ORDEN -> number,
+                TC.OPGI_TIPO -> number,
+                TC.OPGI_OTRO_TIPO -> number
+              )(PagoCtaCte.apply)(PagoCtaCte.unapply)
+            )
+          )(FacturaCompraOrdenPagoItem.apply)(FacturaCompraOrdenPagoItem.unapply)
+        )
+      )(FacturaCompraOrdenPago.apply)(FacturaCompraOrdenPago.unapply) ,
+      C.ORDEN_FACTURA_COMPRA_TMP -> mapping(
+        C.FACTURA_COMPRA_NOTA_CREDITO_TMP -> Forms.list[FacturaCompraOrdenCompraItem](
+          mapping(
+            C.OCI_ID -> number,
+            C.FCI_ID -> number,
+            C.OC_FC_CANTIDAD -> of(Global.doubleFormat),
+            C.OC_FC_ID -> number
+          )(FacturaCompraOrdenCompraItem.apply)(FacturaCompraOrdenCompraItem.unapply)
+        )
+      )(FacturaCompraOrdenCompra.apply)(FacturaCompraOrdenCompra.unapply),
+      C.REMITO_FACTURA_COMPRA_TMP -> mapping(
+        C.FACTURA_COMPRA_NOTA_CREDITO_TMP -> Forms.list[FacturaCompraRemitoCompraItem](
+          mapping(
+            C.RCI_ID -> number,
+            C.FCI_ID -> number,
+            C.RC_FC_CANTIDAD -> of(Global.doubleFormat),
+            C.RC_FC_ID -> number
+          )(FacturaCompraRemitoCompraItem.apply)(FacturaCompraRemitoCompraItem.unapply)
+        )
+      )(FacturaCompraRemitoCompra.apply)(FacturaCompraRemitoCompra.unapply)
+    )(FacturaCompraAplic.apply)(FacturaCompraAplic.unapply)
+  )
 
   val facturaCompraForm: Form[FacturaCompraData] = Form(
     mapping(
@@ -1160,9 +1229,35 @@ object FacturaCompras extends Controller with ProvidesUser {
   }
 
   def saveAplic(id: Int) = GetAction { implicit request =>
+    Logger.debug("in FacturaCompras.saveAplic")
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.MODIFY_APLIC_COMPRA), { user =>
       Ok("")
     })
+    /*
+    facturaCompraForm.bind(preprocessParams).fold(
+      formWithErrors => {
+        Logger.debug(s"invalid form: ${formWithErrors.toString}")
+        BadRequest
+      },
+      facturaCompra => {
+        Logger.debug(s"form: ${facturaCompra.toString}")
+        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_FACTURA_COMPRA), { user =>
+          try {
+            Ok(
+              Json.toJson(
+                FacturaCompra.create(user,
+                  getFacturaCompra(facturaCompra, DBHelper.NoId)
+                )
+              )
+            )
+          } catch {
+            case NonFatal(e) => {
+              responseError(e)
+            }
+          }
+        })
+      }
+    )*/
   }
 
 }

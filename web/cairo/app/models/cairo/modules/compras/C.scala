@@ -278,6 +278,9 @@ object C {
   val FACTURA_COMPRA_LEGAJO_BORRADO_TMP = "FacturaCompraLegajoBorradoTMP"
   val FCLGJB_TMP_ID = "fclgjbTMP_id"
 
+  // FacturaCompraNotaCreditoTMP
+  val FACTURA_COMPRA_NOTA_CREDITO_TMP = "FacturaCompraNotaCreditoTMP"
+
   // Stock
   val DEPL_ID_ORIGEN = "depl_id_origen"
   val DEPL_ID_DESTINO = "depl_id_destino"

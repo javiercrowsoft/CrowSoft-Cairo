@@ -743,6 +743,80 @@ object FacturaCompraParams {
   }
 }
 
+case class FacturaCompraNotaCreditoItem(
+                                         fcIdNotaCredito: Int,
+                                         fcIdFactura: Int,
+                                         fcdIdNotaCredito: Int,
+                                         fcdIdFactura: Int,
+                                         fcpIdNotaCredito: Int,
+                                         fcpIdFactura: Int,
+                                         fcncImporte: Double,
+                                         fcncId: Int
+                                         )
+
+case class PagoItem(
+                     opgId: Int,
+                     fcpId: Int,
+                     fcopgId: Int,
+                     fcopgCotizacion: Double,
+                     fcopgImporte: Double,
+                     fcopgImporteOrigen: Double
+                     )
+
+case class PagoCtaCte(
+                       cueId: Int,
+                       opgiImporteOrigen: Double,
+                       opgiImporte: Double,
+                       opgiOrden: Int,
+                       opgiTipo: Int,
+                       opgiOtroTipo: Int
+                       )
+
+case class FacturaCompraOrdenPagoItem(
+                                       opgId: Int,
+                                       items: List[PagoItem],
+                                       ctaCte: List[PagoCtaCte]
+                                       )
+
+case class FacturaCompraOrdenCompraItem(
+                                         ociId: Int,
+                                         fciId: Int,
+                                         ocfcCantidad: Double,
+                                         ocfcId: Int
+                                         )
+
+case class FacturaCompraRemitoCompraItem(
+                                          rciId: Int,
+                                          fciId: Int,
+                                          rcfcCantidad: Double,
+                                          rcfcId: Int
+                                          )
+
+case class FacturaCompraNotaCredito(
+                                     items: List[FacturaCompraNotaCreditoItem]
+                                     )
+
+case class FacturaCompraOrdenPago(
+                                   items: List[FacturaCompraOrdenPagoItem]
+                                   )
+
+case class FacturaCompraOrdenCompra(
+                                     items: List[FacturaCompraOrdenCompraItem]
+                                     )
+
+case class FacturaCompraRemitoCompra(
+                                      items: List[FacturaCompraRemitoCompraItem]
+                                      )
+
+case class FacturaCompraAplic(
+                               fcId: Int,
+                               docId: Int,
+                               notaCredito: FacturaCompraNotaCredito,
+                               ordenPago: FacturaCompraOrdenPago,
+                               ordenCompra: FacturaCompraOrdenCompra,
+                               remitoCompra: FacturaCompraRemitoCompra
+                             )
+
 object FacturaCompra {
 
   lazy val GC = models.cairo.modules.general.C
