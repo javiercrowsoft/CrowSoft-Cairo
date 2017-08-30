@@ -820,6 +820,7 @@ case class FacturaCompraAplic(
 object FacturaCompra {
 
   lazy val GC = models.cairo.modules.general.C
+  lazy val TC = models.cairo.modules.tesoreria.C
 
   lazy val emptyFacturaCompraItems = FacturaCompraItems(List(), List(), List(), List(), List(), "", "", "", "", List())
 
@@ -2551,6 +2552,371 @@ object FacturaCompra {
         cs.close
       }
     }
+  }
+
+  def saveAplic(user: CompanyUser, facturaCompraAplic: FacturaCompraAplic): FacturaCompraAplic = {
+    def getFields = {
+      List(
+        Field(C.FC_ID, facturaCompraAplic.fcId, FieldType.number),
+        Field(C.FC_NUMERO, facturaCompraAplic.fcId, FieldType.number),
+        Field(GC.DOC_ID, facturaCompraAplic.docId, FieldType.id)
+      )
+    }
+
+    def getNotaCreditoFields(item: FacturaCompraNotaCreditoItem, fcTMPId: Int) = {
+      List(
+        Field(C.FC_TMP_ID, fcTMPId, FieldType.id),
+        Field(TC.FC_ID_NOTA_CREDITO, item.fcIdNotaCredito, FieldType.number),
+        Field(TC.FC_ID_FACTURA, item.fcIdFactura, FieldType.number),
+        Field(TC.FCD_ID_NOTA_CREDITO, item.fcdIdNotaCredito, FieldType.number),
+        Field(TC.FCD_ID_FACTURA, item.fcdIdFactura, FieldType.number),
+        Field(TC.FCP_ID_NOTA_CREDITO, item.fcpIdNotaCredito, FieldType.number),
+        Field(TC.FCP_ID_FACTURA, item.fcpIdFactura, FieldType.number),
+        Field(TC.FC_NC_IMPORTE, item.fcncImporte, FieldType.currency),
+        Field(TC.FC_NC_ID, item.fcncId, FieldType.number)
+      )
+    }
+
+    def getOrdenPagoFields(item: FacturaCompraOrdenPagoItem, fcTMPId: Int) = {
+      List(
+        Field(C.FC_TMP_ID, fcTMPId, FieldType.id),
+        Field(TC.OPG_ID, item.opgId, FieldType.number),
+        Field(GC.DOC_ID, DBHelper.NoId, FieldType.id),
+        Field(TC.OPG_NUMERO, 0, FieldType.number),
+        Field(GC.PROV_ID, DBHelper.NoId, FieldType.number),
+        Field(GC.SUC_ID, DBHelper.NoId, FieldType.number),
+        Field(GC.DOC_ID, DBHelper.NoId, FieldType.number),
+        Field(GC.EST_ID, DBHelper.NoId, FieldType.number)
+      )
+    }
+
+    def getOrdenPagoItemFields(item: PagoItem, opgTMPId: Int) = {
+      List(
+        Field(TC.OPG_TMP_ID, opgTMPId, FieldType.id),
+        Field(TC.OPG_ID, item.opgId, FieldType.id),
+        Field(TC.FCP_ID, item.fcpId, FieldType.id),
+        Field(TC.FC_OPG_ID, item.fcopgId, FieldType.id),
+        Field(TC.FC_OPG_COTIZACION, item.fcopgCotizacion, FieldType.currency),
+        Field(TC.FC_OPG_IMPORTE, item.fcopgImporte, FieldType.currency),
+        Field(TC.FC_OPG_IMPORTE_ORIGEN, item.fcopgImporteOrigen, FieldType.currency)
+      )
+    }
+
+    def getOrdenPagoCtaCteFields(item: PagoCtaCte, opgTMPId: Int) = {
+      List(
+        Field(TC.OPG_TMP_ID, opgTMPId, FieldType.id),
+        Field(GC.CUE_ID, item.cueId, FieldType.number),
+        Field(TC.OPGI_IMPORTE_ORIGEN, item.opgiImporteOrigen, FieldType.currency),
+        Field(TC.OPGI_IMPORTE, item.opgiImporte, FieldType.currency),
+        Field(TC.OPGI_ORDEN, item.opgiOrden, FieldType.number),
+        Field(TC.OPGI_TIPO, item.opgiTipo, FieldType.number),
+        Field(TC.OPGI_OTRO_TIPO, item.opgiOtroTipo, FieldType.number)
+      )
+    }
+
+    def getOrdenCompraFields(item: FacturaCompraOrdenCompraItem, fcTMPId: Int) = {
+      List(
+        Field(C.FC_TMP_ID, fcTMPId, FieldType.id),
+        Field(C.OCI_ID, item.ociId, FieldType.id),
+        Field(C.FCI_ID, item.fciId, FieldType.id),
+        Field(C.OC_FC_CANTIDAD, item.ocfcCantidad, FieldType.currency),
+        Field(C.OC_FC_ID, item.ocfcId, FieldType.id)
+      )
+    }
+
+    def getRemitoCompraFields(item: FacturaCompraRemitoCompraItem, fcTMPId: Int) = {
+      List(
+        Field(C.FC_TMP_ID, fcTMPId, FieldType.id),
+        Field(C.RCI_ID, item.rciId, FieldType.number),
+        Field(C.FCI_ID, item.fciId, FieldType.number),
+        Field(C.RC_FC_CANTIDAD, item.rcfcCantidad, FieldType.currency),
+        Field(C.RC_FC_ID, item.rcfcId, FieldType.number)
+      )
+    }
+
+    def throwError = {
+      throwException(s"Error when saving application of ${C.FACTURA_COMPRA}")
+    }
+
+    def throwException(message: String) = {
+      throw new RuntimeException(message)
+    }
+
+    case class NotaCreditoItemInfo(fcTMPId: Int, item: FacturaCompraNotaCreditoItem)
+
+    def saveNotaCredito(itemInfo: NotaCreditoItemInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.FACTURA_COMPRA_NOTA_CREDITO_TMP,
+          TC.FC_NC_TMP_ID,
+          DBHelper.NoId,
+          false,
+          false,
+          false,
+          getNotaCreditoFields(itemInfo.item, itemInfo.fcTMPId)),
+        true
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwError
+      }
+    }
+
+    def saveNotasCredito(fcTMPId: Int) = {
+      facturaCompraAplic.notaCredito.items.map(item => saveNotaCredito(NotaCreditoItemInfo(fcTMPId, item)))
+    }
+
+    case class OrdenPagoItemInfo(opgTMPId: Int, item: PagoItem)
+
+    def saveOrdenPagoItem(itemInfo: OrdenPagoItemInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          TC.ORDEN_PAGO_ITEM_TMP,
+          TC.OPGI_TMP_ID,
+          DBHelper.NoId,
+          false,
+          false,
+          false,
+          getOrdenPagoItemFields(itemInfo.item, itemInfo.opgTMPId)),
+        true
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwError
+      }
+    }
+
+    def saveOrdenPagoItems(items: List[PagoItem], opgTMPId: Int) = {
+      items.map(item => saveOrdenPagoItem(OrdenPagoItemInfo(opgTMPId, item)))
+    }
+
+    case class OrdenPagoCtaCteInfo(opgTMPId: Int, item: PagoCtaCte)
+
+    def saveOrdenPagoCtaCte(itemInfo: OrdenPagoCtaCteInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          TC.ORDEN_PAGO_ITEM_TMP,
+          TC.OPGI_TMP_ID,
+          DBHelper.NoId,
+          false,
+          false,
+          false,
+          getOrdenPagoCtaCteFields(itemInfo.item, itemInfo.opgTMPId)),
+        true
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwError
+      }
+    }
+
+    def saveOrdenPagoCtasCtes(items: List[PagoCtaCte], opgTMPId: Int) = {
+      items.map(item => saveOrdenPagoCtaCte(OrdenPagoCtaCteInfo(opgTMPId, item)))
+    }
+
+    case class OrdenPagoInfo(fcTMPId: Int, item: FacturaCompraOrdenPagoItem)
+
+    def saveOrdenPago(itemInfo: OrdenPagoInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          TC.ORDEN_PAGO_TMP,
+          TC.OPG_TMP_ID,
+          DBHelper.NoId,
+          false,
+          false,
+          false,
+          getOrdenPagoFields(itemInfo.item, itemInfo.fcTMPId)),
+        true
+      ) match {
+        case SaveResult(true, id) => {
+          saveOrdenPagoItems(itemInfo.item.items, id)
+          saveOrdenPagoCtasCtes(itemInfo.item.ctaCte, id)
+        }
+        case SaveResult(false, id) => throwError
+      }
+    }
+
+    def saveOrdenesPago(fcTMPId: Int) = {
+      facturaCompraAplic.ordenPago.items.map(item => saveOrdenPago(OrdenPagoInfo(fcTMPId, item)))
+    }
+
+    case class OrdenCompraInfo(fcTMPId: Int, item: FacturaCompraOrdenCompraItem)
+
+    def saveOrdenCompra(itemInfo: OrdenCompraInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.ORDEN_FACTURA_COMPRA_TMP,
+          C.OC_FC_TMP_ID,
+          DBHelper.NoId,
+          false,
+          false,
+          false,
+          getOrdenCompraFields(itemInfo.item, itemInfo.fcTMPId)),
+        true
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwError
+      }
+    }
+
+    def saveOrdenesCompra(fcTMPId: Int) = {
+      facturaCompraAplic.ordenCompra.items.map(item => saveOrdenCompra(OrdenCompraInfo(fcTMPId, item)))
+    }
+
+    case class RemitoCompraInfo(fcTMPId: Int, item: FacturaCompraRemitoCompraItem)
+
+    def saveRemitoCompra(itemInfo: RemitoCompraInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.REMITO_FACTURA_COMPRA_TMP,
+          C.RC_FC_TMP_ID,
+          DBHelper.NoId,
+          false,
+          false,
+          false,
+          getRemitoCompraFields(itemInfo.item, itemInfo.fcTMPId)),
+        true
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwError
+      }
+    }
+
+    def saveRemitosCompra(fcTMPId: Int) = {
+      facturaCompraAplic.remitoCompra.items.map(item => saveRemitoCompra(RemitoCompraInfo(fcTMPId, item)))
+    }
+
+    case class RowResult(rowType: String, id: Int, message: String)
+
+    def executeSave(fcTMPId: Int): List[RowResult] = {
+
+      DB.withTransaction(user.database.database) { implicit connection =>
+        val sql = "select * from sp_doc_factura_compra_save_aplic(?, ?)"
+        val cs = connection.prepareStatement(sql)
+
+        cs.setInt(1, user.masterUserId)
+        cs.setInt(2, fcTMPId)
+
+        try {
+          val rs = cs.executeQuery()
+
+          /*
+          *
+          * all sp_doc_SOME_DOCUMENT_save must return a setof row_result
+          *
+          * row_result is a composite type in postgresql defined as:
+          *
+          * CREATE TYPE row_result AS (
+          *    type    varchar,
+          *    id      integer,
+          *    message varchar,
+          *    r       refcursor
+          * );
+          *
+          *
+          * ex: CREATE OR REPLACE FUNCTION sp_doc_factura_compra_save( params )
+          *     RETURNS SETOF row_result AS ...
+          *
+          * the field type is used to identify the value in the row. there are three
+          * kind of types: resultset, success, key
+          * for first two (resultset and success) the value of type is string with
+          * one of these two values ex: 'resultset' or 'success'
+          * when type == 'resultset' the field r must be not null and contain a ResultSet
+          * when type == 'success' the id field can contain 0 (False) or not 0 (-1,1 or any other number but NO 0) (True)
+          * the last kind of type is key. in this case the key must be the name of a column like fc_id, as_id, pr_id, etc
+          * it can be any column name. if the type is an integer like in fc_id, as_id or any other id column the field id
+          * is used to contain the returned value
+          * if the type is any other the column message is used
+          *
+          * there are two special types for key: 'INFO', 'ERROR'
+          * when type == 'ERROR' the system will raise an exception
+          * when type == 'INFO' the system will show an alert
+          * in both cases the field message contains the description
+          *
+          * this set must contain at least one row
+          *
+          * the field r (ResultSet) is not normally read in a save document operation.
+          *
+          * */
+
+          try {
+            def getIdOrMessage: RowResult = {
+              val rowType = rs.getString(1)
+
+              rowType match {
+                case "ERROR" => throwException(rs.getString(3))
+                case "INFO" => RowResult("INFO", 0, rs.getString(3))
+                case "fc_id" => RowResult("fc_id", rs.getInt(2), "")
+                case _ => RowResult("IGNORED", 0, "")
+              }
+            }
+
+            def getSaveResult: List[RowResult] = {
+              if(rs.next()) {
+                getIdOrMessage :: getSaveResult
+              }
+              else {
+                List()
+              }
+            }
+            getSaveResult
+
+          } finally {
+            rs.close
+          }
+
+        } catch {
+          case NonFatal(e) => {
+            Logger.error(s"can't save application of ${C.FACTURA_COMPRA} with id ${facturaCompraAplic.fcId} for user ${user.toString}. Error ${e.toString}")
+            throw e
+          }
+        } finally {
+          cs.close
+        }
+      }
+    }
+
+    def getIdFromMessages(messages: List[RowResult]) = {
+      def findId(messages: List[RowResult], id: Int): Int = messages match {
+        case Nil => id
+        case h :: t => {
+          val _id = h match {
+            case RowResult("fc_id", id, m) => id
+            case _ => id
+          }
+          findId(t, _id)
+        }
+      }
+      findId(messages, 0)
+    }
+
+    DBHelper.save(
+      user,
+      Register(
+        C.FACTURA_COMPRA_TMP,
+        C.FC_TMP_ID,
+        DBHelper.NoId,
+        false,
+        true,
+        true,
+        getFields),
+      true
+    ) match {
+      case SaveResult(true, fcTMPId) => {
+        saveNotasCredito(fcTMPId)
+        saveOrdenesPago(fcTMPId)
+        saveOrdenesCompra(fcTMPId)
+        saveRemitosCompra(fcTMPId)
+        val messagesAndId = executeSave(fcTMPId)
+        val id = getIdFromMessages(messagesAndId)
+        load(user, id).getOrElse(throwError)
+      }
+      case SaveResult(false, id) => throwError
+    }
+
   }
 
   /*

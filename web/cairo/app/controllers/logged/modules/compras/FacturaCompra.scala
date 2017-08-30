@@ -1229,25 +1229,24 @@ object FacturaCompras extends Controller with ProvidesUser {
   }
 
   def saveAplic(id: Int) = GetAction { implicit request =>
+    /*
     Logger.debug("in FacturaCompras.saveAplic")
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.MODIFY_APLIC_COMPRA), { user =>
       Ok("")
     })
-    /*
-    facturaCompraForm.bind(preprocessParams).fold(
+    */
+    facturaCompraAplicForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
         BadRequest
       },
-      facturaCompra => {
-        Logger.debug(s"form: ${facturaCompra.toString}")
-        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_FACTURA_COMPRA), { user =>
+      facturaCompraAplic => {
+        Logger.debug(s"form: ${facturaCompraAplic.toString}")
+        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.MODIFY_APLIC_COMPRA), { user =>
           try {
             Ok(
               Json.toJson(
-                FacturaCompra.create(user,
-                  getFacturaCompra(facturaCompra, DBHelper.NoId)
-                )
+                FacturaCompra.saveAplic(user, facturaCompraAplic)
               )
             )
           } catch {
@@ -1257,7 +1256,7 @@ object FacturaCompras extends Controller with ProvidesUser {
           }
         })
       }
-    )*/
+    )
   }
 
 }
