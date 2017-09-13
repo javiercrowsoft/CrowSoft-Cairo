@@ -921,7 +921,7 @@ begin
       --
       select * from sp_auditoria_credito_check_doc_fc(v_fc_id) into v_success, v_error_msg;
 
-      -- Si el documento no es valido
+      -- si el documento no es valido
       if coalesce(v_success, 0) = 0 then
          raise exception '%', v_error_msg;
       end if;

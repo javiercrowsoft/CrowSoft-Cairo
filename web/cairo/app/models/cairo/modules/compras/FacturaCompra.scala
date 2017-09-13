@@ -2498,7 +2498,7 @@ object FacturaCompra {
     }
   }
 
-  def aplic(user: CompanyUser, id: Int, aplicType: Int): Recordset = {
+  def getAplic(user: CompanyUser, id: Int, aplicType: Int): Recordset = {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
@@ -2554,7 +2554,7 @@ object FacturaCompra {
     }
   }
 
-  def saveAplic(user: CompanyUser, facturaCompraAplic: FacturaCompraAplic): FacturaCompraAplic = {
+  def saveAplic(user: CompanyUser, facturaCompraAplic: FacturaCompraAplic): Int = {
     def getFields = {
       List(
         Field(C.FC_ID, facturaCompraAplic.fcId, FieldType.number),
@@ -2911,8 +2911,7 @@ object FacturaCompra {
         saveOrdenesCompra(fcTMPId)
         saveRemitosCompra(fcTMPId)
         val messagesAndId = executeSave(fcTMPId)
-        val id = getIdFromMessages(messagesAndId)
-        load(user, id).getOrElse(throwError)
+        getIdFromMessages(messagesAndId)
       }
       case SaveResult(false, id) => throwError
     }

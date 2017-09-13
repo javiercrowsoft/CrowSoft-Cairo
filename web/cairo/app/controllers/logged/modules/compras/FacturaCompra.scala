@@ -1211,30 +1211,24 @@ object FacturaCompras extends Controller with ProvidesUser {
     })
   }
 
-  def aplic(id: Int) = GetAction { implicit request =>
+  def getAplic(id: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.MODIFY_APLIC_COMPRA), { user =>
       val (cueId, monId, fcPagoAutomatico) = FacturaCompra.getCtaCteCuenta(user, id)
       Ok(Json.obj(
         "ctacte_cue_id" -> Json.toJson(cueId),
         "mon_id_x_cuenta" -> Json.toJson(monId),
         "fc_pago_automatico" -> Json.toJson(fcPagoAutomatico),
-        "vencimientos" -> Recordset.getAsJson(FacturaCompra.aplic(user, id, 1)),
-        "pagosAplicados" -> Recordset.getAsJson(FacturaCompra.aplic(user, id, 2)),
-        "pagosParaAplicar" -> Recordset.getAsJson(FacturaCompra.aplic(user, id, 3)),
-        "items" -> Recordset.getAsJson(FacturaCompra.aplic(user, id, 4)),
-        "itemsAplicados" -> Recordset.getAsJson(FacturaCompra.aplic(user, id, 5)),
-        "itemsParaAplicar" -> Recordset.getAsJson(FacturaCompra.aplic(user, id, 6))
+        "vencimientos" -> Recordset.getAsJson(FacturaCompra.getAplic(user, id, 1)),
+        "pagosAplicados" -> Recordset.getAsJson(FacturaCompra.getAplic(user, id, 2)),
+        "pagosParaAplicar" -> Recordset.getAsJson(FacturaCompra.getAplic(user, id, 3)),
+        "items" -> Recordset.getAsJson(FacturaCompra.getAplic(user, id, 4)),
+        "itemsAplicados" -> Recordset.getAsJson(FacturaCompra.getAplic(user, id, 5)),
+        "itemsParaAplicar" -> Recordset.getAsJson(FacturaCompra.getAplic(user, id, 6))
       ))
     })
   }
 
   def saveAplic(id: Int) = GetAction { implicit request =>
-    /*
-    Logger.debug("in FacturaCompras.saveAplic")
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.MODIFY_APLIC_COMPRA), { user =>
-      Ok("")
-    })
-    */
     facturaCompraAplicForm.bindFromRequest.fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
