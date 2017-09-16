@@ -28,42 +28,42 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_arb_arbol_create()
+-- Function: sp_doc_orden_pago_set_pendiente()
 
--- drop function sp_arb_arbol_create();
+-- drop function sp_doc_orden_pago_set_pendiente(integer);
 
-create or replace function sp_arb_arbol_create(
-  in p_us_id integer,
-  in p_tbl_id integer,
-  in p_nombre varchar,
-  out rtn refcursor
+create or replace function sp_doc_orden_pago_set_pendiente
+(
+  in p_opg_id integer
 )
-  returns refcursor as
+  returns void as
 $BODY$
 declare
-        v_arb_id integer;
-        v_raiz_id integer;
+   v_aplicado decimal(18,6);
 begin
 
-        select sp_dbGetNewId('arbol',
-                              'arb_id') into v_arb_id;
+   SET TRANSACTION READ WRITE;
 
-        insert into arbol (arb_id, arb_nombre, tbl_id, modifico)
-        values (v_arb_id, p_nombre, p_tbl_id, p_us_id);
+   select sum(fcopg_importe)
+     into v_aplicado
+   from FacturaCompraOrdenPago
+   where opg_id = p_opg_id;
 
-        select sp_dbGetNewId('rama',
-                             'ram_id') into v_raiz_id;
+   v_aplicado := round(coalesce(v_aplicado, 0), 2);
 
-        insert into rama (ram_id, ram_nombre, ram_id_padre, ram_orden, arb_id, modifico)
-        values (v_raiz_id, p_nombre, 0, 0, v_arb_id, p_us_id);
+   update OrdenPago set opg_pendiente = round(opg_total - v_aplicado, 2) where opg_id = p_opg_id;
 
-        rtn := 'rtn';
+   return;
 
-        open rtn for select arb_id, arb_nombre, v_raiz_id as ram_id from arbol where arb_id = v_arb_id;
+exception
+   when others then
+
+      raise exception 'Ha ocurrido un error al actualizar el pendiente de la Orden de Pago. sp_doc_orden_pago_set_pendiente. %. %.',
+                      sqlstate, sqlerrm;
 
 end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_arb_arbol_create(integer, integer, varchar)
+alter function sp_doc_orden_pago_set_pendiente(integer)
   owner to postgres;

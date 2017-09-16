@@ -239,7 +239,7 @@ begin
          begin
             if v_almr_id_mail is null then
             begin
-               select SP_DBGetNewId2('AlarmaMailStock',
+               select sp_dbGetNewId2('AlarmaMailStock',
                                      'almr_id_mail',
                                      v_offset_inicio,
                                      v_offset_inicio_e) into v_almr_id_mail;

@@ -1,4 +1,4 @@
-/*
+﻿/*
 CrowSoft-Cairo
 ==============
 
@@ -47,6 +47,7 @@ declare
 
    v_fc_id integer;
    v_modifico integer;
+   v_opgTMP_id integer;   
    v_cpg_tipo smallint;
 begin
 
@@ -75,14 +76,14 @@ begin
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
 
-   delete FacturaCompraNotaCreditoTMP
+   delete from FacturaCompraNotaCreditoTMP
    where fcTMP_id = p_fcTMP_id
      and fcd_id_factura is null
      and fcp_id_factura is null
      and fcd_id_notacredito is null
      and fcp_id_notacredito is null;
 
-   delete FacturaCompraOrdenPagoTMP
+   delete from FacturaCompraOrdenPagoTMP
    where opgTMP_id in ( select opgTMP_id
                         from OrdenPagoTMP
                         where fcTMP_id = p_fcTMP_id )
@@ -123,10 +124,6 @@ begin
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
 
-   if not v_cpg_tipo in ( 2,3 ) then
-
-      v_opgTMP_id integer;
-
    /*
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    //                                                                                                               //
@@ -134,6 +131,8 @@ begin
    //                                                                                                               //
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    */
+   if not v_cpg_tipo in ( 2,3 ) then
+
       -- este sp se encarga de todo
       --
       perform sp_doc_factura_compra_nota_credito_save(p_fcTMP_id);
@@ -143,14 +142,11 @@ begin
          from OrdenPagoTMP
          where fcTMP_id = p_fcTMP_id
       loop
+
          -- aplico la orden de pago con la factura
          --
-         select * from sp_doc_orden_pago_save_aplic(v_opgTMP_id, 0) into v_success;
+         perform sp_doc_orden_pago_save_aplic(p_us_id, v_opgTMP_id, 0);
 
-   select * from sp_auditoria_estado_check_doc_fc(v_fc_id) into v_success, v_error_msg;
-   if coalesce(v_success, 0) = 0 then
-      raise exception '%', v_error_msg;
-   end if;
       end loop;
 
    end if;
@@ -204,12 +200,12 @@ begin
 //                                                                                                                    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
-   delete FacturaCompraNotaCreditoTMP where fcTMP_id = p_fcTMP_id;
-   delete FacturaCompraOrdenPagoTMP where opgTMP_id in (select opgTMP_id from OrdenPagoTMP where fcTMP_id = p_fcTMP_id);
-   delete OrdenPagoTMP where fcTMP_id = p_fcTMP_id;
-   delete OrdenFacturaCompraTMP where fcTMP_id = p_fcTMP_id;
-   delete RemitoFacturaCompraTMP where fcTMP_id = p_fcTMP_id;
-   delete FacturaCompraTMP where fcTMP_id = p_fcTMP_id;
+   delete from FacturaCompraNotaCreditoTMP where fcTMP_id = p_fcTMP_id;
+   delete from FacturaCompraOrdenPagoTMP where opgTMP_id in (select opgTMP_id from OrdenPagoTMP where fcTMP_id = p_fcTMP_id);
+   delete from OrdenPagoTMP where fcTMP_id = p_fcTMP_id;
+   delete from OrdenFacturaCompraTMP where fcTMP_id = p_fcTMP_id;
+   delete from RemitoFacturaCompraTMP where fcTMP_id = p_fcTMP_id;
+   delete from FacturaCompraTMP where fcTMP_id = p_fcTMP_id;
 
 /*
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

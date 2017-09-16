@@ -137,7 +137,7 @@ begin
          end;
          end if;
 
-         select SP_DBGetNewId('rama',
+         select sp_dbGetNewId('rama',
                               'ram_id') into v_new_ram_id;
 
          insert into rama
@@ -161,7 +161,7 @@ begin
             exit when not found;
             begin
                -- Por cada hoja obtengo un id nuevo
-               select SP_DBGetNewId('hoja',
+               select sp_dbGetNewId('hoja',
                                     'hoja_id') into v_new_hoja_id;
 
                insert into hoja

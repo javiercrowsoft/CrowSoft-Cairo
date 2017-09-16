@@ -49,7 +49,7 @@ declare
         v_arb_id integer;
 begin
 
-        select SP_DBGetNewId('rama',
+        select sp_dbGetNewId('rama',
                               'ram_id') into v_ram_id;
 
         v_is_temp := p_ram_id_padre = -1000;

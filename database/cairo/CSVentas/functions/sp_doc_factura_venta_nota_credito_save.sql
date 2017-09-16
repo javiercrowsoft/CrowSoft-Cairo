@@ -1108,8 +1108,6 @@ begin
 
    end if;
 
-   COMMIT;
-
    p_success := 1;
 
    return;
