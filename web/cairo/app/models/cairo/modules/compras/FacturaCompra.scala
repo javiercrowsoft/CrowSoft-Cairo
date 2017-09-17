@@ -3,6 +3,7 @@ package models.cairo.modules.compras
 import java.sql.{Connection, CallableStatement, ResultSet, Types, SQLException}
 import anorm.SqlParser._
 import anorm._
+import models.cairo.modules.documentos.DocumentEditStatus
 import services.{G, DateUtil}
 import services.db.DB
 import models.cairo.system.database.{DBHelper, Register, Field, FieldType, SaveResult, Recordset}
@@ -14,9 +15,8 @@ import java.util.Date
 import play.api.Logger
 import play.api.libs.json._
 import scala.util.control.NonFatal
-import models.cairo.modules.general.U
+import models.cairo.modules.general.{CondicionPago, U, DocumentListParam}
 import formatters.json.DateFormatter
-import models.cairo.modules.general.DocumentListParam
 
 case class FacturaCompraId(
                             docId: Int,
@@ -2559,7 +2559,11 @@ object FacturaCompra {
       List(
         Field(C.FC_ID, facturaCompraAplic.fcId, FieldType.number),
         Field(C.FC_NUMERO, facturaCompraAplic.fcId, FieldType.number),
-        Field(GC.DOC_ID, facturaCompraAplic.docId, FieldType.id)
+        Field(GC.DOC_ID, facturaCompraAplic.docId, FieldType.id),
+        Field(GC.EST_ID, DocumentEditStatus.PENDING, FieldType.id),
+        Field(GC.SUC_ID, DBHelper.NoId, FieldType.number),
+        Field(GC.PROV_ID, DBHelper.NoId, FieldType.number),
+        Field(GC.CPG_ID, CondicionPago.FECHA_DOCUMENTO, FieldType.id)
       )
     }
 
@@ -2581,7 +2585,6 @@ object FacturaCompra {
       List(
         Field(C.FC_TMP_ID, fcTMPId, FieldType.id),
         Field(TC.OPG_ID, item.opgId, FieldType.number),
-        Field(GC.DOC_ID, DBHelper.NoId, FieldType.id),
         Field(TC.OPG_NUMERO, 0, FieldType.number),
         Field(GC.PROV_ID, DBHelper.NoId, FieldType.number),
         Field(GC.SUC_ID, DBHelper.NoId, FieldType.number),
@@ -2725,7 +2728,7 @@ object FacturaCompra {
           DBHelper.NoId,
           false,
           false,
-          false,
+          true,
           getOrdenPagoFields(itemInfo.item, itemInfo.fcTMPId)),
         true
       ) match {

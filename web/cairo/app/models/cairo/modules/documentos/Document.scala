@@ -354,3 +354,7 @@ object Document {
     }
   }
 }
+
+object DocumentEditStatus {
+  val PENDING = 1
+}

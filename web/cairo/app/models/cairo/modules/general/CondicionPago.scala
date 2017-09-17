@@ -66,6 +66,11 @@ case class CondicionPagoInfo(
 
 object CondicionPago {
 
+  val FECHA_DOCUMENTO = -2
+  val GENERAL = 1
+  val DEBITO_AUTO = 2
+  val FONDO_FIJO = 3
+
   lazy val emptyCondicionPago = CondicionPago(
     "",
     "",
