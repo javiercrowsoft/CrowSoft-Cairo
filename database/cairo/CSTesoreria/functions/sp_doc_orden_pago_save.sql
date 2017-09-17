@@ -739,6 +739,9 @@ begin
       -- 3- devolver a documentos en cartera los cheques
       --    ingresados por una cobranza
       --
+
+      create temporary table tt_cheques_a_borrar(cheq_id integer, opgi_id integer) on commit drop;
+
       insert into tt_cheques_a_borrar( cheq_id, opgi_id )
         ( select cheq_id,
                  opgi_id
