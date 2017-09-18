@@ -255,7 +255,7 @@
       };
 
       self.discardChanges = function() {
-        return P.resolvedPromise(refreshCollection());
+        return Cairo.Promises.resolvedPromise(refreshCollection());
       };
 
       self.propertyChange = function(key) {
@@ -640,19 +640,19 @@
       var refreshCollection = function() {
         var properties = m_dialog.getProperties();
 
-        var property = properties.add(null, C_ITEMS);
+        var property = properties.item(C_ITEMS);
         loadItems(property);
 
-        property = properties.add(null, C_APLIC_ORDEN_REMITO);
+        property = properties.item(C_APLIC_ORDEN_REMITO);
         property.getGrid().getRows().clear();
 
-        property = properties.add(null, C_TOTAL_ORDEN_PAGO); // OrdenPago
+        property = properties.item(C_TOTAL_ORDEN_PAGO); // OrdenPago
         property.setValue(m_total);
 
-        property = properties.add(null, C_VENCIMIENTOS);
+        property = properties.item(C_VENCIMIENTOS);
         loadVencimientos(property);
 
-        property = properties.add(null, C_APLICORDENPAGO);
+        property = properties.item(C_APLICORDENPAGO);
         property.getGrid().getRows().clear();
 
         m_dialog.showValues(m_dialog.getProperties());

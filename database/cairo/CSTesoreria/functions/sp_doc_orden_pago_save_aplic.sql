@@ -80,7 +80,6 @@ declare
 
    v_c_pagos varchar(4000);
    v_c_aplic varchar(4000);
-
 begin
 
    select opg_id,
@@ -189,7 +188,7 @@ begin
                           on fco.fcp_id = fcp.fcp_id
                         join FacturaCompraOrdenPagoTMP fcot
                           on fco.fcopg_id = fcot.fcopg_id
-                        where fcot.opgTMP_id = p_opgTMP_id
+                        where fcot.opgTMP_id = $1
                         group by fcp.fc_id,fcp.fcp_id,fcp.fcp_fecha,fcp.fcp_importe';
 
       -- sumo todas las aplicaciones de esta
@@ -215,7 +214,7 @@ begin
       -- el pendiente de la deuda
       --
       for v_fc_id,v_fcp_id,v_fcp_fecha,v_fcd_importe,v_fcd_pendiente in
-         execute v_c_pagos
+         execute v_c_pagos using p_opgTMP_id
       loop
          -- creo la deuda
          --
@@ -309,7 +308,7 @@ begin
                        join FacturaCompraOrdenPagoTMP fcot
                          on fco.fcopg_id = fcot.fcopg_id
                        where fco.fcd_id is not null
-                         and fcot.opgTMP_id = p_opgTMP_id';
+                         and fcot.opgTMP_id = $1';
 
 
       else
@@ -325,7 +324,7 @@ begin
 
 
       for v_fcopg_id,v_fcd_id,v_fcopg_importe in
-         execute v_c_aplic
+         execute v_c_aplic using p_opgTMP_id
       loop
 
          -- incremento la deuda
@@ -703,6 +702,8 @@ begin
    delete from FacturaCompraOrdenPagoTMP where opgTMP_id = p_opgTMP_id;
    delete from OrdenPagoItemTMP where opgTMP_id = p_opgTMP_id;
    delete from OrdenPagoTMP where opgTMP_id = p_opgTMP_id;
+
+   drop table tt_FacturasCpra;
 
    return;
 
