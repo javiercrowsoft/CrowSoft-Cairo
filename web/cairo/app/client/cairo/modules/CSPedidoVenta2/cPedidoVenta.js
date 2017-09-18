@@ -206,7 +206,7 @@
       var m_docEditable;
       var m_docEditMsg = "";
 
-      var m_applyEditor;
+      var m_applyEditor = null;
 
       var m_prvIds = 0;
 
@@ -4099,7 +4099,9 @@
             info.cliente,
             info.suc_id,
             info.doc_id,
-            info.doct_id === D.Types.DEVOLUCION_PEDIDO_VTA);
+            info.doct_id === D.Types.DEVOLUCION_PEDIDO_VTA,
+            info.emp_id,
+            info.empresa);
         };
 
         var pvId = m_dialog.getId();

@@ -28,13 +28,13 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_dbgetnewid(character varying, character varying, smallint)
+-- Function: sp_dbGetNewId(character varying, character varying, smallint)
 
--- drop function sp_dbgetnewid(character varying, character varying, smallint);
+-- drop function sp_dbGetNewId(character varying, character varying, smallint);
 
--- select * from sp_dbgetnewid('asiento','as_id');
+-- select * from sp_dbGetNewId('asiento','as_id');
 
-create or replace function sp_dbgetnewid
+create or replace function sp_dbGetNewId
 (
  in p_tabla character varying,
  in p_pk character varying,
@@ -152,5 +152,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_dbgetnewid(character varying, character varying)
+alter function sp_dbGetNewId(character varying, character varying)
   owner to postgres;

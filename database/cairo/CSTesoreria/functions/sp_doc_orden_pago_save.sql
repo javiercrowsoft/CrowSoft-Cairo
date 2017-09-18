@@ -739,6 +739,9 @@ begin
       -- 3- devolver a documentos en cartera los cheques
       --    ingresados por una cobranza
       --
+
+      create temporary table tt_cheques_a_borrar(cheq_id integer, opgi_id integer) on commit drop;
+
       insert into tt_cheques_a_borrar( cheq_id, opgi_id )
         ( select cheq_id,
                  opgi_id
@@ -921,7 +924,7 @@ begin
       --
       select * from sp_auditoria_credito_check_doc_fc(v_fc_id) into v_success, v_error_msg;
 
-      -- Si el documento no es valido
+      -- si el documento no es valido
       if coalesce(v_success, 0) = 0 then
          raise exception '%', v_error_msg;
       end if;

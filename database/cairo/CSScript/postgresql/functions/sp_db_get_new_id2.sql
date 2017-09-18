@@ -28,13 +28,13 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_dbgetnewid2
+-- Function: sp_dbGetNewId2
 
--- drop function sp_dbgetnewid2(character varying, character varying, integer, integer);
+-- drop function sp_dbGetNewId2(character varying, character varying, integer, integer);
 
--- select * from sp_dbgetnewid2('alarma','al_id', 1000000, 10000000);
+-- select * from sp_dbGetNewId2('alarma','al_id', 1000000, 10000000);
 
-create or replace function sp_dbgetnewid2
+create or replace function sp_dbGetNewId2
 (
   in p_tabla character varying, 
   in p_pk character varying, 
@@ -102,5 +102,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_dbgetnewid2(character varying, character varying, integer, integer)
+alter function sp_dbGetNewId2(character varying, character varying, integer, integer)
   owner to postgres;

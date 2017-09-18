@@ -179,7 +179,7 @@
 
       var m_orden = 0;
 
-      var m_applyEditor;
+      var m_applyEditor = null;
 
       var m_lColCuotas = 0;
 
@@ -4602,7 +4602,9 @@
             info.total,
             info.nrodoc,
             info.cli_id,
-            info.cliente);
+            info.cliente,
+            info.emp_id,
+            info.empresa);
         };
 
         var cobzId = m_dialog.getId();

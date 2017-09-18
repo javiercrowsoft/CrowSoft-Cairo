@@ -349,6 +349,7 @@ DELETE  /api/v1/general/fechacontrolacceso/:id                                  
 
 GET     /api/v1/documento/currency/:id/rate/:date                                            controllers.logged.modules.documentos.Currencies.rate(id: Int, date: String)
 GET     /api/v1/documento/:id/edit_status/:preId                                             controllers.logged.modules.documentos.Documents.editStatus(id: Int, preId: Int)
+GET     /api/v1/documento/:doctId/info/:id                                                   controllers.logged.modules.documentos.Documents.transInfo(doctId: Int, id: Int)
 GET     /api/v1/documento/:id/info                                                           controllers.logged.modules.documentos.Documents.info(id: Int)
 GET     /api/v1/documento/:id/next_number                                                    controllers.logged.modules.documentos.Documents.nextNumber(id: Int)
 GET     /api/v1/documento/:id/is_valid_date/:date                                            controllers.logged.modules.documentos.Documents.isValidDate(id: Int, date: String)
@@ -392,6 +393,8 @@ PUT     /api/v1/compras/facturacompra/:id                                       
 DELETE  /api/v1/compras/facturacompra/:id                                                    controllers.logged.modules.compras.FacturaCompras.delete(id: Int)
 
 GET     /api/v1/compras/facturacompra/notes/:id                                              controllers.logged.modules.compras.FacturaCompras.notes(id: Int)
+GET     /api/v1/compras/facturacompra/aplic/:id                                              controllers.logged.modules.compras.FacturaCompras.getAplic(id: Int)
+PUT     /api/v1/compras/facturacompra/aplic/:id                                              controllers.logged.modules.compras.FacturaCompras.saveAplic(id: Int)
 
 #
 # ventas

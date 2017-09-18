@@ -259,6 +259,9 @@
       FCP_FECHA: "fcp_fecha",
       FCP_IMPORTE: "fcp_importe",
 
+      FCP_ID2: "fcp_id2",
+      FCD_ID2: "fcd_id2",
+
       // FacturaCompraNotaCreditoTMP
       FACTURA_COMPRA_NOTA_CREDITO_TMP: "FacturaCompraNotaCreditoTMP",
       FC_NC_TMP_ID: "fvncTMP_id",
@@ -441,6 +444,9 @@
 
       FC_ID_RET: "fc_id_ret",
       FV_ID_RET: "fv_id_ret",
+
+      CTACTE_CUE_ID: "ctacte_cue_id",
+      MON_ID_X_CUENTA: "mon_id_x_cuenta",
 
       CobranzaItemTipo: {
         ITEM_CHEQUES: 1,

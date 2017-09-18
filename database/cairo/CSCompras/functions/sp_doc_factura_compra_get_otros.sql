@@ -1,4 +1,4 @@
-/*
+﻿/*
 CrowSoft-Cairo
 ==============
 
@@ -32,9 +32,8 @@ javier at crowsoft.com.ar
 
 -- drop function sp_doc_factura_compra_get_otros(integer);
 /*
-select * from sp_doc_factura_compra_get_otros(1);
+select * from sp_doc_factura_compra_get_otros(10);
 fetch all from rtn;
-fetch all from rtn_serie;
 */
 create or replace function sp_doc_factura_compra_get_otros
 (
@@ -44,6 +43,8 @@ create or replace function sp_doc_factura_compra_get_otros
   returns refcursor as
 $BODY$
 begin
+
+   rtn := 'rtn';
 
    open rtn for
       select FacturaCompraOtro.*,

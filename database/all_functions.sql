@@ -335,13 +335,13 @@ declare
         v_raiz_id integer;
 begin
 
-        select SP_DBGetNewId('arbol',
+        select sp_dbGetNewId('arbol',
                               'arb_id') into v_arb_id;
 
         insert into arbol (arb_id, arb_nombre, tbl_id, modifico)
         values (v_arb_id, p_nombre, p_tbl_id, p_us_id);
 
-        select SP_DBGetNewId('rama',
+        select sp_dbGetNewId('rama',
                              'ram_id') into v_raiz_id;
 
         insert into rama (ram_id, ram_nombre, ram_id_padre, ram_orden, arb_id, modifico)
@@ -1075,7 +1075,7 @@ begin
         if v_id::integer < 0 then
 
             -- Por cada hoja obtengo un id nuevo
-            select SP_DBGetNewId('hoja',
+            select sp_dbGetNewId('hoja',
                                  'hoja_id') into v_new_hoja_id;
 
             insert into hoja ( hoja_id, id, modifico, ram_id, arb_id )
@@ -1278,7 +1278,7 @@ begin
          end;
          end if;
 
-         select SP_DBGetNewId('rama',
+         select sp_dbGetNewId('rama',
                               'ram_id') into v_new_ram_id;
 
          insert into rama
@@ -1302,7 +1302,7 @@ begin
             exit when not found;
             begin
                -- Por cada hoja obtengo un id nuevo
-               select SP_DBGetNewId('hoja',
+               select sp_dbGetNewId('hoja',
                                     'hoja_id') into v_new_hoja_id;
 
                insert into hoja
@@ -10614,7 +10614,7 @@ declare
         v_arb_id integer;
 begin
 
-        select SP_DBGetNewId('rama',
+        select sp_dbGetNewId('rama',
                               'ram_id') into v_ram_id;
 
         v_is_temp := p_ram_id_padre = -1000;
@@ -10911,7 +10911,7 @@ begin
 end;
 $function$
 ;
-CREATE OR REPLACE FUNCTION public.sp_dbgetnewid(p_tabla character varying, p_pk character varying, OUT p_id integer)
+CREATE OR REPLACE FUNCTION public.sp_dbGetNewId(p_tabla character varying, p_pk character varying, OUT p_id integer)
  RETURNS integer
  LANGUAGE plpgsql
 AS $function$
@@ -11060,7 +11060,7 @@ begin
            if not exists(select 1 from hoja where ram_id = p_ram_id_copy_to and id = v_leave_row.id) then
 
                -- Por cada hoja obtengo un id nuevo
-               select SP_DBGetNewId('hoja',
+               select sp_dbGetNewId('hoja',
                                     'hoja_id') into v_new_hoja_id;
 
                insert into hoja ( hoja_id, id, modifico, ram_id, arb_id )
@@ -11082,7 +11082,7 @@ begin
         if v_id::integer < 0 then
 
             -- Por cada hoja obtengo un id nuevo
-            select SP_DBGetNewId('hoja',
+            select sp_dbGetNewId('hoja',
                                  'hoja_id') into v_new_hoja_id;
 
             insert into hoja ( hoja_id, id, modifico, ram_id, arb_id )
@@ -11142,7 +11142,7 @@ begin
 end;
 $function$
 ;
-CREATE OR REPLACE FUNCTION public.sp_dbgetnewid2(p_tabla character varying, p_pk character varying, p_min integer, p_max integer, OUT p_id integer)
+CREATE OR REPLACE FUNCTION public.sp_dbGetNewId2(p_tabla character varying, p_pk character varying, p_min integer, p_max integer, OUT p_id integer)
  RETURNS integer
  LANGUAGE plpgsql
 AS $function$

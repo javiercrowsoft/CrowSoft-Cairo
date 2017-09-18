@@ -1,4 +1,4 @@
-/*
+﻿/*
 CrowSoft-Cairo
 ==============
 
@@ -32,14 +32,11 @@ javier at crowsoft.com.ar
 
 -- drop function sp_doc_factura_compra_get_legajos(integer);
 /*
-select * from sp_doc_factura_compra_get_legajos(1);
+select * from legajo
+select * from sp_doc_factura_compra_get_legajos(10);
 fetch all from rtn;
-fetch all from rtn_serie;
 */
 create or replace function sp_doc_factura_compra_get_legajos
-/*
-sp_doc_factura_compra_get_legajos 1
-*/
 (
   in p_fc_id integer,
   out rtn refcursor

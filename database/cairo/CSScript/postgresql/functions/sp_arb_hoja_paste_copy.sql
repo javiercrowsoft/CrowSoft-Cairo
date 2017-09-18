@@ -73,7 +73,7 @@ begin
            if not exists(select 1 from hoja where ram_id = p_ram_id_copy_to and id = v_leave_row.id) then
 
                -- Por cada hoja obtengo un id nuevo
-               select SP_DBGetNewId('hoja',
+               select sp_dbGetNewId('hoja',
                                     'hoja_id') into v_new_hoja_id;
 
                insert into hoja ( hoja_id, id, modifico, ram_id, arb_id )
@@ -95,7 +95,7 @@ begin
         if v_id::integer < 0 then
 
             -- Por cada hoja obtengo un id nuevo
-            select SP_DBGetNewId('hoja',
+            select sp_dbGetNewId('hoja',
                                  'hoja_id') into v_new_hoja_id;
 
             insert into hoja ( hoja_id, id, modifico, ram_id, arb_id )

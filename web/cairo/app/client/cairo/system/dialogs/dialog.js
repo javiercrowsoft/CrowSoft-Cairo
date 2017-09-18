@@ -545,6 +545,13 @@
             newClick:                   docToolbarClick(Dialogs.Constants.toolbarKeyNew),
             printClick:                 docToolbarClick(Dialogs.Constants.toolbarKeyPrint),
             saveClick:                  docToolbarClick(Dialogs.Constants.toolbarKeySave),
+            editClick:                  docToolbarClick(Dialogs.Constants.toolbarKeyDocEdit),
+            invalidateClick:            docToolbarClick(Dialogs.Constants.toolbarKeyInvalidate),
+            deleteClick:                docToolbarClick(Dialogs.Constants.toolbarKeyDelete),
+            applyClick:                 docToolbarClick(Dialogs.Constants.toolbarKeyApply),
+            statusClick:                docToolbarClick(Dialogs.Constants.toolbarKeyEditState),
+            alarmsClick:                docToolbarClick(Dialogs.Constants.toolbarKeyDocAlert),
+            historyClick:               docToolbarClick(Dialogs.Constants.toolbarKeyHistory),
 
             selectKeyDown:              docHandlerSelectKeyDown,
 
@@ -3806,7 +3813,7 @@
           try {
             var grid = getView().getGrids().get(index);
             if(property.getGrid().getColumns().item(colIndex).getType() === Dialogs.PropertyType.grid) {
-              grid.selectRow(rowIndex);
+              grid.selectRow(rowIndex); // TODO: investigate how this is supposed to work, maybe this should be removed
             }
             else {
               grid.unSelectRow();
@@ -3826,7 +3833,7 @@
             }
             else if(what === Dialogs.GridSelectChangeType.GRID_ROW_CHANGE) {
               if(m_client !== null) {
-                m_client.messageEx(Dialogs.Message.MSG_GRID_ROW_CHANGE, property);
+                return m_client.messageEx(Dialogs.Message.MSG_GRID_ROW_CHANGE, property);
               }
             }
           }
@@ -6693,6 +6700,12 @@
             removeControl(view.getGrids().get(i));
           }
         };
+
+        self.bringToFront = function() {
+          getView().bringToFront();
+        };
+
+        self.focus = self.bringToFront;
 
         initialize();
 

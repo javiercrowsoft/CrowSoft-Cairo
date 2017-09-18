@@ -27,7 +27,7 @@ object Router {
   def createEntry(fileHandler: String, action: String, path: String, action2: String, path2: String): RouterEntry = {
     val wizards: List[Wizard] = {
       fileHandler match {
-        case "CSCompra2/cFacturaCompra" => List(Wizard("CSCompra2/cFacturaCompraRemitoWiz"))
+        case "CSCompra2/cFacturaCompra" => List(Wizard("CSCompra2/cFacturaCompraRemitoWiz"), Wizard("CSCompra2/cFacturaCompraAplic"))
         case "CSTesoreria2/cCobranza" => List(Wizard("CSTesoreria2/cCobranzaWizard"))
         case "CSTesoreria2/cOrdenPago" => List(Wizard("CSTesoreria2/cOrdenPagoWizard"))
         case _ => List()

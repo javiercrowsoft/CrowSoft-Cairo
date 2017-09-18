@@ -45,13 +45,13 @@ declare
         v_raiz_id integer;
 begin
 
-        select SP_DBGetNewId('arbol',
+        select sp_dbGetNewId('arbol',
                               'arb_id') into v_arb_id;
 
         insert into arbol (arb_id, arb_nombre, tbl_id, modifico)
         values (v_arb_id, p_nombre, p_tbl_id, p_us_id);
 
-        select SP_DBGetNewId('rama',
+        select sp_dbGetNewId('rama',
                              'ram_id') into v_raiz_id;
 
         insert into rama (ram_id, ram_nombre, ram_id_padre, ram_orden, arb_id, modifico)

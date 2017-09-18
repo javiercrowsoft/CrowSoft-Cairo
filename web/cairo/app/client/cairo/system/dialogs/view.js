@@ -674,7 +674,7 @@
           self.tabHandler.destroyDialog);
 
         return true;
-      }
+      };
 
       that.showModalDialog = function () { /* TODO: implement this. */ };
 
@@ -727,6 +727,9 @@
         self.form = view.$("#formBody");
       };
 
+      /*
+       *  This function will call all listeners
+       * */
       that.raiseEvent = function(eventName, eventData) {
         for(var i = 0; i < self.listeners.length; i += 1) {
           var listener = self.listeners[i];
@@ -736,6 +739,10 @@
         }
       };
 
+      /*
+      *  This function will call only one listener (the first registered) and return the value of that call
+      *  which must be a promise (that is the listener responsibility)
+      * */
       that.raiseEventWithPromise = function(eventName, eventData, eventArgs, control) {
         for(var i = 0; i < self.listeners.length; i += 1) {
           var listener = self.listeners[i];
@@ -1062,6 +1069,14 @@
         btnCopy: Controls.createButton(),
         btnPrint: Controls.createButton(),
         btnDiscardChanges: Controls.createButton(),
+        menuEdit: Controls.createMenu(),
+        menuInvalidate: Controls.createMenu(),
+        menuDelete: Controls.createMenu(),
+        menuApply: Controls.createMenu(),
+        menuDocuments: Controls.createMenu(),
+        menuStatus: Controls.createMenu(),
+        menuAlarms: Controls.createMenu(),
+        menuHistory: Controls.createMenu(),
         saved: false
       };
 
@@ -1122,6 +1137,46 @@
         that.raiseEvent("newClick");
       };
 
+      var onEditClick = function(e) {
+        e.preventDefault();
+        that.raiseEvent("editClick");
+      };
+
+      var onInvalidateClick = function(e) {
+        e.preventDefault();
+        that.raiseEvent("invalidateClick");
+      };
+
+      var onDeleteClick = function(e) {
+        e.preventDefault();
+        that.raiseEvent("deleteClick");
+      };
+
+      var onApplyClick = function(e) {
+        e.preventDefault();
+        that.raiseEvent("applyClick");
+      };
+
+      var onDocumentsClick = function(e) {
+        e.preventDefault();
+        that.raiseEvent("documentsClick");
+      };
+
+      var onStatusClick = function(e) {
+        e.preventDefault();
+        that.raiseEvent("statusClick");
+      };
+
+      var onAlarmsClick = function(e) {
+        e.preventDefault();
+        that.raiseEvent("alarmsClick");
+      };
+
+      var onHistoryClick = function(e) {
+        e.preventDefault();
+        that.raiseEvent("historyClick");
+      };
+
       that.bindView = function(view) {
         superBindView(view);
 
@@ -1139,6 +1194,33 @@
 
         self.btnNew.setElement(view.$('.dialog-new-button'));
         self.btnNew.getElement().click(onNewClick);
+
+        self.btnNew.setElement(view.$('.dialog-new-button'));
+        self.btnNew.getElement().click(onNewClick);
+
+        self.menuEdit.setElement(view.$('.doc-menu-edit'));
+        self.menuEdit.getElement().click(onEditClick);
+
+        self.menuInvalidate.setElement(view.$('.doc-menu-invalidate'));
+        self.menuInvalidate.getElement().click(onInvalidateClick);
+
+        self.menuDelete.setElement(view.$('.doc-menu-delete'));
+        self.menuDelete.getElement().click(onDeleteClick);
+
+        self.menuApply.setElement(view.$('.doc-menu-apply'));
+        self.menuApply.getElement().click(onApplyClick);
+
+        self.menuDocuments.setElement(view.$('.doc-menu-documents'));
+        self.menuDocuments.getElement().click(onDocumentsClick);
+
+        self.menuStatus.setElement(view.$('.doc-menu-status'));
+        self.menuStatus.getElement().click(onStatusClick);
+
+        self.menuAlarms.setElement(view.$('.doc-menu-alarms'));
+        self.menuAlarms.getElement().click(onAlarmsClick);
+
+        self.menuHistory.setElement(view.$('.doc-menu-history'));
+        self.menuHistory.getElement().click(onHistoryClick);
       };
 
       return that;
@@ -1461,7 +1543,7 @@
         var row = $('<div class="row">');
         var linkCol = $('<div class="col-sm-5">');
         var link = $('<a href="#' + report.getPath() + '">');
-        var descripCol = $('<div class="col-sm-7">')
+        var descripCol = $('<div class="col-sm-7">');
         var descrip = $('<p>');
 
         link.text(report.getName());
