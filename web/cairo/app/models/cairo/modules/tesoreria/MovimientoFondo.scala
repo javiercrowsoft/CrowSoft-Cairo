@@ -684,7 +684,6 @@ object MovimientoFondo {
       SqlParser.get[String](C.CUE_DEBE_NAME) ~
       SqlParser.get[Int](C.CUE_ID_HABER) ~
       SqlParser.get[String](C.CUE_HABER_NAME) ~
-      SqlParser.get[String](GC.CUE_NAME) ~
       SqlParser.get[Option[Int]](GC.CCOS_ID) ~
       SqlParser.get[Option[String]](GC.CCOS_NAME) ~
       SqlParser.get[Int](GC.MON_ID) ~
@@ -711,7 +710,6 @@ object MovimientoFondo {
           cueDebeName ~
           cueIdHaber ~
           cueHaberName ~
-          cueName ~
           ccosId ~
           ccosName ~
           monId ~
