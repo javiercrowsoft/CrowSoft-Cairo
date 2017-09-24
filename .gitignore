@@ -11,6 +11,7 @@
 *~
 production.conf
 dev.conf
+dev-docker.conf
 
 database/no_repo_scripts
 
