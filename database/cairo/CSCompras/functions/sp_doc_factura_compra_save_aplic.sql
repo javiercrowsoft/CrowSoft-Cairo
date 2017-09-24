@@ -135,7 +135,7 @@ begin
 
       -- este sp se encarga de todo
       --
-      perform sp_doc_factura_compra_nota_credito_save(p_fcTMP_id);
+      perform sp_doc_factura_compra_nota_credito_save(p_us_id, p_fcTMP_id);
 
       for v_opgTMP_id in
          select opgTMP_id

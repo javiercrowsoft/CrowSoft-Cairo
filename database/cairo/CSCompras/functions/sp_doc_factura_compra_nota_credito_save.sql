@@ -1,4 +1,4 @@
-/*
+﻿/*
 CrowSoft-Cairo
 ==============
 
@@ -319,7 +319,7 @@ begin
       end loop;
 
 
-      delete FacturaCompraNotaCredito
+      delete from FacturaCompraNotaCredito
       where ( fc_id_notacredito = v_fc_id and v_doct_id = 8 )/* nota de credito*/
          or ( fc_id_factura = v_fc_id and v_doct_id <> 8 );/* nota de debito y Factura*/
 
@@ -340,12 +340,12 @@ begin
    loop
 
    /*
-		 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		 //                                                                                                               //
-		 //                                        factura                                                                //
-		 //                                                                                                               //
-		 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		 */
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   //                                                                                                               //
+   //                                        factura                                                                //
+   //                                                                                                               //
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   */
          -- si tengo una factura
          --
          if v_fcd_id_factura is not null then
@@ -436,12 +436,12 @@ begin
          end if;
 
    /*
-		 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		 //                                                                                                               //
-		 //                                        nota de credito                                                        //
-		 //                                                                                                               //
-		 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		 */
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   //                                                                                                               //
+   //                                        nota de credito                                                        //
+   //                                                                                                               //
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   */
          -- si tengo una factura
          --
          if v_fcd_id_notacredito is not null then
@@ -461,7 +461,6 @@ begin
                --
                v_fcp_id := null;
 
-            end;
             -- si el pago cancela la deuda cargo un nuevo pago
             -- y luego voy a borrar la deuda
             --
@@ -524,12 +523,12 @@ begin
          end if;
 
    /*
-		 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		 //                                                                                                               //
-		 //                                        vinculacion                                                            //
-		 //                                                                                                               //
-		 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		 */
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   //                                                                                                               //
+   //                                        vinculacion                                                            //
+   //                                                                                                               //
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   */
          select sp_dbGetNewId('FacturaCompraNotaCredito', 'fcnc_id') into v_fcnc_id;
 
          insert into FacturaCompraNotaCredito
@@ -563,20 +562,19 @@ begin
 
       v_c_fcncaplic := 'select fc_id from tt_FacturaCompraNotaCredito
                         union
-                        select fc_id_factura from FacturaCompraNotaCredito where fc_id_notacredito = v_fc_id';
+                        select fc_id_factura from FacturaCompraNotaCredito where fc_id_notacredito = $1';
 
    else
 
       v_c_fcncaplic := 'select fc_id from tt_FacturaCompraNotaCredito
                         union
-                        select fc_id_notacredito from FacturaCompraNotaCredito where fc_id_factura = v_fc_id';
-
+                        select fc_id_notacredito from FacturaCompraNotaCredito where fc_id_factura = $1';
 
    end if;
 
 
    for v_fc_id_aplic in
-      execute v_c_fcncaplic
+      execute v_c_fcncaplic using v_fc_id
    loop
 
       -- actualizo la deuda de la factura
