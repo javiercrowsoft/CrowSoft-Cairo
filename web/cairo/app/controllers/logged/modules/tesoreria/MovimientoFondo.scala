@@ -50,7 +50,6 @@ case class MovimientoFondoItemChequeData(
                                           base: MovimientoFondoItemBaseData,
                                           monId: Int,
                                           totals: MovimientoFondoItemTotalsData,
-                                          bcoId: Int,
                                           chqId: Int,
                                           cheqId: Option[Int],
                                           numeroDoc: String,
@@ -64,7 +63,6 @@ case class MovimientoFondoItemChequeTData(
                                            base: MovimientoFondoItemBaseData,
                                            monId: Int,
                                            totals: MovimientoFondoItemTotalsData,
-                                           bcoId: Int,
                                            cliId: Int,
                                            cheqId: Option[Int],
                                            numeroDoc: String,
@@ -186,7 +184,6 @@ object MovimientosFondo extends Controller with ProvidesUser {
             C.MFI_IMPORTE_ORIGEN -> of(Global.doubleFormat),
             C.MFI_IMPORTE_ORIGEN_HABER -> optional(of(Global.doubleFormat)))
           (MovimientoFondoItemTotalsData.apply)(MovimientoFondoItemTotalsData.unapply),
-          GC.BCO_ID -> number,
           GC.CHQ_ID -> number,
           C.CHEQ_ID -> optional(number),
           C.MFI_TMP_CHEQUE -> text,
@@ -211,7 +208,6 @@ object MovimientosFondo extends Controller with ProvidesUser {
             C.MFI_IMPORTE_ORIGEN -> of(Global.doubleFormat),
             C.MFI_IMPORTE_ORIGEN_HABER -> optional(of(Global.doubleFormat)))
           (MovimientoFondoItemTotalsData.apply)(MovimientoFondoItemTotalsData.unapply),
-          GC.BCO_ID -> number,
           GC.CLI_ID -> number,
           C.CHEQ_ID -> optional(number),
           C.MFI_TMP_CHEQUE -> text,
@@ -340,7 +336,7 @@ object MovimientosFondo extends Controller with ProvidesUser {
       C.CUE_ID_DEBE -> Json.toJson(i.base.cueIdDebe),
       C.CUE_DEBE_NAME -> Json.toJson(i.base.cueNameDebe),
       C.CUE_ID_HABER -> Json.toJson(i.base.cueIdHaber),
-      C.CUE_DEBE_NAME -> Json.toJson(i.base.cueNameHaber),
+      C.CUE_HABER_NAME -> Json.toJson(i.base.cueNameHaber),
       GC.CCOS_ID -> Json.toJson(i.base.ccosId),
       GC.CCOS_NAME -> Json.toJson(i.base.ccosName),
       GC.MON_ID -> Json.toJson(i.moneda.monId),
@@ -467,7 +463,7 @@ object MovimientosFondo extends Controller with ProvidesUser {
       // groups for MovimientoFondoChequeData
       //
       val movimientoFondoCheque = Global.preprocessFormParams(
-        List(C.MFI_ID, GC.MON_ID, GC.BCO_ID, GC.CHQ_ID, C.CHEQ_ID, C.MFI_TMP_CHEQUE, C.MFI_TMP_FECHA_COBRO,
+        List(C.MFI_ID, GC.MON_ID, GC.CHQ_ID, C.CHEQ_ID, C.MFI_TMP_CHEQUE, C.MFI_TMP_FECHA_COBRO,
           C.MFI_TMP_FECHA_VTO, GC.CLE_ID), "", params)
       val movimientoFondoChequeBaseGroup = Global.preprocessFormParams(movimientoFondoItemBase, C.MOVIMIENTO_FONDO_ITEM_BASE, params)
       val movimientoFondoChequeTotalsGroup = Global.preprocessFormParams(movimientoFondoItemTotals, C.MOVIMIENTO_FONDO_ITEM_TOTALS, params)
@@ -483,7 +479,7 @@ object MovimientosFondo extends Controller with ProvidesUser {
       // groups for MovimientoFondoChequeTData
       //
       val movimientoFondoChequeT = Global.preprocessFormParams(
-        List(C.MFI_ID, GC.MON_ID, GC.BCO_ID, GC.CLI_ID, C.CHEQ_ID, C.MFI_TMP_CHEQUE, C.MFI_TMP_FECHA_COBRO,
+        List(C.MFI_ID, GC.MON_ID, GC.CLI_ID, C.CHEQ_ID, C.MFI_TMP_CHEQUE, C.MFI_TMP_FECHA_COBRO,
           C.MFI_TMP_FECHA_VTO, GC.CLE_ID), "", params)
       val movimientoFondoChequeTBaseGroup = Global.preprocessFormParams(movimientoFondoItemBase, C.MOVIMIENTO_FONDO_ITEM_BASE, params)
       val movimientoFondoChequeTTotalsGroup = Global.preprocessFormParams(movimientoFondoItemTotals, C.MOVIMIENTO_FONDO_ITEM_TOTALS, params)
@@ -619,7 +615,7 @@ object MovimientosFondo extends Controller with ProvidesUser {
           cheque.totals.importeOrigen,
           cheque.totals.importeOrigenHaber.getOrElse(0)
         ),
-        cheque.bcoId,
+        DBHelper.NoId,
         cheque.chqId,
         cheque.cheqId.getOrElse(DBHelper.NoId),
         cheque.numeroDoc,
@@ -647,7 +643,7 @@ object MovimientosFondo extends Controller with ProvidesUser {
           cheque.totals.importeOrigen,
           cheque.totals.importeOrigenHaber.getOrElse(0)
         ),
-        cheque.bcoId,
+        DBHelper.NoId,
         cheque.cliId,
         cheque.cheqId.getOrElse(DBHelper.NoId),
         cheque.numeroDoc,

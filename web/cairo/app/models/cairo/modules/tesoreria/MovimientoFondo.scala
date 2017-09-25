@@ -1136,16 +1136,19 @@ object MovimientoFondo {
         Field(C.MFI_ID, item.id, FieldType.number),
         Field(C.MFI_TIPO, C.MOVIMIENTO_FONDO_ITEM_TIPO_CHEQUES, FieldType.number),
         Field(C.MFI_DESCRIP, item.base.descrip, FieldType.text),
-        Field(C.CUE_ID_DEBE, item.base.cueIdDebe, FieldType.id),
-        Field(C.CUE_ID_HABER, item.base.cueIdHaber, FieldType.id),
-        Field(GC.CCOS_ID, item.base.ccosId, FieldType.id),
-        Field(GC.BCO_ID, item.bcoId, FieldType.id),
-        Field(GC.CLE_ID, item.cleId, FieldType.id),
-        Field(GC.MON_ID, item.moneda.monId, FieldType.id),
-        Field(C.MFI_ORDEN, item.base.orden, FieldType.integer),
+        Field(GC.CHQ_ID, item.chqId, FieldType.id),
+        Field(C.CHEQ_ID, item.cheqId, FieldType.id),
+        Field(C.MFI_TMP_CHEQUE, item.numeroDoc, FieldType.text),
+        Field(C.MFI_TMP_FECHA_COBRO, item.fechaCobro, FieldType.date),
+        Field(C.MFI_TMP_FECHA_VTO, item.fechaVto, FieldType.date),
         Field(C.MFI_IMPORTE, item.totals.importe, FieldType.currency),
         Field(C.MFI_IMPORTE_ORIGEN, item.totals.importeOrigen, FieldType.currency),
-        Field(C.MFI_IMPORTE_ORIGEN_HABER, item.totals.importeOrigenHaber, FieldType.currency)
+        Field(C.MFI_ORDEN, item.base.orden, FieldType.integer),
+        Field(GC.CLE_ID, item.cleId, FieldType.id),
+        Field(GC.MON_ID, item.moneda.monId, FieldType.id),
+        Field(C.CUE_ID_DEBE, item.base.cueIdDebe, FieldType.id),
+        Field(C.CUE_ID_HABER, item.base.cueIdHaber, FieldType.id),
+        Field(GC.CCOS_ID, item.base.ccosId, FieldType.id)
       )
     }
 
@@ -1155,13 +1158,17 @@ object MovimientoFondo {
         Field(C.MFI_ID, item.id, FieldType.number),
         Field(C.MFI_TIPO, C.MOVIMIENTO_FONDO_ITEM_TIPO_CHEQUEST, FieldType.number),
         Field(C.MFI_DESCRIP, item.base.descrip, FieldType.text),
-        Field(C.CUE_ID_DEBE, item.base.cueIdDebe, FieldType.id),
-        Field(C.CUE_ID_HABER, item.base.cueIdHaber, FieldType.id),
-        Field(GC.CCOS_ID, item.base.ccosId, FieldType.id),
-        Field(C.MFI_ORDEN, item.base.orden, FieldType.integer),
+        Field(C.CHEQ_ID, item.cheqId, FieldType.id),
+        Field(C.MFI_TMP_FECHA_COBRO, item.fechaCobro, FieldType.date),
+        Field(C.MFI_TMP_FECHA_VTO, item.fechaVto, FieldType.date),
         Field(C.MFI_IMPORTE, item.totals.importe, FieldType.currency),
         Field(C.MFI_IMPORTE_ORIGEN, item.totals.importeOrigen, FieldType.currency),
-        Field(C.MFI_IMPORTE_ORIGEN_HABER, item.totals.importeOrigenHaber, FieldType.currency)
+        Field(C.MFI_ORDEN, item.base.orden, FieldType.integer),
+        Field(GC.CLE_ID, item.cleId, FieldType.id),
+        Field(GC.MON_ID, item.moneda.monId, FieldType.id),
+        Field(C.CUE_ID_DEBE, item.base.cueIdDebe, FieldType.id),
+        Field(C.CUE_ID_HABER, item.base.cueIdHaber, FieldType.id),
+        Field(GC.CCOS_ID, item.base.ccosId, FieldType.id)
       )
     }
 
@@ -1171,13 +1178,20 @@ object MovimientoFondo {
         Field(C.MFI_ID, item.id, FieldType.number),
         Field(C.MFI_TIPO, C.MOVIMIENTO_FONDO_ITEM_TIPO_CHEQUESI, FieldType.number),
         Field(C.MFI_DESCRIP, item.base.descrip, FieldType.text),
-        Field(C.CUE_ID_DEBE, item.base.cueIdDebe, FieldType.id),
-        Field(C.CUE_ID_HABER, item.base.cueIdHaber, FieldType.id),
-        Field(GC.CCOS_ID, item.base.ccosId, FieldType.id),
-        Field(C.MFI_ORDEN, item.base.orden, FieldType.integer),
+        Field(C.CHEQ_ID, item.cheqId, FieldType.id),
+        Field(C.MFI_TMP_CHEQUE, item.numeroDoc, FieldType.text),
+        Field(C.MFI_TMP_FECHA_COBRO, item.fechaCobro, FieldType.date),
+        Field(C.MFI_TMP_FECHA_VTO, item.fechaVto, FieldType.date),
         Field(C.MFI_IMPORTE, item.totals.importe, FieldType.currency),
         Field(C.MFI_IMPORTE_ORIGEN, item.totals.importeOrigen, FieldType.currency),
-        Field(C.MFI_IMPORTE_ORIGEN_HABER, item.totals.importeOrigenHaber, FieldType.currency)
+        Field(C.MFI_IMPORTE_ORIGEN_HABER, item.totals.importeOrigenHaber, FieldType.currency),
+        Field(C.MFI_ORDEN, item.base.orden, FieldType.integer),
+        Field(GC.CLE_ID, item.cleId, FieldType.id),
+        Field(GC.BCO_ID, item.bcoId, FieldType.id),
+        Field(GC.MON_ID, item.moneda.monId, FieldType.id),
+        Field(C.CUE_ID_DEBE, item.base.cueIdDebe, FieldType.id),
+        Field(C.CUE_ID_HABER, item.base.cueIdHaber, FieldType.id),
+        Field(GC.CCOS_ID, item.base.ccosId, FieldType.id)
       )
     }
 

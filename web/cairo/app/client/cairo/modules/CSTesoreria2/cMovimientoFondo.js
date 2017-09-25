@@ -784,6 +784,10 @@
         return TITLE + (m_id !== NO_ID ? " " + m_nrodoc : "");
       };
 
+      self.getTabTitle = function() {
+        return "MF-" + m_numero;
+      };
+
       self.validate = function() {
 
         for (var _i = 0, _count = m_properties.size(); _i < _count; _i++) {
