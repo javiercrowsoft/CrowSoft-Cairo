@@ -455,7 +455,8 @@ begin
                                          v_cle_id,
                                          v_mon_id,
                                          null,
-                                         v_cue_id_debe)
+                                         v_cue_id_debe,
+                                         v_cheq_id)
          into v_cheq_id;
 
          if v_is_new <> 0 or v_mfi_id = 0 then

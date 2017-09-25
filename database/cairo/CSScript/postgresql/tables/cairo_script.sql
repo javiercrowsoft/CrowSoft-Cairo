@@ -14528,7 +14528,7 @@ create table Materia(
 
 ;
 create table Historia(
-	hst_id int  not null,
+	hst_id int not null DEFAULT nextval('t_historia_seq'::regclass),
 	hst_operacion smallint not null CONSTRAINT DF__Historia__hst_op__053F51A1  default (0),
 	hst_descrip varchar(7500) null CONSTRAINT DF_Historia_hst_descrip  default (''),
 	tbl_id int not null,

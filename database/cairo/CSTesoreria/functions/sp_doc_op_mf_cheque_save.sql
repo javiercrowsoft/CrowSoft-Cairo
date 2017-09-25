@@ -46,6 +46,7 @@ drop function sp_doc_op_mf_cheque_save(
   integer,
   integer,
   integer,
+  integer,
   integer);
 */
 
@@ -66,7 +67,7 @@ create or replace function sp_doc_op_mf_cheque_save
   in p_mon_id integer,
   in p_prov_id integer,
   in ip_cue_id integer,
-  out p_cheq_id integer
+  inout p_cheq_id integer
 )
   returns integer as
 $BODY$
@@ -243,6 +244,7 @@ alter function sp_doc_op_mf_cheque_save(
   date,
   date,
   varchar,
+  integer,
   integer,
   integer,
   integer,
