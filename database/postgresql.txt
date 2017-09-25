@@ -2,6 +2,10 @@ to create a database:
 
 1- create the database using pgAdmin
 
+1.2- add getdate function:
+
+database/cairo/CSScript/postgresql/functions/getdate.sql
+
 2- before run the create tables scripts set the time zone
 
 ALTER DATABASE {database name} SET timezone TO 'UTC';
@@ -16,7 +20,14 @@ run all functions and sequences (yes one by one ( O O )
 
 was a joke you don't have to do one by one :P
 
-just run this in pgadmin and export to a file. use option "Query > Execute to a file".
+just run this (
+
+SELECT pg_get_functiondef(f.oid)
+FROM pg_catalog.pg_proc f
+INNER JOIN pg_catalog.pg_namespace n ON (f.pronamespace = n.oid)
+WHERE n.nspname = 'public'
+
+) in pgadmin and export to a file. use option "Query > Execute to a file".
 
 no ready yet. we need to change "\n with ;\n and remove the first line of the file.
 
