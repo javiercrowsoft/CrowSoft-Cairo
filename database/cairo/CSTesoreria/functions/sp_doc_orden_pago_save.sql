@@ -445,7 +445,8 @@ begin
                                       v_cle_id,
                                       v_mon_id,
                                       v_prov_id,
-                                      null)
+                                      null,
+                                      v_cheq_id)
       into v_cheq_id;
 
 /*
