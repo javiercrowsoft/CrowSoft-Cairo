@@ -478,13 +478,13 @@
 
               p = p.then(function(response) {
 
-                if(response.success === true) {
-                  m_lastMonId = valField(response.data, C.MON_ID);
-                  m_lastDoctId = valField(response.data, C.DOCT_ID);
-                }
-                return response.success;
+                  if(response.success === true) {
+                    m_lastMonId = valField(response.data, C.MON_ID);
+                    m_lastDoctId = valField(response.data, C.DOCT_ID);
+                  }
+                  return response.success;
 
-              })
+                })
                 .whenSuccess(function() {
 
                   var p = null;
@@ -506,7 +506,8 @@
 
                       m_taPropuesto = enabled;
                     });
-                });
+                })
+                .then(showCotizacion);
             }
 
             p = p || P.resolvedPromise();
@@ -1501,7 +1502,9 @@
         var monId;
 
         if(m_id === NO_ID) {
-          if(m_lastDocId === NO_ID) { return; }
+          if(m_lastDocId === NO_ID) {
+            return P.resolvedPromise();
+          }
           monId = m_lastMonId;
         }
         else {

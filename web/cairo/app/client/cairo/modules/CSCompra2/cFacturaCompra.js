@@ -2541,7 +2541,9 @@
         var monId;
 
         if(m_id === NO_ID) {
-          if(m_lastDocId === NO_ID) { return; }
+          if(m_lastDocId === NO_ID) {
+            return P.resolvedPromise();
+          }
           monId = m_lastMonId;
         }
         else {
