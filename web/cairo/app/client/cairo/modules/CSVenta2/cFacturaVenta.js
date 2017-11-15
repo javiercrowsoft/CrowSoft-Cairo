@@ -1490,7 +1490,7 @@
       };
 
       self.getTabTitle = function() {
-        return "FV-" + m_numero;
+        return "FV-" + m_nrodoc;
       };
 
       self.validate = function() {

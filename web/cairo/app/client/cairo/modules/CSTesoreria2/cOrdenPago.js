@@ -850,7 +850,7 @@
       };
 
       self.getTabTitle = function() {
-        return "OPG-" + m_numero;
+        return "OPG-" + m_nrodoc;
       };
 
       self.validate = function() {

@@ -638,7 +638,7 @@
       };
 
       self.getTabTitle = function() {
-        return "AS-" + m_numero;
+        return "AS-" + m_nrodoc;
       };
 
       self.validate = function() {

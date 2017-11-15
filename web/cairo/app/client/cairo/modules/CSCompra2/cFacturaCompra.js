@@ -1127,7 +1127,7 @@
       };
 
       self.getTabTitle = function() {
-        return "FC-" + m_numero;
+        return "FC-" + m_nrodoc;
       };
 
       self.validate = function() {

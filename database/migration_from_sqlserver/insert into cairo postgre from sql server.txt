@@ -20,13 +20,14 @@ Execute this file using psql
 
 /Library/PostgreSQL/9.0/bin/psql -p 5434 -U postgres -d salmax_com_ar_cairo -a -f /Users/javier/Documents/CrowSoft/Scripts/cairoSalmax-2014-3-u8.sql
 
+
 /Library/PostgreSQL/9.0/bin/psql -p 5434 -U postgres -d development_cairo -a -f /Users/javier/Documents/CrowSoft/Scripts/cairo-utf8.sql
+
 
 /Library/PostgreSQL/9.0/bin/psql -p 5434 -U postgres -d olaen_com_ar_cairo -a -f /Users/javier/Documents/CrowSoft/Scripts/cairoO.sql
 
-/Library/PostgreSQL/9.0/bin/psql -p 5434 -U postgres -d olaen_com_ar_cairo -a -f /Users/javier/Documents/CrowSoft/Scripts/cairoO-ci.sql
 
-/Library/PostgreSQL/9.0/bin/psql -p 5434 -U postgres -d sdi_com_ar_cairo -a -f /Users/javier/Documents/CrowSoft/Customers/Salmax/sdi.sql
+/Library/PostgreSQL/9.0/bin/psql -p 5434 -U postgres -d olaen_com_ar_cairo -a -f /Users/javier/Documents/CrowSoft/Scripts/cairoO-ci.sql
 
 - run all functions:
 
@@ -36,8 +37,6 @@ FROM pg_catalog.pg_proc f
 INNER JOIN pg_catalog.pg_namespace n ON (f.pronamespace = n.oid)
 WHERE n.nspname = 'public'
 __END__
-
-/Library/PostgreSQL/9.0/bin/psql -p 5434 -U postgres -1 -v ON_ERROR_STOP -f /Users/javier/Documents/CrowSoft/Scripts/all_functions.sql sdi_com_ar_cairo
 
 /Library/PostgreSQL/9.0/bin/psql -p 5434 -U postgres -1 -v ON_ERROR_STOP -f /Users/javier/Documents/CrowSoft/Scripts/all_functions.sql olaen_com_ar_cairo
 
@@ -53,15 +52,3 @@ __END__
 ########################################################################################################################
 ########################################################################################################################
 ########################################################################################################################
-
-Validation
-
-run this in the sql table
-
-select 'select ''' + name + ''' as name, count(*) from ' + name + ' union' from sysobjects where xtype = 'U'
-
-then copy the result and run it to get a table with name and row count for each table
-
-do the same in postgresql and then compare using calc or similar
-
-

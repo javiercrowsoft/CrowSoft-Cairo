@@ -919,7 +919,7 @@
       };
 
       self.getTabTitle = function() {
-        return "COB-" + m_numero;
+        return "COB-" + m_nrodoc;
       };
 
       self.validate = function() {

@@ -31,54 +31,6 @@
             var valField = DB.valField;
             var valFieldDateValue = DB.valFieldDateValue;
 
-            // CobranzaItemTMP
-            var CSTCOBRANZAITEMTMP = "CobranzaItemTMP";
-            var CSCCOBZI_TMPID = "cobziTMP_id";
-
-            //Private Const csTCobranzaItem                            As String = "CobranzaItem"
-            var CSCCOBZI_ID = "cobzi_id";
-            var CSCCOBZI_ORDEN = "cobzi_orden";
-            var CSCCOBZI_OTRO_TIPO = "cobzi_otroTipo";
-            var CSCCOBZI_IMPORTE = "cobzi_importe";
-            var CSCCOBZI_IMPORTE_ORIGEN = "cobzi_importeOrigen";
-            var CSCCOBZI_TIPO = "cobzi_tipo";
-
-            // FacturaVentaNotaCreditoTMP
-            var CSTFACTURAVENTANOTACREDITOTMP = "FacturaVentaNotaCreditoTMP";
-            var CSCFV_NC_TMPID = "fvncTMP_id";
-
-            // FacturaVentaNotaCredito
-            var CSTFACTURAVENTANOTACREDITO = "FacturaVentaNotaCredito";
-            var CSCFV_NC_IMPORTE = "fvnc_importe";
-            var CSCFV_NC_ID = "fvnc_id";
-            var CSCFV_ID_NOTA_CREDITO = "fv_id_notacredito";
-            var CSCFV_ID_FACTURA = "fv_id_factura";
-            var CT.FVD_ID_NOTA_CREDITO = "fvd_id_notacredito";
-            var CT.FVD_ID_FACTURA = "fvd_id_factura";
-            var CT.FVP_ID_NOTA_CREDITO = "fvp_id_notacredito";
-            var CT.FVP_ID_FACTURA = "fvp_id_factura";
-
-            var CSCNRO_DOC = "nrodoc";
-            var CSCPENDIENTE = "Pendiente";
-            var CSCIMPORTE = "Importe";
-
-            //////////////////////////////////////////////////////////////////////////////////////
-            //
-            //   COBRANZAS / NOTAS DE CREDITO - CONSTANTES
-            //
-            //////////////////////////////////////////////////////////////////////////////////////
-
-//*TODO:** enum is translated as a new class at the end of the file Private Enum csECobranzaItemTipo
-
-//*TODO:** enum is translated as a new class at the end of the file Private Enum csECobranzaItemOtroTipo
-
-            //////////////////////////////////////////////////////////////////////////////////////
-            //
-            //   COBRANZAS / NOTAS DE CREDITO - SOLAPA
-            //
-            //////////////////////////////////////////////////////////////////////////////////////
-
-            // Cobranza / Nota de credito
             var K_PENDIENTE_COBRANZA = 10;
             var K_TOTAL_COBRANZA = 11;
             var K_VENCIMIENTOS = 12;
@@ -88,7 +40,6 @@
             var C_PENDIENTECOBRANZA = "PendienteCob";
             var C_TOTALCOBRANZA = "TotalCob";
 
-            // Grillas de Factura / Cobranza / Nota de credito
             var KIV_FVD_ID = 1;
             var KIV_FVP_ID = 2;
             var KIV_FECHA = 3;

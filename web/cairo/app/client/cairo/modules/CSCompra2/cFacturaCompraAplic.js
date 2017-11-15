@@ -410,6 +410,10 @@
         return TITLE + " " + m_fcNumero + " - " + m_proveedor;
       };
 
+      self.getTabTitle = function() {
+        return "FCA-" + m_fcNumero;
+      };
+
       self.validate = function() {
         return P.resolvedPromise(true);
       };

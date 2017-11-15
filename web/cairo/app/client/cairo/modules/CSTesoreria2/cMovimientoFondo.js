@@ -786,7 +786,7 @@
       };
 
       self.getTabTitle = function() {
-        return "MF-" + m_numero;
+        return "MF-" + m_nrodoc;
       };
 
       self.validate = function() {
@@ -2955,11 +2955,12 @@
 
           elem = row.add(null);
           elem.setValue(getValue(m_data.chequesT[_i], C.CLE_NAME));
-          elem.setKey(KICH_CLE_ID);
+          elem.setId(getValue(m_data.chequesT[_i], C.CLE_ID));
+          elem.setKey(KICHT_CLE_ID);
 
           elem = row.add(null);
           elem.setValue(getValue(m_data.chequesT[_i], CT.MFI_DESCRIP));
-          elem.setKey(KICH_DESCRIP);
+          elem.setKey(KICHT_DESCRIP);
 
           elem = row.add(null);
           elem.setValue(getValue(m_data.chequesT[_i], C.CCOS_NAME));
