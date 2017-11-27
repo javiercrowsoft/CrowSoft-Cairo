@@ -756,6 +756,8 @@ case class FacturaCompraNotaCreditoItem(
 
 case class PagoItem(
                      opgId: Int,
+                     fcId: Int,
+                     fcdId: Int,
                      fcpId: Int,
                      fcopgId: Int,
                      fcopgCotizacion: Double,
@@ -792,29 +794,13 @@ case class FacturaCompraRemitoCompraItem(
                                           rcfcId: Int
                                           )
 
-case class FacturaCompraNotaCredito(
-                                     items: List[FacturaCompraNotaCreditoItem]
-                                     )
-
-case class FacturaCompraOrdenPago(
-                                   items: List[FacturaCompraOrdenPagoItem]
-                                   )
-
-case class FacturaCompraOrdenCompra(
-                                     items: List[FacturaCompraOrdenCompraItem]
-                                     )
-
-case class FacturaCompraRemitoCompra(
-                                      items: List[FacturaCompraRemitoCompraItem]
-                                      )
-
 case class FacturaCompraAplic(
                                fcId: Int,
                                docId: Int,
-                               notaCredito: FacturaCompraNotaCredito,
-                               ordenPago: FacturaCompraOrdenPago,
-                               ordenCompra: FacturaCompraOrdenCompra,
-                               remitoCompra: FacturaCompraRemitoCompra
+                               notaCredito: List[FacturaCompraNotaCreditoItem],
+                               ordenPago: List[FacturaCompraOrdenPagoItem],
+                               ordenCompra: List[FacturaCompraOrdenCompraItem],
+                               remitoCompra: List[FacturaCompraRemitoCompraItem]
                              )
 
 object FacturaCompra {
@@ -2597,6 +2583,8 @@ object FacturaCompra {
       List(
         Field(TC.OPG_TMP_ID, opgTMPId, FieldType.id),
         Field(TC.OPG_ID, item.opgId, FieldType.id),
+        Field(TC.FC_ID, item.fcId, FieldType.id),
+        Field(TC.FCD_ID, item.fcdId, FieldType.id),
         Field(TC.FCP_ID, item.fcpId, FieldType.id),
         Field(TC.FC_OPG_ID, item.fcopgId, FieldType.id),
         Field(TC.FC_OPG_COTIZACION, item.fcopgCotizacion, FieldType.currency),
@@ -2651,7 +2639,7 @@ object FacturaCompra {
       DBHelper.save(
         user,
         Register(
-          C.FACTURA_COMPRA_NOTA_CREDITO_TMP,
+          TC.FACTURA_COMPRA_NOTA_CREDITO_TMP,
           TC.FC_NC_TMP_ID,
           DBHelper.NoId,
           false,
@@ -2666,7 +2654,7 @@ object FacturaCompra {
     }
 
     def saveNotasCredito(fcTMPId: Int) = {
-      facturaCompraAplic.notaCredito.items.map(item => saveNotaCredito(NotaCreditoItemInfo(fcTMPId, item)))
+      facturaCompraAplic.notaCredito.map(item => saveNotaCredito(NotaCreditoItemInfo(fcTMPId, item)))
     }
 
     case class OrdenPagoItemInfo(opgTMPId: Int, item: PagoItem)
@@ -2675,8 +2663,8 @@ object FacturaCompra {
       DBHelper.save(
         user,
         Register(
-          TC.ORDEN_PAGO_ITEM_TMP,
-          TC.OPGI_TMP_ID,
+          TC.FACTURA_COMPRA_ORDEN_PAGO_TMP,
+          TC.FC_OPG_TMP_ID,
           DBHelper.NoId,
           false,
           false,
@@ -2733,6 +2721,8 @@ object FacturaCompra {
         true
       ) match {
         case SaveResult(true, id) => {
+          Logger.info(s"items ${itemInfo.item.items}")
+          Logger.info(s"ctacte ${itemInfo.item.ctaCte}")
           saveOrdenPagoItems(itemInfo.item.items, id)
           saveOrdenPagoCtasCtes(itemInfo.item.ctaCte, id)
         }
@@ -2741,7 +2731,7 @@ object FacturaCompra {
     }
 
     def saveOrdenesPago(fcTMPId: Int) = {
-      facturaCompraAplic.ordenPago.items.map(item => saveOrdenPago(OrdenPagoInfo(fcTMPId, item)))
+      facturaCompraAplic.ordenPago.map(item => saveOrdenPago(OrdenPagoInfo(fcTMPId, item)))
     }
 
     case class OrdenCompraInfo(fcTMPId: Int, item: FacturaCompraOrdenCompraItem)
@@ -2765,7 +2755,7 @@ object FacturaCompra {
     }
 
     def saveOrdenesCompra(fcTMPId: Int) = {
-      facturaCompraAplic.ordenCompra.items.map(item => saveOrdenCompra(OrdenCompraInfo(fcTMPId, item)))
+      facturaCompraAplic.ordenCompra.map(item => saveOrdenCompra(OrdenCompraInfo(fcTMPId, item)))
     }
 
     case class RemitoCompraInfo(fcTMPId: Int, item: FacturaCompraRemitoCompraItem)
@@ -2789,7 +2779,7 @@ object FacturaCompra {
     }
 
     def saveRemitosCompra(fcTMPId: Int) = {
-      facturaCompraAplic.remitoCompra.items.map(item => saveRemitoCompra(RemitoCompraInfo(fcTMPId, item)))
+      facturaCompraAplic.remitoCompra.map(item => saveRemitoCompra(RemitoCompraInfo(fcTMPId, item)))
     }
 
     case class RowResult(rowType: String, id: Int, message: String)

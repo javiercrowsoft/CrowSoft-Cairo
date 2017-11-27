@@ -37,7 +37,7 @@
       var K_APLIC_ORDENPAGO = 13;
       var C_VENCIMIENTOS = "Vencimientos";
       var C_APLICORDENPAGO = "AplicCobr";
-      var C_PENDIENTE_ORDEN_PAGO = "PendienteCob";
+      var C_PENDIENTE_ORDEN_PAGO = "PendientePago";
       var C_TOTAL_ORDEN_PAGO = "TotalCob";
 
       var KIV_FCD_ID = 1;
@@ -284,11 +284,11 @@
         // the applied amount is not editable if the payment condition is automatic
         //
         if(m_isAutoPayment) {
-                return M.showWarning(getText(3582, ""));
-                                       // El tipo de condición de pago de esta factura ha generado automticamente
-                                       // la orden de pago y su aplicacion no puede modificarse manualmente.
-                                       // Solo se guardara la aplicación de la factura entre remitos y ordenes
-                                       // de compra.
+          return M.showWarning(getText(3582, ""));
+                                 // El tipo de condición de pago de esta factura ha generado automticamente
+                                 // la orden de pago y su aplicacion no puede modificarse manualmente.
+                                 // Solo se guardara la aplicación de la factura entre remitos y ordenes
+                                 // de compra.
         }
         else {
           ordenPagoSaveNotaCredito(register);
@@ -2101,7 +2101,7 @@
 
           if(m_vOpgNC[i].fc_id !== NO_ID) {
 
-            for(var j = 1, count_j = m_vOpgNC[i].vAplicaciones.length; j < count_j; j += 1) {
+            for(var j = 0, count_j = m_vOpgNC[i].vAplicaciones.length; j < count_j; j += 1) {
 
               if(m_vOpgNC[i].vAplicaciones[j].aplicado > 0 || m_vOpgNC[i].vAplicaciones[j].fcnc_id) {
 
@@ -2219,7 +2219,7 @@
 
           if(m_vOpgNC[i].opg_id === opgId) {
 
-            for(var j = 1, count_j = m_vOpgNC[i].vAplicaciones.length; j < count_j; j += 1) {
+            for(var j = 0, count_j = m_vOpgNC[i].vAplicaciones.length; j < count_j; j += 1) {
 
               if(m_vOpgNC[i].vAplicaciones[j].aplicado > 0 || m_vOpgNC[i].vAplicaciones[j].fcopg_id) {
 
@@ -2230,7 +2230,7 @@
                 var fields = register.getFields();
 
                 fields.add(CT.OPG_ID, m_vOpgNC[i].opg_id, Types.long);
-                /* TODO: remove fields.add(CC.FC_ID, m_fcId, Types.id);*/
+                fields.add(CC.FC_ID, m_fcId, Types.id);
                 fields.add(CT.FCD_ID, m_vOpgNC[i].vAplicaciones[j].fcd_id, Types.id);
                 fields.add(CT.FCP_ID, m_vOpgNC[i].vAplicaciones[j].fcp_id, Types.id);
                 fields.add(CT.FC_OPG_ID, m_vOpgNC[i].vAplicaciones[j].fcopg_id, Types.long);
@@ -2270,6 +2270,8 @@
         fields.add(CT.OPGI_ORDEN, 1, Types.integer);
         fields.add(CT.OPGI_TIPO, CT.OrdenPagoItemTipo.ITEM_CTA_CTE, Types.integer);
         fields.add(CT.OPGI_OTRO_TIPO, CT.OtroTipo.OTRO_HABER, Types.integer);
+
+        transaction.addRegister(register);
 
         mainRegister.addTransaction(transaction);
 

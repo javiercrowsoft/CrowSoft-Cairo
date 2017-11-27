@@ -14,3 +14,39 @@ docker-compose run web gem install rake -v 11.1.2
 docker ps -a | grep 'Exited' | awk '{print $1}' | xargs --no-run-if-empty docker rm
 
 docker rmi node
+
+-----------
+
+Today 2017-11-17 my docker postgresql server was empty. None of the databse exists. ( maybe it is because today is a false capicua )
+Yesterday I send me a gift ( docker-compose down )
+I don't know why but I used to have a docker postgresql container which was always up. I restar my computer and the container
+was running. Very convinient. All by magic I don't understand. Sure it was the result of some tutorial I followed when I
+created my postgresql docker setup.
+I used to do CTRL+C to stop my docker-compose. I became more educated and now I use docker-compose down.
+Shit happens.
+My database where gone
+My magic postgresql container was not running
+My docker-compose up created new containers for db and web
+No databse here
+After three beautiful hours of googleing I learnt two things
+
+1- how to define a volume for an image
+2- never use docker-compose down ( kidding )
+
+bellow the command to create a container with a volume for postgresql
+
+	docker run -d --name crowsoftcairo_app-db_1 \
+	-v /var/lib/docker/volumes/bf244ebe6dba7909d19407018626e1693e73e685ce689c639a0b383bb4a77d70/_data:/var/lib/postgresql/data \
+	-e POSTGRES_PASSWORD=14FeDyAr -p 5432:5432 postgres:9.1
+
+to know the volume of a container:
+
+docker inspect -f '{{ .Mounts }}' containerid
+
+to set the volume in a docker-compose.yml:
+
+    volumes:
+      - /var/lib/docker/volumes/bf244ebe6dba7909d19407018626e1693e73e685ce689c639a0b383bb4a77d70/_data:/var/lib/postgresql/data
+
+Finally about using docker-compose down. In Cairo if I do CTRL+C, next time it will start faster. Now I can use docker-compose down if I want :D
+

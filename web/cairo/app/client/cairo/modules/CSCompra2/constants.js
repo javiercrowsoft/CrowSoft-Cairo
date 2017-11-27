@@ -332,7 +332,7 @@
       ORDEN_COMPRA_ITEM_BORRADO_TMP: "OrdenCompraItemBorradoTMP",
       OCIB_TMP_ID: "ocibTMP_id",
 
-      // Orden Factura Compra TMP
+      // OrdenFacturaCompraTMP
       ORDEN_FACTURA_COMPRA_TMP: "OrdenFacturaCompraTMP",
       OC_FC_TMP_ID: "ocfcTMP_id",
 
@@ -354,7 +354,7 @@
       OC_RC_ID: "ocrc_id",
       OC_RC_CANTIDAD: "ocrc_cantidad",
 
-      // Orden Remito Compra TMP
+      // OrdenRemitoCompraTMP
       ORDEN_REMITO_COMPRA_TMP: "OrdenRemitoCompraTMP",
       OC_RC_TMP_ID: "ocrcTMP_id",
 

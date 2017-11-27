@@ -245,12 +245,18 @@ object FacturaCompras extends Controller with ProvidesUser {
 
   val facturaRemito = List(C.RCI_ID, C.RC_FC_CANTIDAD, C.FCI_ID)
 
+  val notaCredito = List()
+  val ordenPagoItem = List()
+  val ordenPago = List(TC.OPG_ID, C.FC_ID, TC.FCD_ID, TC.FCP_ID, TC.FC_OPG_ID, TC.FC_OPG_COTIZACION, TC.FC_OPG_IMPORTE, TC.FC_OPG_IMPORTE_ORIGEN)
+  val ctaCte = List(GC.CUE_ID, TC.OPGI_IMPORTE_ORIGEN, TC.OPGI_IMPORTE, TC.OPGI_ORDEN, TC.OPGI_TIPO, TC.OPGI_OTRO_TIPO)
+  val ordenCompra = List()
+  val remitoCompra = List()
+
   val facturaCompraAplicForm: Form[FacturaCompraAplic] = Form(
     mapping(
       C.FC_ID -> number,
       GC.DOC_ID -> number,
-      C.FACTURA_COMPRA_NOTA_CREDITO_TMP -> mapping(
-        GC.ITEMS -> Forms.list[FacturaCompraNotaCreditoItem](
+      TC.FACTURA_COMPRA_NOTA_CREDITO_TMP -> Forms.list[FacturaCompraNotaCreditoItem](
           mapping(
             TC.FC_ID_NOTA_CREDITO -> number,
             TC.FC_ID_FACTURA -> number,
@@ -261,15 +267,15 @@ object FacturaCompras extends Controller with ProvidesUser {
             TC.FC_NC_IMPORTE -> of(Global.doubleFormat),
             TC.FC_NC_ID-> number
           )(FacturaCompraNotaCreditoItem.apply)(FacturaCompraNotaCreditoItem.unapply)
-        )
-      )(FacturaCompraNotaCredito.apply)(FacturaCompraNotaCredito.unapply),
-      TC.ORDEN_PAGO_TMP -> mapping(
-        GC.ITEMS -> Forms.list[FacturaCompraOrdenPagoItem](
+      ),
+      TC.ORDEN_PAGO_TMP -> Forms.list[FacturaCompraOrdenPagoItem](
           mapping(
             TC.OPG_ID -> number,
-            TC.ORDEN_PAGO_ITEM_CUENTA_CORRIENTE_TMP -> Forms.list[PagoItem](
+            TC.FACTURA_COMPRA_ORDEN_PAGO_TMP -> Forms.list[PagoItem](
               mapping(
                 TC.OPG_ID -> number,
+                C.FC_ID -> number,
+                TC.FCD_ID -> number,
                 TC.FCP_ID -> number,
                 TC.FC_OPG_ID -> number,
                 TC.FC_OPG_COTIZACION -> of(Global.doubleFormat),
@@ -288,28 +294,23 @@ object FacturaCompras extends Controller with ProvidesUser {
               )(PagoCtaCte.apply)(PagoCtaCte.unapply)
             )
           )(FacturaCompraOrdenPagoItem.apply)(FacturaCompraOrdenPagoItem.unapply)
-        )
-      )(FacturaCompraOrdenPago.apply)(FacturaCompraOrdenPago.unapply) ,
-      C.ORDEN_FACTURA_COMPRA_TMP -> mapping(
-        C.FACTURA_COMPRA_NOTA_CREDITO_TMP -> Forms.list[FacturaCompraOrdenCompraItem](
+      ),
+      C.ORDEN_FACTURA_COMPRA_TMP -> Forms.list[FacturaCompraOrdenCompraItem](
           mapping(
             C.OCI_ID -> number,
             C.FCI_ID -> number,
             C.OC_FC_CANTIDAD -> of(Global.doubleFormat),
             C.OC_FC_ID -> number
           )(FacturaCompraOrdenCompraItem.apply)(FacturaCompraOrdenCompraItem.unapply)
-        )
-      )(FacturaCompraOrdenCompra.apply)(FacturaCompraOrdenCompra.unapply),
-      C.REMITO_FACTURA_COMPRA_TMP -> mapping(
-        C.FACTURA_COMPRA_NOTA_CREDITO_TMP -> Forms.list[FacturaCompraRemitoCompraItem](
+      ),
+      C.REMITO_FACTURA_COMPRA_TMP -> Forms.list[FacturaCompraRemitoCompraItem](
           mapping(
             C.RCI_ID -> number,
             C.FCI_ID -> number,
             C.RC_FC_CANTIDAD -> of(Global.doubleFormat),
             C.RC_FC_ID -> number
           )(FacturaCompraRemitoCompraItem.apply)(FacturaCompraRemitoCompraItem.unapply)
-        )
-      )(FacturaCompraRemitoCompra.apply)(FacturaCompraRemitoCompra.unapply)
+      )
     )(FacturaCompraAplic.apply)(FacturaCompraAplic.unapply)
   )
 
@@ -849,6 +850,163 @@ object FacturaCompras extends Controller with ProvidesUser {
   //
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //
+  // this functions convert the plain JSON received in SAVE_APLIC into a FacturaCompraAplic structure
+  //
+  // because the limitation to 18 fields in case class used for FORM mapping we have grouped the fields
+  // in FacturaCompra/Aplic, FacturaCompra/NotaCredito/OrdenPago, etc
+  //
+  // the below routines group a flat JSON and in some cases rename the name of the fields or move
+  // fields to the parent node in the JSON structure to match the case class
+  //
+
+  private def preprocessAplicParams(implicit request:Request[AnyContent]): JsObject = {
+
+    def getJsValueAsMap(list: Map[String, JsValue]): Map[String, JsValue] = list.toList match {
+      case (key: String, jsValue: JsValue) :: t => jsValue.as[Map[String, JsValue]]
+      case _ => Map.empty
+    }
+
+    def preprocessNotaCreditoParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      JsObject(Global.preprocessFormParams(notaCredito, "", params).toSeq)
+    }
+
+    def preprocessOrdenCompraParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      JsObject(Global.preprocessFormParams(ordenCompra, "", params).toSeq)
+    }
+
+    def preprocessRemitoCompraParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      JsObject(Global.preprocessFormParams(remitoCompra, "", params).toSeq)
+    }
+
+    def preprocessNotasCreditoParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessNotaCreditoParam(_))))
+      case _ => Map.empty
+    }
+
+    def preprocessOrdenesCompraParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessOrdenCompraParam(_))))
+      case _ => Map.empty
+    }
+
+    def preprocessRemitosCompraParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessRemitoCompraParam(_))))
+      case _ => Map.empty
+    }
+
+    val params = Global.getParamsFromJsonRequest
+
+    // groups for FacturaCompraData
+    //
+    val facturaId = Global.preprocessFormParams(List(C.FC_ID, GC.DOC_ID), "", params)
+
+    // notas credito
+    //
+    val notasCreditoInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(TC.FACTURA_COMPRA_NOTA_CREDITO_TMP, params))
+    val notaCreditoRows = Global.getParamsJsonRequestFor(GC.ITEMS, notasCreditoInfo)
+    val notasCredito = notaCreditoRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessNotasCreditoParam(item, TC.FACTURA_COMPRA_NOTA_CREDITO_TMP)
+      case _ => Map(TC.FACTURA_COMPRA_NOTA_CREDITO_TMP -> JsArray(List()))
+    }
+
+    // ordenes de compra
+    //
+    val ordenesCompraInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.ORDEN_FACTURA_COMPRA_TMP, params))
+    val ordeneCompraRows = Global.getParamsJsonRequestFor(GC.ITEMS, ordenesCompraInfo)
+    val ordenesCompra = ordeneCompraRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessOrdenesCompraParam(item, C.ORDEN_FACTURA_COMPRA_TMP)
+      case _ => Map(C.ORDEN_FACTURA_COMPRA_TMP -> JsArray(List()))
+    }
+
+    // remitos
+    //
+    val remitosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.REMITO_FACTURA_COMPRA_TMP, params))
+    val remitoRows = Global.getParamsJsonRequestFor(GC.ITEMS, remitosInfo)
+    val remitosCompra = remitoRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessRemitosCompraParam(item, C.REMITO_FACTURA_COMPRA_TMP)
+      case _ => Map(C.REMITO_FACTURA_COMPRA_TMP -> JsArray(List()))
+    }
+
+    //val ordenPagoItem = Map(TC.ORDEN_PAGO_TMP -> Map(GC.ITEMS -> ) )
+
+    def preprocessOrdenPagoItemParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      Logger.debug(s"preprocessOrdenPagoItemParam -> params: ${params}")
+      JsObject(Global.preprocessFormParams(ordenPagoItem, "", params).toSeq)
+
+      def preprocessOrdenPagoParam(field: JsValue) = {
+        val params = field.as[Map[String, JsValue]]
+        JsObject(Global.preprocessFormParams(ordenPago, "", params).toSeq)
+      }
+
+      def preprocessCtaCteParam(field: JsValue) = {
+        val params = field.as[Map[String, JsValue]]
+        JsObject(Global.preprocessFormParams(ctaCte, "", params).toSeq)
+      }
+
+      def preprocessOrdenesPagoParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+        case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessOrdenPagoParam(_))))
+        case _ => Map.empty
+      }
+
+      def preprocessCtasCteParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+        case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessCtaCteParam(_))))
+        case _ => Map.empty
+      }
+
+      val ordenPagoId = Global.preprocessFormParams(List(TC.OPG_ID), "", params)
+
+      // ordenes de pago item
+      //
+      val ordenesPagoInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(TC.FACTURA_COMPRA_ORDEN_PAGO_TMP, params))
+      Logger.debug(s"ordenesPagoInfo: ${ordenesPagoInfo}")
+      val ordenPagoRows = Global.getParamsJsonRequestFor(GC.ITEMS, ordenesPagoInfo)
+      Logger.debug(s"ordenPagoRows: ${ordenPagoRows}")
+      val ordenesPago = ordenPagoRows.toList match {
+        case (k: String, item: JsValue) :: t => preprocessOrdenesPagoParam(item, TC.FACTURA_COMPRA_ORDEN_PAGO_TMP)
+        case _ => Map(TC.FACTURA_COMPRA_ORDEN_PAGO_TMP -> JsArray(List()))
+      }
+
+      // ordenes de pago cta cte
+      //
+      val ctasCteInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(TC.ORDEN_PAGO_ITEM_CUENTA_CORRIENTE_TMP, params))
+      Logger.debug(s"ctasCteInfo: ${ctasCteInfo}")
+      val ctaCteRows = Global.getParamsJsonRequestFor(GC.ITEMS, ctasCteInfo)
+      Logger.debug(s"ctaCteRows: ${ctaCteRows}")
+      val ctasCtePago = ctaCteRows.toList match {
+        case (k: String, item: JsValue) :: t => preprocessOrdenesPagoParam(item, TC.ORDEN_PAGO_ITEM_CUENTA_CORRIENTE_TMP)
+        case _ => Map(TC.ORDEN_PAGO_ITEM_CUENTA_CORRIENTE_TMP -> JsArray(List()))
+      }
+
+      Logger.debug(s"ordenesPago: ${ordenesPago}")
+      Logger.debug(s"ctasCtePago: ${ctasCtePago}")
+      JsObject((ordenPagoId ++ ordenesPago ++ ctasCtePago).toSeq)
+    }
+
+    def preprocessOrdenesPagoItemParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessOrdenPagoItemParam(_))))
+      case _ => Map.empty
+    }
+
+    // ordenes de pago item
+    //
+    val ordenesPagoItemInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(TC.ORDEN_PAGO_TMP, params))
+    val ordenPagoItemRows = Global.getParamsJsonRequestFor(GC.ITEMS, ordenesPagoItemInfo)
+    val ordenesPagoItem = ordenPagoItemRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessOrdenesPagoItemParam(item, TC.ORDEN_PAGO_TMP)
+      case _ => Map(TC.ORDEN_PAGO_TMP -> JsArray(List()))
+    }
+
+    JsObject((facturaId ++ notasCredito ++ ordenesPagoItem ++ ordenesCompra ++ remitosCompra).toSeq)
+  }
+  //
+  //
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   def getItems(items: List[FacturaCompraItemData]): List[FacturaCompraItem] = {
     items.map(item => {
       FacturaCompraItem(
@@ -1229,7 +1387,7 @@ object FacturaCompras extends Controller with ProvidesUser {
   }
 
   def saveAplic(id: Int) = GetAction { implicit request =>
-    facturaCompraAplicForm.bindFromRequest.fold(
+    facturaCompraAplicForm.bind(preprocessAplicParams).fold(
       formWithErrors => {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
         BadRequest

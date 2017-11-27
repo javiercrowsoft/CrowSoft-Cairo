@@ -279,7 +279,11 @@ object C {
   val FCLGJB_TMP_ID = "fclgjbTMP_id"
 
   // FacturaCompraNotaCreditoTMP
-  val FACTURA_COMPRA_NOTA_CREDITO_TMP = "FacturaCompraNotaCreditoTMP"
+  // val FACTURA_COMPRA_NOTA_CREDITO_TMP = "FacturaCompraNotaCreditoTMP"
+  // FacturaCompraOrdenPagoTMP
+  // val FACTURA_COMPRA_ORDEN_PAGO_TMP = "FacturaCompraOrdenPagoTMP"
+  // OrdenPagoItemCuentaCorrienteTMP
+  // val ORDEN_PAGO_ITEM_CUENTA_CORRIENTE_TMP = "OrdenPagoItemCuentaCorrienteTMP"
 
   // Stock
   val DEPL_ID_ORIGEN = "depl_id_origen"
