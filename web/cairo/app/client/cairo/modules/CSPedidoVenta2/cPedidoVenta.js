@@ -765,7 +765,7 @@
             }
 
             var _count = m_properties.size();
-            for (var _i = 0; _i < _count; _i++) {
+            for(var _i = 0; _i < _count; _i++) {
 
               var property = m_properties.item(_i);
 
@@ -877,7 +877,7 @@
             }
 
             var _count = m_footerProps.size();
-            for (var _i = 0; _i < _count; _i++) {
+            for(var _i = 0; _i < _count; _i++) {
               
               property = m_footerProps.item(_i);
 
@@ -1035,7 +1035,7 @@
 
       self.validate = function() {
 
-        for (var _i = 0, _count = m_properties.size(); _i < _count; _i++) {
+        for(var _i = 0, _count = m_properties.size(); _i < _count; _i++) {
 
           var property = m_properties.item(_i);
 
@@ -1449,7 +1449,7 @@
       var isEmptyRowItems = function(row, rowIndex) {
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
 
           var cell = row.item(_i);
 
@@ -1485,7 +1485,7 @@
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
 
           var cell = row.item(_i);
 
@@ -2394,7 +2394,7 @@
 
         var rows = getGrid(m_items, C_ITEMS).getRows();
 
-        for (var _i = 0, _count = rows.size(); _i < _count; _i++) {
+        for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
 
           var row = rows.item(_i);
 
@@ -2405,7 +2405,7 @@
           var fields = register.getFields();
 
           var _countj = row.size();
-          for (var _j = 0; _j < _countj; _j++) {
+          for(var _j = 0; _j < _countj; _j++) {
 
             var cell = row.item(_j);
             switch (cell.getKey()) {
@@ -2533,7 +2533,7 @@
         var ivaRi = 0;
         var ivaRni = 0;
 
-        for (var _i = 0, _count = rows.size(); _i < _count; _i++) {
+        for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
           var row = rows.item(_i);
           neto = neto + cellFloat(row, KI_NETO);
           ivaRi = ivaRi + cellFloat(row, KI_IVA_RI);
@@ -2642,7 +2642,7 @@
         }
 
         var _count = m_properties.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           var prop = m_properties.item(_i);
           if(prop.getKey() !== K_DOC_ID
             && prop.getKey() !== K_NUMERO
@@ -2664,7 +2664,7 @@
         }
 
         var _count = m_itemsProps.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           var prop = m_itemsProps.item(_i);
           prop.setEnabled(bState);
         }

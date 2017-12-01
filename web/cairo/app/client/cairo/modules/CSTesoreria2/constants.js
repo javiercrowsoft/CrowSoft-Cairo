@@ -172,6 +172,9 @@
       FVP_FECHA: "fvp_fecha",
       FVP_IMPORTE: "fvp_importe",
 
+      FVP_ID2: "fvp_id2",
+      FVD_ID2: "fvd_id2",
+
       // FacturaVentaNotaCreditoTMP
       FACTURA_VENTA_NOTA_CREDITO_TMP: "FacturaVentaNotaCreditoTMP",
       FV_NC_TMP_ID: "fvncTMP_id",

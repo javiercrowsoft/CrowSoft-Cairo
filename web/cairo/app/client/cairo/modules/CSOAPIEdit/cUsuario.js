@@ -249,7 +249,7 @@
 
         var properties = m_dialog.getProperties();
         var _count = properties.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           var property = properties.item(_i);
           switch (property.getKey()) {
             case K_NAME:
@@ -366,7 +366,7 @@
 
         var properties = m_dialog.getProperties();
         var _count = properties.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           property = properties.item(_i);
           switch (property.getKey()) {
             case K_NAME:
@@ -845,7 +845,7 @@
         var isEmpty = true;
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           cell = row.item(_i);
           switch (cell.getKey()) {
             case KI_PROV_ID:
@@ -875,7 +875,7 @@
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           cell = row.item(_i);
           switch (cell.getKey()) {
             case KI_ROL_ID:
@@ -897,7 +897,7 @@
 
         var rows = property.getGrid().getRows();
         var _count = rows.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
 
           var row = rows.item(_i);
 
@@ -929,7 +929,7 @@
 
         var rows = property.getGrid().getRows();
         var _count = rows.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
 
           if(rowWasUpdated(_i)) {
 
@@ -942,7 +942,7 @@
             var fields = register.getFields();
 
             var _countj = row.size();
-            for (var _j = 0; _j < _countj; _j++) {
+            for(var _j = 0; _j < _countj; _j++) {
 
               var cell = row.item(_j);
 
@@ -989,7 +989,7 @@
 
         var rows = m_dialog.getProperties().item(C_ROLES).getGrid().getRows();
         var _count = rows.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
 
           var row = rows.item(_i);
 
@@ -1015,7 +1015,7 @@
       var isEmptyRowCliProv = function(row, rowIndex) {
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
 
           var cell = row.item(_i);
 
@@ -1040,7 +1040,7 @@
       var isEmptyRowRoles = function(row, rowIndex) {
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
 
           var cell = row.item(_i);
 

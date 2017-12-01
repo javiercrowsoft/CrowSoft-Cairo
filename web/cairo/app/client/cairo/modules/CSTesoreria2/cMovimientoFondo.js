@@ -579,7 +579,7 @@
             }
 
             var _count = m_properties.size();
-            for (var _i = 0; _i < _count; _i++) {
+            for(var _i = 0; _i < _count; _i++) {
 
               var property = m_properties.item(_i);
 
@@ -642,7 +642,7 @@
             }
 
             var _count = m_footerProps.size();
-            for (var _i = 0; _i < _count; _i++) {
+            for(var _i = 0; _i < _count; _i++) {
 
               property = m_footerProps.item(_i);
 
@@ -791,7 +791,7 @@
 
       self.validate = function() {
 
-        for (var _i = 0, _count = m_properties.size(); _i < _count; _i++) {
+        for(var _i = 0, _count = m_properties.size(); _i < _count; _i++) {
 
           var property = m_properties.item(_i);
           
@@ -1102,7 +1102,7 @@
       var isEmptyRow = function(row, rowIndex) {
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
 
           var cell = row.item(_i);
 
@@ -1168,7 +1168,7 @@
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
 
           var cell = row.item(_i);
 
@@ -2251,7 +2251,7 @@
           var origen = 0;
 
           var _countj = row.size();
-          for (var _j = 0; _j < _countj; _j++) {
+          for(var _j = 0; _j < _countj; _j++) {
 
             var cell = row.item(_j);
             switch (cell.getKey()) {
@@ -2334,25 +2334,25 @@
         var row;
 
         var _count = getCheques().getRows().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           row = getCheques().getRows().item(_i);
           total = total + cellFloat(row, KICH_IMPORTE);
         }
 
         var _count = getTCheques().getRows().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           row = getTCheques().getRows().item(_i);
           total = total + cellFloat(row, KICH_IMPORTE);
         }
 
         var _count = getICheques().getRows().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           row = getICheques().getRows().item(_i);
           total = total + cellFloat(row, KICH_IMPORTE);
         }
 
         var _count = getEfectivo().getRows().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           row = getEfectivo().getRows().item(_i);
           total = total + cellFloat(row, KI_IMPORTE);
         }
@@ -2378,7 +2378,7 @@
       var setEnabledAux = function(bState) {
 
         var _count = m_properties.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           var prop = m_properties.item(_i);
           if(prop.getKey() !== K_DOC_ID
               && prop.getKey() !== K_NUMERO
@@ -2399,7 +2399,7 @@
         }
 
         var _count = m_items.getProperties().size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           prop = m_items.getProperties().item(_i);
           prop.setEnabled(bState);
         }
@@ -3328,7 +3328,7 @@
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
 
           var cell = row.item(_i);
           
@@ -3408,7 +3408,7 @@
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
           
           var cell = row.item(_i);
           switch (cell.getKey()) {
@@ -3439,7 +3439,7 @@
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
 
           var cell = row.item(_i);
           switch (cell.getKey()) {
@@ -3517,7 +3517,7 @@
         var bRowIsEmpty = true;
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
 
           var cell = row.item(_i);
           switch (cell.getKey()) {
@@ -3559,7 +3559,7 @@
         var bRowIsEmpty = true;
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
 
           var cell = row.item(_i);
           switch (cell.getKey()) {
@@ -3598,7 +3598,7 @@
         var bRowIsEmpty = true;
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
 
           var cell = row.item(_i);
           switch (cell.getKey()) {

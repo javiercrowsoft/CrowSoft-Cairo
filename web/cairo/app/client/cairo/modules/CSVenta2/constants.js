@@ -151,29 +151,29 @@
 
 
       // Pedido Remito Venta TMP
-      PEDIDOREMITO_VENTA_TMP: "PedidoRemitoVentaTMP",
+      PEDIDO_REMITO_VENTA_TMP: "PedidoRemitoVentaTMP",
       PV_RV_TMP_ID: "pvrvTMP_id",
 
       // Pedido Remito Venta
-      PEDIDOREMITO_VENTA: "PedidoRemitoVenta",
+      PEDIDO_REMITO_VENTA: "PedidoRemitoVenta",
       PV_RV_ID: "pvrv_id",
       PV_RV_CANTIDAD: "pvrv_cantidad",
 
       // Pedido Factura Venta TMP
-      PEDIDOFACTURA_VENTA_TMP: "PedidoFacturaVentaTMP",
+      PEDIDO_FACTURA_VENTA_TMP: "PedidoFacturaVentaTMP",
       PV_FV_TMP_ID: "pvfvTMP_id",
 
       // Pedido Factura Venta
-      PEDIDOFACTURA_VENTA: "PedidoFacturaVenta",
+      PEDIDO_FACTURA_VENTA: "PedidoFacturaVenta",
       PV_FV_ID: "pvfv_id",
       PV_FV_CANTIDAD: "pvfv_cantidad",
 
       // Remito Factura Venta TMP
-      REMITOFACTURA_VENTA_TMP: "RemitoFacturaVentaTMP",
+      REMITO_FACTURA_VENTA_TMP: "RemitoFacturaVentaTMP",
       RV_FV_TMP_ID: "rvfvTMP_id",
 
       // Remito Factura Venta TMP
-      REMITODEVOLUCION_VENTA_TMP: "RemitoDevolucionVentaTMP",
+      REMITO_DEVOLUCION_VENTA_TMP: "RemitoDevolucionVentaTMP",
       RV_DV_TMP_ID: "rvdvTMP_id",
       RV_DV_ID: "rvdv_id",
       RV_DV_CANTIDAD: "rvdv_cantidad",
@@ -181,7 +181,7 @@
       RVI_ID_REMITO: "rvi_id_remito",
 
       // Remito Factura Venta
-      REMITOFACTURA_VENTA: "RemitoFacturaVenta",
+      REMITO_FACTURA_VENTA: "RemitoFacturaVenta",
       RV_FV_ID: "rvfv_id",
       RV_FV_CANTIDAD: "rvfv_cantidad",
 

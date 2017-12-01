@@ -1891,7 +1891,7 @@
 
     var addFacId = function(facIds, id) {
 
-      for (var i = 0; i < facIds.length; i++) {
+      for(var i = 0; i < facIds.length; i++) {
         if(facIds[i] === id) {
           return;
         }
@@ -1903,7 +1903,7 @@
       var cueId = 0;
       var cueName = "";
 
-      for (var _i = 0, _count = facturaCueId.length; _i < _count; _i++) {
+      for(var _i = 0, _count = facturaCueId.length; _i < _count; _i++) {
         if(facturaCueId[_i].facId === facId) {
           cueId = facturaCueId[_i].cueId;
           cueName = facturaCueId[_i].cueName;
@@ -1916,7 +1916,7 @@
 
     var addCtaCteAux = function(value, valueOrigen, ctaCte, cueId, cueName) {
 
-      for (var _i = 0, _count = ctaCte.length; _i < _count; _i++) {
+      for(var _i = 0, _count = ctaCte.length; _i < _count; _i++) {
         if(ctaCte[_i].cueId === cueId) {
           ctaCte[_i].importe += value;
           ctaCte[_i].importeOrigen += valueOrigen;
@@ -1949,7 +1949,7 @@
       var facIds = [];
       var ctaCte = [];
 
-      for (var _i = 0, _count = facturas.getRows().size(); _i < _count; _i++) {
+      for(var _i = 0, _count = facturas.getRows().size(); _i < _count; _i++) {
         var row = facturas.getRows().item(_i);
         if(val(Dialogs.cell(row, KI_APLICAR).getValue())) {
           addFacId(facIds, Dialogs.cell(row, KI_FV_ID).getId());
@@ -1987,7 +1987,7 @@
                 );
               }
 
-              for (var _i = 0, _count = facturas.getRows().size(); _i < _count; _i++) {
+              for(var _i = 0, _count = facturas.getRows().size(); _i < _count; _i++) {
                 row = facturas.getRows().item(_i);
                 var value = val(Dialogs.cell(row, KI_APLICAR).getValue());
                 if(value > 0) {

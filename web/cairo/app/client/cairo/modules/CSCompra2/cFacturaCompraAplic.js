@@ -30,13 +30,14 @@
       var Types = Cairo.Constants.Types;
       var valField = DB.valField;
       var valFieldDateValue = DB.valFieldDateValue;
+      var val = Cairo.Util.val;
 
       var K_PENDIENTE_ORDENPAGO = 10;
       var K_TOTAL_ORDENPAGO = 11;
       var K_VENCIMIENTOS = 12;
       var K_APLIC_ORDENPAGO = 13;
       var C_VENCIMIENTOS = "Vencimientos";
-      var C_APLICORDENPAGO = "AplicCobr";
+      var C_APLIC_ORDEN_PAGO = "AplicCobr";
       var C_PENDIENTE_ORDEN_PAGO = "PendientePago";
       var C_TOTAL_ORDEN_PAGO = "TotalCob";
 
@@ -216,10 +217,10 @@
                 var row = info.getGrid().getRows().item(m_lastRowVto);
                 if(row !== null) {
                   ordenPagoSetAplicVtos(
-                    m_dialog.getProperties().item(C_APLICORDENPAGO), 
+                    m_dialog.getProperties().item(C_APLIC_ORDEN_PAGO),
                     getCell(row, KIV_FCD_ID).getId(), 
                     getCell(row, KIV_FCP_ID).getId());
-                  m_dialog.showValue(m_dialog.getProperties().item(C_APLICORDENPAGO), true);
+                  m_dialog.showValue(m_dialog.getProperties().item(C_APLIC_ORDEN_PAGO), true);
                 }
                 break;
 
@@ -432,7 +433,7 @@
               break;
 
             case K_APLIC_ORDEN_REMITO:
-              itemColAUpdateOrdenRemito(itemGetItemsOrdenRemitoProperty(), lRow, lCol);
+              itemColAUpdateOrdenRemito(getItemsOrdenRemitoProperty(), lRow, lCol);
               break;
           }
           
@@ -460,7 +461,7 @@
               break;
 
             case K_APLIC_ORDEN_REMITO:
-              rtn = itemColBEditOrdenRemito(itemGetItemsOrdenRemitoProperty(), lRow, lCol);
+              rtn = itemColBEditOrdenRemito(getItemsOrdenRemitoProperty(), lRow, lCol);
               break;
           }
 
@@ -499,7 +500,7 @@
 
             case K_APLIC_ORDEN_REMITO:
 
-              var rows = itemGetItemsOrdenRemito().getRows();
+              var rows = getItemsOrdenRemito().getRows();
               var objEditName = "";
 
               var id = getCell(rows.item(lRow), KIPR_OC_ID).getId();
@@ -552,7 +553,6 @@
         m_dialog.getProperties().clear();
 
         var tabs = m_dialog.getTabs();
-
         tabs.clear();
 
         tabs.add(null).setIndex(0).setName(getText(1371, "")); // Items
@@ -586,7 +586,7 @@
         elem.setRowSelect(true);
         elem.setDontSelectInGotFocus(true);
 
-        elem = properties.add(null, C_TOTAL_ORDEN_PAGO); // OrdenPago
+        elem = properties.add(null, C_TOTAL_ORDEN_PAGO);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setName(getText(1909, "")); // Importe facturado
@@ -620,7 +620,7 @@
         elem.setRowSelect(true);
         elem.setDontSelectInGotFocus(true);
 
-        elem = properties.add(null, C_APLICORDENPAGO);
+        elem = properties.add(null, C_APLIC_ORDEN_PAGO);
         elem.setType(Dialogs.PropertyType.grid);
         elem.hideLabel();
         setGridAplicOrdenPago(elem);
@@ -636,7 +636,7 @@
 
         if(!m_dialog.show(self)) { return false; }
 
-        ordenPagoShowPendienteOrdenPago();
+        showPendienteOrdenPago();
 
         return true;
       };
@@ -656,29 +656,18 @@
         property = properties.item(C_VENCIMIENTOS);
         loadVencimientos(property);
 
-        property = properties.item(C_APLICORDENPAGO);
+        property = properties.item(C_APLIC_ORDEN_PAGO);
         property.getGrid().getRows().clear();
 
         m_dialog.showValues(m_dialog.getProperties());
 
-        ordenPagoShowPendienteOrdenPago();
+        showPendienteOrdenPago();
       };
 
       var saveDocCpra = function(register) {
-
         var fields = register.getFields();
-
         fields.add(CC.FC_ID, m_fcId, Types.id);
         fields.add(C.DOC_ID, m_docId, Types.id);
-        /* TODO: remove
-        fields.add(CC.FC_NUMERO, 0, Types.long);
-        fields.add(CC.FC_NRODOC, "", Types.text);
-        fields.add(C.PROV_ID, 0, Types.long);
-        fields.add(C.SUC_ID, 0, Types.long);
-        fields.add(C.CPG_ID, C.CondicionPagoTipo.fechaDocumento, Types.id);
-        fields.add(CC.FC_GRABAR_ASIENTO, 0, Types.boolean);
-        fields.add(C.EST_ID, D.Status.pendiente, Types.id);
-         */
       };
 
       var itemLoadAplicItems = function() {
@@ -1006,9 +995,7 @@
 
             for(var _j = 0, _count = rows.size(); _j < _count; _j++) {
               var row = rows.item(_j);
-              var id;
-
-              id = getCell(row, KIPR_RCI_ID).getId();
+              var id = getCell(row, KIPR_RCI_ID).getId();
               if(id === m_vOrdenRemito[i].rci_id && id !== NO_ID) {
                 bAplic = true;
                 break;
@@ -1224,11 +1211,11 @@
         return totalAplicado;
       };
 
-      var itemGetItemsOrdenRemitoProperty = function() {
+      var getItemsOrdenRemitoProperty = function() {
         return m_dialog.getProperties().item(C_APLIC_ORDEN_REMITO);
       };
 
-      var itemGetItemsOrdenRemito = function() {
+      var getItemsOrdenRemito = function() {
         return m_dialog.getProperties().item(C_APLIC_ORDEN_REMITO).getGrid();
       };
 
@@ -1262,17 +1249,17 @@
 
             var cell = getCell(row, KIPR_APLICADO);
 
-            var pendiente = Cairo.Util.val(itemGetItemPendiente().getValue()) + cellFloat(row, KIPR_APLICADO2);
+            var pendiente = val(itemGetItemPendiente().getValue()) + cellFloat(row, KIPR_APLICADO2);
             var maxVal = cellFloat(row, KIPR_PENDIENTE) + cellFloat(row, KIPR_APLICADO2);
 
             if(maxVal > pendiente) {
               maxVal = pendiente;
             }
 
-            if(Cairo.Util.val(cell.getValue()) > maxVal) {
+            if(val(cell.getValue()) > maxVal) {
               cell.setValue(maxVal);
             }
-            else if(Cairo.Util.val(cell.getValue()) < 0) {
+            else if(val(cell.getValue()) < 0) {
               cell.setValue(0);
             }
 
@@ -1283,7 +1270,7 @@
             // update pending credit
             //
             cell = getCell(row, KIPR_PENDIENTE);
-            cell.setValue(Cairo.Util.val(cell.getValue()) + cellFloat(row, KIPR_APLICADO2) - cellFloat(row, KIPR_APLICADO));
+            cell.setValue(val(cell.getValue()) + cellFloat(row, KIPR_APLICADO2) - cellFloat(row, KIPR_APLICADO));
             getCell(row, KIPR_APLICADO2).setValue(getCell(row, KIPR_APLICADO).getValue());
             break;
         }
@@ -1355,8 +1342,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var itemSaveRemito = function(mainRegister) {
@@ -1393,8 +1378,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-        
-        return true;
       };
 
       var ordenPagoLoadAplicVtos = function() {
@@ -1429,7 +1412,6 @@
           // invoice or credit note
           //
           item.fc_id = valField(m_data.pagosAplicados[_i], CC.FC_ID);
-
           item.fcp_id = valField(m_data.pagosAplicados[_i], CT.FCP_ID2);
           item.fcd_id = valField(m_data.pagosAplicados[_i], CT.FCD_ID2);
 
@@ -1978,17 +1960,17 @@
 
             var cell = getCell(row, KIC_APLICADO);
 
-            var pendiente = Cairo.Util.val(ordenPagoGetVtoPendiente().getValue()) + cellFloat(row, KIC_APLICADO2);
+            var pendiente = val(ordenPagoGetVtoPendiente().getValue()) + cellFloat(row, KIC_APLICADO2);
             var maxVal = cellFloat(row, KIC_PENDIENTE) + cellFloat(row, KIC_APLICADO2);
 
             if(maxVal > pendiente) {
               maxVal = pendiente;
             }
 
-            if(Cairo.Util.val(cell.getValue()) > maxVal) {
+            if(val(cell.getValue()) > maxVal) {
               cell.setValue(maxVal);
             }
-            else if(Cairo.Util.val(cell.getValue()) < 0) {
+            else if(val(cell.getValue()) < 0) {
               cell.setValue(0);
             }
 
@@ -1999,10 +1981,10 @@
             // update pending credit
             //
             cell = getCell(row, KIC_PENDIENTE);
-            cell.setValue(Cairo.Util.val(cell.getValue()) + cellFloat(row, KIC_APLICADO2) - cellFloat(row, KIC_APLICADO));
+            cell.setValue(val(cell.getValue()) + cellFloat(row, KIC_APLICADO2) - cellFloat(row, KIC_APLICADO));
             getCell(row, KIC_APLICADO2).setValue(getCell(row, KIC_APLICADO).getValue());
 
-            ordenPagoShowPendienteOrdenPago();
+            showPendienteOrdenPago();
             break;
         }
       };
@@ -2010,9 +1992,9 @@
       var ordenPagoGetAplicado = function() {
         var aplicado = 0;
 
-        var _count = m_dialog.getProperties().item(C_APLICORDENPAGO).getGrid().getRows().size();
+        var _count = m_dialog.getProperties().item(C_APLIC_ORDEN_PAGO).getGrid().getRows().size();
         for(var _i = 0; _i < _count; _i++) {
-          var row = m_dialog.getProperties().item(C_APLICORDENPAGO).getGrid().getRows().item(_i);
+          var row = m_dialog.getProperties().item(C_APLIC_ORDEN_PAGO).getGrid().getRows().item(_i);
           aplicado += cellFloat(row, KIC_APLICADO);
         }
         return aplicado;
@@ -2036,11 +2018,11 @@
       };
 
       var ordenPagoGetItemsOrdenPagoProperty = function() {
-        return m_dialog.getProperties().item(C_APLICORDENPAGO);
+        return m_dialog.getProperties().item(C_APLIC_ORDEN_PAGO);
       };
 
       var ordenPagoGetItemsOrdenPago = function() {
-        return m_dialog.getProperties().item(C_APLICORDENPAGO).getGrid();
+        return m_dialog.getProperties().item(C_APLIC_ORDEN_PAGO).getGrid();
       };
 
       var ordenPagoGetItemsVtosProperty = function() {
@@ -2064,7 +2046,7 @@
         return false;
       };
 
-      var ordenPagoShowPendienteOrdenPago = function() {
+      var showPendienteOrdenPago = function() {
         var total = 0;
         var rows = ordenPagoGetItemsVtosProperty().getGrid().getRows();
 

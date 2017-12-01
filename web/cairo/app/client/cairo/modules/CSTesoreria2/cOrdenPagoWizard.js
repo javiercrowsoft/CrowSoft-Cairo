@@ -2424,7 +2424,7 @@
         var rows = getFacturas().getRows();
         var _count = rows.size();
 
-        for (var _i = 0; _i < _count; _i++) {
+        for(var _i = 0; _i < _count; _i++) {
 
           var row = rows.item(_i);
 

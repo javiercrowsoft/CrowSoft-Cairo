@@ -644,7 +644,7 @@
                 var total = null;
 
                 var _count = pGetItems().getRows().size();
-                for (var _i = 0; _i < _count; _i++) {
+                for(var _i = 0; _i < _count; _i++) {
                     row = pGetItems().getRows().item(_i);
                     total = total + Cairo.Util.val(Dialogs.cell(row, KI_APLICADO).getValue());
                 }
@@ -765,7 +765,7 @@
                 var cotizacion = null;
 
                 var _count = pGetItems().getRows().size();
-                for (var _i = 0; _i < _count; _i++) {
+                for(var _i = 0; _i < _count; _i++) {
                     row = pGetItems().getRows().item(_i);
 
                     var register = new Cairo.Database.Register();
@@ -780,7 +780,7 @@
                         bSave = true;
 
                         var _count = row.size();
-                        for (var _j = 0; _j < _count; _j++) {
+                        for(var _j = 0; _j < _count; _j++) {
                             cell = row.item(_j);
                             switch (cell.getKey()) {
                                 case KI_FC_ID:
@@ -835,7 +835,7 @@
                 // Obtengo las cuentas del tercero
                 if(!mCobranza.self.getCuentasDeudor(pGetItems(), vCtaCte[], KI_FC_ID, KI_APLICADO, KI_COTIZACION, 0, 0, "", 0)) { return false; }
 
-                for (i = 1; i <= vCtaCte[].Length; i++) {
+                for(i = 1; i <= vCtaCte[].Length; i++) {
 
                     register = new cRegister();
                     register.setFieldId(CT.OPGI_TMPID);

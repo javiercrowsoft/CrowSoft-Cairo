@@ -1126,7 +1126,7 @@
                 var _rtn = 0;
                 var i = null;
 
-                for (i = 1; i <= vAplic.Length; i++) {
+                for(i = 1; i <= vAplic.Length; i++) {
                     if((vAplic.pvi_id === pviId && pviId !== Cairo.Constants.NO_ID) || (vAplic.osi_id === osiId && osiId !== Cairo.Constants.NO_ID) || (vAplic.fvi_id === fviId && fviId !== Cairo.Constants.NO_ID) || (vAplic.rvi_id === rviId && rviId !== Cairo.Constants.NO_ID)) {
 
                         G.redimPreserve(vAplic.vAplicaciones, vAplic.vAplicaciones.Length + 1);
@@ -1181,7 +1181,7 @@
 
                 m_rvi_id = rvi_id;
 
-                for (i = 1; i <= vAplic.Length; i++) {
+                for(i = 1; i <= vAplic.Length; i++) {
 
                     if(vAplic(i).PR_ID === pR_ID) {
 
@@ -1201,14 +1201,14 @@
                 var bAplic = null;
                 var row = null;
 
-                for (i = 1; i <= vAplic.Length; i++) {
+                for(i = 1; i <= vAplic.Length; i++) {
 
                     bAplic = false;
 
                     if(vAplic(i).PR_ID === pR_ID) {
 
                         var _count = iProp.getGrid().getRows().size();
-                        for (var _j = 0; _j < _count; _j++) {
+                        for(var _j = 0; _j < _count; _j++) {
                             row = iProp.getGrid().getRows().item(_j);
 
                             if(isPedido) {
@@ -1240,7 +1240,7 @@
                             }
 
                             id = m_rvi_id;
-                            for (j = 1; j <= vAplic(i).vAplicaciones.Length; j++) {
+                            for(j = 1; j <= vAplic(i).vAplicaciones.Length; j++) {
                                 if(id === vAplic(i).vAplicaciones(j).rvi_id && id !== Cairo.Constants.NO_ID) {
                                     bAplic = true;
                                     break;
@@ -1266,7 +1266,7 @@
                 var aplicadoTotal = null;
 
                 var _count = pItGetItemsAplic(isPedido).getRows().size();
-                for (var _i = 0; _i < _count; _i++) {
+                for(var _i = 0; _i < _count; _i++) {
                     row = pItGetItemsAplic(isPedido).getRows().item(_i);
 
                     if(Cairo.Util.val(Dialogs.cell(row, KIP_APLICADO).getValue()) > 0 || Dialogs.cell(row, KIP_IDX2).getID() !== 0) {
@@ -1292,7 +1292,7 @@
                 var iPropItem = null;
                 var row = null;
 
-                for (i = 1; i <= vAplic(idx).vAplicaciones.Length; i++) {
+                for(i = 1; i <= vAplic(idx).vAplicaciones.Length; i++) {
 
                     if(vAplic.rvi_id === rvi_id && rvi_id !== Cairo.Constants.NO_ID) {
 
@@ -1468,7 +1468,7 @@
 
                 vAplicaciones(idx).Aplicado = importe;
 
-                for (i = 1; i <= vAplicaciones.Length; i++) {
+                for(i = 1; i <= vAplicaciones.Length; i++) {
                     rtn = rtn + vAplicaciones(i).Aplicado;
                 }
 
@@ -1583,7 +1583,7 @@
                 }
 
                 var _count = iProp.getGrid().getRows().size();
-                for (var _i = 0; _i < _count; _i++) {
+                for(var _i = 0; _i < _count; _i++) {
                     row = iProp.getGrid().getRows().item(_i);
                     rtn = rtn + Cairo.Util.val(Dialogs.cell(row, KIP_APLICADO).getValue());
                 }
@@ -1632,11 +1632,11 @@
                 var i = null;
                 var j = null;
 
-                for (i = 1; i <= vAplic.Length; i++) {
+                for(i = 1; i <= vAplic.Length; i++) {
 
                     if(vAplic(i).pvi_id !== Cairo.Constants.NO_ID) {
 
-                        for (j = 1; j <= vAplic(i).vAplicaciones.Length; j++) {
+                        for(j = 1; j <= vAplic(i).vAplicaciones.Length; j++) {
 
                             if(vAplic(i).vAplicaciones(j).rvi_id !== Cairo.Constants.NO_ID) {
 
@@ -1672,11 +1672,11 @@
                 var i = null;
                 var j = null;
 
-                for (i = 1; i <= vAplic.Length; i++) {
+                for(i = 1; i <= vAplic.Length; i++) {
 
                     if(vAplic(i).osi_id !== Cairo.Constants.NO_ID) {
 
-                        for (j = 1; j <= vAplic(i).vAplicaciones.Length; j++) {
+                        for(j = 1; j <= vAplic(i).vAplicaciones.Length; j++) {
 
                             if(vAplic(i).vAplicaciones(j).rvi_id !== Cairo.Constants.NO_ID) {
 
@@ -1785,11 +1785,11 @@
                 var i = null;
                 var j = null;
 
-                for (i = 1; i <= vAplic.Length; i++) {
+                for(i = 1; i <= vAplic.Length; i++) {
 
                     if(vAplic(i).fvi_id !== Cairo.Constants.NO_ID || vAplic(i).rvi_id !== Cairo.Constants.NO_ID) {
 
-                        for (j = 1; j <= vAplic(i).vAplicaciones.Length; j++) {
+                        for(j = 1; j <= vAplic(i).vAplicaciones.Length; j++) {
 
                             if(vAplic(i).vAplicaciones(j).rvi_id !== Cairo.Constants.NO_ID) {
 

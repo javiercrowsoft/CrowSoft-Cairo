@@ -2449,12 +2449,12 @@
           }
         };
 
-        self.showValue = function(property) {
+        self.showValue = function(property, noChangeColumns) {
           var strTag = "";
           if(m_isDocument) {
             strTag = getTag(property);
           }
-          self.showValueEx(property, false, strTag);
+          self.showValueEx(property, noChangeColumns, strTag);
         };
 
         var getTag = function(property) {

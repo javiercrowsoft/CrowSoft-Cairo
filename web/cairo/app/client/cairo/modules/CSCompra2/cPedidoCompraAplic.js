@@ -929,7 +929,7 @@
                 var _rtn = 0;
                 var i = null;
 
-                for (i = 1; i <= vAplic.Length; i++) {
+                for(i = 1; i <= vAplic.Length; i++) {
                     if((vAplic.coti_id === cotiId && cotiId !== Cairo.Constants.NO_ID) || (vAplic.oci_id === ociId && ociId !== Cairo.Constants.NO_ID) || (vAplic.pci_id === pciId && pciId !== Cairo.Constants.NO_ID)) {
 
                         G.redimPreserve(vAplic.vAplicaciones, vAplic.vAplicaciones.Length + 1);
@@ -977,7 +977,7 @@
 
                 m_pci_id = pci_id;
 
-                for (i = 1; i <= vAplic.Length; i++) {
+                for(i = 1; i <= vAplic.Length; i++) {
 
                     if(vAplic(i).PR_ID === pR_ID) {
 
@@ -997,14 +997,14 @@
                 var bAplic = null;
                 var row = null;
 
-                for (i = 1; i <= vAplic.Length; i++) {
+                for(i = 1; i <= vAplic.Length; i++) {
 
                     bAplic = false;
 
                     if(vAplic(i).PR_ID === pR_ID) {
 
                         var _count = iProp.getGrid().getRows().size();
-                        for (var _j = 0; _j < _count; _j++) {
+                        for(var _j = 0; _j < _count; _j++) {
                             row = iProp.getGrid().getRows().item(_j);
 
                             id = Dialogs.cell(row, KIOD_OCI_ID).getID();
@@ -1026,7 +1026,7 @@
                             }
 
                             id = m_pci_id;
-                            for (j = 1; j <= vAplic(i).vAplicaciones.Length; j++) {
+                            for(j = 1; j <= vAplic(i).vAplicaciones.Length; j++) {
                                 if(id === vAplic(i).vAplicaciones(j).pci_id && id !== Cairo.Constants.NO_ID) {
                                     bAplic = true;
                                     break;
@@ -1052,7 +1052,7 @@
                 var aplicadoTotal = null;
 
                 var _count = pItGetItemsAplic().getRows().size();
-                for (var _i = 0; _i < _count; _i++) {
+                for(var _i = 0; _i < _count; _i++) {
                     row = pItGetItemsAplic().getRows().item(_i);
 
                     if(Cairo.Util.val(Dialogs.cell(row, KIP_APLICADO).getValue()) > 0 || Dialogs.cell(row, KIP_IDX2).getID() !== 0) {
@@ -1078,7 +1078,7 @@
                 var iPropItem = null;
                 var row = null;
 
-                for (i = 1; i <= vAplic(idx).vAplicaciones.Length; i++) {
+                for(i = 1; i <= vAplic(idx).vAplicaciones.Length; i++) {
 
                     if(vAplic.pci_id === pci_id && pci_id !== Cairo.Constants.NO_ID) {
 
@@ -1219,7 +1219,7 @@
 
                 vAplicaciones(idx).Aplicado = importe;
 
-                for (i = 1; i <= vAplicaciones.Length; i++) {
+                for(i = 1; i <= vAplicaciones.Length; i++) {
                     rtn = rtn + vAplicaciones(i).Aplicado;
                 }
 
@@ -1309,7 +1309,7 @@
                 iProp = m_dialog.getProperties().item(C_APLICFACDEV);
 
                 var _count = iProp.getGrid().getRows().size();
-                for (var _i = 0; _i < _count; _i++) {
+                for(var _i = 0; _i < _count; _i++) {
                     row = iProp.getGrid().getRows().item(_i);
                     rtn = rtn + Cairo.Util.val(Dialogs.cell(row, KIP_APLICADO).getValue());
                 }
@@ -1415,11 +1415,11 @@
                 var i = null;
                 var j = null;
 
-                for (i = 1; i <= vAplic.Length; i++) {
+                for(i = 1; i <= vAplic.Length; i++) {
 
                     if(vAplic(i).oci_id !== Cairo.Constants.NO_ID || vAplic(i).pci_id !== Cairo.Constants.NO_ID || vAplic(i).coti_id !== Cairo.Constants.NO_ID) {
 
-                        for (j = 1; j <= vAplic(i).vAplicaciones.Length; j++) {
+                        for(j = 1; j <= vAplic(i).vAplicaciones.Length; j++) {
 
                             if(vAplic(i).vAplicaciones(j).pci_id !== Cairo.Constants.NO_ID) {
 
