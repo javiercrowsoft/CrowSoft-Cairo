@@ -2007,8 +2007,8 @@
         getCell(row, KIV_APLICADO).setValue(aplicado);
         var aplicadoActual = cellFloat(row, KIV_APLICADO2);
 
-        var w_pCell = getCell(row, KIV_PENDIENTE);
-        w_pCell.setValue(w_pCell.getValue() - (aplicado - aplicadoActual));
+        var cell = getCell(row, KIV_PENDIENTE);
+        cell.setValue(cell.getValue() - (aplicado - aplicadoActual));
 
         getCell(row, KIV_APLICADO2).setValue(aplicado);
 
@@ -2175,13 +2175,6 @@
 
         var fields = register.getFields();
 
-        /*
-        fields.add(CT.OPG_NUMERO, 0, Types.long);
-        fields.add(C.PROV_ID, NO_ID, Types.long);
-        fields.add(C.SUC_ID, NO_ID, Types.long);
-        fields.add(C.DOC_ID, NO_ID, Types.long);
-        fields.add(C.EST_ID, NO_ID, Types.long);
-        */
         fields.add(CT.OPG_ID, opgId, Types.id);
 
         ordenPagoSaveItems(register, opgId);

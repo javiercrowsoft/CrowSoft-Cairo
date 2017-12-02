@@ -1273,7 +1273,7 @@
 
         switch (grid.getColumns().item(lCol).getKey()) {
           case KIPR_APLICADO:
-            var row = w_grid.getRows(lRow);
+            var row = grid.getRows(lRow);
 
             var cell = getCell(row, KIPR_APLICADO);
 
@@ -1990,21 +1990,17 @@
         return getCell(property.getGrid().getRows().item(property.getSelectedRow()), KIV_APLICADO2);
       };
 
-      var cobranzaColAUpdateCobranza = function(property, lRow, lCol) { // TODO: Use of ByRef founded Private Function cobranzaColAUpdateCobranza(ByRef IProperty As cIABMProperty, ByVal lRow As Long, ByVal lCol As Long)
-        var row = null;
-        var maxVal = null;
-        var bVisible = null;
-        var pendiente = null;
+      var cobranzaColAUpdateCobranza = function(property, lRow, lCol) {
+        var grid = property.getGrid();
 
-        var w_grid = property.getGrid();
-        switch (w_grid.getColumns(lCol).Key) {
+        switch (grid.getColumns().item(lCol).Key) {
           case KIC_APLICADO:
-            row = w_grid.getRows(lRow);
+            var row = grid.getRows(lRow);
 
             var cell = getCell(row, KIC_APLICADO);
 
-            pendiente = val(cobranzaGetVtoPendiente().getValue()) + val(getCell(row, KIC_APLICADO2).getValue());
-            maxVal = val(getCell(row, KIC_PENDIENTE).getValue()) + val(getCell(row, KIC_APLICADO2).getValue());
+            var pendiente = val(cobranzaGetVtoPendiente().getValue()) + cellFloat(row, KIC_APLICADO2);
+            var maxVal = cellFloat(row, KIC_PENDIENTE) + cellFloat(row, KIC_APLICADO2);
 
             if(maxVal > pendiente) {
               maxVal = pendiente;
@@ -2017,55 +2013,47 @@
               cell.setValue(0);
             }
 
-            var aplicado = null;
-            aplicado = cobranzaGetAplicado();
+            var aplicado = cobranzaGetAplicado();
             cobranzaRefreshVto(aplicado);
             cobranzaGetVtoAplicado().setValue(aplicado);
 
-            // Actulizo el pendiente
-            var cell = getCell(row, KIC_PENDIENTE);
-            cell.setValue(val(cell.getValue()) + val(getCell(row, KIC_APLICADO2).getValue()) - val(getCell(row, KIC_APLICADO).getValue()));
-            getCell(row, KIC_APLICADO2).getValue() === getCell(row, KIC_APLICADO).getValue();
+            // update pending credit
+            //
+            cell = getCell(row, KIC_PENDIENTE);
+            cell.setValue(val(cell.getValue()) + cellFloat(row, KIC_APLICADO2) - cellFloat(row, KIC_APLICADO));
+            getCell(row, KIC_APLICADO2).setValue(getCell(row, KIC_APLICADO).getValue());
 
             showPendienteCobranza();
             break;
         }
-
-        return true;
       };
 
       var cobranzaGetAplicado = function() {
-        var row = null;
-        var rtn = null;
+        var aplicado = 0;
 
         var _count = cobranzaGetItemsCobranzaProperty().getGrid().getRows().size();
         for(var _i = 0; _i < _count; _i++) {
-          row = cobranzaGetItemsCobranzaProperty().getGrid().getRows().item(_i);
-          rtn = rtn + val(getCell(row, KIC_APLICADO).getValue());
+          var row = cobranzaGetItemsCobranzaProperty().getGrid().getRows().item(_i);
+          aplicado += cellFloat(row, KIC_APLICADO);
         }
-        return rtn;
+        return aplicado;
       };
 
       var cobranzaRefreshVto = function(aplicado) {
-        var iProp = null;
-        var abmObj = null;
-        var row = null;
-        var aplicadoActual = null;
+        var property = m_dialog.getProperties().item(C_VENCIMIENTOS);
+        var row = property.getGrid().getRows().item(m_lastRowVto);
 
-        abmObj = m_dialog;
-        iProp = m_dialog.getProperties().item(C_VENCIMIENTOS);
-        row = iProp.getGrid().getRows().item(m_lastRowVto);
-
-        getCell(row, KIV_APLICADO).getValue() === aplicado;
-        aplicadoActual = val(getCell(row, KIV_APLICADO2).getValue());
+        getCell(row, KIV_APLICADO).setValue(aplicado);
+        var aplicadoActual = cellFloat(row, KIV_APLICADO2);
 
         var cell = getCell(row, KIV_PENDIENTE);
         cell.setValue(cell.getValue() - (aplicado - aplicadoActual));
 
-        getCell(row, KIV_APLICADO2).getValue() === aplicado;
+        getCell(row, KIV_APLICADO2).setValue(aplicado);
 
-        abmObj.ShowCellValue(iProp, m_lastRowVto, D.getCol(iProp.getGrid().getColumns(), KIV_PENDIENTE));
-        abmObj.ShowCellValue(iProp, m_lastRowVto, D.getCol(iProp.getGrid().getColumns(), KIV_APLICADO));
+        var cols = property.getGrid().getColumns();
+        m_dialog.showCellValue(property, m_lastRowVto,  D.getCol(cols, KIV_PENDIENTE).getIndex());
+        m_dialog.showCellValue(property, m_lastRowVto, D.getCol(cols, KIV_APLICADO).getIndex());
       };
 
       var cobranzaGetItemsCobranzaProperty = function() {
@@ -2080,34 +2068,30 @@
         return m_dialog.getProperties().item(C_VENCIMIENTOS);
       };
 
-      var cobranzaColBEditCobranza = function(property, lRow, lCol, iKeyAscii) { // TODO: Use of ByRef founded Private Function cobranzaColBEditCobranza(ByRef IProperty As cIABMProperty, ByVal lRow As Long, ByVal lCol As Long, ByVal iKeyAscii As Integer)
-        switch (cABMUtil.pGetKeyFromCol(property.getGrid().getColumns(), lCol)) {
-          // Facturas
+      var cobranzaColBEditCobranza = function(property, lRow, lCol) {
+        var grid = property.getGrid();
+
+        switch (grid.getColumns().item(lCol).getKey()) {
+
           case KIC_APLICADO:
-            break;
+            return true;
 
           case KIC_COTIZACION:
-            if(getCell(property.getGrid().getRows(lRow), KIC_COTIZACION).getValue() === "") {
-              return null;
+            if(cellVal(grid.getRows().item(lRow), KIC_COTIZACION) !== "") {
+              return true;
             }
             break;
-
-          default:
-            return null;
-            break;
         }
-
-        return true;
+        return false;
       };
 
       var showPendienteCobranza = function() {
-        var row = null;
         var total = null;
+        var rows = cobranzaGetItemsVtosProperty().getGrid().getRows();
 
-        var _count = cobranzaGetItemsVtosProperty().getGrid().getRows().size();
-        for(var _i = 0; _i < _count; _i++) {
-          row = cobranzaGetItemsVtosProperty().getGrid().getRows().item(_i);
-          total = total + val(getCell(row, KIV_PENDIENTE).getValue());
+        for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
+          var row = rows.item(_i);
+          total = total + cellFloat(row, KIV_PENDIENTE);
         }
 
         cobranzaGetPendienteCobranza().setValue(total);
@@ -2120,52 +2104,37 @@
       };
 
       var cobranzaUpdateteGrids = function() {
-        var _rtn = 0;
-        var iProp = null;
-        var row = null;
+        var aplicado = 0;
 
-        iProp = m_dialog.getProperties().item(C_VENCIMIENTOS);
-
-        if(m_lastRowVto !== 0) {
-
-          row = iProp.getGrid().getRows().item(m_lastRowVto);
-          _rtn = cobranzaUpdateAplicVtos(cobranzaGetItemsCobranzaProperty(), getCell(row, KIV_FVD_ID).getId(), getCell(row, KIV_FVP_ID).getId());
+        if(m_lastRowVto !== -1) {
+          aplicado = cobranzaUpdateAplicVtos();
         }
 
-        return _rtn;
+        return aplicado;
       };
 
-      //////////////////////////////////////////////////////////////////////////////////////
-      // Nota de credito
-      //////////////////////////////////////////////////////////////////////////////////////
+      var cobranzaSaveNotaCredito = function(mainRegister) {
+        var transaction = DB.createTransaction();
 
-      // Proposito: Vincular una/s nota de credito con una/s factura
-      //
-      var cobranzaSaveNotaCredito = function(fvTMPId) {
-        var register = null;
-        var row = null;
-        var cell = null;
-        var i = null;
-        var j = null;
+        transaction.setTable(CT.FACTURA_VENTA_NOTA_CREDITO_TMP);
 
-        for(i = 1; i <= m_vCobzNC.length; i++) {
+        for(var i = 0, count = m_vCobzNC.length; i < count; i += 1) {
 
           if(m_vCobzNC[i].fv_id !== NO_ID) {
 
-            for(j = 1; j <= m_vCobzNC[i].vAplicaciones.length; j++) {
+            for(var j = 0, count_j = m_vCobzNC[i].vAplicaciones.length; j < count_j; j += 1) {
 
               if(m_vCobzNC[i].vAplicaciones[j].aplicado > 0 || m_vCobzNC[i].vAplicaciones[j].fvnc_id) {
 
                 var register = new DB.Register();
-                register.setFieldId(CSCFV_NC_TMPID);
-                register.setTable(CSTFACTURAVENTANOTACREDITOTMP);
+                register.setFieldId(CT.FV_NC_TMP_ID);
                 register.setId(Cairo.Constants.NEW_ID);
 
-                fields.add(CV.FV_TMPID, fvTMPId, Types.id);
+                var fields = register.getFields();
 
                 if(m_isNotaCredito) {
-                  fields.add(CSCFV_ID_NOTA_CREDITO, m_fvId, Types.id);
-                  fields.add(CSCFV_ID_FACTURA, m_vCobzNC[i].fv_id, Types.id);
+                  fields.add(CT.FV_ID_NOTA_CREDITO, m_fvId, Types.id);
+                  fields.add(CT.FV_ID_FACTURA, m_vCobzNC[i].fv_id, Types.id);
 
                   fields.add(CT.FVD_ID_NOTA_CREDITO, m_vCobzNC[i].vAplicaciones[j].fvd_id, Types.id);
                   fields.add(CT.FVD_ID_FACTURA, m_vCobzNC[i].fvd_id, Types.id);
@@ -2174,8 +2143,8 @@
                   fields.add(CT.FVP_ID_FACTURA, m_vCobzNC[i].fvp_id, Types.id);
                 }
                 else {
-                  fields.add(CSCFV_ID_NOTA_CREDITO, m_vCobzNC[i].fv_id, Types.id);
-                  fields.add(CSCFV_ID_FACTURA, m_fvId, Types.id);
+                  fields.add(CT.FV_ID_NOTA_CREDITO, m_vCobzNC[i].fv_id, Types.id);
+                  fields.add(CT.FV_ID_FACTURA, m_fvId, Types.id);
 
                   fields.add(CT.FVD_ID_NOTA_CREDITO, m_vCobzNC[i].fvd_id, Types.id);
                   fields.add(CT.FVD_ID_FACTURA, m_vCobzNC[i].vAplicaciones[j].fvd_id, Types.id);
@@ -2184,135 +2153,97 @@
                   fields.add(CT.FVP_ID_FACTURA, m_vCobzNC[i].vAplicaciones[j].fvp_id, Types.id);
                 }
 
-                fields.add(CSCFV_NC_IMPORTE, m_vCobzNC[i].vAplicaciones[j].aplicado, Types.double);
-                fields.add(CSCFV_NC_ID, 0, Types.long);
+                fields.add(CT.FV_NC_IMPORTE, m_vCobzNC[i].vAplicaciones[j].aplicado, Types.double);
+                fields.add(CT.FV_NC_ID, 0, Types.long);
 
-                register.getFields().setHaveLastUpdate(false);
-                register.getFields().setHaveWhoModify(false);
-
-                if(!Cairo.Database.save(register, , "pSaveFVNCAux", C_MODULE, c_ErrorSave)) { return false; }
+                transaction.addRegister(register);
               }
             }
           }
         }
 
+        mainRegister.addTransaction(transaction);
+
         return true;
       };
 
-      //////////////////////////////////////////////////////////////////////////////////////
-      // Cobranza
-      //////////////////////////////////////////////////////////////////////////////////////
+      var cobranzaSaveCobranza = function(mainRegister) {
+        var transaction = DB.createTransaction();
 
-      // Guardo cada una de las cobranzas modificadas
-      // por la edicion de esta aplicacion
-      var cobranzaSaveCobranza = function(fvTMPId) {
-        var vCobranzas() = null;
-        var i = null;
+        transaction.setTable(CT.COBRANZA_TMP);
 
-        pGetCobranzas(vCobranzas[]);
-
-        for(i = 1; i <= vCobranzas.length; i++) {
-          if(!cobranzaSaveCobranzaAux(vCobranzas[i].cobz_id, fvTMPId, vCobranzas[i].newAplic)) { return false; }
+        var cobranzas = cobranzaGetCobranzas();
+        for(var i = 0, count = cobranzas.length; i < count; i += 1) {
+          ordenPagoSaveOrdenPagoAux(transaction, cobranzas[i].cobz_id, cobranzas[i].newAplic, m_vCobzNC[i].cotizacion);
         }
 
-        return true;
+        mainRegister.addTransaction(transaction);
       };
 
-      var pGetCobranzas = function(vCobranzas) { // TODO: Use of ByRef founded Private Sub pGetCobranzas(ByRef vCobranzas() As T_Cobranza)
-        var row = null;
-        var i = null;
-        var k = null;
-
-        G.redim(vCobranzas, 0);
-
-        for(i = 1; i <= m_vCobzNC.length; i++) {
+      var cobranzaGetCobranzas = function() {
+        var cobranzas = [];
+        for(var i = 0, count = m_vCobzNC.length; i < count; i += 1) {
           if(m_vCobzNC[i].cobz_id !== NO_ID) {
-
-            if(m_vCobzNC[i].aplicado > 0 || m_vCobzNC[i].aplicadoActual !== 0) {
-
-              k = pgetIdxCobranzas(vCobranzas, m_vCobzNC[i].cobz_id);
-              vCobranzas.cobz_id = m_vCobzNC[i].cobz_id;
-              vCobranzas.NewAplic = m_vCobzNC[i].aplicado;
-              vCobranzas.CurrAplic = m_vCobzNC[i].aplicadoActual;
+            if(m_vCobzNC[i].aplicado > 0 || m_vOpgNC[i].aplicadoActual !== 0) {
+              var k = cobranzaGetIdxCobranzas(cobranzas, m_vCobzNC[i].cobz_id);
+              cobranzas[k] = {
+                cobz_id: m_vCobzNC[i].cobz_id,
+                newAplic: m_vCobzNC[i].aplicado,
+                currAplic: m_vCobzNC[i].aplicadoActual
+              };
             }
           }
         }
+        return cobranzas;
       };
 
-      var pgetIdxCobranzas = function(vCobranzas, cobzId) { // TODO: Use of ByRef founded Private Function pgetIdxCobranzas(ByRef vCobranzas() As T_Cobranza, ByVal CobzId As Long) As Long
-        var _rtn = 0;
-        var bFound = null;
-        var i = null;
-
-        for(i = 1; i <= vCobranzas.length; i++) {
-          if(vCobranzas(i).cobz_id === cobzId) {
-            _rtn = i;
-            return _rtn;
+      var cobranzaGetIdxCobranzas = function(cobranzas, cobzId) {
+        for(var i = 0, count = cobranzas.length; i < count ; i += 1) {
+          if(cobranzas[i].cobz_id === cobzId) {
+            return i;
           }
         }
-
-        if(!bFound) {
-          G.redimPreserve(vCobranzas, vCobranzas.length + 1);
-        }
-
-        _rtn = vCobranzas.length;
-
-        return _rtn;
+        return cobranzas.length;
       };
 
-      var cobranzaSaveCobranzaAux = function(cobzId, fvTMPId, aplic) {
-        var register = null;
+      var cobranzaSaveCobranzaAux = function(transaction, cobzId, aplic, cobzCotizacion) {
 
         var register = new DB.Register();
         register.setFieldId(CT.COBZ_TMP_ID);
-        register.setTable(CT.COBRANZA_TMP);
-
         register.setId(Cairo.Constants.NEW_ID);
 
-        fields.add(CV.FV_TMPID, fvTMPId, Types.id);
-        fields.add(CT.COBZ_NUMERO, 0, Types.long);
-        fields.add(CV.CLI_ID, NO_ID, Types.long);
-        fields.add(CV.SUC_ID, NO_ID, Types.long);
-        fields.add(CV.DOC_ID, NO_ID, Types.long);
-        fields.add(C.EST_ID, NO_ID, Types.long);
+        var fields = register.getFields();
+
         fields.add(CT.COBZ_ID, cobzId, Types.id);
 
-        register.getFields().setHaveLastUpdate(true);
-        register.getFields().setHaveWhoModify(true);
+        cobranzaSaveItems(register, cobzId);
+        cobranzaSaveCtaCte(register, cobzId, aplic, cobzCotizacion);
 
-        if(!register.beginTrans(Cairo.Database)) { return false; }
-
-        if(!Cairo.Database.save(register, , "pSave", C_MODULE, c_ErrorSave)) { return false; }
-
-        if(!pSaveItems(register.getId(), cobzId)) { return false; }
-        if(!pSaveCtaCte(register.getId(), cobzId, aplic)) { return false; }
-
-        if(!register.commitTrans()) { return false; }
+        transaction.addRegister(register);
 
         return true;
       };
 
-      var pSaveItems = function(id, cobzId) {
+      var cobranzaSaveItems = function(mainRegister, cobzId) {
         var transaction = new Cairo.Database.Transaction();
-        var i = null;
-        var j = null;
 
-        for(i = 1; i <= m_vCobzNC.length; i++) {
+        transaction.setTable(CT.FACTURA_VENTA_COBRANZA_TMP);
+
+        for(var i = 0, count = m_vCobzNC.length; i < count; i += 1) {
 
           if(m_vCobzNC[i].cobz_id === cobzId) {
 
-            for(j = 1; j <= m_vCobzNC[i].vAplicaciones.length; j++) {
+            for(var j = 0, count_j = m_vCobzNC[i].vAplicaciones.length; j < count_j; j += 1) {
 
               if(m_vCobzNC[i].vAplicaciones[j].aplicado > 0 || m_vCobzNC[i].vAplicaciones[j].fvcobz_id) {
 
-                var register = new Cairo.Database.Register();
+                var register = new DB.Register();
                 register.setFieldId(CT.FV_COBZ_TMP_ID);
-                register.setTable(FACTURA_VENTA_COBRANZA_TMP);
                 register.setId(Cairo.Constants.NEW_ID);
 
-                fields.add(CT.COBZ_ID, m_vCobzNC[i].cobz_id, Types.long);
-                fields.add(CT.COBZ_TMP_ID, id, Types.id);
+                var fields = register.getFields();
 
+                fields.add(CT.COBZ_ID, m_vCobzNC[i].cobz_id, Types.long);
                 fields.add(CV.FV_ID, m_fvId, Types.id);
                 fields.add(CT.FVD_ID, m_vCobzNC[i].vAplicaciones[j].fvd_id, Types.id);
                 fields.add(CT.FVP_ID, m_vCobzNC[i].vAplicaciones[j].fvp_id, Types.id);
@@ -2320,7 +2251,7 @@
 
                 fields.add(CT.FV_COBZ_COTIZACION, m_vCobzNC[i].cotizacion, Types.double);
                 fields.add(CT.FV_COBZ_IMPORTE, m_vCobzNC[i].vAplicaciones[j].aplicado, Types.double);
-                fields.add(CT.FV_COBZ_IMPORTE_ORIGEN, DivideByCero(m_vCobzNC[i].vAplicaciones[j].aplicado, m_vCobzNC[i].cotizacion), Types.double);
+                fields.add(CT.FV_COBZ_IMPORTE_ORIGEN, Cairo.Util.zeroDiv(m_vCobzNC[i].vAplicaciones[j].aplicado, m_vCobzNC[i].cotizacion), Types.double);
 
                 register.getFields().setHaveLastUpdate(false);
                 register.getFields().setHaveWhoModify(false);
@@ -2331,179 +2262,65 @@
           }
         }
 
-        mainTransaction.addTransaction(transaction);
+        mainRegister.addTransaction(transaction);
 
         return true;
       };
 
-      var pSaveCtaCte = function(id, cobzId, aplic) {
-        var register = null;
-        var ctaCte = null;
+      var cobranzaSaveCtaCte = function(mainRegister, cobzId, aplic, cobzCotizacion) {
+        var transaction = DB.createTransaction();
 
-        // Obtengo las cuentas del tercero
-        if(!pGetCuentasDeudor(cobzId, ctaCte, aplic)) { return false; }
+        transaction.setTable(CT.COBRANZA_ITEM_CUENTA_CORRIENTE_TMP);
+
+        aplic = cobranzaGetAplic(aplic, cobzCotizacion);
 
         var register = new DB.Register();
-        register.setFieldId(CSCCOBZI_TMPID);
-        register.setTable(CSTCOBRANZAITEMTMP);
+        register.setFieldId(CT.COBZI_TMP_ID);
         register.setId(Cairo.Constants.NEW_ID);
 
-        fields.add(CV.CUE_ID, ctaCte.cue_id, Types.id);
-        fields.add(CSCCOBZI_IMPORTE_ORIGEN, ctaCte.importeOrigen, Types.currency);
-        fields.add(CSCCOBZI_IMPORTE, ctaCte.importe, Types.currency);
+        var fields = register.getFields();
 
-        fields.add(CSCCOBZI_ORDEN, 1, Types.integer);
-        fields.add(CSCCOBZI_TIPO, csECobranzaItemTipo.csECobziTCtaCte, Types.integer);
-        fields.add(CT.COBZ_TMP_ID, id, Types.id);
-        fields.add(CSCCOBZI_ID, id, Types.long);
-        fields.add(CSCCOBZI_OTRO_TIPO, csECobranzaItemOtroTipo.csEOtroHaber, Types.integer);
+        fields.add(C.CUE_ID, m_ctaCteCueId, Types.id);
+        fields.add(CT.COBZI_IMPORTE_ORIGEN, aplic.importeOrigen, Types.currency);
+        fields.add(CT.COBZI_IMPORTE, aplic.importe, Types.currency);
 
-        register.getFields().setHaveLastUpdate(false);
-        register.getFields().setHaveWhoModify(false);
+        fields.add(CT.COBZI_ORDEN, 1, Types.integer);
+        fields.add(CT.COBZI_TIPO, CT.CobranzaItemTipo.ITEM_CTA_CTE, Types.integer);
+        fields.add(CT.COBZI_OTRO_TIPO, CT.OtroTipo.OTRO_HABER, Types.integer);
 
-        if(!Cairo.Database.save(register, , "pSaveCtaCte", C_MODULE, c_ErrorSave)) { return false; }
+        transaction.addRegister(register);
 
-        return true;
-      };
-
-      var pGetCuentasDeudor = function(cobzId, ctaCte, aplic) { // TODO: Use of ByRef founded Private Function pGetCuentasDeudor(ByVal CobzId As Long, ByRef CtaCte As T_CtaCte, ByVal Aplic As Double) As Boolean
-        var cueIdFactura = null;
-        var cotizacion = null;
-
-        if(!pGetCueIdFactura(cueIdFactura)) { return false; }
-
-        ctaCte.cue_id = cueIdFactura;
-        ctaCte.importe = aplic;
-
-        if(pGetMonIdForCueId(cueIdFactura) !== m_monDefault) {
-          if(!pGetCotizacionCobranza(cobzId, cotizacion)) { return false; }
-          ctaCte.importeOrigen = aplic * cotizacion;
-        }
+        mainRegister.addTransaction(transaction);
 
         return true;
       };
 
-      var pGetMonIdForCueId = function(cueId) {
-        var _rtn = 0;
-        try {
+      var cobranzaGetAplic = function(aplic, cotizacion) {
+        var importes = {
+          importe: aplic,
+          importeOrigen: 0
+        };
 
-          var sqlstmt = null;
-          var rs = null;
-
-          sqlstmt = "select mon_id from Cuenta where cue_id = "+ cueId.toString();
-
-          if(!Cairo.Database.openRs(sqlstmt, rs)) { return _rtn; }
-
-          if(rs.isEOF()) { return _rtn; }
-
-          _rtn = valField(m_data.items[_i], CV.MON_ID);
-
-          // **TODO:** goto found: GoTo ExitProc;
+        if(m_monIdXCuenta !== m_defaultCurrency) {
+          importes.importeOrigen = aplic * cotizacion;
         }
-        catch (ex) {
-          Cairo.manageErrorEx(ex.message, ex, "pGetMonIdForCueId", C_MODULE, "");
-          // **TODO:** label found: ExitProc:;
-        }
-        // **TODO:** on error resume next found !!!
 
-        return _rtn;
+        return importes;
       };
 
-      var pGetCotizacionCobranza = function(cobzId, cotizacion) { // TODO: Use of ByRef founded Private Function pGetCotizacionCobranza(ByVal CobzId As Long, ByRef Cotizacion As Double) As Boolean
-        var _rtn = null;
+      var initialize = function() {
         try {
 
-          var sqlstmt = null;
-          var rs = null;
+          m_vCobzNC = [];
+          m_vPedidoRemito = [];
 
-          sqlstmt = "select cobz_cotizacion from Cobranza where cobz_id = "+ cobzId.toString();
-
-          if(!Cairo.Database.openRs(sqlstmt, rs)) { return _rtn; }
-
-          if(rs.isEOF()) { return _rtn; }
-
-          cotizacion = valField(m_data.items[_i], CT.COBZ_COTIZACION);
-
-          _rtn = true;
-
-          // **TODO:** goto found: GoTo ExitProc;
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, ex, "pGetCotizacionCobranza", C_MODULE, "");
-          // **TODO:** label found: ExitProc:;
+          Cairo.manageErrorEx(ex.message, ex, "initialize", C_MODULE, "");
         }
-        // **TODO:** on error resume next found !!!
-
-        return _rtn;
       };
 
-      var pGetCueIdFactura = function(cueIdFactura) { // TODO: Use of ByRef founded Private Function pGetCueIdFactura(ByRef CueIdFactura As Long) As Boolean
-        var _rtn = null;
-        try {
-
-          var sqlstmt = null;
-          var rs = null;
-
-          sqlstmt = "sp_DocFacturaVentaGetCueDeudor "+ m_fvId;
-
-          if(!Cairo.Database.openRs(sqlstmt, rs)) { return _rtn; }
-
-          if(rs.isEOF()) { return _rtn; }
-
-          cueIdFactura = valField(m_data.items[_i], CV.CUE_ID);
-
-          _rtn = true;
-
-          // **TODO:** goto found: GoTo ExitProc;
-        }
-        catch (ex) {
-          Cairo.manageErrorEx(ex.message, ex, "pGetCueIdFactura", C_MODULE, "");
-          // **TODO:** label found: ExitProc:;
-        }
-        // **TODO:** on error resume next found !!!
-
-        return _rtn;
-      };
-
-      //////////////////////////////////////////////////////////////////////////////////////
-      //
-      //   construccion - destruccion
-      //
-      //////////////////////////////////////////////////////////////////////////////////////
-      self.initialize = function() {
-        try {
-
-          // Error al grabar la Factura de Venta
-          c_ErrorSave = getText(2220, "");
-
-          m_generalConfig = new cGeneralConfig();
-          m_generalConfig.Load;
-
-          G.redim(m_vCobzNC, 0);
-          G.redimPreserve(0, .vAplicaciones);
-
-          m_monDefault = GetMonedaDefault();
-
-          // **TODO:** goto found: GoTo ExitProc;
-        }
-        catch (ex) {
-          Cairo.manageErrorEx(ex.message, ex, "Class_Initialize", C_MODULE, "");
-          // **TODO:** label found: ExitProc:;
-        }
-        // **TODO:** on error resume next found !!!
-      };
-
-
-      ////////////////////////////////
-      //  Codigo estandar de errores
-      //  On Error GoTo ControlError
-      //
-      //  GoTo ExitProc
-      //ControlError:
-      //  MngError err,"", C_Module, ""
-      //  If Err.Number Then Resume ExitProc
-      //ExitProc:
-      //  On Error Resume Next
+      initialize();
 
       return self;
     };
@@ -2511,163 +2328,5 @@
     Edit.Controller = { getEditor: createObject };
 
   });
-
-  Cairo.module("FacturaVentaAplic.List", function(List, Cairo, Backbone, Marionette, $, _) {
-    List.Controller = {
-      list: function() {
-
-        var self = this;
-
-        /*
-         this function will be called by the tab manager every time the
-         view must be created. when the tab is not visible the tab manager
-         will not call this function but only make the tab visible
-         */
-        var createTreeDialog = function(tabId) {
-
-          var editors = Cairo.Editors.facturaventaaplicEditors || Cairo.Collections.createCollection(null);
-          Cairo.Editors.facturaventaaplicEditors = editors;
-
-          // ListController properties and methods
-          //
-          self.entityInfo = new Backbone.Model({
-            entitiesTitle: "FacturaVentaAplics",
-            entityName: "facturaventaaplic",
-            entitiesName: "facturaventaaplics"
-          });
-
-          self.showBranch = function(branchId) {
-            Cairo.log("Loading nodeId: " + branchId);
-            Cairo.Tree.List.Controller.listBranch(branchId, Cairo.Tree.List.Controller.showItems, self);
-          };
-
-          self.addLeave = function(id, branchId) {
-            try {
-              Cairo.Tree.List.Controller.addLeave(branchId, id, self);
-            }
-            catch(ignore) {
-              Cairo.log("Error when adding this item to the branch\n\n" + ignore.message);
-            }
-          };
-
-          self.refreshBranch = function(id, branchId) {
-            try {
-              Cairo.Tree.List.Controller.refreshBranchIfActive(branchId, id, self);
-            }
-            catch(ignore) {
-              Cairo.log("Error when refreshing a branch\n\n" + ignore.message);
-            }
-          };
-
-          var getIndexFromEditor = function(editor) {
-            var count = editors.count();
-            for(var i = 0; i < count; i += 1) {
-              if(editors.item(i).editor === editor) {
-                return i;
-              }
-            }
-            return -1;
-          };
-
-          self.removeEditor = function(editor) {
-            var index = getIndexFromEditor(editor);
-            if(index >= 0) {
-              editors.remove(index);
-            }
-          };
-
-          var getKey = function(id) {
-            if(id === NO_ID) {
-              return "new-id:" + (new Date).getTime().toString()
-            }
-            else {
-              return "k:" + id.toString();
-            }
-          };
-
-          self.updateEditorKey = function(editor, newId) {
-            var index = getIndexFromEditor(editor);
-            if(index >= 0) {
-              var editor = editors.item(index);
-              editors.remove(index);
-              var key = getKey(newId);
-              editors.add(editor, key);
-            }
-          };
-
-          self.edit = function(id, treeId, branchId) {
-            var key = getKey(id);
-            if(editors.contains(key)) {
-              editors.item(key).dialog.showDialog();
-            }
-            else {
-              var editor = Cairo.FacturaVentaAplic.Edit.Controller.getEditor();
-              var dialog = Cairo.Dialogs.Views.Controller.newDialog();
-
-              editor.setTree(self);
-              editor.setDialog(dialog);
-              editor.setTreeId(treeId);
-              editor.setBranchId(branchId);
-              editor.edit(id);
-
-              editors.add({editor: editor, dialog: dialog}, key);
-            }
-          };
-
-          self.destroy = function(id, treeId, branchId) {
-            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_FACTURAVENTAAPLIC)) {
-              return Cairo.Promises.resolvedPromise(false);
-            }
-            var apiPath = Cairo.Database.getAPIVersion();
-            return Cairo.Database.destroy(apiPath + "general/facturaventaaplic", id, Cairo.Constants.DELETE_FUNCTION, "FacturaVentaAplic").success(
-              function() {
-                try {
-                  var key = getKey(id);
-                  if(editors.contains(key)) {
-                    editors.item(key).dialog.closeDialog();
-                  }
-                }
-                catch(ignore) {
-                  Cairo.log('Error closing dialog after delete');
-                }
-                return true;
-              }
-            );
-          };
-
-          // progress message
-          //
-          Cairo.LoadingMessage.show("FacturaVentaAplics", "Loading facturaventaaplic from Crowsoft Cairo server.");
-
-          // create the tree region
-          //
-          Cairo.addRegions({ facturaventaaplicTreeRegion: tabId });
-
-          // create the dialog
-          //
-          Cairo.Tree.List.Controller.list(
-            Cairo.Tables.FACTURAVENTAAPLIC,
-            new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
-            Cairo.facturaventaaplicTreeRegion,
-            self);
-
-        };
-
-        var showTreeDialog = function() {
-          Cairo.Tree.List.Controller.showTreeDialog(self);
-        };
-
-        var closeTreeDialog = function() {
-
-        }
-
-        // create the tab
-        //
-        Cairo.mainTab.showTab("FacturaVentaAplics", "facturaventaaplicTreeRegion", "#general/facturaventaaplics", createTreeDialog, closeTreeDialog, showTreeDialog);
-
-      }
-    };
-  });
-
 
 }());
