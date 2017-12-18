@@ -22,6 +22,7 @@ object C {
 
   val FV_ID = "fv_id"
   val FVD_ID = "fvd_id"
+  val FVP_ID = "fvp_id"
 
   // OrdenPago
   val ORDEN_PAGO_ID = "ids"
@@ -208,7 +209,7 @@ object C {
   val FVP_ID_FACTURA = "fvp_id_factura"
 
   // FacturaVentaNotaCreditoTMP
-  val FACTURA_VENTA_NOTA_CREDITOTMP = "FacturaVentaNotaCreditoTMP"
+  val FACTURA_VENTA_NOTA_CREDITO_TMP = "FacturaVentaNotaCreditoTMP"
   val FV_NC_TMP_ID = "fvncTMP_id"
 
   // OrdenPago

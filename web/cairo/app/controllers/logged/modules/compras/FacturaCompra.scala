@@ -245,12 +245,12 @@ object FacturaCompras extends Controller with ProvidesUser {
 
   val facturaRemito = List(C.RCI_ID, C.RC_FC_CANTIDAD, C.FCI_ID)
 
-  val notaCredito = List()
-  val ordenPagoItem = List()
+  val notaCredito = List(TC.FC_ID_NOTA_CREDITO, TC.FC_ID_FACTURA, TC.FCD_ID_NOTA_CREDITO, TC.FCD_ID_FACTURA,
+    TC.FCP_ID_NOTA_CREDITO, TC.FCP_ID_FACTURA, TC.FC_NC_IMPORTE, TC.FC_NC_ID)
   val ordenPago = List(TC.OPG_ID, C.FC_ID, TC.FCD_ID, TC.FCP_ID, TC.FC_OPG_ID, TC.FC_OPG_COTIZACION, TC.FC_OPG_IMPORTE, TC.FC_OPG_IMPORTE_ORIGEN)
   val ctaCte = List(GC.CUE_ID, TC.OPGI_IMPORTE_ORIGEN, TC.OPGI_IMPORTE, TC.OPGI_ORDEN, TC.OPGI_TIPO, TC.OPGI_OTRO_TIPO)
-  val ordenCompra = List()
-  val remitoCompra = List()
+  val ordenCompra = List(C.OCI_ID, C.FCI_ID, C.OC_FC_CANTIDAD, C.OC_FC_ID)
+  val remitoCompra = List(C.RCI_ID, C.FCI_ID, C.RC_FC_CANTIDAD, C.RC_FC_ID)
 
   val facturaCompraAplicForm: Form[FacturaCompraAplic] = Form(
     mapping(
@@ -916,8 +916,8 @@ object FacturaCompras extends Controller with ProvidesUser {
     // ordenes de compra
     //
     val ordenesCompraInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.ORDEN_FACTURA_COMPRA_TMP, params))
-    val ordeneCompraRows = Global.getParamsJsonRequestFor(GC.ITEMS, ordenesCompraInfo)
-    val ordenesCompra = ordeneCompraRows.toList match {
+    val ordenCompraRows = Global.getParamsJsonRequestFor(GC.ITEMS, ordenesCompraInfo)
+    val ordenesCompra = ordenCompraRows.toList match {
       case (k: String, item: JsValue) :: t => preprocessOrdenesCompraParam(item, C.ORDEN_FACTURA_COMPRA_TMP)
       case _ => Map(C.ORDEN_FACTURA_COMPRA_TMP -> JsArray(List()))
     }
@@ -931,12 +931,9 @@ object FacturaCompras extends Controller with ProvidesUser {
       case _ => Map(C.REMITO_FACTURA_COMPRA_TMP -> JsArray(List()))
     }
 
-    //val ordenPagoItem = Map(TC.ORDEN_PAGO_TMP -> Map(GC.ITEMS -> ) )
-
     def preprocessOrdenPagoItemParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
       Logger.debug(s"preprocessOrdenPagoItemParam -> params: ${params}")
-      JsObject(Global.preprocessFormParams(ordenPagoItem, "", params).toSeq)
 
       def preprocessOrdenPagoParam(field: JsValue) = {
         val params = field.as[Map[String, JsValue]]

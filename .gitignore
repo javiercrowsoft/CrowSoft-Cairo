@@ -22,3 +22,6 @@ web/cairo/logs
 database/backup/customers/*
 database/backup/*salmax*.*
 
+.settings
+.project
+

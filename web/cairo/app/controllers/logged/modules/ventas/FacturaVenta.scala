@@ -168,6 +168,7 @@ case class FacturaVentaParamsData(
 object FacturaVentas extends Controller with ProvidesUser {
 
   val GC = models.cairo.modules.general.C
+  val TC = models.cairo.modules.tesoreria.C
 
   val facturaVentaParamsForm: Form[FacturaVentaParamsData] = Form(
     mapping(
@@ -213,6 +214,75 @@ object FacturaVentas extends Controller with ProvidesUser {
 
   val facturaRemito = List(C.RVI_ID, C.RV_FV_CANTIDAD, C.FVI_ID)
 
+  val notaCredito = List(TC.FV_ID_NOTA_CREDITO, TC.FV_ID_FACTURA, TC.FVD_ID_NOTA_CREDITO, TC.FVD_ID_FACTURA,
+    TC.FVP_ID_NOTA_CREDITO, TC.FVP_ID_FACTURA, TC.FV_NC_IMPORTE, TC.FV_NC_ID)
+  val cobranza = List(TC.COBZ_ID, C.FV_ID, TC.FVD_ID, TC.FVP_ID, TC.FV_COBZ_ID, TC.FV_COBZ_COTIZACION, TC.FV_COBZ_IMPORTE, TC.FV_COBZ_IMPORTE_ORIGEN)
+  val ctaCte = List(GC.CUE_ID, TC.COBZI_IMPORTE_ORIGEN, TC.COBZI_IMPORTE, TC.COBZI_ORDEN, TC.COBZI_TIPO, TC.COBZI_OTRO_TIPO)
+  val pedidoVenta = List(C.PVI_ID, C.FVI_ID, C.PV_FV_CANTIDAD, C.PV_FV_ID)
+  val remitoVenta = List(C.RVI_ID, C.FVI_ID, C.RV_FV_CANTIDAD, C.RV_FV_ID)
+
+  val facturaVentaAplicForm: Form[FacturaVentaAplic] = Form(
+    mapping(
+      C.FV_ID -> number,
+      GC.DOC_ID -> number,
+      TC.FACTURA_VENTA_NOTA_CREDITO_TMP -> Forms.list[FacturaVentaNotaCreditoItem](
+        mapping(
+          TC.FV_ID_NOTA_CREDITO -> number,
+          TC.FV_ID_FACTURA -> number,
+          TC.FVD_ID_NOTA_CREDITO -> number,
+          TC.FVD_ID_FACTURA -> number,
+          TC.FVP_ID_NOTA_CREDITO -> number,
+          TC.FVP_ID_FACTURA -> number,
+          TC.FV_NC_IMPORTE -> of(Global.doubleFormat),
+          TC.FV_NC_ID-> number
+        )(FacturaVentaNotaCreditoItem.apply)(FacturaVentaNotaCreditoItem.unapply)
+      ),
+      TC.COBRANZA_TMP -> Forms.list[FacturaVentaCobranzaItem](
+        mapping(
+          TC.COBZ_ID -> number,
+          TC.FACTURA_VENTA_COBRANZA_TMP -> Forms.list[CobranzaItem](
+            mapping(
+              TC.COBZ_ID -> number,
+              C.FV_ID -> number,
+              TC.FVD_ID -> number,
+              TC.FVP_ID -> number,
+              TC.FV_COBZ_ID -> number,
+              TC.FV_COBZ_COTIZACION -> of(Global.doubleFormat),
+              TC.FV_COBZ_IMPORTE -> of(Global.doubleFormat),
+              TC.FV_COBZ_IMPORTE_ORIGEN -> of(Global.doubleFormat)
+            )(CobranzaItem.apply)(CobranzaItem.unapply)
+          ),
+          TC.COBRANZA_ITEM_CUENTA_CORRIENTE_TMP -> Forms.list[CobranzaCtaCte](
+            mapping(
+              GC.CUE_ID -> number,
+              TC.COBZI_IMPORTE_ORIGEN -> of(Global.doubleFormat),
+              TC.COBZI_IMPORTE -> of(Global.doubleFormat),
+              TC.COBZI_ORDEN -> number,
+              TC.COBZI_TIPO -> number,
+              TC.COBZI_OTRO_TIPO -> number
+            )(CobranzaCtaCte.apply)(CobranzaCtaCte.unapply)
+          )
+        )(FacturaVentaCobranzaItem.apply)(FacturaVentaCobranzaItem.unapply)
+      ),
+      C.PEDIDO_FACTURA_VENTA_TMP -> Forms.list[FacturaVentaPedidoVentaItem](
+        mapping(
+          C.PVI_ID -> number,
+          C.FVI_ID -> number,
+          C.PV_FV_CANTIDAD -> of(Global.doubleFormat),
+          C.PV_FV_ID -> number
+        )(FacturaVentaPedidoVentaItem.apply)(FacturaVentaPedidoVentaItem.unapply)
+      ),
+      C.REMITO_FACTURA_VENTA_TMP -> Forms.list[FacturaVentaRemitoVentaItem](
+        mapping(
+          C.RVI_ID -> number,
+          C.FVI_ID -> number,
+          C.RV_FV_CANTIDAD -> of(Global.doubleFormat),
+          C.RV_FV_ID -> number
+        )(FacturaVentaRemitoVentaItem.apply)(FacturaVentaRemitoVentaItem.unapply)
+      )
+    )(FacturaVentaAplic.apply)(FacturaVentaAplic.unapply)
+  )
+  
   val facturaVentaForm: Form[FacturaVentaData] = Form(
     mapping(
       "id" -> optional(number),
@@ -498,7 +568,7 @@ object FacturaVentas extends Controller with ProvidesUser {
     )
     def facturaVentaItemKitWrites(p: FacturaVentaItemKit) = Json.obj(
       GC.PR_ID -> Json.toJson(p.id),
-      GC.PR_NAME_COMPRA -> Json.toJson(p.name),
+      GC.PR_NAME_VENTA -> Json.toJson(p.name),
       GC.PRK_CANTIDAD -> Json.toJson(p.amount),
       GC.PR_LLEVA_NRO_SERIE -> Json.toJson(p.hasSerial)
     )
@@ -665,6 +735,160 @@ object FacturaVentas extends Controller with ProvidesUser {
   //
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //
+  // this functions convert the plain JSON received in SAVE_APLIC into a FacturaVentaAplic structure
+  //
+  // because the limitation to 18 fields in case class used for FORM mapping we have grouped the fields
+  // in FacturaVenta/Aplic, FacturaVenta/NotaCredito/Cobranza, etc
+  //
+  // the below routines group a flat JSON and in some cases rename the name of the fields or move
+  // fields to the parent node in the JSON structure to match the case class
+  //
+
+  private def preprocessAplicParams(implicit request:Request[AnyContent]): JsObject = {
+
+    def getJsValueAsMap(list: Map[String, JsValue]): Map[String, JsValue] = list.toList match {
+      case (key: String, jsValue: JsValue) :: t => jsValue.as[Map[String, JsValue]]
+      case _ => Map.empty
+    }
+
+    def preprocessNotaCreditoParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      JsObject(Global.preprocessFormParams(notaCredito, "", params).toSeq)
+    }
+
+    def preprocessPedidoVentaParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      JsObject(Global.preprocessFormParams(pedidoVenta, "", params).toSeq)
+    }
+
+    def preprocessRemitoVentaParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      JsObject(Global.preprocessFormParams(remitoVenta, "", params).toSeq)
+    }
+
+    def preprocessNotasCreditoParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessNotaCreditoParam(_))))
+      case _ => Map.empty
+    }
+
+    def preprocessPedidosVentaParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessPedidoVentaParam(_))))
+      case _ => Map.empty
+    }
+
+    def preprocessRemitosVentaParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessRemitoVentaParam(_))))
+      case _ => Map.empty
+    }
+
+    val params = Global.getParamsFromJsonRequest
+
+    // groups for FacturaVentaData
+    //
+    val facturaId = Global.preprocessFormParams(List(C.FV_ID, GC.DOC_ID), "", params)
+
+    // notas credito
+    //
+    val notasCreditoInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(TC.FACTURA_VENTA_NOTA_CREDITO_TMP, params))
+    val notaCreditoRows = Global.getParamsJsonRequestFor(GC.ITEMS, notasCreditoInfo)
+    val notasCredito = notaCreditoRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessNotasCreditoParam(item, TC.FACTURA_VENTA_NOTA_CREDITO_TMP)
+      case _ => Map(TC.FACTURA_VENTA_NOTA_CREDITO_TMP -> JsArray(List()))
+    }
+
+    // pedidos de venta
+    //
+    val pedidosVentaInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.PEDIDO_FACTURA_VENTA_TMP, params))
+    val pedidosVentaRows = Global.getParamsJsonRequestFor(GC.ITEMS, pedidosVentaInfo)
+    val pedidosVenta = pedidosVentaRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessPedidosVentaParam(item, C.PEDIDO_FACTURA_VENTA_TMP)
+      case _ => Map(C.PEDIDO_FACTURA_VENTA_TMP -> JsArray(List()))
+    }
+
+    // remitos
+    //
+    val remitosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.REMITO_FACTURA_VENTA_TMP, params))
+    val remitoRows = Global.getParamsJsonRequestFor(GC.ITEMS, remitosInfo)
+    val remitosVenta = remitoRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessRemitosVentaParam(item, C.REMITO_FACTURA_VENTA_TMP)
+      case _ => Map(C.REMITO_FACTURA_VENTA_TMP -> JsArray(List()))
+    }
+
+    def preprocessCobranzaItemParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      Logger.debug(s"preprocessCobranzaItemParam -> params: ${params}")
+
+      def preprocessCobranzaParam(field: JsValue) = {
+        val params = field.as[Map[String, JsValue]]
+        JsObject(Global.preprocessFormParams(cobranza, "", params).toSeq)
+      }
+
+      def preprocessCtaCteParam(field: JsValue) = {
+        val params = field.as[Map[String, JsValue]]
+        JsObject(Global.preprocessFormParams(ctaCte, "", params).toSeq)
+      }
+
+      def preprocessCobranzasParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+        case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessCobranzaParam(_))))
+        case _ => Map.empty
+      }
+
+      def preprocessCtasCteParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+        case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessCtaCteParam(_))))
+        case _ => Map.empty
+      }
+
+      val cobranzaId = Global.preprocessFormParams(List(TC.COBZ_ID), "", params)
+
+      // cobranza item
+      //
+      val cobranzasInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(TC.FACTURA_VENTA_COBRANZA_TMP, params))
+      Logger.debug(s"cobranzasInfo: ${cobranzasInfo}")
+      val cobranzaRows = Global.getParamsJsonRequestFor(GC.ITEMS, cobranzasInfo)
+      Logger.debug(s"cobranzaRows: ${cobranzaRows}")
+      val cobranzas = cobranzaRows.toList match {
+        case (k: String, item: JsValue) :: t => preprocessCobranzasParam(item, TC.FACTURA_VENTA_COBRANZA_TMP)
+        case _ => Map(TC.FACTURA_VENTA_COBRANZA_TMP -> JsArray(List()))
+      }
+
+      // cobranza cta cte
+      //
+      val ctasCteInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(TC.COBRANZA_ITEM_CUENTA_CORRIENTE_TMP, params))
+      Logger.debug(s"ctasCteInfo: ${ctasCteInfo}")
+      val ctaCteRows = Global.getParamsJsonRequestFor(GC.ITEMS, ctasCteInfo)
+      Logger.debug(s"ctaCteRows: ${ctaCteRows}")
+      val ctaCteCobranza = ctaCteRows.toList match {
+        case (k: String, item: JsValue) :: t => preprocessCobranzasParam(item, TC.COBRANZA_ITEM_CUENTA_CORRIENTE_TMP)
+        case _ => Map(TC.COBRANZA_ITEM_CUENTA_CORRIENTE_TMP -> JsArray(List()))
+      }
+
+      Logger.debug(s"cobranzas: ${cobranzas}")
+      Logger.debug(s"ctaCteCobranza: ${ctaCteCobranza}")
+      JsObject((cobranzaId ++ cobranzas ++ ctaCteCobranza).toSeq)
+    }
+
+    def preprocessCobranzasItemParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessCobranzaItemParam(_))))
+      case _ => Map.empty
+    }
+
+    // cobranza item
+    //
+    val cobranzasItemInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(TC.COBRANZA_TMP, params))
+    val cobranzaItemRows = Global.getParamsJsonRequestFor(GC.ITEMS, cobranzasItemInfo)
+    val cobranzasItem = cobranzaItemRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessCobranzasItemParam(item, TC.COBRANZA_TMP)
+      case _ => Map(TC.COBRANZA_TMP -> JsArray(List()))
+    }
+
+    JsObject((facturaId ++ notasCredito ++ cobranzasItem ++ pedidosVenta ++ remitosVenta).toSeq)
+  }
+  //
+  //
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  
   def getItems(items: List[FacturaVentaItemData]): List[FacturaVentaItem] = {
     items.map(item => {
       FacturaVentaItem(
@@ -997,4 +1221,46 @@ object FacturaVentas extends Controller with ProvidesUser {
       Ok(Json.toJson(Recordset.getAsJson(FacturaVenta.listRemitosItems(user, ids.getOrElse("")))))
     })
   }
+
+  def getAplic(id: Int) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.MODIFY_APLIC_VENTA), { user =>
+      val (cueId, monId) = FacturaVenta.getCtaCteCuenta(user, id)
+      Ok(Json.obj(
+        "ctacte_cue_id" -> Json.toJson(cueId),
+        "mon_id_x_cuenta" -> Json.toJson(monId),
+        "vencimientos" -> Recordset.getAsJson(FacturaVenta.getAplic(user, id, 1)),
+        "cobrosAplicados" -> Recordset.getAsJson(FacturaVenta.getAplic(user, id, 2)),
+        "cobrosParaAplicar" -> Recordset.getAsJson(FacturaVenta.getAplic(user, id, 3)),
+        "items" -> Recordset.getAsJson(FacturaVenta.getAplic(user, id, 4)),
+        "itemsAplicados" -> Recordset.getAsJson(FacturaVenta.getAplic(user, id, 5)),
+        "itemsParaAplicar" -> Recordset.getAsJson(FacturaVenta.getAplic(user, id, 6))
+      ))
+    })
+  }
+
+  def saveAplic(id: Int) = GetAction { implicit request =>
+    facturaVentaAplicForm.bind(preprocessAplicParams).fold(
+      formWithErrors => {
+        Logger.debug(s"invalid form: ${formWithErrors.toString}")
+        BadRequest
+      },
+      facturaVentaAplic => {
+        Logger.debug(s"form: ${facturaVentaAplic.toString}")
+        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.MODIFY_APLIC_VENTA), { user =>
+          try {
+            Ok(
+              Json.toJson(
+                FacturaVenta.saveAplic(user, facturaVentaAplic)
+              )
+            )
+          } catch {
+            case NonFatal(e) => {
+              responseError(e)
+            }
+          }
+        })
+      }
+    )
+  }
+  
 }

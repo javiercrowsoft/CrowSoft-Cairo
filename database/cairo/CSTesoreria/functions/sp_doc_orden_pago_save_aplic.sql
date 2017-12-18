@@ -45,6 +45,7 @@ declare
    v_success integer;
    v_sys_error varchar := '';
    v_error_msg varchar(5000);
+
    v_fcopg_id integer;
    v_fcopg_importe decimal(18,6);
    v_fcopg_importeOrigen decimal(18,6);
@@ -141,7 +142,7 @@ begin
           where opg_id = v_opg_id );
 
    else
-      -- inserto en #FacturasCpra todas las facturas vinculadas con esta OrdenPago
+      -- inserto en #FacturasCpra todas las facturas vinculadas con esta orden de pago
       --
       insert into tt_FacturasCpra
         ( fc_id )
@@ -173,7 +174,7 @@ begin
       --                                temporal ya que una factura no modifica toda la aplicacion
       --                                de una orden de pago.
       --
-      --               2- si se trata de una aplicacion desde ordenes de pago
+      --                             2- si se trata de una aplicacion desde ordenes de pago
       --                                se carga toda la aplicacion de la orden de pago en cuestion
       --
       if p_delete = 0 then
@@ -192,7 +193,7 @@ begin
                         group by fcp.fc_id,fcp.fcp_id,fcp.fcp_fecha,fcp.fcp_importe';
 
       -- sumo todas las aplicaciones de esta
-      -- OrdenPago sobre el pago para obtener
+      -- orden de pago sobre el pago para obtener
       -- el pendiente de la deuda
       --
       else
@@ -210,7 +211,7 @@ begin
       end if;
 
       -- sumo todas las aplicaciones de esta
-      -- OrdenPago sobre el pago para obtener
+      -- orden de pago sobre el pago para obtener
       -- el pendiente de la deuda
       --
       for v_fc_id,v_fcp_id,v_fcp_fecha,v_fcd_importe,v_fcd_pendiente in

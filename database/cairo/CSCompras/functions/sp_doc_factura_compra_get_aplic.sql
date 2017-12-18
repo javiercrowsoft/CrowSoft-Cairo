@@ -80,12 +80,12 @@ begin
                 coalesce(( select sum(fcopg_importe)
                       from FacturaCompraOrdenPago fcc
                       where fcd.fcd_id = fcc.fcd_id ), 0)
-              + coalesce(( select sum(fccn1.fcnc_importe)
-                      from FacturaCompraNotaCredito fccn1
-                      where fcd.fcd_id = fccn1.fcd_id_factura ), 0)
-              + coalesce(( select sum(fccn2.fcnc_importe)
-                      from FacturaCompraNotaCredito fccn2
-                      where fcd.fcd_id = fccn2.fcd_id_notacredito ), 0) importe,
+              + coalesce(( select sum(fcnc1.fcnc_importe)
+                      from FacturaCompraNotaCredito fcnc1
+                      where fcd.fcd_id = fcnc1.fcd_id_factura ), 0)
+              + coalesce(( select sum(fcnc2.fcnc_importe)
+                      from FacturaCompraNotaCredito fcnc2
+                      where fcd.fcd_id = fcnc2.fcd_id_notaCredito ), 0) importe,
                 fcd.fcd_pendiente pendiente
          from FacturaCompraDeuda fcd
          where fcd.fc_id = p_fc_id
@@ -123,9 +123,9 @@ begin
                select fcnc.fcnc_id,
                       fcnc.fcnc_importe Aplicado,
                       fcnc.fcd_id_factura fcd_id2,
-                      fcnc.fcd_id_notacredito fcd_id,
+                      fcnc.fcd_id_notaCredito fcd_id,
                       fcnc.fcp_id_factura fcp_id2,
-                      fcnc.fcp_id_notacredito fcp_id,
+                      fcnc.fcp_id_notaCredito fcp_id,
                       fcdfc.fcd_pendiente pendiente,
                       fcnc.fc_id_factura fc_id,
                       fc.fc_nrodoc nrodoc,
@@ -143,16 +143,16 @@ begin
                join FacturaCompra fc
                 on fcnc.fc_id_factura = fc.fc_id
                left join FacturaCompraPago fcpnc
-                on fcnc.fcp_id_notacredito = fcpnc.fcp_id
+                on fcnc.fcp_id_notaCredito = fcpnc.fcp_id
                left join FacturaCompraDeuda fcdnc
-                on fcnc.fcd_id_notacredito = fcdnc.fcd_id
+                on fcnc.fcd_id_notaCredito = fcdnc.fcd_id
                left join FacturaCompraPago fcpfc
                 on fcnc.fcp_id_factura = fcpfc.fcp_id
                left join FacturaCompraDeuda fcdfc
                 on fcnc.fcd_id_factura = fcdfc.fcd_id
                left join Documento d
                 on fc.doc_id = d.doc_id
-               where fcnc.fc_id_notacredito = p_fc_id
+               where fcnc.fc_id_notaCredito = p_fc_id
                order by nrodoc;
 
          else
@@ -168,11 +168,11 @@ begin
                select fcnc_id,
                       fcnc_importe Aplicado,
                       fcd_id_factura fcd_id,
-                      fcd_id_notacredito fcd_id2,
+                      fcd_id_notaCredito fcd_id2,
                       fcp_id_factura fcp_id,
-                      fcp_id_notacredito fcp_id2,
+                      fcp_id_notaCredito fcp_id2,
                       fcdnc.fcd_pendiente pendiente,
-                      fc_id_notacredito fc_id,
+                      fc_id_notaCredito fc_id,
                       fc_nrodoc nrodoc,
                       doc_nombre,
                       /* para el union */
@@ -184,11 +184,11 @@ begin
                       /* fin para el union */
                from FacturaCompraNotaCredito fcnc
                join FacturaCompra fc
-                on fcnc.fc_id_notacredito = fc.fc_id
+                on fcnc.fc_id_notaCredito = fc.fc_id
                left join FacturaCompraPago fcpnc
-                on fcnc.fcp_id_notacredito = fcpnc.fcp_id
+                on fcnc.fcp_id_notaCredito = fcpnc.fcp_id
                left join FacturaCompraDeuda fcdnc
-                on fcnc.fcd_id_notacredito = fcdnc.fcd_id
+                on fcnc.fcd_id_notaCredito = fcdnc.fcd_id
                left join FacturaCompraPago fcpfc
                 on fcnc.fcp_id_factura = fcpfc.fcp_id
                left join FacturaCompraDeuda fcdfc
@@ -273,7 +273,7 @@ begin
                     and not exists ( select fcnc_id
                                      from FacturaCompraNotaCredito
                                      where fcd_id_factura = fcd.fcd_id
-                                       and fc_id_notacredito = p_fc_id )
+                                       and fc_id_notaCredito = p_fc_id )
                     and round(fcd.fcd_pendiente, 2) > 0
                   order by nroDoc,
                            fecha;
@@ -307,7 +307,7 @@ begin
                              /* notas de credito */
                              and not exists ( select fcd_id
                                               from FacturaCompraNotaCredito
-                                              where fcd_id_notacredito = fcd.fcd_id
+                                              where fcd_id_notaCredito = fcd.fcd_id
                                                 and fc_id_factura = p_fc_id )
                              and round(fcd_pendiente, 2) > 0
                   union
@@ -348,9 +348,9 @@ begin
                open rtn for
                   select fci.fci_id,
                          fci.pr_id,
-                         p.pr_nombrecompra,
+                         p.pr_nombreCompra,
                          fci.fci_pendiente,
-                         fci.fci_cantidadaremitir - fci.fci_pendiente aplicado,
+                         fci.fci_cantidadARemitir - fci.fci_pendiente aplicado,
                          fci.fci_orden
                   from FacturaCompraItem fci
                            join Producto p
@@ -362,7 +362,7 @@ begin
 
                --///////////////////////////////////////////////////////////////////////////////////////////////////////
                --
-               -- aplicaciones ordenes y remitos - sp_col ordenfacturaCompra
+               -- aplicaciones ordenes y remitos - sp_col OrdenFacturaCompra
                --
                --///////////////////////////////////////////////////////////////////////////////////////////////////////
                if p_tipo = 5 then
@@ -380,7 +380,7 @@ begin
                             doc_nombre,
                             oc_nrodoc nrodoc,
                             oc_fecha Fecha,
-                            oci_pendientefac Pendiente,
+                            oci_pendienteFac Pendiente,
                             oci_orden orden
                   from FacturaCompraItem fci
                   join OrdenFacturaCompra ocfc
@@ -407,7 +407,7 @@ begin
                          doc_nombre,
                          rc_nrodoc nrodoc,
                          rc_fecha Fecha,
-                         rci_pendientefac Pendiente,
+                         rci_pendienteFac Pendiente,
                          rci_orden orden
                   from FacturaCompraItem fci
                   join RemitoFacturaCompra rcfc
@@ -429,7 +429,7 @@ begin
 
                   --////////////////////////////////////////////////////////////////////////////////////////////////////
                   --
-                  -- aplicaciones posibles (ordenes y remitos)   sp_col OrdenfacturaCompra
+                  -- aplicaciones posibles (ordenes y remitos)   sp_col OrdenFacturaCompra
                   --
                   --////////////////////////////////////////////////////////////////////////////////////////////////////
                   if p_tipo = 6 then
@@ -443,7 +443,7 @@ begin
                                doc_nombre,
                                oc_nrodoc nrodoc,
                                oc_fecha Fecha,
-                               oci_pendientefac Pendiente,
+                               oci_pendienteFac Pendiente,
                                oci_orden orden
                         from FacturaCompraItem fci
                         join FacturaCompra fc
@@ -457,7 +457,7 @@ begin
                         where fci.fc_id = p_fc_id
                           -- empresa
                           and doc.emp_id = p_emp_id
-                          and oci_pendientefac > 0
+                          and oci_pendienteFac > 0
                           -- el orden compra item no tiene que estar vinculado
                           -- con ningun item de esta factura
                           --
@@ -477,7 +477,7 @@ begin
                                doc_nombre,
                                rc_nrodoc nrodoc,
                                rc_fecha Fecha,
-                               rci_pendientefac Pendiente,
+                               rci_pendienteFac Pendiente,
                                rci_orden orden
                         from FacturaCompraItem fci
                         join FacturaCompra fc
@@ -491,7 +491,7 @@ begin
                         where fci.fc_id = p_fc_id
                                  -- empresa
                                  and doc.emp_id = p_emp_id
-                                 and rci_pendientefac > 0
+                                 and rci_pendienteFac > 0
                                  -- el remito compra item no tiene que estar vinculado
                                  -- con ningun item de esta factura
                                  --

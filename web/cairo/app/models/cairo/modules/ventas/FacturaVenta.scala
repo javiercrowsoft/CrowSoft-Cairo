@@ -3,6 +3,7 @@ package models.cairo.modules.ventas
 import java.sql.{Connection, CallableStatement, ResultSet, Types, SQLException}
 import anorm.SqlParser._
 import anorm._
+import models.cairo.modules.documentos.DocumentEditStatus
 import services.{G, DateUtil}
 import services.db.DB
 import models.cairo.system.database.{DBHelper, Register, Field, FieldType, SaveResult, Recordset}
@@ -14,9 +15,8 @@ import java.util.Date
 import play.api.Logger
 import play.api.libs.json._
 import scala.util.control.NonFatal
-import models.cairo.modules.general.U
+import models.cairo.modules.general.{CondicionPago, U, DocumentListParam}
 import formatters.json.DateFormatter
-import models.cairo.modules.general.DocumentListParam
 
 case class FacturaVentaId(
                             docId: Int,
@@ -700,9 +700,70 @@ object FacturaVentaParams {
   }
 }
 
+case class FacturaVentaNotaCreditoItem(
+                                         fvIdNotaCredito: Int,
+                                         fvIdFactura: Int,
+                                         fvdIdNotaCredito: Int,
+                                         fvdIdFactura: Int,
+                                         fvpIdNotaCredito: Int,
+                                         fvpIdFactura: Int,
+                                         fvncImporte: Double,
+                                         fvncId: Int
+                                         )
+
+case class CobranzaItem(
+                     cobzId: Int,
+                     fvId: Int,
+                     fvdId: Int,
+                     fvpId: Int,
+                     fvcobzId: Int,
+                     fvcobzCotizacion: Double,
+                     fvcobzImporte: Double,
+                     fvcobzImporteOrigen: Double
+                     )
+
+case class CobranzaCtaCte(
+                       cueId: Int,
+                       cobziImporteOrigen: Double,
+                       cobziImporte: Double,
+                       cobziOrden: Int,
+                       cobziTipo: Int,
+                       cobziOtroTipo: Int
+                       )
+
+case class FacturaVentaCobranzaItem(
+                                       cobzId: Int,
+                                       items: List[CobranzaItem],
+                                       ctaCte: List[CobranzaCtaCte]
+                                       )
+
+case class FacturaVentaPedidoVentaItem(
+                                         pviId: Int,
+                                         fviId: Int,
+                                         pvfvCantidad: Double,
+                                         pvfvId: Int
+                                         )
+
+case class FacturaVentaRemitoVentaItem(
+                                          rviId: Int,
+                                          fviId: Int,
+                                          rvfvCantidad: Double,
+                                          rvfvId: Int
+                                          )
+
+case class FacturaVentaAplic(
+                               fvId: Int,
+                               docId: Int,
+                               notaCredito: List[FacturaVentaNotaCreditoItem],
+                               cobranza: List[FacturaVentaCobranzaItem],
+                               pedidoVenta: List[FacturaVentaPedidoVentaItem],
+                               remitoVenta: List[FacturaVentaRemitoVentaItem]
+                               )
+
 object FacturaVenta {
 
   lazy val GC = models.cairo.modules.general.C
+  lazy val TC = models.cairo.modules.tesoreria.C
 
   lazy val emptyFacturaVentaItems = FacturaVentaItems(List(), List(), List(), List(), "", "", List())
 
@@ -2149,6 +2210,432 @@ object FacturaVenta {
         cs.close
       }
     }
+  }
+
+  def getAplic(user: CompanyUser, id: Int, aplicType: Int): Recordset = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_doc_factura_venta_get_aplic(?, ?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, user.cairoCompanyId)
+      cs.setInt(2, id)
+      cs.setInt(3, aplicType)
+      cs.registerOutParameter(4, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(4).asInstanceOf[java.sql.ResultSet]
+        Recordset.load(rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get aplic list for id [$id] and user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  def getCtaCteCuenta(user: CompanyUser, id: Int): (Int, Int) = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_doc_factura_venta_get_cuenta_deudor(?, ?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, user.cairoCompanyId)
+      cs.registerOutParameter(2, Types.INTEGER)
+      cs.registerOutParameter(3, Types.INTEGER)
+
+      try {
+        cs.execute()
+        (cs.getInt(2), cs.getInt(3))
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get cuenta of Cta.Cte. for id [$id] and user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  def saveAplic(user: CompanyUser, facturaVentaAplic: FacturaVentaAplic): Int = {
+    def getFields = {
+      List(
+        Field(C.FV_ID, facturaVentaAplic.fvId, FieldType.number),
+        Field(C.FV_NUMERO, facturaVentaAplic.fvId, FieldType.number),
+        Field(GC.DOC_ID, facturaVentaAplic.docId, FieldType.id),
+        Field(GC.EST_ID, DocumentEditStatus.PENDING, FieldType.id),
+        Field(GC.SUC_ID, DBHelper.NoId, FieldType.number),
+        Field(GC.PROV_ID, DBHelper.NoId, FieldType.number),
+        Field(GC.CPG_ID, CondicionPago.FECHA_DOCUMENTO, FieldType.id)
+      )
+    }
+
+    def getNotaCreditoFields(item: FacturaVentaNotaCreditoItem, fvTMPId: Int) = {
+      List(
+        Field(C.FV_TMP_ID, fvTMPId, FieldType.id),
+        Field(TC.FV_ID_NOTA_CREDITO, item.fvIdNotaCredito, FieldType.number),
+        Field(TC.FV_ID_FACTURA, item.fvIdFactura, FieldType.number),
+        Field(TC.FVD_ID_NOTA_CREDITO, item.fvdIdNotaCredito, FieldType.number),
+        Field(TC.FVD_ID_FACTURA, item.fvdIdFactura, FieldType.number),
+        Field(TC.FVP_ID_NOTA_CREDITO, item.fvpIdNotaCredito, FieldType.number),
+        Field(TC.FVP_ID_FACTURA, item.fvpIdFactura, FieldType.number),
+        Field(TC.FV_NC_IMPORTE, item.fvncImporte, FieldType.currency),
+        Field(TC.FV_NC_ID, item.fvncId, FieldType.number)
+      )
+    }
+
+    def getCobranzaFields(item: FacturaVentaCobranzaItem, fvTMPId: Int) = {
+      List(
+        Field(C.FV_TMP_ID, fvTMPId, FieldType.id),
+        Field(TC.COBZ_ID, item.cobzId, FieldType.number),
+        Field(TC.COBZ_NUMERO, 0, FieldType.number),
+        Field(GC.PROV_ID, DBHelper.NoId, FieldType.number),
+        Field(GC.SUC_ID, DBHelper.NoId, FieldType.number),
+        Field(GC.DOC_ID, DBHelper.NoId, FieldType.number),
+        Field(GC.EST_ID, DBHelper.NoId, FieldType.number)
+      )
+    }
+
+    def getCobranzaItemFields(item: CobranzaItem, cobzTMPId: Int) = {
+      List(
+        Field(TC.COBZ_TMP_ID, cobzTMPId, FieldType.id),
+        Field(TC.COBZ_ID, item.cobzId, FieldType.id),
+        Field(TC.FV_ID, item.fvId, FieldType.id),
+        Field(TC.FVD_ID, item.fvdId, FieldType.id),
+        Field(TC.FVP_ID, item.fvpId, FieldType.id),
+        Field(TC.FV_COBZ_ID, item.fvcobzId, FieldType.id),
+        Field(TC.FV_COBZ_COTIZACION, item.fvcobzCotizacion, FieldType.currency),
+        Field(TC.FV_COBZ_IMPORTE, item.fvcobzImporte, FieldType.currency),
+        Field(TC.FV_COBZ_IMPORTE_ORIGEN, item.fvcobzImporteOrigen, FieldType.currency)
+      )
+    }
+
+    def getCobranzaCtaCteFields(item: CobranzaCtaCte, cobzTMPId: Int) = {
+      List(
+        Field(TC.COBZ_TMP_ID, cobzTMPId, FieldType.id),
+        Field(GC.CUE_ID, item.cueId, FieldType.number),
+        Field(TC.COBZI_IMPORTE_ORIGEN, item.cobziImporteOrigen, FieldType.currency),
+        Field(TC.COBZI_IMPORTE, item.cobziImporte, FieldType.currency),
+        Field(TC.COBZI_ORDEN, item.cobziOrden, FieldType.number),
+        Field(TC.COBZI_TIPO, item.cobziTipo, FieldType.number),
+        Field(TC.COBZI_OTRO_TIPO, item.cobziOtroTipo, FieldType.number)
+      )
+    }
+
+    def getPedidoVentaFields(item: FacturaVentaPedidoVentaItem, fvTMPId: Int) = {
+      List(
+        Field(C.FV_TMP_ID, fvTMPId, FieldType.id),
+        Field(C.PVI_ID, item.pviId, FieldType.id),
+        Field(C.FVI_ID, item.fviId, FieldType.id),
+        Field(C.PV_FV_CANTIDAD, item.pvfvCantidad, FieldType.currency),
+        Field(C.PV_FV_ID, item.pvfvId, FieldType.id)
+      )
+    }
+
+    def getRemitoVentaFields(item: FacturaVentaRemitoVentaItem, fvTMPId: Int) = {
+      List(
+        Field(C.FV_TMP_ID, fvTMPId, FieldType.id),
+        Field(C.RVI_ID, item.rviId, FieldType.number),
+        Field(C.FVI_ID, item.fviId, FieldType.number),
+        Field(C.RV_FV_CANTIDAD, item.rvfvCantidad, FieldType.currency),
+        Field(C.RV_FV_ID, item.rvfvId, FieldType.number)
+      )
+    }
+
+    def throwError = {
+      throwException(s"Error when saving application of ${C.FACTURA_VENTA}")
+    }
+
+    def throwException(message: String) = {
+      throw new RuntimeException(message)
+    }
+
+    case class NotaCreditoItemInfo(fvTMPId: Int, item: FacturaVentaNotaCreditoItem)
+
+    def saveNotaCredito(itemInfo: NotaCreditoItemInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          TC.FACTURA_VENTA_NOTA_CREDITO_TMP,
+          TC.FV_NC_TMP_ID,
+          DBHelper.NoId,
+          false,
+          false,
+          false,
+          getNotaCreditoFields(itemInfo.item, itemInfo.fvTMPId)),
+        true
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwError
+      }
+    }
+
+    def saveNotasCredito(fvTMPId: Int) = {
+      facturaVentaAplic.notaCredito.map(item => saveNotaCredito(NotaCreditoItemInfo(fvTMPId, item)))
+    }
+
+    case class CobranzaItemInfo(cobzTMPId: Int, item: CobranzaItem)
+
+    def saveCobranzaItem(itemInfo: CobranzaItemInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          TC.FACTURA_VENTA_COBRANZA_TMP,
+          TC.FV_COBZ_TMP_ID,
+          DBHelper.NoId,
+          false,
+          false,
+          false,
+          getCobranzaItemFields(itemInfo.item, itemInfo.cobzTMPId)),
+        true
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwError
+      }
+    }
+
+    def saveCobranzaItems(items: List[CobranzaItem], cobzTMPId: Int) = {
+      items.map(item => saveCobranzaItem(CobranzaItemInfo(cobzTMPId, item)))
+    }
+
+    case class CobranzaCtaCteInfo(cobzTMPId: Int, item: CobranzaCtaCte)
+
+    def saveCobranzaCtaCte(itemInfo: CobranzaCtaCteInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          TC.COBRANZA_ITEM_TMP,
+          TC.COBZI_TMP_ID,
+          DBHelper.NoId,
+          false,
+          false,
+          false,
+          getCobranzaCtaCteFields(itemInfo.item, itemInfo.cobzTMPId)),
+        true
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwError
+      }
+    }
+
+    def saveCobranzaCtasCtes(items: List[CobranzaCtaCte], cobzTMPId: Int) = {
+      items.map(item => saveCobranzaCtaCte(CobranzaCtaCteInfo(cobzTMPId, item)))
+    }
+
+    case class CobranzaInfo(fvTMPId: Int, item: FacturaVentaCobranzaItem)
+
+    def saveCobranza(itemInfo: CobranzaInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          TC.COBRANZA_TMP,
+          TC.COBZ_TMP_ID,
+          DBHelper.NoId,
+          false,
+          false,
+          true,
+          getCobranzaFields(itemInfo.item, itemInfo.fvTMPId)),
+        true
+      ) match {
+        case SaveResult(true, id) => {
+          Logger.info(s"items ${itemInfo.item.items}")
+          Logger.info(s"ctacte ${itemInfo.item.ctaCte}")
+          saveCobranzaItems(itemInfo.item.items, id)
+          saveCobranzaCtasCtes(itemInfo.item.ctaCte, id)
+        }
+        case SaveResult(false, id) => throwError
+      }
+    }
+
+    def saveCobranzasPago(fvTMPId: Int) = {
+      facturaVentaAplic.cobranza.map(item => saveCobranza(CobranzaInfo(fvTMPId, item)))
+    }
+
+    case class PedidoVentaInfo(fvTMPId: Int, item: FacturaVentaPedidoVentaItem)
+
+    def savePedidoVenta(itemInfo: PedidoVentaInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.PEDIDO_FACTURA_VENTA_TMP,
+          C.PV_FV_TMP_ID,
+          DBHelper.NoId,
+          false,
+          false,
+          false,
+          getPedidoVentaFields(itemInfo.item, itemInfo.fvTMPId)),
+        true
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwError
+      }
+    }
+
+    def savePedidosVenta(fvTMPId: Int) = {
+      facturaVentaAplic.pedidoVenta.map(item => savePedidoVenta(PedidoVentaInfo(fvTMPId, item)))
+    }
+
+    case class RemitoVentaInfo(fvTMPId: Int, item: FacturaVentaRemitoVentaItem)
+
+    def saveRemitoVenta(itemInfo: RemitoVentaInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.REMITO_FACTURA_VENTA_TMP,
+          C.RV_FV_TMP_ID,
+          DBHelper.NoId,
+          false,
+          false,
+          false,
+          getRemitoVentaFields(itemInfo.item, itemInfo.fvTMPId)),
+        true
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwError
+      }
+    }
+
+    def saveRemitosVenta(fvTMPId: Int) = {
+      facturaVentaAplic.remitoVenta.map(item => saveRemitoVenta(RemitoVentaInfo(fvTMPId, item)))
+    }
+
+    case class RowResult(rowType: String, id: Int, message: String)
+
+    def executeSave(fvTMPId: Int): List[RowResult] = {
+
+      DB.withTransaction(user.database.database) { implicit connection =>
+        val sql = "select * from sp_doc_factura_venta_save_aplic(?, ?)"
+        val cs = connection.prepareStatement(sql)
+
+        cs.setInt(1, user.masterUserId)
+        cs.setInt(2, fvTMPId)
+
+        try {
+          val rs = cs.executeQuery()
+
+          /*
+          *
+          * all sp_doc_SOME_DOCUMENT_save must return a setof row_result
+          *
+          * row_result is a composite type in postgresql defined as:
+          *
+          * CREATE TYPE row_result AS (
+          *    type    varchar,
+          *    id      integer,
+          *    message varchar,
+          *    r       refcursor
+          * );
+          *
+          *
+          * ex: CREATE OR REPLACE FUNCTION sp_doc_factura_venta_save( params )
+          *     RETURNS SETOF row_result AS ...
+          *
+          * the field type is used to identify the value in the row. there are three
+          * kind of types: resultset, success, key
+          * for first two (resultset and success) the value of type is string with
+          * one of these two values ex: 'resultset' or 'success'
+          * when type == 'resultset' the field r must be not null and contain a ResultSet
+          * when type == 'success' the id field can contain 0 (False) or not 0 (-1,1 or any other number but NO 0) (True)
+          * the last kind of type is key. in this case the key must be the name of a column like fv_id, as_id, pr_id, etc
+          * it can be any column name. if the type is an integer like in fv_id, as_id or any other id column the field id
+          * is used to contain the returned value
+          * if the type is any other the column message is used
+          *
+          * there are two special types for key: 'INFO', 'ERROR'
+          * when type == 'ERROR' the system will raise an exception
+          * when type == 'INFO' the system will show an alert
+          * in both cases the field message contains the description
+          *
+          * this set must contain at least one row
+          *
+          * the field r (ResultSet) is not normally read in a save document operation.
+          *
+          * */
+
+          try {
+            def getIdOrMessage: RowResult = {
+              val rowType = rs.getString(1)
+
+              rowType match {
+                case "ERROR" => throwException(rs.getString(3))
+                case "INFO" => RowResult("INFO", 0, rs.getString(3))
+                case "fv_id" => RowResult("fv_id", rs.getInt(2), "")
+                case _ => RowResult("IGNORED", 0, "")
+              }
+            }
+
+            def getSaveResult: List[RowResult] = {
+              if(rs.next()) {
+                getIdOrMessage :: getSaveResult
+              }
+              else {
+                List()
+              }
+            }
+            getSaveResult
+
+          } finally {
+            rs.close
+          }
+
+        } catch {
+          case NonFatal(e) => {
+            Logger.error(s"can't save application of ${C.FACTURA_VENTA} with id ${facturaVentaAplic.fvId} for user ${user.toString}. Error ${e.toString}")
+            throw e
+          }
+        } finally {
+          cs.close
+        }
+      }
+    }
+
+    def getIdFromMessages(messages: List[RowResult]) = {
+      def findId(messages: List[RowResult], id: Int): Int = messages match {
+        case Nil => id
+        case h :: t => {
+          val _id = h match {
+            case RowResult("fv_id", id, m) => id
+            case _ => id
+          }
+          findId(t, _id)
+        }
+      }
+      findId(messages, 0)
+    }
+
+    DBHelper.save(
+      user,
+      Register(
+        C.FACTURA_VENTA_TMP,
+        C.FV_TMP_ID,
+        DBHelper.NoId,
+        false,
+        true,
+        true,
+        getFields),
+      true
+    ) match {
+      case SaveResult(true, fvTMPId) => {
+        saveNotasCredito(fvTMPId)
+        saveCobranzasPago(fvTMPId)
+        savePedidosVenta(fvTMPId)
+        saveRemitosVenta(fvTMPId)
+        val messagesAndId = executeSave(fvTMPId)
+        getIdFromMessages(messagesAndId)
+      }
+      case SaveResult(false, id) => throwError
+    }
+
   }
 
   /*
