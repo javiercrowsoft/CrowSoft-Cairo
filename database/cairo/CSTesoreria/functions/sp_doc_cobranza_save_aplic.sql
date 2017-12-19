@@ -82,6 +82,7 @@ declare
 
    v_c_pagos varchar(4000);
    v_c_aplic varchar(4000);
+   v_id integer;
 
    CURSOR c_ctacte
      is select c.cue_id,
@@ -101,16 +102,6 @@ declare
    CURSOR c_deudaFac
      is select distinct fv_id
      from tt_FacturasVta ;
-   CURSOR c_deuda
-     is select fvcobz_id,
-               fv_id,
-               fvd_id,
-               fvcobz_importe,
-               fvcobz_importeOrigen,
-               fvcobz_cotizacion
-     from FacturaVentaCobranzaTMP
-      where cobzTMP_id = p_cobzTMP_id
-     and fvcobz_importe <> 0;
 
 begin
 
@@ -193,13 +184,13 @@ begin
                from FacturaVentaCobranza
                where cobz_id = v_cobz_id ) then
 
-  /*
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		//                                                                                                               //
-		//                                        pagos                                                                  //
-		//                                                                                                               //
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		*/
+   /*
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   //                                                                                                               //
+   //                                        pagos                                                                  //
+   //                                                                                                               //
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   */
       -- tengo que convertir los pagos en deuda
       --
       -- el cursor tiene dos formas:
@@ -251,744 +242,604 @@ begin
       for v_fv_id,v_fvp_id,v_fvp_fecha,v_fvd_importe,v_fvd_pendiente in
          execute v_c_pagos using p_cobzTMP_id
       loop
-            -- creo la deuda
+         -- creo la deuda
+         --
+         select sp_dbGetNewId('FacturaVentaDeuda', 'fvd_id') into v_fvd_id;
+
+         select sp_doc_get_fecha2(v_fvp_fecha 0, null) into v_fvd_fecha2;
+
+         insert into FacturaVentaDeuda
+           ( fvd_id, fvd_fecha, fvd_fecha2, fvd_importe, fvd_pendiente, fv_id )
+           values ( v_fvd_id, v_fvp_fecha, v_fvd_fecha2, v_fvd_importe, v_fvd_pendiente, v_fv_id );
+
+         -- ahora que converti el pago en deuda borro las
+         -- aplicaciones asociadas a este pago
+         --
+         if p_delete = 0 then
+            delete FacturaVentaCobranza
+            where fvcobz_id in ( select fvcobz_id
+                                 from FacturaVentaCobranzaTMP
+                                 where cobzTMP_id = p_cobzTMP_id )
+              and fvp_id = v_fvp_id;
+
+            -- borro la aplicacion
             --
-            select sp_dbGetNewId('FacturaVentaDeuda', 'fvd_id') into v_fvd_id;
-
-            select sp_doc_get_fecha2(v_fvp_fecha 0, null) into v_fvd_fecha2;
-
-            insert into FacturaVentaDeuda
-              ( fvd_id, fvd_fecha, fvd_fecha2, fvd_importe, fvd_pendiente, fv_id )
-              values ( v_fvd_id, v_fvp_fecha, v_fvd_fecha2, v_fvd_importe, v_fvd_pendiente, v_fv_id );
-
-            -- ahora que converti el pago en deuda borro las
-            -- aplicaciones asociadas a este pago
+            delete FacturaVentaCobranza
+            where fvp_id is null
+              and fvd_id is null
+              and fv_id in ( select fv_id
+                             from FacturaVentaCobranzaTMP
+                             where cobzTMP_id = p_cobzTMP_id );
+         else
+            -- borro todas las aplicaciones que apuntaban al pago
             --
-            if p_delete = 0 then
-               delete FacturaVentaCobranza
-               where fvcobz_id in ( select fvcobz_id
-                                    from FacturaVentaCobranzaTMP
-                                    where cobzTMP_id = p_cobzTMP_id )
-                 and fvp_id = v_fvp_id;
+            delete FacturaVentaCobranza
+            where fvp_id = v_fvp_id
+              and cobz_id = v_cobz_id;
 
-               -- borro la aplicacion
-               --
-               delete FacturaVentaCobranza
-               where fvp_id is null
-                 and fvd_id is null
-                 and fv_id in ( select fv_id
-                                from FacturaVentaCobranzaTMP
-                                where cobzTMP_id = p_cobzTMP_id );
-            else
-               -- borro todas las aplicaciones que apuntaban al pago
-               --
-               delete FacturaVentaCobranza
-               where fvp_id = v_fvp_id
-                 and cobz_id = v_cobz_id;
+         end if;
 
-            end if;
+         -- actualizo todas las aplicaciones que no han sido modificadas por esta
+         -- aplicacion y que apuntaban al pago para que apunten a la deuda
+         --
+         update FacturaVentaCobranza
+            set fvd_id = v_fvd_id,
+                fvp_id = null
+         where fvp_id = v_fvp_id;
 
-            -- actualizo todas las aplicaciones que no han sido modificadas por esta
-            -- aplicacion y que apuntaban al pago para que apunten a la deuda
-            --
-            update FacturaVentaCobranza
-               set fvd_id = v_fvd_id,
-                   fvp_id = null
-            where fvp_id = v_fvp_id;
+         -- actualizo las aplicaciones entre facturas y notas de credito
+         --
+         update FacturaVentaNotaCredito
+            set fvd_id_factura = v_fvd_id,
+                fvp_id_factura = null
+         where fvp_id_factura = v_fvp_id;
 
-            -- actualizo las aplicaciones entre facturas y notas de credito
-            --
-            update FacturaVentaNotaCredito
-               set fvd_id_factura = v_fvd_id,
-                   fvp_id_factura = null
-            where fvp_id_factura = v_fvp_id;
+         -- actualizo la nueva aplicacion para que pase de la deuda al pago
+         --
+         update FacturaVentaCobranzaTMP
+            set fvd_id = v_fvd_id
+         where fvp_id = v_fvp_id;
 
-            -- actualizo la nueva aplicacion para que pase de la deuda al pago
-            --
-            update FacturaVentaCobranzaTMP
-               set fvd_id = v_fvd_id
-            where fvp_id = v_fvp_id;
-
-            -- borro el pago que acabo de convertir en deuda
-            --
-            delete FacturaVentaPago where fvp_id = v_fvp_id;
+         -- borro el pago que acabo de convertir en deuda
+         --
+         delete FacturaVentaPago where fvp_id = v_fvp_id;
 
       end loop;
 
-      close c_pagos;
 
-      /*
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		//                                                                                                               //
-		//                                        ACTUALIZO LA DEUDA                                                     //
-		//                                                                                                               //
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		*/
-      -- Sumo a la deuda pendiente de las facturas aplicadas a esta cobranza
+   /*
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   //                                                                                                               //
+   //                                        actualizo la deuda                                                     //
+   //                                                                                                               //
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   */
+      -- sumo a la deuda pendiente de las facturas aplicadas a esta cobranza
       -- los importe cancelados por la misma
       --
-      -- El cursor tiene dos formas:
-      --                             1- Si se trata de una aplicacion desde factura de venta
+      -- el cursor tiene dos formas:
+      --                             1- si se trata de una aplicacion desde factura de venta
       --                                solo se cargan las vinculaciones que estan en la tabla
       --                                temporal ya que una factura no modifica toda la aplicacion
       --                                de una cobranza.
       --
-      --														 2- Si se trata de una aplicacion desde cobranzas
+      --														 2- si se trata de una aplicacion desde cobranzas
       --                                se carga toda la aplicacion de la cobranza en cuestion
       --
       if p_delete = 0 then
-      begin
+
          v_c_aplic := 'select fvc.fvcobz_id,
-         fvc.fvd_id,
-         fvc.fvcobz_importe
-           from FacturaVentaCobranza fvc
-           join FacturaVentaCobranzaTMP fvct
-            on fvc.fvcobz_id = fvct.fvcobz_id
-            where fvc.fvd_id is not null
-           and fvct.cobzTMP_id = p_cobzTMP_id';
+                              fvc.fvd_id,
+                              fvc.fvcobz_importe
+                       from FacturaVentaCobranza fvc
+                       join FacturaVentaCobranzaTMP fvct
+                         on fvc.fvcobz_id = fvct.fvcobz_id
+                       where fvc.fvd_id is not null
+                         and fvct.cobzTMP_id = $1';
 
-      end;
+         v_id := p_cobzTMP_id;
+
       else
-      begin
-         v_c_aplic := 'select fvcobz_id,
-         fvd_id,
-         fvcobz_importe
-           from FacturaVentaCobranza
-            where fvd_id is not null
-           and cobz_id = v_cobz_id';
 
-      end;
+         v_c_aplic := 'select fvcobz_id,
+                              fvd_id,
+                              fvcobz_importe
+                       from FacturaVentaCobranza
+                       where fvd_id is not null
+                         and cobz_id = $1';
+
+         v_id := v_cobz_id;
+
       end if;
 
       open c_aplic for v_c_aplic;
 
-      fetch c_aplic into v_fvcobz_id,v_fvd_id,v_fvcobz_importe;
-
-      while sqlserver_utilities.fetch_status(c_aplic%found) = 0
+      for v_fvcobz_id,v_fvd_id,v_fvcobz_importe in
+         execute v_c_aplic using v_id
       loop
-         begin
-            begin
-               -- Incremento la deuda
-               --
-               update FacturaVentaDeuda
-                  set fvd_pendiente = fvd_pendiente + v_fvcobz_importe
-                  where fvd_id = v_fvd_id;
-            exception
-               when others then
-                  v_sys_error := sqlstate;
-            end;
+         -- incremento la deuda
+         --
+         update FacturaVentaDeuda set fvd_pendiente = fvd_pendiente + v_fvcobz_importe where fvd_id = v_fvd_id;
 
-            if v_sys_error <> '' then
-               exit CONTROL_ERROR;
+         -- borro la aplicacion
+         --
+         delete FacturaVentaCobranza where fvcobz_id = v_fvcobz_id;
 
-            end if;
-
-            begin
-               -- Borro la aplicacion
-               --
-               delete FacturaVentaCobranza
-
-                  where fvcobz_id = v_fvcobz_id;
-            exception
-               when others then
-                  v_sys_error := sqlstate;
-            end;
-
-            if v_sys_error <> '' then
-               exit CONTROL_ERROR;
-
-            end if;
-
-            fetch c_aplic into v_fvcobz_id,v_fvd_id,v_fvcobz_importe;
-
-         end;
       end loop;
 
-      close c_aplic;
-
-   end;
    end if;
 
-   -- Borro la aplicacion de esta cobranza
-   -- Solo si se trata de una aplicacion generada por una cobranza
+   -- borro la aplicacion de esta cobranza
+   -- solo si se trata de una aplicacion generada por una cobranza
    --
    if p_delete <> 0 then
-   begin
-      begin
-         delete FacturaVentaCobranza
 
-            where cobz_id = v_cobz_id;
-      exception
-         when others then
-            v_sys_error := sqlstate;
-      end;
+      delete FacturaVentaCobranza where cobz_id = v_cobz_id;
 
-      if v_sys_error <> '' then
-         exit CONTROL_ERROR;
-
-      end if;
-
-   end;
    end if;
 
-   open c_deuda;
-
-   fetch c_deuda into v_fvcobz_id,v_fv_id,v_fvd_id,v_fvcobz_importe,v_fvcobz_importeOrigen,v_fvcobz_cotizacion;
-
-   while sqlserver_utilities.fetch_status(c_deuda%found) = 0
+   for v_fvcobz_id,v_fv_id,v_fvd_id,v_fvcobz_importe,v_fvcobz_importeOrigen,v_fvcobz_cotizacion
+      select fvcobz_id,
+             fv_id,
+             fvd_id,
+             fvcobz_importe,
+             fvcobz_importeOrigen,
+             fvcobz_cotizacion
+      from FacturaVentaCobranzaTMP
+      where cobzTMP_id = p_cobzTMP_id
+        and fvcobz_importe <> 0
    loop
-      begin
-         -- Este es el while de pago agrupado. Abajo esta la explicacion
+
+      -- este es el while de pago agrupado. abajo esta la explicacion
+      --
+      while v_fvcobz_importe > 0
+      loop
+
+         -- obtengo el monto de la deuda
          --
-         while v_fvcobz_importe > 0
-         loop
-            begin
-               -- Obtengo el monto de la deuda
-               --
-               -- La cobranza permite cobrar sobre toda la deuda de la factura o sobre cada uno de sus vencimientos.
-               -- Esto complica un poco la cosa para el programador. Si en la info de aplicacion (registro de la tabla
-               -- FacturaVentaCobranzaTMP no tengo un fvd_id (id del vencimiento), es por que se efectuo la cobranza
-               -- sobre toda la deuda de la factura. Esto se entiende con un ejemplo:
-               --        Supongamos una factura con vtos. 30, 60 y 90 dias. Tiene 3 vtos, pero el usuario decide
-               --        aplicar sobre los tres agrupados un importe dado, para el ejemplo supongamos que los vtos
-               --        son todos de 30 pesos o sea 90 pesos el total, y el usuario aplica 80 pesos. El sistema tiene
-               --        que aplicar 30 al primer vto, 30 al segundo y 20 al tercero. Para poder hacer esto es que utiliza
-               --        el while que esta arriba (while de pago agrupado).
-               --
-               -- Observen el If, si no hay fvd_id tomo el primero con el select que ordena por fvd_fecha
-               if coalesce(v_fvd_id, 0) = 0 then
-               begin
-                  select *
-                    into v_fvd_id,
-                         v_fvd_pendiente
-                    from ( select fvd_id,
-                                  fvd_pendiente
-                    from FacturaVentaDeuda
-                     where fv_id = v_fv_id
-                    order by fvd_fecha DESC )
-                    LIMIT 1;
+         -- La cobranza permite cobrar sobre toda la deuda de la factura o sobre cada uno de sus vencimientos.
+         -- Esto complica un poco la cosa para el programador. Si en la info de aplicacion (registro de la tabla
+         -- FacturaVentaCobranzaTMP no tengo un fvd_id (id del vencimiento), es por que se efectuo la cobranza
+         -- sobre toda la deuda de la factura. Esto se entiende con un ejemplo:
+         --        supongamos una factura con vtos. 30, 60 y 90 dias. Tiene 3 vtos, pero el usuario decide
+         --        aplicar sobre los tres agrupados un importe dado, para el ejemplo supongamos que los vtos
+         --        son todos de 30 pesos o sea 90 pesos el total, y el usuario aplica 80 pesos. El sistema tiene
+         --        que aplicar 30 al primer vto, 30 al segundo y 20 al tercero. Para poder hacer esto es que utiliza
+         --        el while que esta arriba (while de pago agrupado).
+         --
+         -- observen el If, si no hay fvd_id tomo el primero con el select que ordena por fvd_fecha
+         --
+         if coalesce(v_fvd_id, 0) = 0 then
 
-               end;
-               -- Si hay info de deuda (fvd_id <> 0) todo es mas facil
-               else
-               begin
-                  select fvd_pendiente
-                    into v_fvd_pendiente
-                    from FacturaVentaDeuda
-                     where fvd_id = v_fvd_id;
+            select *
+              into v_fvd_id,
+                   v_fvd_pendiente
+            from ( select fvd_id,
+                          fvd_pendiente
+                   from FacturaVentaDeuda
+                   where fv_id = v_fv_id
+                   order by fvd_fecha DESC ) t
+              LIMIT 1;
 
-               end;
-               end if;
+         -- si hay info de deuda (fvd_id <> 0) todo es mas facil
+         --
+         else
 
-               -- Si el pago no cancela el pendiente
-               if v_fvd_pendiente - v_fvcobz_importe >= 0.01 then
-               begin
-                  -- No hay pago
-                  v_fvp_id := null;
+            select fvd_pendiente
+              into v_fvd_pendiente
+            from FacturaVentaDeuda
+            where fvd_id = v_fvd_id;
 
-                  v_aplic := v_fvcobz_importe;
+         end if;
 
-               end;
-               -- Si el pago cancela la deuda cargo un nuevo pago
-               -- y luego voy a borrar la deuda
-               else
-               begin
-                  -- Acumulo en el pago toda la deuda para pasar de la tabla FacturaVentaDeuda a FacturaVentaPago
-                  --
-                  v_aplic := v_fvd_pendiente;
+         -- si el pago no cancela el pendiente
+         --
+         if v_fvd_pendiente - v_fvcobz_importe >= 0.01 then
 
-                  v_pago := 0;
+            -- no hay pago
+            --
+            v_fvp_id := null;
 
-                  select fvd_fecha,
-                         fvd_pendiente
-                    into v_fvd_fecha,
-                         v_pago
-                    from FacturaVentaDeuda
-                     where fvd_id = v_fvd_id;
+            v_aplic := v_fvcobz_importe;
 
-                  select v_pago + coalesce(sum(fvcobz_importe), 0)
-                    into v_pago
-                    from FacturaVentaCobranza
-                     where fvd_id = v_fvd_id;
+         -- si el pago cancela la deuda cargo un nuevo pago
+         -- y luego voy a borrar la deuda
+         --
+         else
 
-                  begin
-                     select v_pago + coalesce(sum(fvnc_importe), 0)
-                       into v_pago
-                       from FacturaVentaNotaCredito
-                        where fvd_id_factura = v_fvd_id;
-                  exception
-                     when others then
-                        v_sys_error := sqlstate;
-                  end;
+            -- acumulo en el pago toda la deuda para pasar de la tabla FacturaVentaDeuda a FacturaVentaPago
+            --
+            v_aplic := v_fvd_pendiente;
 
-                  sp_dbGetNewId('FacturaVentaPago',
-                                'fvp_id',
-                                v_fvp_id,
-                                0);
+            v_pago := 0;
 
-                  if v_sys_error <> '' then
-                     exit CONTROL_ERROR;
+            select fvd_fecha,
+                   fvd_pendiente
+              into v_fvd_fecha,
+                   v_pago
+            from FacturaVentaDeuda
+            where fvd_id = v_fvd_id;
 
-                  end if;
+            select v_pago + coalesce(sum(fvcobz_importe), 0)
+              into v_pago
+            from FacturaVentaCobranza
+            where fvd_id = v_fvd_id;
 
-                  begin
-                     insert into FacturaVentaPago
-                       ( fvp_id, fvp_fecha, fvp_importe, fv_id )
-                       values ( v_fvp_id, v_fvd_fecha, v_pago, v_fv_id );
-                  exception
-                     when others then
-                        v_sys_error := sqlstate;
-                  end;
+            select v_pago + coalesce(sum(fvnc_importe), 0)
+              into v_pago
+            from FacturaVentaNotaCredito
+            where fvd_id_factura = v_fvd_id;
 
-                  if v_sys_error <> '' then
-                     exit CONTROL_ERROR;
+            select sp_dbGetNewId('FacturaVentaPago', 'fvp_id') into v_fvp_id;
 
-                  end if;
+            insert into FacturaVentaPago
+              ( fvp_id, fvp_fecha, fvp_importe, fv_id )
+              values ( v_fvp_id, v_fvd_fecha, v_pago, v_fv_id );
 
-               end;
-               end if;
+         end if;
 
-               -- Si hay pago borro la/s deudas
-               --
-               if coalesce(v_fvp_id, 0) <> 0 then
-               begin
-                  begin
-                     -- Primero actualizo las referencias pasando de deuda a pago
-                     --
-                     update FacturaVentaCobranza
-                        set fvd_id = null,
-                            fvp_id = v_fvp_id
-                        where fvd_id = v_fvd_id;
-                  exception
-                     when others then
-                        v_sys_error := sqlstate;
-                  end;
+         -- si hay pago borro la/s deudas
+         --
+         if coalesce(v_fvp_id, 0) <> 0 then
 
-                  if v_sys_error <> '' then
-                     exit CONTROL_ERROR;
+            -- primero actualizo las referencias pasando de deuda a pago
+            --
+            update FacturaVentaCobranza
+               set fvd_id = null,
+                   fvp_id = v_fvp_id
+            where fvd_id = v_fvd_id;
 
-                  end if;
+            update FacturaVentaNotaCredito
+               set fvd_id_factura = null,
+                   fvp_id_factura = v_fvp_id
+            where fvd_id_factura = v_fvd_id;
 
-                  begin
-                     update FacturaVentaNotaCredito
-                        set fvd_id_factura = null,
-                            fvp_id_factura = v_fvp_id
-                        where fvd_id_factura = v_fvd_id;
-                  exception
-                     when others then
-                        v_sys_error := sqlstate;
-                  end;
+            -- ahora si borro
+            --
+            delete FacturaVentaDeuda
+            where fv_id = v_fv_id
+              and ( fvd_id = v_fvd_id or coalesce(v_fvd_id, 0) = 0 );
 
-                  if v_sys_error <> '' then
-                     exit CONTROL_ERROR;
+            -- actualizo la nueva aplicacion para que pase de la deuda al pago
+            --
+            update FacturaVentaCobranzaTMP
+               set fvp_id = v_fvp_id
+            where fvd_id = v_fvd_id;
 
-                  end if;
+            -- No hay mas deuda
+            v_fvd_id := null;
 
-                  begin
-                     -- Ahora si borro
-                     --
-                     delete FacturaVentaDeuda
+         end if;
 
-                        where fv_id = v_fv_id
-                                and ( fvd_id = v_fvd_id
-                                or coalesce(v_fvd_id, 0) = 0 );
-                  exception
-                     when others then
-                        v_sys_error := sqlstate;
-                  end;
+         -- finalmente grabo la vinculacion que puede estar asociada a una deuda o a un pago
+         --
+         select sp_dbGetNewId('FacturaVentaCobranza', 'fvcobz_id') into v_fvcobz_id;
 
-                  if v_sys_error <> '' then
-                     exit CONTROL_ERROR;
+         insert into FacturaVentaCobranza
+                ( fvcobz_id, fvcobz_importe, fvcobz_importeOrigen, fvcobz_cotizacion, fv_id, fvd_id, fvp_id, cobz_id )
+         values ( v_fvcobz_id, v_aplic, v_fvcobz_importeOrigen, v_fvcobz_cotizacion, v_fv_id,
+                  v_fvd_id, --> uno de estos dos es null
+                  v_fvp_id, -->  "       "        "
+                  v_cobz_id );
 
-                  end if;
+         -- si no hay un pago actualizo la deuda decrementandola
+         --
+         if coalesce(v_fvp_id, 0) = 0 then
 
-                  begin
-                     -- Actualizo la nueva aplicacion para que pase de la deuda al pago
-                     --
-                     update FacturaVentaCobranzaTMP
-                        set fvp_id = v_fvp_id
-                        where fvd_id = v_fvd_id;
-                  exception
-                     when others then
-                        v_sys_error := sqlstate;
-                  end;
+            update FacturaVentaDeuda
+               set fvd_pendiente = fvd_pendiente - v_aplic
+            where fvd_id = v_fvd_id;
 
-                  if v_sys_error <> '' then
-                     exit CONTROL_ERROR;
+         end if;
 
-                  end if;
+         -- voy restando al pago el importe aplicado
+         --
+         v_fvcobz_importe := v_fvcobz_importe - v_aplic;
 
-                  -- No hay mas deuda
-                  v_fvd_id := null;
+      end loop;
 
-               end;
-               end if;
-
-               -- Finalmente grabo la vinculacion que puede estar asociada a una deuda o a un pago
-               --
-               sp_dbGetNewId('FacturaVentaCobranza',
-                                     'fvcobz_id',
-                                     v_fvcobz_id,
-                                     0);
-
-               if v_sys_error <> '' then
-                  exit CONTROL_ERROR;
-
-               end if;
-
-               begin
-                  insert into FacturaVentaCobranza
-                    ( fvcobz_id, fvcobz_importe, fvcobz_importeOrigen, fvcobz_cotizacion, fv_id, fvd_id, fvp_id, cobz_id )
-                    values ( v_fvcobz_id, v_aplic, v_fvcobz_importeOrigen, v_fvcobz_cotizacion, v_fv_id, v_fvd_id--> uno de estos dos es null
-                   , v_fvp_id, v_cobz_id );-->  "       "        "
-
-               exception
-                  when others then
-                     v_sys_error := sqlstate;
-               end;
-
-               if v_sys_error <> '' then
-                  exit CONTROL_ERROR;
-
-               end if;
-
-               -- Si no hay un pago actualizo la deuda decrementandola
-               --
-               if coalesce(v_fvp_id, 0) = 0 then
-               begin
-                  begin
-                     update FacturaVentaDeuda
-                        set fvd_pendiente = fvd_pendiente - v_aplic
-                        where fvd_id = v_fvd_id;
-                  exception
-                     when others then
-                        v_sys_error := sqlstate;
-                  end;
-
-                  if v_sys_error <> '' then
-                     exit CONTROL_ERROR;
-
-                  end if;
-
-               end;
-               end if;
-
-               -- Voy restando al pago el importe aplicado
-               --
-               v_fvcobz_importe := v_fvcobz_importe - v_aplic;
-
-            end;
-         end loop;
-
-         -- Fin del while de pago agrupado
-         fetch c_deuda into v_fvcobz_id,v_fv_id,v_fvd_id,v_fvcobz_importe,v_fvcobz_importeOrigen,v_fvcobz_cotizacion;
-
-      end;
    end loop;
 
-   close c_deuda;
-
-   -- Si es una vinculacion por cobranza puede haber nuevas facturas
+   -- si es una vinculacion por cobranza puede haber nuevas facturas
    --
    if p_delete <> 0 then
-   begin
-      -- Completo la tabla de facturas con las nuevas aplicaciones
-      --
-      insert into tt_FacturasVta
-        ( fv_id )
-        ( select distinct fv_id
-          from FacturaVentaCobranzaTMP
-             where cobzTMP_id = p_cobzTMP_id );
 
-   end;
-   end if;
+       -- completo la tabla de facturas con las nuevas aplicaciones
+       --
+       insert into tt_FacturasVta
+         ( fv_id )
+         ( select distinct fv_id
+           from FacturaVentaCobranzaTMP
+           where cobzTMP_id = p_cobzTMP_id );
 
-   open c_deudaFac;
+    end if;
 
-   fetch c_deudaFac into v_fv_id;
+    open c_deudaFac;
 
-   while sqlserver_utilities.fetch_status(c_deudaFac%found) = 0
-   loop
-      begin
-         -- Actualizo la deuda de la factura
-         sp_doc_facturaVenta_set_pendiente(v_fv_id,
-                                                v_bSuccess);
+    fetch c_deudaFac into v_fv_id;
 
-         -- Si fallo al guardar
-         if coalesce(v_bSuccess, 0) = 0 then
-            exit CONTROL_ERROR;
+    while sqlserver_utilities.fetch_status(c_deudaFac%found) = 0
+    loop
+       begin
+          -- Actualizo la deuda de la factura
+          sp_doc_facturaVenta_set_pendiente(v_fv_id,
+                                                 v_bSuccess);
 
-         end if;
+          -- Si fallo al guardar
+          if coalesce(v_bSuccess, 0) = 0 then
+             exit CONTROL_ERROR;
 
-         -- Estado
-         sp_doc_facturaVentaSetCredito(v_fv_id);
+          end if;
 
-         if v_sys_error <> '' then
-            exit CONTROL_ERROR;
+          -- Estado
+          sp_doc_facturaVentaSetCredito(v_fv_id);
 
-         end if;
+          if v_sys_error <> '' then
+             exit CONTROL_ERROR;
 
-         sp_doc_facturaVenta_set_estado(v_fv_id,
-                                     p_est_id => dummyNumber,
-                                     rtn => dummyCur);
+          end if;
 
-         if v_sys_error <> '' then
-            exit CONTROL_ERROR;
+          sp_doc_facturaVenta_set_estado(v_fv_id,
+                                      p_est_id => dummyNumber,
+                                      rtn => dummyCur);
 
-         end if;
+          if v_sys_error <> '' then
+             exit CONTROL_ERROR;
 
-         --/////////////////////////////////////////////////////////////////////////////////////////////////
-         -- Validaciones
-         --
-         -- ESTADO
-         sp_auditoria_credito_check_doc_FV(v_fv_id,
-                                              v_bSuccess,
-                                              v_error_msg);
+          end if;
 
-         -- Si el documento no es valido
-         if coalesce(v_bSuccess, 0) = 0 then
-            exit CONTROL_ERROR;
-
-         end if;
-
-         -- VTOS
-         sp_auditoria_vto_check_doc_FV(v_fv_id,
-                                           v_bSuccess,
-                                           v_error_msg);
-
-         -- Si el documento no es valido
-         if coalesce(v_bSuccess, 0) = 0 then
-            exit CONTROL_ERROR;
-
-         end if;
-
-         -- CREDITO
-         sp_auditoria_credito_check_doc_FV(v_fv_id,
+          --/////////////////////////////////////////////////////////////////////////////////////////////////
+          -- Validaciones
+          --
+          -- ESTADO
+          sp_auditoria_credito_check_doc_FV(v_fv_id,
                                                v_bSuccess,
                                                v_error_msg);
 
-         -- Si el documento no es valido
-         if coalesce(v_bSuccess, 0) = 0 then
-            exit CONTROL_ERROR;
+          -- Si el documento no es valido
+          if coalesce(v_bSuccess, 0) = 0 then
+             exit CONTROL_ERROR;
 
-         end if;
+          end if;
 
-         --
-         --/////////////////////////////////////////////////////////////////////////////////////////////////
-         fetch c_deudaFac into v_fv_id;
+          -- VTOS
+          sp_auditoria_vto_check_doc_FV(v_fv_id,
+                                            v_bSuccess,
+                                            v_error_msg);
 
-      end;
-   end loop;
+          -- Si el documento no es valido
+          if coalesce(v_bSuccess, 0) = 0 then
+             exit CONTROL_ERROR;
 
-   close c_deudaFac;
+          end if;
 
-   -- Ahora el pendiente de la cobranza
-   sp_doc_cobranza_set_pendiente(v_cobz_id,
-                                      v_bSuccess);
+          -- CREDITO
+          sp_auditoria_credito_check_doc_FV(v_fv_id,
+                                                v_bSuccess,
+                                                v_error_msg);
 
-   -- Si fallo al guardar
-   if coalesce(v_bSuccess, 0) = 0 then
-      exit CONTROL_ERROR;
+          -- Si el documento no es valido
+          if coalesce(v_bSuccess, 0) = 0 then
+             exit CONTROL_ERROR;
 
-   end if;
+          end if;
 
-   -- Estado
-   sp_doc_cobranzaSetCredito(v_cobz_id);
+          --
+          --/////////////////////////////////////////////////////////////////////////////////////////////////
+          fetch c_deudaFac into v_fv_id;
 
-   if v_sys_error <> '' then
-      exit CONTROL_ERROR;
+       end;
+    end loop;
 
-   end if;
+    close c_deudaFac;
 
-   sp_doc_cobranza_set_estado(v_cobz_id,
-                           p_est_id => dummyNumber,
-                           rtn => dummyCur);
+    -- Ahora el pendiente de la cobranza
+    sp_doc_cobranza_set_pendiente(v_cobz_id,
+                                       v_bSuccess);
+
+    -- Si fallo al guardar
+    if coalesce(v_bSuccess, 0) = 0 then
+       exit CONTROL_ERROR;
+
+    end if;
+
+    -- Estado
+    sp_doc_cobranzaSetCredito(v_cobz_id);
+
+    if v_sys_error <> '' then
+       exit CONTROL_ERROR;
+
+    end if;
+
+    sp_doc_cobranza_set_estado(v_cobz_id,
+                            p_est_id => dummyNumber,
+                            rtn => dummyCur);
 
 
-   if v_sys_error <> '' then
-      exit CONTROL_ERROR;
+    if v_sys_error <> '' then
+       exit CONTROL_ERROR;
 
-   end if;
+    end if;
 
-   v_CobziTCtaCte := 5;
+    v_CobziTCtaCte := 5;
 
-   -- Guardo un id de cuenta para anticipos.
-   -- Esto funciona asi: Si despues de aplicar queda plata pendiente
-   --                    la asigno a la cuenta anticipo
-   select cue_id
-     into v_cue_id_anticipo
-     from CobranzaItem
-      where cobz_id = v_cobz_id
-              and cobzi_tipo = v_CobziTCtaCte
-              and cobzi_orden = ( select min(cobzi_orden)
-                                  from CobranzaItem
-                                     where cobz_id = v_cobz_id
-                                             and cobzi_tipo = v_CobziTCtaCte );
+    -- Guardo un id de cuenta para anticipos.
+    -- Esto funciona asi: Si despues de aplicar queda plata pendiente
+    --                    la asigno a la cuenta anticipo
+    select cue_id
+      into v_cue_id_anticipo
+      from CobranzaItem
+       where cobz_id = v_cobz_id
+               and cobzi_tipo = v_CobziTCtaCte
+               and cobzi_orden = ( select min(cobzi_orden)
+                                   from CobranzaItem
+                                      where cobz_id = v_cobz_id
+                                              and cobzi_tipo = v_CobziTCtaCte );
 
-   begin
-      -- Borro la info de cuenta corriente para esta cobranza
-      --
-      delete CobranzaItem
+    begin
+       -- Borro la info de cuenta corriente para esta cobranza
+       --
+       delete CobranzaItem
 
-         where cobz_id = v_cobz_id
-                 and cobzi_tipo = v_CobziTCtaCte;
-   exception
-      when others then
-         v_sys_error := sqlstate;
-   end;
+          where cobz_id = v_cobz_id
+                  and cobzi_tipo = v_CobziTCtaCte;
+    exception
+       when others then
+          v_sys_error := sqlstate;
+    end;
 
-   if v_sys_error <> '' then
-      exit CONTROL_ERROR;
+    if v_sys_error <> '' then
+       exit CONTROL_ERROR;
 
-   end if;
+    end if;
 
-   v_cue_deudoresXvta := 4;
+    v_cue_deudoresXvta := 4;
 
-   v_cobzi_orden := 0;
+    v_cobzi_orden := 0;
 
-   v_aplic := 0;
+    v_aplic := 0;
 
-   open c_ctacte;
+    open c_ctacte;
 
-   fetch c_ctacte into v_cue_id,v_cobzi_importe,v_cobzi_importeorigen;
+    fetch c_ctacte into v_cue_id,v_cobzi_importe,v_cobzi_importeorigen;
 
-   while sqlserver_utilities.fetch_status(c_ctacte%found) = 0
-   loop
-      begin
-         v_cobzi_orden := v_cobzi_orden + 1;
+    while sqlserver_utilities.fetch_status(c_ctacte%found) = 0
+    loop
+       begin
+          v_cobzi_orden := v_cobzi_orden + 1;
 
-         -- Creo un nuevo registro de cobranza item
-         --
-         sp_dbGetNewId('CobranzaItem',
-                               'cobzi_id',
-                               v_cobzi_id,
-                               0);
+          -- Creo un nuevo registro de cobranza item
+          --
+          sp_dbGetNewId('CobranzaItem',
+                                'cobzi_id',
+                                v_cobzi_id,
+                                0);
 
-         if v_sys_error <> '' then
-            exit CONTROL_ERROR;
+          if v_sys_error <> '' then
+             exit CONTROL_ERROR;
 
-         end if;
+          end if;
 
-         begin
-            insert into CobranzaItem
-              ( cobz_id, cobzi_id, cobzi_orden, cobzi_importe, cobzi_importeorigen, cobzi_tipo, cue_id )
-              values ( v_cobz_id, v_cobzi_id, v_cobzi_orden, v_cobzi_importe, v_cobzi_importeorigen, v_CobziTCtaCte, v_cue_id );
-         exception
-            when others then
-               v_sys_error := sqlstate;
-         end;
+          begin
+             insert into CobranzaItem
+               ( cobz_id, cobzi_id, cobzi_orden, cobzi_importe, cobzi_importeorigen, cobzi_tipo, cue_id )
+               values ( v_cobz_id, v_cobzi_id, v_cobzi_orden, v_cobzi_importe, v_cobzi_importeorigen, v_CobziTCtaCte, v_cue_id );
+          exception
+             when others then
+                v_sys_error := sqlstate;
+          end;
 
-         if v_sys_error <> '' then
-            exit CONTROL_ERROR;
+          if v_sys_error <> '' then
+             exit CONTROL_ERROR;
 
-         end if;
+          end if;
 
-         v_aplic := v_aplic + v_cobzi_importe;
+          v_aplic := v_aplic + v_cobzi_importe;
 
-         fetch c_ctacte into v_cue_id,v_cobzi_importe,v_cobzi_importeorigen;
+          fetch c_ctacte into v_cue_id,v_cobzi_importe,v_cobzi_importeorigen;
 
-      end;
-   end loop;
+       end;
+    end loop;
 
-   -- While
-   close c_ctacte;
+    -- While
+    close c_ctacte;
 
-   select cobz_total,
-          cobz_cotizacion
-     into v_total,
-          v_cotiz
-     from Cobranza
-      where cobz_id = v_cobz_id;
+    select cobz_total,
+           cobz_cotizacion
+      into v_total,
+           v_cotiz
+      from Cobranza
+       where cobz_id = v_cobz_id;
 
-   v_total := coalesce(v_total, 0);
+    v_total := coalesce(v_total, 0);
 
-   v_aplic := coalesce(v_aplic, 0);
+    v_aplic := coalesce(v_aplic, 0);
 
-   v_cotiz := coalesce(v_cotiz, 0);
+    v_cotiz := coalesce(v_cotiz, 0);
 
-   if v_aplic < v_total then
-   declare
-      v_temp numeric(1,0); := 0;
-   begin
-      v_aplic := v_total - v_aplic;
+    if v_aplic < v_total then
+    declare
+       v_temp numeric(1,0); := 0;
+    begin
+       v_aplic := v_total - v_aplic;
 
-      begin
-         select mon_id
-           into v_mon_id
-           from Cuenta
-            where cue_id = v_cue_id_anticipo;
-      exception
-         when others then
-            v_sys_error := sqlstate;
-      end;
+       begin
+          select mon_id
+            into v_mon_id
+            from Cuenta
+             where cue_id = v_cue_id_anticipo;
+       exception
+          when others then
+             v_sys_error := sqlstate;
+       end;
 
-      begin
-         select 1 into v_temp
-           from DUAL
-          where exists ( select *
-                         from Moneda
-                            where mon_id = v_mon_id
-                                    and mon_legal <> 0 );
-      exception
-         when others then
-            null;
-      end;
+       begin
+          select 1 into v_temp
+            from DUAL
+           where exists ( select *
+                          from Moneda
+                             where mon_id = v_mon_id
+                                     and mon_legal <> 0 );
+       exception
+          when others then
+             null;
+       end;
 
-      if v_temp = 1 then
-         v_cotiz := 0;
+       if v_temp = 1 then
+          v_cotiz := 0;
 
-      end if;
+       end if;
 
-      if v_cotiz > 0 then
-         v_aplicOrigen := v_aplic / v_cotiz;
+       if v_cotiz > 0 then
+          v_aplicOrigen := v_aplic / v_cotiz;
 
-      else
-         v_aplicOrigen := 0;
+       else
+          v_aplicOrigen := 0;
 
-      end if;
+       end if;
 
-      v_cobzi_orden := v_cobzi_orden + 1;
+       v_cobzi_orden := v_cobzi_orden + 1;
 
-      -- Creo un nuevo registro de cobranza item
-      --
-      sp_dbGetNewId('CobranzaItem',
-                            'cobzi_id',
-                            v_cobzi_id,
-                            0);
+       -- Creo un nuevo registro de cobranza item
+       --
+       sp_dbGetNewId('CobranzaItem',
+                             'cobzi_id',
+                             v_cobzi_id,
+                             0);
 
-      if v_sys_error <> '' then
-         exit CONTROL_ERROR;
+       if v_sys_error <> '' then
+          exit CONTROL_ERROR;
 
-      end if;
+       end if;
 
-      begin
-         insert into CobranzaItem
-           ( cobz_id, cobzi_id, cobzi_orden, cobzi_importe, cobzi_importeorigen, cobzi_tipo, cue_id )
-           values ( v_cobz_id, v_cobzi_id, v_cobzi_orden, v_aplic, v_aplicOrigen, v_CobziTCtaCte, v_cue_id_anticipo );
-      exception
-         when others then
-            v_sys_error := sqlstate;
-      end;
+       begin
+          insert into CobranzaItem
+            ( cobz_id, cobzi_id, cobzi_orden, cobzi_importe, cobzi_importeorigen, cobzi_tipo, cue_id )
+            values ( v_cobz_id, v_cobzi_id, v_cobzi_orden, v_aplic, v_aplicOrigen, v_CobziTCtaCte, v_cue_id_anticipo );
+       exception
+          when others then
+             v_sys_error := sqlstate;
+       end;
 
-      if v_sys_error <> '' then
-         exit CONTROL_ERROR;
+       if v_sys_error <> '' then
+          exit CONTROL_ERROR;
 
-      end if;
+       end if;
 
-   end;
-   end if;
+    end;
+    end if;
 
-   sp_doc_cobranzaAsientoSave(v_cobz_id,
-                             0,
-                             v_error,
-                             v_error_msg,
-                             0,
-                             rtn => dummyCur);
+    sp_doc_cobranzaAsientoSave(v_cobz_id,
+                              0,
+                              v_error,
+                              v_error_msg,
+                              0,
+                              rtn => dummyCur);
 
-   if v_error <> 0 then
-      exit CONTROL_ERROR;
+    if v_error <> 0 then
+       exit CONTROL_ERROR;
 
-   end if;
+    end if;
 
    /*
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

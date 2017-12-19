@@ -81,6 +81,7 @@ declare
 
    v_c_pagos varchar(4000);
    v_c_aplic varchar(4000);
+   v_id integer;
 begin
 
    select opg_id,
@@ -192,6 +193,8 @@ begin
                         where fcot.opgTMP_id = $1
                         group by fcp.fc_id,fcp.fcp_id,fcp.fcp_fecha,fcp.fcp_importe';
 
+         v_id := p_opgTMP_id;
+
       -- sumo todas las aplicaciones de esta
       -- orden de pago sobre el pago para obtener
       -- el pendiente de la deuda
@@ -206,8 +209,11 @@ begin
                        from FacturaCompraOrdenPago fco
                        join FacturaCompraPago fcp
                          on fco.fcp_id = fcp.fcp_id
-                       where fco.opg_id = v_opg_id
+                       where fco.opg_id = $1
                        group by fcp.fc_id,fcp.fcp_id,fcp.fcp_fecha,fcp.fcp_importe';
+
+         v_id := v_opg_id;
+
       end if;
 
       -- sumo todas las aplicaciones de esta
@@ -215,7 +221,7 @@ begin
       -- el pendiente de la deuda
       --
       for v_fc_id,v_fcp_id,v_fcp_fecha,v_fcd_importe,v_fcd_pendiente in
-         execute v_c_pagos using p_opgTMP_id
+         execute v_c_pagos using v_id
       loop
          -- creo la deuda
          --
@@ -311,6 +317,7 @@ begin
                        where fco.fcd_id is not null
                          and fcot.opgTMP_id = $1';
 
+         v_id := p_opgTMP_id;
 
       else
 
@@ -319,13 +326,15 @@ begin
                               fcopg_importe
                        from FacturaCompraOrdenPago
                        where fcd_id is not null
-                         and opg_id = v_opg_id';
+                         and opg_id = $1';
+
+         v_id := v_opg_id;
 
       end if;
 
 
       for v_fcopg_id,v_fcd_id,v_fcopg_importe in
-         execute v_c_aplic using p_opgTMP_id
+         execute v_c_aplic using v_id
       loop
 
          -- incremento la deuda
@@ -361,18 +370,18 @@ begin
         and fcopg_importe <> 0
    loop
 
-      -- este es el while de pago agrupado. Abajo esta la explicacion
+      -- este es el while de pago agrupado. abajo esta la explicacion
       --
       while v_fcopg_importe > 0
       loop
 
          -- obtengo el monto de la deuda
          --
-         -- la OrdenPago permite cobrar sobre toda la deuda de la factura o sobre cada uno de sus vencimientos.
+         -- la orden de pago permite cobrar sobre toda la deuda de la factura o sobre cada uno de sus vencimientos.
          -- esto complica un poco la cosa para el programador. Si en la info de aplicacion (registro de la tabla
          -- FacturaCompraOrdenPagoTMP no tengo un fcd_id (id del vencimiento), es por que se efectuo la OrdenPago
          -- sobre toda la deuda de la factura. Esto se entiende con un ejemplo:
-         --        Supongamos una factura con vtos. 30, 60 y 90 dias. Tiene 3 vtos, pero el usuario decide
+         --        supongamos una factura con vtos. 30, 60 y 90 dias. Tiene 3 vtos, pero el usuario decide
          --        aplicar sobre los tres agrupados un importe dado, para el ejemplo supongamos que los vtos
          --        son todos de 30 pesos o sea 90 pesos el total, y el usuario aplica 80 pesos. El sistema tiene
          --        que aplicar 30 al primer vto, 30 al segundo y 20 al tercero. Para poder hacer esto es que utiliza
@@ -408,7 +417,8 @@ begin
          --
          if v_fcd_pendiente - v_fcopg_importe >= 0.01 then
 
-            -- No hay pago
+            -- no hay pago
+            --
             v_fcp_id := null;
 
             v_aplic := v_fcopg_importe;
