@@ -1,4 +1,4 @@
-/*
+﻿/*
 CrowSoft-Cairo
 ==============
 
@@ -61,7 +61,7 @@ begin
    where asi_debe <> 0
      and c.cuec_id = v_cue_deudoresXvta
      and fv_id = p_fv_id
-   group by fv_id,c.cue_id,c.mon_id,FacturaVenta.cobz_id;
+   group by fv_id,c.cue_id,c.mon_id;
 
 end;
 $BODY$

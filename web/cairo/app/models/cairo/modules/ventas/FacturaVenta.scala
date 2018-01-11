@@ -2245,7 +2245,7 @@ object FacturaVenta {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_doc_factura_venta_get_cuenta_deudor(?, ?, ?, ?)}"
+      val sql = "{call sp_doc_factura_venta_get_cuenta_deudor(?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, user.cairoCompanyId)

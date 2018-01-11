@@ -1,4 +1,4 @@
-/*
+﻿/*
 CrowSoft-Cairo
 ==============
 
@@ -62,8 +62,6 @@ declare
    v_fvd_fecha2 date;
    v_cobz_id integer;
    v_modifico integer;
-   v_temp numeric(1,0); := 0;
-   v_bSuccess smallint;
    v_orden smallint;
    v_cobzi_id integer;
    v_cobzi_orden smallint;
@@ -83,26 +81,6 @@ declare
    v_c_pagos varchar(4000);
    v_c_aplic varchar(4000);
    v_id integer;
-
-   CURSOR c_ctacte
-     is select c.cue_id,
-               sum(fvcobz_importe),
-               sum(fvcobz_importeOrigen)
-     from FacturaVentaCobranza
-     join FacturaVenta
-      on FacturaVentaCobranza.fv_id = FacturaVenta.fv_id
-     join AsientoItem
-      on AsientoItem.as_id = FacturaVenta.as_id
-     join Cuenta c
-      on AsientoItem.cue_id = c.cue_id
-      where cobz_id = v_cobz_id
-     and asi_debe <> 0
-     and c.cuec_id = v_cue_deudoresXvta
-     group by c.cue_id;
-   CURSOR c_deudaFac
-     is select distinct fv_id
-     from tt_FacturasVta ;
-
 begin
 
    select cobz_id,
@@ -119,8 +97,6 @@ begin
       return;
    end if;
 
-   begin
-
 /*
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                    //
@@ -129,7 +105,7 @@ begin
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
 
-   delete FacturaVentaCobranzaTMP
+   delete from FacturaVentaCobranzaTMP
    where cobzTMP_id = p_cobzTMP_id
      and fvd_id is null
      and fvp_id is null;
@@ -163,7 +139,7 @@ begin
         ( fv_id )
         ( select distinct fv_id
           from FacturaVentaCobranzaTMP
-             where cobz_id = v_cobz_id );
+          where cobz_id = v_cobz_id );
 
    else
       -- inserto en #FacturasVta todas las facturas vinculadas con esta cobranza
@@ -172,7 +148,7 @@ begin
         ( fv_id )
         ( select distinct fv_id
           from FacturaVentaCobranza
-             where cobz_id = v_cobz_id );
+          where cobz_id = v_cobz_id );
 
    end if;
 
@@ -246,7 +222,7 @@ begin
          --
          select sp_dbGetNewId('FacturaVentaDeuda', 'fvd_id') into v_fvd_id;
 
-         select sp_doc_get_fecha2(v_fvp_fecha 0, null) into v_fvd_fecha2;
+         select sp_doc_get_fecha2(v_fvp_fecha, 0, null) into v_fvd_fecha2;
 
          insert into FacturaVentaDeuda
            ( fvd_id, fvd_fecha, fvd_fecha2, fvd_importe, fvd_pendiente, fv_id )
@@ -256,7 +232,7 @@ begin
          -- aplicaciones asociadas a este pago
          --
          if p_delete = 0 then
-            delete FacturaVentaCobranza
+            delete from FacturaVentaCobranza
             where fvcobz_id in ( select fvcobz_id
                                  from FacturaVentaCobranzaTMP
                                  where cobzTMP_id = p_cobzTMP_id )
@@ -264,7 +240,7 @@ begin
 
             -- borro la aplicacion
             --
-            delete FacturaVentaCobranza
+            delete from FacturaVentaCobranza
             where fvp_id is null
               and fvd_id is null
               and fv_id in ( select fv_id
@@ -273,7 +249,7 @@ begin
          else
             -- borro todas las aplicaciones que apuntaban al pago
             --
-            delete FacturaVentaCobranza
+            delete from FacturaVentaCobranza
             where fvp_id = v_fvp_id
               and cobz_id = v_cobz_id;
 
@@ -302,7 +278,7 @@ begin
 
          -- borro el pago que acabo de convertir en deuda
          --
-         delete FacturaVentaPago where fvp_id = v_fvp_id;
+         delete from FacturaVentaPago where fvp_id = v_fvp_id;
 
       end loop;
 
@@ -352,8 +328,6 @@ begin
 
       end if;
 
-      open c_aplic for v_c_aplic;
-
       for v_fvcobz_id,v_fvd_id,v_fvcobz_importe in
          execute v_c_aplic using v_id
       loop
@@ -363,7 +337,7 @@ begin
 
          -- borro la aplicacion
          --
-         delete FacturaVentaCobranza where fvcobz_id = v_fvcobz_id;
+         delete from FacturaVentaCobranza where fvcobz_id = v_fvcobz_id;
 
       end loop;
 
@@ -374,11 +348,11 @@ begin
    --
    if p_delete <> 0 then
 
-      delete FacturaVentaCobranza where cobz_id = v_cobz_id;
+      delete from FacturaVentaCobranza where cobz_id = v_cobz_id;
 
    end if;
 
-   for v_fvcobz_id,v_fv_id,v_fvd_id,v_fvcobz_importe,v_fvcobz_importeOrigen,v_fvcobz_cotizacion
+   for v_fvcobz_id,v_fv_id,v_fvd_id,v_fvcobz_importe,v_fvcobz_importeOrigen,v_fvcobz_cotizacion in
       select fvcobz_id,
              fv_id,
              fvd_id,
@@ -496,7 +470,7 @@ begin
 
             -- ahora si borro
             --
-            delete FacturaVentaDeuda
+            delete from FacturaVentaDeuda
             where fv_id = v_fv_id
               and ( fvd_id = v_fvd_id or coalesce(v_fvd_id, 0) = 0 );
 
@@ -544,389 +518,208 @@ begin
    --
    if p_delete <> 0 then
 
-       -- completo la tabla de facturas con las nuevas aplicaciones
-       --
-       insert into tt_FacturasVta
-         ( fv_id )
-         ( select distinct fv_id
-           from FacturaVentaCobranzaTMP
-           where cobzTMP_id = p_cobzTMP_id );
+      -- completo la tabla de facturas con las nuevas aplicaciones
+      --
+      insert into tt_FacturasVta
+        ( fv_id )
+        ( select distinct fv_id
+          from FacturaVentaCobranzaTMP
+          where cobzTMP_id = p_cobzTMP_id );
+
+   end if;
+
+
+   for v_fv_id in
+      select disctinct fv_id from tt_FacturasVta
+   loop
+
+      -- actualizo la deuda de la factura
+      --
+      perform sp_doc_factura_venta_set_pendiente(v_fv_id);
+
+      perform sp_doc_factura_venta_set_credito(v_fv_id);
+
+      -- estado
+      --
+      perform sp_doc_factura_venta_set_estado(v_fv_id);
+
+      --/////////////////////////////////////////////////////////////////////////////////////////////////
+      --
+      -- validaciones
+      --
+      --/////////////////////////////////////////////////////////////////////////////////////////////////
+
+      -- estado
+      --
+      select * from sp_auditoria_credito_check_doc_fv(v_fv_id) into v_success, v_error_msg;
+      if coalesce(v_success, 0) = 0 then
+        raise exception '%', v_error_msg;
+      end if;
+
+      -- vtos
+      --
+      select * from sp_auditoria_vto_check_doc_fv(v_fv_id) into v_success, v_error_msg;
+      if coalesce(v_success, 0) = 0 then
+        raise exception '%', v_error_msg;
+      end if;
+
+      -- credito
+      --
+      select * from sp_auditoria_credito_check_doc_fv(v_fv_id) into v_success, v_error_msg;
+      if coalesce(v_success, 0) = 0 then
+        raise exception '%', v_error_msg;
+      end if;
+
+      --
+      --/////////////////////////////////////////////////////////////////////////////////////////////////
+
+   end loop;
+
+   -- ahora el pendiente de la cobranza
+   --
+   perform sp_doc_cobranza_set_pendiente(v_cobz_id);
+
+   -- estado
+   --
+   perform sp_doc_cobranza_set_credito(v_cobz_id);
+   perform sp_doc_cobranza_set_estado(v_cobz_id);
+
+   v_CobziTCtaCte := 5;
+
+   -- guardo un id de cuenta para anticipos.
+   -- esto funciona asi: si despues de aplicar queda plata pendiente
+   --                    la asigno a la cuenta anticipo
+   --
+   select cue_id
+     into v_cue_id_anticipo
+   from CobranzaItem
+   where cobz_id = v_cobz_id
+     and cobzi_tipo = v_CobziTCtaCte
+     and cobzi_orden = ( select min(cobzi_orden)
+                         from CobranzaItem
+                         where cobz_id = v_cobz_id
+                           and cobzi_tipo = v_CobziTCtaCte );
+
+   -- borro la info de cuenta corriente para esta cobranza
+   --
+   delete from CobranzaItem
+   where cobz_id = v_cobz_id
+     and cobzi_tipo = v_CobziTCtaCte;
+
+   v_cue_deudoresXvta := 4;
+   v_cobzi_orden := 0;
+   v_aplic := 0;
+
+   for v_cue_id,v_cobzi_importe,v_cobzi_importeorigen in
+      select c.cue_id,
+             sum(fvcobz_importe),
+             sum(fvcobz_importeOrigen)
+      from FacturaVentaCobranza
+      join FacturaVenta
+        on FacturaVentaCobranza.fv_id = FacturaVenta.fv_id
+      join AsientoItem
+        on AsientoItem.as_id = FacturaVenta.as_id
+      join Cuenta c
+        on AsientoItem.cue_id = c.cue_id
+      where cobz_id = v_cobz_id
+        and asi_debe <> 0
+        and c.cuec_id = v_cue_deudoresXvta
+      group by c.cue_id
+   loop
 
-    end if;
+      v_cobzi_orden := v_cobzi_orden + 1;
 
-    open c_deudaFac;
+      -- creo un nuevo registro de cobranza item
+      --
+      select sp_dbGetNewId('CobranzaItem', 'cobzi_id') into v_cobzi_id;
 
-    fetch c_deudaFac into v_fv_id;
+      insert into CobranzaItem
+             ( cobz_id, cobzi_id, cobzi_orden, cobzi_importe, cobzi_importeorigen, cobzi_tipo, cue_id )
+      values ( v_cobz_id, v_cobzi_id, v_cobzi_orden, v_cobzi_importe, v_cobzi_importeorigen, v_CobziTCtaCte, v_cue_id );
 
-    while sqlserver_utilities.fetch_status(c_deudaFac%found) = 0
-    loop
-       begin
-          -- Actualizo la deuda de la factura
-          sp_doc_facturaVenta_set_pendiente(v_fv_id,
-                                                 v_bSuccess);
+      v_aplic := v_aplic + v_cobzi_importe;
 
-          -- Si fallo al guardar
-          if coalesce(v_bSuccess, 0) = 0 then
-             exit CONTROL_ERROR;
+   end loop;
 
-          end if;
+   select cobz_total,
+          cobz_cotizacion
+     into v_total,
+          v_cotiz
+   from Cobranza
+   where cobz_id = v_cobz_id;
 
-          -- Estado
-          sp_doc_facturaVentaSetCredito(v_fv_id);
+   v_total := coalesce(v_total, 0);
+   v_aplic := coalesce(v_aplic, 0);
+   v_cotiz := coalesce(v_cotiz, 0);
 
-          if v_sys_error <> '' then
-             exit CONTROL_ERROR;
+   if v_aplic < v_total then
 
-          end if;
+      v_aplic := v_total - v_aplic;
 
-          sp_doc_facturaVenta_set_estado(v_fv_id,
-                                      p_est_id => dummyNumber,
-                                      rtn => dummyCur);
+      select mon_id
+        into v_mon_id
+      from Cuenta
+      where cue_id = v_cue_id_anticipo;
 
-          if v_sys_error <> '' then
-             exit CONTROL_ERROR;
+      if exists ( select * from Moneda where mon_id = v_mon_id and mon_legal <> 0 ) then
+         v_cotiz := 0;
+      end if;
 
-          end if;
+      if v_cotiz > 0 then
+         v_aplicOrigen := v_aplic / v_cotiz;
+      else
+         v_aplicOrigen := 0;
+      end if;
 
-          --/////////////////////////////////////////////////////////////////////////////////////////////////
-          -- Validaciones
-          --
-          -- ESTADO
-          sp_auditoria_credito_check_doc_FV(v_fv_id,
-                                               v_bSuccess,
-                                               v_error_msg);
+      v_cobzi_orden := v_cobzi_orden + 1;
 
-          -- Si el documento no es valido
-          if coalesce(v_bSuccess, 0) = 0 then
-             exit CONTROL_ERROR;
+      -- creo un nuevo registro de cobranza item
+      --
+      select sp_dbGetNewId('CobranzaItem', 'cobzi_id') into v_cobzi_id;
 
-          end if;
+      insert into CobranzaItem
+             ( cobz_id, cobzi_id, cobzi_orden, cobzi_importe, cobzi_importeorigen, cobzi_tipo, cue_id )
+      values ( v_cobz_id, v_cobzi_id, v_cobzi_orden, v_aplic, v_aplicOrigen, v_CobziTCtaCte, v_cue_id_anticipo );
 
-          -- VTOS
-          sp_auditoria_vto_check_doc_FV(v_fv_id,
-                                            v_bSuccess,
-                                            v_error_msg);
+   end if;
 
-          -- Si el documento no es valido
-          if coalesce(v_bSuccess, 0) = 0 then
-             exit CONTROL_ERROR;
+   select * from sp_doc_cobranzaAsientoSave(v_cobz_id, 0) into v_error, v_error_msg;
 
-          end if;
-
-          -- CREDITO
-          sp_auditoria_credito_check_doc_FV(v_fv_id,
-                                                v_bSuccess,
-                                                v_error_msg);
-
-          -- Si el documento no es valido
-          if coalesce(v_bSuccess, 0) = 0 then
-             exit CONTROL_ERROR;
-
-          end if;
-
-          --
-          --/////////////////////////////////////////////////////////////////////////////////////////////////
-          fetch c_deudaFac into v_fv_id;
-
-       end;
-    end loop;
-
-    close c_deudaFac;
-
-    -- Ahora el pendiente de la cobranza
-    sp_doc_cobranza_set_pendiente(v_cobz_id,
-                                       v_bSuccess);
-
-    -- Si fallo al guardar
-    if coalesce(v_bSuccess, 0) = 0 then
-       exit CONTROL_ERROR;
-
-    end if;
-
-    -- Estado
-    sp_doc_cobranzaSetCredito(v_cobz_id);
-
-    if v_sys_error <> '' then
-       exit CONTROL_ERROR;
-
-    end if;
-
-    sp_doc_cobranza_set_estado(v_cobz_id,
-                            p_est_id => dummyNumber,
-                            rtn => dummyCur);
-
-
-    if v_sys_error <> '' then
-       exit CONTROL_ERROR;
-
-    end if;
-
-    v_CobziTCtaCte := 5;
-
-    -- Guardo un id de cuenta para anticipos.
-    -- Esto funciona asi: Si despues de aplicar queda plata pendiente
-    --                    la asigno a la cuenta anticipo
-    select cue_id
-      into v_cue_id_anticipo
-      from CobranzaItem
-       where cobz_id = v_cobz_id
-               and cobzi_tipo = v_CobziTCtaCte
-               and cobzi_orden = ( select min(cobzi_orden)
-                                   from CobranzaItem
-                                      where cobz_id = v_cobz_id
-                                              and cobzi_tipo = v_CobziTCtaCte );
-
-    begin
-       -- Borro la info de cuenta corriente para esta cobranza
-       --
-       delete CobranzaItem
-
-          where cobz_id = v_cobz_id
-                  and cobzi_tipo = v_CobziTCtaCte;
-    exception
-       when others then
-          v_sys_error := sqlstate;
-    end;
-
-    if v_sys_error <> '' then
-       exit CONTROL_ERROR;
-
-    end if;
-
-    v_cue_deudoresXvta := 4;
-
-    v_cobzi_orden := 0;
-
-    v_aplic := 0;
-
-    open c_ctacte;
-
-    fetch c_ctacte into v_cue_id,v_cobzi_importe,v_cobzi_importeorigen;
-
-    while sqlserver_utilities.fetch_status(c_ctacte%found) = 0
-    loop
-       begin
-          v_cobzi_orden := v_cobzi_orden + 1;
-
-          -- Creo un nuevo registro de cobranza item
-          --
-          sp_dbGetNewId('CobranzaItem',
-                                'cobzi_id',
-                                v_cobzi_id,
-                                0);
-
-          if v_sys_error <> '' then
-             exit CONTROL_ERROR;
-
-          end if;
-
-          begin
-             insert into CobranzaItem
-               ( cobz_id, cobzi_id, cobzi_orden, cobzi_importe, cobzi_importeorigen, cobzi_tipo, cue_id )
-               values ( v_cobz_id, v_cobzi_id, v_cobzi_orden, v_cobzi_importe, v_cobzi_importeorigen, v_CobziTCtaCte, v_cue_id );
-          exception
-             when others then
-                v_sys_error := sqlstate;
-          end;
-
-          if v_sys_error <> '' then
-             exit CONTROL_ERROR;
-
-          end if;
-
-          v_aplic := v_aplic + v_cobzi_importe;
-
-          fetch c_ctacte into v_cue_id,v_cobzi_importe,v_cobzi_importeorigen;
-
-       end;
-    end loop;
-
-    -- While
-    close c_ctacte;
-
-    select cobz_total,
-           cobz_cotizacion
-      into v_total,
-           v_cotiz
-      from Cobranza
-       where cobz_id = v_cobz_id;
-
-    v_total := coalesce(v_total, 0);
-
-    v_aplic := coalesce(v_aplic, 0);
-
-    v_cotiz := coalesce(v_cotiz, 0);
-
-    if v_aplic < v_total then
-    declare
-       v_temp numeric(1,0); := 0;
-    begin
-       v_aplic := v_total - v_aplic;
-
-       begin
-          select mon_id
-            into v_mon_id
-            from Cuenta
-             where cue_id = v_cue_id_anticipo;
-       exception
-          when others then
-             v_sys_error := sqlstate;
-       end;
-
-       begin
-          select 1 into v_temp
-            from DUAL
-           where exists ( select *
-                          from Moneda
-                             where mon_id = v_mon_id
-                                     and mon_legal <> 0 );
-       exception
-          when others then
-             null;
-       end;
-
-       if v_temp = 1 then
-          v_cotiz := 0;
-
-       end if;
-
-       if v_cotiz > 0 then
-          v_aplicOrigen := v_aplic / v_cotiz;
-
-       else
-          v_aplicOrigen := 0;
-
-       end if;
-
-       v_cobzi_orden := v_cobzi_orden + 1;
-
-       -- Creo un nuevo registro de cobranza item
-       --
-       sp_dbGetNewId('CobranzaItem',
-                             'cobzi_id',
-                             v_cobzi_id,
-                             0);
-
-       if v_sys_error <> '' then
-          exit CONTROL_ERROR;
-
-       end if;
-
-       begin
-          insert into CobranzaItem
-            ( cobz_id, cobzi_id, cobzi_orden, cobzi_importe, cobzi_importeorigen, cobzi_tipo, cue_id )
-            values ( v_cobz_id, v_cobzi_id, v_cobzi_orden, v_aplic, v_aplicOrigen, v_CobziTCtaCte, v_cue_id_anticipo );
-       exception
-          when others then
-             v_sys_error := sqlstate;
-       end;
-
-       if v_sys_error <> '' then
-          exit CONTROL_ERROR;
-
-       end if;
-
-    end;
-    end if;
-
-    sp_doc_cobranzaAsientoSave(v_cobz_id,
-                              0,
-                              v_error,
-                              v_error_msg,
-                              0,
-                              rtn => dummyCur);
-
-    if v_error <> 0 then
-       exit CONTROL_ERROR;
-
-    end if;
-
-   /*
+/*
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                    //
-//                                     HISTORIAL DE MODIFICACIONES                                                    //
+//                                     historial de modificaciones                                                    //
 //                                                                                                                    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
-   sp_historia_update(18004,
-                             v_cobz_id,
-                             v_modifico,
-                             6);
 
-   begin
-      /*
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                               //
-//                                        TEMPORALES                                                             //
-//                                                                                                               //
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   perform sp_historia_update(18004, v_cobz_id, v_modifico, 6);
+
+/*
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                    //
+//                                        temporales                                                                  //
+//                                                                                                                    //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
-      delete FacturaVentaCobranzaTMP
 
-         where cobzTMP_id = p_cobzTMP_id;
-   exception
-      when others then
-         v_sys_error := sqlstate;
-   end;
+   delete from FacturaVentaCobranzaTMP where cobzTMP_id = p_cobzTMP_id;
+   delete from CobranzaItemTMP where cobzTMP_id = p_cobzTMP_id;
+   delete from CobranzaTMP where cobzTMP_id = p_cobzTMP_id;
 
-   if v_sys_error <> '' then
-      exit CONTROL_ERROR;
-
-   end if;
-
-   begin
-      delete CobranzaItemTMP
-
-         where cobzTMP_id = p_cobzTMP_id;
-   exception
-      when others then
-         v_sys_error := sqlstate;
-   end;
-
-   if v_sys_error <> '' then
-      exit CONTROL_ERROR;
-
-   end if;
-
-   begin
-      delete CobranzaTMP
-
-         where cobzTMP_id = p_cobzTMP_id;
-   exception
-      when others then
-         v_sys_error := sqlstate;
-   end;
-
-   if v_sys_error <> '' then
-      exit CONTROL_ERROR;
-
-   end if;
-
-   COMMIT;
-
-   p_success := 1;
-
-   if p_bSelect <> 0 then
-      open rtn for
-         select v_cobz_id
-           from DUAL ;
-
-   end if;
+   drop table tt_FacturasVta;
 
    return;
 
-   <<CONTROL_ERROR>>
+exception
+   when others then
 
-   v_error_msg := 'Ha ocurrido un error al grabar la aplicación de la cobranza. sp_doc_cobranzaSaveAplic. ' || coalesce(v_error_msg, '');
-
-   raise exception ( -20002, v_error_msg );
-
-   if v_transcount > 0 then
-   begin
-      ROLLBACK;
-       v_transcount :=  v_transcount - 1;
-
-   end;
-   end if;
+     raise exception 'Ha ocurrido un error al grabar la aplicación de la cobranza. sp_doc_cobranza_save_aplic. %. %.',
+                      sqlstate, sqlerrm;
 
 end;
+$BODY$
+  language plpgsql volatile
+  cost 100;
+alter function sp_doc_cobranza_save_aplic(integer, integer, integer)
+  owner to postgres;

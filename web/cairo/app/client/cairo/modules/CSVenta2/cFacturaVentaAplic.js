@@ -93,8 +93,7 @@
       var KIPR_IDX2 = 17;
 
       var m_editing;
-      var m_dialog;
-      var m_generalConfig;
+      var m_dialog = null;
       var m_fvId = 0;
       var m_isNotaCredito;
       var m_fvNumero = "";
@@ -359,7 +358,7 @@
                     if(success) {
 
                       if(m_client !== null) {
-                        m_client.refresh(self, m_fcId);
+                        m_client.refresh(self, m_fvId);
                       }
                     }
                     return success;
@@ -392,7 +391,7 @@
           function(response) {
             if(response.success !== true) { return false; }
 
-            if(response.data.id === m_fcId) {
+            if(response.data.id === m_fvId) {
 
               m_data = loadDataFromResponse(response);
 
@@ -877,7 +876,7 @@
           
           // document
           //
-          item.docNombre = valField(m_data.itemsAplicados[_i], CV.DOC_NAME);
+          item.docName = valField(m_data.itemsAplicados[_i], C.DOC_NAME);
           item.nroDoc = valField(m_data.itemsAplicados[_i], C.NRO_DOC);
           item.fecha = valField(m_data.itemsAplicados[_i], C.FECHA);
 
@@ -892,7 +891,7 @@
           item.rv_id = valField(m_data.itemsAplicados[_i], CV.RV_ID);
           item.pvi_id = valField(m_data.itemsAplicados[_i], CV.PVI_ID);
           item.pv_id = valField(m_data.itemsAplicados[_i], CV.PV_ID);
-          item.pr_id = valField(m_data.itemsAplicados[_i], CV.PR_ID);
+          item.pr_id = valField(m_data.itemsAplicados[_i], C.PR_ID);
 
           // applied
           //
@@ -965,7 +964,7 @@
           index = m_vPedidoRemito.length -1;
         }
 
-        m_vPedidoRemito[index].vAplicaciones.push(createPedidoRemitoItem());
+        m_vPedidoRemito[index].vAplicaciones.push(createPedidoRemitoAplic());
 
         return {
           indexOrdenRemito: index,
@@ -1123,11 +1122,11 @@
             elem.setKey(KIPR_PVI_ID);
 
             elem = row.add(null);
-            elem.setId(m_vOrdenRemito[idx].pv_id);
+            elem.setId(m_vPedidoRemito[idx].pv_id);
             elem.setKey(KIPR_PV_ID);
 
             elem = row.add(null);
-            elem.setValue(m_vPedidoRemito[idx].docNombre);
+            elem.setValue(m_vPedidoRemito[idx].docName);
             elem.setKey(KIPR_DOC);
 
             elem = row.add(null);
@@ -1192,7 +1191,7 @@
         elem.setKey(KIPR_PVI_ID);
 
         elem = row.add(null);
-        elem.setValue(m_vPedidoRemito[i].docNombre);
+        elem.setValue(m_vPedidoRemito[i].docName);
         elem.setKey(KIPR_DOC);
 
         elem = row.add(null);
@@ -1417,7 +1416,7 @@
 
         m_vCobzNC = [];
 
-        for(var _i = 0, count = m_data.pagosAplicados.length; _i < count; _i += 1) {
+        for(var _i = 0, count = m_data.cobrosAplicados.length; _i < count; _i += 1) {
 
           var indexInfo = cobranzaAddToCreditos(
             valField(m_data.cobrosAplicados[_i], CT.COBZ_ID),
@@ -1525,22 +1524,22 @@
           var row = rows.add(null);
 
           elem = row.add(null);
-          elem.setId(valField(m_data.items[_i], CT.FVD_ID));
+          elem.setId(valField(m_data.vencimientos[_i], CT.FVD_ID));
           elem.setKey(KIV_FVD_ID);
 
           elem = row.add(null);
-          elem.setId(valField(m_data.items[_i], CT.FVP_ID));
+          elem.setId(valField(m_data.vencimientos[_i], CT.FVP_ID));
           elem.setKey(KIV_FVP_ID);
 
           elem = row.add(null);
-          elem.setValue(valField(m_data.items[_i], C.FECHA));
+          elem.setValue(valField(m_data.vencimientos[_i], C.FECHA));
           elem.setKey(KIV_FECHA);
 
           elem = row.add(null);
-          elem.setValue(valField(m_data.items[_i], C.PENDIENTE));
+          elem.setValue(valField(m_data.vencimientos[_i], C.PENDIENTE));
           elem.setKey(KIV_PENDIENTE);
 
-          var value = valField(m_data.items[_i], C.IMPORTE);
+          var value = valField(m_data.vencimientos[_i], C.IMPORTE);
           elem = row.add(null);
           elem.setValue(value);
           elem.setKey(KIV_APLICADO);
@@ -1550,7 +1549,7 @@
           }
 
           elem = row.add(null);
-          elem.setValue(valField(m_data.items[_i], C.IMPORTE));
+          elem.setValue(valField(m_data.vencimientos[_i], C.IMPORTE));
           elem.setKey(KIV_APLICADO2);
         }
       };
@@ -1560,7 +1559,7 @@
           var pendiente = valField(m_data.cobrosParaAplicar[_i], C.PENDIENTE);
           m_vCobzNC.push({
             cobz_id: valField(m_data.cobrosParaAplicar[_i], CT.COBZ_ID),
-            fc_id: valField(m_data.cobrosParaAplicar[_i], CV.FV_ID),
+            fv_id: valField(m_data.cobrosParaAplicar[_i], CV.FV_ID),
             fvd_id: valField(m_data.cobrosParaAplicar[_i], CT.FVD_ID),
             fvp_id: NO_ID,
             docName: valField(m_data.cobrosParaAplicar[_i], C.DOC_NAME),
@@ -1648,7 +1647,7 @@
         elem.setName(getText(1650, "")); // Cotiz.
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setFormat(m_generalConfig.getFormatDecCotizacion());
+        elem.setFormat(Cairo.Settings.getCurrencyRateDecimalsFormat());
         elem.setKey(KIC_COTIZACION);
 
         elem = columns.add(null);
@@ -1681,7 +1680,7 @@
 
         for(var i = 0, count = m_vCobzNC.length; i < count ; i += 1) {
           if(   (m_vCobzNC[i].cobz_id === cobzId && cobzId !== NO_ID)
-            || (m_vCobzNC[i].fvd_id === fcdId && fcdId !== NO_ID)
+            || (m_vCobzNC[i].fvd_id === fvdId && fvdId !== NO_ID)
             || (m_vCobzNC[i].fvp_id === fvpId && fvpId !== NO_ID)) {
 
             index = i;
@@ -1827,7 +1826,7 @@
             elem.setKey(KIC_FVP_ID);
 
             elem = row.add(null);
-            elem.setValue(m_vCobzNC[idx].docNombre);
+            elem.setValue(m_vCobzNC[idx].docName);
             elem.setKey(KIC_DOC);
 
             elem = row.add(null);
@@ -1906,7 +1905,7 @@
         elem.setKey(KIC_FVP_ID);
 
         elem = row.add(null);
-        elem.setValue(m_vCobzNC[i].docNombre);
+        elem.setValue(m_vCobzNC[i].docName);
         elem.setKey(KIC_DOC);
 
         elem = row.add(null);
@@ -2174,7 +2173,7 @@
 
         var cobranzas = cobranzaGetCobranzas();
         for(var i = 0, count = cobranzas.length; i < count; i += 1) {
-          ordenPagoSaveOrdenPagoAux(transaction, cobranzas[i].cobz_id, cobranzas[i].newAplic, m_vCobzNC[i].cotizacion);
+          cobranzaSaveCobranzaAux(transaction, cobranzas[i].cobz_id, cobranzas[i].newAplic, m_vCobzNC[i].cotizacion);
         }
 
         mainRegister.addTransaction(transaction);
@@ -2252,9 +2251,6 @@
                 fields.add(CT.FV_COBZ_COTIZACION, m_vCobzNC[i].cotizacion, Types.double);
                 fields.add(CT.FV_COBZ_IMPORTE, m_vCobzNC[i].vAplicaciones[j].aplicado, Types.double);
                 fields.add(CT.FV_COBZ_IMPORTE_ORIGEN, Cairo.Util.zeroDiv(m_vCobzNC[i].vAplicaciones[j].aplicado, m_vCobzNC[i].cotizacion), Types.double);
-
-                register.getFields().setHaveLastUpdate(false);
-                register.getFields().setHaveWhoModify(false);
 
                 transaction.addRegister(register);
               }

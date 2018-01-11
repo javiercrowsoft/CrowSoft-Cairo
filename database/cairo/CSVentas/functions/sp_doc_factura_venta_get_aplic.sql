@@ -1,4 +1,4 @@
-/*
+﻿/*
 CrowSoft-Cairo
 ==============
 
@@ -30,7 +30,7 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_doc_factura_venta_get_aplic()
 
--- drop function sp_doc_factura_venta_get_aplic(integer);
+-- drop function sp_doc_factura_venta_get_aplic(integer, integer, integer);
 /*
 select * from sp_doc_factura_venta_get_aplic(1,3,6);
 fetch all from rtn;
@@ -38,7 +38,7 @@ fetch all from rtn;
 create or replace function sp_doc_factura_venta_get_aplic
 (
   in p_emp_id integer,
-  in p_fc_id integer,
+  in p_fv_id integer,
   in p_tipo integer,
             /* 1: Vencimientos
                2: Aplicaciones Cobranzas y Notas de credito
@@ -380,14 +380,14 @@ begin
                             doc_nombre,
                             pv_nrodoc nrodoc,
                             pv_fecha Fecha,
-                            pvi_pendienteFac Pendiente,
+                            pvi_pendiente Pendiente,
                             pvi_orden orden
                   from FacturaVentaItem fvi
                   join PedidoFacturaVenta pvfv
                    on fvi.fvi_id = pvfv.fvi_id
                   join PedidoVentaItem pvi
                    on pvfv.pvi_id = pvi.pvi_id
-                  join OrdenVenta oc
+                  join PedidoVenta pv
                    on pvi.pv_id = pv.pv_id
                   join Documento doc
                    on pv.doc_id = doc.doc_id
@@ -443,12 +443,12 @@ begin
                                doc_nombre,
                                pv_nrodoc nrodoc,
                                pv_fecha Fecha,
-                               pvi_pendienteFac Pendiente,
+                               pvi_pendiente Pendiente,
                                pvi_orden orden
                         from FacturaVentaItem fvi
                         join FacturaVenta fv
                          on fvi.fv_id = fv.fv_id
-                        join OrdenVenta oc
+                        join PedidoVenta pv
                          on fv.cli_id = pv.cli_id and pv.doct_id = 5 and pv.est_id <> 7
                         join Documento doc
                          on pv.doc_id = doc.doc_id
@@ -457,7 +457,7 @@ begin
                         where fvi.fv_id = p_fv_id
                           -- empresa
                           and doc.emp_id = p_emp_id
-                          and pvi_pendienteFac > 0
+                          and pvi_pendiente > 0
                           -- el pedido de venta item no tiene que estar vinculado
                           -- con ningun item de esta factura
                           --

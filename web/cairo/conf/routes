@@ -428,6 +428,9 @@ POST    /api/v1/ventas/facturaventa/from_remitos                                
 PUT     /api/v1/ventas/facturaventa/:id                                                      controllers.logged.modules.ventas.FacturaVentas.update(id: Int)
 DELETE  /api/v1/ventas/facturaventa/:id                                                      controllers.logged.modules.ventas.FacturaVentas.delete(id: Int)
 
+GET     /api/v1/ventas/facturaventa/aplic/:id                                                controllers.logged.modules.ventas.FacturaVentas.getAplic(id: Int)
+PUT     /api/v1/ventas/facturaventa/aplic/:id                                                controllers.logged.modules.ventas.FacturaVentas.saveAplic(id: Int)
+
 GET     /api/v1/ventas/facturaventa/notes/:id                                                controllers.logged.modules.ventas.FacturaVentas.notes(id: Int)
 
 #

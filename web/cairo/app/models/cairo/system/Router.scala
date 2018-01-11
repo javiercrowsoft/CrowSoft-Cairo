@@ -28,6 +28,7 @@ object Router {
     val wizards: List[Wizard] = {
       fileHandler match {
         case "CSCompra2/cFacturaCompra" => List(Wizard("CSCompra2/cFacturaCompraRemitoWiz"), Wizard("CSCompra2/cFacturaCompraAplic"))
+        case "CSVenta2/cFacturaVenta" => List(Wizard("CSVenta2/cFacturaVentaRemitoWiz"), Wizard("CSVenta2/cFacturaVentaAplic"))
         case "CSTesoreria2/cCobranza" => List(Wizard("CSTesoreria2/cCobranzaWizard"))
         case "CSTesoreria2/cOrdenPago" => List(Wizard("CSTesoreria2/cOrdenPagoWizard"))
         case _ => List()

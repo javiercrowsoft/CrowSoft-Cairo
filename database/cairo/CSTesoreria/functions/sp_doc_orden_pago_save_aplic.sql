@@ -597,6 +597,7 @@ begin
    -- guardo un id de cuenta para anticipos.
    -- esto funciona asi: si despues de aplicar queda plata pendiente
    --                    la asigno a la cuenta anticipo
+   --
    select cue_id
      into v_cue_id_anticipo
    from OrdenPagoItem
@@ -680,7 +681,7 @@ begin
 
       v_opgi_orden := v_opgi_orden + 1;
 
-      -- creo un nuevo registro de OrdenPago item
+      -- creo un nuevo registro de orden pago item
       --
       select sp_dbGetNewId('OrdenPagoItem', 'opgi_id') into v_opgi_id;
 
@@ -721,7 +722,7 @@ begin
 exception
    when others then
 
-     raise exception 'Ha ocurrido un error al grabar la aplicación de la Orden de Pago. sp_doc_orden_pago_save_aplic. %. %.',
+     raise exception 'Ha ocurrido un error al grabar la aplicación de la orden de pago. sp_doc_orden_pago_save_aplic. %. %.',
                       sqlstate, sqlerrm;
 
 end;

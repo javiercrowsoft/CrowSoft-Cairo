@@ -4287,12 +4287,12 @@
         }
 
         if(m_applyEditor === null) {
-          m_applyEditor = Cairo.FacturaVentaAplic.createObject();
+          m_applyEditor = Cairo.FacturaVentaAplic.Edit.Controller.getEditor();
         }
         else {
           if(m_applyEditor.getId() !== m_id) {
             m_applyEditor.setClient(null);
-            m_applyEditor = Cairo.FacturaVentaAplic.createObject();
+            m_applyEditor = Cairo.FacturaVentaAplic.Edit.Controller.getEditor();
           }
         }
 
@@ -5949,7 +5949,7 @@
             return false;
           }
 
-          var applyEditor = Cairo.FacturaVentaAplic.createObject();
+          var applyEditor = Cairo.FacturaVentaAplic.Edit.Controller.getEditor();
 
           applyEditor.setClient(self);
 
