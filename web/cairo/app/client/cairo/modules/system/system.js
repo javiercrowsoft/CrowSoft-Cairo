@@ -1493,7 +1493,7 @@
   
       if(vIds.length > 0) { id = vIds(1); }
   
-      p = DB.getData("load[" + m_apiPath + "documento/from_doct_id/"
+      p = DB.getData("load[" + m_apiPath + "documento/from_doctId/"
                   + doctId.toString() + "/" + doctIdApplic.toString()
                   + "/" + id.toString() + "/" + idEx.toString() + "]")
         .then(function(response) {

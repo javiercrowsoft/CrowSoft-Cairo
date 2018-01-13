@@ -105,8 +105,8 @@
       var C_ITEMS = "ITEMS";
       var C_ORIGEN = "ORIGEN";
 
-      var C_ASTOTALDEBE = "as_totaldebe";
-      var C_ASTOTALHABER = "as_totalhaber";
+      var C_AS_TOTAL_DEBE = "as_totaldebe";
+      var C_AS_TOTAL_HABER = "as_totalhaber";
 
       var K_NUMERO = 1;
       var K_NRODOC = 2;
@@ -141,7 +141,7 @@
       var m_idCliente = 0;
       var m_doctIdCliente = 0;
 
-      var m_doc_cliente = "";
+      var m_docCliente = "";
 
       var m_editing;
 
@@ -171,8 +171,6 @@
       var m_docEditMsg = "";
 
       var m_apiPath = DB.getAPIVersion();
-
-      var m_defaultCurrency = D.getDefaultCurrency();
 
       var emptyData = {
         items: []
@@ -1110,7 +1108,7 @@
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(getText(1960, "")); // Generado Por
         elem.setKey(K_ID_CLIENTE);
-        elem.setValue(m_doc_cliente);
+        elem.setValue(m_docCliente);
         elem.setEnabled(false);
 
         elem = properties.add(null, CC.AS_DESCRIP);
@@ -1158,7 +1156,7 @@
         properties = m_footerProps;
         properties.clear();
 
-        elem = properties.add(null, C_ASTOTALDEBE);
+        elem = properties.add(null, C_AS_TOTAL_DEBE);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setName(getText(1961, "")); // Total Debe
@@ -1167,7 +1165,7 @@
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setEnabled(false);
 
-        elem = properties.add(null, C_ASTOTALHABER);
+        elem = properties.add(null, C_AS_TOTAL_HABER);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setName(getText(1962, "")); // Total Haber
@@ -1330,7 +1328,7 @@
               m_idCliente = valField(data, C.ID_CLIENTE);
               m_doctIdCliente = valField(data, C.DOCT_ID_CLIENTE);
 
-              m_doc_cliente = valField(data, C.DOC_CLIENTE);
+              m_docCliente = valField(data, C.DOC_CLIENTE);
 
               m_taMascara = valField(data, C.TA_MASCARA);
               m_taPropuesto = valField(data, C.TA_PROPUESTO);
@@ -1356,7 +1354,7 @@
               m_idCliente = NO_ID;
               m_doctIdCliente = NO_ID;
 
-              m_doc_cliente = "";
+              m_docCliente = "";
 
               m_taPropuesto = false;
               m_taMascara = "";
@@ -1487,8 +1485,8 @@
           haber = haber + Cairo.Util.val(getCell(row, KI_HABER).getValue());
         }
 
-        m_footer.getProperties().item(C_ASTOTALDEBE).setValue(debe);
-        m_footer.getProperties().item(C_ASTOTALHABER).setValue(haber);
+        m_footer.getProperties().item(C_AS_TOTAL_DEBE).setValue(debe);
+        m_footer.getProperties().item(C_AS_TOTAL_HABER).setValue(haber);
 
         m_footer.refreshControls();
       };
@@ -1588,7 +1586,7 @@
         .setTextAlign(Dialogs.TextAlign.right);
 
         m_properties.item(CC.AS_DOC_CLIENTE)
-        .setValue(m_doc_cliente);
+        .setValue(m_docCliente);
 
         m_properties.item(CC.AS_DESCRIP)
         .setValue(m_descrip);
@@ -1605,10 +1603,10 @@
 
         var properties = m_footerProps;
 
-        properties.item(C_ASTOTALDEBE)
+        properties.item(C_AS_TOTAL_DEBE)
         .setValue(m_totalDebe);
 
-        properties.item(C_ASTOTALHABER)
+        properties.item(C_AS_TOTAL_HABER)
         .setValue(m_totalHaber);
 
         m_footer.showValues(m_footerProps);

@@ -4,23 +4,24 @@
   Cairo.Stock = {
 
     Constants: {
-
+      // Asiento
+      STOCK: "Stock",
+      ST_ID: "st_id",
+      ST_NUMERO: "st_numero",
+      ST_NRODOC: "st_nrodoc",
+      ST_DESCRIP: "st_descrip",
+      ST_FECHA: "st_fecha",
+      ST_DOC_CLIENTE: "st_doc_cliente"
     }
   };
 
   Cairo.Security.Actions.Stock = {
 
-    NEW_ASIENTO: 19002,
-    EDIT_ASIENTO: 19003,
-    DELETE_ASIENTO: 19004,
-    LIST_ASIENTO: 19005,
+    NEW_STOCK: 20001,
+    EDIT_STOCK: 20002,
+    DELETE_STOCK: 20003,
+    LIST_STOCK: 20004
 
-    NEW_EJERCICIO: 19002,
-    EDIT_EJERCICIO: 19003,
-    DELETE_EJERCICIO: 19004,
-    LIST_EJERCICIO: 19005,
-
-    RENUMERAR_ASIENTOS: 19009
   }
 
 }());

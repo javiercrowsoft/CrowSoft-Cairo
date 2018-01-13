@@ -112,7 +112,7 @@
       var m_nrodoc = "";
       var m_descrip = "";
       var m_fecha = null;
-      var m_fechaentrega = null;
+      var m_fechaEntrega = null;
       var m_neto = 0;
       var m_ivaRi = 0;
       var m_ivaRni = 0;
@@ -1573,7 +1573,7 @@
         elem.setType(T.date);
         elem.setName(getText(1570, "")); // Entrega
         elem.setKey(K_FECHAENTREGA);
-        elem.setValue(m_fechaentrega);
+        elem.setValue(m_fechaEntrega);
 
         elem = properties.add(null, C.CLI_ID);
         elem.setType(T.select);
@@ -2207,7 +2207,7 @@
               m_nrodoc = valField(data, CV.PV_NRODOC);
               m_descrip = valField(data, CV.PV_DESCRIP);
               m_fecha = valField(data, CV.PV_FECHA);
-              m_fechaentrega = valField(data, CV.PV_FECHA_ENTREGA);
+              m_fechaEntrega = valField(data, CV.PV_FECHA_ENTREGA);
               m_neto = valField(data, CV.PV_NETO);
               m_ivaRi = valField(data, CV.PV_IVA_RI);
               m_ivaRni = valField(data, CV.PV_IVA_RNI);
@@ -2287,7 +2287,7 @@
               m_nrodoc = "";
               m_descrip = "";
               m_fecha = Cairo.Dates.today();
-              m_fechaentrega = Cairo.Dates.tomorrow();
+              m_fechaEntrega = Cairo.Dates.tomorrow();
               m_neto = 0;
               m_ivaRi = 0;
               m_ivaRni = 0;
@@ -2871,7 +2871,7 @@
           .setValue(m_fecha);
 
         m_properties.item(CV.PV_FECHA_ENTREGA)
-          .setValue(m_fechaentrega);
+          .setValue(m_fechaEntrega);
 
         m_properties.item(C.CLI_ID)
           .setSelectId(m_cliId)

@@ -64,9 +64,9 @@
       var m_externo;
       var m_empXDpto;
       var m_empresaEx;
-      var m_prs_id = 0;
+      var m_prsId = 0;
       var m_persona = "";
-      var m_suc_id = 0;
+      var m_sucId = 0;
       var m_sucursal = "";
 
       var m_editing;
@@ -548,7 +548,7 @@
         elem.setSelectTable(CSPERSONA);
         elem.setName(getText(2812, "")); // Persona
         elem.setKey(K_PRS_ID);
-        elem.setSelectId(m_prs_id);
+        elem.setSelectId(m_prsId);
         elem.setValue(m_persona);
 
         elem = properties.add(null, C.SUC_ID);
@@ -556,7 +556,7 @@
         elem.setSelectTable(CSSUCURSAL);
         elem.setName(getText(1281, "")); // Sucursal
         elem.setKey(K_SUC_ID);
-        elem.setSelectId(m_suc_id);
+        elem.setSelectId(m_sucId);
         elem.setValue(m_sucursal);
 
         elem = properties.add(null, C.US_DESCRIP);
@@ -639,7 +639,7 @@
         property.setValue(bToI(m_empresaEx));
 
         property = properties.item(C.PRS_ID);
-        property.setSelectId(m_prs_id);
+        property.setSelectId(m_prsId);
         property.setValue(m_persona);
 
         property = properties.item(C.SUC_ID);
@@ -695,9 +695,9 @@
               m_password = "";
               m_descrip = valField(response.data, C.US_DESCRIP);
               m_externo = valField(response.data, C.US_EXTERNO);
-              m_prs_id = valField(response.data, C.PRS_ID);
+              m_prsId = valField(response.data, C.PRS_ID);
               m_persona = valField(response.data, C.PRS_NAME);
-              m_suc_id = valField(response.data, C.SUC_ID);
+              m_sucId = valField(response.data, C.SUC_ID);
               m_sucursal = valField(response.data, C.SUC_NAME);
               m_empXDpto = valField(response.data, C.US_EMP_X_DPTO);
               m_empresaEx = valField(response.data, C.US_EMPRESA_EX);
@@ -712,9 +712,9 @@
               m_externo = false;
               m_empXDpto = false;
               m_empresaEx = false;
-              m_prs_id = NO_ID;
+              m_prsId = NO_ID;
               m_persona = "";
-              m_suc_id = NO_ID;
+              m_sucId = NO_ID;
               m_sucursal = "";
             }
             return true;

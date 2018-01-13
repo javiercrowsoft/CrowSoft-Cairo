@@ -823,7 +823,15 @@
 
         elem = columns.add(null);
         elem.setVisible(false);
+        elem.setKey(KIPR_RV_ID);
+
+        elem = columns.add(null);
+        elem.setVisible(false);
         elem.setKey(KIPR_PVI_ID);
+
+        elem = columns.add(null);
+        elem.setVisible(false);
+        elem.setKey(KIPR_PV_ID);
 
         elem = columns.add(null);
         elem.setName(getText(1567, "")); // Documento
@@ -1187,8 +1195,16 @@
         elem.setKey(KIPR_RVI_ID);
 
         elem = row.add(null);
+        elem.setId(m_vPedidoRemito[i].rv_id);
+        elem.setKey(KIPR_RV_ID);
+
+        elem = row.add(null);
         elem.setId(m_vPedidoRemito[i].pvi_id);
         elem.setKey(KIPR_PVI_ID);
+
+        elem = row.add(null);
+        elem.setId(m_vPedidoRemito[i].pv_id);
+        elem.setKey(KIPR_PV_ID);
 
         elem = row.add(null);
         elem.setValue(m_vPedidoRemito[i].docName);
