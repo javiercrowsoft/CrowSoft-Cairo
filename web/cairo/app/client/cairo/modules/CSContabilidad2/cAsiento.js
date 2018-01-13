@@ -1,74 +1,74 @@
 (function() {
   "use strict";
 
+  var showDocAux = function(asId) {
+    var D = Cairo.Documents;
+    var M = Cairo.Modal;
+    var NO_ID = Cairo.Constants.NO_ID;
+    var getText = Cairo.Language.getText;
+
+    if(asId !== NO_ID) {
+
+      D.getDocCliente(D.Types.ASIENTO_CONTABLE, asId).whenSuccessWithResult(function(response) {
+
+        if(response.id === NO_ID) {
+          M.showInfo(getText(1693, "")); // Este comprobante no tiene un documento de stock asociado.
+        }
+
+        var objEditName = "";
+
+        switch (response.doctId) {
+          case 1:
+          case 7:
+          case 9:
+            objEditName = "FacturaVenta";
+            break;
+
+          case 2:
+          case 8:
+          case 9:
+            objEditName = "FacturaCompra";
+            break;
+
+          case 13:
+            objEditName = "Cobranza";
+            break;
+
+          case 16:
+            objEditName = "OrdenPago";
+            break;
+
+          case 26:
+            objEditName = "MovimientoFondo";
+            break;
+
+          case 32:
+            objEditName = "DepositoCupon";
+            break;
+
+          case 17:
+            objEditName = "DepositoBanco";
+            break;
+
+          case 33:
+            objEditName = "ResolucionCupon";
+            break;
+        }
+
+        if(objEditName === "") {
+          // No hay un documento asociado al doct_id #{ response.doctId }
+          // ;;Comuniquese con soporte de CrowSoft para obtener asistencia técnica.
+          M.showWarning(getText(1956, "", response.doctId));
+          return;
+        }
+        else {
+          D.showDocAux(response.id, objEditName);
+        }
+      });
+    }
+  };
+
   Cairo.module("Asiento.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
-
-    var showDocAux = function(asId) {
-      var D = Cairo.Documents;
-      var M = Cairo.Modal;
-      var NO_ID = Cairo.Constants.NO_ID;
-      var getText = Cairo.Language.getText;
-
-      if(asId !== NO_ID) {
-
-        D.getDocCliente(D.Types.ASIENTO_CONTABLE, asId).whenSuccessWithResult(function(response) {
-
-          if(response.id === NO_ID) {
-            M.showInfo(getText(1693, "")); // Este comprobante no tiene un documento de stock asociado.
-          }
-
-          var objEditName = "";
-
-          switch (response.doctId) {
-            case 1:
-            case 7:
-            case 9:
-              objEditName = "FacturaVenta";
-              break;
-
-            case 2:
-            case 8:
-            case 9:
-              objEditName = "FacturaCompra";
-              break;
-
-            case 13:
-              objEditName = "Cobranza";
-              break;
-
-            case 16:
-              objEditName = "OrdenPago";
-              break;
-
-            case 26:
-              objEditName = "MovimientoFondo";
-              break;
-
-            case 32:
-              objEditName = "DepositoCupon";
-              break;
-
-            case 17:
-              objEditName = "DepositoBanco";
-              break;
-
-            case 33:
-              objEditName = "ResolucionCupon";
-              break;
-          }
-
-          if(objEditName === "") {
-            // No hay un documento asociado al doct_id #{ response.doctId }
-            // ;;Comuniquese con soporte de CrowSoft para obtener asistencia técnica.
-            M.showWarning(getText(1956, "", response.doctId));
-            return;
-          }
-          else {
-            D.showDocAux(response.id, objEditName);
-          }
-        });
-      }
-    };
 
     var createObject = function() {
 
@@ -318,7 +318,6 @@
 
           case Dialogs.Message.MSG_DOC_SIGNATURE:
 
-            p = false;
             break;
 
           case Dialogs.Message.MSG_GRID_ROW_DELETED:
@@ -1629,7 +1628,7 @@
 
     Edit.Controller.edit = function(id) {
 
-      Cairo.LoadingMessage.show("Factura de Compras", "Loading Asientos from Crowsoft Cairo server.");
+      Cairo.LoadingMessage.show("Asientos", "Loading Asientos from Crowsoft Cairo server.");
       var editor = Cairo.Asiento.Edit.Controller.getEditor();
 
       var dialog = Cairo.Dialogs.Views.Controller.newDialog();
@@ -1738,6 +1737,30 @@
         }
 
         return _rtn;
+      };
+
+      self.processMenu = function(index) {
+        try {
+
+          switch (index) {
+
+            case m_menuShowNotes:
+              showNotes();
+              break;
+
+            case m_menuAddNote:
+              addNote();
+              break;
+
+            case m_menuShowDocAux:
+              showDocAux();
+              break;
+          }
+
+        }
+        catch (ex) {
+          Cairo.manageErrorEx(ex.message, ex, "processMenu", C_MODULE, "");
+        }
       };
 
       var loadCollection = function() {
