@@ -804,7 +804,7 @@
                 function (success) {
                   if(success) {
                     refreshCollection();
-                  };
+                  }
                   return success;
                 }
               );

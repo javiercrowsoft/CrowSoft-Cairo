@@ -83,10 +83,10 @@
       var m_cueIdDifCambio = 0;
       var m_cuentaDifCambio = "";
 
-      var m_docIdNCdifCambio = 0;
+      var m_docIdNCDifCambio = 0;
       var m_docNCDifCambio = "";
 
-      var m_docIdNDdifCambio = 0;
+      var m_docIdNDDifCambio = 0;
       var m_docNDDifCambio = "";
 
       var m_prIdDifCambio = 0;
@@ -119,8 +119,8 @@
       var m_cueIdAntCobz = 0;
       var m_cueIdAntOpg = 0;
 
-      var monIdAntCobz = 0;
-      var monNameAntCobz = "";
+      var m_monIdAntCobz = 0;
+      var m_monNameAntCobz = "";
 
       var m_exigirCentroCosto;
       var m_cobranzasXHojaRuta;
@@ -143,18 +143,19 @@
       var TEXT = Cairo.Constants.Types.text;
       var ID = Cairo.Constants.Types.id;
 
+      //
+      // property getters
+      //
+
       self.getCueIdDifCambio = function() {
         return m_cueIdDifCambio;
       };
-
       self.getCuentaDifCambio = function() {
         return m_cuentaDifCambio;
       };
-
       self.getCueAnticipoCobz = function() {
         return m_cueAnticipoCobz;
       };
-
       self.getCueIdAntCobz = function() {
         return m_cueIdAntCobz;
       };
@@ -162,7 +163,6 @@
       self.getMonIdAntCobz = function() {
         return m_monIdAntCobz;
       };
-
       self.getMonNameAntCobz = function() {
         return m_monNameAntCobz;
       };
@@ -170,43 +170,34 @@
       self.getCueAnticipoOpg = function() {
         return m_cueAnticipoOpg;
       };
-
       self.getCueIdAntOpg = function() {
         return m_cueIdAntOpg;
       };
 
       self.getDocIdNCDifCambio = function() {
-        return m_docIdNCdifCambio;
+        return m_docIdNCDifCambio;
       };
-
       self.getDocNCDifCambio = function() {
         return m_docNCDifCambio;
       };
-
       self.getDocIdNDDifCambio = function() {
-        return m_docIdNDdifCambio;
+        return m_docIdNDDifCambio;
       };
-
       self.getDocNDDifCambio = function() {
         return m_docNDDifCambio;
       };
-
       self.getPrIdDifCambio = function() {
         return m_prIdDifCambio;
       };
-
       self.getProductoDifCambio = function() {
         return m_productoDifCambio;
       };
-
       self.getDefaultDifCambio = function() {
         return m_defaultDifCambio;
       };
-
       self.getModoIvaDifCambio = function() {
         return m_modoIvaDifCambio;
       };
-
       self.getAplicacionDifCambio = function() {
         return m_aplicacionDifCambio;
       };
@@ -214,7 +205,6 @@
       self.getDocIdCobranza = function() {
         return m_docIdCobranza;
       };
-
       self.getDocCobranza = function() {
         return m_docCobranza;
       };
@@ -222,7 +212,6 @@
       self.getDocIdOrdenPago = function() {
         return m_docIdOrdenPago;
       };
-
       self.getDocOrdenPago = function() {
         return m_docOrdenPago;
       };
@@ -230,15 +219,12 @@
       self.getGrabarAsientoCobranza = function() {
         return m_grabarAsientoCobranza;
       };
-
       self.getGrabarAsientoDepositoBanco = function() {
         return m_grabarAsientoDepositoBanco;
       };
-
       self.getGrabarAsientoOrdenPago = function() {
         return m_grabarAsientoOrdenPago;
       };
-
       self.getGrabarAsientoMovimientoFondo = function() {
         return m_grabarAsientoMovimientoFondo;
       };
@@ -253,11 +239,9 @@
 
       self.getGrabarAsientoRendicion = function() {
       };
-
       self.getGrabarAsientoResolucionCupon = function() {
         return m_grabarAsientoResolucionCupon;
       };
-
       self.getGrabarAsientoDepositoCupon = function() {
         return m_grabarAsientoDepositoCupon;
       };
@@ -269,6 +253,10 @@
       self.getCalcularRetenciones = function() {
         return m_calcularRetenciones;
       };
+
+      //
+      // editor code
+      //
 
       self.copy = function() {
       };
@@ -679,10 +667,10 @@
               m_cueIdDifCambio = NO_ID;
               m_cuentaDifCambio = "";
 
-              m_docIdNCdifCambio = NO_ID;
+              m_docIdNCDifCambio = NO_ID;
               m_docNCDifCambio = "";
 
-              m_docIdNDdifCambio = NO_ID;
+              m_docIdNDDifCambio = NO_ID;
               m_docNDDifCambio = "";
 
               m_prIdDifCambio = NO_ID;
@@ -786,13 +774,13 @@
 
                   case C_NC_DIF_CAMBIO:
                     var value = getValue(settings[_i], C.CONFIG_VALUE);
-                    m_docIdNCdifCambio = value.id;
+                    m_docIdNCDifCambio = value.id;
                     m_docNCDifCambio = value.name;
                     break;
 
                   case C_ND_DIF_CAMBIO:
                     var value = getValue(settings[_i], C.CONFIG_VALUE);
-                    m_docIdNDdifCambio = value.id;
+                    m_docIdNDDifCambio = value.id;
                     m_docNDDifCambio = value.name;
                     break;
 
@@ -936,7 +924,7 @@
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setName(C_NC_DIF_CAMBIO);
         elem.setKey(K_DOC_ID_NC_DIF_CAMBIO);
-        elem.setSelectId(m_docIdNCdifCambio);
+        elem.setSelectId(m_docIdNCDifCambio);
         elem.setSelectFilter("'doct_id = 7'");
         elem.setValue(m_docNCDifCambio);
         elem.setTabIndex(c_tab_difCambio);
@@ -946,7 +934,7 @@
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setName(C_ND_DIF_CAMBIO);
         elem.setKey(K_DOC_ID_ND_DIF_CAMBIO);
-        elem.setSelectId(m_docIdNDdifCambio);
+        elem.setSelectId(m_docIdNDDifCambio);
         elem.setSelectFilter("'doct_id = 9'");
         elem.setValue(m_docNDDifCambio);
         elem.setTabIndex(c_tab_difCambio);
@@ -1183,11 +1171,11 @@
         elem.setValue(m_cuentaDifCambio);
 
         var elem = properties.item(C_NC_DIF_CAMBIO);
-        elem.setSelectId(m_docIdNCdifCambio);
+        elem.setSelectId(m_docIdNCDifCambio);
         elem.setValue(m_docNCDifCambio);
 
         var elem = properties.item(C_ND_DIF_CAMBIO);
-        elem.setSelectId(m_docIdNDdifCambio);
+        elem.setSelectId(m_docIdNDDifCambio);
         elem.setValue(m_docNDDifCambio);
 
         var elem = properties.item(C_PR_ID_DIF_CAMBIO);
@@ -1295,6 +1283,5 @@
     Edit.Controller = { getEditor: createObject, edit: showEditor };
 
   });
-
 
 }());

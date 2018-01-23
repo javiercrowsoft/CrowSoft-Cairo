@@ -1,147 +1,56 @@
 (function() {
   "use strict";
 
-  var showDocAux = function() {
+  var showDocAux = function(stId) {
+    var D = Cairo.Documents;
+    var M = Cairo.Modal;
+    var NO_ID = Cairo.Constants.NO_ID;
+    var getText = Cairo.Language.getText;
 
-    var stId = null;
-    stId = m_dialog.getId();
+    if(stId !== NO_ID) {
 
-    if(stId) {
+      D.getDocCliente(D.Types.ASIENTO_CONTABLE, asId).whenSuccessWithResult(function(response) {
 
-      var idCliente = null;
-      var doctIdCliente = null;
+        if(response.id === NO_ID) {
+          M.showInfo(getText(1693, "")); // Este comprobante no tiene un documento de stock asociado.
+        }
 
-      if(!DB.getData(mStockConstantes.STOCK, mStockConstantes.ST_ID, stId, C.ID_CLIENTE, idCliente)) { return; }
-      if(!DB.getData(mStockConstantes.STOCK, mStockConstantes.ST_ID, stId, C.DOCT_ID_CLIENTE, doctIdCliente)) { return; }
+        var objEditName = "";
 
-
-      /*
-      *
-      * TODO: check if this commented implementation of showdoc is covered by bellow implementation
-      *
-      if(m_id) {
-
-       var objEditName = null;
-
-       switch (m_doctIdCliente) {
-       //' FacturaVenta, Nota de Credito, Nota de Debito
-       case 1:
-       case 7:
-       case 9:
-       objEditName = "CSVenta2.cFacturaVenta";
-       //' FacturaCompra, Nota de Credito, Nota de Debito
-       break;
-
-       case 2:
-       case 8:
-       case 9:
-       objEditName = "CSCompra2.cFacturaCompra";
-       //' RemitoVenta, Devolucion
-       break;
-
-       case 3:
-       case 24:
-       objEditName = "CSVenta2.cRemitoVenta";
-       //' RemitoCompra, Devolucion
-       break;
-
-       case 4:
-       case 25:
-       objEditName = "CSCompra2.cRemitoCompra";
-       //' Recuento de Stock
-       break;
-
-       case 28:
-       objEditName = "CSStock2.cRecuentoStock";
-       //' Importacion Temporal
-       break;
-
-       case 29:
-       objEditName = "CSExport2.cImportacionTemporal";
-       //' Parte de Produccion de Kit, Parte de Desarme
-       break;
-
-       case 30:
-       case 34:
-       objEditName = "CSStock2.cParteProdKit";
-       //' Es una transaferencia de stock directa
-       break;
-
-       case 0:
-       return Cairo.Promises.resolvedPromise(_rtn);
-       break;
-       }
-
-       if(objEditName === "") {
-       MsgWarning(Cairo.Language.getText(1956, "", m_doctIdCliente));
-       //No hay un documento asociado al doct_id " & m_doctIdCliente & ";;Comuniquese con soporte de CrowSoft para obtener asistencia técnica.
-
-       return Cairo.Promises.resolvedPromise(_rtn);
-       }
-
-       ShowDocAux(m_idCliente, objEditName, "CSABMInterface2.cABMGeneric");
-
-       }
-       else {
-       MsgInfo(Cairo.Language.getText(1620, ""));
-       //Debe editar un comprobante guardado para poder ver los documentos auxiliares
-       }
-
-      * */
-
-
-      if(idCliente === NO_ID) {
-
-        MsgInfo(getText(1693, ""));
-        //Este comprobante no tiene un documento de stock asociado.
-
-      }
-      else {
-
-        var objEditName = null;
-
-        switch (doctIdCliente) {
-          //  FacturaVenta, Nota de Credito, Nota de Debito
+        switch (response.doctId) {
           case 1:
           case 7:
           case 9:
-            objEditName = "CSVenta2.cFacturaVenta";
-            //  FacturaCompra, Nota de Credito, Nota de Debito
+            objEditName = "FacturaVenta";
             break;
 
           case 2:
           case 8:
           case 9:
-            objEditName = "CSCompra2.cFacturaCompra";
-            //  RemitoVenta, Devolucion
+            objEditName = "FacturaCompra";
             break;
 
           case 3:
           case 24:
-            objEditName = "CSVenta2.cRemitoVenta";
-            //  RemitoCompra, Devolucion
+            objEditName = "RemitoVenta";
             break;
 
           case 4:
           case 25:
-            objEditName = "CSCompra2.cRemitoCompra";
-            //  Recuento de Stock
+            objEditName = "RemitoCompra";
             break;
 
           case 28:
-            objEditName = "CSStock2.cRecuentoStock";
-            //  Importacion Temporal
+            objEditName = "RecuentoStock";
             break;
 
           case 29:
-            objEditName = "CSExport2.cImportacionTemporal";
-            //  Parte de Produccion de Kit, Parte de Desarme
+            objEditName = "ImportacionTemporal";
             break;
 
           case 30:
           case 34:
-            objEditName = "CSStock2.cParteProdKit";
-            //  Es una transaferencia de stock directa
+            objEditName = "ParteProdKit";
             break;
 
           case 0:
@@ -150,16 +59,16 @@
         }
 
         if(objEditName === "") {
-          MsgWarning(getText(1956, "", doctIdCliente));
-          //No hay un documento asociado al doct_id " & DoctIdCliente & ";;Comuniquese con soporte de CrowSoft para obtener asistencia técnica.
+          // No hay un documento asociado al doct_id #{ response.doctId }
+          // ;;Comuniquese con soporte de CrowSoft para obtener asistencia técnica.
+          M.showWarning(getText(1956, "", response.doctId));
           return;
         }
-
-        ShowDocAux(idCliente, objEditName, "CSABMInterface2.cABMGeneric");
-
-      }
+        else {
+          D.showDocAux(response.id, objEditName);
+        }
+      });
     }
-
   };
 
   Cairo.module("Stock.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
@@ -269,6 +178,8 @@
       var m_lastDocId = 0;
       var m_lastDocName = "";
 
+      var m_lastDoctId = 0;
+
       var m_isNew;
 
       var m_copy;
@@ -280,7 +191,6 @@
       var m_collKitInfo;
 
       var m_depfId = 0;
-      var m_stockConfig;
 
       var m_apiPath = DB.getAPIVersion();
 
@@ -451,6 +361,11 @@
             p = false;
             break;
 
+          case Dialogs.Message.MSG_DOC_MERGE:
+
+            loadCompensar(pGetItems());
+            break;
+
           case Dialogs.Message.MSG_DOC_REFRESH:
 
             p = load(m_id).then(function(success) {
@@ -470,7 +385,7 @@
             p = P.resolvedPromise(m_footer);
             break;
 
-          case Dialogs.Message.MSG_DOC_SEARCH                    :
+          case Dialogs.Message.MSG_DOC_SEARCH:
 
             D.search(D.Types.TRASFERENCIA_STOCK, self, Cairo.bool(info));
             break;
@@ -483,7 +398,7 @@
           case Dialogs.Message.MSG_DOC_HISTORY:
 
             if(m_id !== NO_ID) {
-              p = Cairo.History.show(Cairo.Tables.ASIENTOS_CONTABLES, m_id, m_documento + " " + m_nrodoc);
+              p = Cairo.History.show(Cairo.Tables.TRANSFERENCIAS_DE_STOCK, m_id, m_documento + " " + m_nrodoc);
             }
             else {
               p = M.showInfo(getText(1552, "")); // El documento aun no ha sido guardado
@@ -498,150 +413,205 @@
 
         return p || P.resolvedPromise();
       };
-      
-      self.messageEx = function(messageID,  info) {
-        var _rtn = null;
-        var row = null;
-
-        switch (messageID) {
-          case Dialogs.Message.MSG_DOC_FIRST:
-          case Dialogs.Message.MSG_DOC_PREVIOUS:
-          case Dialogs.Message.MSG_DOC_NEXT:
-          case Dialogs.Message.MSG_DOC_LAST:
-            _rtn = move(messageID);
-            break;
-
-          case Dialogs.Message.MSG_DOC_SIGNATURE:
-
-            break;
-
-          case Dialogs.Message.MSG_GRID_ROW_DELETED:
-            _rtn = true;
-
-            break;
-
-          case Dialogs.Message.MSG_DOC_EDIT_STATE:
-            //'Transferencias de Stock
-            ShowEditState(m_docEditMsg, Cairo.Language.getText(2270, ""));
-
-            break;
-
-          case Dialogs.Message.MSG_DOC_DELETE:
-            if(self.delete(m_id)) {
-              _rtn = true;
-              move(Dialogs.Message.MSG_DOC_NEXT);
-            }
-
-            break;
-
-          case Dialogs.Message.MSG_DOC_MERGE:
-            pLoadCompensar(pGetItems());
-
-            break;
-
-          case Dialogs.Message.MSG_DOC_REFRESH:
-            load(m_id);
-            refreshProperties();
-
-            break;
-
-          case Dialogs.Message.MSG_DOC_EX_GET_ITEMS:
-            _rtn = m_items;
-
-            break;
-
-          case Dialogs.Message.MSG_DOC_EX_GET_FOOTERS:
-            _rtn = m_footer;
-
-            //' En info cABMInteface nos
-            break;
-
-          case Dialogs.Message.MSG_DOC_SEARCH                    :
-            // indica si hay cambios sin
-            // guardar
-            cPublicDoc.documentSearch(csEDocumentoTipo.cSEDT_TRASFERENCIASTOCK, self, !CBool(info));
-
-            break;
-
-          case Dialogs.Message.MSG_DOC_DOC_AUX:
-
-
-
-            break;
-
-          case Dialogs.Message.MSG_DOC_HISTORY:
-
-            if(m_id !== NO_ID) {
-
-              ShowHistory(csETablesStock.cSSTOCK, m_id, m_documento+ " "+ m_nrodoc);
-            }
-            else {
-
-              //'El documento aun no ha sido guardado
-              MsgInfo(Cairo.Language.getText(1552, ""));
-            }
-
-            break;
-        }
-
-
-        return Cairo.Promises.resolvedPromise(_rtn);
-      };
 
       self.discardChanges = function() {
-        return Cairo.Promises.resolvedPromise(refreshCollection());
+        Cairo.raiseError("Stock", "DiscardChanges was called");
       };
 
       self.propertyChange = function(key) {
+
+        var p = null;
 
         switch (key) {
 
           case K_DOC_ID:
 
-            // Si cambio de documento
+            // if the document has changed
             //
-            if(cIABMProperty.docChange(m_dialog, m_lastDocId, m_lastDocName)) {
+            var changeInfo = D.docHasChanged(m_dialog, m_lastDocId);
+            if(changeInfo.changed) {
 
-              // Si cambie de documento y estaba en un comprobante ya guardado
-              // tengo que mostrar el formulario sin datos, para evitar
-              // que presione guardar y le cambie el doc_id al comprobante por error
-              //
-              if(m_id !== NO_ID && m_docId !== m_lastDocId) { self.edit(csDocChanged); }
+              m_lastDocId = changeInfo.docId;
+              m_lastDocName = changeInfo.docName;
 
-              // Obtengo el numero para este comprobante
-              //
-              GetDocNumber(m_lastDocId, m_dialog, m_taPropuesto, mStockConstantes.ST_NRODOC);
+              p = DB.getData("load[" + m_apiPath + "documento/" + m_lastDocId.toString() + "/info]");
 
+              p = p.then(function(response) {
+
+                if(response.success === true) {
+                  m_lastDoctId = valField(response.data, C.DOCT_ID);
+                }
+                return response.success;
+
+              })
+                .whenSuccess(function() {
+
+                  var p = null;
+
+                  // when the document property is changed and the dialog was
+                  // editing a saved invoice we need to move to a new document
+                  //
+                  if(m_id !== NO_ID && m_docId !== m_lastDocId) {
+                    p = self.edit(D.Constants.DOC_CHANGED);
+                  }
+
+                  return p || P.resolvedPromise(true);
+
+                })
+                .whenSuccess(function() {
+
+                  return D.setDocNumber(m_lastDocId, m_dialog, CST.ST_NRODOC)
+                    .then(function(enabled) {
+
+                      m_taPropuesto = enabled;
+                    });
+                });
             }
 
-            // Defino el estado de edicion del comprobante
-            //
-            setEnabled();
+            p = p || P.resolvedPromise();
 
-            // Stocks de Consumo
-            //
-            pSetDeplDestinoForConsumo();
+            p = p.then(function() {
+              setEnabled();
+              setDeplDestinoForConsumo();
+            });
 
-            // Lote
-            //
             break;
 
           case K_DEPL_ID_ORIGEN:
 
-            if(m_stockConfig.getStockXFisico() || m_stockConfig.getNoControlaStock()) {
+            if(Cairo.getStockConfig().getStockXFisico() || Cairo.getStockConfig().getNoControlaStock()) {
 
               m_depfId = NO_ID;
 
-              if(!Cairo.Database.getData(mStockConstantes.DEPOSITOLOGICO, mStockConstantes.DEPL_ID, pGetDeplId(), mStockConstantes.DEPF_ID, m_depfId)) {
-              }
+              p = DB.getData("load[" + m_apiPath + "general/depositologico/" + getDeplId().toString() + "/info]");
+
+              p = p.then(function(response) {
+                if(response.success === true) {
+                  m_depfId = valField(response.data, C.DEPF_ID);
+                }
+                return response.success;
+              });
             }
             break;
         }
+
+        return p || P.resolvedPromise();
       };
 
       self.save = function() {
-        var _rtn = null;
+        var p;
 
+        p = D.docCanBeEdited(m_docEditable, m_docEditMsg)
+          .whenSuccess(function() {
+            return D.docCanBeSaved(m_dialog, CST.ST_FECHA);
+          })
+          .whenSuccess(function() {
+            if(getItems().getGrid().getRows().count() < 2) {
+              M.showWarning(getText(3903, "")); // El documento debe contener al menos un item
+              return false;
+            }
+            else {
+              return true;
+            }
+          })
+          .whenSuccess(function() {
+
+            var register = new DB.Register();
+            var fields = register.getFields();
+
+            register.setFieldId(CST.ST_ID);
+            register.setTable(CST.STOCK);
+
+            register.setPath(m_apiPath + "stock/stock");
+
+            if(m_copy) {
+              register.setId(Cairo.Constants.NEW_ID);
+            }
+            else {
+              register.setId(m_id);
+            }
+
+            var _count = m_properties.size();
+            for(var _i = 0; _i < _count; _i++) {
+
+              var property = m_properties.item(_i);
+
+              switch (property.getKey()) {
+
+                case K_NUMERO:
+                  fields.add(CST.ST_NUMERO, property.getValue(), Types.long);
+                  break;
+
+                case K_NRODOC:
+                  fields.add(CST.ST_NRODOC, property.getValue(), Types.text);
+                  break;
+
+                case K_DESCRIP:
+                  fields.add(CST.ST_DESCRIP, property.getValue(), Types.text);
+                  break;
+
+                case K_FECHA:
+                  fields.add(CST.ST_FECHA, property.getValue(), Types.date);
+                  break;
+
+                case K_DOC_ID:
+                  fields.add(C.DOC_ID, property.getSelectId(), Types.id);
+                  break;
+
+                case K_NUMERO:
+                  fields.add(CST.ST_NUMERO, property.getValue(), Types.long);
+                  break;
+              }
+            }
+
+            saveItems(register);
+
+            return DB.saveTransaction(
+              register,
+              false,
+              "",
+              Cairo.Constants.CLIENT_SAVE_FUNCTION,
+              C_MODULE,
+              SAVE_ERROR_MESSAGE
+
+            ).then(
+
+              function(result) {
+                if(result.success) {
+
+                  if(result.errors) {
+                    return M.showWarningWithFalse(result.errors.getMessage());
+                  }
+                  else {
+
+                    m_copy = false;
+                    Cairo.navigate(NO_ID);
+
+                    return load(result.data.getId()).then(
+                      function(success) {
+
+                        if(success) {
+
+                          Cairo.navigate(self.getPath());
+                          if(m_listController !== null) {
+                            updateList();
+                            m_listController.updateEditorKey(self, m_id);
+                          }
+                        }
+                        m_isNew = false;
+                        return success;
+                      }
+                    );
+                  }
+                }
+                else {
+                  return false;
+                }
+              }
+            );
+          });
+
+        return p;
         // Save and State
         //
         if(!DocCanEdit(m_docEditable, m_docEditMsg)) {
@@ -1079,7 +1049,7 @@
                 }
 
                 var property = property.getGrid().getColumns().item(mStockConstantes.STL_ID);
-                property.setSelectFilter("'pr_id = "+ Dialogs.cell(row, KI_PR_ID).getID().toString()+ " and "+ GetStockLoteFilter(pGetDeplId(), m_stockConfig.getStockXFisico(), pr_id_kit, m_depfId)+ "'");
+                property.setSelectFilter("'pr_id = "+ Dialogs.cell(row, KI_PR_ID).getID().toString()+ " and "+ GetStockLoteFilter(getDeplId(), Cairo.getStockConfig().getStockXFisico(), pr_id_kit, m_depfId)+ "'");
 
                 var abmObj = null;
                 abmObj = m_dialog;
@@ -1445,7 +1415,7 @@
           self.propertyChange(K_DOC_ID);
         }
 
-        pSetDeplDestinoForConsumo();
+        setDeplDestinoForConsumo();
 
         return true;
       };
@@ -2220,7 +2190,7 @@
         abmGen.ShowValues(m_items.getProperties());
 
         setEnabled();
-        pSetDeplDestinoForConsumo();
+        setDeplDestinoForConsumo();
       };
 
       // Construccion - Destruccion
@@ -2236,8 +2206,8 @@
 
           // Lote
           //
-          m_stockConfig = new cStockConfig();
-          m_stockConfig.load();
+          Cairo.getStockConfig() = new cStockConfig();
+          Cairo.getStockConfig().load();
 
           // Preferencias del Usuario
           //
@@ -2266,7 +2236,7 @@
 
           // Lote
           //
-          m_stockConfig = null;
+          Cairo.getStockConfig() = null;
 
           // Preferencias del Usuario
           //
@@ -2409,7 +2379,7 @@
         }
       };
 
-      var pGetDeplId = function() {
+      var getDeplId = function() {
         return m_dialog.getProperties().item(mStockConstantes.DEPL_ID_ORIGEN).getSelectId();
       };
 
@@ -2447,7 +2417,7 @@
         return true;
       };
 
-      var pLoadCompensar = function() {
+      var loadCompensar = function() {
 
 
         for(var _i = 0; _i < m_data.compensar.length; _i += 1) {
@@ -2584,13 +2554,13 @@
         return true;
       };
 
-      var pSetStock = function() {
+      var setStock = function() {
 
-        if(m_stockConfig.getStockXFisico() || m_stockConfig.getNoControlaStock()) {
+        if(Cairo.getStockConfig().getStockXFisico() || Cairo.getStockConfig().getNoControlaStock()) {
 
           m_depfId = NO_ID;
 
-          if(!Cairo.Database.getData(mStockConstantes.DEPOSITOLOGICO, mStockConstantes.DEPL_ID, pGetDeplId(), mStockConstantes.DEPF_ID, m_depfId)) {
+          if(!Cairo.Database.getData(mStockConstantes.DEPOSITOLOGICO, mStockConstantes.DEPL_ID, getDeplId(), mStockConstantes.DEPF_ID, m_depfId)) {
           }
         }
 
@@ -2625,7 +2595,7 @@
         return m_dialog.getProperties().item(mStockConstantes.DOC_ID).getSelectId();
       };
 
-      var pSetDeplDestinoForConsumo = function() {
+      var setDeplDestinoForConsumo = function() {
         var bIsConsumo = null;
 
         bIsConsumo = pGetDocIsConsumo();
@@ -2782,7 +2752,7 @@
               break;
 
             case m_menuShowDocAux:
-              showDocAux();
+              showDocAux(m_dialog.getId());
               break;
           }
 
@@ -3263,7 +3233,7 @@
                 function (success) {
                   if(success) {
                     refreshCollection();
-                  };
+                  }
                   return success;
                 }
               );

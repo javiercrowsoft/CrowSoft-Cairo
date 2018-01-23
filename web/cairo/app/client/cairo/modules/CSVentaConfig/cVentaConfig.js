@@ -19,14 +19,14 @@
 
       var K_CUE_ID_DESCUENTO = 1;
       var K_GRABAR_ASIENTO = 2;
-      var K_WEBMAIL_LEYENDA = 3;
+      var K_WEB_MAIL_LEYENDA = 3;
       var K_APLIC_CLIENTE_FAMILIA = 4;
       var K_DECIMALES_EN_PRECIOS = 5;
       var K_RESTO_ENTERO = 6;
       var K_REDONDEO_EN_PRECIOS = 7;
-      var K_USAR_LISTAPRECIOPRECIO = 8;
-      var K_RAZONSOCIAL = 9;
-      var K_CATFISCAL = 10;
+      var K_USAR_LISTA_PRECIO_PRECIO = 8;
+      var K_RAZON_SOCIAL = 9;
+      var K_CAT_FISCAL = 10;
       var K_CPG_ID = 11;
       var K_LP_ID = 12;
       var K_PRO_ID = 13;
@@ -72,7 +72,7 @@
       var C_PERCEPCION = "Percepcion";
       var C_CLIENTES_PV = "ClientesPV";
 
-      var C_PV_CLI_RAZONSOCIAL = C_CLIENTES_PV + C.CLI_RAZONSOCIAL;
+      var C_PV_CLI_RAZON_SOCIAL = C_CLIENTES_PV + C.CLI_RAZONSOCIAL;
       var C_PV_CLI_CAT_FISCAL = C_CLIENTES_PV + C.CLI_CAT_FISCAL;
       var C_PV_CPG_ID = C_CLIENTES_PV + C.CPG_ID;
       var C_PV_LP_ID = C_CLIENTES_PV + C.LP_ID;
@@ -101,7 +101,7 @@
       var m_exigirCaja;
       var m_exigirCentroCosto;
       var m_cobranzaPorCajero;
-      var m_ventasPorHojadeRuta;
+      var m_ventasPorHojaDeRuta;
 
       var m_razonSocial = "";
       var m_catFiscal = 0;
@@ -140,6 +140,10 @@
       var EMP_ID = C.EMP_ID;
       var TEXT = Cairo.Constants.Types.text;
       var ID = Cairo.Constants.Types.id;
+
+      //
+      // property getters
+      //
 
       self.getCueIdDescGlobal = function() {
         return m_cueIdDescGlobal;
@@ -199,8 +203,8 @@
       self.getCobranzaPorCajero = function() {
         return m_cobranzaPorCajero;
       };
-      self.getVentasPorHojadeRuta = function() {
-        return m_ventasPorHojadeRuta;
+      self.getVentasPorHojaDeRuta = function() {
+        return m_ventasPorHojaDeRuta;
       };
 
       self.getRazonSocial = function() {
@@ -254,12 +258,14 @@
         return m_docTickets;
       };
 
-      self.copy = function() {
+      //
+      // editor code
+      //
 
+      self.copy = function() {
       };
 
       self.editNew = function() {
-
       };
 
       self.getApplication = function() {
@@ -302,7 +308,7 @@
 
         var companyId = Cairo.Company.getId().toString();
 
-        transaction.setTable(C.CONFIGURACION)
+        transaction.setTable(C.CONFIGURACION);
 
         for(var _i = 0, _count = m_dialog.getProperties().size(); _i < _count; _i++) {
 
@@ -334,7 +340,7 @@
               transaction.addRegister(register);
               break;
 
-            case K_WEBMAIL_LEYENDA:
+            case K_WEB_MAIL_LEYENDA:
               register = new DB.Register();
 
               var fields = register.getFields();
@@ -394,7 +400,7 @@
               transaction.addRegister(register);
               break;
 
-            case K_USAR_LISTAPRECIOPRECIO:
+            case K_USAR_LISTA_PRECIO_PRECIO:
               register = new DB.Register();
 
               var fields = register.getFields();
@@ -430,19 +436,19 @@
               transaction.addRegister(register);
               break;
 
-            case K_RAZONSOCIAL:
+            case K_RAZON_SOCIAL:
               register = new DB.Register();
 
               var fields = register.getFields();
-              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_PV_CLI_RAZONSOCIAL), TEXT);
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_PV_CLI_RAZON_SOCIAL), TEXT);
               fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
-              fields.add(C.CONFIG_KEY, C_PV_CLI_RAZONSOCIAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_PV_CLI_RAZON_SOCIAL, TEXT);
               fields.add(C.CONFIG_VALUE, property.getValue(), TEXT);
 
               transaction.addRegister(register);
               break;
 
-            case K_CATFISCAL:
+            case K_CAT_FISCAL:
               register = new DB.Register();
 
               var fields = register.getFields();
@@ -716,7 +722,7 @@
               m_exigirCaja = true;
               m_exigirCentroCosto = false;
               m_cobranzaPorCajero = false;
-              m_ventasPorHojadeRuta = false;
+              m_ventasPorHojaDeRuta = false;
 
               m_docIdFaltante = NO_ID;
               m_docIdSobrante = NO_ID;
@@ -769,7 +775,7 @@
                     break;
 
                   case C_VENTAS_POR_HOJA_DE_RUTA:
-                    m_ventasPorHojadeRuta = bool(getValue(settings[_i], C.CONFIG_VALUE));
+                    m_ventasPorHojaDeRuta = bool(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
                   case C_EXIGIR_CENTRO_COSTO:
@@ -796,7 +802,7 @@
                     m_restoEntero = val(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
-                  case C_PV_CLI_RAZONSOCIAL:
+                  case C_PV_CLI_RAZON_SOCIAL:
                     m_razonSocial = getValue(settings[_i], C.CONFIG_VALUE);
                     break;
 
@@ -928,7 +934,7 @@
         var elem = properties.add(null, C_USAR_LISTA_PRECIO_PRECIO);
         elem.setType(T.check);
         elem.setName(Cairo.Language.getText(3597, "")); // Usar Cache de Precios
-        elem.setKey(K_USAR_LISTAPRECIOPRECIO);
+        elem.setKey(K_USAR_LISTA_PRECIO_PRECIO);
         elem.setValue(Cairo.Util.boolToInt(m_usarListaPrecioPrecio));
 
         var elem = properties.add(null, C_REDONDEO_EN_PRECIOS);
@@ -957,7 +963,7 @@
         elem.setType(T.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setName(Cairo.Language.getText(3206, "")); // Leyenda para Usuarios de la Intranet
-        elem.setKey(K_WEBMAIL_LEYENDA);
+        elem.setKey(K_WEB_MAIL_LEYENDA);
         elem.setValue(m_webUserMailLeyenda);
 
         var elem = properties.add(null, C_EXIGIR_CAJA);
@@ -975,7 +981,7 @@
         var elem = properties.add(null, C_VENTAS_POR_HOJA_DE_RUTA);
         elem.setType(T.check);
         elem.setName(C_VENTAS_POR_HOJA_DE_RUTA);
-        elem.setValue(Cairo.Util.boolToInt(m_ventasPorHojadeRuta));
+        elem.setValue(Cairo.Util.boolToInt(m_ventasPorHojaDeRuta));
         elem.setKey(K_VENTAS_POR_HOJADERUTA);
 
         var elem = properties.add(null, C_EXIGIR_CENTRO_COSTO);
@@ -1000,14 +1006,14 @@
         elem.setType(T.text);
         elem.setName(Cairo.Language.getText(1178, "")); // Razon Social
         elem.setSize(255);
-        elem.setKey(K_RAZONSOCIAL);
+        elem.setKey(K_RAZON_SOCIAL);
         elem.setValue(m_razonSocial);
         elem.setTabIndex(tab_clientesPV);
 
         var elem = properties.add(null, C.CLI_CAT_FISCAL);
         elem.setType(T.list);
         elem.setName(getText(1181, "")); // Categoria Fiscal
-        elem.setKey(K_CATFISCAL);
+        elem.setKey(K_CAT_FISCAL);
         elem.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
         elem.setListItemData(m_catFiscal);
         elem.setTabIndex(tab_clientesPV);
@@ -1241,7 +1247,7 @@
         elem.setValue(Cairo.Util.boolToInt(m_cobranzaPorCajero));
 
         var elem = properties.item(C_VENTAS_POR_HOJA_DE_RUTA);
-        elem.setValue(Cairo.Util.boolToInt(m_ventasPorHojadeRuta));
+        elem.setValue(Cairo.Util.boolToInt(m_ventasPorHojaDeRuta));
 
         var elem = properties.item(C_EXIGIR_CENTRO_COSTO);
         elem.setValue(Cairo.Util.boolToInt(m_exigirCentroCosto));

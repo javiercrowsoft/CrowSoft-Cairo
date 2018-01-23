@@ -9,6 +9,22 @@
 
       var self = {};
 
+      //
+      // property getters
+      //
+
+      self.getStockXFisico = function() {
+
+      };
+
+      self.getNoControlaStock = function() {
+
+      };
+
+      //
+      // editor code
+      //
+
       self.setDialog = function(value) {
         // TODO: implement
       };

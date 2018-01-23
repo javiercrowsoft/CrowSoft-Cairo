@@ -353,6 +353,10 @@
       var TEXT = Cairo.Constants.Types.text;
       var ID = Cairo.Constants.Types.id;
 
+      //
+      // property getters
+      //
+
       self.getShowBarcodeInputCtrls = function() {
         return m_showBarcodeInputCtrls;
       };
@@ -745,7 +749,9 @@
         return m_noAskInPrint;
       };
 
-      //--------------------------------------
+      //
+      // editor code
+      //
 
       self.copy = function() {
 
@@ -1485,7 +1491,7 @@
                 function (success) {
                   if(success) {
                     setColorInCompany();
-                  };
+                  }
                   return success;
                 }
               );

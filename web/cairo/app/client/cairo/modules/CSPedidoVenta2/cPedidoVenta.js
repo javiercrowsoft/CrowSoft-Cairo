@@ -517,7 +517,7 @@
             p = P.resolvedPromise(m_footer);
             break;
 
-          case Dialogs.Message.MSG_DOC_SEARCH                    :
+          case Dialogs.Message.MSG_DOC_SEARCH:
             
             D.search(D.Types.PEDIDO_VENTA, self, Cairo.bool(info));
             break;
@@ -948,7 +948,7 @@
                             updateList();
                             m_listController.updateEditorKey(self, m_id);
                           }
-                        };
+                        }
                         m_isNew = false;
                         return success;
                       }
@@ -3917,7 +3917,7 @@
                 function (success) {
                   if(success) {
                     refreshCollection();
-                  };
+                  }
                   return success;
                 }
               );

@@ -20,13 +20,13 @@
       var K_CLAVE_FISCAL = 1;
       var K_FACTURA_ELECTRONICA = 2;
       var K_FE_PUNTO_VENTA = 3;
-      var K_TA_ID_PREFACTURA = 4;
+      var K_TA_ID_PRE_FACTURA = 4;
 
       var C_GRUPO_GENERAL = "Contabilidad-General";
-      var C_CLAVEFISCAL = "Clave Fiscal";
-      var C_FACTURAELECTRONICA = "Factura Electronica Asincronica";
-      var C_PUNTOVENTAFE = "Punto Venta FE";
-      var C_TAIDPREFACTURA = "Talonario Pre-Factura - Factura Electronica";
+      var C_CLAVE_FISCAL = "Clave Fiscal";
+      var C_FACTURA_ELECTRONICA = "Factura Electronica Asincronica";
+      var C_PUNTO_VENTA_FE = "Punto Venta FE";
+      var C_TA_ID_PRE_FACTURA = "Talonario Pre-Factura - Factura Electronica";
 
       var m_claveFiscal = 0;
       var m_facturaElectronica;
@@ -102,7 +102,7 @@
 
         var companyId = Cairo.Company.getId().toString();
 
-        transaction.setTable(C.CONFIGURACION)
+        transaction.setTable(C.CONFIGURACION);
 
         for(var _i = 0, _count = m_dialog.getProperties().size(); _i < _count; _i++) {
 
@@ -114,9 +114,9 @@
               register = new DB.Register();
 
               var fields = register.getFields();
-              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_CLAVEFISCAL), TEXT);
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_CLAVE_FISCAL), TEXT);
               fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
-              fields.add(C.CONFIG_KEY, C_CLAVEFISCAL, TEXT);
+              fields.add(C.CONFIG_KEY, C_CLAVE_FISCAL, TEXT);
               fields.add(C.CONFIG_VALUE, property.getListItemData(), TEXT);
 
               transaction.addRegister(register);
@@ -126,9 +126,9 @@
               register = new DB.Register();
 
               var fields = register.getFields();
-              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_FACTURAELECTRONICA), TEXT);
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_FACTURA_ELECTRONICA), TEXT);
               fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
-              fields.add(C.CONFIG_KEY, C_FACTURAELECTRONICA, TEXT);
+              fields.add(C.CONFIG_KEY, C_FACTURA_ELECTRONICA, TEXT);
               fields.add(C.CONFIG_VALUE, property.getValue(), TEXT);
 
               transaction.addRegister(register);
@@ -138,22 +138,22 @@
               register = new DB.Register();
 
               var fields = register.getFields();
-              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_PUNTOVENTAFE) + ", emp_id:" + companyId, TEXT);
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_PUNTO_VENTA_FE) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
-              fields.add(C.CONFIG_KEY, C_PUNTOVENTAFE, TEXT);
+              fields.add(C.CONFIG_KEY, C_PUNTO_VENTA_FE, TEXT);
               fields.add(C.CONFIG_VALUE, property.getValue(), TEXT);
               fields.add(EMP_ID, companyId, ID);
 
               transaction.addRegister(register);
               break;
 
-            case K_TA_ID_PREFACTURA:
+            case K_TA_ID_PRE_FACTURA:
               register = new DB.Register();
 
               var fields = register.getFields();
-              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_TAIDPREFACTURA) + ", emp_id:" + companyId, TEXT);
+              fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(C_GRUPO_GENERAL) + ", cfg_aspecto:" + sq(C_TA_ID_PRE_FACTURA) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, C_GRUPO_GENERAL, TEXT);
-              fields.add(C.CONFIG_KEY, C_TAIDPREFACTURA, TEXT);
+              fields.add(C.CONFIG_KEY, C_TA_ID_PRE_FACTURA, TEXT);
               fields.add(C.CONFIG_VALUE, property.getSelectId(), TEXT);
               fields.add(EMP_ID, companyId, ID);
 
@@ -227,19 +227,19 @@
 
                 switch (getValue(settings[_i], C.CONFIG_KEY)) {
 
-                  case C_CLAVEFISCAL:
+                  case C_CLAVE_FISCAL:
                     m_claveFiscal = val(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
-                  case C_FACTURAELECTRONICA:
+                  case C_FACTURA_ELECTRONICA:
                     m_facturaElectronica = val(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
-                  case C_PUNTOVENTAFE:
+                  case C_PUNTO_VENTA_FE:
                     m_puntoVentaFe = val(getValue(settings[_i], C.CONFIG_VALUE));
                     break;
 
-                  case C_TAIDPREFACTURA:
+                  case C_TA_ID_PRE_FACTURA:
                     var value = getValue(settings[_i], C.CONFIG_VALUE);
                     m_ta_id = value.id;
                     m_talonario = value.name;
@@ -299,7 +299,7 @@
 
         properties.clear();
         
-        var elem = properties.add(null, C_CLAVEFISCAL);
+        var elem = properties.add(null, C_CLAVE_FISCAL);
         elem.setType(T.list);
         elem.setName(Cairo.Language.getText(3097, "")); // Tipo de Clave Fiscal
         elem.setKey(K_CLAVE_FISCAL);
@@ -313,22 +313,22 @@
         elem.setId(C.ClaveFiscalTipo.rut);
         elem.setValue(Cairo.Language.getText(3099, "")); // R.U.T.
 
-        var elem = properties.add(null, C_PUNTOVENTAFE);
+        var elem = properties.add(null, C_PUNTO_VENTA_FE);
         elem.setType(T.numeric);
         elem.setSubType(Dialogs.PropertySubType.integer);
         elem.setName(Cairo.Language.getText(5126, "")); // Punto de Venta Factura Electronica
         elem.setKey(K_FE_PUNTO_VENTA);
         elem.setValue(m_puntoVentaFe);
 
-        var elem = properties.add(null, C_TAIDPREFACTURA);
+        var elem = properties.add(null, C_TA_ID_PRE_FACTURA);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(Cairo.Language.getText(5127, "")); // Talonario pre-facturas Factura Electronica
-        elem.setKey(K_TA_ID_PREFACTURA);
+        elem.setKey(K_TA_ID_PRE_FACTURA);
         elem.setValue(m_talonario);
         elem.setSelectId(m_ta_id);
 
-        var elem = properties.add(null, C_FACTURAELECTRONICA);
+        var elem = properties.add(null, C_FACTURA_ELECTRONICA);
         elem.setType(T.check);
         elem.setName(Cairo.Language.getText(5124, "")); // Infomar al servicio web AFIP de factura electronica asincronicamente
         elem.setKey(K_FACTURA_ELECTRONICA);
@@ -343,14 +343,14 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(C_CLAVEFISCAL);
+        var elem = properties.item(C_CLAVE_FISCAL);
         elem.setListItemData(m_claveFiscal);
 
-        var elem = properties.item(C_TAIDPREFACTURA);
+        var elem = properties.item(C_TA_ID_PRE_FACTURA);
         elem.setValue(m_talonario);
         elem.setSelectId(m_ta_id);
 
-        var elem = properties.item(C_FACTURAELECTRONICA);
+        var elem = properties.item(C_FACTURA_ELECTRONICA);
         elem.setValue(Cairo.Util.boolToInt(m_facturaElectronica));
 
         return m_dialog.showValues(properties);

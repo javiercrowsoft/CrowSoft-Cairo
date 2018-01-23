@@ -234,7 +234,7 @@
                       updateList();
                       m_listController.updateEditorKey(self, m_id);
                     }
-                  };
+                  }
                   m_isNew = false;
                   return success;
                 }
