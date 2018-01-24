@@ -554,12 +554,24 @@
                   fields.add(CST.ST_FECHA, property.getValue(), Types.date);
                   break;
 
+                case K_LGJ_ID:
+                  fields.add(C.LGJ_ID, property.getSelectId(), Types.id);
+                  break;
+
+                case K_SUC_ID:
+                  fields.add(C.SUC_ID, property.getSelectId(), Types.id);
+                  break;
+
                 case K_DOC_ID:
                   fields.add(C.DOC_ID, property.getSelectId(), Types.id);
                   break;
 
-                case K_NUMERO:
-                  fields.add(CST.ST_NUMERO, property.getValue(), Types.long);
+                case K_DEPL_ID_ORIGEN:
+                  fields.add(C.DEPL_ID_ORIGEN, property.getSelectId(), Types.id);
+                  break;
+
+                case K_DEPL_ID_DESTINO:
+                  fields.add(C.DEPL_ID_DESTINO, property.getSelectId(), Types.id);
                   break;
               }
             }
@@ -612,113 +624,6 @@
           });
 
         return p;
-        // Save and State
-        //
-        if(!DocCanEdit(m_docEditable, m_docEditMsg)) {
-          _rtn = true;
-          return _rtn;
-        }
-        if(!DocCanSave(m_dialog, mStockConstantes.ST_FECHA)) {
-          _rtn = false;
-          return _rtn;
-        }
-
-        if(pGetItems().getGrid().getRows().count() === 0) {
-          //'El documento debe contener al menos un item
-          MsgWarning(Cairo.Language.getText(3903, ""));
-          _rtn = false;
-          return _rtn;
-        }
-
-        var mouse = null;
-        mouse = new cMouseWait();
-
-        DoEvents:(DoEvents: DoEvents: DoEvents);
-
-        var register = new Cairo.Database.Register();
-        register.setFieldId(mStockConstantes.ST_TMPID);
-        register.setTable(mStockConstantes.STOCKTMP);
-
-        register.setId(Cairo.Constants.NEW_ID);
-
-        var apiPath = Cairo.Database.getAPIVersion();
-        register.setPath(apiPath + "general/stock");
-
-        if(m_copy) {
-          register.getFields().add2(mStockConstantes.ST_ID, Cairo.Constants.NEW_ID, Cairo.Constants.Types.long);
-        }
-        else {
-          register.getFields().add2(mStockConstantes.ST_ID, m_id, Cairo.Constants.Types.long);
-        }
-
-        var _count = m_dialog.getProperties().size();
-        for (var _i = 0; _i < _count; _i++) {
-          var property = m_dialog.getProperties().item(_i);
-          switch (property.getKey()) {
-            case K_NUMERO:
-              register.getFields().add2(mStockConstantes.ST_NUMERO, property.getValue(), Cairo.Constants.Types.long);
-              break;
-
-            case K_NRODOC:
-              register.getFields().add2(mStockConstantes.ST_NRODOC, property.getValue(), Cairo.Constants.Types.text);
-              break;
-
-            case K_DESCRIP:
-              register.getFields().add2(mStockConstantes.ST_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
-              break;
-
-            case K_FECHA:
-              register.getFields().add2(mStockConstantes.ST_FECHA, property.getValue(), Cairo.Constants.Types.date);
-              break;
-
-            case K_LGJ_ID:
-              register.getFields().add2(mStockConstantes.LGJ_ID, property.getSelectId(), Cairo.Constants.Types.id);
-              break;
-
-            case K_SUC_ID:
-              register.getFields().add2(mStockConstantes.SUC_ID, property.getSelectId(), Cairo.Constants.Types.id);
-              break;
-
-            case K_DOC_ID:
-              register.getFields().add2(mStockConstantes.DOC_ID, property.getSelectId(), Cairo.Constants.Types.id);
-              break;
-
-            case K_DEPL_ID_ORIGEN:
-              register.getFields().add2(mStockConstantes.DEPL_ID_ORIGEN, property.getSelectId(), Cairo.Constants.Types.id);
-              break;
-
-            case K_DEPL_ID_DESTINO:
-              register.getFields().add2(mStockConstantes.DEPL_ID_DESTINO, property.getSelectId(), Cairo.Constants.Types.id);
-              break;
-          }
-        }
-
-        register.getFields().add2(mStockConstantes.DOCT_ID, csEDocumentoTipo.cSEDT_TRASFERENCIASTOCK, Cairo.Constants.Types.id);
-
-        register.getFields().setHaveLastUpdate(true);
-        register.getFields().setHaveWhoModify(true);
-
-        register.prepareTransaction();
-        if(!Cairo.Database.save(register, , "cIABMClient_Save", C_MODULE, c_ErrorSave)) { return _rtn; }
-
-        if(!pSaveItems(register.getID(register))) { return _rtn; }
-
-        var sqlstmt = null;
-        var rs = null;
-        sqlstmt = "sp_DocStockSave "+ register.getID().toString();
-
-        if(!Cairo.Database.saveSp(sqlstmt, rs, DocGetTimeOut(m_nrosSerie), "cIABMClient_Save", C_MODULE, c_ErrorSave)) { return _rtn; }
-
-        if(rs.isEOF()) { return _rtn; }
-
-        var id = null;
-        if(!GetDocIDFromRecordset(rs, id)) { return _rtn; }
-
-        m_copy = false;
-
-        _rtn = load(id);
-
-        return _rtn;
       };
 
       var updateList = function() {
@@ -772,21 +677,21 @@
           property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_FECHA:
-              if(ValEmpty(property.getValue(), Cairo.Constants.Types.date)) {
+              if(ValEmpty(property.getValue(), Types.date)) {
                 //'Debe indicar una fecha
                 MsgInfo(Cairo.Language.getText(1558, ""));
               }
               break;
 
             case K_DOC_ID:
-              if(ValEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
+              if(ValEmpty(property.getSelectId(), Types.id)) {
                 //'Debe indicar un documento
                 MsgInfo(Cairo.Language.getText(1562, ""));
               }
               break;
 
             case K_DEPL_ID_ORIGEN:
-              if(ValEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
+              if(ValEmpty(property.getSelectId(), Types.id)) {
                 //'Debe indicar un origen
                 MsgInfo(Cairo.Language.getText(2011, ""));
               }
@@ -794,7 +699,7 @@
               break;
 
             case K_DEPL_ID_DESTINO:
-              if(ValEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
+              if(ValEmpty(property.getSelectId(), Types.id)) {
                 //'Debe indicar un destino
                 MsgInfo(Cairo.Language.getText(2012, ""));
               }
@@ -802,7 +707,7 @@
               break;
 
             case K_SUC_ID:
-              if(ValEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
+              if(ValEmpty(property.getSelectId(), Types.id)) {
                 //'Debe indicar una sucursal
                 MsgInfo(Cairo.Language.getText(1560, ""));
               }
@@ -1164,14 +1069,14 @@
           cell = row.item(_i);
           switch (cell.getKey()) {
             case KI_CANTIDAD:
-              if(!ValEmpty(cell.getValue(), Cairo.Constants.Types.currency)) {
+              if(!ValEmpty(cell.getValue(), Types.currency)) {
                 bRowIsEmpty = false;
                 break;
               }
               break;
 
             case KI_PR_ID:
-              if(!ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
+              if(!ValEmpty(cell.getId(), Types.id)) {
                 bRowIsEmpty = false;
                 break;
               }
@@ -1193,14 +1098,14 @@
           cell = row.item(_i);
           switch (cell.getKey()) {
             case KI_CANTIDAD:
-              if(ValEmpty(cell.getValue(), Cairo.Constants.Types.currency)) {
+              if(ValEmpty(cell.getValue(), Types.currency)) {
                 //'Debe indicar una cantidad (1)
                 MsgInfo(Cairo.Language.getText(1365, "", strRow));
               }
               break;
 
             case KI_PR_ID:
-              if(ValEmpty(cell.getId(), Cairo.Constants.Types.id)) {
+              if(ValEmpty(cell.getId(), Types.id)) {
                 //'Debe indicar un producto de stock (1)
                 MsgInfo(Cairo.Language.getText(1996, "", strRow));
               }
@@ -1208,7 +1113,7 @@
 
             case KI_NRO_SERIE:
               bLlevaNroSerie = Dialogs.cell(row, KI_PR_LLEVA_NRO_SERIE).getID();
-              if(ValEmpty(cell.getValue(), Cairo.Constants.Types.text) && bLlevaNroSerie) {
+              if(ValEmpty(cell.getValue(), Types.text) && bLlevaNroSerie) {
                 //'Debe indicar un numero de serie (1)
                 MsgInfo(Cairo.Language.getText(1630, "", strRow));
               }
@@ -1218,7 +1123,7 @@
               break;
 
             case KI_STL_ID:
-              if(ValEmpty(cell.getId(), Cairo.Constants.Types.id) && Dialogs.cell(row, KI_PR_LLEVA_LOTE).getID() && Dialogs.cell(row, KI_PR_LLEVA_NRO_SERIE).getID() === 0) {
+              if(ValEmpty(cell.getId(), Types.id) && Dialogs.cell(row, KI_PR_LLEVA_LOTE).getID() && Dialogs.cell(row, KI_PR_LLEVA_NRO_SERIE).getID() === 0) {
                 //'Debe indicar un lote (1)
                 MsgInfo(Cairo.Language.getText(1632, "", strRow));
               }
@@ -1811,7 +1716,7 @@
         m_items.setObjForm(m_dialog.getObjForm());
       };
 
-      var pSaveItems = function(id) {
+      var saveItems = function(id) {
         var row = null;
         var kitS = null;
         var i = null;
@@ -1894,26 +1799,26 @@
 
               case KI_STI_ID:
                 if(m_copy) {
-                  register.getFields().add2(mStockConstantes.STI_ID, Cairo.Constants.NEW_ID, Cairo.Constants.Types.integer);
+                  fields.add(mStockConstantes.STI_ID, Cairo.Constants.NEW_ID, Types.integer);
                 }
                 else {
-                  register.getFields().add2(mStockConstantes.STI_ID, Cairo.Util.val(cell.getValue()), Cairo.Constants.Types.integer);
+                  fields.add(mStockConstantes.STI_ID, Cairo.Util.val(cell.getValue()), Types.integer);
                 }
                 break;
 
               case KI_DESCRIP:
-                register.getFields().add2(mStockConstantes.STI_DESCRIP, cell.getValue(), Cairo.Constants.Types.text);
+                fields.add(mStockConstantes.STI_DESCRIP, cell.getValue(), Types.text);
                 break;
 
               case KI_PR_ID:
-                register.getFields().add2(mStockConstantes.PR_ID, cell.getId(), Cairo.Constants.Types.id);
+                fields.add(mStockConstantes.PR_ID, cell.getId(), Types.id);
 
                 // Lote
                 //
                 break;
 
               case KI_STL_ID:
-                register.getFields().add2(mStockConstantes.STL_ID, cell.getId(), Cairo.Constants.Types.id);
+                fields.add(mStockConstantes.STL_ID, cell.getId(), Types.id);
 
                 break;
             }
@@ -1921,12 +1826,12 @@
 
           // Kits
           if(prIdKit !== NO_ID) {
-            register.getFields().add2(mStockConstantes.PR_ID_KIT, prIdKit, Cairo.Constants.Types.id);
-            register.getFields().add2(mStockConstantes.STIK_ORDEN, iKitOrden, Cairo.Constants.Types.integer);
-            register.getFields().add2(mStockConstantes.STIK_CANTIDAD, Cairo.Util.val(Dialogs.cell(row, KI_CANTIDAD).getValue()), Cairo.Constants.Types.double);
+            fields.add(mStockConstantes.PR_ID_KIT, prIdKit, Types.id);
+            fields.add(mStockConstantes.STIK_ORDEN, iKitOrden, Types.integer);
+            fields.add(mStockConstantes.STIK_CANTIDAD, Cairo.Util.val(Dialogs.cell(row, KI_CANTIDAD).getValue()), Types.double);
           }
 
-          register.getFields().add2(mStockConstantes.ST_TMPID, id, Cairo.Constants.Types.id);
+          fields.add(mStockConstantes.ST_TMPID, id, Types.id);
 
           // Si es el primero de esta dupla va Origen
           //
@@ -1942,7 +1847,7 @@
               cantidad = Cairo.Util.val(Dialogs.cell(row, KI_CANTIDAD).getValue());
             }
 
-            register.getFields().add2(mStockConstantes.DEPL_ID, m_dialog.getProperties().item(mStockConstantes.DEPL_ID_ORIGEN).getSelectId(), Cairo.Constants.Types.id);
+            fields.add(mStockConstantes.DEPL_ID, m_dialog.getProperties().item(mStockConstantes.DEPL_ID_ORIGEN).getSelectId(), Types.id);
 
             // Salida
             //
@@ -1952,7 +1857,7 @@
             //
           }
           else {
-            register.getFields().add2(mStockConstantes.DEPL_ID, m_dialog.getProperties().item(mStockConstantes.DEPL_ID_DESTINO).getSelectId(), Cairo.Constants.Types.id);
+            fields.add(mStockConstantes.DEPL_ID, m_dialog.getProperties().item(mStockConstantes.DEPL_ID_DESTINO).getSelectId(), Types.id);
 
             // Ingreso
             //
@@ -2301,28 +2206,28 @@
 
               // Si es nuevo lo pongo en positivo
               if(grupo < 0) {
-                w_fields.add2(mStockConstantes.STI_GRUPO, grupo * -1, Cairo.Constants.Types.integer);
+                w_fields.add2(mStockConstantes.STI_GRUPO, grupo * -1, Types.integer);
               }
               else {
-                w_fields.add2(mStockConstantes.STI_GRUPO, grupo, Cairo.Constants.Types.integer);
+                w_fields.add2(mStockConstantes.STI_GRUPO, grupo, Types.integer);
               }
 
-              w_fields.add2(mStockConstantes.PRNS_ID, pt.getPrns_id(), Cairo.Constants.Types.id);
-              w_fields.add2(mStockConstantes.PRNS_DESCRIP, pt.getDescrip(), Cairo.Constants.Types.text);
-              w_fields.add2(mStockConstantes.PRNS_FECHAVTO, pt.getFechaVto(), Cairo.Constants.Types.date);
+              w_fields.add2(mStockConstantes.PRNS_ID, pt.getPrns_id(), Types.id);
+              w_fields.add2(mStockConstantes.PRNS_DESCRIP, pt.getDescrip(), Types.text);
+              w_fields.add2(mStockConstantes.PRNS_FECHAVTO, pt.getFechaVto(), Types.date);
 
               switch (iType) {
                 case csEItOrigen:
-                  w_fields.add2(mStockConstantes.STI_SALIDA, 1, Cairo.Constants.Types.double);
+                  w_fields.add2(mStockConstantes.STI_SALIDA, 1, Types.double);
                   break;
 
                 case csEItDestino:
-                  w_fields.add2(mStockConstantes.STI_INGRESO, 1, Cairo.Constants.Types.double);
+                  w_fields.add2(mStockConstantes.STI_INGRESO, 1, Types.double);
                   break;
               }
 
               iOrden = iOrden + 1;
-              w_fields.add2(mStockConstantes.STI_ORDEN, iOrden, Cairo.Constants.Types.integer);
+              w_fields.add2(mStockConstantes.STI_ORDEN, iOrden, Types.integer);
 
               w_fields.setHaveLastUpdate(false);
               w_fields.setHaveWhoModify(false);
@@ -2343,16 +2248,16 @@
 
           switch (iType) {
             case csEItOrigen:
-              register.getFields().add2(mStockConstantes.STI_SALIDA, cantidad, Cairo.Constants.Types.double);
+              fields.add(mStockConstantes.STI_SALIDA, cantidad, Types.double);
               break;
 
             case csEItDestino:
-              register.getFields().add2(mStockConstantes.STI_INGRESO, cantidad, Cairo.Constants.Types.double);
+              fields.add(mStockConstantes.STI_INGRESO, cantidad, Types.double);
               break;
           }
 
           iOrden = iOrden + 1;
-          register.getFields().add2(mStockConstantes.STI_ORDEN, iOrden, Cairo.Constants.Types.integer);
+          fields.add(mStockConstantes.STI_ORDEN, iOrden, Types.integer);
 
           register.getFields().setHaveLastUpdate(false);
           register.getFields().setHaveWhoModify(false);
@@ -3275,65 +3180,65 @@
 
             case K_FECHAINI:
               if(property.getSelectIntValue() !== "") {
-                fields.add(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
+                fields.add(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Types.text);
               }
               else {
-                fields.add(Cairo.Constants.LDP_VALOR, property.getValue(), Cairo.Constants.Types.text);
+                fields.add(Cairo.Constants.LDP_VALOR, property.getValue(), Types.text);
               }
 
-              fields.add(Cairo.Constants.LDP_ORDEN, 10, Cairo.Constants.Types.integer);
-              fields.add(Cairo.Constants.LDP_ID, K_FECHAINI, Cairo.Constants.Types.integer);
+              fields.add(Cairo.Constants.LDP_ORDEN, 10, Types.integer);
+              fields.add(Cairo.Constants.LDP_ID, K_FECHAINI, Types.integer);
               break;
 
             case K_FECHAFIN:
 
               if(property.getSelectIntValue() !== "") {
-                fields.add(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
+                fields.add(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Types.text);
               }
               else {
-                fields.add(Cairo.Constants.LDP_VALOR, property.getValue(), Cairo.Constants.Types.text);
+                fields.add(Cairo.Constants.LDP_VALOR, property.getValue(), Types.text);
               }
 
-              fields.add(Cairo.Constants.LDP_ORDEN, 20, Cairo.Constants.Types.integer);
-              fields.add(Cairo.Constants.LDP_ID, K_FECHAFIN, Cairo.Constants.Types.integer);
+              fields.add(Cairo.Constants.LDP_ORDEN, 20, Types.integer);
+              fields.add(Cairo.Constants.LDP_ID, K_FECHAFIN, Types.integer);
 
               break;
 
             case K_DOC_ID:
-              fields.add(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
-              fields.add(Cairo.Constants.LDP_ORDEN, 30, Cairo.Constants.Types.integer);
-              fields.add(Cairo.Constants.LDP_ID, K_DOC_ID, Cairo.Constants.Types.integer);
+              fields.add(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Types.text);
+              fields.add(Cairo.Constants.LDP_ORDEN, 30, Types.integer);
+              fields.add(Cairo.Constants.LDP_ID, K_DOC_ID, Types.integer);
 
               break;
 
             case K_SUC_ID:
-              fields.add(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
-              fields.add(Cairo.Constants.LDP_ORDEN, 40, Cairo.Constants.Types.integer);
-              fields.add(Cairo.Constants.LDP_ID, K_SUC_ID, Cairo.Constants.Types.integer);
+              fields.add(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Types.text);
+              fields.add(Cairo.Constants.LDP_ORDEN, 40, Types.integer);
+              fields.add(Cairo.Constants.LDP_ID, K_SUC_ID, Types.integer);
 
               break;
 
             case K_LGJ_ID:
-              fields.add(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
-              fields.add(Cairo.Constants.LDP_ORDEN, 50, Cairo.Constants.Types.integer);
-              fields.add(Cairo.Constants.LDP_ID, K_LGJ_ID, Cairo.Constants.Types.integer);
+              fields.add(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Types.text);
+              fields.add(Cairo.Constants.LDP_ORDEN, 50, Types.integer);
+              fields.add(Cairo.Constants.LDP_ID, K_LGJ_ID, Types.integer);
 
 
               break;
 
             case K_EMP_ID:
-              fields.add(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
-              fields.add(Cairo.Constants.LDP_ORDEN, 100, Cairo.Constants.Types.integer);
-              fields.add(Cairo.Constants.LDP_ID, K_EMP_ID, Cairo.Constants.Types.integer);
+              fields.add(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Types.text);
+              fields.add(Cairo.Constants.LDP_ORDEN, 100, Types.integer);
+              fields.add(Cairo.Constants.LDP_ID, K_EMP_ID, Types.integer);
 
               break;
           }
 
 
-          fields.add(C.EMP_ID, cUtil.getEmpId(), Cairo.Constants.Types.id);
+          fields.add(C.EMP_ID, cUtil.getEmpId(), Types.id);
 
-          fields.add(C.US_ID, m_us_id, Cairo.Constants.Types.id);
-          fields.add(C.PRE_ID, csStockPrestacion.cSPRESTLISTSTOCK, Cairo.Constants.Types.id);
+          fields.add(C.US_ID, m_us_id, Types.id);
+          fields.add(C.PRE_ID, csStockPrestacion.cSPRESTLISTSTOCK, Types.id);
 
 
 

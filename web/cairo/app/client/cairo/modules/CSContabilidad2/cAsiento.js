@@ -515,10 +515,6 @@
                 case K_DOC_ID:
                   fields.add(C.DOC_ID, property.getSelectId(), Types.id);
                   break;
-
-                case K_NUMERO:
-                  fields.add(CC.AS_NUMERO, property.getValue(), Types.long);
-                  break;
               }
             }
             

@@ -74,7 +74,13 @@
     saveEx: function(register, isNew, codeField, functionName, module, title) {
       var p = null;
       if(register.getPath() === "") {
-        p = Cairo.Promises.resolvedPromise({success: false, message: "Invalid query: Path not defined."});
+        var errorMessage = "Invalid query: Path not defined.";
+        p = Cairo.manageError(
+          "Saving",
+          "Can't save this record.",
+          errorMessage).then(function() {
+            return {success: false, message: errorMessage};
+          });
       }
       else {
         var id = register.getId();
