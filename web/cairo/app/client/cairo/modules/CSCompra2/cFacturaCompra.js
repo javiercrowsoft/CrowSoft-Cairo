@@ -130,7 +130,7 @@
 
       var KI_STL_ID = 26;
       var KI_STL_CODIGO = 29;
-      var KI_PR_LLEVALOTE = 27;
+      var KI_PR_LLEVA_LOTE = 27;
 
       var m_id = 0;
       var m_numero = 0;
@@ -1343,10 +1343,8 @@
           return false;
         };
 
-        var p = DB.getData("load[" + m_apiPath + "compras/facturacompra/info]", id)
+        return DB.getData("load[" + m_apiPath + "compras/facturacompra/info]", id)
           .whenSuccessWithResult(loadData, false);
-
-        return p;
       };
 
       self.getDialog = function() {
@@ -1597,7 +1595,7 @@
 
             var row = grid.getRows().item(lRow);
             if(row !== null) {
-              rtn = cellId(row, KI_PR_LLEVALOTE);
+              rtn = cellId(row, KI_PR_LLEVA_LOTE);
             }
             break;
 
@@ -2015,7 +2013,7 @@
 
             case KI_STL_CODIGO:
               if(m_showStockData) {
-                if(valEmpty(cell.getValue(), Types.text) && cellId(row, KI_PR_LLEVALOTE)) {
+                if(valEmpty(cell.getValue(), Types.text) && cellId(row, KI_PR_LLEVA_LOTE)) {
                   return M.showInfoWithFalse(getText(1632, "", strRow)); // Debe indicar un lote (1)
                 }
               }
@@ -2780,7 +2778,7 @@
 
         elem = columns.add(null);
         elem.setVisible(false);
-        elem.setKey(KI_PR_LLEVALOTE);
+        elem.setKey(KI_PR_LLEVA_LOTE);
 
         elem = columns.add(null);
         elem.setName(getText(1661, "")); // Tipo Operación
@@ -2940,7 +2938,7 @@
 
           elem = row.add(null);
           elem.setId(getValue(m_data.items[_i], C.PR_LLEVA_NRO_LOTE));
-          elem.setKey(KI_PR_LLEVALOTE);
+          elem.setKey(KI_PR_LLEVA_LOTE);
 
           elem = row.add(null);
           elem.setValue(getValue(m_data.items[_i], C.TO_NAME));
@@ -4003,11 +4001,11 @@
           // 
           if(m_showStockData) {
             getCell(row, KI_PR_LLEVA_NRO_SERIE).setId(valField(response.data, C.PR_LLEVA_NRO_SERIE));
-            getCell(row, KI_PR_LLEVALOTE).setId(valField(response.data, C.PR_LLEVA_NRO_LOTE));
+            getCell(row, KI_PR_LLEVA_LOTE).setId(valField(response.data, C.PR_LLEVA_NRO_LOTE));
           }
           else {
             getCell(row, KI_PR_LLEVA_NRO_SERIE).setId(0);
-            getCell(row, KI_PR_LLEVALOTE).setId(0);
+            getCell(row, KI_PR_LLEVA_LOTE).setId(0);
           }
 
           // if the product has changed we remove all serial numbers

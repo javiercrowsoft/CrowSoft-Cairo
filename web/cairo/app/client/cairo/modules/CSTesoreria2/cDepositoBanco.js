@@ -830,10 +830,8 @@
           return false;
         };
 
-        var p = DB.getData("load[" + m_apiPath + "tesoreria/depositobanco/info]", id)
+        return DB.getData("load[" + m_apiPath + "tesoreria/depositobanco/info]", id)
           .whenSuccessWithResult(loadData, false);
-
-        return p;
       };
 
       self.getDialog = function() {

@@ -1053,6 +1053,17 @@
     + "*" + Cairo.Documents.Types.DEVOLUCION_PEDIDO_VTA.toString()
   ;
 
+  Cairo.getStockLoteFilter = function(deplId,
+                                        stockFisico,
+                                        prIdKit,
+                                        depfId) {
+    return Cairo.getStockLoteFilterEx(deplId,
+                                      stockFisico,
+                                      prIdKit,
+                                      depfId,
+                                      NO_ID, NO_ID);
+  };
+
   Cairo.getStockLoteFilterEx = function(deplId,
                                         stockFisico,
                                         prIdKit,

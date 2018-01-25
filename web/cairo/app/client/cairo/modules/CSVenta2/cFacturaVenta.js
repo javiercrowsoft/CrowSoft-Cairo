@@ -118,7 +118,7 @@
       var KI_GRUPO = 29;
 
       var KI_STL_ID = 30;
-      var KI_PR_LLEVALOTE = 31;
+      var KI_PR_LLEVA_LOTE = 31;
 
       var KI_PR_LOTEFIFO = 32;
 
@@ -1662,10 +1662,8 @@
           return false;
         };
 
-        var p = DB.getData("load[" + m_apiPath + "ventas/facturaventa/info]", id)
+        return DB.getData("load[" + m_apiPath + "ventas/facturaventa/info]", id)
           .whenSuccessWithResult(loadData, false);
-
-        return p;
       };
 
       self.getDialog = function() {
@@ -1901,7 +1899,7 @@
 
             if(row !== null) {
 
-              if(cellId(row, KI_PR_LLEVALOTE) !== 0
+              if(cellId(row, KI_PR_LLEVA_LOTE) !== 0
                 && cellId(row, KI_PR_LLEVA_NRO_SERIE) === 0) {
 
                 var prIdKit = null;
@@ -1914,7 +1912,7 @@
                   + " and "
                   + D.getStockLoteFilterEx(
                       getDeplId(),
-                      Cairo.getStockConfig().getStockFisico(),
+                      Cairo.getStockConfig().getStockXFisico(),
                       prIdKit,
                       m_depfId,
                       getCliId(),
@@ -2161,8 +2159,8 @@
             case KI_STL_ID:
               if(m_showStockData) {
                 if(valEmpty(cell.getId(), Types.id)
-                  && cellId(row, KI_PR_LLEVALOTE)
-                  && cellId(row, KI_PR_LLEVALOTE) === 0
+                  && cellId(row, KI_PR_LLEVA_LOTE)
+                  && cellId(row, KI_PR_LLEVA_LOTE) === 0
                   && cellId(row, KI_PR_LOTEFIFO) === 0) {
                   return M.showInfoWithFalse(getText(1632, "", strRow)); // Debe indicar un lote (1)
                 }
@@ -2925,7 +2923,7 @@
 
         elem = columns.add(null);
         elem.setVisible(false);
-        elem.setKey(KI_PR_LLEVALOTE);
+        elem.setKey(KI_PR_LLEVA_LOTE);
 
         elem = columns.add(null);
         elem.setVisible(false);
@@ -3088,7 +3086,7 @@
 
           elem = row.add(null);
           elem.setId(getValue(m_data.items[_i], C.PR_LLEVA_NRO_LOTE));
-          elem.setKey(KI_PR_LLEVALOTE);
+          elem.setKey(KI_PR_LLEVA_LOTE);
 
           elem = row.add(null);
           elem.setId(getValue(m_data.items[_i], C.PR_LOTE_FIFO));
@@ -3777,12 +3775,12 @@
           //
           if(m_showStockData) {
             getCell(row, KI_PR_LLEVA_NRO_SERIE).setId(valField(response.data, C.PR_LLEVA_NRO_SERIE));
-            getCell(row, KI_PR_LLEVALOTE).setId(valField(response.data, C.PR_LLEVA_NRO_LOTE));
+            getCell(row, KI_PR_LLEVA_LOTE).setId(valField(response.data, C.PR_LLEVA_NRO_LOTE));
             getCell(row, KI_PR_LOTEFIFO).setId(valField(response.data, C.PR_LOTE_FIFO));
           }
           else {
             getCell(row, KI_PR_LLEVA_NRO_SERIE).setId(0);
-            getCell(row, KI_PR_LLEVALOTE).setId(0);
+            getCell(row, KI_PR_LLEVA_LOTE).setId(0);
             getCell(row, KI_PR_LOTEFIFO).setId(0);
           }
 

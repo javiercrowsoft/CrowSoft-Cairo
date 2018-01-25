@@ -712,10 +712,8 @@
           return false;
         };
 
-        var p = DB.getData("load[" + m_apiPath + "contabilidad/asiento/info]", id)
+        return DB.getData("load[" + m_apiPath + "contabilidad/asiento/info]", id)
           .whenSuccessWithResult(loadData, false);
-
-        return p;
       };
 
       self.getDialog = function() {

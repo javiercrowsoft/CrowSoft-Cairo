@@ -1137,10 +1137,8 @@
           return false;
         };
 
-        var p = DB.getData("load[" + m_apiPath + "ventas/pedidoventa/info]",id)
+        return DB.getData("load[" + m_apiPath + "ventas/pedidoventa/info]",id)
           .whenSuccessWithResult(loadData, false);
-
-        return p;
       };
 
       self.getDialog = function() {
