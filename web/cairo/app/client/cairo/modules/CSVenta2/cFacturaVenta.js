@@ -1435,7 +1435,6 @@
 
       var destroy = function() {
         try {
-
           m_dialog = null;
           m_properties = null;
           m_listController = null;
@@ -1452,7 +1451,7 @@
           m_hojaRuta = null;
           m_searchZona = null;
           m_serialNumbers = null;
-
+          m_kitDefinitions = null;
         }
         catch (ex) {
           Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
@@ -2015,7 +2014,7 @@
                   p = Cairo.SerialNumber.edit(
                     cellId(row, KI_GRUPO), cellFloat(row, KI_CANTIDAD),
                     row, m_serialNumbers, KI_GRUPO, KI_NRO_SERIE, lRow, prId, getDeplId(),
-                    false, false, false, D.getKitInfo(prId, m_kitDefinitions), NO_ID, getCliId());
+                    false, false, D.getKitInfo(prId, m_kitDefinitions), NO_ID, getCliId());
                 }
                 break;
             }
@@ -2232,7 +2231,7 @@
           // user preferences
           //
           elem.setSelectId(Cairo.UserConfig.getDocFvId());
-          elem.setValue(Cairo.UserConfig.getDocFvNombre());
+          elem.setValue(Cairo.UserConfig.getDocFvName());
 
           validateDocDefault = elem.getSelectId() !== NO_ID;
         }
@@ -2449,7 +2448,7 @@
           // user preferences
           //
           elem.setSelectId(Cairo.UserConfig.getDeplId());
-          elem.setValue(Cairo.UserConfig.getDeplNombre());
+          elem.setValue(Cairo.UserConfig.getDeplName());
         }
         elem.setEnabled(m_showStockData);
         elem.setTabIndex(1);
@@ -4212,7 +4211,7 @@
         else {
           m_properties.item(C.DEPL_ID_ORIGEN)
             .setSelectId(Cairo.UserConfig.getDeplId())
-            .setValue(Cairo.UserConfig.getDeplNombre());
+            .setValue(Cairo.UserConfig.getDeplName());
         }
 
         m_properties.item(CV.RV_NRODOC)

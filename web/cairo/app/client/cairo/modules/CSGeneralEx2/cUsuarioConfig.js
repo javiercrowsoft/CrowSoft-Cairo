@@ -235,20 +235,20 @@
       var m_informarAnticipos;
 
       var m_docIdAs = 0;
-      var m_docAsNombre = "";
+      var m_docAsName = "";
 
       var m_docIdPc = 0;
-      var m_docPcNombre = "";
+      var m_docPcName = "";
       var m_docIdPrec = 0;
-      var m_docPrecNombre = "";
+      var m_docPrecName = "";
       var m_docIdCot = 0;
-      var m_docCotNombre = "";
+      var m_docCotName = "";
       var m_docIdOc = 0;
-      var m_docOcNombre = "";
+      var m_docOcName = "";
       var m_docIdRc = 0;
-      var m_docRcNombre = "";
+      var m_docRcName = "";
       var m_docIdFc = 0;
-      var m_docFcNombre = "";
+      var m_docFcName = "";
 
       var m_lengId = 0;
       var m_lengName = "";
@@ -260,33 +260,33 @@
       var m_folderToExportPDF = "";
 
       var m_deplId = 0;
-      var m_deplNombre = "";
+      var m_deplName = "";
       var m_deplRamId = "";
 
       var m_deplIdSrv = 0;
-      var m_deplNombreSrv = "";
+      var m_deplNameSrv = "";
       var m_deplRamIdSrv = "";
 
       var m_docIdPrev = 0;
-      var m_docPrevNombre = "";
+      var m_docPrevName = "";
       var m_docIdPv = 0;
-      var m_docPvNombre = "";
+      var m_docPvName = "";
       var m_docIdRv = 0;
-      var m_docRvNombre = "";
+      var m_docRvName = "";
       var m_docIdRvC = 0;
-      var m_docRvNombreC = "";
+      var m_docRvNameC = "";
       var m_docIdFv = 0;
-      var m_docFvNombre = "";
+      var m_docFvName = "";
       var m_docIdCobz = 0;
-      var m_docCobzNombre = "";
+      var m_docCobzName = "";
 
       var m_docIdOs = 0;
-      var m_docOSNombre = "";
+      var m_docOSName = "";
       var m_docIdPrp = 0;
-      var m_docPRPNombre = "";
+      var m_docPRPName = "";
 
       var m_docIdLiq = 0;
-      var m_docLiqNombre = "";
+      var m_docLiqName = "";
 
       var m_pklDocIdFactura = 0;
       var m_pklDocFactura = "";
@@ -299,9 +299,9 @@
       var m_PrpEstadoDef;
 
       var m_docIdMf = 0;
-      var m_docMfNombre = "";
+      var m_docMfName = "";
       var m_docIdDbco = 0;
-      var m_docDbcoNombre = "";
+      var m_docDbcoName = "";
       var m_debeHaberMf;
 
       var m_desktop = "";
@@ -368,15 +368,15 @@
        self.getDocPreeId = function() {
 
        };
-      */
-       self.getDocAsId = function() {
-         return m_docIdAs;
-       };
-      /*
-       self.getDocStId = function() {
+       */
+      self.getDocAsId = function() {
+        return m_docIdAs;
+      };
 
-       };
+      self.getDocStId = function() {
 
+      };
+      /*      
        self.getDocRsId = function() {
 
        };
@@ -533,100 +533,100 @@
         return m_deplRamIdSrv;
       };
       /*
-       self.getDocPreeNombre = function() {
-
-       };
-      */
-       self.getDocAsNombre = function() {
-         return m_docAsNombre;
-       };
-      /*
-       self.getDocStNombre = function() {
-
-       };
-
-       self.getDocRsNombre = function() {
-
-       };
-
-       self.getDocPpkNombre = function() {
-
-       };
-
-       self.getDocOpkNombre = function() {
-
-       };
-
-       self.getDocPembNombre = function() {
-
-       };
-
-       self.getDocMfcNombre = function() {
-
-       };
-
-       self.getDocImptNombre = function() {
-
-       };
-
-       self.getDocPklstNombre = function() {
+       self.getDocPreeName = function() {
 
        };
        */
-      self.getDocDbcoNombre = function() {
-        return m_docDbcoNombre;
+      self.getDocAsName = function() {
+        return m_docAsName;
+      };
+
+      self.getDocStName = function() {
+
       };
       /*
-       self.getDocDcupNombre = function() {
+       self.getDocRsName = function() {
+
+       };
+
+       self.getDocPpkName = function() {
+
+       };
+
+       self.getDocOpkName = function() {
+
+       };
+
+       self.getDocPembName = function() {
+
+       };
+
+       self.getDocMfcName = function() {
+
+       };
+
+       self.getDocImptName = function() {
+
+       };
+
+       self.getDocPklstName = function() {
 
        };
        */
-      self.getDocMfNombre = function() {
-        return m_docMfNombre;
+      self.getDocDbcoName = function() {
+        return m_docDbcoName;
+      };
+      /*
+       self.getDocDcupName = function() {
+
+       };
+       */
+      self.getDocMfName = function() {
+        return m_docMfName;
       };
 
-      self.getDocPcNombre = function() {
-        return m_docPcNombre;
+      self.getDocPcName = function() {
+        return m_docPcName;
       };
 
-      self.getDocPrecNombre = function() {
-        return m_docPrecNombre;
+      self.getDocPrecName = function() {
+        return m_docPrecName;
       };
 
-      self.getDocCotNombre = function() {
-        return m_docCotNombre;
+      self.getDocCotName = function() {
+        return m_docCotName;
       };
 
-      self.getDocOcNombre = function() {
-        return m_docOcNombre;
+      self.getDocOcName = function() {
+        return m_docOcName;
       };
 
-      self.getDocRcNombre = function() {
-        return m_docRcNombre;
+      self.getDocRcName = function() {
+        return m_docRcName;
       };
 
-      self.getDocFcNombre = function() {
-        return m_docFcNombre;
+      self.getDocFcName = function() {
+        return m_docFcName;
       };
 
-      self.getDocPrevNombre = function() {
-        return m_docPrevNombre;
+      self.getDocPrevName = function() {
+        return m_docPrevName;
       };
 
-      self.getDocPvNombre = function() {
-        return m_docPvNombre;
+      self.getDocPvName = function() {
+        return m_docPvName;
       };
 
-      self.getDocRvNombre = function() {
-        return m_docRvNombre;
+      self.getDocRvName = function() {
+        return m_docRvName;
       };
 
-      self.getDocRvNombreC = function() {
-        return m_docRvNombreC;
+      self.getDocRvNameC = function() {
+        return m_docRvNameC;
       };
 
-      self.getDocFvNombre = function() {
-        return m_docFvNombre;
+      self.getDocFvName = function() {
+        return m_docFvName;
       };
 
       self.getPklDocFactura = function() {
@@ -637,28 +637,28 @@
         return m_pklDocInterno;
       };
 
-      self.getDocCobzNombre = function() {
-        return m_docCobzNombre;
+      self.getDocCobzName = function() {
+        return m_docCobzName;
       };
 
-      self.getDocOsNombre = function() {
-        return m_docOSNombre;
+      self.getDocOsName = function() {
+        return m_docOSName;
       };
 
-      self.getDocPrpNombre = function() {
-        return m_docPRPNombre;
+      self.getDocPrpName = function() {
+        return m_docPRPName;
       };
 
-      self.getDocLIQNombre = function() {
-        return m_docLiqNombre;
+      self.getDocLIQName = function() {
+        return m_docLiqName;
       };
 
-      self.getDeplNombre = function() {
-        return m_deplNombre;
+      self.getDeplName = function() {
+        return m_deplName;
       };
 
-      self.getDeplNombreSrv = function() {
-        return m_deplNombreSrv;
+      self.getDeplNameSrv = function() {
+        return m_deplNameSrv;
       };
 
       self.getDesktop = function() {
@@ -796,6 +796,7 @@
       self.save = function() {
 
         var register = null;
+        var fields = null;
 
         var mainRegister = new Cairo.Database.Register();
         var transaction = Cairo.Database.createTransaction();
@@ -818,7 +819,7 @@
             case K_DOC_ID_PC:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_PC, ucs.purchases)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(DOC_PC, ucs.purchases), TEXT);
@@ -831,7 +832,7 @@
             case K_DOC_ID_PREC:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_PREC, ucs.purchases)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(DOC_PREC, ucs.purchases), TEXT);
@@ -844,7 +845,7 @@
             case K_DOC_ID_COT:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_COT, ucs.purchases)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(DOC_COT, ucs.purchases), TEXT);
@@ -857,7 +858,7 @@
             case K_DOC_ID_OC:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_OC, ucs.purchases)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(DOC_OC, ucs.purchases), TEXT);
@@ -870,7 +871,7 @@
             case K_DOC_ID_RC:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_RC, ucs.purchases)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(DOC_RC, ucs.purchases), TEXT);
@@ -883,7 +884,7 @@
             case K_DOC_ID_FC:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_FC, ucs.purchases)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(DOC_FC, ucs.purchases), TEXT);
@@ -896,7 +897,7 @@
             case K_SHOWDATAADIC_IN_COMPRAS:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(SHOW_DATA_ADD_IN_COMPRAS, ucs.purchases)), TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(SHOW_DATA_ADD_IN_COMPRAS, ucs.purchases), TEXT);
@@ -911,7 +912,7 @@
             case K_DEPL_ID:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DEPOSITO, ucs.stock)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(DEPOSITO, ucs.stock), TEXT);
@@ -924,7 +925,7 @@
             case K_DEPL_ID_SRV:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DEPOSITO_SRV, ucs.stock)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(DEPOSITO_SRV, ucs.stock), TEXT);
@@ -941,7 +942,7 @@
 
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(INFORMAR_ANTICIPOS, ucs.sales)), TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(INFORMAR_ANTICIPOS, ucs.sales), TEXT);
@@ -953,7 +954,7 @@
             case K_DOC_ID_PREV:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_PREV, ucs.sales)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(DOC_PREV, ucs.sales), TEXT);
@@ -966,7 +967,7 @@
             case K_DOC_ID_PV:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_PV, ucs.sales)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(DOC_PV, ucs.sales), TEXT);
@@ -979,7 +980,7 @@
             case K_DOC_ID_RV:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_RV, ucs.sales)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(DOC_RV, ucs.sales), TEXT);
@@ -992,7 +993,7 @@
             case K_DOC_ID_RV_C:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_RV_C, ucs.sales)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(DOC_RV_C, ucs.sales), TEXT);
@@ -1005,7 +1006,7 @@
             case K_DOC_ID_FV:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_FV, ucs.sales)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(DOC_FV, ucs.sales), TEXT);
@@ -1018,7 +1019,7 @@
             case K_DOC_ID_COBZ:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_COBZ, ucs.sales)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(DOC_COBZ, ucs.sales), TEXT);
@@ -1031,7 +1032,7 @@
             case K_VIEW_NAMES_IN_TOOLBAR:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(VIEW_NAMES_IN_TOOLBAR, ucs.general)), TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(VIEW_NAMES_IN_TOOLBAR, ucs.general), TEXT);
@@ -1043,7 +1044,7 @@
             case K_PARTE_REPARACION_ESTADO_DEFAULT:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(PRP_ESTADO_X_DEF, ucs.services)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(PRP_ESTADO_X_DEF, ucs.services), TEXT);
@@ -1056,7 +1057,7 @@
             case K_SHOWDATAADIC_IN_VENTAS:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(SHOW_DATA_ADD_IN_VENTAS, ucs.sales)), TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(SHOW_DATA_ADD_IN_VENTAS, ucs.sales), TEXT);
@@ -1068,7 +1069,7 @@
             case K_SHOW_BARCODE_INPUT_CTRLS:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(SHOW_BARCODE_INPUT_CTRLS) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, SHOW_BARCODE_INPUT_CTRLS, TEXT);
@@ -1081,7 +1082,7 @@
             case K_ESTADO_EN_HOJA_RUTA:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(ESTADO_HOJA_RUTA, ucs.sales)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(ESTADO_HOJA_RUTA, ucs.sales), TEXT);
@@ -1098,7 +1099,7 @@
             case K_PICKINLIST_DOC_ID_FACTURA:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(PKL_DOC_FACTURA, ucs.sales)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(PKL_DOC_FACTURA, ucs.sales), TEXT);
@@ -1111,7 +1112,7 @@
             case K_PICKINLIST_DOC_ID_INTERNO:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(PKL_DOC_INTERNO, ucs.sales)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(PKL_DOC_INTERNO, ucs.sales), TEXT);
@@ -1124,7 +1125,7 @@
             case K_ESTADO_EN_PICKING_LIST:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(ESTADO_PICKING_LIST, ucs.sales)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(ESTADO_PICKING_LIST, ucs.sales), TEXT);
@@ -1141,7 +1142,7 @@
             case K_DESKTOP:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DESKTOP, ucs.general)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(DESKTOP, ucs.general), TEXT);
@@ -1154,7 +1155,7 @@
             case K_USAR_COLORES_EN_DOCUMENTOS:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(USAR_COLORES_EN_DOC, ucs.general)), TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(USAR_COLORES_EN_DOC, ucs.general), TEXT);
@@ -1166,7 +1167,7 @@
             case K_COLOR_BACKGROUND:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(COLOR_EN_EMPRESA, ucs.general)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(COLOR_EN_EMPRESA, ucs.general), TEXT);
@@ -1179,7 +1180,7 @@
             case K_FOLDER_TO_EXPORT_PDF:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(FOLDER_TO_EXPORT_PDF, ucs.general)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(FOLDER_TO_EXPORT_PDF, ucs.general), TEXT);
@@ -1192,7 +1193,7 @@
             case K_LENGUAJE:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(LENGUAJE, ucs.general)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(LENGUAJE, ucs.general), TEXT);
@@ -1206,7 +1207,7 @@
 
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(AUTO_SIZE_COLS, ucs.general)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(AUTO_SIZE_COLS, ucs.general), TEXT);
@@ -1220,7 +1221,7 @@
 
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(MULTI_SELECT, ucs.general)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(MULTI_SELECT, ucs.general), TEXT);
@@ -1234,7 +1235,7 @@
 
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(SHOW_SAVE_AS, ucs.general)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(SHOW_SAVE_AS, ucs.general), TEXT);
@@ -1248,7 +1249,7 @@
 
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(SHOW_ALL_IN_WIZARD, ucs.general)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(SHOW_ALL_IN_WIZARD, ucs.general), TEXT);
@@ -1265,7 +1266,7 @@
             case K_DOC_ID_MF:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_MF, ucs.treasury)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(DOC_MF, ucs.treasury), TEXT);
@@ -1278,7 +1279,7 @@
             case K_DOC_ID_DBCO:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_DBCO, ucs.treasury)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(DOC_DBCO, ucs.treasury), TEXT);
@@ -1291,7 +1292,7 @@
             case K_DEBE_HABER_MF:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DEBE_HABER_MF, ucs.treasury)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(DEBE_HABER_MF, ucs.treasury), TEXT);
@@ -1308,7 +1309,7 @@
             case K_DOC_ID_OS:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_OS, ucs.services)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(DOC_OS, ucs.services), TEXT);
@@ -1321,7 +1322,7 @@
             case K_DOC_ID_PRP:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_PRP, ucs.services)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(DOC_PRP, ucs.services), TEXT);
@@ -1338,7 +1339,7 @@
             case K_DOC_ID_LIQ:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(DOC_LIQ, ucs.preferences)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(DOC_LIQ, ucs.preferences), TEXT);
@@ -1351,7 +1352,7 @@
             case K_USE_PRINTER_SIZE:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(USE_PRINTER_SIZE, ucs.general)), TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(USE_PRINTER_SIZE, ucs.general), TEXT);
@@ -1363,7 +1364,7 @@
             case K_PTD_FECHAINI:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(PTD_FECHA, ucs.services)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(PTD_FECHA, ucs.services), TEXT);
@@ -1376,7 +1377,7 @@
             case K_NUEVO_AL_GRABAR:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(NUEVO_AL_GRABAR, ucs.sales)), TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(NUEVO_AL_GRABAR, ucs.sales), TEXT);
@@ -1388,7 +1389,7 @@
             case K_NUEVO_PTD_AL_GRABAR:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(NUEVO_PTD_AL_GRABAR, ucs.sales)), TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(NUEVO_PTD_AL_GRABAR, ucs.sales), TEXT);
@@ -1400,7 +1401,7 @@
             case K_PRINT_IN_NEW_FV:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(PRINT_IN_NEW_FV, ucs.sales)), TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(PRINT_IN_NEW_FV, ucs.sales), TEXT);
@@ -1412,7 +1413,7 @@
             case K_PRINT_IN_NEW_COBZ_CDO:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(PRINT_IN_NEW_COBZ_CDO, ucs.sales)), TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(PRINT_IN_NEW_COBZ_CDO, ucs.sales), TEXT);
@@ -1424,7 +1425,7 @@
             case K_CLIENTE_X_DEFECTO:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(CLIENTE_X_DEFECTO, ucs.sales)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(CLIENTE_X_DEFECTO, ucs.sales), TEXT);
@@ -1437,7 +1438,7 @@
             case K_CUENTA_FVO_X_DEFECTO:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(CUENTA_FVO_X_DEFECTO, ucs.sales)) + ", emp_id:" + companyId, TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(CUENTA_FVO_X_DEFECTO, ucs.sales), TEXT);
@@ -1450,7 +1451,7 @@
             case K_CLOSE_WIZARD:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(CLOSE_WIZARD, ucs.sales)), TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(CLOSE_WIZARD, ucs.sales), TEXT);
@@ -1462,7 +1463,7 @@
             case K_NO_ASK_IN_PRINT:
               register = new Cairo.Database.Register();
 
-              var fields = register.getFields();
+              fields = register.getFields();
               fields.add(C.CONFIG_FILTER, "cfg_grupo:" + sq(GRUPO_USUARIO_CONFIG) + ", cfg_aspecto:" + sq(ck(NO_ASK_IN_PRINT, ucs.sales)), TEXT);
               fields.add(CFG_GRUPO, GRUPO_USUARIO_CONFIG, TEXT);
               fields.add(C.CONFIG_KEY, ck(NO_ASK_IN_PRINT, ucs.sales), TEXT);
@@ -1548,18 +1549,18 @@
       };
 
       self.validateMF = function() {
-        validate(m_docIdMf, m_docMfNombre).then(
+        validate(m_docIdMf, m_docMfName).then(
           function(info) {
-            m_docMfNombre = info.name;
+            m_docMfName = info.name;
             m_docIdMf = info.id;
           }
         );
       };
 
       self.validateDBCO = function() {
-        validate(m_docIdDbco, m_docDbcoNombre).then(
+        validate(m_docIdDbco, m_docDbcoName).then(
           function(info) {
-            m_docDbcoNombre = info.name;
+            m_docDbcoName = info.name;
             m_docIdDbco = info.id;
           }
         );
@@ -1586,27 +1587,27 @@
       };
 
       self.validatePC = function() {
-        validate(m_docIdPc, m_docPcNombre).then(
+        validate(m_docIdPc, m_docPcName).then(
           function(info) {
-            m_docPcNombre = info.name;
+            m_docPcName = info.name;
             m_docIdPc = info.id;
           }
         );
       };
 
       self.validateOC = function() {
-        validate(m_docIdOc, m_docOcNombre).then(
+        validate(m_docIdOc, m_docOcName).then(
           function(info) {
-            m_docOcNombre = info.name;
+            m_docOcName = info.name;
             m_docIdOc = info.id;
           }
         );
       };
 
       self.validateRC = function() {
-        validate(m_docIdRc, m_docRcNombre).then(
+        validate(m_docIdRc, m_docRcName).then(
           function(info) {
-            m_docRcNombre = info.name;
+            m_docRcName = info.name;
             m_docIdRc = info.id;
           }
         );
@@ -1614,9 +1615,9 @@
       };
 
       self.validateFC = function() {
-        validate(m_docIdFc, m_docFcNombre).then(
+        validate(m_docIdFc, m_docFcName).then(
           function(info) {
-            m_docFcNombre = info.name;
+            m_docFcName = info.name;
             m_docIdFc = info.id;
           }
         );
@@ -1624,9 +1625,9 @@
       };
 
       self.validatePV = function() {
-        validate(m_docIdPv, m_docPvNombre).then(
+        validate(m_docIdPv, m_docPvName).then(
           function(info) {
-            m_docPvNombre = info.name;
+            m_docPvName = info.name;
             m_docIdPv = info.id;
           }
         );
@@ -1634,9 +1635,9 @@
       };
 
       self.validateRV = function() {
-        validate(m_docIdRv, m_docRvNombre).then(
+        validate(m_docIdRv, m_docRvName).then(
           function(info) {
-            m_docRvNombre = info.name;
+            m_docRvName = info.name;
             m_docIdRv = info.id;
           }
         );
@@ -1644,9 +1645,9 @@
       };
 
       self.validateRVC = function() {
-        validate(m_docIdRvC, m_docRvNombreC).then(
+        validate(m_docIdRvC, m_docRvNameC).then(
           function(info) {
-            m_docRvNombreC = info.name;
+            m_docRvNameC = info.name;
             m_docIdRvC = info.id;
           }
         );
@@ -1654,9 +1655,9 @@
       };
 
       self.validateOS = function() {
-        validate(m_docIdOs, m_docOSNombre).then(
+        validate(m_docIdOs, m_docOSName).then(
           function(info) {
-            m_docOSNombre = info.name;
+            m_docOSName = info.name;
             m_docIdOs = info.id;
           }
         );
@@ -1664,9 +1665,9 @@
       };
 
       self.validatePRP = function() {
-        validate(m_docIdPrp, m_docPRPNombre).then(
+        validate(m_docIdPrp, m_docPRPName).then(
           function(info) {
-            m_docPRPNombre = info.name;
+            m_docPRPName = info.name;
             m_docIdPrp = info.id;
           }
         );
@@ -1674,9 +1675,9 @@
       };
 
       self.validateFV = function() {
-        validate(m_docIdFv, m_docFvNombre).then(
+        validate(m_docIdFv, m_docFvName).then(
           function(info) {
-            m_docFvNombre = info.name;
+            m_docFvName = info.name;
             m_docIdFv = info.id;
           }
         );
@@ -1702,23 +1703,23 @@
       };
 
       self.validateLIQ = function() {
-        validate(m_docIdLiq, m_docLiqNombre).then(
+        validate(m_docIdLiq, m_docLiqName).then(
           function(info) {
-            m_docLiqNombre = info.name;
+            m_docLiqName = info.name;
             m_docIdLiq = info.id;
           }
         );
       };
 
       self.validateDepl = function() {
-        return Cairo.Select.Controller.validate(Cairo.Tables.DEPOSITO_LOGICO, m_deplNombre, m_deplId).then(
+        return Cairo.Select.Controller.validate(Cairo.Tables.DEPOSITO_LOGICO, m_deplName, m_deplId).then(
           function(result) {
             if(result.success) {
-              m_deplNombre = result.info.name;
+              m_deplName = result.info.name;
               m_deplId = Cairo.Util.val(result.info.id);
             }
             else {
-              m_deplNombre = "";
+              m_deplName = "";
               m_deplId = NO_ID;
             }
           }
@@ -1773,6 +1774,7 @@
 
               var keyDocPc = ck(DOC_PC, ucs.purchases);
               var keyDocCot = ck(DOC_COT, ucs.purchases);
+              var keyDocPrec = ck(DOC_PREC, ucs.purchases);
               var keyDocOc = ck(DOC_OC, ucs.purchases);
               var keyDocRc = ck(DOC_RC, ucs.purchases);
               var keyDocFc = ck(DOC_FC, ucs.purchases);
@@ -1817,11 +1819,13 @@
 
               var keyColorEmpresa = ck(COLOR_EN_EMPRESA, ucs.general);
 
+              var doc = null;
+
               m_showBarcodeInputCtrls = false;
 
               m_docIdPv = NO_ID;
-              m_docPvNombre = "";
-              
+              m_docPvName = "";
+
               var settings = response.data.get('settings')
 
               for(var _i = 0; _i < settings.length; _i += 1) {
@@ -1876,87 +1880,87 @@
                     break;
 
                   case keyDocPc:
-                    var doc = getValue(settings[_i], C.CONFIG_VALUE);
+                    doc = getValue(settings[_i], C.CONFIG_VALUE);
                     m_docIdPc = doc.id;
-                    m_docPcNombre = doc.name;
+                    m_docPcName = doc.name;
                     break;
 
-                  case keyDocPrev:
-                    var doc = getValue(settings[_i], C.CONFIG_VALUE);
-                    m_docIdPrev = doc.id;
-                    m_docPrevNombre = doc.name;
+                  case keyDocPrec:
+                    doc = getValue(settings[_i], C.CONFIG_VALUE);
+                    m_docIdPrec = doc.id;
+                    m_docPrecName = doc.name;
                     break;
 
                   case keyDocCot:
-                    var doc = getValue(settings[_i], C.CONFIG_VALUE);
+                    doc = getValue(settings[_i], C.CONFIG_VALUE);
                     m_docIdCot = doc.id;
-                    m_docCotNombre = doc.name;
+                    m_docCotName = doc.name;
                     break;
 
                   case keyDocOc:
-                    var doc = getValue(settings[_i], C.CONFIG_VALUE);
+                    doc = getValue(settings[_i], C.CONFIG_VALUE);
                     m_docIdOc = doc.id;
-                    m_docOcNombre = doc.name;
+                    m_docOcName = doc.name;
                     break;
 
                   case keyDocRc:
-                    var doc = getValue(settings[_i], C.CONFIG_VALUE);
+                    doc = getValue(settings[_i], C.CONFIG_VALUE);
                     m_docIdRc = doc.id;
-                    m_docRcNombre = doc.name;
+                    m_docRcName = doc.name;
                     break;
 
                   case keyDocFc:
-                    var doc = getValue(settings[_i], C.CONFIG_VALUE);
+                    doc = getValue(settings[_i], C.CONFIG_VALUE);
                     m_docIdFc = doc.id;
-                    m_docFcNombre = doc.name;
+                    m_docFcName = doc.name;
                     break;
 
                   case keyDocPv:
-                    var doc = getValue(settings[_i], C.CONFIG_VALUE);
+                    doc = getValue(settings[_i], C.CONFIG_VALUE);
                     m_docIdPv = doc.id;
-                    m_docPvNombre = doc.name;
+                    m_docPvName = doc.name;
                     break;
 
                   case keyDocPrev:
-                    var doc = getValue(settings[_i], C.CONFIG_VALUE);
+                    doc = getValue(settings[_i], C.CONFIG_VALUE);
                     m_docIdPrev = doc.id;
-                    m_docPrevNombre = doc.name;
+                    m_docPrevName = doc.name;
                     break;
 
                   case keyDocRv:
-                    var doc = getValue(settings[_i], C.CONFIG_VALUE);
+                    doc = getValue(settings[_i], C.CONFIG_VALUE);
                     m_docIdRv = doc.id;
-                    m_docRvNombre = doc.name;
+                    m_docRvName = doc.name;
                     break;
 
                   case keyDocRvC:
-                    var doc = getValue(settings[_i], C.CONFIG_VALUE);
+                    doc = getValue(settings[_i], C.CONFIG_VALUE);
                     m_docIdRvC = doc.id;
-                    m_docRvNombreC = doc.name;
+                    m_docRvNameC = doc.name;
                     break;
 
                   case keyDocFv:
-                    var doc = getValue(settings[_i], C.CONFIG_VALUE);
+                    doc = getValue(settings[_i], C.CONFIG_VALUE);
                     m_docIdFv = doc.id;
-                    m_docFvNombre = doc.name;
+                    m_docFvName = doc.name;
                     break;
 
                   case keyPklDocFac:
-                    var doc = getValue(settings[_i], C.CONFIG_VALUE);
+                    doc = getValue(settings[_i], C.CONFIG_VALUE);
                     m_pklDocIdFactura = doc.id;
                     m_pklDocFactura = doc.name;
                     break;
 
                   case keyPklDocInt:
-                    var doc = getValue(settings[_i], C.CONFIG_VALUE);
+                    doc = getValue(settings[_i], C.CONFIG_VALUE);
                     m_pklDocIdInterno = doc.id;
                     m_pklDocInterno = doc.name;
                     break;
 
                   case keyDocCobz:
-                    var doc = getValue(settings[_i], C.CONFIG_VALUE);
+                    doc = getValue(settings[_i], C.CONFIG_VALUE);
                     m_docIdCobz = doc.id;
-                    m_docCobzNombre = doc.name;
+                    m_docCobzName = doc.name;
                     break;
 
                   case SHOW_BARCODE_INPUT_CTRLS:
@@ -1964,15 +1968,15 @@
                     break;
 
                   case keyDocOs:
-                    var doc = getValue(settings[_i], C.CONFIG_VALUE);
+                    doc = getValue(settings[_i], C.CONFIG_VALUE);
                     m_docIdOs = doc.id;
-                    m_docOSNombre = doc.name;
+                    m_docOSName = doc.name;
                     break;
 
                   case keyDocPrp:
-                    var doc = getValue(settings[_i], C.CONFIG_VALUE);
+                    doc = getValue(settings[_i], C.CONFIG_VALUE);
                     m_docIdPrp = doc.id;
-                    m_docPRPNombre = doc.name;
+                    m_docPRPName = doc.name;
                     break;
 
                   case keyPtdFecha:
@@ -1984,15 +1988,15 @@
                     break;
 
                   case keyDocMF:
-                    var doc = getValue(settings[_i], C.CONFIG_VALUE);
+                    doc = getValue(settings[_i], C.CONFIG_VALUE);
                     m_docIdMf = doc.id;
-                    m_docMfNombre = doc.name;
+                    m_docMfName = doc.name;
                     break;
 
                   case keyDocDBCO:
-                    var doc = getValue(settings[_i], C.CONFIG_VALUE);
+                    doc = getValue(settings[_i], C.CONFIG_VALUE);
                     m_docIdDbco = doc.id;
-                    m_docDbcoNombre = doc.name;
+                    m_docDbcoName = doc.name;
                     break;
 
                   case keyDebeHaberMf:
@@ -2000,21 +2004,21 @@
                     break;
 
                   case keyDocLIQ:
-                    var doc = getValue(settings[_i], C.CONFIG_VALUE);
+                    doc = getValue(settings[_i], C.CONFIG_VALUE);
                     m_docIdLiq = doc.id;
-                    m_docLiqNombre = doc.name;
+                    m_docLiqName = doc.name;
                     break;
 
                   case keyDepl:
                     var value = getValue(settings[_i], C.CONFIG_VALUE);
                     m_deplId = value.id;
-                    m_deplNombre = value.name;
+                    m_deplName = value.name;
                     break;
 
                   case keyDeplSrv:
                     var value = getValue(settings[_i], C.CONFIG_VALUE);
                     m_deplIdSrv = value.id;
-                    m_deplNombreSrv = value.name;
+                    m_deplNameSrv = value.name;
                     break;
 
                   case keyDesktop:
@@ -2135,42 +2139,42 @@
         var TAB_DESPACHO = 7;
         var TAB_CANCELACION = 8;
 
-        var w_tabs = m_dialog.getTabs();
-        w_tabs.clear();
+        var tabs = m_dialog.getTabs();
+        tabs.clear();
 
-        var tab = w_tabs.add(null);
+        var tab = tabs.add(null);
         tab.setIndex(TAB_GENERAL);
         tab.setName(Cairo.Constants.TAB_GENERAL);
 
-        var tab = w_tabs.add(null);
+        tab = tabs.add(null);
         tab.setIndex(TAB_COMPRAS);
         tab.setName(getText(1489, "")); // Compras
 
-        var tab = w_tabs.add(null);
+        tab = tabs.add(null);
         tab.setIndex(TAB_STOCK);
         tab.setName(getText(1298, "")); // Stock
 
-        var tab = w_tabs.add(null);
+        tab = tabs.add(null);
         tab.setIndex(TAB_VENTAS);
         tab.setName(getText(1488, "")); // Ventas
 
-        var tab = w_tabs.add(null);
+        tab = tabs.add(null);
         tab.setIndex(TAB_TESORERIA);
         tab.setName(getText(2935, "")); // Tesoreria
 
-        var tab = w_tabs.add(null);
+        tab = tabs.add(null);
         tab.setIndex(TAB_SERVICIOS);
         tab.setName(getText(2676, "")); // Servicios
 
-        var tab = w_tabs.add(null);
+        tab = tabs.add(null);
         tab.setIndex(TAB_PERSONAL);
         tab.setName(getText(3880, "")); // Personal
 
-        var tab = w_tabs.add(null);
+        tab = tabs.add(null);
         tab.setIndex(TAB_DESPACHO);
         tab.setName(getText(4885, "")); // Depachos
 
-        var tab = w_tabs.add(null);
+        tab = tabs.add(null);
         tab.setIndex(TAB_CANCELACION);
         tab.setName(getText(4959, "")); // Cancelacion
 
@@ -2190,7 +2194,7 @@
         elem.setValue(m_desktop);
         elem.setTabIndex(TAB_GENERAL);
 
-        var elem = properties.add(null, LENGUAJE);
+        elem = properties.add(null, LENGUAJE);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.LENGUAJE);
         elem.setName(LENGUAJE);
@@ -2199,63 +2203,63 @@
         elem.setValue(m_lengName);
         elem.setTabIndex(TAB_GENERAL);
 
-        var elem = properties.add(null, AUTO_SIZE_COLS);
+        elem = properties.add(null, AUTO_SIZE_COLS);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(AUTO_SIZE_COLS);
         elem.setKey(K_AUTO_SIZE_COLS);
         elem.setValue(Cairo.Util.boolToInt(m_autoSizeCols));
         elem.setTabIndex(TAB_GENERAL);
 
-        var elem = properties.add(null, MULTI_SELECT);
+        elem = properties.add(null, MULTI_SELECT);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(MULTI_SELECT);
         elem.setKey(K_MULTI_SELECT);
         elem.setValue(Cairo.Util.boolToInt(m_multiSelect));
         elem.setTabIndex(TAB_GENERAL);
 
-        var elem = properties.add(null, USE_PRINTER_SIZE);
+        elem = properties.add(null, USE_PRINTER_SIZE);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(USE_PRINTER_SIZE);
         elem.setKey(K_USE_PRINTER_SIZE);
         elem.setValue(Cairo.Util.boolToInt(m_usePrinterSize));
         elem.setTabIndex(TAB_GENERAL);
 
-        var elem = properties.add(null, VIEW_NAMES_IN_TOOLBAR);
+        elem = properties.add(null, VIEW_NAMES_IN_TOOLBAR);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName("Ver el nombre de los bótones en las barras de herramientas");
         elem.setKey(K_VIEW_NAMES_IN_TOOLBAR);
         elem.setValue(Cairo.Util.boolToInt(m_viewNamesInToolbar));
         elem.setTabIndex(TAB_GENERAL);
 
-        var elem = properties.add(null, SHOW_SAVE_AS);
+        elem = properties.add(null, SHOW_SAVE_AS);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(SHOW_SAVE_AS);
         elem.setKey(K_SHOW_SAVE_AS);
         elem.setValue(Cairo.Util.boolToInt(m_showSaveAs));
         elem.setTabIndex(TAB_GENERAL);
 
-        var elem = properties.add(null, SHOW_ALL_IN_WIZARD);
+        elem = properties.add(null, SHOW_ALL_IN_WIZARD);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(SHOW_ALL_IN_WIZARD);
         elem.setKey(K_SHOW_ALL_IN_WIZARD);
         elem.setValue(Cairo.Util.boolToInt(m_showAllInWizard));
         elem.setTabIndex(TAB_GENERAL);
 
-        var elem = properties.add(null, FOLDER_TO_EXPORT_PDF);
+        elem = properties.add(null, FOLDER_TO_EXPORT_PDF);
         elem.setType(Dialogs.PropertyType.folder);
         elem.setName(FOLDER_TO_EXPORT_PDF);
         elem.setKey(K_FOLDER_TO_EXPORT_PDF);
         elem.setValue(m_folderToExportPDF);
         elem.setTabIndex(TAB_GENERAL);
 
-        var elem = properties.add(null, USAR_COLORES_EN_DOC);
+        elem = properties.add(null, USAR_COLORES_EN_DOC);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(getText(4821, "")); // Usar colores en documentos
         elem.setKey(K_USAR_COLORES_EN_DOCUMENTOS);
         elem.setValue(m_usarColoresEnDocumentos);
         elem.setTabIndex(TAB_GENERAL);
 
-        var elem = properties.add(null, COLOR_EN_EMPRESA);
+        elem = properties.add(null, COLOR_EN_EMPRESA);
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.integer);
         elem.setName(getText(4915, "")); // Color en Empresa
@@ -2267,67 +2271,67 @@
         // purchase
         //
 
-        var elem = properties.add(null, DOC_PC);
+        elem = properties.add(null, DOC_PC);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setName(DOC_PC);
         elem.setKey(K_DOC_ID_PC);
         elem.setSelectId(m_docIdPc);
         elem.setSelectFilter("'doctId = 6'");
-        elem.setValue(m_docPcNombre);
+        elem.setValue(m_docPcName);
         elem.setTabIndex(TAB_COMPRAS);
 
-        var elem = properties.add(null, DOC_PREC);
+        elem = properties.add(null, DOC_PREC);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setName(DOC_PREC);
         elem.setKey(K_DOC_ID_PREC);
         elem.setSelectId(m_docIdPrec);
         elem.setSelectFilter("'doctId = 12'");
-        elem.setValue(m_docPrecNombre);
+        elem.setValue(m_docPrecName);
         elem.setTabIndex(TAB_COMPRAS);
 
-        var elem = properties.add(null, DOC_COT);
+        elem = properties.add(null, DOC_COT);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setName(DOC_COT);
         elem.setKey(K_DOC_ID_COT);
         elem.setSelectId(m_docIdCot);
         elem.setSelectFilter("'doctId = 37'");
-        elem.setValue(m_docCotNombre);
+        elem.setValue(m_docCotName);
         elem.setTabIndex(TAB_COMPRAS);
 
-        var elem = properties.add(null, DOC_OC);
+        elem = properties.add(null, DOC_OC);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setName(DOC_OC);
         elem.setKey(K_DOC_ID_OC);
         elem.setSelectId(m_docIdOc);
         elem.setSelectFilter("'doctId = 35'");
-        elem.setValue(m_docOcNombre);
+        elem.setValue(m_docOcName);
         elem.setTabIndex(TAB_COMPRAS);
 
-        var elem = properties.add(null, DOC_RC);
+        elem = properties.add(null, DOC_RC);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setName(DOC_RC);
         elem.setKey(K_DOC_ID_RC);
         elem.setSelectId(m_docIdRc);
         elem.setSelectFilter("'doctId = 4'");
-        elem.setValue(m_docRcNombre);
+        elem.setValue(m_docRcName);
         elem.setTabIndex(TAB_COMPRAS);
 
-        var elem = properties.add(null, DOC_FC);
+        elem = properties.add(null, DOC_FC);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setName(DOC_FC);
         elem.setKey(K_DOC_ID_FC);
         elem.setSelectId(m_docIdFc);
         elem.setSelectFilter("'doctId = 2'");
-        elem.setValue(m_docFcNombre);
+        elem.setValue(m_docFcName);
         elem.setTabIndex(TAB_COMPRAS);
 
-        var elem = properties.add(null, SHOW_DATA_ADD_IN_COMPRAS);
+        elem = properties.add(null, SHOW_DATA_ADD_IN_COMPRAS);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(getText(3914, "")); // Ver datos del proveedor
         elem.setKey(K_SHOWDATAADIC_IN_COMPRAS);
@@ -2338,93 +2342,93 @@
         // stock
         //
 
-        var elem = properties.add(null, DEPOSITO);
+        elem = properties.add(null, DEPOSITO);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DEPOSITO_LOGICO);
         elem.setName(DEPOSITO);
         elem.setKey(K_DEPL_ID);
         elem.setSelectId(m_deplId);
-        elem.setValue(m_deplNombre);
+        elem.setValue(m_deplName);
         elem.setTabIndex(TAB_STOCK);
 
-        var elem = properties.add(null, DEPOSITO_SRV);
+        elem = properties.add(null, DEPOSITO_SRV);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DEPOSITO_LOGICO);
         elem.setName(DEPOSITO_SRV);
         elem.setKey(K_DEPL_ID_SRV);
         elem.setSelectId(m_deplIdSrv);
-        elem.setValue(m_deplNombreSrv);
+        elem.setValue(m_deplNameSrv);
         elem.setTabIndex(TAB_STOCK);
 
         //
         // sales
         //
 
-        var elem = properties.add(null, INFORMAR_ANTICIPOS);
+        elem = properties.add(null, INFORMAR_ANTICIPOS);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(getText(2937, "")); // Mostrar un mensaje al grabar las Facturas de venta informando si el cliente(tiene anticipos)
         elem.setKey(K_INFORMAR_ANTICIPOS);
         elem.setValue(Cairo.Util.boolToInt(m_informarAnticipos));
         elem.setTabIndex(TAB_VENTAS);
 
-        var elem = properties.add(null, DOC_PREV + "v");
+        elem = properties.add(null, DOC_PREV + "v");
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setName(DOC_PREV);
         elem.setKey(K_DOC_ID_PREV);
         elem.setSelectId(m_docIdPrev);
         elem.setSelectFilter("'doctId = 11'");
-        elem.setValue(m_docPrevNombre);
+        elem.setValue(m_docPrevName);
         elem.setTabIndex(TAB_VENTAS);
 
-        var elem = properties.add(null, DOC_PV + "v");
+        elem = properties.add(null, DOC_PV + "v");
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setName(DOC_PV);
         elem.setKey(K_DOC_ID_PV);
         elem.setSelectId(m_docIdPv);
         elem.setSelectFilter("'doctId = 5'");
-        elem.setValue(m_docPvNombre);
+        elem.setValue(m_docPvName);
         elem.setTabIndex(TAB_VENTAS);
 
-        var elem = properties.add(null, DOC_RV + "v");
+        elem = properties.add(null, DOC_RV + "v");
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setName(DOC_RV);
         elem.setKey(K_DOC_ID_RV);
         elem.setSelectId(m_docIdRv);
         elem.setSelectFilter("'doctId = 3'");
-        elem.setValue(m_docRvNombre);
+        elem.setValue(m_docRvName);
         elem.setTabIndex(TAB_VENTAS);
 
-        var elem = properties.add(null, DOC_FV + "v");
+        elem = properties.add(null, DOC_FV + "v");
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setName(DOC_FV);
         elem.setKey(K_DOC_ID_FV);
         elem.setSelectId(m_docIdFv);
         elem.setSelectFilter("'doctId = 1'");
-        elem.setValue(m_docFvNombre);
+        elem.setValue(m_docFvName);
         elem.setTabIndex(TAB_VENTAS);
 
-        var elem = properties.add(null, DOC_COBZ);
+        elem = properties.add(null, DOC_COBZ);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setName(DOC_COBZ);
         elem.setKey(K_DOC_ID_COBZ);
         elem.setSelectId(m_docIdCobz);
         elem.setSelectFilter("'doctId = 13'");
-        elem.setValue(m_docCobzNombre);
+        elem.setValue(m_docCobzName);
         elem.setTabIndex(TAB_VENTAS);
 
-        var elem = properties.add(null, SHOW_BARCODE_INPUT_CTRLS);
+        elem = properties.add(null, SHOW_BARCODE_INPUT_CTRLS);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(SHOW_BARCODE_INPUT_CTRLS);
         elem.setKey(K_SHOW_BARCODE_INPUT_CTRLS);
         elem.setValue(Cairo.Util.boolToInt(m_showBarcodeInputCtrls));
         elem.setTabIndex(TAB_VENTAS);
 
-        var elem = properties.add(null, CUENTA_FVO_X_DEFECTO);
+        elem = properties.add(null, CUENTA_FVO_X_DEFECTO);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
         elem.setName(getText(3554, "")); // Cuenta efectivo de cobranza contado
@@ -2433,7 +2437,7 @@
         elem.setValue(m_cuentaFvoXDefecto);
         elem.setTabIndex(TAB_VENTAS);
 
-        var elem = properties.add(null, CLIENTE_X_DEFECTO);
+        elem = properties.add(null, CLIENTE_X_DEFECTO);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CLIENTE);
         elem.setName(getText(3556, "")); // Cliente por defecto
@@ -2442,56 +2446,56 @@
         elem.setValue(m_clienteXDefecto);
         elem.setTabIndex(TAB_VENTAS);
 
-        var elem = properties.add(null, NUEVO_AL_GRABAR);
+        elem = properties.add(null, NUEVO_AL_GRABAR);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(getText(3555, "")); // Presentar un nuevo documento despues de grabar
         elem.setKey(K_NUEVO_AL_GRABAR);
         elem.setValue(Cairo.Util.boolToInt(m_nuevoAlGrabar));
         elem.setTabIndex(TAB_VENTAS);
 
-        var elem = properties.add(null, PRINT_IN_NEW_FV);
+        elem = properties.add(null, PRINT_IN_NEW_FV);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(getText(4837, "")); // Imprimir al grabar una nueva factura
         elem.setKey(K_PRINT_IN_NEW_FV);
         elem.setValue(Cairo.Util.boolToInt(m_printInNewFV));
         elem.setTabIndex(TAB_VENTAS);
 
-        var elem = properties.add(null, PRINT_IN_NEW_COBZ_CDO);
+        elem = properties.add(null, PRINT_IN_NEW_COBZ_CDO);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(getText(4838, "")); // Imprimir recibo en cobranza contado
         elem.setKey(K_PRINT_IN_NEW_COBZ_CDO);
         elem.setValue(Cairo.Util.boolToInt(m_printInNewCobzCdo));
         elem.setTabIndex(TAB_VENTAS);
 
-        var elem = properties.add(null, NUEVO_PTD_AL_GRABAR);
+        elem = properties.add(null, NUEVO_PTD_AL_GRABAR);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(getText(4836, "")); // Presentar un nuevo parte despues de grabar
         elem.setKey(K_NUEVO_PTD_AL_GRABAR);
         elem.setValue(Cairo.Util.boolToInt(m_nuevoPtdAlGrabar));
         elem.setTabIndex(TAB_VENTAS);
 
-        var elem = properties.add(null, SHOW_DATA_ADD_IN_VENTAS);
+        elem = properties.add(null, SHOW_DATA_ADD_IN_VENTAS);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(getText(3913, "")); // Ver datos del cliente
         elem.setKey(K_SHOWDATAADIC_IN_VENTAS);
         elem.setValue(Cairo.Util.boolToInt(m_showDataAddInVentas));
         elem.setTabIndex(TAB_VENTAS);
 
-        var elem = properties.add(null, CLOSE_WIZARD);
+        elem = properties.add(null, CLOSE_WIZARD);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(getText(5079, "")); // Cerrar Asistente al Finalizar
         elem.setKey(K_CLOSE_WIZARD);
         elem.setValue(Cairo.Util.boolToInt(m_closeWizard));
         elem.setTabIndex(TAB_VENTAS);
 
-        var elem = properties.add(null, NO_ASK_IN_PRINT);
+        elem = properties.add(null, NO_ASK_IN_PRINT);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(getText(5080, "")); // No Pedir Confirmar al Imprimir
         elem.setKey(K_NO_ASK_IN_PRINT);
         elem.setValue(Cairo.Util.boolToInt(m_noAskInPrint));
         elem.setTabIndex(TAB_VENTAS);
 
-        var elem = properties.add(null, ESTADO_HOJA_RUTA);
+        elem = properties.add(null, ESTADO_HOJA_RUTA);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.ESTADOS);
         elem.setName(getText(4549, "")); // Estado en hojas de ruta
@@ -2508,27 +2512,27 @@
         // treasury
         //
 
-        var elem = properties.add(null, DOC_MF);
+        elem = properties.add(null, DOC_MF);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setName(DOC_MF);
         elem.setKey(K_DOC_ID_MF);
         elem.setSelectId(m_docIdMf);
         elem.setSelectFilter("'doctId = 26'");
-        elem.setValue(m_docMfNombre);
+        elem.setValue(m_docMfName);
         elem.setTabIndex(TAB_TESORERIA);
 
-        var elem = properties.add(null, DOC_DBCO);
+        elem = properties.add(null, DOC_DBCO);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setName(DOC_DBCO);
         elem.setKey(K_DOC_ID_DBCO);
         elem.setSelectId(m_docIdDbco);
         elem.setSelectFilter("'doctId = 17'");
-        elem.setValue(m_docDbcoNombre);
+        elem.setValue(m_docDbcoName);
         elem.setTabIndex(TAB_TESORERIA);
 
-        var elem = properties.add(null, DEBE_HABER_MF);
+        elem = properties.add(null, DEBE_HABER_MF);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(DEBE_HABER_MF);
         elem.setKey(K_DEBE_HABER_MF);
@@ -2539,34 +2543,34 @@
         // services
         //
 
-        var elem = properties.add(null, DOC_OS);
+        elem = properties.add(null, DOC_OS);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setName(DOC_OS);
         elem.setKey(K_DOC_ID_OS);
         elem.setSelectId(m_docIdOs);
         elem.setSelectFilter("'doctId = 42'");
-        elem.setValue(m_docOSNombre);
+        elem.setValue(m_docOSName);
         elem.setTabIndex(TAB_SERVICIOS);
 
-        var elem = properties.add(null, DOC_PRP);
+        elem = properties.add(null, DOC_PRP);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setName(DOC_PRP);
         elem.setKey(K_DOC_ID_PRP);
         elem.setSelectId(m_docIdPrp);
         elem.setSelectFilter("'doctId = 43'");
-        elem.setValue(m_docPRPNombre);
+        elem.setValue(m_docPRPName);
         elem.setTabIndex(TAB_SERVICIOS);
 
-        var elem = properties.add(null, PTD_FECHA);
+        elem = properties.add(null, PTD_FECHA);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(PTD_FECHA);
         elem.setKey(K_PTD_FECHAINI);
         elem.setValue(Cairo.Util.boolToInt(m_ptdFecha));
         elem.setTabIndex(TAB_SERVICIOS);
 
-        var elem = properties.add(null, PRP_ESTADO_X_DEF);
+        elem = properties.add(null, PRP_ESTADO_X_DEF);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(getText(3918, "")); // Estado Default en Parte Reparacion
         elem.setKey(K_PARTE_REPARACION_ESTADO_DEFAULT);
@@ -2576,22 +2580,22 @@
         //
         // personal
         //
-        
-        var elem = properties.add(null, DOC_LIQ);
+
+        elem = properties.add(null, DOC_LIQ);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setName(DOC_LIQ);
         elem.setKey(K_DOC_ID_LIQ);
         elem.setSelectId(m_docIdLiq);
         elem.setSelectFilter("'doctId = 47'");
-        elem.setValue(m_docLiqNombre);
+        elem.setValue(m_docLiqName);
         elem.setTabIndex(TAB_PERSONAL);
 
         //
         // picking
         //
 
-        var elem = properties.add(null, PKL_DOC_FACTURA);
+        elem = properties.add(null, PKL_DOC_FACTURA);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setName(PKL_DOC_FACTURA);
@@ -2601,7 +2605,7 @@
         elem.setValue(m_pklDocFactura);
         elem.setTabIndex(TAB_DESPACHO);
 
-        var elem = properties.add(null, PKL_DOC_INTERNO);
+        elem = properties.add(null, PKL_DOC_INTERNO);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setName(PKL_DOC_INTERNO);
@@ -2611,7 +2615,7 @@
         elem.setValue(m_pklDocInterno);
         elem.setTabIndex(TAB_DESPACHO);
 
-        var elem = properties.add(null, ESTADO_PICKING_LIST);
+        elem = properties.add(null, ESTADO_PICKING_LIST);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.ESTADOS);
         elem.setName(getText(4861, "")); // Estado en picking list
@@ -2624,14 +2628,14 @@
         elem.setSelectType(Cairo.Select.SelectType.tree);
         elem.setIsEditProperty(false);
 
-        var elem = properties.add(null, DOC_RV_C + "v");
+        elem = properties.add(null, DOC_RV_C + "v");
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setName(DOC_RV_C);
         elem.setKey(K_DOC_ID_RV_C);
         elem.setSelectId(m_docIdRvC);
         elem.setSelectFilter("'doctId = 24'");
-        elem.setValue(m_docRvNombreC);
+        elem.setValue(m_docRvNameC);
         elem.setTabIndex(TAB_CANCELACION);
 
         if(!m_dialog.show(self)) { return false; }
@@ -2646,167 +2650,167 @@
         var elem = properties.item(DESKTOP);
         elem.setValue(m_desktop);
 
-        var elem = properties.item(LENGUAJE);
+        elem = properties.item(LENGUAJE);
         elem.setSelectId(m_lengId);
         elem.setValue(m_lengName);
 
-        var elem = properties.item(AUTO_SIZE_COLS);
+        elem = properties.item(AUTO_SIZE_COLS);
         elem.setValue(Cairo.Util.boolToInt(m_autoSizeCols));
 
-        var elem = properties.item(MULTI_SELECT);
+        elem = properties.item(MULTI_SELECT);
         elem.setValue(Cairo.Util.boolToInt(m_multiSelect));
 
-        var elem = properties.item(USE_PRINTER_SIZE);
+        elem = properties.item(USE_PRINTER_SIZE);
         elem.setValue(Cairo.Util.boolToInt(m_usePrinterSize));
 
-        var elem = properties.item(VIEW_NAMES_IN_TOOLBAR);
+        elem = properties.item(VIEW_NAMES_IN_TOOLBAR);
         elem.setValue(Cairo.Util.boolToInt(m_viewNamesInToolbar));
 
-        var elem = properties.item(SHOW_SAVE_AS);
+        elem = properties.item(SHOW_SAVE_AS);
         elem.setValue(Cairo.Util.boolToInt(m_showSaveAs));
 
-        var elem = properties.item(SHOW_ALL_IN_WIZARD);
+        elem = properties.item(SHOW_ALL_IN_WIZARD);
         elem.setValue(Cairo.Util.boolToInt(m_showAllInWizard));
 
-        var elem = properties.item(FOLDER_TO_EXPORT_PDF);
+        elem = properties.item(FOLDER_TO_EXPORT_PDF);
         elem.setValue(m_folderToExportPDF);
 
-        var elem = properties.item(USAR_COLORES_EN_DOC);
+        elem = properties.item(USAR_COLORES_EN_DOC);
         elem.setValue(m_usarColoresEnDocumentos);
 
-        var elem = properties.item(COLOR_EN_EMPRESA);
+        elem = properties.item(COLOR_EN_EMPRESA);
         elem.setValue(m_colorEnEmpresa);
 
-        var elem = properties.item(DOC_PC);
+        elem = properties.item(DOC_PC);
         elem.setSelectId(m_docIdPc);
-        elem.setValue(m_docPcNombre);
+        elem.setValue(m_docPcName);
 
-        var elem = properties.item(DOC_PREC);
+        elem = properties.item(DOC_PREC);
         elem.setSelectId(m_docIdPrec);
-        elem.setValue(m_docPrecNombre);
+        elem.setValue(m_docPrecName);
 
-        var elem = properties.item(DOC_COT);
+        elem = properties.item(DOC_COT);
         elem.setSelectId(m_docIdCot);
-        elem.setValue(m_docCotNombre);
+        elem.setValue(m_docCotName);
 
-        var elem = properties.item(DOC_OC);
+        elem = properties.item(DOC_OC);
         elem.setSelectId(m_docIdOc);
-        elem.setValue(m_docOcNombre);
+        elem.setValue(m_docOcName);
 
-        var elem = properties.item(DOC_RC);
+        elem = properties.item(DOC_RC);
         elem.setSelectId(m_docIdRc);
-        elem.setValue(m_docRcNombre);
+        elem.setValue(m_docRcName);
 
-        var elem = properties.item(DOC_FC);
+        elem = properties.item(DOC_FC);
         elem.setSelectId(m_docIdFc);
-        elem.setValue(m_docFcNombre);
+        elem.setValue(m_docFcName);
 
-        var elem = properties.item(SHOW_DATA_ADD_IN_COMPRAS);
+        elem = properties.item(SHOW_DATA_ADD_IN_COMPRAS);
         elem.setValue(Cairo.Util.boolToInt(m_showDataAddInCompras));
 
-        var elem = properties.item(DEPOSITO);
+        elem = properties.item(DEPOSITO);
         elem.setSelectId(m_deplId);
-        elem.setValue(m_deplNombre);
+        elem.setValue(m_deplName);
 
-        var elem = properties.item(DEPOSITO_SRV);
+        elem = properties.item(DEPOSITO_SRV);
         elem.setSelectId(m_deplIdSrv);
-        elem.setValue(m_deplNombreSrv);
+        elem.setValue(m_deplNameSrv);
 
-        var elem = properties.item(INFORMAR_ANTICIPOS);
+        elem = properties.item(INFORMAR_ANTICIPOS);
         elem.setValue(Cairo.Util.boolToInt(m_informarAnticipos));
 
-        var elem = properties.item(DOC_PREV + "v");
+        elem = properties.item(DOC_PREV + "v");
         elem.setSelectId(m_docIdPrev);
-        elem.setValue(m_docPrevNombre);
+        elem.setValue(m_docPrevName);
 
-        var elem = properties.item(DOC_PV + "v");
+        elem = properties.item(DOC_PV + "v");
         elem.setSelectId(m_docIdPv);
-        elem.setValue(m_docPvNombre);
+        elem.setValue(m_docPvName);
 
-        var elem = properties.item(DOC_RV + "v");
+        elem = properties.item(DOC_RV + "v");
         elem.setSelectId(m_docIdRv);
-        elem.setValue(m_docRvNombre);
+        elem.setValue(m_docRvName);
 
-        var elem = properties.item(DOC_FV + "v");
+        elem = properties.item(DOC_FV + "v");
         elem.setSelectId(m_docIdFv);
-        elem.setValue(m_docFvNombre);
+        elem.setValue(m_docFvName);
 
-        var elem = properties.item(DOC_COBZ);
+        elem = properties.item(DOC_COBZ);
         elem.setSelectId(m_docIdCobz);
-        elem.setValue(m_docCobzNombre);
+        elem.setValue(m_docCobzName);
 
-        var elem = properties.item(SHOW_BARCODE_INPUT_CTRLS);
+        elem = properties.item(SHOW_BARCODE_INPUT_CTRLS);
         elem.setValue(Cairo.Util.boolToInt(m_showBarcodeInputCtrls));
 
-        var elem = properties.item(CUENTA_FVO_X_DEFECTO);
+        elem = properties.item(CUENTA_FVO_X_DEFECTO);
         elem.setSelectId(m_cueIdFvoXDefecto);
         elem.setValue(m_cuentaFvoXDefecto);
 
-        var elem = properties.item(CLIENTE_X_DEFECTO);
+        elem = properties.item(CLIENTE_X_DEFECTO);
         elem.setSelectId(m_cliIdXDefecto);
         elem.setValue(m_clienteXDefecto);
 
-        var elem = properties.item(NUEVO_AL_GRABAR);
+        elem = properties.item(NUEVO_AL_GRABAR);
         elem.setValue(Cairo.Util.boolToInt(m_nuevoAlGrabar));
 
-        var elem = properties.item(PRINT_IN_NEW_FV);
+        elem = properties.item(PRINT_IN_NEW_FV);
         elem.setValue(Cairo.Util.boolToInt(m_printInNewFV));
 
-        var elem = properties.item(PRINT_IN_NEW_COBZ_CDO);
+        elem = properties.item(PRINT_IN_NEW_COBZ_CDO);
         elem.setValue(Cairo.Util.boolToInt(m_printInNewCobzCdo));
 
-        var elem = properties.item(NUEVO_PTD_AL_GRABAR);
+        elem = properties.item(NUEVO_PTD_AL_GRABAR);
         elem.setValue(Cairo.Util.boolToInt(m_nuevoPtdAlGrabar));
 
-        var elem = properties.item(SHOW_DATA_ADD_IN_VENTAS);
+        elem = properties.item(SHOW_DATA_ADD_IN_VENTAS);
         elem.setValue(Cairo.Util.boolToInt(m_showDataAddInVentas));
 
-        var elem = properties.item(CLOSE_WIZARD);
+        elem = properties.item(CLOSE_WIZARD);
         elem.setValue(Cairo.Util.boolToInt(m_closeWizard));
 
-        var elem = properties.item(NO_ASK_IN_PRINT);
+        elem = properties.item(NO_ASK_IN_PRINT);
         elem.setValue(Cairo.Util.boolToInt(m_noAskInPrint));
 
-        var elem = properties.item(DOC_MF);
+        elem = properties.item(DOC_MF);
         elem.setSelectId(m_docIdMf);
-        elem.setValue(m_docMfNombre);
+        elem.setValue(m_docMfName);
 
-        var elem = properties.item(DOC_DBCO);
+        elem = properties.item(DOC_DBCO);
         elem.setSelectId(m_docIdDbco);
-        elem.setValue(m_docDbcoNombre);
+        elem.setValue(m_docDbcoName);
 
-        var elem = properties.item(DEBE_HABER_MF);
+        elem = properties.item(DEBE_HABER_MF);
         elem.setValue(m_debeHaberMf);
 
-        var elem = properties.item(DOC_OS);
+        elem = properties.item(DOC_OS);
         elem.setSelectId(m_docIdOs);
-        elem.setValue(m_docOSNombre);
+        elem.setValue(m_docOSName);
 
-        var elem = properties.item(DOC_PRP);
+        elem = properties.item(DOC_PRP);
         elem.setSelectId(m_docIdPrp);
-        elem.setValue(m_docPRPNombre);
+        elem.setValue(m_docPRPName);
 
-        var elem = properties.item(PTD_FECHA);
+        elem = properties.item(PTD_FECHA);
         elem.setValue(Cairo.Util.boolToInt(m_ptdFecha));
 
-        var elem = properties.item(PRP_ESTADO_X_DEF);
+        elem = properties.item(PRP_ESTADO_X_DEF);
         elem.setValue(Cairo.Util.boolToInt(m_PrpEstadoDef));
 
-        var elem = properties.item(DOC_LIQ);
+        elem = properties.item(DOC_LIQ);
         elem.setSelectId(m_docIdLiq);
-        elem.setValue(m_docLiqNombre);
+        elem.setValue(m_docLiqName);
 
-        var elem = properties.item(PKL_DOC_FACTURA);
+        elem = properties.item(PKL_DOC_FACTURA);
         elem.setSelectId(m_pklDocIdFactura);
         elem.setValue(m_pklDocFactura);
 
-        var elem = properties.item(PKL_DOC_INTERNO);
+        elem = properties.item(PKL_DOC_INTERNO);
         elem.setSelectId(m_pklDocIdInterno);
         elem.setValue(m_pklDocInterno);
 
-        var elem = properties.item(DOC_RV_C + "v");
+        elem = properties.item(DOC_RV_C + "v");
         elem.setSelectId(m_docIdRvC);
-        elem.setValue(m_docRvNombreC);
+        elem.setValue(m_docRvNameC);
 
         return m_dialog.showValues(properties);
       };

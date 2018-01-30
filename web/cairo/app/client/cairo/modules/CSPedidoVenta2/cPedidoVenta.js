@@ -1539,7 +1539,7 @@
           // user preferences
           //
           elem.setSelectId(Cairo.UserConfig.getDocPvId());
-          elem.setValue(Cairo.UserConfig.getDocPvNombre());
+          elem.setValue(Cairo.UserConfig.getDocPvName());
 
           validateDocDefault = elem.getSelectId() !== NO_ID;
         }
@@ -1652,7 +1652,7 @@
           
           elem.setSelectIntValue(Cairo.UserConfig.getDeplRamId());
           elem.setSelectId(Cairo.UserConfig.getDeplId());
-          elem.setValue(Cairo.UserConfig.getDeplNombre());
+          elem.setValue(Cairo.UserConfig.getDeplName());
           
         }
 
@@ -2903,7 +2903,7 @@
           m_properties.item(CV.RAM_ID_STOCK)
             .setSelectIntValue(Cairo.UserConfig.getDeplRamId())
             .setSelectId(Cairo.UserConfig.getDeplId())
-            .setValue(Cairo.UserConfig.getDeplNombre());
+            .setValue(Cairo.UserConfig.getDeplName());
         }
 
         m_properties.item(C.CPG_ID)

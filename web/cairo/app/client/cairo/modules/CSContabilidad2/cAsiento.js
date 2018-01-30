@@ -1067,7 +1067,7 @@
           // user preferences
           //
           elem.setSelectId(Cairo.UserConfig.getDocAsId());
-          elem.setValue(Cairo.UserConfig.getDocAsNombre());
+          elem.setValue(Cairo.UserConfig.getDocAsName());
 
           validateDocDefault = elem.getSelectId() !== NO_ID;
         }

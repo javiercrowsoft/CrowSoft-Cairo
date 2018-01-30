@@ -138,8 +138,6 @@
 
       var m_id = 0;
       var m_numero = 0;
-      var m_estado = "";
-      var m_estId = 0;
       var m_nrodoc = "";
       var m_descrip = "";
       var m_fecha = null;
@@ -191,10 +189,13 @@
       var m_docEditable;
       var m_docEditMsg = "";
 
-      var m_nrosSerie;
+      var m_serialNumbers;
       var m_collKitInfo;
 
       var m_depfId = 0;
+
+      var m_serialNumbers;
+      var m_kitDefinitions;
 
       var m_apiPath = DB.getAPIVersion();
 
@@ -656,6 +657,8 @@
           m_footerProps = null;
           m_items = null;
           m_itemsProps = null;
+          m_serialNumbers = null;
+          m_kitDefinitions = null;
         }
         catch (ex) {
           Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
@@ -990,190 +993,223 @@
         return rtn;
       };
 
-      var pColumnAfterEdit = function(property, lRow, lCol, newValue, newValueID) { // TODO: Use of ByRef founded Private Function pColumnAfterEdit(ByRef IProperty As cIABMProperty, ByVal lRow As Long, ByVal lCol As Long, ByVal NewValue As Variant, ByVal NewValueID As Long)
-        var row = null;
+      var columnAfterEdit = function(property, lRow, lCol, newValue, newValueId) {
 
-        switch (property.getGrid().getColumns(lCol).Key) {
+        var p = null;
+        var grid = property.getGrid();
+
+        switch (grid.getColumns().item(lCol).getKey()) {
+
           case KI_PR_ID:
-            row = property.getGrid().getRows(lRow);
-            pSetDataProducto(row, newValueID);
 
+            Cairo.LoadingMessage.show("Movimiento de Stock", "Loading data for product.");
+
+            var row = grid.getRows().item(lRow);
+            p = setDataProducto(row, newValueId);
             break;
+
         }
 
-        return true;
+        return p || P.resolvedPromise(true);
       };
 
-      var columnButtonClick = function(key, lRow, lCol, iKeyAscii) {
-        var _rtn = null;
-        var row = null;
+      self.columnButtonClick = function(key, lRow, lCol, iKeyAscii) {
+
+        var p = null;
 
         switch (key) {
+
           case K_ITEMS:
-            var property = m_items.getProperties().item(C_ITEMS).getGrid();
-            switch (property.Columns(lCol).key) {
+
+            var grid = getProperty(m_items, C_ITEMS).getGrid();
+
+            switch (grid.getColumns().item(lCol).getKey()) {
+
               case KI_NRO_SERIE:
-                row = property.Rows(lRow);
-                if(Dialogs.cell(row, KI_PR_LLEVA_NRO_SERIE).getID()) {
 
-                  var prId = null;
+                var row = grid.getRows().item(lRow);
 
-                  prId = Dialogs.cell(row, KI_PR_ID).getID();
+                if(cellId(row, KI_PR_LLEVA_NRO_SERIE) !== 0) {
 
-                  _rtn = EditNroSerie(Dialogs.cell(row, KI_GRUPO).getID(), Cairo.Util.val(Dialogs.cell(row, KI_CANTIDAD).getValue()), row, m_nrosSerie, KI_GRUPO, KI_NRO_SERIE, lRow, prId, m_dialog.getProperties().item(mStockConstantes.DEPL_ID_ORIGEN).getSelectId(), false, Dialogs.cell(row, KI_ES_KIT).getID(), GetKitInfo(prId, m_collKitInfo), NO_ID, NO_ID);
+                  var prId = cellId(row, KI_PR_ID);
+
+                  p = Cairo.SerialNumber.edit(
+                    cellId(row, KI_GRUPO), cellFloat(row, KI_CANTIDAD),
+                    row, m_serialNumbers, KI_GRUPO, KI_NRO_SERIE, lRow, prId, getDeplId(),
+                    false, cellId(row, KI_ES_KIT) != 0, false, D.getKitInfo(prId, m_kitDefinitions), NO_ID, NO_ID);
                 }
                 break;
             }
             break;
         }
 
-        return _rtn;
+        return p || P.resolvedPromise(false);
       };
 
-      var columnClick = function(key, lRow, lCol) {
-
-      };
-
-      var dblClick = function(key, lRow, lCol) {
+      self.columnClick = function(key, lRow, lCol) {
 
       };
 
-      var deleteRow = function(key, row, lRow) {
-        return true;
+      self.gridDblClick = function(key, lRow, lCol) {
+        return P.resolvedPromise(false);
       };
 
-      var listAdHock = function(key, row, colIndex, list) {
-
+      self.deleteRow = function(key, row, lRow) {
+        return P.resolvedPromise(true);
       };
 
-      var newRow = function(key, rows) {
-
+      self.newRow = function(key, rows) {
+        return P.resolvedPromise(true);
       };
 
-      var validateRow = function(key, row, rowIndex) {
-        var _rtn = null;
+      self.validateRow = function(key, row, rowIndex) {
+        var p = null;
+
         try {
 
           switch (key) {
+
             case K_ITEMS:
-              _rtn = pValidateRow(row, rowIndex);
+              p = validateRow(row, rowIndex);
               break;
           }
 
-          // **TODO:** goto found: GoTo ExitProc;
         }
-        catch (ex) {
-          Cairo.manageErrorEx(ex.message, "validateRow", C_MODULE, "");
-          // **TODO:** label found: ExitProc:;
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, ex, "validateRow", C_MODULE, "");
         }
-        // **TODO:** on error resume next found !!!
 
-        return _rtn;
+        return p || P.resolvedPromise(false);
       };
 
-      var pIsEmptyRow = function(row, rowIndex) {
-        var cell = null;
-        var strRow = null;
-
-        strRow = " (Fila "+ rowIndex.toString()+ ")";
-
-        var bRowIsEmpty = true;
+      var isEmptyRow = function(row, rowIndex) {
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+        for(var _i = 0; _i < _count; _i++) {
+
+          var cell = row.item(_i);
+
           switch (cell.getKey()) {
+
             case KI_CANTIDAD:
               if(!valEmpty(cell.getValue(), Types.currency)) {
-                bRowIsEmpty = false;
-                break;
+                if(val(cell.getValue()) !== 1) {
+                  return false;
+                }
               }
               break;
 
             case KI_PR_ID:
               if(!valEmpty(cell.getId(), Types.id)) {
-                bRowIsEmpty = false;
-                break;
+                return false;
               }
               break;
           }
         }
 
-        return bRowIsEmpty;
+        return true;
       };
 
-      var pValidateRow = function(row, rowIndex) { // TODO: Use of ByRef founded Private Function pValidateRow(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
-        var cell = null;
-        var bLlevaNroSerie = null;
+      var validateRow = function(row, rowIndex) {
+
+        var p = null;
+        var llevaNroSerie = false;
+        var cantidad = 0;
 
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
-        for (var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+        for(var _i = 0; _i < _count; _i++) {
+
+          var cell = row.item(_i);
+
           switch (cell.getKey()) {
+
             case KI_CANTIDAD:
+              cantidad = val(cell.getValue());
               if(valEmpty(cell.getValue(), Types.currency)) {
-                // Debe indicar una cantidad (1)
-                return M.showInfoWithFalse(getText(1365, "", strRow));
+                return M.showInfoWithFalse(getText(1365, "", strRow)); // Debe indicar una cantidad (1)
               }
               break;
 
             case KI_PR_ID:
               if(valEmpty(cell.getId(), Types.id)) {
-                // Debe indicar un producto de stock (1)
-                return M.showInfoWithFalse(getText(1996, "", strRow));
+                return M.showInfoWithFalse(getText(1996, "", strRow)); // Debe indicar un producto de stock (1)
               }
               break;
 
             case KI_NRO_SERIE:
-              bLlevaNroSerie = Dialogs.cell(row, KI_PR_LLEVA_NRO_SERIE).getID();
-              if(valEmpty(cell.getValue(), Types.text) && bLlevaNroSerie) {
-                // Debe indicar un numero de serie (1)
-                return M.showInfoWithFalse(getText(1630, "", strRow));
+              llevaNroSerie = cellId(row, KI_PR_LLEVA_NRO_SERIE) !== 0;
+              if(valEmpty(cell.getValue(), Types.text) && llevaNroSerie) {
+                return M.showInfoWithFalse(getText(1630, "", strRow)); // Debe indicar un numero de serie (1)
               }
-
-              // Lote
-              //
               break;
 
             case KI_STL_ID:
-              if(valEmpty(cell.getId(), Types.id) && Dialogs.cell(row, KI_PR_LLEVA_LOTE).getID() && Dialogs.cell(row, KI_PR_LLEVA_NRO_SERIE).getID() === 0) {
-                // Debe indicar un lote (1)
-                return M.showInfoWithFalse(getText(1632, "", strRow));
-              }
 
+              if(valEmpty(cell.getId(), Types.id)
+                && cellId(row, KI_PR_LLEVA_LOTE)
+                && cellId(row, KI_PR_LLEVA_LOTE) === 0
+                && cellId(row, KI_PR_LOTEFIFO) === 0) {
+                return M.showInfoWithFalse(getText(1632, "", strRow)); // Debe indicar un lote (1)
+              }
               break;
           }
         }
 
-        return P.resolvedPromise(true);
+        // if the product has a serial number
+        // we need validate quantity match the
+        // count of serial numbers collection
+        //
+        if(llevaNroSerie) {
+
+          var prId = cellId(row, KI_PR_ID);
+
+          p = Cairo.SerialNumber.quantityChange(
+            row, KI_GRUPO, rowIndex, m_serialNumbers, cantidad, strRow,
+            KI_PR_ID, KI_CANTIDAD, KI_NRO_SERIE, prId, getDeplId(), false);
+        }
+
+        return p || P.resolvedPromise(true);
       };
 
-      // funciones privadas
       var loadCollection = function() {
-        var filter = null;
-        var c = null;
-        var abmGen = null;
 
-        // Preferencias del usuario
-        //
-        var bValidateDocDefault = null;
+        var validateDocDefault = false;
+        var elem;
 
-        abmGen = m_dialog;
+        var properties = m_properties;
+        m_properties.clear();
 
-        abmGen.ResetLayoutMembers;
+        var tabs = m_dialog.getTabs();
+        tabs.clear();
 
-        abmGen.setNoButtons1(csButtons.bUTTON_ANULAR + csButtons.bUTTON_DOC_APLIC);
-        abmGen.setNoButtons2(csButtons.bUTTON_DOC_ACTION);
-        abmGen.setButtonsEx2(csButtons.bUTTON_DOC_MERGE);
-        abmGen.InitButtons;
+        m_dialog.setNoButtons1(Dialogs.Buttons.BUTTON_INVALIDATE + Dialogs.Buttons.BUTTON_DOC_APLIC);
+        m_dialog.setNoButtons2(Dialogs.Buttons.BUTTON_DOC_ACTION);
+        m_dialog.setButtonsEx2(Dialogs.Buttons.BUTTON_DOC_MERGE);
+        m_dialog.initButtons();
 
-        var properties = m_dialog.getProperties();
+        elem = properties.add(null, C.DOC_ID);
+        elem.setType(T.select);
+        elem.setSelectTable(Cairo.Tables.DOCUMENTO);
+        elem.setName(getText(1567, "")); // Documento
+        elem.setKey(K_DOC_ID);
 
-        properties.clear();
+        if(m_docId !== NO_ID) {
+          elem.setSelectId(m_docId);
+          elem.setValue(m_documento);
+        }
+        else {
+          // user preferences
+          //
+          elem.setSelectId(Cairo.UserConfig.getDocStId());
+          elem.setValue(Cairo.UserConfig.getDocStName());
 
-        var elem = properties.add(null, mStockConstantes.DOC_ID);
+          validateDocDefault = elem.getSelectId() !== NO_ID;
+
+        }
+
+          var elem = properties.add(null, mStockConstantes.DOC_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setTable(CSDocumento2.CSDocumento);
         // Documento
@@ -1188,7 +1224,7 @@
           // Preferencias del usuario
           //
           elem.setSelectId(m_userCfg.getDocStId());
-          elem.setValue(m_userCfg.getDocStNombre());
+          elem.setValue(m_userCfg.getDocStName());
 
           bValidateDocDefault = elem.getSelectId() !== NO_ID;
         }
@@ -1350,7 +1386,7 @@
         elem.setSelectId(m_docId);
         elem.setValue(m_documento);
         elem.setSelectId(m_userCfg.getDocStId());
-        elem.setValue(m_userCfg.getDocStNombre());
+        elem.setValue(m_userCfg.getDocStName());
 
         var elem = properties.item(cDeclarations.getCsDocNumberID());
         elem.setValue(m_numero);
@@ -1549,7 +1585,7 @@
         var curGroup = null;
         var nrosSerie = null;
 
-        mCollection.collClear(m_nrosSerie);
+        mCollection.collClear(m_serialNumbers);
 
         rs = rs.NextRecordset;
 
@@ -1563,7 +1599,7 @@
 
             curGroup = Cairo.Database.valField(m_data.items[_i], mStockConstantes.STI_GRUPO);
             coll = new Collection();
-            m_nrosSerie.Add(coll, GetKey(curGroup));
+            m_serialNumbers.Add(coll, GetKey(curGroup));
           }
 
           // Guardo el numero de serie
@@ -1884,7 +1920,7 @@
       };
 
       // Reglas del Objeto de Negocios
-      var pSetDataProducto = function(row, pr_id) { // TODO: Use of ByRef founded Private Sub pSetDataProducto(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal pr_id As Long)
+      var setDataProducto = function(row, pr_id) { // TODO: Use of ByRef founded Private Sub pSetDataProducto(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal pr_id As Long)
         var sqlstmt = null;
         var rs = null;
         var bEsKit = null;
@@ -1936,9 +1972,9 @@
         if(bChanged || Dialogs.cell(row, KI_PR_LLEVA_NRO_SERIE).getID() === 0) {
 
           Dialogs.cell(row, KI_NRO_SERIE).getValue() === "";
-          if(ExistsObjectInColl(m_nrosSerie, GetKey(Dialogs.cell(row, KI_GRUPO).getID()))) {
+          if(ExistsObjectInColl(m_serialNumbers, GetKey(Dialogs.cell(row, KI_GRUPO).getID()))) {
 
-            m_nrosSerie.remove(GetKey(Dialogs.cell(row, KI_GRUPO).getID()));
+            m_serialNumbers.remove(GetKey(Dialogs.cell(row, KI_GRUPO).getID()));
           }
         }
       };
@@ -2120,7 +2156,7 @@
           // Error al grabar la transferencia de stock
           c_ErrorSave = getText(2017, "");
 
-          m_nrosSerie = new Collection();
+          m_serialNumbers = new Collection();
           m_generalConfig = new cGeneralConfig();
           m_generalConfig.Load;
 
@@ -2151,8 +2187,8 @@
           m_listController = null;
           m_items = null;
           m_footer = null;
-          mCollection.collClear(m_nrosSerie);
-          m_nrosSerie = null;
+          mCollection.collClear(m_serialNumbers);
+          m_serialNumbers = null;
 
           // Lote
           //
@@ -2192,9 +2228,9 @@
 
           // Obtengo los numeros de serie y guardo un Item por cada uno
           //
-          var _count = m_nrosSerie.get(GetKey(grupo)).size();
+          var _count = m_serialNumbers.get(GetKey(grupo)).size();
           for (var _i = 0; _i < _count; _i++) {
-            pt = m_nrosSerie.get(GetKey(grupo)).item(_i);
+            pt = m_serialNumbers.get(GetKey(grupo)).item(_i);
 
             // Solo los numeros de serie de este item si es que
             // estamos en un kit, sino todos los numeros de serie
@@ -2408,7 +2444,7 @@
         var curGroup = null;
         var nrosSerie = null;
 
-        mCollection.collClear(m_nrosSerie);
+        mCollection.collClear(m_serialNumbers);
 
         rs = rs.NextRecordset;
 
@@ -2422,7 +2458,7 @@
 
             curGroup = Cairo.Database.valField(m_data.compensar[_i], mStockConstantes.STI_GRUPO);
             coll = new Collection();
-            m_nrosSerie.Add(coll, GetKey(curGroup));
+            m_serialNumbers.Add(coll, GetKey(curGroup));
           }
 
           // Guardo el numero de serie

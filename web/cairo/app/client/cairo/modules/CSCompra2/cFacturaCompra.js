@@ -1728,7 +1728,7 @@
                   p = Cairo.SerialNumber.edit(
                     cellId(row, KI_GRUPO), cellFloat(row, KI_CANTIDAD),
                     row, m_serialNumbers, KI_GRUPO, KI_NRO_SERIE, lRow, getPrId(prId), getDeplId(),
-                    getIsInput(), false, false, null, getProvId(), NO_ID);
+                    getIsInput(), false, null, getProvId(), NO_ID);
                 }
                 break;
             }
@@ -2074,7 +2074,7 @@
           // user preferences
           // 
           elem.setSelectId(Cairo.UserConfig.getDocFcId());
-          elem.setValue(Cairo.UserConfig.getDocFcNombre());
+          elem.setValue(Cairo.UserConfig.getDocFcName());
 
           validateDocDefault = elem.getSelectId() !== NO_ID;
         }
@@ -2195,7 +2195,7 @@
           // user preferences
           // 
           elem.setSelectId(Cairo.UserConfig.getDeplId());
-          elem.setValue(Cairo.UserConfig.getDeplNombre());
+          elem.setValue(Cairo.UserConfig.getDeplName());
         }
 
         elem.setEnabled(m_showStockData);
@@ -4321,7 +4321,7 @@
         else {
           m_properties.item(C.DEPL_ID_ORIGEN)
             .setSelectId(Cairo.UserConfig.getDeplId())
-            .setValue(Cairo.UserConfig.getDeplNombre());
+            .setValue(Cairo.UserConfig.getDeplName());
         }
 
         m_properties.item(CC.FC_COTIZACION_PROV)

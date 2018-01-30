@@ -922,7 +922,7 @@
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.DEPOSITO_LOGICO);
         elem.setSelectId(Cairo.UserConfig.getDeplId());
-        elem.setValue(Cairo.UserConfig.getDeplNombre());
+        elem.setValue(Cairo.UserConfig.getDeplName());
         elem.setEnabled(m_showStockData);
 
         elem = properties.add(null, DWC.ONLY_SELECTED);
