@@ -25,8 +25,34 @@ You can download this zip file which contains a VMWare virtual machine with Ubun
 
 [https://drive.google.com/file/d/0BybR4EhP4MYsQ0ttUzFrbHEwa1k/view?usp=sharing](https://drive.google.com/file/d/0BybR4EhP4MYsQ0ttUzFrbHEwa1k/view?usp=sharing)
 
+The password is 14FeDyAr. Log with user Javier Alvarez. Open a terminal and type:
+```
+$ scd
+```
+Open another terminal and type:
+```
+$ cd ~
+$ prax start
+```
+Then open Chrome and navigate to:
+```
+cairodigital.dev
+```
+To login into the system just click the link in the right corner of the top bar.
+The user is
+```
+administrador@crowsoft.com.ar
+```
+Password
+```
+Coco123456789
+```
+Click on company: 
+```
+Crow Market
+```
 
-#License
+## License
 
 Copyright (C) 2012  Javier Mariano Alvarez
 
