@@ -392,7 +392,7 @@
 
           case Dialogs.Message.MSG_DOC_SEARCH:
 
-            D.search(D.Types.TRASFERENCIA_STOCK, self, Cairo.bool(info));
+            D.search(D.Types.TRANSFERENCIA_STOCK, self, Cairo.bool(info));
             break;
 
           case Dialogs.Message.MSG_DOC_DOC_AUX:
@@ -1209,165 +1209,118 @@
 
         }
 
-          var elem = properties.add(null, mStockConstantes.DOC_ID);
-        elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(CSDocumento2.CSDocumento);
-        // Documento
-        elem.setName(getText(1567, ""));
-        elem.setKey(K_DOC_ID);
+        elem.setSelectFilter(D.TRANSFERENCIA_STOCK_DOC_FILTER);
 
-        if(m_docId !== NO_ID) {
-          elem.setSelectId(m_docId);
-          elem.setValue(m_documento);
-        }
-        else {
-          // Preferencias del usuario
-          //
-          elem.setSelectId(m_userCfg.getDocStId());
-          elem.setValue(m_userCfg.getDocStName());
-
-          bValidateDocDefault = elem.getSelectId() !== NO_ID;
-        }
-
-        elem.setSelectFilter("'doct_id = "+ csEDocumentoTipo.cSEDT_TRASFERENCIASTOCK.toString()+ "'");
-
-        var elem = properties.add(null, cDeclarations.getCsDocNumberID());
-        elem.setType(Dialogs.PropertyType.numeric);
-        elem.setSubType(Dialogs.PropertySubType.Integer);
-        // Número
-        elem.setName(getText(1065, ""));
+        elem = properties.add(null, Cairo.Constants.NUMBER_ID);
+        elem.setType(T.numeric);
+        elem.setSubType(Dialogs.PropertySubType.integer);
+        elem.setName(getText(1065, "")); // Número
         elem.setKey(K_NUMERO);
         elem.setValue(m_numero);
         elem.setEnabled(false);
 
-        var elem = properties.add(null, mStockConstantes.ST_FECHA);
-        elem.setType(Dialogs.PropertyType.date);
-        // Fecha
-        elem.setName(getText(1569, ""));
-        elem.setLeftLabel(-580);
-        elem.setLeft(1250);
+        elem = properties.add(null, CST.ST_FECHA);
+        elem.setType(T.date);
+        elem.setName(getText(1569, "")); // Fecha
         elem.setKey(K_FECHA);
         elem.setValue(m_fecha);
 
-        var elem = properties.add(null, mStockConstantes.ST_NRODOC);
-        elem.setType(Dialogs.PropertyType.text);
-        // Número
-        elem.setName(getText(1065, ""));
+        elem = properties.add(null, CST.ST_NRODOC);
+        elem.setType(T.text);
+        elem.setName(getText(1065, "")); // Número
         elem.setSize(50);
         elem.setKey(K_NRODOC);
         elem.setValue(m_nrodoc);
         elem.setTextMask(m_taMascara);
-        elem.setTextAlign(vbRightJustify);
+        elem.setTextAlign(Dialogs.TextAlign.right);
 
-        var elem = properties.add(null, mStockConstantes.DEPL_ID_ORIGEN);
+        elem = properties.add(null, C.DEPL_ID_ORIGEN);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.DEPOSITOLOGICO);
-        elem.setTopFromProperty(mStockConstantes.ST_FECHA);
-        elem.setLeft(4800);
-        // Depósito Origen
-        elem.setName(getText(2014, ""));
+        elem.setSelectTable(Cairo.Tables.DEPOSITO_LOGICO);
+        elem.setName(getText(2014, "")); // Depósito Origen
         elem.setKey(K_DEPL_ID_ORIGEN);
         elem.setSelectId(m_deplIdOrigen);
         elem.setValue(m_depositoOrigen);
 
-        var elem = properties.add(null, mStockConstantes.DEPL_ID_DESTINO);
+        elem = properties.add(null, C.DEPL_ID_DESTINO);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.DEPOSITOLOGICO);
-        // Depósito Destino
-        elem.setName(getText(2015, ""));
+        elem.setSelectTable(Cairo.Tables.DEPOSITO_LOGICO);
+        elem.setName(getText(2015, "")); // Depósito Destino
         elem.setKey(K_DEPL_ID_DESTINO);
         elem.setSelectId(m_deplIdDestino);
         elem.setValue(m_depositoDestino);
 
-        var elem = properties.add(null, mStockConstantes.SUC_ID);
+        elem = properties.add(null, C.SUC_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.SUCURSAL);
-        elem.setTopFromProperty(mStockConstantes.DEPL_ID_ORIGEN);
-        elem.setLeft(8100);
-        elem.setLeftLabel(-800);
-        // Sucursal
-        elem.setName(getText(1281, ""));
+        elem.setName(getText(1281, "")); // Sucursal
         elem.setKey(K_SUC_ID);
         elem.setSelectId(m_sucId);
         elem.setValue(m_sucursal);
 
-        var elem = properties.add(null, mStockConstantes.LGJ_ID);
+        elem = properties.add(null, C.LGJ_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(mStockConstantes.cSLEGAJO);
-        // Legajo
-        elem.setName(getText(1575, ""));
+        elem.setTable(Cairo.Tables.LEGAJOS);
+        elem.setName(getText(1575, "")); // Legajo
         elem.setKey(K_LGJ_ID);
         elem.setSelectId(m_lgjId);
         elem.setValue(m_legajo);
 
-        var elem = properties.add(null, mStockConstantes.ST_DESCRIP);
+        elem = properties.add(null, CST.ST_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
-        // Observ.
-        elem.setName(getText(1211, ""));
-        elem.setLeftLabel(-600);
+        elem.setName(getText(1211, "")); // Observ.
         elem.setSize(5000);
         elem.setKey(K_DESCRIP);
         elem.setValue(m_descrip);
-        elem.setLeftFromProperty(mStockConstantes.ST_FECHA);
-        elem.setTopFromProperty(mStockConstantes.ST_NRODOC);
-        elem.setWidth(9100);
-        elem.setHeight(460);
-        elem.setTopToPrevious(440);
 
-        var elem = properties.add(null, mStockConstantes.ST_DOC_CLIENTE);
+        elem = properties.add(null, CST.ST_DOC_CLIENTE);
         elem.setType(Dialogs.PropertyType.text);
-        // Generado Por
-        elem.setName(getText(1960, ""));
-        elem.setLeftFromProperty(mStockConstantes.ST_FECHA);
-        elem.setTopFromProperty(mStockConstantes.ST_DESCRIP);
-        elem.setLeftLabel(-1050);
-        elem.setTopToPrevious(580);
-        elem.setWidth(9100);
+        elem.setName(getText(1960, "")); // Generado Por
         elem.setKey(K_ID_CLIENTE);
         elem.setValue(m_docCliente);
         elem.setEnabled(false);
 
         if(!m_dialog.show(self)) { return false; }
 
-        var w_tabs = m_items.getTabs();
+        /////////////////////////////////////////////////////////////////////
+        // ITEMS
+        /////////////////////////////////////////////////////////////////////
 
-        w_tabs.clear();
+        tabs = m_items.getTabs();
+        tabs.clear();
 
-        var tab = w_tabs.add(null);
-        // Items
-        tab.setName(getText(1371, ""));
+        tabs.add(null).setIndex(0).setName(getText(1371, "")); // Items
 
-        abmGen = m_items;
-        abmGen.ResetLayoutMembers;
-
-        var properties = m_items.getProperties();
-
+        properties = m_itemsProps;
         properties.clear();
 
-        c = m_items.getProperties().add(null, C_ITEMS);
-        c.setType(Dialogs.PropertyType.grid);
-        c.hideLabel();;
-        setGridItems(c);
-        if(!pLoadItems(c)) { return false; }
-        c.setName(C_ITEMS);
-        c.setKey(K_ITEMS);
-        c.setTabIndex(0);
-        c.setGridAddEnabled(true);
-        c.setGridEditEnabled(true);
-        c.setGridRemoveEnabled(true);
+        elem = properties.add(null, C_ITEMS);
+        elem.setType(T.grid);
+        elem.hideLabel();
+        setGridItems(elem);
+        loadItems(elem);
+        elem.setName(C_ITEMS);
+        elem.setKey(K_ITEMS);
+        elem.setTabIndex(0);
+        elem.setGridAddEnabled(true);
+        elem.setGridEditEnabled(true);
+        elem.setGridRemoveEnabled(true);
 
         if(!m_items.show(self)) { return false; }
 
-        m_footer.getProperties().clear();
+        /////////////////////////////////////////////////////////////////////
+        // FOOTER
+        /////////////////////////////////////////////////////////////////////
+
+        properties = m_footerProps;
+        properties.clear();
 
         setEnabled();
 
         if(!m_footer.show(self)) { return false; }
 
-        // Preferencias del Usuario
-        //
-        if(bValidateDocDefault) {
+        if(validateDocDefault) {
           self.propertyChange(K_DOC_ID);
         }
 
@@ -1382,41 +1335,41 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(mStockConstantes.DOC_ID);
+        elem = properties.item(mStockConstantes.DOC_ID);
         elem.setSelectId(m_docId);
         elem.setValue(m_documento);
         elem.setSelectId(m_userCfg.getDocStId());
         elem.setValue(m_userCfg.getDocStName());
 
-        var elem = properties.item(cDeclarations.getCsDocNumberID());
+        elem = properties.item(cDeclarations.getCsDocNumberID());
         elem.setValue(m_numero);
 
-        var elem = properties.item(mStockConstantes.ST_FECHA);
+        elem = properties.item(mStockConstantes.ST_FECHA);
         elem.setValue(m_fecha);
 
-        var elem = properties.item(mStockConstantes.ST_NRODOC);
+        elem = properties.item(mStockConstantes.ST_NRODOC);
         elem.setValue(m_nrodoc);
 
-        var elem = properties.item(mStockConstantes.DEPL_ID_ORIGEN);
+        elem = properties.item(mStockConstantes.DEPL_ID_ORIGEN);
         elem.setSelectId(m_deplIdOrigen);
         elem.setValue(m_depositoOrigen);
 
-        var elem = properties.item(mStockConstantes.DEPL_ID_DESTINO);
+        elem = properties.item(mStockConstantes.DEPL_ID_DESTINO);
         elem.setSelectId(m_deplIdDestino);
         elem.setValue(m_depositoDestino);
 
-        var elem = properties.item(mStockConstantes.SUC_ID);
+        elem = properties.item(mStockConstantes.SUC_ID);
         elem.setSelectId(m_sucId);
         elem.setValue(m_sucursal);
 
-        var elem = properties.item(mStockConstantes.LGJ_ID);
+        elem = properties.item(mStockConstantes.LGJ_ID);
         elem.setSelectId(m_lgjId);
         elem.setValue(m_legajo);
 
-        var elem = properties.item(mStockConstantes.ST_DESCRIP);
+        elem = properties.item(mStockConstantes.ST_DESCRIP);
         elem.setValue(m_descrip);
 
-        var elem = properties.item(mStockConstantes.ST_DOC_CLIENTE);
+        elem = properties.item(mStockConstantes.ST_DOC_CLIENTE);
         elem.setValue(m_docCliente);
 
         return m_dialog.showValues(properties);
@@ -1432,79 +1385,68 @@
 
         w_columns.clear();
 
-        var elem = w_columns.add(null);
+        elem = w_columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_STI_ID);
 
-        var elem = w_columns.add(null);
+        elem = w_columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_DEPL_ID);
 
-        var elem = w_columns.add(null);
-        // Articulo
-        elem.setName(getText(1367, ""));
+        elem = w_columns.add(null);
+        elem.setName(getText(1367, "")); // Articulo
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PRODUCTOSTOCK);
-        elem.setWidth(2500);
         elem.setKey(KI_PR_ID);
 
-        var elem = w_columns.add(null);
+        elem = w_columns.add(null);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.textButtonEx);
-        elem.setWidth(3000);
         elem.setKey(KI_DESCRIP);
 
-        var elem = w_columns.add(null);
-        // Cantidad
-        elem.setName(getText(1374, ""));
+        elem = w_columns.add(null);
+        elem.setName(getText(1374, "")); // Cantidad
         elem.setFormat(Cairo.Settings.getQuantityDecimalsFormat());
         elem.setType(Dialogs.PropertyType.numeric);
         elem.setSubType(Dialogs.PropertySubType.double);
-        elem.setWidth(1200);
         elem.setKey(KI_CANTIDAD);
 
-        var elem = w_columns.add(null);
-        // Unidad
-        elem.setName(getText(1165, ""));
+        elem = w_columns.add(null);
+        elem.setName(getText(1165, "")); // Unidad
         elem.setType(Dialogs.PropertyType.text);
-        elem.setWidth(1200);
         elem.setKey(KI_UNIDAD);
         elem.setEnabled(false);
 
-        var elem = w_columns.add(null);
-        // Nro. Serie
-        elem.setName(getText(1639, ""));
+        elem = w_columns.add(null);
+        elem.setName(getText(1639, "")); // Nro. Serie
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.textButton);
-        elem.setWidth(3000);
         elem.setKey(KI_NRO_SERIE);
 
         // Lote
         //
-        var elem = w_columns.add(null, mStockConstantes.STL_ID);
-        // Lote
-        elem.setName(getText(1640, ""));
+        elem = w_columns.add(null, mStockConstantes.STL_ID);
+        elem.setName(getText(1640, "")); // Lote
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.STOCKLOTE);
-        elem.setWidth(2000);
         elem.setKey(KI_STL_ID);
 
         // Lote
         //
-        var elem = w_columns.add(null);
+        elem = w_columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_PR_LLEVA_LOTE);
 
-        var elem = w_columns.add(null);
+        elem = w_columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_PR_LLEVA_NRO_SERIE);
 
-        var elem = w_columns.add(null);
+        elem = w_columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_ES_KIT);
 
-        var elem = w_columns.add(null);
+        elem = w_columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_GRUPO);
 
@@ -1519,59 +1461,59 @@
 
         for(var _i = 0; _i < m_data.items.length; _i += 1) {
 
-          var elem = w_rows.add(null, rs(mStockConstantes.STI_ID).Value);
+          elem = w_rows.add(null, rs(mStockConstantes.STI_ID).Value);
 
-          var elem = elem.add(null);
+          elem = elem.add(null);
           elem.Value = Cairo.Database.valField(m_data.items[_i], mStockConstantes.STI_ID);
           elem.setKey(KI_STI_ID);
 
-          var elem = elem.add(null);
+          elem = elem.add(null);
           elem.Value = Cairo.Database.valField(m_data.items[_i], mStockConstantes.DEPL_ID);
           elem.setKey(KI_DEPL_ID);
 
-          var elem = elem.add(null);
+          elem = elem.add(null);
           elem.Value = Cairo.Database.valField(m_data.items[_i], mStockConstantes.PR_NAME_COMPRA);
           elem.Id = Cairo.Database.valField(m_data.items[_i], mStockConstantes.PR_ID);
           elem.setKey(KI_PR_ID);
 
-          var elem = elem.add(null);
+          elem = elem.add(null);
           elem.Value = Cairo.Database.valField(m_data.items[_i], mStockConstantes.STI_DESCRIP);
           elem.setKey(KI_DESCRIP);
 
-          var elem = elem.add(null);
+          elem = elem.add(null);
           elem.Value = Cairo.Database.valField(m_data.items[_i], mStockConstantes.STI_SALIDA);
           elem.setKey(KI_CANTIDAD);
 
-          var elem = elem.add(null);
+          elem = elem.add(null);
           elem.Value = Cairo.Database.valField(m_data.items[_i], mStockConstantes.UN_NAME);
           elem.setKey(KI_UNIDAD);
 
-          var elem = elem.add(null);
+          elem = elem.add(null);
           elem.Value = "";
           elem.setKey(KI_NRO_SERIE);
 
           // Lote
           //
-          var elem = elem.add(null);
+          elem = elem.add(null);
           elem.Value = Cairo.Database.valField(m_data.items[_i], mStockConstantes.STL_CODE);
           elem.Id = Cairo.Database.valField(m_data.items[_i], mStockConstantes.STL_ID);
           elem.setKey(KI_STL_ID);
 
           // Lote
           //
-          var elem = elem.add(null);
+          elem = elem.add(null);
           elem.Id = Cairo.Database.valField(m_data.items[_i], mStockConstantes.PR_LLEVA_NRO_LOTE);
           elem.setKey(KI_PR_LLEVA_LOTE);
 
-          var elem = elem.add(null);
+          elem = elem.add(null);
           elem.Id = Cairo.Database.valField(m_data.items[_i], mStockConstantes.PR_LLEVA_NRO_SERIE);
           elem.setKey(KI_PR_LLEVA_NRO_SERIE);
 
-          var elem = elem.add(null);
+          elem = elem.add(null);
           elem.Id = Cairo.Database.valField(m_data.items[_i], mStockConstantes.PR_ESKIT);
           elem.setKey(KI_ES_KIT);
 
-          var elem = elem.add(null);
+          elem = elem.add(null);
           elem.Id = Cairo.Database.valField(m_data.items[_i], mStockConstantes.STI_GRUPO);
           elem.setKey(KI_GRUPO);
 
@@ -2378,59 +2320,59 @@
 
         for(var _i = 0; _i < m_data.compensar.length; _i += 1) {
 
-          var elem = w_rows.add(null);
+          elem = w_rows.add(null);
 
-          var elem = elem.add(null);
+          elem = elem.add(null);
           elem.Value = Cairo.Database.valField(m_data.compensar[_i], mStockConstantes.STI_ID);
           elem.Key = KI_STI_ID;
 
-          var elem = elem.add(null);
+          elem = elem.add(null);
           elem.Value = Cairo.Database.valField(m_data.compensar[_i], mStockConstantes.DEPL_ID);
           elem.Key = KI_DEPL_ID;
 
-          var elem = elem.add(null);
+          elem = elem.add(null);
           elem.Value = Cairo.Database.valField(m_data.compensar[_i], mStockConstantes.PR_NAME_COMPRA);
           elem.Id = Cairo.Database.valField(m_data.compensar[_i], mStockConstantes.PR_ID);
           elem.Key = KI_PR_ID;
 
-          var elem = elem.add(null);
+          elem = elem.add(null);
           elem.Value = Cairo.Database.valField(m_data.compensar[_i], mStockConstantes.STI_DESCRIP);
           elem.Key = KI_DESCRIP;
 
-          var elem = elem.add(null);
+          elem = elem.add(null);
           elem.Value = Cairo.Database.valField(m_data.compensar[_i], mStockConstantes.STI_SALIDA);
           elem.Key = KI_CANTIDAD;
 
-          var elem = elem.add(null);
+          elem = elem.add(null);
           elem.Value = Cairo.Database.valField(m_data.compensar[_i], mStockConstantes.UN_NAME);
           elem.Key = KI_UNIDAD;
 
-          var elem = elem.add(null);
+          elem = elem.add(null);
           elem.Value = "";
           elem.Key = KI_NRO_SERIE;
 
           // Lote
           //
-          var elem = elem.add(null);
+          elem = elem.add(null);
           elem.Value = Cairo.Database.valField(m_data.compensar[_i], mStockConstantes.STL_CODE);
           elem.Id = Cairo.Database.valField(m_data.compensar[_i], mStockConstantes.STL_ID);
           elem.Key = KI_STL_ID;
 
           // Lote
           //
-          var elem = elem.add(null);
+          elem = elem.add(null);
           elem.Id = Cairo.Database.valField(m_data.compensar[_i], mStockConstantes.PR_LLEVA_NRO_LOTE);
           elem.Key = KI_PR_LLEVA_LOTE;
 
-          var elem = elem.add(null);
+          elem = elem.add(null);
           elem.Id = Cairo.Database.valField(m_data.compensar[_i], mStockConstantes.PR_LLEVA_NRO_SERIE);
           elem.Key = KI_PR_LLEVA_NRO_SERIE;
 
-          var elem = elem.add(null);
+          elem = elem.add(null);
           elem.Id = Cairo.Database.valField(m_data.compensar[_i], mStockConstantes.PR_ESKIT);
           elem.Key = KI_ES_KIT;
 
-          var elem = elem.add(null);
+          elem = elem.add(null);
           elem.Id = Cairo.Database.valField(m_data.compensar[_i], mStockConstantes.STI_GRUPO);
           elem.Key = KI_GRUPO;
 
@@ -2815,8 +2757,7 @@
 
         c = m_dialog.getProperties().add(null, C_FECHAINI);
         c.setType(Dialogs.PropertyType.date);
-        // Fecha desde
-        c.setName(getText(1203, ""));
+        c.setName(getText(1203, "")); // Fecha desde
         c.setKey(K_FECHAINI);
         if(LenB(m_fechaIniV)) {
           c.setValue(m_fechaIniV);
@@ -2827,8 +2768,7 @@
 
         c = m_dialog.getProperties().add(null, C_FECHAFIN);
         c.setType(Dialogs.PropertyType.date);
-        // Fecha hasta
-        c.setName(getText(1204, ""));
+        c.setName(getText(1204, "")); // Fecha hasta
         c.setKey(K_FECHAFIN);
         if(LenB(m_fechaFinV)) {
           c.setValue(m_fechaFinV);
@@ -2840,8 +2780,7 @@
         c = m_dialog.getProperties().add(null, mStockConstantes.DOC_ID);
         c.setType(Dialogs.PropertyType.select);
         c.setSelectTable(csETablasDocumento.CSDocumento);
-        // Documentos
-        c.setName(getText(1611, ""));
+        c.setName(getText(1611, "")); // Documentos
         c.setKey(K_DOC_ID);
         value = m_documento;
         if(m_docId.Substring(0, 1).toUpperCase() === KEY_NODO) {
@@ -2856,8 +2795,7 @@
         c = m_dialog.getProperties().add(null, mStockConstantes.SUC_ID);
         c.setType(Dialogs.PropertyType.select);
         c.setSelectTable(Cairo.Tables.SUCURSAL);
-        // Sucursal
-        c.setName(getText(1281, ""));
+        c.setName(getText(1281, "")); // Sucursal
         c.setKey(K_SUC_ID);
         value = m_sucursal;
         if(m_sucId.Substring(0, 1).toUpperCase() === KEY_NODO) {
@@ -2871,8 +2809,7 @@
         c = m_dialog.getProperties().add(null, mStockConstantes.LGJ_ID);
         c.setType(Dialogs.PropertyType.select);
         c.setSelectTable(mStockConstantes.cSLEGAJO);
-        // Legajo
-        c.setName(getText(1575, ""));
+        c.setName(getText(1575, "")); // Legajo
         c.setKey(K_LGJ_ID);
         value = m_legajo;
         if(m_lgjId.Substring(0, 1).toUpperCase() === KEY_NODO) {
@@ -2887,8 +2824,7 @@
         c = m_dialog.getProperties().add(null, C.EMP_ID);
         c.setType(Dialogs.PropertyType.select);
         c.setSelectTable(Cairo.Tables.EMPRESA);
-        // Empresa
-        c.setName(getText(1114, ""));
+        c.setName(getText(1114, "")); // Empresa
         c.setKey(K_EMP_ID);
         value = m_empresa;
         if(m_empId.Substring(0, 1).toUpperCase() === KEY_NODO) {
@@ -3338,16 +3274,15 @@
           m_properties.setHaveDetail(true);
           m_properties.setStartRowText(4);
 
-          var elem = m_properties.add(null, "TypeTask");
+          elem = m_properties.add(null, "TypeTask");
           elem.setName("TypeTask");
           elem.setCaption(" ");
-          var elem = row.add(null);
+          elem = row.add(null);
           elem.FormulaType = csConditionType.cSCONDTNONE;
           elem.IconIndex = C_IMG_TASK;
-          elem.setWidth(500);
           elem.setSortType(csSortType.cSSRTTICON);
 
-          var elem = m_properties.add(null, "Observaciones");
+          elem = m_properties.add(null, "Observaciones");
           elem.setName("Observaciones");
           elem.setFontName("Tahoma");
           elem.setFontSize(8);

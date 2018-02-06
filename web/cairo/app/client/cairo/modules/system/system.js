@@ -140,7 +140,7 @@
     PRESUPUESTO_VENTA: 11,
     PRESUPUESTO_COMPRA: 12,
     COBRANZA: 13,
-    TRASFERENCIA_STOCK: 14,
+    TRANSFERENCIA_STOCK: 14,
     ASIENTO_CONTABLE: 15,
     ORDEN_PAGO: 16,
     DEPOSITO_BANCO: 17,
@@ -1051,6 +1051,10 @@
   Cairo.Documents.PEDIDO_VENTAS_DOC_FILTER = "document|documentTypeId:"
     + Cairo.Documents.Types.PEDIDO_VENTA.toString()
     + "*" + Cairo.Documents.Types.DEVOLUCION_PEDIDO_VTA.toString()
+  ;
+
+  Cairo.Documents.TRANSFERENCIA_STOCK_DOC_FILTER = "document|documentTypeId:"
+    + Cairo.Documents.Types.TRANSFERENCIA_STOCK.toString()
   ;
 
   Cairo.getStockLoteFilter = function(deplId,
