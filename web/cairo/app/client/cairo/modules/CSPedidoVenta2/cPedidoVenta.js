@@ -1914,7 +1914,7 @@
       };
 
       var getDocId = function() {
-        return m_dialog.getProperties().item(C.DOC_ID);
+        return m_dialog.getProperties().item(C.DOC_ID).getSelectId();
       };
 
       var setGridItems = function(property) {
@@ -2633,10 +2633,7 @@
           bState = false;
         }
         else if(m_docEditable) {
-          bState = getDocId().getSelectId() !== NO_ID;
-        }
-        else {
-          bState = false;
+          bState = getDocId() !== NO_ID;
         }
 
         var _count = m_properties.size();
@@ -2663,8 +2660,7 @@
 
         var _count = m_itemsProps.size();
         for(var _i = 0; _i < _count; _i++) {
-          var prop = m_itemsProps.item(_i);
-          prop.setEnabled(bState);
+          m_itemsProps.item(_i).setEnabled(bState);
         }
 
         m_items.refreshEnabledState(m_itemsProps);
@@ -2827,8 +2823,7 @@
       };
 
       var move = function(moveTo) {
-
-        var docId = getDocId().getSelectId();
+        var docId = getDocId();
 
         if(docId === NO_ID) {
           return M.showInfoWithFalse(
@@ -2853,7 +2848,7 @@
             return load(response.id)
               .whenSuccess(refreshProperties);
           }
-        }
+        };
         return D.move(m_docId, moveTo)
           .whenSuccessWithResult(completeMove);
       };
@@ -3253,7 +3248,7 @@
       };
 
       var getDocId = function() {
-        return m_properties.item(C.DOC_ID);
+        return m_properties.item(C.DOC_ID).getSelectId();
       };
 
       var initialize = function() {

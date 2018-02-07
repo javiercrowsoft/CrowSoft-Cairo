@@ -190,22 +190,6 @@
         refreshProperties();
       };
 
-      var initMembers = function() {
-
-        if(!Cairo.Security.docHasPermissionTo(
-          CS.NEW_MOVIMIENTO_FONDO,
-          NO_ID,
-          Cairo.Security.ActionTypes.create)) {
-          return false;
-        }
-
-        self.setDialog(Cairo.Dialogs.Views.Controller.newDialog());
-        self.setFooter(Cairo.Dialogs.Views.Controller.newDialog());
-        self.setItems(Cairo.Dialogs.Views.Controller.newDialog());
-
-        return true;
-      };
-
       self.copy = function() {
 
         if(!Cairo.Security.docHasPermissionTo(
@@ -252,7 +236,7 @@
 
           var p = null;
 
-          if(!m_docEditable && getDocId().getSelectId() !== NO_ID) {
+          if(!m_docEditable && getDocId() !== NO_ID) {
             if(m_docEditMsg !== "") {
               p = M.showWarning(m_docEditMsg);
             }
@@ -264,7 +248,7 @@
 
             var p = null;
 
-            var docId = getDocId().getSelectId();
+            var docId = getDocId();
 
             if(docId === NO_ID) {
               p = M.showInfo(getText(1562, ""));
@@ -2361,13 +2345,10 @@
       };
 
       var setEnabled = function() {
-        var bState = null;
+        var bState = false;
 
         if(m_docEditable) {
           bState = m_properties.item(C.DOC_ID).getSelectId() !== NO_ID;
-        }
-        else {
-          bState = false;
         }
 
         setEnabledAux(bState);
@@ -2398,8 +2379,7 @@
 
         var _count = m_items.getProperties().size();
         for(var _i = 0; _i < _count; _i++) {
-          prop = m_items.getProperties().item(_i);
-          prop.setEnabled(bState);
+          m_items.getProperties().item(_i).setEnabled(bState);
         }
 
         m_dialog.refreshEnabledState(m_itemsProps);
@@ -2472,10 +2452,8 @@
         return p;
       };
 
-      // TODO: dry this method it is copied in all documents
-      //
       var move = function(moveTo) {
-        var docId = getDocId().getSelectId();
+        var docId = getDocId();
 
         if(docId === NO_ID) {
           return M.showInfoWithFalse(
@@ -2497,7 +2475,7 @@
             return load(response.id)
                 .whenSuccess(refreshProperties);
           }
-        }
+        };
         return D.move(m_docId, moveTo)
             .whenSuccessWithResult(completeMove);
       };
@@ -3632,7 +3610,7 @@
       };
 
       var getDocId = function() {
-        return m_properties.item(C.DOC_ID);
+        return m_properties.item(C.DOC_ID).getSelectId();
       };
 
       var getCotizacion = function() {

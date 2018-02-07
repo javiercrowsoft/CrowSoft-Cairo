@@ -259,7 +259,7 @@
 
           var p = null;
 
-          if(!m_docEditable && getDocId().getSelectId() !== NO_ID) {
+          if(!m_docEditable && getDocId() !== NO_ID) {
             if(m_docEditMsg !== "") {
               p = M.showWarning(m_docEditMsg);
             }
@@ -271,7 +271,7 @@
 
           var p = null;
 
-          var docId = getDocId().getSelectId();
+          var docId = getDocId();
 
           if(docId === NO_ID) {
             p = M.showInfo(getText(1562, ""));
@@ -366,7 +366,7 @@
 
           case Dialogs.Message.MSG_DOC_MERGE:
 
-            loadCompensar(pGetItems());
+            loadCompensar(getItems());
             break;
 
           case Dialogs.Message.MSG_DOC_REFRESH:
@@ -1949,58 +1949,53 @@
 
           if(isKit) {
 
-            var coll = null;
+            var kitDefinition = Cairo.Kit.getKitDefinitionForPrId(prId, m_kitDefinitions);
+            var kitDefinitionData = response.data.kitDefinition;
 
-            sqlstmt = "sp_StockProductoGetKitInfo "+ pr_id.toString();
-            if(!Cairo.Database.openRs(sqlstmt, rs)) { return; }
+            for(var _i = 0, count = kitDefinitionData.length; _i < count; _i += 1) {
 
-            coll = Object.getCollKitInfoXPrId(pr_id, m_kitDefinitions);
+              var prIdItem = getValue(kitDefinitionData[_i], C.PR_ID);
 
-            while (!rs.isEOF()) {
-              pr_id = Cairo.Database.valField(rs.getFields(), C.PR_ID);
-              //*TODO:** can't found type for with block
-              //*With GetKitInfoItem(coll, pr_id)
-              var w___TYPE_NOT_FOUND = GetKitInfoItem(coll, pr_id);
-              w___TYPE_NOT_FOUND.pr_id = pr_id;
-              w___TYPE_NOT_FOUND.Nombre = Cairo.Database.valField(rs.getFields(), C.PR_NAME_COMPRA);
-              w___TYPE_NOT_FOUND.Cantidad = Cairo.Database.valField(rs.getFields(), "cantidad");
-              w___TYPE_NOT_FOUND.LlevaNroSerie = Cairo.Database.valField(rs.getFields(), C.PR_LLEVA_NRO_SERIE);
-              rs.MoveNext;
+              var kitInfo = Cairo.Kit.getKitInfoForPrId(prIdItem, kitDefinition);
+
+              kitInfo.setPrId(prIdItem);
+              kitInfo.setName(getValue(kitDefinitionData[_i], C.PR_NAME_COMPRA));
+              kitInfo.setAmount(getValue(kitDefinitionData[_i], C.PRK_CANTIDAD));
+              kitInfo.setHasSerial(getValue(kitDefinitionData[_i], C.PR_LLEVA_NRO_SERIE));
             }
           }
-        }
 
-        // Si cambio el producto borro los numeros de serie
-        //
-        if(bChanged || Dialogs.cell(row, KI_PR_LLEVA_NRO_SERIE).getID() === 0) {
-
-          Dialogs.cell(row, KI_NRO_SERIE).getValue() === "";
-          if(ExistsObjectInColl(m_serialNumbers, GetKey(Dialogs.cell(row, KI_GRUPO).getID()))) {
-
-            m_serialNumbers.remove(GetKey(Dialogs.cell(row, KI_GRUPO).getID()));
+          // if the product has changed we remove all serial numbers
+          //
+          if(bChanged || cellId(row, KI_PR_LLEVA_NRO_SERIE) === 0) {
+            getCell(row, KI_NRO_SERIE).setValue("");
+            var key = Cairo.Collections.getKey(cellId(row, KI_GRUPO));
+            if(m_serialNumbers.contains(key)) {
+              m_serialNumbers.remove(key);
+            }
           }
-        }
+
+          return true;
+        });
       };
 
       var setEnabled = function() {
-        var bState = null;
-        var prop = null;
+        var bState = false;
 
         if(m_docEditable) {
-          bState = pGetDocId() !== NO_ID;
-        }
-        else {
-          bState = false;
+          bState = getDocId() !== NO_ID;
         }
 
-        var _count = m_dialog.getProperties().size();
+        var _count = m_properties.size();
         for(var _i = 0; _i < _count; _i++) {
-          prop = m_dialog.getProperties().item(_i);
-          if(prop.getKey() !== K_DOC_ID && prop.getKey() !== K_NUMERO && prop.getKey() !== K_ID_CLIENTE) {
+          var prop = m_properties.item(_i);
+          if(prop.getKey() !== K_DOC_ID
+            && prop.getKey() !== K_NUMERO
+            && prop.getKey() !== K_ID_CLIENTE) {
 
             if(bState) {
               if(prop.getKey() !== K_NRODOC) {
-                prop.setEnabled(bState);
+                prop.setEnabled(true);
               }
               else {
                 prop.setEnabled(m_taPropuesto);
@@ -2012,144 +2007,103 @@
           }
         }
 
-        var _count = m_items.getProperties().size();
+        var _count = m_itemsProps.size();
         for(var _i = 0; _i < _count; _i++) {
-          prop = m_items.getProperties().item(_i);
-          prop.setEnabled(bState);
+          m_itemsProps.item(_i).setEnabled(bState);
         }
 
-        var abmGen = null;
-
-        abmGen = m_items;
-        abmGen.RefreshEnabledState(m_items.getProperties());
-
-        abmGen = m_dialog;
-        abmGen.RefreshEnabledState(m_dialog.getProperties());
-
+        m_items.refreshEnabledState(m_itemsProps);
+        m_dialog.refreshEnabledState(m_properties);
       };
 
       var move = function(moveTo) {
-        var sqlstmt = null;
-        var rs = null;
-        var doc_id = null;
+        var docId = getDocId();
 
-        doc_id = m_dialog.getProperties().item(C.DOC_ID).getSelectId();
+        if(docId === NO_ID) {
+          return M.showInfoWithFalse(
+            getText(1595, "") // Debe seleccionar un documento
+          );
+        }
 
-        // Debe seleccionar un documento
-        if(doc_id === NO_ID) { return M.showInfoWithFalse(getText(1595, "")); }
+        var completeMove = function(response) {
+          // id === NO_ID means this document doesn't have any transaction
+          //
+          if(response.id === NO_ID) {
 
-        sqlstmt = "sp_DocStockMover "+ moveTo+ ","+ m_numero+ ","+ doc_id.toString();
-
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return false; }
-
-        // Si no obtuve ningun id al moverme
-        //
-        if(rs.isEOF()) {
-
-          switch (moveTo) {
-
-            // Si era siguiente ahora busco el ultimo
-            //
-            case Dialogs.Message.MSG_DOC_NEXT:
-              move(Dialogs.Message.MSG_DOC_LAST);
-
-              // Si era anterior ahora busco el primero
-              //
-              break;
-
-            case Dialogs.Message.MSG_DOC_PREVIOUS:
-              move(Dialogs.Message.MSG_DOC_FIRST);
-
-              // Si no encontre ni ultimo ni primero
-              // es por que no hay ningun comprobante para
-              // este documento
-              //
-              break;
-
-            case Dialogs.Message.MSG_DOC_FIRST:
-            case Dialogs.Message.MSG_DOC_LAST:
-
-              // Cargo un registro vacio
-              //
-              load(NO_ID);
-
-              // Refresco el formulario
-              //
-              refreshProperties();
-
-              // Obtengo un nuevo numero de comprobante
-              //
-              GetDocNumber(m_lastDocId, m_dialog, m_taPropuesto, CST.ST_NRODOC);
-              break;
+            return load(NO_ID)
+              .whenSuccess(call(D.setDocNumber, m_docId, m_dialog, CST.ST_NRODOC))
+              .then(function(enabled) { m_taPropuesto = enabled; })
+              .then(refreshProperties);
           }
-
-        }
-        else {
-          if(!load(Cairo.Database.valField(rs.getFields(), 0))) { return false; }
-
-          refreshProperties();
-        }
-
-        return true;
+          else {
+            return load(response.id)
+              .whenSuccess(refreshProperties);
+          }
+        };
+        return D.move(m_docId, moveTo)
+          .whenSuccessWithResult(completeMove);
       };
 
       var refreshProperties = function() {
-        var c = null;
-        var abmGen = null;
-        var filter = null;
 
-        var properties = m_dialog.getProperties();
+        m_properties.item(C.DOC_ID)
+          .setSelectId(m_docId)
+          .setValue(m_documento);
 
-        c = properties.item(C.DOC_ID);
-        c.setSelectId(m_docId);
-        c.setValue(m_documento);
+        m_properties.item(CST.ST_FECHA)
+          .setValue(m_fecha);
 
-        c = properties.item(CST.ST_FECHA);
-        c.setValue(m_fecha);
+        m_properties.item(Cairo.Constants.NUMBER_ID)
+          .setValue(m_numero);
 
-        c = properties.item(cDeclarations.getCsDocNumberID());
-        c.setValue(m_numero);
+        m_properties.item(CST.ST_NRODOC)
+          .setValue(m_nrodoc)
+          .setTextMask(m_taMascara)
+          .setTextAlign(Dialogs.TextAlign.right);
 
-        c = properties.item(CST.ST_NRODOC);
-        c.setValue(m_nrodoc);
-        c.setTextMask(m_taMascara);
-        c.setTextAlign(vbRightJustify);
+        m_properties.item(C.DEPL_ID_ORIGEN)
+          .setSelectId(m_deplIdOrigen)
+          .setValue(m_depositoOrigen);
 
-        c = properties.item(C.DEPL_ID_ORIGEN);
-        c.setSelectId(m_deplIdOrigen);
-        c.setValue(m_depositoOrigen);
+        m_properties.item(C.DEPL_ID_DESTINO)
+          .setSelectId(m_deplIdDestino)
+          .setValue(m_depositoDestino);
 
-        c = properties.item(C.DEPL_ID_DESTINO);
-        c.setSelectId(m_deplIdDestino);
-        c.setValue(m_depositoDestino);
+        m_properties.item(C.SUC_ID)
+          .setSelectId(m_sucId)
+          .setValue(m_sucursal);
 
-        c = properties.item(C.SUC_ID);
-        c.setSelectId(m_sucId);
-        c.setValue(m_sucursal);
+        m_properties.item(CST.ST_DOC_CLIENTE)
+          .setValue(m_docCliente);
 
-        c = properties.item(CST.ST_DOC_CLIENTE);
-        c.setValue(m_docCliente);
+        m_properties.item(C.LGJ_ID)
+          .setSelectId(m_lgjId)
+          .setValue(m_legajo);
 
-        c = properties.item(C.LGJ_ID);
-        c.setSelectId(m_lgjId);
-        c.setValue(m_legajo);
+        m_properties.item(CST.ST_DESCRIP)
+          .setValue(m_descrip);
 
-        c = properties.item(CST.ST_DESCRIP);
-        c.setValue(m_descrip);
+        m_dialog.showValues(m_dialog.getProperties());
+        m_dialog.resetChanged();
 
-        abmGen = m_dialog;
-        abmGen.ShowValues(m_dialog.getProperties());
+        loadItems(getProperty(m_items, C_ITEMS));
 
-        abmGen.ResetChanged;
-
-        c = m_items.getProperties().item(C_ITEMS);
-        if(!pLoadItems(c)) { return; }
-
-        abmGen = m_items;
-        abmGen.ShowValues(m_items.getProperties());
+        m_items.showValues(m_itemsProps);
 
         setEnabled();
         setDeplDestinoForConsumo();
+      };
+
+      var initialize = function() {
+        try {
+
+          m_serialNumbers = Cairo.Collections.createCollection(null);
+          m_kitDefinitions = Cairo.Collections.createCollection(Cairo.KitDefinition.create);
+
+        }
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, ex, "initialize", C_MODULE, "");
+        }
       };
 
       // Construccion - Destruccion
@@ -2239,8 +2193,8 @@
         return m_dialog.getProperties().item(C.DEPL_ID_DESTINO);
       };
 
-      var pGetItems = function() {
-        return m_items.getProperties().item(C_ITEMS);
+      var getItems = function() {
+        return m_itemsProps().item(C_ITEMS);
       };
 
       var setGridCompensar = function(property) {
@@ -2424,7 +2378,7 @@
         var isConsumo = null;
         var docId = null;
 
-        docId = pGetDocId();
+        docId = getDocId();
         if(docId === NO_ID) { return false; }
 
         if(!Cairo.Database.getData(C.DOCUMENTO, C.DOC_ID, docId, C.DOC_ST_CONSUMO, isConsumo)) { return false; }
@@ -2439,7 +2393,7 @@
         return idCliente !== NO_ID;
       };
 
-      var pGetDocId = function() {
+      var getDocId = function() {
         return m_dialog.getProperties().item(C.DOC_ID).getSelectId();
       };
 

@@ -391,7 +391,7 @@
 
             var p = null;
 
-            var docId = getDocId().getSelectId();
+            var docId = getDocId();
 
             if(docId === NO_ID) {
               p = M.showInfo(getText(1562, ""));
@@ -1568,7 +1568,7 @@
       };
 
       var getDocId = function() {
-        return m_properties.item(C.DOC_ID);
+        return m_properties.item(C.DOC_ID).getSelectId();
       };
 
       var setGridOtros = function(property) {
@@ -2377,18 +2377,14 @@
 
       var setEnabled = function() {
         var bState = false;
-        var prop = null;
 
         if(m_docEditable && (!m_isNew || m_copy)) {
-          bState = getDocId().getSelectId() !== NO_ID;
-        }
-        else {
-          bState = false;
+          bState = getDocId() !== NO_ID;
         }
 
         var _count = m_properties.size();
         for(var _i = 0; _i < _count; _i++) {
-          prop = m_properties.item(_i);
+          var prop = m_properties.item(_i);
           if(prop.getKey() !== K_DOC_ID
             && prop.getKey() !== K_NUMERO
             && prop.getKey() !== K_EST_ID) {
@@ -2409,8 +2405,7 @@
 
         var _count = m_itemsProps.size();
         for(var _i = 0; _i < _count; _i++) {
-          prop = m_items.getProperties().item(_i);
-          prop.setEnabled(bState);
+          m_items.getProperties().item(_i).setEnabled(bState);
         }
 
         m_items.refreshEnabledState(m_itemsProps);
@@ -2483,11 +2478,8 @@
         return p;
       };
 
-      // TODO: dry this method it is copied in all documents
-      //
       var move = function(moveTo) {
-
-        var docId = getDocId().getSelectId();
+        var docId = getDocId();
 
         if(docId === NO_ID) {
           return M.showInfoWithFalse(
@@ -2512,7 +2504,7 @@
             return load(response.id)
               .whenSuccess(refreshProperties);
           }
-        }
+        };
         return D.move(m_docId, moveTo)
           .whenSuccessWithResult(completeMove);
       };

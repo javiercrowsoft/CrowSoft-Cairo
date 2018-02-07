@@ -393,7 +393,7 @@
 
           m_lastProvId = NO_ID;
 
-          if(!m_docEditable && getDocId().getSelectId() !== NO_ID) {
+          if(!m_docEditable && getDocId() !== NO_ID) {
             if(m_docEditMsg !== "") {
               p = M.showWarning(m_docEditMsg);
             }
@@ -405,7 +405,7 @@
 
           var p = null;
 
-          var docId = getDocId().getSelectId();
+          var docId = getDocId();
 
           if(docId === NO_ID) {
             p = M.showInfo(getText(1562, ""));
@@ -2526,7 +2526,7 @@
       };
 
       var getDocId = function() {
-        return m_properties.item(C.DOC_ID);
+        return m_properties.item(C.DOC_ID).getSelectId();
       };
 
       var getCotizacion = function() {
@@ -4011,11 +4011,10 @@
           // if the product has changed we remove all serial numbers
           // 
           if(bChanged || cellId(row, KI_PR_LLEVA_NRO_SERIE) === 0) {
-
             getCell(row, KI_NRO_SERIE).setValue("");
-            if(m_serialNumbers.contains(Cairo.Collections.getKey(cellId(row, KI_GRUPO)))) {
-
-              m_serialNumbers.remove(Cairo.Collections.getKey(cellId(row, KI_GRUPO)));
+            var key = Cairo.Collections.getKey(cellId(row, KI_GRUPO));
+            if(m_serialNumbers.contains(key)) {
+              m_serialNumbers.remove(key);
             }
           }
 
@@ -4036,10 +4035,7 @@
           bState = false;
         }
         else if(m_docEditable) {
-          bState = getDocId().getSelectId() !== NO_ID;
-        }
-        else {
-          bState = false;
+          bState = getDocId() !== NO_ID;
         }
 
         setEnabledAux(bState);
@@ -4070,14 +4066,12 @@
         }
 
         if(bState) {
-          var properties = m_properties;
-          properties.item(C.DEPL_ID_ORIGEN).setEnabled(m_showStockData);
+          m_properties.item(C.DEPL_ID_ORIGEN).setEnabled(m_showStockData);
         }
 
         var _count = m_itemsProps.size();
         for(var _i = 0; _i < _count; _i++) {
-          var prop = m_itemsProps.item(_i);
-          prop.setEnabled(bState);
+          m_itemsProps.item(_i).setEnabled(bState);
         }
 
         m_items.refreshEnabledState(m_itemsProps);
@@ -4200,8 +4194,7 @@
       };
 
       var move = function(moveTo) {
-
-        var docId = getDocId().getSelectId();
+        var docId = getDocId();
 
         if(docId === NO_ID) {
           return M.showInfoWithFalse(
@@ -4226,7 +4219,7 @@
             return load(response.id)
               .whenSuccess(refreshProperties);
           }
-        }
+        };
         return D.move(m_docId, moveTo)
           .whenSuccessWithResult(completeMove);
       };
