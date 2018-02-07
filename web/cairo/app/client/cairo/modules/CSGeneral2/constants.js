@@ -211,6 +211,8 @@
       // Stock
       DEPL_ID_ORIGEN: "depl_id_origen",
       DEPL_ID_DESTINO: "depl_id_destino",
+      DEPL_NAME_ORIGEN: "origen",
+      DEPL_NAME_DESTINO: "destino",
 
       // StockLote
       STOCK_LOTE: "StockLote",
@@ -976,6 +978,8 @@
       PRT_EXPO_CAIRO: "prt_expocairo",
 
       PR_ID_TAG: "pr_id_tag",
+
+      PR_ID_KIT: "pr_id_kit",
 
       TA_NAME_KIT_SERIE: "ta_name_kit_serie",
       TA_NAME_KIT_LOTE: "ta_name_kit_lote",

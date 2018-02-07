@@ -1354,9 +1354,7 @@
 
               m_data = emptyData;
 
-              p = p || P.resolvedPromise();
-
-              p = p
+              p = P.resolvedPromise()
                 .then(P.call(D.editableStatus, m_docId, CS.NEW_ASIENTO))
                 .then(function(status) {
                   m_docEditable = status.editableStatus;

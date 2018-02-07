@@ -2500,7 +2500,7 @@
         for(var _i = 0; _i < _count; _i++) {
           kitS = collKitInfo.item(_i);
 
-          if(kitS.self.getLlevaNroSerie()) {
+          if(kitS.self.getHasSerialNumber()) {
 
             for(i = 1; i <= kitS.self.getCantidad(); i++) {
 
@@ -2668,7 +2668,7 @@
         for(var _i = 0; _i < _count; _i++) {
           kitS = collKitInfo.item(_i);
 
-          if(kitS.self.getLlevaNroSerie()) {
+          if(kitS.self.getHasSerialNumber()) {
 
             for(i = 1; i <= kitS.self.getCantidad(); i++) {
 

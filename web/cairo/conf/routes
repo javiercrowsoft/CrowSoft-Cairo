@@ -303,6 +303,7 @@ DELETE  /api/v1/general/producto/:id                                            
 
 GET     /api/v1/general/producto/:id/stock/proveedor/:provId                                 controllers.logged.modules.general.Productos.getProveedorStockInfo(id: Int, provId: Int)
 GET     /api/v1/general/producto/:id/stock/cliente/:cliId                                    controllers.logged.modules.general.Productos.getClienteStockInfo(id: Int, cliId: Int)
+GET     /api/v1/general/producto/:id/stock                                                   controllers.logged.modules.general.Productos.getStockInfo(id: Int)
 GET     /api/v1/general/producto/:id/price/:lpId                                             controllers.logged.modules.general.Productos.getPrice(id: Int, lpId: Int)
 GET     /api/v1/general/producto/:id/discount/:ldId/price/:price                             controllers.logged.modules.general.Productos.getDiscount(id: Int, ldId: Int, price: Double)
 GET     /api/v1/general/producto/:id/taxes                                                   controllers.logged.modules.general.Productos.getTaxes(id: Int)

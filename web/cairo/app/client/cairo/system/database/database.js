@@ -351,9 +351,15 @@
       that.setFieldId = function(fieldId) {
         self.fieldId = fieldId;
       };
+      that.getFieldId = function() {
+        return self.fieldId;
+      };
 
       that.setTable = function(table) {
         self.table = table;
+      };
+      that.getTable = function() {
+        return self.table;
       };
 
       that.setId = function(id) {
