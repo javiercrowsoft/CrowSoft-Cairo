@@ -3125,20 +3125,20 @@
             setSerialNumberInRow(curGroup, serialNumbers);
             serialNumbers = "";
 
-            curGroup = getValue(m_data.items[_i], CV.FVI_ID);
+            curGroup = getValue(m_data.serialNumbers[_i], CV.FVI_ID);
             coll = Cairo.Collections.createCollection(Cairo.SerialNumber.create);
             m_serialNumbers.add(coll, Cairo.Collections.getKey(curGroup));
           }
 
-          var prnsId = getValue(m_data.items[_i], C.PRNS_ID);
+          var prnsId = getValue(m_data.serialNumbers[_i], C.PRNS_ID);
 
           serialNumber = coll.add(null, Cairo.Collections.getKey(prnsId));
           serialNumber.setPrnsId(prnsId);
-          serialNumber.setCodigo(getValue(m_data.items[_i], C.PRNS_CODE));
-          serialNumber.setDescrip(getValue(m_data.items[_i], C.PRNS_DESCRIP));
-          serialNumber.setFechaVto(getValue(m_data.items[_i], C.PRNS_FECHA_VTO));
-          serialNumber.setPrIdItem(getValue(m_data.items[_i], C.PR_ID));
-          serialNumber.setKitItem(getValue(m_data.items[_i], C.PR_NAME_COMPRA));
+          serialNumber.setCodigo(getValue(m_data.serialNumbers[_i], C.PRNS_CODE));
+          serialNumber.setDescrip(getValue(m_data.serialNumbers[_i], C.PRNS_DESCRIP));
+          serialNumber.setFechaVto(getValue(m_data.serialNumbers[_i], C.PRNS_FECHA_VTO));
+          serialNumber.setPrIdItem(getValue(m_data.serialNumbers[_i], C.PR_ID));
+          serialNumber.setKitItem(getValue(m_data.serialNumbers[_i], C.PR_NAME_COMPRA));
 
           serialNumbers = serialNumbers + serialNumber.getCode() + ",";
         }
@@ -4398,9 +4398,9 @@
         }
       };
 
-      var setSerialNumberInRow = function(currGroup, nroSerie) {
+      var setSerialNumberInRow = function(curGroup, nroSerie) {
 
-        if(currGroup === 0) { return; }
+        if(curGroup === 0) { return; }
 
         var rows = getGrid(m_items, C_ITEMS).getRows();
 
@@ -4408,7 +4408,7 @@
         for(var _i = 0; _i < _count; _i++) {
 
           var row = rows.item(_i);
-          if(cellId(row, KI_GRUPO) === currGroup) {
+          if(cellId(row, KI_GRUPO) === curGroup) {
             getCell(row, KI_NRO_SERIE).setValue(Cairo.Util.removeLastColon(nroSerie));
             return;
           }

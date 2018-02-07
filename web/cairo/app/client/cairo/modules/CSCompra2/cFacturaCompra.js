@@ -3200,9 +3200,9 @@
         return true;
       };
 
-      var setSerialNumberInRow = function(currGroup, nroSerie) {
+      var setSerialNumberInRow = function(curGroup, nroSerie) {
 
-        if(currGroup === 0) { return; }
+        if(curGroup === 0) { return; }
 
         var rows = getGrid(m_items, C_ITEMS).getRows();
 
@@ -3210,7 +3210,7 @@
         for(var _i = 0; _i < _count; _i++) {
 
           var row = rows.item(_i);
-          if(cellId(row, KI_GRUPO) === currGroup) {
+          if(cellId(row, KI_GRUPO) === curGroup) {
             getCell(row, KI_NRO_SERIE).setValue(Cairo.Util.removeLastColon(nroSerie));
             return;
           }

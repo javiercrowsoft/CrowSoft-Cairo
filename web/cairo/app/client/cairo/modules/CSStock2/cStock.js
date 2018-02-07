@@ -186,9 +186,6 @@
       var m_docEditable;
       var m_docEditMsg = "";
 
-      var m_serialNumbers;
-      var m_kitDefinitions;
-
       var m_depfId = 0;
 
       var m_serialNumbers;
@@ -366,7 +363,7 @@
 
           case Dialogs.Message.MSG_DOC_MERGE:
 
-            loadCompensar(getItems());
+            setAndLoadGridCompensar();
             break;
 
           case Dialogs.Message.MSG_DOC_REFRESH:
@@ -839,7 +836,7 @@
 
           var loadAllItems = function() {
             if(m_itemsProps.count() > 0) {
-              loadItems(getItems());
+              loadItems(getItems(), m_data);
             }
             return P.resolvedPromise(true);
           };
@@ -1297,7 +1294,7 @@
         elem.setType(T.grid);
         elem.hideLabel();
         setGridItems(elem);
-        loadItems(elem);
+        loadItems(elem, m_data);
         elem.setName(C_ITEMS);
         elem.setKey(K_ITEMS);
         elem.setTabIndex(0);
@@ -1374,16 +1371,12 @@
         elem.setSubType(Dialogs.PropertySubType.textButton);
         elem.setKey(KI_NRO_SERIE);
 
-        // Lote
-        //
         elem = columns.add(null, CST.STL_ID);
         elem.setName(getText(1640, "")); // Lote
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.LOTES_DE_STOCK);
         elem.setKey(KI_STL_ID);
 
-        // Lote
-        //
         elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_PR_LLEVA_LOTE);
@@ -1403,7 +1396,7 @@
         grid.getRows().clear();
       };
 
-      var loadItems = function() {
+      var loadItems = function(property, data) {
 
         var elem;
         var grid = property.getGrid();
@@ -1411,62 +1404,89 @@
 
         rows.clear();
 
-        for(var _i = 0, count = m_data.items.length; _i < count; _i += 1) {
+        for(var _i = 0, count = data.items.length; _i < count; _i += 1) {
 
-          var row = rows.add(null, getValue(m_data.items[_i], CST.STI_ID));
+          var row = rows.add(null, getValue(data.items[_i], CST.STI_ID));
 
           elem = row.add(null);
-          elem.Value = getValue(m_data.items[_i], CST.STI_ID);
+          elem.setValue(getValue(data.items[_i], CST.STI_ID));
           elem.setKey(KI_STI_ID);
 
           elem = row.add(null);
-          elem.Value = getValue(m_data.items[_i], C.DEPL_ID);
+          elem.setValue(getValue(data.items[_i], C.DEPL_ID));
           elem.setKey(KI_DEPL_ID);
 
           elem = row.add(null);
-          elem.Value = getValue(m_data.items[_i], C.PR_NAME_COMPRA);
-          elem.Id = getValue(m_data.items[_i], C.PR_ID);
+          elem.setValue(getValue(data.items[_i], C.PR_NAME_COMPRA));
+          elem.setId(getValue(data.items[_i], C.PR_ID));
           elem.setKey(KI_PR_ID);
 
           elem = row.add(null);
-          elem.Value = getValue(m_data.items[_i], CST.STI_DESCRIP);
+          elem.setValue(getValue(data.items[_i], CST.STI_DESCRIP));
           elem.setKey(KI_DESCRIP);
 
           elem = row.add(null);
-          elem.Value = getValue(m_data.items[_i], CST.STI_SALIDA);
+          elem.setValue(getValue(data.items[_i], CST.STI_SALIDA));
           elem.setKey(KI_CANTIDAD);
 
           elem = row.add(null);
-          elem.Value = getValue(m_data.items[_i], C.UN_NAME);
+          elem.setValue(getValue(data.items[_i], C.UN_NAME));
           elem.setKey(KI_UNIDAD);
 
           elem = row.add(null);
-          elem.Value = "";
+          elem.setValue("");
           elem.setKey(KI_NRO_SERIE);
 
           elem = row.add(null);
-          elem.Value = getValue(m_data.items[_i], C.STL_CODE);
-          elem.Id = getValue(m_data.items[_i], C.STL_ID);
+          elem.setValue(getValue(data.items[_i], C.STL_CODE));
+          elem.setId(getValue(data.items[_i], C.STL_ID));
           elem.setKey(KI_STL_ID);
 
           elem = row.add(null);
-          elem.Id = getValue(m_data.items[_i], C.PR_LLEVA_NRO_LOTE);
+          elem.setId(getValue(data.items[_i], C.PR_LLEVA_NRO_LOTE));
           elem.setKey(KI_PR_LLEVA_LOTE);
 
           elem = row.add(null);
-          elem.Id = getValue(m_data.items[_i], C.PR_LLEVA_NRO_SERIE);
+          elem.setId(getValue(data.items[_i], C.PR_LLEVA_NRO_SERIE));
           elem.setKey(KI_PR_LLEVA_NRO_SERIE);
 
           elem = row.add(null);
-          elem.Id = getValue(m_data.items[_i], C.PR_ES_KIT);
+          elem.setId(getValue(data.items[_i], C.PR_ES_KIT));
           elem.setKey(KI_ES_KIT);
 
           elem = row.add(null);
-          elem.Id = getValue(m_data.items[_i], CST.STI_GRUPO);
+          elem.setId(getValue(data.items[_i], CST.STI_GRUPO));
           elem.setKey(KI_GRUPO);
 
         }
 
+        loadSerialNumbers(data.serialNumbers);
+
+        loadKits(data.kitDefinitions);
+
+        return true;
+      };
+      
+      var loadKits = function(dataKitDefinitions) {
+        m_kitDefinitions.clear();
+
+        for(var _i = 0, count = dataKitDefinitions.length; _i < count; _i += 1) {
+
+          var prId = getValue(dataKitDefinitions[_i], C.PR_ID);
+          var kitDefinition = Cairo.Kit.getKitDefinitionForPrId(prId, m_kitDefinitions);
+
+          prId = getValue(dataKitDefinitions[_i], C.PR_ID_ITEM);
+
+          var kitInfo = Cairo.Kit.getKitInfoForPrId(prId, kitDefinition);
+
+          kitInfo.setPrId(prId);
+          kitInfo.setName(getValue(dataKitDefinitions[_i], C.PR_NAME_COMPRA));
+          kitInfo.setAmount(getValue(dataKitDefinitions[_i], C.PRK_CANTIDAD));
+          kitInfo.setHasSerial(getValue(dataKitDefinitions[_i], C.PR_LLEVA_NRO_SERIE));
+        }
+      };
+
+      var loadSerialNumbers = function(dataSerials) {
         var serialNumber = null;
         var curGroup = 0;
         var coll = null;
@@ -1474,53 +1494,34 @@
 
         m_serialNumbers.clear();
 
-        for(var _i = 0, count = m_data.serialNumbers.length; _i < count; _i += 1) {
+        for(var _i = 0, count = dataSerials.length; _i < count; _i += 1) {
 
           // check if the group has changed
           //
-          if(curGroup !== getValue(m_data.serialNumbers[_i], CST.STI_GRUPO)) {
+          if(curGroup !== getValue(dataSerials[_i], CST.STI_GRUPO)) {
 
             setSerialNumberInRow(curGroup, serialNumbers);
             serialNumbers = "";
 
-            curGroup = getValue(m_data.items[_i], CST.STI_GRUPO);
+            curGroup = getValue(dataSerials[_i], CST.STI_GRUPO);
             coll = Cairo.Collections.createCollection(Cairo.SerialNumber.create);
             m_serialNumbers.add(coll, Cairo.Collections.getKey(curGroup));
           }
 
-          var prnsId = getValue(m_data.items[_i], C.PRNS_ID);
+          var prnsId = getValue(dataSerials[_i], C.PRNS_ID);
 
           serialNumber = coll.add(null, Cairo.Collections.getKey(prnsId));
           serialNumber.setPrnsId(prnsId);
-          serialNumber.setCodigo(getValue(m_data.items[_i], C.PRNS_CODE));
-          serialNumber.setDescrip(getValue(m_data.items[_i], C.PRNS_DESCRIP));
-          serialNumber.setFechaVto(getValue(m_data.items[_i], C.PRNS_FECHA_VTO));
-          serialNumber.setPrIdItem(getValue(m_data.items[_i], C.PR_ID));
-          serialNumber.setKitItem(getValue(m_data.items[_i], C.PR_NAME_COMPRA));
+          serialNumber.setCodigo(getValue(dataSerials[_i], C.PRNS_CODE));
+          serialNumber.setDescrip(getValue(dataSerials[_i], C.PRNS_DESCRIP));
+          serialNumber.setFechaVto(getValue(dataSerials[_i], C.PRNS_FECHA_VTO));
+          serialNumber.setPrIdItem(getValue(dataSerials[_i], C.PR_ID));
+          serialNumber.setKitItem(getValue(dataSerials[_i], C.PR_NAME_COMPRA));
 
           serialNumbers = serialNumbers + serialNumber.getCode() + ",";
         }
 
         setSerialNumberInRow(curGroup, serialNumbers);
-
-        m_kitDefinitions.clear();
-
-        for(var _i = 0, count = m_data.kitDefinitions.length; _i < count; _i += 1) {
-
-          var prId = getValue(m_data.kitDefinitions[_i], C.PR_ID);
-          var kitDefinition = Cairo.Kit.getKitDefinitionForPrId(prId, m_kitDefinitions);
-
-          prId = getValue(m_data.kitDefinitions[_i], C.PR_ID_ITEM);
-
-          var kitInfo = Cairo.Kit.getKitInfoForPrId(prId, kitDefinition);
-
-          kitInfo.setPrId(prId);
-          kitInfo.setName(getValue(m_data.kitDefinitions[_i], C.PR_NAME_COMPRA));
-          kitInfo.setAmount(getValue(m_data.kitDefinitions[_i], C.PRK_CANTIDAD));
-          kitInfo.setHasSerial(getValue(m_data.kitDefinitions[_i], C.PR_LLEVA_NRO_SERIE));
-        }
-
-        return true;
       };
 
       var loadDataFromResponse = function(response) {
@@ -2086,7 +2087,7 @@
         m_dialog.showValues(m_dialog.getProperties());
         m_dialog.resetChanged();
 
-        loadItems(getProperty(m_items, C_ITEMS));
+        loadItems(getProperty(m_items, C_ITEMS), m_data);
 
         m_items.showValues(m_itemsProps);
 
@@ -2106,76 +2107,18 @@
         }
       };
 
-      // Construccion - Destruccion
-      self.initialize = function() {
-        try {
+      var setSerialNumberInRow = function(curGroup, nroSerie) {
 
-          // Error al grabar la transferencia de stock
-          c_ErrorSave = getText(2017, "");
+        if(curGroup === 0) { return; }
 
-          m_serialNumbers = new Collection();
-          m_generalConfig = new cGeneralConfig();
-          m_generalConfig.Load;
+        var rows = getGrid(m_items, C_ITEMS).getRows();
 
-          // Lote
-          //
-          Cairo.getStockConfig() = new cStockConfig();
-          Cairo.getStockConfig().load();
-
-          // Preferencias del Usuario
-          //
-          m_userCfg = new cUsuarioConfig();
-          m_userCfg.Load;
-          m_userCfg.ValidateST;
-
-          // **TODO:** goto found: GoTo ExitProc;
-        }
-        catch (ex) {
-          Cairo.manageErrorEx(ex.message, "Class_Initialize", C_MODULE, "");
-          // **TODO:** label found: ExitProc:;
-        }
-        // **TODO:** on error resume next found !!!
-      };
-
-      self.destroy = function() {
-        try {
-
-          m_dialog = null;
-          m_listController = null;
-          m_items = null;
-          m_footer = null;
-          mCollection.collClear(m_serialNumbers);
-          m_serialNumbers = null;
-
-          // Lote
-          //
-          Cairo.getStockConfig() = null;
-
-          // Preferencias del Usuario
-          //
-          m_userCfg = null;
-
-          // **TODO:** goto found: GoTo ExitProc;
-        }
-        catch (ex) {
-          Cairo.manageErrorEx(ex.message, "Class_Terminate", C_MODULE, "");
-          // **TODO:** label found: ExitProc:;
-        }
-        // **TODO:** on error resume next found !!!
-      };
-
-      ///////////////////////////////////////////////////////////////////////////////////////////////////
-
-      var setSerialNumberInRow = function(currGroup, nroSerie) {
-        var row = null;
-
-        if(currGroup === 0) { return; }
-
-        var _count = m_items.getProperties().item(C_ITEMS).getGrid().getRows().size();
+        var _count = rows.size();
         for(var _i = 0; _i < _count; _i++) {
-          row = m_items.getProperties().item(C_ITEMS).getGrid().getRows().item(_i);
-          if(Dialogs.cell(row, KI_GRUPO).getID() === currGroup) {
-            Dialogs.cell(row, KI_NRO_SERIE).getValue() === RemoveLastColon(nroSerie);
+
+          var row = rows.item(_i);
+          if(cellId(row, KI_GRUPO) === curGroup) {
+            getCell(row, KI_NRO_SERIE).setValue(Cairo.Util.removeLastColon(nroSerie));
             return;
           }
         }
@@ -2197,163 +2140,34 @@
         return m_itemsProps().item(C_ITEMS);
       };
 
-      var setGridCompensar = function(property) {
-        var coll = null;
-        var prId = null;
+      var setAndLoadGridCompensar = function() {
 
-        if(!Ask(getText(3484, ""), vbNo)) {
-          return null;
-        }
-
-        var pr_codigos = null;
-
-        if(!GetInput(pr_codigos, getText(3491, ""))) { return false; }
-        //Ingrese los codigos de producto separados por coma.
-        //Si desea compensar todos los productos solo precione aceptar.
-
-        var w_grid = property.getGrid();
-
-        var w_rows = w_grid.getRows();
-
-        w_rows.clear();
-        return true;
-      };
-
-      var loadCompensar = function() {
-
-
-        for(var _i = 0; _i < m_data.compensar.length; _i += 1) {
-
-          elem = w_rows.add(null);
-
-          elem = row.add(null);
-          elem.Value = Cairo.Database.valField(m_data.compensar[_i], CST.STI_ID);
-          elem.Key = KI_STI_ID;
-
-          elem = row.add(null);
-          elem.Value = Cairo.Database.valField(m_data.compensar[_i], C.DEPL_ID);
-          elem.Key = KI_DEPL_ID;
-
-          elem = row.add(null);
-          elem.Value = Cairo.Database.valField(m_data.compensar[_i], C.PR_NAME_COMPRA);
-          elem.Id = Cairo.Database.valField(m_data.compensar[_i], C.PR_ID);
-          elem.Key = KI_PR_ID;
-
-          elem = row.add(null);
-          elem.Value = Cairo.Database.valField(m_data.compensar[_i], CST.STI_DESCRIP);
-          elem.Key = KI_DESCRIP;
-
-          elem = row.add(null);
-          elem.Value = Cairo.Database.valField(m_data.compensar[_i], CST.STI_SALIDA);
-          elem.Key = KI_CANTIDAD;
-
-          elem = row.add(null);
-          elem.Value = Cairo.Database.valField(m_data.compensar[_i], C.UN_NAME);
-          elem.Key = KI_UNIDAD;
-
-          elem = row.add(null);
-          elem.Value = "";
-          elem.Key = KI_NRO_SERIE;
-
-          // Lote
+        return Cairo.Modal.confirmCancelViewYesDanger(
+          "Compenzar",
+          // La compensanción de stock puede demorar varios minutos,
+          // y se recomienda que el sistema no sea utilizado por otros usuarios,
+          // mientras se ejecuta este proceso.
           //
-          elem = row.add(null);
-          elem.Value = Cairo.Database.valField(m_data.compensar[_i], C.STL_CODE);
-          elem.Id = Cairo.Database.valField(m_data.compensar[_i], C.STL_ID);
-          elem.Key = KI_STL_ID;
-
-          // Lote
-          //
-          elem = row.add(null);
-          elem.Id = Cairo.Database.valField(m_data.compensar[_i], C.PR_LLEVA_NRO_LOTE);
-          elem.Key = KI_PR_LLEVA_LOTE;
-
-          elem = row.add(null);
-          elem.Id = Cairo.Database.valField(m_data.compensar[_i], C.PR_LLEVA_NRO_SERIE);
-          elem.Key = KI_PR_LLEVA_NRO_SERIE;
-
-          elem = row.add(null);
-          elem.Id = Cairo.Database.valField(m_data.compensar[_i], C.PR_ESKIT);
-          elem.Key = KI_ES_KIT;
-
-          elem = row.add(null);
-          elem.Id = Cairo.Database.valField(m_data.compensar[_i], CST.STI_GRUPO);
-          elem.Key = KI_GRUPO;
-
-        }
-
-        ////////////////////////////////////////////////////
-        // Numeros de Serie
-        ////////////////////////////////////////////////////
-
-        var nroSerie = null;
-        var curGroup = null;
-        var nrosSerie = null;
-
-        mCollection.collClear(m_serialNumbers);
-
-        rs = rs.NextRecordset;
-
-        for(var _i = 0; _i < m_data.compensar.length; _i += 1) {
-
-          // Si cambie de grupo
-          if(curGroup !== Cairo.Database.valField(m_data.compensar[_i], CST.STI_GRUPO)) {
-
-            setSerialNumberInRow(curGroup, nrosSerie);
-            nrosSerie = "";
-
-            curGroup = Cairo.Database.valField(m_data.compensar[_i], CST.STI_GRUPO);
-            coll = new Collection();
-            m_serialNumbers.Add(coll, GetKey(curGroup));
-          }
-
-          // Guardo el numero de serie
-          nroSerie = new cProductoSerieType();
-          nroSerie.setCodigo(Cairo.Database.valField(m_data.compensar[_i], C.PRNS_CODE));
-          nroSerie.setDescrip(Cairo.Database.valField(m_data.compensar[_i], C.PRNS_DESCRIP));
-          nroSerie.setFechaVto(Cairo.Database.valField(m_data.compensar[_i], C.PRNS_FECHAVTO));
-          nroSerie.setPrns_id(Cairo.Database.valField(m_data.compensar[_i], C.PRNS_ID));
-          nroSerie.setPr_id_item(Cairo.Database.valField(m_data.compensar[_i], C.PR_ID));
-          nroSerie.setKitItem(Cairo.Database.valField(m_data.compensar[_i], C.PR_NAME_COMPRA));
-
-          nrosSerie = nrosSerie+ nroSerie.getCodigo()+ ",";
-
-          // Lo agrego a la bolsa
-          coll.Add(nroSerie, GetKey(nroSerie.getPrnsId()));
-
-        }
-
-        setSerialNumberInRow(curGroup, nrosSerie);
-        nrosSerie = "";
-
-        ////////////////////////////////////////////////////
-        // Kit
-        ////////////////////////////////////////////////////
-        mCollection.collClear(m_kitDefinitions);
-
-        rs = rs.NextRecordset;
-
-        for(var _i = 0; _i < m_data.compensar.length; _i += 1) {
-
-          prId = Cairo.Database.valField(m_data.compensar[_i], C.PR_ID);
-          coll = Object.getCollKitInfoXPrId(prId, m_kitDefinitions);
-
-          prId = Cairo.Database.valField(m_data.compensar[_i], C.PR_ID_ITEM);
-
-          //*TODO:** can't found type for with block
-          //*With GetKitInfoItem(coll, prId)
-          var w___TYPE_NOT_FOUND = GetKitInfoItem(coll, prId);
-          w___TYPE_NOT_FOUND.pr_id = prId;
-          w___TYPE_NOT_FOUND.Nombre = Cairo.Database.valField(m_data.compensar[_i], C.PR_NAME_COMPRA);
-          w___TYPE_NOT_FOUND.Cantidad = Cairo.Database.valField(m_data.compensar[_i], "cantidad");
-          w___TYPE_NOT_FOUND.LlevaNroSerie = Cairo.Database.valField(m_data.compensar[_i], C.PR_LLEVA_NRO_SERIE);
-        }
-
-        var abmGen = null;
-        abmGen = m_items;
-        abmGen.ShowValues(m_items.getProperties());
-
-        return true;
+          // ¿Confirma que desea ejecutar este proceso?
+          getText(3484, "")
+        ).whenSuccess(function() {
+            M.inputFormView("", message, count).then(function(prCodes) {
+              if(prCodes.trim() !== "") {
+                return Cairo.Database.getData("load[" + m_apiPath + "stock/compensar/"
+                  + prCodes + "/"
+                  + getDeplIdOrigen() + "/"
+                  + getDeplIdDestino() + "/"
+                  + DB.sqlDate(m_properties.item(CST.ST_FECHA)) + "/"
+                  + "]").then(
+                  function(response) {
+                    if (response.success !== true) {
+                      return false;
+                    }
+                    loadItems(getItems(), response.data);
+                  });
+              }
+            });
+          });
       };
 
       var setStock = function() {
@@ -2426,6 +2240,8 @@
         abmGen = m_dialog;
         abmGen.ShowValue(pGetDeplDestino());
       };
+
+      initialize();
 
       return self;
     };
