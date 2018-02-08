@@ -2164,22 +2164,12 @@
                       return false;
                     }
                     loadItems(getItems(), response.data);
+                    m_items.showValues(m_itemsProps);
+                    return true;
                   });
               }
             });
           });
-      };
-
-      var setStock = function() {
-
-        if(Cairo.getStockConfig().getStockXFisico() || Cairo.getStockConfig().getNoControlaStock()) {
-
-          m_depfId = NO_ID;
-
-          if(!Cairo.Database.getData(C.DEPOSITOLOGICO, C.DEPL_ID, getDeplIdOrigen(), C.DEPF_ID, m_depfId)) {
-          }
-        }
-
       };
 
       var pGetDepositoInternoName = function() {
@@ -2188,11 +2178,8 @@
         return deplNombre;
       };
 
-      var pGetDocIsConsumo = function() {
-        var isConsumo = null;
-        var docId = null;
-
-        docId = getDocId();
+      var getDocIsConsumo = function() {
+        var docId = getDocId();
         if(docId === NO_ID) { return false; }
 
         if(!Cairo.Database.getData(C.DOCUMENTO, C.DOC_ID, docId, C.DOC_ST_CONSUMO, isConsumo)) { return false; }
@@ -2212,15 +2199,8 @@
       };
 
       var setDeplDestinoForConsumo = function() {
-        var bIsConsumo = null;
-
-        bIsConsumo = pGetDocIsConsumo();
-
-        if(bIsConsumo) {
-          var w_pGetDeplDestino = pGetDeplDestino();
-          w_pGetDeplDestino.setSelectId(-2);
-          w_pGetDeplDestino.setValue(pGetDepositoInternoName());
-          w_pGetDeplDestino.setEnabled(false);
+        if(getDocIsConsumo()) {
+          pGetDeplDestino().setSelectId(-2).setValue(pGetDepositoInternoName()).setEnabled(false);
         }
         else {
 
