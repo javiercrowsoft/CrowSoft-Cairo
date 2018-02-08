@@ -1,4 +1,4 @@
-package models.cairo.modules.contabilidad
+package models.cairo.modules.stock
 
 import java.sql.{Connection, CallableStatement, ResultSet, Types, SQLException}
 import anorm.SqlParser._
@@ -18,7 +18,7 @@ import models.cairo.modules.general.U
 import formatters.json.DateFormatter
 import models.cairo.modules.general.DocumentListParam
 
-case class AsientoId(
+case class StockId(
                       docId: Int,
                       docName: String,
                       numero: Int,
@@ -38,21 +38,21 @@ case class AsientoId(
   }
 }
 
-object AsientoId {
+object StockId {
 
   def apply(
              docId: Int,
              numero: Int,
              nroDoc: String) = {
 
-    new AsientoId(
+    new StockId(
       docId,
       numero,
       nroDoc)
   }
 }
 
-case class AsientoReferences(
+case class StockReferences(
                               doctId: Int,
                               idCliente: Int,
                               doctIdCliente: Int,
@@ -63,65 +63,65 @@ case class AsientoReferences(
                               editMsg: String
                             )
 
-case class AsientoBase(
+case class StockBase(
                         fecha: Date,
                         descrip: String
                       )
 
-case class AsientoItem(
+case class StockItem(
                         id: Int,
                         descrip: String,
-                        cueId: Int,
-                        cueName: String,
-                        ccosId: Int,
-                        ccosName: String,
-                        debe: Double,
-                        haber: Double,
-                        origen: Double,
+                        prId: Int,
+                        prNameCompra: String,
+                        prnsId: Int,
+                        prnsCode: String,
+                        ingreso: Double,
+                        salida: Double,
+                        grupo: Int,
                         orden: Int
                       )
 
-object AsientoItem {
+object StockItem {
 
   def apply(id: Int,
             descrip: String,
-            cueId: Int,
-            ccosId: Int,
-            debe: Double,
-            haber: Double,
-            origen: Double,
+            prId: Int,
+            prnsId: Int,
+            ingreso: Double,
+            salida: Double,
+            grupo: Int,
             orden: Int) = {
 
-    new AsientoItem(
+    new StockItem(
       id,
       descrip,
-      cueId,
+      prId,
       "",
-      ccosId,
+      prnsId,
       "",
-      debe,
-      haber,
-      origen,
+      ingreso,
+      salida,
+      grupo,
       orden
     )
   }
 }
 
-case class AsientoItems(
-                         items: List[AsientoItem],
+case class StockItems(
+                         items: List[StockItem],
 
                          /* only used in save */
                          itemDeleted: String
                        )
 
-case class Asiento(
+case class Stock(
                     id: Int,
 
-                    ids: AsientoId,
-                    base: AsientoBase,
-                    references: AsientoReferences,
+                    ids: StockId,
+                    base: StockBase,
+                    references: StockReferences,
 
-                    items: AsientoItems,
+                    items: StockItems,
 
                     createdAt: Date,
                     updatedAt: Date,
@@ -131,11 +131,11 @@ case class Asiento(
   def this(
             id: Int,
 
-            ids: AsientoId,
-            base: AsientoBase,
-            references: AsientoReferences,
+            ids: StockId,
+            base: StockBase,
+            references: StockReferences,
 
-            items: AsientoItems) = {
+            items: StockItems) = {
 
     this(
       id,
@@ -152,11 +152,11 @@ case class Asiento(
   }
 
   def this(
-            ids: AsientoId,
-            base: AsientoBase,
-            references: AsientoReferences,
+            ids: StockId,
+            base: StockBase,
+            references: StockReferences,
 
-            items: AsientoItems) = {
+            items: StockItems) = {
 
     this(
       DBHelper.NoId,
@@ -171,7 +171,7 @@ case class Asiento(
 
 }
 
-case class AsientoParams(
+case class StockParams(
                           from: String,
                           to: String,
                           docId: String,
@@ -196,7 +196,7 @@ case class AsientoParams(
   }
 }
 
-object AsientoParams {
+object StockParams {
   def apply(
              from: String,
              to: String,
@@ -204,7 +204,7 @@ object AsientoParams {
              empId: String
              ) = {
 
-    new AsientoParams(
+    new StockParams(
       from,
       to,
       docId,
@@ -213,37 +213,37 @@ object AsientoParams {
   }
 }
 
-object Asiento {
+object Stock {
 
   lazy val GC = models.cairo.modules.general.C
   lazy val DT = models.cairo.modules.documentos.DT
 
-  lazy val emptyAsientoItems = AsientoItems(List(), "")
+  lazy val emptyStockItems = StockItems(List(), "")
 
-  lazy val emptyAsientoReferences = AsientoReferences(0, 0, 0, "", "", false, false, "")
+  lazy val emptyStockReferences = StockReferences(0, 0, 0, "", "", false, false, "")
 
-  lazy val emptyAsiento = Asiento(
-    AsientoId(DBHelper.NoId, 0, ""),
-    AsientoBase(U.NO_DATE, ""),
-    emptyAsientoReferences,
-    emptyAsientoItems
+  lazy val emptyStock = Stock(
+    StockId(DBHelper.NoId, 0, ""),
+    StockBase(U.NO_DATE, ""),
+    emptyStockReferences,
+    emptyStockItems
   )
 
-  lazy val emptyAsientoParams = AsientoParams(
+  lazy val emptyStockParams = StockParams(
     DateFormatter.format(DateUtil.plusDays(DateUtil.currentTime, -60)),
     DateFormatter.format(DateUtil.currentTime), "0", "0")
 
   def apply(
              id: Int,
 
-             ids: AsientoId,
-             base: AsientoBase,
-             references: AsientoReferences,
+             ids: StockId,
+             base: StockBase,
+             references: StockReferences,
 
-             items: AsientoItems
+             items: StockItems
              ) = {
 
-    new Asiento(
+    new Stock(
       id,
 
       ids,
@@ -257,31 +257,31 @@ object Asiento {
   def apply(
              id: Int,
 
-             ids: AsientoId,
-             base: AsientoBase,
-             references: AsientoReferences
+             ids: StockId,
+             base: StockBase,
+             references: StockReferences
              ) = {
 
-    new Asiento(
+    new Stock(
       id,
 
       ids,
       base,
       references,
 
-      emptyAsientoItems
+      emptyStockItems
     )
   }
 
   def apply(
-             ids: AsientoId,
-             base: AsientoBase,
-             references: AsientoReferences,
+             ids: StockId,
+             base: StockBase,
+             references: StockReferences,
 
-             items: AsientoItems
+             items: StockItems
              ) = {
 
-    new Asiento(
+    new Stock(
       ids,
       base,
       references,
@@ -291,65 +291,65 @@ object Asiento {
   }
 
   def apply(
-             ids: AsientoId,
-             base: AsientoBase,
-             references: AsientoReferences
+             ids: StockId,
+             base: StockBase,
+             references: StockReferences
              ) = {
 
-    new Asiento(
+    new Stock(
 
       ids,
       base,
       references,
 
-      emptyAsientoItems
+      emptyStockItems
     )
   }
 
-  private val asientoItemParser: RowParser[AsientoItem] = {
-    SqlParser.get[Int](C.ASI_ID) ~
-    SqlParser.get[String](C.ASI_DESCRIP) ~
-    SqlParser.get[Int](GC.CUE_ID) ~
-    SqlParser.get[String](GC.CUE_NAME) ~
-    SqlParser.get[Option[Int]](GC.CCOS_ID) ~
-    SqlParser.get[Option[String]](GC.CCOS_NAME) ~
-    SqlParser.get[BigDecimal](C.ASI_DEBE) ~
-    SqlParser.get[BigDecimal](C.ASI_HABER) ~
-    SqlParser.get[BigDecimal](C.ASI_ORIGEN) ~
-    SqlParser.get[Int](C.ASI_ORDEN) map {
+  private val stockItemParser: RowParser[StockItem] = {
+    SqlParser.get[Int](C.STI_ID) ~
+    SqlParser.get[String](C.STI_DESCRIP) ~
+    SqlParser.get[Int](GC.PR_ID) ~
+    SqlParser.get[String](GC.PR_NAME_COMPRA) ~
+    SqlParser.get[Option[Int]](GC.PRNS_ID) ~
+    SqlParser.get[Option[String]](GC.PRNS_CODE) ~
+    SqlParser.get[BigDecimal](C.STI_INGRESO) ~
+    SqlParser.get[BigDecimal](C.STI_SALIDA) ~
+    SqlParser.get[BigDecimal](C.STI_GRUPO) ~
+    SqlParser.get[Int](C.STI_ORDEN) map {
     case
         id ~
         descrip ~
-        cueId ~
-        cueName ~
-        ccosId ~
-        ccosName ~
-        debe ~
-        haber ~
-        origen ~
+        prId ~
+        prNameCompra ~
+        prnsId ~
+        prnsCode ~
+        ingreso ~
+        salida ~
+        grupo ~
         orden =>
-      AsientoItem(
+      StockItem(
         id,
         descrip,
-        cueId,
-        cueName,
-        ccosId.getOrElse(DBHelper.NoId),
-        ccosName.getOrElse(""),
-        debe.doubleValue(),
-        haber.doubleValue(),
-        origen.doubleValue(),
+        prId,
+        prNameCompra,
+        prnsId.getOrElse(DBHelper.NoId),
+        prnsCode.getOrElse(""),
+        ingreso.doubleValue(),
+        salida.doubleValue(),
+        grupo.doubleValue(),
         orden
       )
     }
   }
 
-  private val asientoParser: RowParser[Asiento] = {
-    SqlParser.get[Int](C.AS_ID) ~
+  private val stockParser: RowParser[Stock] = {
+    SqlParser.get[Int](C.ST_ID) ~
     SqlParser.get[Int](GC.DOC_ID) ~
     SqlParser.get[String](GC.DOC_NAME) ~
-    SqlParser.get[Int](C.AS_NUMERO) ~
-    SqlParser.get[String](C.AS_NRODOC) ~
-    SqlParser.get[String](C.AS_DESCRIP) ~
+    SqlParser.get[Int](C.ST_NUMERO) ~
+    SqlParser.get[String](C.ST_NRODOC) ~
+    SqlParser.get[String](C.ST_DESCRIP) ~
     SqlParser.get[Int](GC.DOCT_ID) ~
     SqlParser.get[Option[Int]](C.DOCT_ID_CLIENTE) ~
     SqlParser.get[Option[Int]](C.ID_CLIENTE) ~
@@ -358,7 +358,7 @@ object Asiento {
     SqlParser.get[Int](GC.TA_PROPUESTO) ~
     SqlParser.get[Int](GC.EDITABLE) ~
     SqlParser.get[String](GC.EDIT_MSG) ~
-    SqlParser.get[Date](C.AS_FECHA) ~
+    SqlParser.get[Date](C.ST_FECHA) ~
     SqlParser.get[Date](DBHelper.CREATED_AT) ~
     SqlParser.get[Date](DBHelper.UPDATED_AT) ~
     SqlParser.get[Int](DBHelper.UPDATED_BY) map {
@@ -381,19 +381,19 @@ object Asiento {
         createdAt ~
         updatedAt ~
         updatedBy =>
-      Asiento(
+      Stock(
         id,
-        AsientoId(
+        StockId(
           docId,
           docName,
           numero,
           nroDoc
         ),
-        AsientoBase(
+        StockBase(
           fecha,
           descrip
         ),
-        AsientoReferences(
+        StockReferences(
           doctId,
           doctIdCliente.getOrElse(0),
           idCliente.getOrElse(0),
@@ -403,77 +403,77 @@ object Asiento {
           editable != 0,
           editMsg
         ),
-        emptyAsientoItems,
+        emptyStockItems,
         createdAt,
         updatedAt,
         updatedBy)
     }
   }
 
-  def create(user: CompanyUser, asiento: Asiento): Asiento = {
-    save(user, asiento, false)
+  def create(user: CompanyUser, stock: Stock): Stock = {
+    save(user, stock, false)
   }
 
-  def update(user: CompanyUser, asiento: Asiento): Asiento = {
-    save(user, asiento, false)
+  def update(user: CompanyUser, stock: Stock): Stock = {
+    save(user, stock, false)
   }
 
-  private def save(user: CompanyUser, asiento: Asiento, isFromWizard: Boolean): Asiento = {
+  private def save(user: CompanyUser, stock: Stock, isFromWizard: Boolean): Stock = {
     def getFields = {
       List(
-        Field(C.AS_ID, asiento.id, FieldType.number),
-        Field(GC.DOC_ID, asiento.ids.docId, FieldType.id),
-        Field(GC.DOCT_ID, DT.ASIENTO_CONTABLE, FieldType.id),
-        Field(C.AS_NRODOC, asiento.ids.nroDoc, FieldType.text),
-        Field(C.AS_NUMERO, asiento.ids.numero, FieldType.number),
-        Field(C.AS_DESCRIP, asiento.base.descrip, FieldType.text),
-        Field(C.AS_FECHA, asiento.base.fecha, FieldType.date)
+        Field(C.ST_ID, stock.id, FieldType.number),
+        Field(GC.DOC_ID, stock.ids.docId, FieldType.id),
+        Field(GC.DOCT_ID, DT.STOCK_CONTABLE, FieldType.id),
+        Field(C.ST_NRODOC, stock.ids.nroDoc, FieldType.text),
+        Field(C.ST_NUMERO, stock.ids.numero, FieldType.number),
+        Field(C.ST_DESCRIP, stock.base.descrip, FieldType.text),
+        Field(C.ST_FECHA, stock.base.fecha, FieldType.date)
       )
     }
 
-    def getItemFields(item: AsientoItem, asTMPId: Int) = {
+    def getItemFields(item: StockItem, stTMPId: Int) = {
       List(
-        Field(C.AS_TMP_ID, asTMPId, FieldType.id),
-        Field(C.ASI_ID, item.id, FieldType.number),
-        Field(C.ASI_DESCRIP, item.descrip, FieldType.text),
-        Field(GC.CUE_ID, item.cueId, FieldType.id),
-        Field(GC.CCOS_ID, item.ccosId, FieldType.id),
-        Field(C.ASI_ORDEN, item.orden, FieldType.integer),
-        Field(C.ASI_DEBE, item.debe, FieldType.currency),
-        Field(C.ASI_HABER, item.haber, FieldType.currency),
-        Field(C.ASI_ORIGEN, item.origen, FieldType.currency)
+        Field(C.ST_TMP_ID, stTMPId, FieldType.id),
+        Field(C.STI_ID, item.id, FieldType.number),
+        Field(C.STI_DESCRIP, item.descrip, FieldType.text),
+        Field(GC.PR_ID, item.prId, FieldType.id),
+        Field(GC.PRNS_ID, item.prnsId, FieldType.id),
+        Field(C.STI_ORDEN, item.orden, FieldType.integer),
+        Field(C.STI_INGRESO, item.ingreso, FieldType.currency),
+        Field(C.STI_SALIDA, item.salida, FieldType.currency),
+        Field(C.STI_GRUPO, item.grupo, FieldType.currency)
       )
     }
 
-    def getDeletedItemFields(asiId: Int, asTMPId: Int) = {
+    def getDeletedItemFields(asiId: Int, stTMPId: Int) = {
       List(
-        Field(C.AS_TMP_ID, asTMPId, FieldType.id),
-        Field(C.ASI_ID, asiId, FieldType.number),
-        Field(C.AS_ID, asiento.id, FieldType.id)
+        Field(C.ST_TMP_ID, stTMPId, FieldType.id),
+        Field(C.STI_ID, asiId, FieldType.number),
+        Field(C.ST_ID, stock.id, FieldType.id)
       )
     }
 
     def throwError = {
-      throwException(s"Error when saving ${C.ASIENTO}")
+      throwException(s"Error when saving ${C.STOCK}")
     }
 
     def throwException(message: String) = {
       throw new RuntimeException(message)
     }
 
-    case class AsientoItemInfo(asTMPId: Int, item: AsientoItem)
+    case class StockItemInfo(stTMPId: Int, item: StockItem)
 
-    def saveItem(itemInfo: AsientoItemInfo) = {
+    def saveItem(itemInfo: StockItemInfo) = {
       DBHelper.save(
         user,
         Register(
-          C.ASIENTO_ITEM_TMP,
-          C.ASI_TMP_ID,
+          C.STOCK_ITEM_TMP,
+          C.STI_TMP_ID,
           DBHelper.NoId,
           false,
           false,
           false,
-          getItemFields(itemInfo.item, itemInfo.asTMPId)),
+          getItemFields(itemInfo.item, itemInfo.stTMPId)),
         true
       ) match {
         case SaveResult(false, id) => throwError
@@ -481,42 +481,20 @@ object Asiento {
       }
     }
 
-    def saveDeletedItem(asTMPId: Int)(asiId: String) = {
-      val id = G.getIntOrZero(asiId)
-      if(id != 0) {
-        DBHelper.save(
-          user,
-          Register(
-            C.ASIENTO_ITEM_BORRADO_TMP,
-            C.ASIB_TMP_ID,
-            DBHelper.NoId,
-            false,
-            false,
-            false,
-            getDeletedItemFields(id, asTMPId)),
-          true
-        ) match {
-          case SaveResult(false, id) => throwError
-          case _ =>
-        }
-      }
-    }
-
-    def saveItems(asTMPId: Int) = {
-      asiento.items.items.map(item => saveItem(AsientoItemInfo(asTMPId, item)))
-      asiento.items.itemDeleted.split(",").map(saveDeletedItem(asTMPId))
+    def saveItems(stTMPId: Int) = {
+      stock.items.items.map(item => saveItem(StockItemInfo(stTMPId, item)))
     }
 
     case class RowResult(rowType: String, id: Int, message: String)
 
-    def executeSave(asTMPId: Int): List[RowResult] = {
+    def executeSave(stTMPId: Int): List[RowResult] = {
 
       DB.withTransaction(user.database.database) { implicit connection =>
-        val sql = "select * from sp_doc_asiento_save(?, ?)"
+        val sql = "select * from sp_doc_stock_save(?, ?)"
         val cs = connection.prepareStatement(sql)
 
         cs.setInt(1, user.masterUserId)
-        cs.setInt(2, asTMPId)
+        cs.setInt(2, stTMPId)
 
         try {
           val rs = cs.executeQuery()
@@ -535,7 +513,7 @@ object Asiento {
           * );
           *
           *
-          * ex: CREATE OR REPLACE FUNCTION sp_doc_asiento_save( params )
+          * ex: CREATE OR REPLACE FUNCTION sp_doc_stock_save( params )
           *     RETURNS SETOF row_result AS ...
           *
           * the field type is used to identify the value in the row. there are three
@@ -544,8 +522,8 @@ object Asiento {
           * one of these two values ex: 'resultset' or 'success'
           * when type == 'resultset' the field r must be not null and contain a ResultSet
           * when type == 'success' the id field can contain 0 (False) or not 0 (-1,1 or any other number but NO 0) (True)
-          * the last kind of type is key. in this case the key must be the name of a column like as_id, as_id, pr_id, etc
-          * it can be any column name. if the type is an integer like in as_id, as_id or any other id column the field id
+          * the last kind of type is key. in this case the key must be the name of a column like st_id, st_id, pr_id, etc
+          * it can be any column name. if the type is an integer like in st_id, st_id or any other id column the field id
           * is used to contain the returned value
           * if the type is any other the column message is used
           *
@@ -567,7 +545,7 @@ object Asiento {
               rowType match {
                 case "ERROR" => throwException(rs.getString(3))
                 case "INFO" => RowResult("INFO", 0, rs.getString(3))
-                case "as_id" => RowResult("as_id", rs.getInt(2), "")
+                case "st_id" => RowResult("st_id", rs.getInt(2), "")
                 case _ => RowResult("IGNORED", 0, "")
               }
             }
@@ -588,7 +566,7 @@ object Asiento {
 
         } catch {
           case NonFatal(e) => {
-            Logger.error(s"can't save ${C.ASIENTO} with id ${asiento.id} for user ${user.toString}. Error ${e.toString}")
+            Logger.error(s"can't save ${C.STOCK} with id ${stock.id} for user ${user.toString}. Error ${e.toString}")
             throw e
           }
         } finally {
@@ -602,7 +580,7 @@ object Asiento {
         case Nil => id
         case h :: t => {
           val _id = h match {
-            case RowResult("as_id", id, m) => id
+            case RowResult("st_id", id, m) => id
             case _ => id
           }
           findId(t, _id)
@@ -614,8 +592,8 @@ object Asiento {
     DBHelper.save(
       user,
       Register(
-        C.ASIENTO_TMP,
-        C.AS_TMP_ID,
+        C.STOCK_TMP,
+        C.ST_TMP_ID,
         DBHelper.NoId,
         false,
         true,
@@ -623,9 +601,9 @@ object Asiento {
         getFields),
       true
     ) match {
-      case SaveResult(true, asTMPId) => {
-        saveItems(asTMPId)
-        val messagesAndId = executeSave(asTMPId)
+      case SaveResult(true, stTMPId) => {
+        saveItems(stTMPId)
+        val messagesAndId = executeSave(stTMPId)
         val id = getIdFromMessages(messagesAndId)
         load(user, id).getOrElse(throwError)
       }
@@ -634,11 +612,11 @@ object Asiento {
 
   }
 
-  def load(user: CompanyUser, id: Int): Option[Asiento] = {
+  def load(user: CompanyUser, id: Int): Option[Stock] = {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_doc_asiento_get(?, ?, ?, ?)}"
+      val sql = "{call sp_doc_stock_get(?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, user.cairoCompanyId)
@@ -650,11 +628,11 @@ object Asiento {
         cs.execute()
 
         val rs = cs.getObject(4).asInstanceOf[java.sql.ResultSet]
-        Sql.as(asientoParser.singleOpt, rs)
+        Sql.as(stockParser.singleOpt, rs)
 
       } catch {
         case NonFatal(e) => {
-          Logger.error(s"can't get ${C.ASIENTO} with id $id for user ${user.toString}. Error ${e.toString}")
+          Logger.error(s"can't get ${C.STOCK} with id $id for user ${user.toString}. Error ${e.toString}")
           throw e
         }
       } finally {
@@ -663,16 +641,16 @@ object Asiento {
     }
   }
 
-  private def loadAsientoItems(user: CompanyUser, id: Int) = {
+  private def loadStockItems(user: CompanyUser, id: Int) = {
     val items = loadItems(user, id)
-    AsientoItems(items, "")
+    StockItems(items, "")
   }
 
   private def loadItems(user: CompanyUser, id: Int) = {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_doc_asiento_get_items(?, ?)}"
+      val sql = "{call sp_doc_stock_get_items(?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, id)
@@ -683,11 +661,11 @@ object Asiento {
 
         val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
 
-        Sql.as(asientoItemParser.*, rs)
+        Sql.as(stockItemParser.*, rs)
 
       } catch {
         case NonFatal(e) => {
-          Logger.error(s"can't get ${C.ASIENTO_ITEM} with id $id for user ${user.toString}. Error ${e.toString}")
+          Logger.error(s"can't get ${C.STOCK_ITEM} with id $id for user ${user.toString}. Error ${e.toString}")
           throw e
         }
       } finally {
@@ -699,32 +677,32 @@ object Asiento {
   def delete(user: CompanyUser, id: Int) = {
     DB.withConnection(user.database.database) { implicit connection =>
       try {
-        SQL("sp_doc_asiento_delete {id}, {empId}, {usId}")
+        SQL("sp_doc_stock_delete {id}, {empId}, {usId}")
           .on('id -> id, 'empId -> user.cairoCompanyId, 'usId -> user.masterUserId)
           .executeUpdate
       } catch {
         case NonFatal(e) => {
-          Logger.error(s"can't delete a ${C.ASIENTO}. ${C.AS_ID} id: $id. Error ${e.toString}")
+          Logger.error(s"can't delete a ${C.STOCK}. ${C.ST_ID} id: $id. Error ${e.toString}")
           throw e
         }
       }
     }
   }
 
-  def get(user: CompanyUser, id: Int): Asiento = {
+  def get(user: CompanyUser, id: Int): Stock = {
     load(user, id) match {
       case Some(p) => {
-        Asiento(
+        Stock(
           p.id,
 
           p.ids,
           p.base,
           p.references,
 
-          loadAsientoItems(user, id)
+          loadStockItems(user, id)
         )
       }
-      case None => emptyAsiento
+      case None => emptyStock
     }
   }
 
@@ -733,15 +711,15 @@ object Asiento {
   val K_DOC_ID    = 9
   val K_EMP_ID    = 100
 
-  def saveParams(user: CompanyUser, asientoParams: AsientoParams): AsientoParams = {
+  def saveParams(user: CompanyUser, stockParams: StockParams): StockParams = {
     val baseFields = List(
       Field(GC.EMP_ID, user.cairoCompanyId, FieldType.id),
       Field(GC.US_ID, user.masterUserId, FieldType.id),
-      Field(GC.PRE_ID, S.LIST_ASIENTO, FieldType.id)
+      Field(GC.PRE_ID, S.LIST_STOCK, FieldType.id)
     )
 
     def throwException = {
-      throw new RuntimeException(s"Error when saving ${C.ASIENTO}")
+      throw new RuntimeException(s"Error when saving ${C.STOCK}")
     }
 
     def saveParam(fields: List[Field]) = {
@@ -766,22 +744,22 @@ object Asiento {
       List(
         Field(GC.LDP_ID, K_FECHA_INI, FieldType.integer),
         Field(GC.LDP_ORDEN, 0, FieldType.integer),
-        Field(GC.LDP_VALOR, asientoParams.from, FieldType.text)
+        Field(GC.LDP_VALOR, stockParams.from, FieldType.text)
       ),
       List(
         Field(GC.LDP_ID, K_FECHA_FIN, FieldType.integer),
         Field(GC.LDP_ORDEN, 10, FieldType.integer),
-        Field(GC.LDP_VALOR, asientoParams.to, FieldType.text)
+        Field(GC.LDP_VALOR, stockParams.to, FieldType.text)
       ),
       List(
         Field(GC.LDP_ID, K_DOC_ID, FieldType.integer),
         Field(GC.LDP_ORDEN, 60, FieldType.integer),
-        Field(GC.LDP_VALOR, asientoParams.docId, FieldType.text)
+        Field(GC.LDP_VALOR, stockParams.docId, FieldType.text)
       ),
       List(
         Field(GC.LDP_ID, K_EMP_ID, FieldType.integer),
         Field(GC.LDP_ORDEN, 80, FieldType.integer),
-        Field(GC.LDP_VALOR, asientoParams.empId, FieldType.text)
+        Field(GC.LDP_VALOR, stockParams.empId, FieldType.text)
       )
     )
 
@@ -792,14 +770,14 @@ object Asiento {
               | AND (emp_id is null or emp_id = {empId})
               | AND us_id = {usId}""".stripMargin)
           .on(
-            'preId -> S.LIST_ASIENTO,
+            'preId -> S.LIST_STOCK,
             'empId -> user.cairoCompanyId,
             'usId -> user.masterUserId
           )
           .executeUpdate
       } catch {
         case NonFatal(e) => {
-          Logger.error(s"can't save parameters for Asiento")
+          Logger.error(s"can't save parameters for Stock")
           throw e
         }
       }
@@ -810,27 +788,27 @@ object Asiento {
     loadParams(user).getOrElse(throwException)
   }
 
-  def loadParams(user: CompanyUser): Option[AsientoParams] = {
+  def loadParams(user: CompanyUser): Option[StockParams] = {
 
-    val params = DocumentListParam.load(user, S.LIST_ASIENTO)
+    val params = DocumentListParam.load(user, S.LIST_STOCK)
 
     if(params.isEmpty) {
-      Some(emptyAsientoParams)
+      Some(emptyStockParams)
     }
     else {
       val doc = DocumentListParam.getParamValue(
-        user, K_DOC_ID, params, emptyAsientoParams.docId,
+        user, K_DOC_ID, params, emptyStockParams.docId,
         GC.DOCUMENTO, GC.DOC_ID, GC.DOC_NAME
       )
       val emp = DocumentListParam.getParamValue(
-        user, K_EMP_ID, params, emptyAsientoParams.empId,
+        user, K_EMP_ID, params, emptyStockParams.empId,
         GC.EMPRESA, GC.EMP_ID, GC.EMP_NAME
       )
 
       Some(
-        AsientoParams(
-          DocumentListParam.getParamValue(K_FECHA_INI, params, emptyAsientoParams.from),
-          DocumentListParam.getParamValue(K_FECHA_FIN, params, emptyAsientoParams.to),
+        StockParams(
+          DocumentListParam.getParamValue(K_FECHA_INI, params, emptyStockParams.from),
+          DocumentListParam.getParamValue(K_FECHA_FIN, params, emptyStockParams.to),
           doc.id,
           doc.value,
           emp.id,
@@ -848,7 +826,7 @@ object Asiento {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_lsdoc_asientos(?, ?, ?, ?, ?, ?)}"
+      val sql = "{call sp_lsdoc_stocks(?, ?, ?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, user.masterUserId)
@@ -866,7 +844,7 @@ object Asiento {
 
       } catch {
         case NonFatal(e) => {
-          Logger.error(s"can't get listing of asientos for user ${user.toString}. Error ${e.toString}")
+          Logger.error(s"can't get listing of stocks for user ${user.toString}. Error ${e.toString}")
           throw e
         }
       } finally {

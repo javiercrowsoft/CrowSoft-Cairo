@@ -1296,7 +1296,7 @@ object Productos extends Controller with ProvidesUser {
     )
   }
 
-  def getStockInfo(id: Int, provId: Int) = GetAction { implicit request =>
+  def getStockInfo(id: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, { user =>
       Ok(Json.toJson(Producto.getStockInfo(user, id, None, None)))
     })

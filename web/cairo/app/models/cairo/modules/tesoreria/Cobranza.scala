@@ -1671,8 +1671,8 @@ object Cobranza {
     }
   }
 
-  val K_FECHAINI  = 1
-  val K_FECHAFIN  = 2
+  val K_FECHA_INI = 1
+  val K_FECHA_FIN = 2
   val K_PROV_ID   = 4
   val K_EST_ID    = 5
   val K_CCOS_ID   = 6
@@ -1712,12 +1712,12 @@ object Cobranza {
 
     val paramList = List(
       List(
-        Field(GC.LDP_ID, K_FECHAINI, FieldType.integer),
+        Field(GC.LDP_ID, K_FECHA_INI, FieldType.integer),
         Field(GC.LDP_ORDEN, 0, FieldType.integer),
         Field(GC.LDP_VALOR, cobranzaParams.from, FieldType.text)
       ),
       List(
-        Field(GC.LDP_ID, K_FECHAFIN, FieldType.integer),
+        Field(GC.LDP_ID, K_FECHA_FIN, FieldType.integer),
         Field(GC.LDP_ORDEN, 10, FieldType.integer),
         Field(GC.LDP_VALOR, cobranzaParams.to, FieldType.text)
       ),
@@ -1822,8 +1822,8 @@ object Cobranza {
 
       Some(
         CobranzaParams(
-          DocumentListParam.getParamValue(K_FECHAINI, params, emptyCobranzaParams.from),
-          DocumentListParam.getParamValue(K_FECHAFIN, params, emptyCobranzaParams.to),
+          DocumentListParam.getParamValue(K_FECHA_INI, params, emptyCobranzaParams.from),
+          DocumentListParam.getParamValue(K_FECHA_FIN, params, emptyCobranzaParams.to),
           prov.id,
           prov.value,
           est.id,

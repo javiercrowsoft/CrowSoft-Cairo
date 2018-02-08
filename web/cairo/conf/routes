@@ -498,6 +498,21 @@ POST    /api/v1/tesoreria/depositobanco                                         
 PUT     /api/v1/tesoreria/depositobanco/:id                                                      controllers.logged.modules.tesoreria.DepositosBanco.update(id: Int)
 DELETE  /api/v1/tesoreria/depositobanco/:id                                                      controllers.logged.modules.tesoreria.DepositosBanco.delete(id: Int)
 
+#
+# stock
+#
+
+GET     /api/v1/stock/stocks                                                        controllers.logged.modules.stock.Stocks.list(from: Option[String], to: Option[String], docId: Option[String], lgjId: Option[String], sucId: Option[String], empId: Option[String])
+GET     /api/v1/stock/stocks/parameters                                             controllers.logged.modules.stock.Stocks.parameters()
+POST    /api/v1/stock/stocks                                                        controllers.logged.modules.stock.Stocks.saveParameters
+
+GET     /api/v1/stock/stock/:id                                                     controllers.logged.modules.stock.Stocks.get(id: Int)
+POST    /api/v1/stock/stock                                                         controllers.logged.modules.stock.Stocks.create
+PUT     /api/v1/stock/stock/:id                                                     controllers.logged.modules.stock.Stocks.update(id: Int)
+DELETE  /api/v1/stock/stock/:id                                                     controllers.logged.modules.stock.Stocks.delete(id: Int)
+
+GET     /api/v1/stock/stock/notes/:id                                               controllers.logged.modules.stock.Stocks.notes(id: Int)
+
 # end Cairo
 #--------------------------------------------------------------------------------------------------
 

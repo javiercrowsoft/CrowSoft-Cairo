@@ -1655,8 +1655,8 @@ object OrdenPago {
     }
   }
 
-  val K_FECHAINI  = 1
-  val K_FECHAFIN  = 2
+  val K_FECHA_INI = 1
+  val K_FECHA_FIN = 2
   val K_PROV_ID   = 4
   val K_EST_ID    = 5
   val K_CCOS_ID   = 6
@@ -1696,12 +1696,12 @@ object OrdenPago {
 
     val paramList = List(
       List(
-        Field(GC.LDP_ID, K_FECHAINI, FieldType.integer),
+        Field(GC.LDP_ID, K_FECHA_INI, FieldType.integer),
         Field(GC.LDP_ORDEN, 0, FieldType.integer),
         Field(GC.LDP_VALOR, ordenPagoParams.from, FieldType.text)
       ),
       List(
-        Field(GC.LDP_ID, K_FECHAFIN, FieldType.integer),
+        Field(GC.LDP_ID, K_FECHA_FIN, FieldType.integer),
         Field(GC.LDP_ORDEN, 10, FieldType.integer),
         Field(GC.LDP_VALOR, ordenPagoParams.to, FieldType.text)
       ),
@@ -1797,8 +1797,8 @@ object OrdenPago {
 
       Some(
         OrdenPagoParams(
-          DocumentListParam.getParamValue(K_FECHAINI, params, emptyOrdenPagoParams.from),
-          DocumentListParam.getParamValue(K_FECHAFIN, params, emptyOrdenPagoParams.to),
+          DocumentListParam.getParamValue(K_FECHA_INI, params, emptyOrdenPagoParams.from),
+          DocumentListParam.getParamValue(K_FECHA_FIN, params, emptyOrdenPagoParams.to),
           prov.id,
           prov.value,
           est.id,

@@ -1414,8 +1414,8 @@ object PedidoVenta {
     }
   }
 
-  val K_FECHAINI  = 1
-  val K_FECHAFIN  = 2
+  val K_FECHA_INI = 1
+  val K_FECHA_FIN = 2
   val K_CLI_ID    = 4
   val K_EST_ID    = 5
   val K_CCOS_ID   = 6
@@ -1456,12 +1456,12 @@ object PedidoVenta {
 
     val paramList = List(
       List(
-        Field(GC.LDP_ID, K_FECHAINI, FieldType.integer),
+        Field(GC.LDP_ID, K_FECHA_INI, FieldType.integer),
         Field(GC.LDP_ORDEN, 0, FieldType.integer),
         Field(GC.LDP_VALOR, pedidoVentaParams.from, FieldType.text)
       ),
       List(
-        Field(GC.LDP_ID, K_FECHAFIN, FieldType.integer),
+        Field(GC.LDP_ID, K_FECHA_FIN, FieldType.integer),
         Field(GC.LDP_ORDEN, 10, FieldType.integer),
         Field(GC.LDP_VALOR, pedidoVentaParams.to, FieldType.text)
       ),
@@ -1591,8 +1591,8 @@ object PedidoVenta {
 
       Some(
         PedidoVentaParams(
-          DocumentListParam.getParamValue(K_FECHAINI, params, emptyPedidoVentaParams.from),
-          DocumentListParam.getParamValue(K_FECHAFIN, params, emptyPedidoVentaParams.to),
+          DocumentListParam.getParamValue(K_FECHA_INI, params, emptyPedidoVentaParams.from),
+          DocumentListParam.getParamValue(K_FECHA_FIN, params, emptyPedidoVentaParams.to),
           cli.id,
           cli.value,
           est.id,

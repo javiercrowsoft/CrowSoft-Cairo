@@ -1930,8 +1930,8 @@ object FacturaVenta {
     }
   }
 
-  val K_FECHAINI  = 1
-  val K_FECHAFIN  = 2
+  val K_FECHA_INI = 1
+  val K_FECHA_FIN = 2
   val K_CLI_ID    = 4
   val K_EST_ID    = 5
   val K_CCOS_ID   = 6
@@ -1972,12 +1972,12 @@ object FacturaVenta {
 
     val paramList = List(
       List(
-        Field(GC.LDP_ID, K_FECHAINI, FieldType.integer),
+        Field(GC.LDP_ID, K_FECHA_INI, FieldType.integer),
         Field(GC.LDP_ORDEN, 0, FieldType.integer),
         Field(GC.LDP_VALOR, facturaVentaParams.from, FieldType.text)
       ),
       List(
-        Field(GC.LDP_ID, K_FECHAFIN, FieldType.integer),
+        Field(GC.LDP_ID, K_FECHA_FIN, FieldType.integer),
         Field(GC.LDP_ORDEN, 10, FieldType.integer),
         Field(GC.LDP_VALOR, facturaVentaParams.to, FieldType.text)
       ),
@@ -2086,8 +2086,8 @@ object FacturaVenta {
 
       Some(
         FacturaVentaParams(
-          DocumentListParam.getParamValue(K_FECHAINI, params, emptyFacturaVentaParams.from),
-          DocumentListParam.getParamValue(K_FECHAFIN, params, emptyFacturaVentaParams.to),
+          DocumentListParam.getParamValue(K_FECHA_INI, params, emptyFacturaVentaParams.from),
+          DocumentListParam.getParamValue(K_FECHA_FIN, params, emptyFacturaVentaParams.to),
           cli.id,
           cli.value,
           est.id,

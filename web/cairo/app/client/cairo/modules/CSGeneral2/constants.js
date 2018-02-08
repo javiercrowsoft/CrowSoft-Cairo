@@ -815,7 +815,7 @@
       DOC_TIPO_PEDIDO: "doc_tipopedido",
 
       DOC_CODE: "doc_codigo",
-      DOC_DESCRIP: "doc_descrip"
+      DOC_DESCRIP: "doc_descrip",
       DOC_LLEVA_FIRMA: "doc_llevaFirma",
       DOC_LLEVA_FIRMA_CREDITO: "doc_llevaFirmaCredito",
       DOC_ID_ASIENTO: "doc_id_asiento",
