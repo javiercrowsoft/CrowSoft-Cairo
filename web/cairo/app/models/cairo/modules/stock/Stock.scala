@@ -108,10 +108,7 @@ object StockItem {
 }
 
 case class StockItems(
-                         items: List[StockItem],
-
-                         /* only used in save */
-                         itemDeleted: String
+                         items: List[StockItem]
                        )
 
 case class Stock(
@@ -218,7 +215,7 @@ object Stock {
   lazy val GC = models.cairo.modules.general.C
   lazy val DT = models.cairo.modules.documentos.DT
 
-  lazy val emptyStockItems = StockItems(List(), "")
+  lazy val emptyStockItems = StockItems(List())
 
   lazy val emptyStockReferences = StockReferences(0, 0, 0, "", "", false, false, "")
 
@@ -315,7 +312,7 @@ object Stock {
     SqlParser.get[Option[String]](GC.PRNS_CODE) ~
     SqlParser.get[BigDecimal](C.STI_INGRESO) ~
     SqlParser.get[BigDecimal](C.STI_SALIDA) ~
-    SqlParser.get[BigDecimal](C.STI_GRUPO) ~
+    SqlParser.get[Int](C.STI_GRUPO) ~
     SqlParser.get[Int](C.STI_ORDEN) map {
     case
         id ~
@@ -337,7 +334,7 @@ object Stock {
         prnsCode.getOrElse(""),
         ingreso.doubleValue(),
         salida.doubleValue(),
-        grupo.doubleValue(),
+        grupo,
         orden
       )
     }
@@ -423,7 +420,6 @@ object Stock {
       List(
         Field(C.ST_ID, stock.id, FieldType.number),
         Field(GC.DOC_ID, stock.ids.docId, FieldType.id),
-        Field(GC.DOCT_ID, DT.STOCK_CONTABLE, FieldType.id),
         Field(C.ST_NRODOC, stock.ids.nroDoc, FieldType.text),
         Field(C.ST_NUMERO, stock.ids.numero, FieldType.number),
         Field(C.ST_DESCRIP, stock.base.descrip, FieldType.text),
@@ -442,14 +438,6 @@ object Stock {
         Field(C.STI_INGRESO, item.ingreso, FieldType.currency),
         Field(C.STI_SALIDA, item.salida, FieldType.currency),
         Field(C.STI_GRUPO, item.grupo, FieldType.currency)
-      )
-    }
-
-    def getDeletedItemFields(asiId: Int, stTMPId: Int) = {
-      List(
-        Field(C.ST_TMP_ID, stTMPId, FieldType.id),
-        Field(C.STI_ID, asiId, FieldType.number),
-        Field(C.ST_ID, stock.id, FieldType.id)
       )
     }
 
@@ -643,7 +631,7 @@ object Stock {
 
   private def loadStockItems(user: CompanyUser, id: Int) = {
     val items = loadItems(user, id)
-    StockItems(items, "")
+    StockItems(items)
   }
 
   private def loadItems(user: CompanyUser, id: Int) = {
@@ -822,18 +810,22 @@ object Stock {
            from: Date,
            to: Date,
            docId: Option[String],
+           sucId: Option[String],
+           lgjId: Option[String],
            empId: Option[String]): Recordset = {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_lsdoc_stocks(?, ?, ?, ?, ?, ?)}"
+      val sql = "{call sp_lsdoc_stocks(?, ?, ?, ?, ?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, user.masterUserId)
       cs.setDate(2, new java.sql.Date(from.getTime()))
       cs.setDate(3, new java.sql.Date(to.getTime()))
       cs.setString(4, docId.getOrElse("0"))
-      cs.setString(5, empId.getOrElse("0"))
+      cs.setString(5, sucId.getOrElse("0"))
+      cs.setString(6, lgjId.getOrElse("0"))
+      cs.setString(7, empId.getOrElse("0"))
       cs.registerOutParameter(6, Types.OTHER)
 
       try {

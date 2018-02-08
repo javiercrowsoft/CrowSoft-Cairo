@@ -41,8 +41,7 @@ case class StockData(
                         id: Option[Int],
                         ids: StockIdData,
                         base: StockBaseData,
-                        items: List[StockItemData],
-                        itemDeleted: String
+                        items: List[StockItemData]
                       )
 
 case class StockParamsData(
@@ -230,8 +229,7 @@ object Stocks extends Controller with ProvidesUser {
 
   def getStockItems(stock: StockData): StockItems = {
     StockItems(
-      getItems(stock.items),
-      stock.itemDeleted
+      getItems(stock.items)
     )
   }
 
@@ -339,6 +337,8 @@ object Stocks extends Controller with ProvidesUser {
             from: Option[String],
             to: Option[String],
             docId: Option[String],
+            sucId: Option[String],
+            lgjId: Option[String],
             empId: Option[String]
     ) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_STOCK), { user =>
@@ -348,7 +348,7 @@ object Stocks extends Controller with ProvidesUser {
             Stock.list(
               user,
               DateFormatter.parse(from.getOrElse("")), DateFormatter.parse(to.getOrElse("")),
-              docId, empId))))
+              docId, sucId, lgjId, empId))))
     })
   }
 
