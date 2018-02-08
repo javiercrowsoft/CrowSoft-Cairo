@@ -26,7 +26,7 @@
 
           case 2:
           case 8:
-          case 9:
+          case 10:
             objEditName = "FacturaCompra";
             break;
 
@@ -1330,6 +1330,7 @@
               m_docEditMsg = valField(data, C.DOC_EDIT_MSG);
 
               m_lastDocId = m_docId;
+              m_lastDoctId = m_doctId;
               m_lastDocName = m_documento;
 
             }
@@ -1339,9 +1340,9 @@
               m_nrodoc = "";
               m_descrip = "";
               m_fecha = Cairo.Dates.today();
-              m_doctId = NO_ID;
 
               m_docId = m_lastDocId;
+              m_doctId = m_lastDoctId;
               m_documento = m_lastDocName;
 
               m_idCliente = NO_ID;
@@ -1653,11 +1654,11 @@
 
       var C_MODULE = "cAsientoListDoc";
 
-      var C_FECHAINI = "FechaIni";
-      var C_FECHAFIN = "FechaFin";
+      var C_FECHA_INI = "FechaIni";
+      var C_FECHA_FIN = "FechaFin";
 
-      var K_FECHAINI = 1;
-      var K_FECHAFIN = 2;
+      var K_FECHA_INI = 1;
+      var K_FECHA_FIN = 2;
       var K_DOC_ID = 9;
       var K_EMP_ID = 100;
 
@@ -1683,7 +1684,6 @@
       var m_menuShowNotes = 0;
       var m_menuAddNote = 0;
       var m_menuShowDocAux = 0;
-      var m_menuSign = 0;
 
       var m_apiPath = DB.getAPIVersion();
       var SAVE_ERROR = getText(2295, ""); // Error al grabar los parámetros de navegación de Asientos Contables
@@ -1754,16 +1754,16 @@
 
         m_properties.clear();
 
-        c = m_properties.add(null, C_FECHAINI);
+        c = m_properties.add(null, C_FECHA_INI);
         c.setType(T.date);
         c.setName(getText(1203, "")); // Fecha desde
-        c.setKey(K_FECHAINI);
+        c.setKey(K_FECHA_INI);
         c.setValue((m_fechaIniV !== "") ? m_fechaIniV : m_fechaIni);
 
-        c = m_properties.add(null, C_FECHAFIN);
+        c = m_properties.add(null, C_FECHA_FIN);
         c.setType(T.date);
         c.setName(getText(1204, "")); // Fecha hasta
-        c.setKey(K_FECHAFIN);
+        c.setKey(K_FECHA_FIN);
         c.setValue((m_fechaFinV !== "") ? m_fechaFinV : m_fechaFin);
 
         c = m_properties.add(null, C.DOC_ID);
@@ -1786,9 +1786,8 @@
         c.setSelectIntValue(m_empId);
 
         createMenu();
-        if(!m_dialog.showDocumentList(self)) { return false; }
 
-        return true;
+        return m_dialog.showDocumentList(self);
       };
 
       var refreshCollection = function() {
@@ -1852,9 +1851,9 @@
 
         switch (key) {
 
-          case K_FECHAINI:
+          case K_FECHA_INI:
 
-            property = properties.item(C_FECHAINI);
+            property = properties.item(C_FECHA_INI);
 
             if(property.getSelectIntValue() !== "") {
               m_fechaIniV = property.getSelectIntValue();
@@ -1870,9 +1869,9 @@
             }
             break;
 
-          case K_FECHAFIN:
+          case K_FECHA_FIN:
 
-            property = properties.item(C_FECHAFIN);
+            property = properties.item(C_FECHA_FIN);
 
             if(property.getSelectIntValue() !== "") {
               m_fechaFinV = property.getSelectIntValue();
@@ -1956,13 +1955,13 @@
 
           switch (property.getKey()) {
 
-            case K_FECHAINI:
+            case K_FECHA_INI:
               var value = property.getSelectIntValue();
               if(value === "") { value = property.getValue(); }
               fields.add(C.FROM, value, Types.text);
               break;
 
-            case K_FECHAFIN:
+            case K_FECHA_FIN:
               var value = property.getSelectIntValue();
               if(value === "") { value = property.getValue(); }
               fields.add(C.TO, value, Types.text);
@@ -2031,9 +2030,6 @@
         if(m_menuLoaded) { return; }
 
         m_menuLoaded = true;
-
-        m_menuSign = m_dialog.addMenu(getText(1594, "")); // Firmar
-        m_dialog.addMenu("-");
 
         m_menuAddNote = m_dialog.addMenu(getText(1615, "")); // Agregar Nota
         m_menuShowNotes = m_dialog.addMenu(getText(1616, "")); // Ver Notas

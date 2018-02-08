@@ -1100,6 +1100,7 @@
   Cairo.Documents.ORDEN_PAGO_LIST_DOC_FILTER = Cairo.Documents.ORDEN_PAGO_DOC_FILTER + "|empId:0";
   Cairo.Documents.MOVIMIENTO_FONDO_LIST_DOC_FILTER = Cairo.Documents.MOVIMIENTO_FONDO_DOC_FILTER + "|empId:0";
   Cairo.Documents.DEPOSITO_BANCO_LIST_DOC_FILTER = Cairo.Documents.DEPOSITO_BANCO_DOC_FILTER + "|empId:0";
+  Cairo.Documents.TRANSFERENCIA_STOCK_LIST_DOC_FILTER = Cairo.Documents.TRANSFERENCIA_STOCK_DOC_FILTER + "|empId:0";
 
   Cairo.History = {};
 

@@ -4815,6 +4815,10 @@
         );
       };
 
+      self.getObjectType = function() {
+        return "cairo.modules.tesoreria.cobranzawizard";
+      };
+
       initialize();
 
       return self;

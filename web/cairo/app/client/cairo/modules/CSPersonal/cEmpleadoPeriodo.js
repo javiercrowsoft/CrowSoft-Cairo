@@ -30,8 +30,8 @@
 
       var C_MODULE = "cEmpleadoPeriodoListDoc";
 
-      var C_FECHAINI = "FechaIni";
-      var C_FECHAFIN = "FechaFin";
+      var C_FECHA_INI = "FechaIni";
+      var C_FECHA_FIN = "FechaFin";
 
       var C_IMG_TASK = 1;
 
@@ -149,7 +149,7 @@
         switch (key) {
 
           case K_FECHADESDE:
-            iProp = m_dialog.getProperties().item(C_FECHAINI);
+            iProp = m_dialog.getProperties().item(C_FECHA_INI);
 
             if(LenB(iProp.getSelectIntValue())) {
               m_fechaIniV = iProp.getSelectIntValue();
@@ -168,7 +168,7 @@
 
           case K_FECHAHASTA:
 
-            iProp = m_dialog.getProperties().item(C_FECHAFIN);
+            iProp = m_dialog.getProperties().item(C_FECHA_FIN);
 
             if(LenB(iProp.getSelectIntValue())) {
               m_fechaFinV = iProp.getSelectIntValue();
@@ -310,13 +310,13 @@
 
           switch (property.getKey()) {
 
-            case K_FECHAINI:
+            case K_FECHA_INI:
               var value = property.getSelectIntValue();
               if(value === "") { value = property.getValue(); }
               fields.add(C.FROM, value, Types.text);
               break;
 
-            case K_FECHAFIN:
+            case K_FECHA_FIN:
               var value = property.getSelectIntValue();
               if(value === "") { value = property.getValue(); }
               fields.add(C.TO, value, Types.text);
@@ -471,16 +471,16 @@
 
         m_properties.clear();
 
-        c = m_properties.add(null, C_FECHAINI);
+        c = m_properties.add(null, C_FECHA_INI);
         c.setType(T.date);
         c.setName(getText(1203, "")); // Fecha desde
-        c.setKey(K_FECHAINI);
+        c.setKey(K_FECHA_INI);
         c.setValue((m_fechaIniV !== "") ? m_fechaIniV : m_fechaIni);
 
-        c = m_properties.add(null, C_FECHAFIN);
+        c = m_properties.add(null, C_FECHA_FIN);
         c.setType(T.date);
         c.setName(getText(1204, "")); // Fecha hasta
-        c.setKey(K_FECHAFIN);
+        c.setKey(K_FECHA_FIN);
         c.setValue((m_fechaFinV !== "") ? m_fechaFinV : m_fechaFin);
 
         c = m_properties.add(null, C.PROV_ID);
@@ -561,7 +561,7 @@
 
         m_dialog.getProperties().clear();
 
-        c = m_dialog.getProperties().add(null, C_FECHAINI);
+        c = m_dialog.getProperties().add(null, C_FECHA_INI);
         c.setType(Dialogs.PropertyType.date);
         // Fecha Desde
         c.setName(getText(1203, ""));
@@ -573,7 +573,7 @@
           c.setValue(m_fechaIni);
         }
 
-        c = m_dialog.getProperties().add(null, C_FECHAFIN);
+        c = m_dialog.getProperties().add(null, C_FECHA_FIN);
         c.setType(Dialogs.PropertyType.date);
         // Fecha Hasta
         c.setName(getText(1204, ""));

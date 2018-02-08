@@ -3328,11 +3328,11 @@
 
       var C_MODULE = "cPedidoVtaListDoc";
 
-      var C_FECHAINI = "FechaIni";
-      var C_FECHAFIN = "FechaFin";
+      var C_FECHA_INI = "FechaIni";
+      var C_FECHA_FIN = "FechaFin";
 
-      var K_FECHAINI = 1;
-      var K_FECHAFIN = 2;
+      var K_FECHA_INI = 1;
+      var K_FECHA_FIN = 2;
       var K_CLI_ID = 4;
       var K_EST_ID = 5;
       var K_CCOS_ID = 6;
@@ -3515,16 +3515,16 @@
 
         m_properties.clear();
 
-        c = m_properties.add(null, C_FECHAINI);
+        c = m_properties.add(null, C_FECHA_INI);
         c.setType(T.date);
         c.setName(getText(1203, "")); // Fecha desde
-        c.setKey(K_FECHAINI);
+        c.setKey(K_FECHA_INI);
         c.setValue((m_fechaIniV !== "") ? m_fechaIniV : m_fechaIni);
 
-        c = m_properties.add(null, C_FECHAFIN);
+        c = m_properties.add(null, C_FECHA_FIN);
         c.setType(T.date);
         c.setName(getText(1204, "")); // Fecha hasta
-        c.setKey(K_FECHAFIN);
+        c.setKey(K_FECHA_FIN);
         c.setValue((m_fechaFinV !== "") ? m_fechaFinV : m_fechaFin);
 
         c = m_properties.add(null, C.CLI_ID);
@@ -3703,9 +3703,9 @@
 
         switch (key) {
 
-          case K_FECHAINI:
+          case K_FECHA_INI:
 
-            property = properties.item(C_FECHAINI);
+            property = properties.item(C_FECHA_INI);
 
             if(property.getSelectIntValue() !== "") {
               m_fechaIniV = property.getSelectIntValue();
@@ -3721,9 +3721,9 @@
             }
             break;
 
-          case K_FECHAFIN:
+          case K_FECHA_FIN:
 
-            property = properties.item(C_FECHAFIN);
+            property = properties.item(C_FECHA_FIN);
 
             if(property.getSelectIntValue() !== "") {
               m_fechaFinV = property.getSelectIntValue();
@@ -3849,13 +3849,13 @@
 
           switch (property.getKey()) {
 
-            case K_FECHAINI:
+            case K_FECHA_INI:
               var value = property.getSelectIntValue();
               if(value === "") { value = property.getValue(); }
               fields.add(C.FROM, value, Types.text);
               break;
 
-            case K_FECHAFIN:
+            case K_FECHA_FIN:
               var value = property.getSelectIntValue();
               if(value === "") { value = property.getValue(); }
               fields.add(C.TO, value, Types.text);

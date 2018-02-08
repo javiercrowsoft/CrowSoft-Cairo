@@ -3817,6 +3817,10 @@
         return D.getWizProperty(m_objWizard, WCS.ANTICIPO, DWC.ANTICIPO_IMPORTE);
       };
 
+      self.getObjectType = function() {
+        return "cairo.modules.tesoreria.ordenpagowizard";
+      };
+
       initialize();
 
       return self;

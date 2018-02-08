@@ -30,13 +30,13 @@
 
       var C_MODULE = "cParteDiarioListDoc";
 
-      var C_FECHAINI = "FechaIni";
-      var C_FECHAFIN = "FechaFin";
+      var C_FECHA_INI = "FechaIni";
+      var C_FECHA_FIN = "FechaFin";
 
       var C_IMG_TASK = 2;
 
-      var K_FECHAINI = 1;
-      var K_FECHAFIN = 2;
+      var K_FECHA_INI = 1;
+      var K_FECHA_FIN = 2;
       var K_CUMPLIDA = 5;
       var K_US_ID_RESPONSABLE = 7;
       var K_US_ID_ASIGNADOR = 8;
@@ -126,11 +126,11 @@
 
         m_dialog.getProperties().clear();
 
-        c = m_dialog.getProperties().add(null, C_FECHAINI);
+        c = m_dialog.getProperties().add(null, C_FECHA_INI);
         c.setType(Dialogs.PropertyType.date);
         // Fecha desde
         c.setName(getText(1203, ""));
-        c.setKey(K_FECHAINI);
+        c.setKey(K_FECHA_INI);
         if(LenB(m_fechaIniV)) {
           c.setValue(m_fechaIniV);
         }
@@ -138,11 +138,11 @@
           c.setValue(m_fechaIni);
         }
 
-        c = m_dialog.getProperties().add(null, C_FECHAFIN);
+        c = m_dialog.getProperties().add(null, C_FECHA_FIN);
         c.setType(Dialogs.PropertyType.date);
         // Fecha hasta
         c.setName(getText(1204, ""));
-        c.setKey(K_FECHAFIN);
+        c.setKey(K_FECHA_FIN);
         if(LenB(m_fechaFinV)) {
           c.setValue(m_fechaFinV);
         }
@@ -385,9 +385,9 @@
         var iProp = null;
         switch (key) {
 
-          case K_FECHAINI:
+          case K_FECHA_INI:
 
-            iProp = m_dialog.getProperties().item(C_FECHAINI);
+            iProp = m_dialog.getProperties().item(C_FECHA_INI);
 
             if(LenB(iProp.getSelectIntValue())) {
               m_fechaIniV = iProp.getSelectIntValue();
@@ -404,9 +404,9 @@
 
             break;
 
-          case K_FECHAFIN:
+          case K_FECHA_FIN:
 
-            iProp = m_dialog.getProperties().item(C_FECHAFIN);
+            iProp = m_dialog.getProperties().item(C_FECHA_FIN);
 
             if(LenB(iProp.getSelectIntValue())) {
               m_fechaFinV = iProp.getSelectIntValue();
@@ -583,13 +583,13 @@
 
           switch (property.getKey()) {
 
-            case K_FECHAINI:
+            case K_FECHA_INI:
               var value = property.getSelectIntValue();
               if(value === "") { value = property.getValue(); }
               fields.add(C.FROM, value, Types.text);
               break;
 
-            case K_FECHAFIN:
+            case K_FECHA_FIN:
               var value = property.getSelectIntValue();
               if(value === "") { value = property.getValue(); }
               fields.add(C.TO, value, Types.text);
@@ -682,7 +682,7 @@
 
           switch (property.getKey()) {
 
-            case K_FECHAINI:
+            case K_FECHA_INI:
 
               if(LenB(property.getSelectIntValue())) {
                 fields.add2(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
@@ -692,11 +692,11 @@
               }
 
               fields.add2(Cairo.Constants.LDP_ORDEN, 10, Cairo.Constants.Types.integer);
-              fields.add2(Cairo.Constants.LDP_ID, K_FECHAINI, Cairo.Constants.Types.integer);
+              fields.add2(Cairo.Constants.LDP_ID, K_FECHA_INI, Cairo.Constants.Types.integer);
 
               break;
 
-            case K_FECHAFIN:
+            case K_FECHA_FIN:
 
               if(LenB(property.getSelectIntValue())) {
                 fields.add2(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
@@ -706,7 +706,7 @@
               }
 
               fields.add2(Cairo.Constants.LDP_ORDEN, 20, Cairo.Constants.Types.integer);
-              fields.add2(Cairo.Constants.LDP_ID, K_FECHAFIN, Cairo.Constants.Types.integer);
+              fields.add2(Cairo.Constants.LDP_ID, K_FECHA_FIN, Cairo.Constants.Types.integer);
 
               break;
 

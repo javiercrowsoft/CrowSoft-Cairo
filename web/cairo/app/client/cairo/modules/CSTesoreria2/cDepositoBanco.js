@@ -2647,6 +2647,10 @@
         return m_properties.item(C.DOC_ID).getSelectId();
       };
 
+      self.getObjectType = function() {
+        return "cairo.modules.tesoreria.depositobanco";
+      };
+
       return self;
     };
 
@@ -2694,11 +2698,11 @@
 
       var C_MODULE = "cDepositoBancoListDoc";
 
-      var C_FECHAINI = "FechaIni";
-      var C_FECHAFIN = "FechaFin";
+      var C_FECHA_INI = "FechaIni";
+      var C_FECHA_FIN = "FechaFin";
 
-      var K_FECHAINI = 1;
-      var K_FECHAFIN = 2;
+      var K_FECHA_INI = 1;
+      var K_FECHA_FIN = 2;
       var K_BCO_ID = 4;
       var K_CUE_ID = 5;
       var K_EST_ID = 6;
@@ -2811,16 +2815,16 @@
 
         m_properties.clear();
 
-        c = m_properties.add(null, C_FECHAINI);
+        c = m_properties.add(null, C_FECHA_INI);
         c.setType(T.date);
         c.setName(getText(1203, "")); // Fecha desde
-        c.setKey(K_FECHAINI);
+        c.setKey(K_FECHA_INI);
         c.setValue((m_fechaIniV !== "") ? m_fechaIniV : m_fechaIni);
 
-        c = m_properties.add(null, C_FECHAFIN);
+        c = m_properties.add(null, C_FECHA_FIN);
         c.setType(T.date);
         c.setName(getText(1204, "")); // Fecha hasta
-        c.setKey(K_FECHAFIN);
+        c.setKey(K_FECHA_FIN);
         c.setValue((m_fechaFinV !== "") ? m_fechaFinV : m_fechaFin);
 
         c = m_properties.add(null, C.BCO_ID);
@@ -2879,9 +2883,8 @@
         c.setSelectIntValue(m_empId);
 
         createMenu();
-        if(!m_dialog.showDocumentList(self)) { return false; }
 
-        return true;
+        return m_dialog.showDocumentList(self);
       };
 
       var refreshCollection = function() {
@@ -2960,9 +2963,9 @@
 
         switch (key) {
 
-          case K_FECHAINI:
+          case K_FECHA_INI:
 
-            iProp = m_properties.item(C_FECHAINI);
+            iProp = m_properties.item(C_FECHA_INI);
 
             if(iProp.getSelectIntValue() !== "") {
               m_fechaIniV = iProp.getSelectIntValue();
@@ -2978,9 +2981,9 @@
             }
             break;
 
-          case K_FECHAFIN:
+          case K_FECHA_FIN:
 
-            iProp = m_properties.item(C_FECHAFIN);
+            iProp = m_properties.item(C_FECHA_FIN);
 
             if(iProp.getSelectIntValue() !== "") {
               m_fechaFinV = iProp.getSelectIntValue();
@@ -3098,13 +3101,13 @@
 
           switch (property.getKey()) {
 
-            case K_FECHAINI:
+            case K_FECHA_INI:
               var value = property.getSelectIntValue();
               if(value === "") { value = property.getValue(); }
               fields.add(C.FROM, value, Types.text);
               break;
 
-            case K_FECHAFIN:
+            case K_FECHA_FIN:
               var value = property.getSelectIntValue();
               if(value === "") { value = property.getValue(); }
               fields.add(C.TO, value, Types.text);
