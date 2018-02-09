@@ -352,7 +352,6 @@
     PROPERTY_TYPE_FROM_PARAM_TYPE[RT.check] = T.check;
 
     var NO_ID = Cairo.Constants.NO_ID;
-    var CS = Cairo.Security.Actions.Ventas;
     var DB = Cairo.Database;
     var C_MODULE = "Reports";
     var P = Cairo.Promises;
@@ -369,7 +368,7 @@
         sqlstmt: "",         /* this is the worst posible name. I keep it to avoid confusing you more. it contains a list of tuples { id, name } */
         selectValueName: "", /* for selects it is the name or the branch name */
         property: null
-      }
+      };
 
       var that = {};
 

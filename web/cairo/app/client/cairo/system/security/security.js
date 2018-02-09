@@ -5,7 +5,7 @@
 
     ActionTypes: {
       create: 1,
-      edti: 2,
+      edit: 2,
       destroy: 3,
       list: 4,
       invalidate: 5,

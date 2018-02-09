@@ -28,19 +28,19 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_doc_asiento_editable_get()
+-- Function: sp_doc_stock_editable_get()
 
--- drop function sp_doc_asiento_editable_get(integer, integer, integer, integer, integer);
+-- drop function sp_doc_stock_editable_get(integer, integer, integer, integer, integer);
 create or replace
-function sp_doc_asiento_editable_get
+function sp_doc_stock_editable_get
 /*
-    select * from asiento where doct_id_cliente is null;
-    select * from sp_doc_asiento_editable_get(1,225,1, 0, 1);
-    select * from sp_doc_asiento_editable_get(1,2,1,0,1);
+    select * from stock where doct_id_cliente is null;
+    select * from sp_doc_stock_editable_get(1,225,1, 0, 1);
+    select * from sp_doc_stock_editable_get(1,2,1,0,1);
 */
 (
   in p_emp_id integer,
-  in p_as_id integer,
+  in p_st_id integer,
   in p_us_id integer,
   in p_no_anulado integer default 0,
   in p_delete integer default 0,
@@ -51,14 +51,14 @@ function sp_doc_asiento_editable_get
 $BODY$
 declare
    v_doc_id integer;
-   v_as_fecha date;
+   v_st_fecha date;
    v_doct_id_cliente integer;
    v_emp_id integer;
    v_emp_nombre varchar(255);
    v_impreso smallint;
 
-   v_csPreConEditAsiento integer := 19002;
-   v_csPreConDeleteAsiento integer := 19003;
+   v_csPreStEditStock integer := 20002;
+   v_csPreStDeleteStock integer := 20003;
 
    v_pre_id integer;
    v_doc_nombre varchar(255);
@@ -67,29 +67,29 @@ declare
    v_fca_fechaDesde date;
    v_fca_fechaHasta date;
 
-   v_edit_AST_MF smallint;
-
    v_cfg_valor varchar(5000);
 
    v_doc_editarImpresos smallint;
+
 begin
 
-   if p_as_id <> 0 then
+
+   if p_st_id <> 0 then
 
       select d.doc_id,
              d.emp_id,
-             c.as_fecha,
+             c.st_fecha,
              c.doct_id_cliente,
              c.impreso
         into v_doc_id,
              v_emp_id,
-             v_as_fecha,
+             v_st_fecha,
              v_doct_id_cliente,
              v_impreso
-      from Asiento c
+      from Stock c
       join Documento d
         on c.doc_id = d.doc_id
-      where c.as_id = p_as_id;
+      where c.st_id = p_st_id;
 
       if p_emp_id <> v_emp_id then
 
@@ -99,6 +99,7 @@ begin
          where emp_id = v_emp_id;
 
          p_editable := 0;
+
 
          if p_delete = 0 then
             p_edit_msg := 'El comprobante pertenece a la empresa ' || v_emp_nombre || ', para editarlo debe ingresar al sistema indicando dicha empresa.';
@@ -111,12 +112,12 @@ begin
       end if;
 
       if p_delete = 0 then
-         v_pre_id := v_csPreConEditAsiento;
+         v_pre_id := v_csPreStEditStock;
       else
-         v_pre_id := v_csPreConDeleteAsiento;
+         v_pre_id := v_csPreStDeleteStock;
       end if;
 
-      -- Tiene permiso para editar asientos contables
+      -- Tiene permiso para editar transferencias de stock
       --
       if not exists ( select per_id
                       from Permiso
@@ -126,12 +127,13 @@ begin
                                          from UsuarioRol
                                          where us_id = p_us_id
                                            and rol_id = Permiso.rol_id ) ) ) then
+
          p_editable := 0;
 
          if p_delete = 0 then
-            p_edit_msg := 'Usted no tiene permiso para editar asientos contables';
+            p_edit_msg := 'Usted no tiene permiso para editar transferencias de stock';
          else
-            p_edit_msg := 'Usted no tiene permiso para borrar asientos contables';
+            p_edit_msg := 'Usted no tiene permiso para borrar transferencias de stock';
          end if;
 
          return;
@@ -158,6 +160,7 @@ begin
                                          from UsuarioRol
                                          where us_id = p_us_id
                                            and rol_id = Permiso.rol_id ) ) ) then
+
          p_editable := 0;
 
          if p_delete = 0 then
@@ -181,7 +184,7 @@ begin
          if not exists ( select fca_id
                          from FechaControlAcceso
                          where fca_id = v_fca_id
-                           and v_as_fecha between fca_fechaDesde and fca_fechaHasta ) then
+                           and v_st_fecha between fca_fechaDesde and fca_fechaHasta ) then
 
             select fca_fechaDesde,
                    fca_fechaHasta
@@ -191,11 +194,12 @@ begin
             where fca_id = v_fca_id;
 
             p_editable := 0;
-            p_edit_msg := 'La fecha del asiento esta fuera del intervalo definido por las fechas de control de acceso ('
-                          || to_char(coalesce(v_fca_fechaDesde, ''), 'dd-mm-yyyy')
-                          || ' - '
-                          || to_char(coalesce(v_fca_fechaHasta, ''), 'dd-mm-yyyy')
-                          || ')';
+            p_edit_msg := 'La fecha del comprobante esta fuera del intervalo definido por las fechas de control de acceso ('
+                            || to_char(coalesce(v_fca_fechaDesde, ''), 'dd-mm-yyyy')
+                            || ' - '
+                            || to_char(coalesce(v_fca_fechaHasta, ''), 'dd-mm-yyyy')
+                            || ')';
+
             return;
 
          end if;
@@ -204,42 +208,24 @@ begin
 
       if coalesce(v_doct_id_cliente, 0) <> 0 then
 
-         v_edit_AST_MF := 0;
+         p_editable := 0;
+         p_edit_msg := 'Este documento se ha generado automaticamente por otro documento. No puede editarse directamente.';
 
-         if v_doct_id_cliente = 26 then
-            -- Veo si se permite editar asientos de movimientos de fondos
-            --
-            select sp_cfg_getValor('Tesoreria-General', 'Modificar Asientos MF') into v_cfg_valor;
-
-            if isnumeric(v_cfg_valor) = 0 then
-               v_edit_AST_MF := 0;
-            else
-               v_edit_AST_MF := to_number(v_cfg_valor);
-            end if;
-
-         end if;
-
-         if v_edit_AST_MF = 0 then
-
-            p_editable := 0;
-            p_edit_msg := 'Este documento se ha generado automaticamente por otro documento. No puede editarse directamente.';
-
-            return;
-
-         end if;
+         return;
 
       end if;
 
       if v_impreso <> 0 and p_no_anulado = 0 then
 
-         select doc_editarImpresos
-           into v_doc_editarImpresos
+         select doc_editarimpresos
+           into v_doc_editarimpresos
          from Documento
          where doc_id = v_doc_id;
 
-         if v_doc_editarImpresos = 0 then
+         if v_doc_editarimpresos = 0 then
 
             p_editable := 0;
+
             if p_delete = 0 then
                p_edit_msg := 'El comprobante esta impreso y la definición de su documento no permite la edición de comprobantes impresos.';
             else
@@ -261,5 +247,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_doc_asiento_editable_get(integer, integer, integer, integer, integer)
+alter function sp_doc_stock_editable_get(integer, integer, integer, integer, integer)
   owner to postgres;

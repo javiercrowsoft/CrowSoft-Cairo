@@ -87,8 +87,8 @@
       var DB = Cairo.Database;
       var Dialogs = Cairo.Dialogs;
       var C = Cairo.General.Constants;
-      var CST = Cairo.Stock.Constants;
-      var CS = Cairo.Security.Actions.Stock;
+      var CST = Cairo.Stocks.Constants;
+      var CS = Cairo.Security.Actions.Stocks;
       var Types = Cairo.Constants.Types;
       var valField = DB.valField;
       var getValue = DB.getValue;
@@ -2257,7 +2257,7 @@
       var D = Cairo.Documents;
       var M = Cairo.Modal;
       var C = Cairo.General.Constants;
-      var CST = Cairo.Stock.Constants;
+      var CST = Cairo.Stocks.Constants;
       var Types = Cairo.Constants.Types;
       var Dialogs = Cairo.Dialogs;
       var T = Dialogs.PropertyType;

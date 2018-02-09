@@ -48,6 +48,8 @@ case class StockParamsData(
                                 from: String,
                                 to: String,
                                 docId: String,
+                                sucId: String,
+                                lgjId: String,
                                 empId: String
                                 )
 
@@ -60,6 +62,8 @@ object Stocks extends Controller with ProvidesUser {
       GC.FROM -> text,
       GC.TO -> text,
       GC.DOC_ID -> text,
+      GC.SUC_ID -> text,
+      GC.LGJ_ID -> text,
       GC.EMP_ID -> text
     )(StockParamsData.apply)(StockParamsData.unapply)
   )
@@ -103,6 +107,10 @@ object Stocks extends Controller with ProvidesUser {
       GC.TO -> Json.toJson(stockParams.to),
       GC.DOC_ID -> Json.toJson(stockParams.docId),
       GC.DOC_NAME -> Json.toJson(stockParams.docName),
+      GC.SUC_ID -> Json.toJson(stockParams.sucId),
+      GC.SUC_NAME -> Json.toJson(stockParams.sucName),
+      GC.LGJ_ID -> Json.toJson(stockParams.lgjId),
+      GC.LGJ_CODE -> Json.toJson(stockParams.lgjCode),
       GC.EMP_ID -> Json.toJson(stockParams.empId),
       GC.EMP_NAME -> Json.toJson(stockParams.empName)
     )
@@ -375,6 +383,8 @@ object Stocks extends Controller with ProvidesUser {
                     stockParams.from,
                     stockParams.to,
                     stockParams.docId,
+                    stockParams.sucId,
+                    stockParams.lgjId,
                     stockParams.empId
                 )
               )

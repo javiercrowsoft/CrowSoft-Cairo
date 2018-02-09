@@ -1,7 +1,7 @@
 (function() {
   "use strict";
 
-  Cairo.Stock = {
+  Cairo.Stocks = {
 
     Constants: {
       // Asiento
@@ -37,7 +37,7 @@
     }
   };
 
-  Cairo.Security.Actions.Stock = {
+  Cairo.Security.Actions.Stocks = {
 
     NEW_STOCK: 20001,
     EDIT_STOCK: 20002,

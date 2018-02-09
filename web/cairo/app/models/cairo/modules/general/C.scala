@@ -1405,6 +1405,7 @@ object C {
   val PRNS_FECHA_VTO = "prns_fechavto"
 
   // Legajo
+  val LEGAJO = "Legajo"
   val LGJ_ID = "lgj_id"
   val LGJ_NAME = "lgj_titulo"
   val LGJ_CODE = "lgj_codigo"

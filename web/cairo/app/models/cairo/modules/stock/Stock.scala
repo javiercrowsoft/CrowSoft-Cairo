@@ -173,6 +173,10 @@ case class StockParams(
                           to: String,
                           docId: String,
                           docName: String,
+                          sucId: String,
+                          sucName: String,
+                          lgjId: String,
+                          lgjCode: String,
                           empId: String,
                           empName: String
                          ) {
@@ -180,12 +184,18 @@ case class StockParams(
             from: String,
             to: String,
             docId: String,
+            sucId: String,
+            lgjId: String,
             empId: String
             ) = {
     this(
       from,
       to,
       docId,
+      "",
+      sucId,
+      "",
+      lgjId,
       "",
       empId,
       ""
@@ -198,6 +208,8 @@ object StockParams {
              from: String,
              to: String,
              docId: String,
+             sucId: String,
+             lgjId: String,
              empId: String
              ) = {
 
@@ -205,6 +217,8 @@ object StockParams {
       from,
       to,
       docId,
+      sucId,
+      lgjId,
       empId
     )
   }
@@ -228,7 +242,7 @@ object Stock {
 
   lazy val emptyStockParams = StockParams(
     DateFormatter.format(DateUtil.plusDays(DateUtil.currentTime, -60)),
-    DateFormatter.format(DateUtil.currentTime), "0", "0")
+    DateFormatter.format(DateUtil.currentTime), "0", "0", "0", "0")
 
   def apply(
              id: Int,
@@ -697,6 +711,8 @@ object Stock {
   val K_FECHA_INI = 1
   val K_FECHA_FIN = 2
   val K_DOC_ID    = 9
+  val K_SUC_ID    = 10
+  val K_LGJ_ID    = 11
   val K_EMP_ID    = 100
 
   def saveParams(user: CompanyUser, stockParams: StockParams): StockParams = {
@@ -788,6 +804,14 @@ object Stock {
         user, K_DOC_ID, params, emptyStockParams.docId,
         GC.DOCUMENTO, GC.DOC_ID, GC.DOC_NAME
       )
+      val suc = DocumentListParam.getParamValue(
+        user, K_SUC_ID, params, emptyStockParams.sucId,
+        GC.SUCURSAL, GC.SUC_ID, GC.SUC_NAME
+      )
+      val lgj = DocumentListParam.getParamValue(
+        user, K_LGJ_ID, params, emptyStockParams.lgjId,
+        GC.LEGAJO, GC.LGJ_ID, GC.LGJ_CODE
+      )
       val emp = DocumentListParam.getParamValue(
         user, K_EMP_ID, params, emptyStockParams.empId,
         GC.EMPRESA, GC.EMP_ID, GC.EMP_NAME
@@ -799,6 +823,10 @@ object Stock {
           DocumentListParam.getParamValue(K_FECHA_FIN, params, emptyStockParams.to),
           doc.id,
           doc.value,
+          suc.id,
+          suc.value,
+          lgj.id,
+          lgj.value,
           emp.id,
           emp.value
         )
@@ -826,12 +854,12 @@ object Stock {
       cs.setString(5, sucId.getOrElse("0"))
       cs.setString(6, lgjId.getOrElse("0"))
       cs.setString(7, empId.getOrElse("0"))
-      cs.registerOutParameter(6, Types.OTHER)
+      cs.registerOutParameter(8, Types.OTHER)
 
       try {
         cs.execute()
 
-        val rs = cs.getObject(6).asInstanceOf[java.sql.ResultSet]
+        val rs = cs.getObject(8).asInstanceOf[java.sql.ResultSet]
         Recordset.load(rs)
 
       } catch {

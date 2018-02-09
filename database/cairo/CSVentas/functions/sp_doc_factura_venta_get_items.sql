@@ -1,4 +1,4 @@
-/*
+﻿/*
 CrowSoft-Cairo
 ==============
 
@@ -169,30 +169,24 @@ begin
                prns.prns_descrip,
                prns.prns_fechavto,fvi.fvi_id
       order by fvi.fvi_id;
-      
+
    create temporary table tt_kit_item_serie
    (
-    pr_id_kit_padre     integer,
-    pr_id_kit           integer,
-    cantidad            decimal(18,6) not null,
-    cant_kits           integer default (0) not null,
-    faltante            integer default (0) not null,
-    pr_id               integer not null,
-    prk_id              integer not null,
-    costo               decimal(18,6) default (0) not null,
-    costo_x_insumos     decimal(18,6) default (0) not null,
-    col_order           integer default (3) not null,
-    nivel               smallint default (0) not null
+     pr_id_kit       integer ,
+     cantidad        decimal(18,6)  not null,
+     pr_id           integer  not null,
+     prk_id          integer  not null,
+     nivel           smallint default (0) not null
    ) on commit drop;
 
    for v_pr_id in select pr_id from StockItemKit where st_id = v_st_id
    loop
 
-         perform sp_stock_producto_get_kit_info(v_pr_id, 0);
+      perform sp_stock_producto_get_kit_info(v_pr_id, 0);
 
-         update tt_kit_item_serie
-            set pr_id_kit = v_pr_id
-         where pr_id_kit is null;
+      update tt_kit_item_serie
+         set pr_id_kit = v_pr_id
+      where pr_id_kit is null;
 
    end loop;
 
