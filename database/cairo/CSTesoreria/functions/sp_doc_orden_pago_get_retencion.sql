@@ -70,8 +70,8 @@ declare
    v_prov_id integer;
    v_emp_id integer;
    v_ret_id integer;
-   v_ram_id_Proveedor integer;
-   v_ram_id_Empresa integer;
+   v_ram_id_proveedor integer;
+   v_ram_id_empresa integer;
    v_ram_id_Retencion integer;
    v_noAplica integer;
    v_pro_id integer;
@@ -144,8 +144,8 @@ begin
 
    -- solo convierto los ids
    --
-   select * from sp_ArbConvertId(p_prov_id) into v_prov_id, v_ram_id_Proveedor;
-   select * from sp_ArbConvertId(p_emp_id)  into v_emp_id,  v_ram_id_Empresa;
+   select * from sp_ArbConvertId(p_prov_id) into v_prov_id, v_ram_id_proveedor;
+   select * from sp_ArbConvertId(p_emp_id)  into v_emp_id,  v_ram_id_empresa;
    select * from sp_ArbConvertId(p_ret_id)  into v_ret_id,  v_ram_id_Retencion;
 
    select ret_acumulapor,

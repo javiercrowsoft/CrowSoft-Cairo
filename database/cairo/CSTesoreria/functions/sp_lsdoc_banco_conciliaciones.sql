@@ -19,14 +19,14 @@ as
    v_cue_id integer;
    v_bco_id integer;
    v_emp_id integer;
-   v_ram_id_Cuenta integer;
+   v_ram_id_cuenta integer;
    v_ram_id_Banco integer;
-   v_ram_id_Empresa integer;
+   v_ram_id_empresa integer;
    v_clienteID integer;
    v_IsRaiz smallint;
 begin
 
-   select * from sp_ArbConvertId(p_cue_id) into v_cue_id, v_ram_id_Cuenta;
+   select * from sp_ArbConvertId(p_cue_id) into v_cue_id, v_ram_id_cuenta;
 
    select * from sp_ArbConvertId(p_bco_id) into v_bco_id, v_ram_id_Banco;
 
@@ -34,19 +34,19 @@ begin
 
    select * from  sp_GetRptId() into v_clienteID;
 
-   if v_ram_id_Cuenta <> 0 then
+   if v_ram_id_cuenta <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Cuenta, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Cuenta) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_cuenta) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         sp_ArbGetAllHojas(v_ram_id_Cuenta,
+         sp_ArbGetAllHojas(v_ram_id_cuenta,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Cuenta := 0;
+         v_ram_id_cuenta := 0;
 
       end if;
 
@@ -139,7 +139,7 @@ begin
                                      where rptarb_cliente = v_clienteID
                                              and tbl_id = 17
                                              and rptarb_hojaid = bcoc.cue_id ) )
-                 or ( v_ram_id_Cuenta = 0 ) )
+                 or ( v_ram_id_cuenta = 0 ) )
                  and ( ( exists ( select rptarb_hojaid
                                   from rptArbolRamaHoja
                                      where rptarb_cliente = v_clienteID

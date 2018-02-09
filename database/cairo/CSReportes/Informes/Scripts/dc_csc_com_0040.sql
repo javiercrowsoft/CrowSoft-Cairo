@@ -66,7 +66,7 @@ declare
 
    v_ram_id_producto         integer;
    v_ram_id_proveedor        integer;
-   v_ram_id_Empresa          integer;
+   v_ram_id_empresa          integer;
    v_ram_id_circuitoContable integer;
 
    v_clienteID integer;
@@ -93,7 +93,7 @@ begin
 
    select * from sp_ArbConvertId(p_pr_id)   into v_pr_id,    v_ram_id_producto; 
    select * from sp_ArbConvertId(p_prov_id) into v_prov_id,  v_ram_id_proveedor; 
-   select * from sp_ArbConvertId(p_emp_id)  into v_emp_id,   v_ram_id_Empresa; 
+   select * from sp_ArbConvertId(p_emp_id)  into v_emp_id,   v_ram_id_empresa;
    select * from sp_ArbConvertId(p_cico_id) into v_cico_id,  v_ram_id_circuitoContable; 
 
    select * from sp_GetRptId() into v_clienteID;
@@ -222,13 +222,13 @@ begin
       end if;
    end if;
 
-   if v_ram_id_Empresa <> 0 then
-      -- exec sp_ArbGetGroups v_ram_id_Empresa, v_clienteID, p_us_id
-      select sp_ArbIsRaiz(v_ram_id_Empresa) into v_isRaiz;
+   if v_ram_id_empresa <> 0 then
+      -- exec sp_ArbGetGroups v_ram_id_empresa, v_clienteID, p_us_id
+      select sp_ArbIsRaiz(v_ram_id_empresa) into v_isRaiz;
       if v_IsRaiz = 0 then
-         perform sp_ArbGetAllHojas(v_ram_id_Empresa, v_clienteID);
+         perform sp_ArbGetAllHojas(v_ram_id_empresa, v_clienteID);
       else
-         v_ram_id_Empresa := 0;
+         v_ram_id_empresa := 0;
       end if;
    end if;
 
@@ -428,7 +428,7 @@ begin
                      and rptarb_hojaid = doc.emp_id
                 )
            )
-            or (v_ram_id_Empresa = 0)
+            or (v_ram_id_empresa = 0)
          )
 
    group by

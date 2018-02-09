@@ -310,11 +310,11 @@ declare
    v_cue_id integer;
    v_cico_id integer;
    v_emp_id integer;
-   v_ram_id_Proveedor integer;
-   v_ram_id_Sucursal integer;
-   v_ram_id_Cuenta integer;
-   v_ram_id_circuitocontable integer;
-   v_ram_id_Empresa integer;
+   v_ram_id_proveedor integer;
+   v_ram_id_sucursal integer;
+   v_ram_id_cuenta integer;
+   v_ram_id_circuitoContable integer;
+   v_ram_id_empresa integer;
    v_clienteID integer;
    v_IsRaiz smallint;
    v_cta_acreedor numeric(3,0);
@@ -344,107 +344,107 @@ begin
           pendiente decimal(18,6)  not null
         ) on commit drop;
 
-   select sp_ArbConvertId(p_prov_id) into v_prov_id, v_ram_id_Proveedor;
+   select sp_ArbConvertId(p_prov_id) into v_prov_id, v_ram_id_proveedor;
 /*
-   select sp_ArbConvertId(p_suc_id) into v_suc_id, v_ram_id_Sucursal;
+   select sp_ArbConvertId(p_suc_id) into v_suc_id, v_ram_id_sucursal;
 
-   select sp_ArbConvertId(p_cue_id) into v_cue_id, v_ram_id_Cuenta;
+   select sp_ArbConvertId(p_cue_id) into v_cue_id, v_ram_id_cuenta;
 
-   select sp_ArbConvertId(p_cico_id) into v_cico_id, v_ram_id_circuitocontable;
+   select sp_ArbConvertId(p_cico_id) into v_cico_id, v_ram_id_circuitoContable;
 
-   select sp_ArbConvertId(p_emp_id) into v_emp_id, v_ram_id_Empresa;
+   select sp_ArbConvertId(p_emp_id) into v_emp_id, v_ram_id_empresa;
 
    select sp_GetRptId(v_clienteID);
 
-   if v_ram_id_Proveedor <> 0 then
+   if v_ram_id_proveedor <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Proveedor, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Proveedor) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_proveedor) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         select sp_ArbGetAllHojas(v_ram_id_Proveedor,
+         select sp_ArbGetAllHojas(v_ram_id_proveedor,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Proveedor := 0;
+         v_ram_id_proveedor := 0;
 
       end if;
 
    end;
    end if;
 
-   if v_ram_id_Sucursal <> 0 then
+   if v_ram_id_sucursal <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Sucursal, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Sucursal) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_sucursal) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         select sp_ArbGetAllHojas(v_ram_id_Sucursal,
+         select sp_ArbGetAllHojas(v_ram_id_sucursal,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Sucursal := 0;
+         v_ram_id_sucursal := 0;
 
       end if;
 
    end;
    end if;
 
-   if v_ram_id_Cuenta <> 0 then
+   if v_ram_id_cuenta <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Cuenta, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Cuenta) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_cuenta) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         select sp_ArbGetAllHojas(v_ram_id_Cuenta,
+         select sp_ArbGetAllHojas(v_ram_id_cuenta,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Cuenta := 0;
+         v_ram_id_cuenta := 0;
 
       end if;
 
    end;
    end if;
 
-   if v_ram_id_circuitocontable <> 0 then
+   if v_ram_id_circuitoContable <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_circuitocontable, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_circuitocontable) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_circuitoContable) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         select sp_ArbGetAllHojas(v_ram_id_circuitocontable,
+         select sp_ArbGetAllHojas(v_ram_id_circuitoContable,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_circuitocontable := 0;
+         v_ram_id_circuitoContable := 0;
 
       end if;
 
    end;
    end if;
 
-   if v_ram_id_Empresa <> 0 then
+   if v_ram_id_empresa <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Empresa, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Empresa) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_empresa) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         select sp_ArbGetAllHojas(v_ram_id_Empresa,
+         select sp_ArbGetAllHojas(v_ram_id_empresa,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Empresa := 0;
+         v_ram_id_empresa := 0;
 
       end if;
 
@@ -535,13 +535,13 @@ begin
                                       where rptarb_cliente = v_clienteID
                                               and tbl_id = 29
                                               and rptarb_hojaid = opg.prov_id ) )
-                  or ( v_ram_id_Proveedor = 0 ) )
+                  or ( v_ram_id_proveedor = 0 ) )
                   and ( ( exists ( select rptarb_hojaid
                                    from rptArbolRamaHoja
                                       where rptarb_cliente = v_clienteID
                                               and tbl_id = 1007
                                               and rptarb_hojaid = opg.suc_id ) )
-                  or ( v_ram_id_Sucursal = 0 ) )
+                  or ( v_ram_id_sucursal = 0 ) )
                   and ( ( exists ( select rptarb_hojaid
                                    from rptArbolRamaHoja
                                       where rptarb_cliente = v_clienteID
@@ -551,19 +551,19 @@ begin
                                                                 where opg_id = opg.opg_id
                                                                         and opgi_tipo = v_cta_acreedoropg
                                                                         and cue_id = rptarb_hojaid ) ) ) )
-                  or ( v_ram_id_Cuenta = 0 ) )
+                  or ( v_ram_id_cuenta = 0 ) )
                   and ( ( exists ( select rptarb_hojaid
                                    from rptArbolRamaHoja
                                       where rptarb_cliente = v_clienteID
                                               and tbl_id = 1016
                                               and rptarb_hojaid = doc.cico_id ) )
-                  or ( v_ram_id_circuitocontable = 0 ) )
+                  or ( v_ram_id_circuitoContable = 0 ) )
                   and ( ( exists ( select rptarb_hojaid
                                    from rptArbolRamaHoja
                                       where rptarb_cliente = v_clienteID
                                               and tbl_id = 1018
                                               and rptarb_hojaid = doc.emp_id ) )
-                  or ( v_ram_id_Empresa = 0 ) ) );
+                  or ( v_ram_id_empresa = 0 ) ) );
 
    --//////////////////////////////////////////
    -- Facturas y Notas de Credito
@@ -698,31 +698,31 @@ begin
                                       where rptarb_cliente = v_clienteID
                                               and tbl_id = 29
                                               and rptarb_hojaid = fc.prov_id ) )
-                  or ( v_ram_id_Proveedor = 0 ) )
+                  or ( v_ram_id_proveedor = 0 ) )
                   and ( ( exists ( select rptarb_hojaid
                                    from rptArbolRamaHoja
                                       where rptarb_cliente = v_clienteID
                                               and tbl_id = 1007
                                               and rptarb_hojaid = fc.suc_id ) )
-                  or ( v_ram_id_Sucursal = 0 ) )
+                  or ( v_ram_id_sucursal = 0 ) )
                   and ( ( exists ( select rptarb_hojaid
                                    from rptArbolRamaHoja
                                       where rptarb_cliente = v_clienteID
                                               and tbl_id = 17
                                               and rptarb_hojaid = ai.cue_id ) )
-                  or ( v_ram_id_Cuenta = 0 ) )
+                  or ( v_ram_id_cuenta = 0 ) )
                   and ( ( exists ( select rptarb_hojaid
                                    from rptArbolRamaHoja
                                       where rptarb_cliente = v_clienteID
                                               and tbl_id = 1016
                                               and rptarb_hojaid = doc.cico_id ) )
-                  or ( v_ram_id_circuitocontable = 0 ) )
+                  or ( v_ram_id_circuitoContable = 0 ) )
                   and ( ( exists ( select rptarb_hojaid
                                    from rptArbolRamaHoja
                                       where rptarb_cliente = v_clienteID
                                               and tbl_id = 1018
                                               and rptarb_hojaid = doc.emp_id ) )
-                  or ( v_ram_id_Empresa = 0 ) ) );
+                  or ( v_ram_id_empresa = 0 ) ) );
 
    insert into tt_dc_csc_com_0010
      ( prov_id, cue_id, emp_id, suc_id, neto, descuento, subtotal, iva, total, pago, pendiente )
@@ -822,31 +822,31 @@ begin
                                       where rptarb_cliente = v_clienteID
                                               and tbl_id = 29
                                               and rptarb_hojaid = fc.prov_id ) )
-                  or ( v_ram_id_Proveedor = 0 ) )
+                  or ( v_ram_id_proveedor = 0 ) )
                   and ( ( exists ( select rptarb_hojaid
                                    from rptArbolRamaHoja
                                       where rptarb_cliente = v_clienteID
                                               and tbl_id = 1007
                                               and rptarb_hojaid = fc.suc_id ) )
-                  or ( v_ram_id_Sucursal = 0 ) )
+                  or ( v_ram_id_sucursal = 0 ) )
                   and ( ( exists ( select rptarb_hojaid
                                    from rptArbolRamaHoja
                                       where rptarb_cliente = v_clienteID
                                               and tbl_id = 17
                                               and rptarb_hojaid = ai.cue_id ) )
-                  or ( v_ram_id_Cuenta = 0 ) )
+                  or ( v_ram_id_cuenta = 0 ) )
                   and ( ( exists ( select rptarb_hojaid
                                    from rptArbolRamaHoja
                                       where rptarb_cliente = v_clienteID
                                               and tbl_id = 1016
                                               and rptarb_hojaid = doc.cico_id ) )
-                  or ( v_ram_id_circuitocontable = 0 ) )
+                  or ( v_ram_id_circuitoContable = 0 ) )
                   and ( ( exists ( select rptarb_hojaid
                                    from rptArbolRamaHoja
                                       where rptarb_cliente = v_clienteID
                                               and tbl_id = 1018
                                               and rptarb_hojaid = doc.emp_id ) )
-                  or ( v_ram_id_Empresa = 0 ) ) );
+                  or ( v_ram_id_empresa = 0 ) ) );
 
    if p_conRemito <> 0 then
    begin
@@ -920,25 +920,25 @@ begin
                                          where rptarb_cliente = v_clienteID
                                                  and tbl_id = 29
                                                  and rptarb_hojaid = rc.prov_id ) )
-                     or ( v_ram_id_Proveedor = 0 ) )
+                     or ( v_ram_id_proveedor = 0 ) )
                      and ( ( exists ( select rptarb_hojaid
                                       from rptArbolRamaHoja
                                          where rptarb_cliente = v_clienteID
                                                  and tbl_id = 1007
                                                  and rptarb_hojaid = rc.suc_id ) )
-                     or ( v_ram_id_Sucursal = 0 ) )
+                     or ( v_ram_id_sucursal = 0 ) )
                      and ( ( exists ( select rptarb_hojaid
                                       from rptArbolRamaHoja
                                          where rptarb_cliente = v_clienteID
                                                  and tbl_id = 1016
                                                  and rptarb_hojaid = doc.cico_id ) )
-                     or ( v_ram_id_circuitocontable = 0 ) )
+                     or ( v_ram_id_circuitoContable = 0 ) )
                      and ( ( exists ( select rptarb_hojaid
                                       from rptArbolRamaHoja
                                          where rptarb_cliente = v_clienteID
                                                  and tbl_id = 1018
                                                  and rptarb_hojaid = doc.emp_id ) )
-                     or ( v_ram_id_Empresa = 0 ) ) );
+                     or ( v_ram_id_empresa = 0 ) ) );
 
    end;
    end if;
@@ -1217,31 +1217,31 @@ begin
                                         where rptarb_cliente = v_clienteID
                                                 and tbl_id = 29
                                                 and rptarb_hojaid = fc.prov_id ) )
-                    or ( v_ram_id_Proveedor = 0 ) )
+                    or ( v_ram_id_proveedor = 0 ) )
                     and ( ( exists ( select rptarb_hojaid
                                      from rptArbolRamaHoja
                                         where rptarb_cliente = v_clienteID
                                                 and tbl_id = 1007
                                                 and rptarb_hojaid = fc.suc_id ) )
-                    or ( v_ram_id_Sucursal = 0 ) )
+                    or ( v_ram_id_sucursal = 0 ) )
                     and ( ( exists ( select rptarb_hojaid
                                      from rptArbolRamaHoja
                                         where rptarb_cliente = v_clienteID
                                                 and tbl_id = 17
                                                 and rptarb_hojaid = ai.cue_id ) )
-                    or ( v_ram_id_Cuenta = 0 ) )
+                    or ( v_ram_id_cuenta = 0 ) )
                     and ( ( exists ( select rptarb_hojaid
                                      from rptArbolRamaHoja
                                         where rptarb_cliente = v_clienteID
                                                 and tbl_id = 1016
                                                 and rptarb_hojaid = doc.cico_id ) )
-                    or ( v_ram_id_circuitocontable = 0 ) )
+                    or ( v_ram_id_circuitoContable = 0 ) )
                     and ( ( exists ( select rptarb_hojaid
                                      from rptArbolRamaHoja
                                         where rptarb_cliente = v_clienteID
                                                 and tbl_id = 1018
                                                 and rptarb_hojaid = doc.emp_id ) )
-                    or ( v_ram_id_Empresa = 0 ) )
+                    or ( v_ram_id_empresa = 0 ) )
          union all
          --/////////////////////////////////////
          --	Remitos, Notas de Credio/Debito
@@ -1352,25 +1352,25 @@ begin
                                         where rptarb_cliente = v_clienteID
                                                 and tbl_id = 29
                                                 and rptarb_hojaid = rc.prov_id ) )
-                    or ( v_ram_id_Proveedor = 0 ) )
+                    or ( v_ram_id_proveedor = 0 ) )
                     and ( ( exists ( select rptarb_hojaid
                                      from rptArbolRamaHoja
                                         where rptarb_cliente = v_clienteID
                                                 and tbl_id = 1007
                                                 and rptarb_hojaid = rc.suc_id ) )
-                    or ( v_ram_id_Sucursal = 0 ) )
+                    or ( v_ram_id_sucursal = 0 ) )
                     and ( ( exists ( select rptarb_hojaid
                                      from rptArbolRamaHoja
                                         where rptarb_cliente = v_clienteID
                                                 and tbl_id = 1016
                                                 and rptarb_hojaid = doc.cico_id ) )
-                    or ( v_ram_id_circuitocontable = 0 ) )
+                    or ( v_ram_id_circuitoContable = 0 ) )
                     and ( ( exists ( select rptarb_hojaid
                                      from rptArbolRamaHoja
                                         where rptarb_cliente = v_clienteID
                                                 and tbl_id = 1018
                                                 and rptarb_hojaid = doc.emp_id ) )
-                    or ( v_ram_id_Empresa = 0 ) )
+                    or ( v_ram_id_empresa = 0 ) )
          --/////////////////////////////////////
          --	Ordenes de Pago
          --/////////////////////////////////////
@@ -1462,13 +1462,13 @@ begin
                                         where rptarb_cliente = v_clienteID
                                                 and tbl_id = 29
                                                 and rptarb_hojaid = opg.prov_id ) )
-                    or ( v_ram_id_Proveedor = 0 ) )
+                    or ( v_ram_id_proveedor = 0 ) )
                     and ( ( exists ( select rptarb_hojaid
                                      from rptArbolRamaHoja
                                         where rptarb_cliente = v_clienteID
                                                 and tbl_id = 1007
                                                 and rptarb_hojaid = opg.suc_id ) )
-                    or ( v_ram_id_Sucursal = 0 ) )
+                    or ( v_ram_id_sucursal = 0 ) )
                     and ( ( exists ( select rptarb_hojaid
                                      from rptArbolRamaHoja
                                         where rptarb_cliente = v_clienteID
@@ -1478,19 +1478,19 @@ begin
                                                                   where opg_id = opg.opg_id
                                                                           and opgi_tipo = v_cta_acreedoropg
                                                                           and cue_id = rptarb_hojaid ) ) ) )
-                    or ( v_ram_id_Cuenta = 0 ) )
+                    or ( v_ram_id_cuenta = 0 ) )
                     and ( ( exists ( select rptarb_hojaid
                                      from rptArbolRamaHoja
                                         where rptarb_cliente = v_clienteID
                                                 and tbl_id = 1016
                                                 and rptarb_hojaid = doc.cico_id ) )
-                    or ( v_ram_id_circuitocontable = 0 ) )
+                    or ( v_ram_id_circuitoContable = 0 ) )
                     and ( ( exists ( select rptarb_hojaid
                                      from rptArbolRamaHoja
                                         where rptarb_cliente = v_clienteID
                                                 and tbl_id = 1018
                                                 and rptarb_hojaid = doc.emp_id ) )
-                    or ( v_ram_id_Empresa = 0 ) )
+                    or ( v_ram_id_empresa = 0 ) )
            order by Proveedor,
                     Cuenta,
                     Fecha,
@@ -1516,7 +1516,7 @@ declare
 
    v_ram_id_producto         integer;
    v_ram_id_proveedor        integer;
-   v_ram_id_Empresa          integer;
+   v_ram_id_empresa          integer;
    v_ram_id_circuitoContable integer;
 
    v_clienteID integer;
@@ -1543,7 +1543,7 @@ begin
 
    select * from sp_ArbConvertId(p_pr_id)   into v_pr_id,    v_ram_id_producto; 
    select * from sp_ArbConvertId(p_prov_id) into v_prov_id,  v_ram_id_proveedor; 
-   select * from sp_ArbConvertId(p_emp_id)  into v_emp_id,   v_ram_id_Empresa; 
+   select * from sp_ArbConvertId(p_emp_id)  into v_emp_id,   v_ram_id_empresa;
    select * from sp_ArbConvertId(p_cico_id) into v_cico_id,  v_ram_id_circuitoContable; 
 
    select * from sp_GetRptId() into v_clienteID;
@@ -1672,13 +1672,13 @@ begin
       end if;
    end if;
 
-   if v_ram_id_Empresa <> 0 then
-      -- exec sp_ArbGetGroups v_ram_id_Empresa, v_clienteID, p_us_id
-      select sp_ArbIsRaiz(v_ram_id_Empresa) into v_isRaiz;
+   if v_ram_id_empresa <> 0 then
+      -- exec sp_ArbGetGroups v_ram_id_empresa, v_clienteID, p_us_id
+      select sp_ArbIsRaiz(v_ram_id_empresa) into v_isRaiz;
       if v_IsRaiz = 0 then
-         perform sp_ArbGetAllHojas(v_ram_id_Empresa, v_clienteID);
+         perform sp_ArbGetAllHojas(v_ram_id_empresa, v_clienteID);
       else
-         v_ram_id_Empresa := 0;
+         v_ram_id_empresa := 0;
       end if;
    end if;
 
@@ -1878,7 +1878,7 @@ begin
                      and rptarb_hojaid = doc.emp_id
                 )
            )
-            or (v_ram_id_Empresa = 0)
+            or (v_ram_id_empresa = 0)
          )
 
    group by
@@ -27510,8 +27510,8 @@ declare
    v_prov_id integer;
    v_emp_id integer;
    v_ret_id integer;
-   v_ram_id_Proveedor integer;
-   v_ram_id_Empresa integer;
+   v_ram_id_proveedor integer;
+   v_ram_id_empresa integer;
    v_ram_id_Retencion integer;
    v_noAplica integer;
    v_pro_id integer;
@@ -27584,8 +27584,8 @@ begin
 
    -- solo convierto los ids
    --
-   select * from sp_ArbConvertId(p_prov_id) into v_prov_id, v_ram_id_Proveedor;
-   select * from sp_ArbConvertId(p_emp_id)  into v_emp_id,  v_ram_id_Empresa;
+   select * from sp_ArbConvertId(p_prov_id) into v_prov_id, v_ram_id_proveedor;
+   select * from sp_ArbConvertId(p_emp_id)  into v_emp_id,  v_ram_id_empresa;
    select * from sp_ArbConvertId(p_ret_id)  into v_ret_id,  v_ram_id_Retencion;
 
    select ret_acumulapor,
@@ -36777,12 +36777,12 @@ declare
    v_emp_id integer;
    v_ram_id_Cliente integer;
    v_ram_id_CentroCosto integer;
-   v_ram_id_Sucursal integer;
-   v_ram_id_Estado integer;
-   v_ram_id_Vendedor integer;
-   v_ram_id_Documento integer;
+   v_ram_id_sucursal integer;
+   v_ram_id_estado integer;
+   v_ram_id_vendedor integer;
+   v_ram_id_documento integer;
    v_ram_id_CondicionPago integer;
-   v_ram_id_Empresa integer;
+   v_ram_id_empresa integer;
    v_clienteID integer;
    v_IsRaiz smallint;
 begin
@@ -36797,17 +36797,17 @@ begin
 
    select * from sp_ArbConvertId(p_ccos_id) into v_ccos_id, v_ram_id_CentroCosto;
 
-   select * from sp_ArbConvertId(p_suc_id) into v_suc_id, v_ram_id_Sucursal;
+   select * from sp_ArbConvertId(p_suc_id) into v_suc_id, v_ram_id_sucursal;
 
-   select * from sp_ArbConvertId(p_est_id) into v_est_id, v_ram_id_Estado;
+   select * from sp_ArbConvertId(p_est_id) into v_est_id, v_ram_id_estado;
 
-   select * from sp_ArbConvertId(p_ven_id) into v_ven_id, v_ram_id_Vendedor;
+   select * from sp_ArbConvertId(p_ven_id) into v_ven_id, v_ram_id_vendedor;
 
-   select * from sp_ArbConvertId(p_doc_id) into v_doc_id, v_ram_id_Documento;
+   select * from sp_ArbConvertId(p_doc_id) into v_doc_id, v_ram_id_documento;
 
    select * from sp_ArbConvertId(p_cpg_id) into v_cpg_id, v_ram_id_CondicionPago;
 
-   select * from sp_ArbConvertId(p_emp_id) into v_emp_id, v_ram_id_Empresa;
+   select * from sp_ArbConvertId(p_emp_id) into v_emp_id, v_ram_id_empresa;
 
    select * from  sp_GetRptId() into v_clienteID;
 
@@ -36849,76 +36849,76 @@ begin
    end;
    end if;
 
-   if v_ram_id_Estado <> 0 then
+   if v_ram_id_estado <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Estado, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Estado) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_estado) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Estado,
+         perform sp_ArbGetAllHojas(v_ram_id_estado,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Estado := 0;
+         v_ram_id_estado := 0;
 
       end if;
 
    end;
    end if;
 
-   if v_ram_id_Sucursal <> 0 then
+   if v_ram_id_sucursal <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Sucursal, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Sucursal) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_sucursal) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Sucursal,
+         perform sp_ArbGetAllHojas(v_ram_id_sucursal,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Sucursal := 0;
+         v_ram_id_sucursal := 0;
 
       end if;
 
    end;
    end if;
 
-   if v_ram_id_Vendedor <> 0 then
+   if v_ram_id_vendedor <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Vendedor, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Vendedor) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_vendedor) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Vendedor,
+         perform sp_ArbGetAllHojas(v_ram_id_vendedor,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Vendedor := 0;
+         v_ram_id_vendedor := 0;
 
       end if;
 
    end;
    end if;
 
-   if v_ram_id_Documento <> 0 then
+   if v_ram_id_documento <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Documento, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Documento) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_documento) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Documento,
+         perform sp_ArbGetAllHojas(v_ram_id_documento,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Documento := 0;
+         v_ram_id_documento := 0;
 
       end if;
 
@@ -37069,28 +37069,28 @@ begin
                                     and tbl_id = 4005
 
                                     and rptarb_hojaid = Estado.est_id ) )
-        or ( v_ram_id_Estado = 0 ) )
+        or ( v_ram_id_estado = 0 ) )
         and ( ( exists ( select rptarb_hojaid
                          from rptArbolRamaHoja
                             where rptarb_cliente = v_clienteID
                                     and tbl_id = 1007
 
                                     and rptarb_hojaid = Sucursal.suc_id ) )
-        or ( v_ram_id_Sucursal = 0 ) )
+        or ( v_ram_id_sucursal = 0 ) )
         and ( ( exists ( select rptarb_hojaid
                          from rptArbolRamaHoja
                             where rptarb_cliente = v_clienteID
                                     and tbl_id = 15
 
                                     and rptarb_hojaid = Vendedor.ven_id ) )
-        or ( v_ram_id_Vendedor = 0 ) )
+        or ( v_ram_id_vendedor = 0 ) )
         and ( ( exists ( select rptarb_hojaid
                          from rptArbolRamaHoja
                             where rptarb_cliente = v_clienteID
                                     and tbl_id = 4001
 
                                     and rptarb_hojaid = Documento.doc_id ) )
-        or ( v_ram_id_Documento = 0 ) )
+        or ( v_ram_id_documento = 0 ) )
         and ( ( exists ( select rptarb_hojaid
                          from rptArbolRamaHoja
                             where rptarb_cliente = v_clienteID
@@ -37303,7 +37303,7 @@ AS $function$
 declare
    v_doc_id integer;
    v_emp_id integer;
-   v_ram_id_Documento integer;
+   v_ram_id_documento integer;
    v_ram_id_empresa integer;
    v_clienteID integer;
    v_IsRaiz smallint;
@@ -37315,25 +37315,25 @@ begin
     INICIO PRIMERA PARTE DE ARBOLES
    /////////////////////////////////////////////////////////////////////// */
 
-   select * from sp_ArbConvertId(p_doc_id) into v_doc_id, v_ram_id_Documento;
+   select * from sp_ArbConvertId(p_doc_id) into v_doc_id, v_ram_id_documento;
 
    select * from sp_ArbConvertId(p_emp_id) into v_emp_id, v_ram_id_empresa;
 
    select * from  sp_GetRptId() into v_clienteID;
 
-   if v_ram_id_Documento <> 0 then
+   if v_ram_id_documento <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Documento, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Documento) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_documento) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Documento,
+         perform sp_ArbGetAllHojas(v_ram_id_documento,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Documento := 0;
+         v_ram_id_documento := 0;
 
       end if;
 
@@ -37418,7 +37418,7 @@ begin
                                       and tbl_id = 4001
        
                                       and rptarb_hojaid = Documento.doc_id ) )
-          or ( v_ram_id_Documento = 0 ) )
+          or ( v_ram_id_documento = 0 ) )
           and ( ( exists ( select rptarb_hojaid
                            from rptArbolRamaHoja
                               where rptarb_cliente = v_clienteID
@@ -37446,12 +37446,12 @@ declare
    v_emp_id integer;
    v_ram_id_Cliente integer;
    v_ram_id_CentroCosto integer;
-   v_ram_id_Sucursal integer;
-   v_ram_id_Estado integer;
+   v_ram_id_sucursal integer;
+   v_ram_id_estado integer;
    v_ram_id_Cobrador integer;
-   v_ram_id_Documento integer;
+   v_ram_id_documento integer;
    v_ram_id_CondicionPago integer;
-   v_ram_id_Empresa integer;
+   v_ram_id_empresa integer;
    v_clienteID integer;
    v_IsRaiz smallint;
 begin
@@ -37479,13 +37479,13 @@ end debug*/
 
    select * from sp_ArbConvertId(p_ccos_id) into v_ccos_id, v_ram_id_CentroCosto;
 
-   select * from sp_ArbConvertId(p_suc_id) into v_suc_id, v_ram_id_Sucursal;
+   select * from sp_ArbConvertId(p_suc_id) into v_suc_id, v_ram_id_sucursal;
 
-   select * from sp_ArbConvertId(p_est_id) into v_est_id, v_ram_id_Estado;
+   select * from sp_ArbConvertId(p_est_id) into v_est_id, v_ram_id_estado;
 
    select * from sp_ArbConvertId(p_cob_id) into v_cob_id, v_ram_id_Cobrador;
 
-   select * from sp_ArbConvertId(p_doc_id) into v_doc_id, v_ram_id_Documento;
+   select * from sp_ArbConvertId(p_doc_id) into v_doc_id, v_ram_id_documento;
 
    select * from sp_ArbConvertId(p_emp_id) into v_emp_id, v_ram_id_empresa;
 
@@ -37529,38 +37529,38 @@ end debug*/
    end;
    end if;
 
-   if v_ram_id_Estado <> 0 then
+   if v_ram_id_estado <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Estado, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Estado) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_estado) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Estado,
+         perform sp_ArbGetAllHojas(v_ram_id_estado,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Estado := 0;
+         v_ram_id_estado := 0;
 
       end if;
 
    end;
    end if;
 
-   if v_ram_id_Sucursal <> 0 then
+   if v_ram_id_sucursal <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Sucursal, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Sucursal) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_sucursal) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Sucursal,
+         perform sp_ArbGetAllHojas(v_ram_id_sucursal,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Sucursal := 0;
+         v_ram_id_sucursal := 0;
 
       end if;
 
@@ -37586,19 +37586,19 @@ end debug*/
    end;
    end if;
 
-   if v_ram_id_Documento <> 0 then
+   if v_ram_id_documento <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Documento, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Documento) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_documento) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Documento,
+         perform sp_ArbGetAllHojas(v_ram_id_documento,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Documento := 0;
+         v_ram_id_documento := 0;
 
       end if;
 
@@ -37730,14 +37730,14 @@ end debug*/
                                       and tbl_id = 4005
 
                                       and rptarb_hojaid = Estado.est_id ) )
-          or ( v_ram_id_Estado = 0 ) )
+          or ( v_ram_id_estado = 0 ) )
           and ( ( exists ( select rptarb_hojaid
                            from rptArbolRamaHoja
                               where rptarb_cliente = v_clienteID
                                       and tbl_id = 1007
 
                                       and rptarb_hojaid = Sucursal.suc_id ) )
-          or ( v_ram_id_Sucursal = 0 ) )
+          or ( v_ram_id_sucursal = 0 ) )
           and ( ( exists ( select rptarb_hojaid
                            from rptArbolRamaHoja
                               where rptarb_cliente = v_clienteID
@@ -37751,7 +37751,7 @@ end debug*/
                                       and tbl_id = 4001
 
                                       and rptarb_hojaid = Documento.doc_id ) )
-          or ( v_ram_id_Documento = 0 ) )
+          or ( v_ram_id_documento = 0 ) )
           and ( ( exists ( select rptarb_hojaid
                            from rptArbolRamaHoja
                               where rptarb_cliente = v_clienteID
@@ -37777,14 +37777,14 @@ declare
    v_doc_id integer;
    v_cpg_id integer;
    v_emp_id integer;
-   v_ram_id_Proveedor integer;
+   v_ram_id_proveedor integer;
    v_ram_id_CentroCosto integer;
-   v_ram_id_Sucursal integer;
-   v_ram_id_Estado integer;
-   v_ram_id_Vendedor integer;
-   v_ram_id_Documento integer;
+   v_ram_id_sucursal integer;
+   v_ram_id_estado integer;
+   v_ram_id_vendedor integer;
+   v_ram_id_documento integer;
    v_ram_id_CondicionPago integer;
-   v_ram_id_Empresa integer;
+   v_ram_id_empresa integer;
    v_clienteID integer;
    v_IsRaiz smallint;
 begin
@@ -37808,35 +37808,35 @@ end debug*/
     INICIO PRIMERA PARTE DE ARBOLES
    /////////////////////////////////////////////////////////////////////// */
 
-   select * from sp_ArbConvertId(p_prov_id) into v_prov_id, v_ram_id_Proveedor;
+   select * from sp_ArbConvertId(p_prov_id) into v_prov_id, v_ram_id_proveedor;
 
    select * from sp_ArbConvertId(p_ccos_id) into v_ccos_id, v_ram_id_CentroCosto;
 
-   select * from  sp_ArbConvertId(p_suc_id) into v_suc_id, v_ram_id_Sucursal;
+   select * from  sp_ArbConvertId(p_suc_id) into v_suc_id, v_ram_id_sucursal;
 
-   select * from  sp_ArbConvertId(p_est_id) into v_est_id, v_ram_id_Estado;
+   select * from  sp_ArbConvertId(p_est_id) into v_est_id, v_ram_id_estado;
 
-   select * from  sp_ArbConvertId(p_doc_id) into v_doc_id, v_ram_id_Documento;
+   select * from  sp_ArbConvertId(p_doc_id) into v_doc_id, v_ram_id_documento;
 
    select * from  sp_ArbConvertId(p_cpg_id) into v_cpg_id, v_ram_id_CondicionPago;
 
-   select * from  sp_ArbConvertId(p_emp_id) into v_emp_id, v_ram_id_Empresa;
+   select * from  sp_ArbConvertId(p_emp_id) into v_emp_id, v_ram_id_empresa;
 
    select * from  sp_GetRptId() into v_clienteID;
 
-   if v_ram_id_Proveedor <> 0 then
+   if v_ram_id_proveedor <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Proveedor, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Proveedor) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_proveedor) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Proveedor,
+         perform sp_ArbGetAllHojas(v_ram_id_proveedor,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Proveedor := 0;
+         v_ram_id_proveedor := 0;
 
       end if;
 
@@ -37862,76 +37862,76 @@ end debug*/
    end;
    end if;
 
-   if v_ram_id_Estado <> 0 then
+   if v_ram_id_estado <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Estado, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Estado) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_estado) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Estado,
+         perform sp_ArbGetAllHojas(v_ram_id_estado,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Estado := 0;
+         v_ram_id_estado := 0;
 
       end if;
 
    end;
    end if;
 
-   if v_ram_id_Sucursal <> 0 then
+   if v_ram_id_sucursal <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Sucursal, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Sucursal) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_sucursal) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Sucursal,
+         perform sp_ArbGetAllHojas(v_ram_id_sucursal,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Sucursal := 0;
+         v_ram_id_sucursal := 0;
 
       end if;
 
    end;
    end if;
 
-   if v_ram_id_Vendedor <> 0 then
+   if v_ram_id_vendedor <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Vendedor, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Vendedor) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_vendedor) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Vendedor,
+         perform sp_ArbGetAllHojas(v_ram_id_vendedor,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Vendedor := 0;
+         v_ram_id_vendedor := 0;
 
       end if;
 
    end;
    end if;
 
-   if v_ram_id_Documento <> 0 then
+   if v_ram_id_documento <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Documento, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Documento) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_documento) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Documento,
+         perform sp_ArbGetAllHojas(v_ram_id_documento,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Documento := 0;
+         v_ram_id_documento := 0;
 
       end if;
 
@@ -37957,19 +37957,19 @@ end debug*/
    end;
    end if;
 
-   if v_ram_id_Empresa <> 0 then
+   if v_ram_id_empresa <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Empresa, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Empresa) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_empresa) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Empresa,
+         perform sp_ArbGetAllHojas(v_ram_id_empresa,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Empresa := 0;
+         v_ram_id_empresa := 0;
 
       end if;
 
@@ -38075,7 +38075,7 @@ end debug*/
                               where rptarb_cliente = v_clienteID
                                       and tbl_id = 29
                                       and rptarb_hojaid = Proveedor.prov_id ) )
-          or ( v_ram_id_Proveedor = 0 ) )
+          or ( v_ram_id_proveedor = 0 ) )
           and ( ( exists ( select rptarb_hojaid
                            from rptArbolRamaHoja
                               where rptarb_cliente = v_clienteID
@@ -38091,19 +38091,19 @@ end debug*/
                               where rptarb_cliente = v_clienteID
                                       and tbl_id = 4005
                                       and rptarb_hojaid = Estado.est_id ) )
-          or ( v_ram_id_Estado = 0 ) )
+          or ( v_ram_id_estado = 0 ) )
           and ( ( exists ( select rptarb_hojaid
                            from rptArbolRamaHoja
                               where rptarb_cliente = v_clienteID
                                       and tbl_id = 1007
                                       and rptarb_hojaid = Sucursal.suc_id ) )
-          or ( v_ram_id_Sucursal = 0 ) )
+          or ( v_ram_id_sucursal = 0 ) )
           and ( ( exists ( select rptarb_hojaid
                            from rptArbolRamaHoja
                               where rptarb_cliente = v_clienteID
                                       and tbl_id = 4001
                                       and rptarb_hojaid = Documento.doc_id ) )
-          or ( v_ram_id_Documento = 0 ) )
+          or ( v_ram_id_documento = 0 ) )
           and ( ( exists ( select rptarb_hojaid
                            from rptArbolRamaHoja
                               where rptarb_cliente = v_clienteID
@@ -38115,7 +38115,7 @@ end debug*/
                               where rptarb_cliente = v_clienteID
                                       and tbl_id = 1018
                                       and rptarb_hojaid = Empresa.emp_id ) )
-          or ( v_ram_id_Empresa = 0 ) )
+          or ( v_ram_id_empresa = 0 ) )
 
         order by fc_fecha;
 
@@ -38137,12 +38137,12 @@ declare
    v_emp_id integer;
    v_ram_id_Cliente integer;
    v_ram_id_CentroCosto integer;
-   v_ram_id_Sucursal integer;
-   v_ram_id_Estado integer;
-   v_ram_id_Vendedor integer;
-   v_ram_id_Documento integer;
+   v_ram_id_sucursal integer;
+   v_ram_id_estado integer;
+   v_ram_id_vendedor integer;
+   v_ram_id_documento integer;
    v_ram_id_CondicionPago integer;
-   v_ram_id_Empresa integer;
+   v_ram_id_empresa integer;
    v_clienteID integer;
    v_IsRaiz smallint;
 begin
@@ -38157,17 +38157,17 @@ begin
 
    select * from sp_ArbConvertId(p_ccos_id) into v_ccos_id, v_ram_id_CentroCosto;
 
-   select * from sp_ArbConvertId(p_suc_id) into v_suc_id, v_ram_id_Sucursal;
+   select * from sp_ArbConvertId(p_suc_id) into v_suc_id, v_ram_id_sucursal;
 
-   select * from sp_ArbConvertId(p_est_id) into v_est_id, v_ram_id_Estado;
+   select * from sp_ArbConvertId(p_est_id) into v_est_id, v_ram_id_estado;
 
-   select * from sp_ArbConvertId(p_ven_id) into v_ven_id, v_ram_id_Vendedor;
+   select * from sp_ArbConvertId(p_ven_id) into v_ven_id, v_ram_id_vendedor;
 
-   select * from sp_ArbConvertId(p_doc_id) into v_doc_id, v_ram_id_Documento;
+   select * from sp_ArbConvertId(p_doc_id) into v_doc_id, v_ram_id_documento;
 
    select * from sp_ArbConvertId(p_cpg_id) into v_cpg_id, v_ram_id_CondicionPago;
 
-   select * from sp_ArbConvertId(p_emp_id) into v_emp_id, v_ram_id_Empresa;
+   select * from sp_ArbConvertId(p_emp_id) into v_emp_id, v_ram_id_empresa;
 
    select * from  sp_GetRptId() into v_clienteID;
 
@@ -38209,76 +38209,76 @@ begin
    end;
    end if;
 
-   if v_ram_id_Estado <> 0 then
+   if v_ram_id_estado <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Estado, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Estado) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_estado) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Estado,
+         perform sp_ArbGetAllHojas(v_ram_id_estado,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Estado := 0;
+         v_ram_id_estado := 0;
 
       end if;
 
    end;
    end if;
 
-   if v_ram_id_Sucursal <> 0 then
+   if v_ram_id_sucursal <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Sucursal, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Sucursal) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_sucursal) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Sucursal,
+         perform sp_ArbGetAllHojas(v_ram_id_sucursal,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Sucursal := 0;
+         v_ram_id_sucursal := 0;
 
       end if;
 
    end;
    end if;
 
-   if v_ram_id_Vendedor <> 0 then
+   if v_ram_id_vendedor <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Vendedor, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Vendedor) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_vendedor) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Vendedor,
+         perform sp_ArbGetAllHojas(v_ram_id_vendedor,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Vendedor := 0;
+         v_ram_id_vendedor := 0;
 
       end if;
 
    end;
    end if;
 
-   if v_ram_id_Documento <> 0 then
+   if v_ram_id_documento <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Documento, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Documento) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_documento) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Documento,
+         perform sp_ArbGetAllHojas(v_ram_id_documento,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Documento := 0;
+         v_ram_id_documento := 0;
 
       end if;
 
@@ -38304,19 +38304,19 @@ begin
    end;
    end if;
 
-   if v_ram_id_Empresa <> 0 then
+   if v_ram_id_empresa <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Empresa, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Empresa) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_empresa) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Empresa,
+         perform sp_ArbGetAllHojas(v_ram_id_empresa,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Empresa := 0;
+         v_ram_id_empresa := 0;
 
       end if;
 
@@ -38430,25 +38430,25 @@ begin
                               where rptarb_cliente = v_clienteID
                                       and tbl_id = 4005
                                       and rptarb_hojaid = Estado.est_id ) )
-          or ( v_ram_id_Estado = 0 ) )
+          or ( v_ram_id_estado = 0 ) )
           and ( ( exists ( select rptarb_hojaid
                            from rptArbolRamaHoja
                               where rptarb_cliente = v_clienteID
                                       and tbl_id = 1007
                                       and rptarb_hojaid = Sucursal.suc_id ) )
-          or ( v_ram_id_Sucursal = 0 ) )
+          or ( v_ram_id_sucursal = 0 ) )
           and ( ( exists ( select rptarb_hojaid
                            from rptArbolRamaHoja
                               where rptarb_cliente = v_clienteID
                                       and tbl_id = 15
                                       and rptarb_hojaid = Vendedor.ven_id ) )
-          or ( v_ram_id_Vendedor = 0 ) )
+          or ( v_ram_id_vendedor = 0 ) )
           and ( ( exists ( select rptarb_hojaid
                            from rptArbolRamaHoja
                               where rptarb_cliente = v_clienteID
                                       and tbl_id = 4001
                                       and rptarb_hojaid = Documento.doc_id ) )
-          or ( v_ram_id_Documento = 0 ) )
+          or ( v_ram_id_documento = 0 ) )
           and ( ( exists ( select rptarb_hojaid
                            from rptArbolRamaHoja
                               where rptarb_cliente = v_clienteID
@@ -38460,7 +38460,7 @@ begin
                               where rptarb_cliente = v_clienteID
                                       and tbl_id = 1018
                                       and rptarb_hojaid = Empresa.emp_id ) )
-          or ( v_ram_id_Empresa = 0 ) )
+          or ( v_ram_id_empresa = 0 ) )
         
         order by fv_fecha, Comprobante;
 
@@ -38607,10 +38607,10 @@ declare
    v_emp_id integer;
    v_ram_id_Cliente integer;
    v_ram_id_CentroCosto integer;
-   v_ram_id_Sucursal integer;
-   v_ram_id_Estado integer;
+   v_ram_id_sucursal integer;
+   v_ram_id_estado integer;
    v_ram_id_Usuario integer;
-   v_ram_id_Documento integer;
+   v_ram_id_documento integer;
    v_ram_id_empresa integer;
    v_clienteID integer;
    v_IsRaiz smallint;
@@ -38626,13 +38626,13 @@ begin
 
    select * from sp_ArbConvertId(p_ccos_id) into v_ccos_id, v_ram_id_CentroCosto;
 
-   select * from sp_ArbConvertId(p_suc_id) into v_suc_id, v_ram_id_Sucursal;
+   select * from sp_ArbConvertId(p_suc_id) into v_suc_id, v_ram_id_sucursal;
 
-   select * from sp_ArbConvertId(p_est_id) into v_est_id, v_ram_id_Estado;
+   select * from sp_ArbConvertId(p_est_id) into v_est_id, v_ram_id_estado;
 
    select * from sp_ArbConvertId(p_us_id_responsable) into v_us_id, v_ram_id_Usuario;
 
-   select * from sp_ArbConvertId(p_doc_id) into v_doc_id, v_ram_id_Documento;
+   select * from sp_ArbConvertId(p_doc_id) into v_doc_id, v_ram_id_documento;
 
    select * from sp_ArbConvertId(p_emp_id) into v_emp_id, v_ram_id_empresa;
 
@@ -38676,38 +38676,38 @@ begin
    end;
    end if;
 
-   if v_ram_id_Estado <> 0 then
+   if v_ram_id_estado <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Estado, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Estado) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_estado) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Estado,
+         perform sp_ArbGetAllHojas(v_ram_id_estado,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Estado := 0;
+         v_ram_id_estado := 0;
 
       end if;
 
    end;
    end if;
 
-   if v_ram_id_Sucursal <> 0 then
+   if v_ram_id_sucursal <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Sucursal, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Sucursal) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_sucursal) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Sucursal,
+         perform sp_ArbGetAllHojas(v_ram_id_sucursal,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Sucursal := 0;
+         v_ram_id_sucursal := 0;
 
       end if;
 
@@ -38733,19 +38733,19 @@ begin
    end;
    end if;
 
-   if v_ram_id_Documento <> 0 then
+   if v_ram_id_documento <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Documento, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Documento) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_documento) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Documento,
+         perform sp_ArbGetAllHojas(v_ram_id_documento,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Documento := 0;
+         v_ram_id_documento := 0;
 
       end if;
 
@@ -38859,14 +38859,14 @@ begin
                                     and tbl_id = 4005
 
                                     and rptarb_hojaid = Estado.est_id ) )
-        or ( v_ram_id_Estado = 0 ) )
+        or ( v_ram_id_estado = 0 ) )
         and ( ( exists ( select rptarb_hojaid
                          from rptArbolRamaHoja
                             where rptarb_cliente = v_clienteID
                                     and tbl_id = 1007
 
                                     and rptarb_hojaid = Sucursal.suc_id ) )
-        or ( v_ram_id_Sucursal = 0 ) )
+        or ( v_ram_id_sucursal = 0 ) )
         and ( ( exists ( select rptarb_hojaid
                          from rptArbolRamaHoja
                             where rptarb_cliente = v_clienteID
@@ -38880,7 +38880,7 @@ begin
                                     and tbl_id = 4001
 
                                     and rptarb_hojaid = Documento.doc_id ) )
-        or ( v_ram_id_Documento = 0 ) )
+        or ( v_ram_id_documento = 0 ) )
         and ( ( exists ( select rptarb_hojaid
                          from rptArbolRamaHoja
                             where rptarb_cliente = v_clienteID
@@ -38906,12 +38906,12 @@ declare
    v_cob_id integer;
    v_doc_id integer;
    v_emp_id integer;
-   v_ram_id_Proveedor integer;
+   v_ram_id_proveedor integer;
    v_ram_id_CentroCosto integer;
-   v_ram_id_Sucursal integer;
-   v_ram_id_Estado integer;
+   v_ram_id_sucursal integer;
+   v_ram_id_estado integer;
    v_ram_id_Cobrador integer;
-   v_ram_id_Documento integer;
+   v_ram_id_documento integer;
    v_ram_id_CondicionPago integer;
    v_ram_id_empresa integer;
    v_ClienteID integer;
@@ -38924,33 +38924,33 @@ begin
     INICIO PRIMERA PARTE DE ARBOLES
    /////////////////////////////////////////////////////////////////////// */
 
-   select * from sp_ArbConvertId(p_prov_id) into v_prov_id, v_ram_id_Proveedor;
+   select * from sp_ArbConvertId(p_prov_id) into v_prov_id, v_ram_id_proveedor;
 
    select * from sp_ArbConvertId(p_ccos_id) into v_ccos_id, v_ram_id_CentroCosto;
 
-   select * from sp_ArbConvertId(p_suc_id) into v_suc_id, v_ram_id_Sucursal;
+   select * from sp_ArbConvertId(p_suc_id) into v_suc_id, v_ram_id_sucursal;
 
-   select * from sp_ArbConvertId(p_est_id) into v_est_id, v_ram_id_Estado;
+   select * from sp_ArbConvertId(p_est_id) into v_est_id, v_ram_id_estado;
 
-   select * from sp_ArbConvertId(p_doc_id) into v_doc_id, v_ram_id_Documento;
+   select * from sp_ArbConvertId(p_doc_id) into v_doc_id, v_ram_id_documento;
 
    select * from sp_ArbConvertId(p_emp_id) into v_emp_id, v_ram_id_empresa;
 
    select * from  sp_GetRptId() into v_clienteID;
 
-   if v_ram_id_Proveedor <> 0 then
+   if v_ram_id_proveedor <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Proveedor, @ClienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Proveedor) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_proveedor) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Proveedor,
+         perform sp_ArbGetAllHojas(v_ram_id_proveedor,
                            v_ClienteID);
 
       end;
       else
-         v_ram_id_Proveedor := 0;
+         v_ram_id_proveedor := 0;
 
       end if;
 
@@ -38976,38 +38976,38 @@ begin
    end;
    end if;
 
-   if v_ram_id_Estado <> 0 then
+   if v_ram_id_estado <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Estado, @ClienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Estado) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_estado) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Estado,
+         perform sp_ArbGetAllHojas(v_ram_id_estado,
                            v_ClienteID);
 
       end;
       else
-         v_ram_id_Estado := 0;
+         v_ram_id_estado := 0;
 
       end if;
 
    end;
    end if;
 
-   if v_ram_id_Sucursal <> 0 then
+   if v_ram_id_sucursal <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Sucursal, @ClienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Sucursal) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_sucursal) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Sucursal,
+         perform sp_ArbGetAllHojas(v_ram_id_sucursal,
                            v_ClienteID);
 
       end;
       else
-         v_ram_id_Sucursal := 0;
+         v_ram_id_sucursal := 0;
 
       end if;
 
@@ -39033,19 +39033,19 @@ begin
    end;
    end if;
 
-   if v_ram_id_Documento <> 0 then
+   if v_ram_id_documento <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Documento, @ClienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Documento) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_documento) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Documento,
+         perform sp_ArbGetAllHojas(v_ram_id_documento,
                            v_ClienteID);
 
       end;
       else
-         v_ram_id_Documento := 0;
+         v_ram_id_documento := 0;
 
       end if;
 
@@ -39159,7 +39159,7 @@ begin
                                     and tbl_id = 29
 
                                     and rptarb_hojaid = Proveedor.prov_id ) )
-        or ( v_ram_id_Proveedor = 0 ) )
+        or ( v_ram_id_proveedor = 0 ) )
         and ( ( exists ( select rptarb_hojaid
                          from rptArbolRamaHoja
                             where rptarb_Cliente = v_ClienteID
@@ -39173,21 +39173,21 @@ begin
                                     and tbl_id = 4005
 
                                     and rptarb_hojaid = Estado.est_id ) )
-        or ( v_ram_id_Estado = 0 ) )
+        or ( v_ram_id_estado = 0 ) )
         and ( ( exists ( select rptarb_hojaid
                          from rptArbolRamaHoja
                             where rptarb_Cliente = v_ClienteID
                                     and tbl_id = 1007
 
                                     and rptarb_hojaid = Sucursal.suc_id ) )
-        or ( v_ram_id_Sucursal = 0 ) )
+        or ( v_ram_id_sucursal = 0 ) )
         and ( ( exists ( select rptarb_hojaid
                          from rptArbolRamaHoja
                             where rptarb_Cliente = v_ClienteID
                                     and tbl_id = 4001
 
                                     and rptarb_hojaid = Documento.doc_id ) )
-        or ( v_ram_id_Documento = 0 ) )
+        or ( v_ram_id_documento = 0 ) )
         and ( ( exists ( select rptarb_hojaid
                          from rptArbolRamaHoja
                             where rptarb_cliente = v_clienteID
@@ -39216,12 +39216,12 @@ declare
    v_emp_id integer;
    v_ram_id_Cliente integer;
    v_ram_id_CentroCosto integer;
-   v_ram_id_Sucursal integer;
-   v_ram_id_Estado integer;
-   v_ram_id_Vendedor integer;
-   v_ram_id_Documento integer;
+   v_ram_id_sucursal integer;
+   v_ram_id_estado integer;
+   v_ram_id_vendedor integer;
+   v_ram_id_documento integer;
    v_ram_id_CondicionPago integer;
-   v_ram_id_Empresa integer;
+   v_ram_id_empresa integer;
    v_clienteID integer;
    v_IsRaiz smallint;
    
@@ -39243,17 +39243,17 @@ begin
 
    select * from sp_ArbConvertId(p_ccos_id) into v_ccos_id, v_ram_id_CentroCosto;
 
-   select * from sp_ArbConvertId(p_suc_id) into v_suc_id, v_ram_id_Sucursal;
+   select * from sp_ArbConvertId(p_suc_id) into v_suc_id, v_ram_id_sucursal;
 
-   select * from sp_ArbConvertId(p_est_id) into v_est_id, v_ram_id_Estado;
+   select * from sp_ArbConvertId(p_est_id) into v_est_id, v_ram_id_estado;
 
-   select * from sp_ArbConvertId(p_ven_id) into v_ven_id, v_ram_id_Vendedor;
+   select * from sp_ArbConvertId(p_ven_id) into v_ven_id, v_ram_id_vendedor;
 
-   select * from sp_ArbConvertId(p_doc_id) into v_doc_id, v_ram_id_Documento;
+   select * from sp_ArbConvertId(p_doc_id) into v_doc_id, v_ram_id_documento;
 
    select * from sp_ArbConvertId(p_cpg_id) into v_cpg_id, v_ram_id_CondicionPago;
 
-   select * from sp_ArbConvertId(p_emp_id) into v_emp_id, v_ram_id_Empresa;
+   select * from sp_ArbConvertId(p_emp_id) into v_emp_id, v_ram_id_empresa;
 
    select * from  sp_GetRptId() into v_clienteID;
 
@@ -39295,76 +39295,76 @@ begin
    end;
    end if;
 
-   if v_ram_id_Estado <> 0 then
+   if v_ram_id_estado <> 0 then
    begin
       -- exec sp_ArbGetGroups @ram_id_Estado, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Estado) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_estado) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Estado,
+         perform sp_ArbGetAllHojas(v_ram_id_estado,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Estado := 0;
+         v_ram_id_estado := 0;
 
       end if;
 
    end;
    end if;
 
-   if v_ram_id_Sucursal <> 0 then
+   if v_ram_id_sucursal <> 0 then
    begin
       -- exec sp_ArbGetGroups @ram_id_Sucursal, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Sucursal) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_sucursal) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Sucursal,
+         perform sp_ArbGetAllHojas(v_ram_id_sucursal,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Sucursal := 0;
+         v_ram_id_sucursal := 0;
 
       end if;
 
    end;
    end if;
 
-   if v_ram_id_Vendedor <> 0 then
+   if v_ram_id_vendedor <> 0 then
    begin
       -- exec sp_ArbGetGroups @ram_id_Vendedor, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Vendedor) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_vendedor) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Vendedor,
+         perform sp_ArbGetAllHojas(v_ram_id_vendedor,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Vendedor := 0;
+         v_ram_id_vendedor := 0;
 
       end if;
 
    end;
    end if;
 
-   if v_ram_id_Documento <> 0 then
+   if v_ram_id_documento <> 0 then
    begin
       -- exec sp_ArbGetGroups @ram_id_Documento, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Documento) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_documento) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Documento,
+         perform sp_ArbGetAllHojas(v_ram_id_documento,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Documento := 0;
+         v_ram_id_documento := 0;
 
       end if;
 
@@ -39390,19 +39390,19 @@ begin
    end;
    end if;
 
-   if v_ram_id_Empresa <> 0 then
+   if v_ram_id_empresa <> 0 then
    begin
       -- exec sp_ArbGetGroups @ram_id_Empresa, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Empresa) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_empresa) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Empresa,
+         perform sp_ArbGetAllHojas(v_ram_id_empresa,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Empresa := 0;
+         v_ram_id_empresa := 0;
 
       end if;
 
@@ -39465,25 +39465,25 @@ begin
                               where rptarb_cliente = v_clienteID
                                       and tbl_id = 4005
                                       and rptarb_hojaid = pv.est_id ) )
-          or ( v_ram_id_Estado = 0 ) )
+          or ( v_ram_id_estado = 0 ) )
           and ( ( exists ( select rptarb_hojaid
                            from rptArbolRamaHoja
                               where rptarb_cliente = v_clienteID
                                       and tbl_id = 1007
                                       and rptarb_hojaid = pv.suc_id ) )
-          or ( v_ram_id_Sucursal = 0 ) )
+          or ( v_ram_id_sucursal = 0 ) )
           and ( ( exists ( select rptarb_hojaid
                            from rptArbolRamaHoja
                               where rptarb_cliente = v_clienteID
                                       and tbl_id = 15
                                       and rptarb_hojaid = pv.ven_id ) )
-          or ( v_ram_id_Vendedor = 0 ) )
+          or ( v_ram_id_vendedor = 0 ) )
           and ( ( exists ( select rptarb_hojaid
                            from rptArbolRamaHoja
                               where rptarb_cliente = v_clienteID
                                       and tbl_id = 4001
                                       and rptarb_hojaid = pv.doc_id ) )
-          or ( v_ram_id_Documento = 0 ) )
+          or ( v_ram_id_documento = 0 ) )
           and ( ( exists ( select rptarb_hojaid
                            from rptArbolRamaHoja
                               where rptarb_cliente = v_clienteID
@@ -39495,7 +39495,7 @@ begin
                               where rptarb_cliente = v_clienteID
                                       and tbl_id = 1018
                                       and rptarb_hojaid = pv.emp_id ) )
-          or ( v_ram_id_Empresa = 0 ) );
+          or ( v_ram_id_empresa = 0 ) );
   
   
   create temporary table tt_t_preguntas (pv_id int, preguntas varchar(7000) NOT NULL) on commit drop;
@@ -39654,12 +39654,12 @@ declare
    v_emp_id integer;
    v_ram_id_Cliente integer;
    v_ram_id_CentroCosto integer;
-   v_ram_id_Sucursal integer;
-   v_ram_id_Estado integer;
-   v_ram_id_Vendedor integer;
-   v_ram_id_Documento integer;
+   v_ram_id_sucursal integer;
+   v_ram_id_estado integer;
+   v_ram_id_vendedor integer;
+   v_ram_id_documento integer;
    v_ram_id_CondicionPago integer;
-   v_ram_id_Empresa integer;
+   v_ram_id_empresa integer;
    v_clienteID integer;
    v_IsRaiz smallint;
 begin
@@ -39674,17 +39674,17 @@ begin
 
    select * from sp_ArbConvertId(p_ccos_id) into v_ccos_id, v_ram_id_CentroCosto;
 
-   select * from sp_ArbConvertId(p_suc_id) into v_suc_id, v_ram_id_Sucursal;
+   select * from sp_ArbConvertId(p_suc_id) into v_suc_id, v_ram_id_sucursal;
 
-   select * from sp_ArbConvertId(p_est_id) into v_est_id, v_ram_id_Estado;
+   select * from sp_ArbConvertId(p_est_id) into v_est_id, v_ram_id_estado;
 
-   select * from sp_ArbConvertId(p_ven_id) into v_ven_id, v_ram_id_Vendedor;
+   select * from sp_ArbConvertId(p_ven_id) into v_ven_id, v_ram_id_vendedor;
 
-   select * from sp_ArbConvertId(p_doc_id) into v_doc_id, v_ram_id_Documento;
+   select * from sp_ArbConvertId(p_doc_id) into v_doc_id, v_ram_id_documento;
 
    select * from sp_ArbConvertId(p_cpg_id) into v_cpg_id, v_ram_id_CondicionPago;
 
-   select * from sp_ArbConvertId(p_emp_id) into v_emp_id, v_ram_id_Empresa;
+   select * from sp_ArbConvertId(p_emp_id) into v_emp_id, v_ram_id_empresa;
 
    select * from  sp_GetRptId() into v_clienteID;
 
@@ -39726,76 +39726,76 @@ begin
    end;
    end if;
 
-   if v_ram_id_Estado <> 0 then
+   if v_ram_id_estado <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Estado, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Estado) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_estado) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Estado,
+         perform sp_ArbGetAllHojas(v_ram_id_estado,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Estado := 0;
+         v_ram_id_estado := 0;
 
       end if;
 
    end;
    end if;
 
-   if v_ram_id_Sucursal <> 0 then
+   if v_ram_id_sucursal <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Sucursal, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Sucursal) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_sucursal) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Sucursal,
+         perform sp_ArbGetAllHojas(v_ram_id_sucursal,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Sucursal := 0;
+         v_ram_id_sucursal := 0;
 
       end if;
 
    end;
    end if;
 
-   if v_ram_id_Vendedor <> 0 then
+   if v_ram_id_vendedor <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Vendedor, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Vendedor) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_vendedor) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Vendedor,
+         perform sp_ArbGetAllHojas(v_ram_id_vendedor,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Vendedor := 0;
+         v_ram_id_vendedor := 0;
 
       end if;
 
    end;
    end if;
 
-   if v_ram_id_Documento <> 0 then
+   if v_ram_id_documento <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Documento, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Documento) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_documento) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         perform sp_ArbGetAllHojas(v_ram_id_Documento,
+         perform sp_ArbGetAllHojas(v_ram_id_documento,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Documento := 0;
+         v_ram_id_documento := 0;
 
       end if;
 
@@ -39938,25 +39938,25 @@ begin
                             where rptarb_cliente = v_clienteID
                                     and tbl_id = 4005
                                     and rptarb_hojaid = Estado.est_id ) )
-        or ( v_ram_id_Estado = 0 ) )
+        or ( v_ram_id_estado = 0 ) )
         and ( ( exists ( select rptarb_hojaid
                          from rptArbolRamaHoja
                             where rptarb_cliente = v_clienteID
                                     and tbl_id = 1007
                                     and rptarb_hojaid = Sucursal.suc_id ) )
-        or ( v_ram_id_Sucursal = 0 ) )
+        or ( v_ram_id_sucursal = 0 ) )
         and ( ( exists ( select rptarb_hojaid
                          from rptArbolRamaHoja
                             where rptarb_cliente = v_clienteID
                                     and tbl_id = 15
                                     and rptarb_hojaid = Vendedor.ven_id ) )
-        or ( v_ram_id_Vendedor = 0 ) )
+        or ( v_ram_id_vendedor = 0 ) )
         and ( ( exists ( select rptarb_hojaid
                          from rptArbolRamaHoja
                             where rptarb_cliente = v_clienteID
                                     and tbl_id = 4001
                                     and rptarb_hojaid = Documento.doc_id ) )
-        or ( v_ram_id_Documento = 0 ) )
+        or ( v_ram_id_documento = 0 ) )
         and ( ( exists ( select rptarb_hojaid
                          from rptArbolRamaHoja
                             where rptarb_cliente = v_clienteID

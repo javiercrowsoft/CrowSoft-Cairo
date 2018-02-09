@@ -25,7 +25,7 @@ INICIO PRIMERA PARTE DE ARBOLES
    v_ram_id_Cliente integer;
    v_ram_id_ComunidadInternet integer;
    v_ram_id_ComunidadInternetApli integer;
-   v_ram_id_Estado integer;
+   v_ram_id_estado integer;
    v_ram_id_ComunidadInternetEmai integer;
    v_clienteID integer;
    v_IsRaiz smallint;
@@ -37,7 +37,7 @@ begin
 
    select * from sp_ArbConvertId(p_cmia_id) into v_cmia_id, v_ram_id_ComunidadInternetApli;
 
-   select * from sp_ArbConvertId(p_est_id) into v_est_id, v_ram_id_Estado;
+   select * from sp_ArbConvertId(p_est_id) into v_est_id, v_ram_id_estado;
 
    select * from sp_ArbConvertId(p_cmiea_id) into v_cmiea_id, v_ram_id_ComunidadInternetEmai;
 
@@ -81,19 +81,19 @@ begin
    end;
    end if;
 
-   if v_ram_id_Estado <> 0 then
+   if v_ram_id_estado <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Estado, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Estado) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_estado) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         sp_ArbGetAllHojas(v_ram_id_Estado,
+         sp_ArbGetAllHojas(v_ram_id_estado,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Estado := 0;
+         v_ram_id_estado := 0;
 
       end if;
 
@@ -203,7 +203,7 @@ INICIO SEGUNDA PARTE DE ARBOLES
                                      where rptarb_cliente = v_clienteID
                                              and tbl_id = 4005
                                              and rptarb_hojaid = cmie.est_id ) )
-                 or ( v_ram_id_Estado = 0 ) )
+                 or ( v_ram_id_estado = 0 ) )
                  and ( ( exists ( select rptarb_hojaid
                                   from rptArbolRamaHoja
                                      where rptarb_cliente = v_clienteID

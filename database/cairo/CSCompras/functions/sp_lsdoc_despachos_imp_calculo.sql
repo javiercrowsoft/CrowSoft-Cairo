@@ -31,28 +31,28 @@ as
 INICIO PRIMERA PARTE DE ARBOLES
 /////////////////////////////////////////////////////////////////////// */
    v_prov_id integer;
-   v_ram_id_Proveedor integer;
+   v_ram_id_proveedor integer;
    v_clienteID integer;
    v_IsRaiz smallint;
 begin
 
-   select * from sp_ArbConvertId(p_prov_id) into v_prov_id, v_ram_id_Proveedor;
+   select * from sp_ArbConvertId(p_prov_id) into v_prov_id, v_ram_id_proveedor;
 
    select * from  sp_GetRptId() into v_clienteID;
 
-   if v_ram_id_Proveedor <> 0 then
+   if v_ram_id_proveedor <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Proveedor, @clienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Proveedor) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_proveedor) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         sp_ArbGetAllHojas(v_ram_id_Proveedor,
+         sp_ArbGetAllHojas(v_ram_id_proveedor,
                            v_clienteID);
 
       end;
       else
-         v_ram_id_Proveedor := 0;
+         v_ram_id_proveedor := 0;
 
       end if;
 
@@ -150,7 +150,7 @@ INICIO SEGUNDA PARTE DE ARBOLES
                                      where rptarb_cliente = v_clienteID
                                              and tbl_id = 29
                                              and rptarb_hojaid = rc.prov_id ) )
-                 or ( v_ram_id_Proveedor = 0 ) )
+                 or ( v_ram_id_proveedor = 0 ) )
         order by dic.dic_fecha;
 
 end;

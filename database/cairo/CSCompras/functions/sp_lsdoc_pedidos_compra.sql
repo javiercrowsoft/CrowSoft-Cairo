@@ -38,10 +38,10 @@ INICIO PRIMERA PARTE DE ARBOLES
    v_emp_id integer;
    v_ram_id_Usuario integer;
    v_ram_id_CentroCosto integer;
-   v_ram_id_Sucursal integer;
-   v_ram_id_Estado integer;
-   v_ram_id_Documento integer;
-   v_ram_id_Empresa integer;
+   v_ram_id_sucursal integer;
+   v_ram_id_estado integer;
+   v_ram_id_documento integer;
+   v_ram_id_empresa integer;
    v_ClienteID integer;
    v_IsRaiz smallint;
 begin
@@ -50,13 +50,13 @@ begin
 
    select * from sp_ArbConvertId(p_ccos_id) into v_ccos_id, v_ram_id_CentroCosto;
 
-   select * from sp_ArbConvertId(p_suc_id) into v_suc_id, v_ram_id_Sucursal;
+   select * from sp_ArbConvertId(p_suc_id) into v_suc_id, v_ram_id_sucursal;
 
-   select * from sp_ArbConvertId(p_est_id) into v_est_id, v_ram_id_Estado;
+   select * from sp_ArbConvertId(p_est_id) into v_est_id, v_ram_id_estado;
 
-   select * from sp_ArbConvertId(p_doc_id) into v_doc_id, v_ram_id_Documento;
+   select * from sp_ArbConvertId(p_doc_id) into v_doc_id, v_ram_id_documento;
 
-   select * from sp_ArbConvertId(p_emp_id) into v_emp_id, v_ram_id_Empresa;
+   select * from sp_ArbConvertId(p_emp_id) into v_emp_id, v_ram_id_empresa;
 
    select * from  sp_GetRptId() into v_clienteID;
 
@@ -98,55 +98,55 @@ begin
    end;
    end if;
 
-   if v_ram_id_Estado <> 0 then
+   if v_ram_id_estado <> 0 then
    begin
-      select sp_ArbIsRaiz(v_ram_id_Estado) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_estado) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         sp_ArbGetAllHojas(v_ram_id_Estado,
+         sp_ArbGetAllHojas(v_ram_id_estado,
                            v_ClienteID);
 
       end;
       else
-         v_ram_id_Estado := 0;
+         v_ram_id_estado := 0;
 
       end if;
 
    end;
    end if;
 
-   if v_ram_id_Sucursal <> 0 then
+   if v_ram_id_sucursal <> 0 then
    begin
       --	exec sp_ArbGetGroups @ram_id_Sucursal, @ClienteID, @@us_id
-      select sp_ArbIsRaiz(v_ram_id_Sucursal) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_sucursal) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         sp_ArbGetAllHojas(v_ram_id_Sucursal,
+         sp_ArbGetAllHojas(v_ram_id_sucursal,
                            v_ClienteID);
 
       end;
       else
-         v_ram_id_Sucursal := 0;
+         v_ram_id_sucursal := 0;
 
       end if;
 
    end;
    end if;
 
-   if v_ram_id_Documento <> 0 then
+   if v_ram_id_documento <> 0 then
    begin
-      select sp_ArbIsRaiz(v_ram_id_Documento) into v_IsRaiz;
+      select sp_ArbIsRaiz(v_ram_id_documento) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
       begin
-         sp_ArbGetAllHojas(v_ram_id_Documento,
+         sp_ArbGetAllHojas(v_ram_id_documento,
                            v_ClienteID);
 
       end;
       else
-         v_ram_id_Documento := 0;
+         v_ram_id_documento := 0;
 
       end if;
 
@@ -256,19 +256,19 @@ INICIO SEGUNDA PARTE DE ARBOLES
                                      where rptarb_cliente = v_ClienteID
                                              and tbl_id = 4005
                                              and rptarb_hojaid = Estado.est_id ) )
-                 or ( v_ram_id_Estado = 0 ) )
+                 or ( v_ram_id_estado = 0 ) )
                  and ( ( exists ( select rptarb_hojaid
                                   from rptArbolRamaHoja
                                      where rptarb_cliente = v_ClienteID
                                              and tbl_id = 1007
                                              and rptarb_hojaid = Sucursal.suc_id ) )
-                 or ( v_ram_id_Sucursal = 0 ) )
+                 or ( v_ram_id_sucursal = 0 ) )
                  and ( ( exists ( select rptarb_hojaid
                                   from rptArbolRamaHoja
                                      where rptarb_cliente = v_ClienteID
                                              and tbl_id = 4001
                                              and rptarb_hojaid = Documento.doc_id ) )
-                 or ( v_ram_id_Documento = 0 ) )
+                 or ( v_ram_id_documento = 0 ) )
                  and ( ( exists ( select rptarb_hojaid
                                   from rptArbolRamaHoja
                                      where rptarb_cliente = v_clienteID

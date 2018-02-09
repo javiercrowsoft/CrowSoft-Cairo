@@ -84,10 +84,10 @@ http://www.gskinner.com/RegExr/
 
 -- regular expression to replace calls to functions with out parameters
 -- for
-sp_ArbIsRaiz(v_ram_id_Sucursal, 
+sp_ArbIsRaiz(v_ram_id_sucursal,
                                    v_IsRaiz);
 -- gives
-select sp_ArbIsRaiz(v_ram_id_Sucursal) into v_IsRaiz;
+select sp_ArbIsRaiz(v_ram_id_sucursal) into v_IsRaiz;
                                    
 search: (sp_ArbIsRaiz\()([a-zA-Z0-9_]*\s*),\s*([a-zA-Z0-9_]*)\)
 
@@ -99,11 +99,11 @@ replace: select \1\2\) into \3
 -- for
 sp_ArbConvertId(p_prov_id,
 			   v_prov_id,
-			   v_ram_id_Proveedor);
+			   v_ram_id_proveedor);
 
 -- gives
 
-select * from sp_ArbConvertId(p_prov_id) into v_prov_id, v_ram_id_Proveedor;
+select * from sp_ArbConvertId(p_prov_id) into v_prov_id, v_ram_id_proveedor;
 
 search: (sp_ArbConvertId\()([a-zA-Z0-9_]*\s*),\s*([a-zA-Z0-9_]*),\s*([a-zA-Z0-9_]*)\)
 
