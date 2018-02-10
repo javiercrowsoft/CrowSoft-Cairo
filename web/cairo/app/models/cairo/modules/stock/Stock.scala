@@ -68,26 +68,101 @@ case class StockBase(
                         descrip: String
                       )
 
+case class StockItemSerie(
+                           id: Int,
+                           code: String,
+                           descrip: String,
+                           fechaVto: Date,
+                           stiGroup: Int
+                           )
+
+case class StockItemKit(
+                         id: Int,
+                         name: String,
+                         amount: Double,
+                         hasSerial: Boolean
+                         )
 case class StockItem(
                         id: Int,
                         descrip: String,
+                        deplId: Int,
                         prId: Int,
                         prNameCompra: String,
+                        prHasPartNumber: Boolean,
+                        prHasSerial: Boolean,
+                        prIsKit: Boolean,
+                        unName: String,
+                        stlId: Int,
+                        stlCode: String,
                         prnsId: Int,
-                        prnsCode: String,
+                        prnsDescrip: String,
+                        prnsFechaVto: Date,
+
                         ingreso: Double,
                         salida: Double,
                         grupo: Int,
-                        orden: Int
+                        orden: Int,
+                        prIdKit: Int,
+                        stikOrden: Int,
+                        stikCantidad: Double
                       )
 
 object StockItem {
 
   def apply(id: Int,
             descrip: String,
+            deplId: Int,
             prId: Int,
+            stlId: Int,
             prnsId: Int,
+            prnsDescrip: String,
+            prnsFechaVto: Date,
             ingreso: Double,
+            salida: Double,
+            grupo: Int,
+            orden: Int,
+            prIdKit: Int,
+            stikOrden: Int,
+            stikCantidad: Double
+             ) = {
+
+    new StockItem(
+      id,
+      descrip,
+      deplId,
+      prId,
+      "",
+      false,
+      false,
+      false,
+      "",
+      stlId,
+      "",
+      prnsId,
+      prnsDescrip,
+      prnsFechaVto,
+      ingreso,
+      salida,
+      grupo,
+      orden,
+      prIdKit,
+      stikOrden,
+      stikCantidad
+    )
+  }
+
+
+  def apply(id: Int,
+            descrip: String,
+            deplId: Int,
+            prId: Int,
+            prNameCompra: String,
+            hasPartNumber: Boolean,
+            hasSerial: Boolean,
+            isKit: Boolean,
+            unName: String,
+            stlId: Int,
+            stlCode: String,
             salida: Double,
             grupo: Int,
             orden: Int) = {
@@ -95,20 +170,33 @@ object StockItem {
     new StockItem(
       id,
       descrip,
+      deplId,
       prId,
+      prNameCompra,
+      hasPartNumber,
+      hasSerial,
+      isKit,
+      unName,
+      stlId,
+      stlCode,
+      DBHelper.NoId,
       "",
-      prnsId,
-      "",
-      ingreso,
+      U.NO_DATE,
+      0,
       salida,
       grupo,
-      orden
+      orden,
+      DBHelper.NoId,
+      0,
+      0
     )
   }
 }
 
 case class StockItems(
-                         items: List[StockItem]
+                         items: List[StockItem],
+                         series: List[StockItemSerie], /* only used when loading an invoice to respond a get FacturaVenta */
+                         kits: List[StockItemKit]  /* only used when loading an invoice to respond a get FacturaVenta */
                        )
 
 case class Stock(
@@ -229,7 +317,7 @@ object Stock {
   lazy val GC = models.cairo.modules.general.C
   lazy val DT = models.cairo.modules.documentos.DT
 
-  lazy val emptyStockItems = StockItems(List())
+  lazy val emptyStockItems = StockItems(List(), List(), List())
 
   lazy val emptyStockReferences = StockReferences(0, 0, 0, "", "", false, false, "")
 
@@ -320,36 +408,89 @@ object Stock {
   private val stockItemParser: RowParser[StockItem] = {
     SqlParser.get[Int](C.STI_ID) ~
     SqlParser.get[String](C.STI_DESCRIP) ~
+    SqlParser.get[Int](GC.DEPL_ID) ~
     SqlParser.get[Int](GC.PR_ID) ~
     SqlParser.get[String](GC.PR_NAME_COMPRA) ~
-    SqlParser.get[Option[Int]](GC.PRNS_ID) ~
-    SqlParser.get[Option[String]](GC.PRNS_CODE) ~
-    SqlParser.get[BigDecimal](C.STI_INGRESO) ~
+    SqlParser.get[Int](GC.PR_LLEVA_NRO_LOTE) ~
+    SqlParser.get[Int](GC.PR_LLEVA_NRO_SERIE) ~
+    SqlParser.get[Int](GC.PR_ES_KIT) ~
+    SqlParser.get[String](GC.UN_NAME) ~
+    SqlParser.get[Option[Int]](GC.STL_ID) ~
+    SqlParser.get[Option[String]](GC.STL_CODE) ~
     SqlParser.get[BigDecimal](C.STI_SALIDA) ~
     SqlParser.get[Int](C.STI_GRUPO) ~
     SqlParser.get[Int](C.STI_ORDEN) map {
     case
         id ~
         descrip ~
+        deplId ~
         prId ~
         prNameCompra ~
-        prnsId ~
-        prnsCode ~
-        ingreso ~
+        hasPartNumber ~
+        hasSerial ~
+        isKit ~
+        unName ~
+        stlId ~
+        stlCode ~
         salida ~
         grupo ~
         orden =>
       StockItem(
         id,
         descrip,
+        deplId,
         prId,
         prNameCompra,
-        prnsId.getOrElse(DBHelper.NoId),
-        prnsCode.getOrElse(""),
-        ingreso.doubleValue(),
+        hasPartNumber != 0,
+        hasSerial != 0,
+        isKit != 0,
+        unName,
+        stlId.getOrElse(DBHelper.NoId),
+        stlCode.getOrElse(""),
         salida.doubleValue(),
         grupo,
         orden
+      )
+    }
+  }
+
+  private val stockItemSerieParser: RowParser[StockItemSerie] = {
+    SqlParser.get[Int](GC.PRNS_ID) ~
+    SqlParser.get[String](GC.PRNS_CODE) ~
+    SqlParser.get[String](GC.PRNS_DESCRIP) ~
+    SqlParser.get[Date](GC.PRNS_FECHA_VTO) ~
+    SqlParser.get[Int](C.STI_GRUPO) map {
+    case
+        prnsId ~
+        prnsCode ~
+        prnsDescrip ~
+        prnsFechaVto ~
+        stiGroup =>
+      StockItemSerie(
+        prnsId,
+        prnsCode,
+        prnsDescrip,
+        prnsFechaVto,
+        stiGroup
+      )
+    }
+  }
+
+  private val stockItemKitParser: RowParser[StockItemKit] = {
+    SqlParser.get[Int](GC.PR_ID) ~
+    SqlParser.get[String](GC.PR_NAME_COMPRA) ~
+    SqlParser.get[BigDecimal](GC.PRK_CANTIDAD) ~
+    SqlParser.get[Int](GC.PR_LLEVA_NRO_SERIE) map {
+    case
+        prId ~
+        name ~
+        amount ~
+        hasSerial =>
+      StockItemKit(
+        prId,
+        name,
+        amount.doubleValue(),
+        (hasSerial != 0)
       )
     }
   }
@@ -645,26 +786,33 @@ object Stock {
 
   private def loadStockItems(user: CompanyUser, id: Int) = {
     val items = loadItems(user, id)
-    StockItems(items)
+    StockItems(items._1, items._2, items._3)
   }
 
   private def loadItems(user: CompanyUser, id: Int) = {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_doc_stock_get_items(?, ?)}"
+      val sql = "{call sp_doc_stock_get_items(?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, id)
       cs.registerOutParameter(2, Types.OTHER)
+      cs.registerOutParameter(3, Types.OTHER)
+      cs.registerOutParameter(4, Types.OTHER)
 
       try {
         cs.execute()
 
         val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
+        val rsSerie = cs.getObject(3).asInstanceOf[java.sql.ResultSet]
+        val rsKit = cs.getObject(4).asInstanceOf[java.sql.ResultSet]
 
-        Sql.as(stockItemParser.*, rs)
-
+        (
+          Sql.as(stockItemParser.*, rs),
+          Sql.as(stockItemSerieParser.*, rsSerie),
+          Sql.as(stockItemKitParser.*, rsKit)
+        )
       } catch {
         case NonFatal(e) => {
           Logger.error(s"can't get ${C.STOCK_ITEM} with id $id for user ${user.toString}. Error ${e.toString}")

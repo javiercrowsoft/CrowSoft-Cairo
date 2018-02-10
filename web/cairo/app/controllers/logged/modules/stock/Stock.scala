@@ -1,6 +1,7 @@
 package controllers.logged.modules.stock
 
 import controllers._
+import models.cairo.modules.stock.S
 import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
@@ -29,12 +30,19 @@ case class StockBaseData(
 case class StockItemData(
                             id: Int,
                             descrip: String,
+                            deplId: Int,
                             prId: Int,
+                            stlId: Int,
                             prnsId: Int,
+                            prnsDescrip: String,
+                            prnsFechaVto: String,
                             ingreso: Double,
                             salida: Double,
                             grupo: Int,
-                            orden: Int
+                            orden: Int,
+                            prIdKit: Int,
+                            stikOrden: Int,
+                            stikCantidad: Double
                           )
 
 case class StockData(
@@ -90,12 +98,19 @@ object Stocks extends Controller with ProvidesUser {
         mapping(
           C.STI_ID -> number,
           C.STI_DESCRIP -> text,
+          GC.DEPL_ID -> number,
           GC.PR_ID -> number,
+          GC.STL_ID -> number,
           GC.PRNS_ID -> number,
+          GC.PRNS_DESCRIP -> text,
+          GC.PRNS_FECHA_VTO -> text,
           C.STI_INGRESO -> of(Global.doubleFormat),
           C.STI_SALIDA -> of(Global.doubleFormat),
           C.STI_GRUPO -> number,
-          C.STI_ORDEN -> number)
+          C.STI_ORDEN -> number,
+          GC.PR_ID_KIT -> number,
+          C.STIK_ORDEN -> number,
+          C.STIK_CANTIDAD -> of(Global.doubleFormat))
         (StockItemData.apply)(StockItemData.unapply)
       )
     )(StockData.apply)(StockData.unapply)
@@ -139,21 +154,43 @@ object Stocks extends Controller with ProvidesUser {
       GC.EDIT_MSG -> Json.toJson(stock.references.editMsg),
 
       // Items
-      "items" -> Json.toJson(writeStockItems(stock.items.items))
+      "items" -> Json.toJson(writeStockItems(stock.items.items)),
+      "serialNumbers" -> Json.toJson(writeStockItemSeries(stock.items.series)),
+      "kitDefinitions" -> Json.toJson(writeStockItemKits(stock.items.kits))
     )
     def stockItemWrites(i: StockItem) = Json.obj(
       C.STI_ID -> Json.toJson(i.id),
       C.STI_DESCRIP -> Json.toJson(i.descrip),
+      GC.DEPL_ID -> Json.toJson(i.deplId),
       GC.PR_ID -> Json.toJson(i.prId),
       GC.PR_NAME_COMPRA -> Json.toJson(i.prNameCompra),
-      GC.PRNS_ID -> Json.toJson(i.prnsId),
-      GC.PRNS_CODE -> Json.toJson(i.prnsCode),
-      C.STI_INGRESO -> Json.toJson(i.ingreso),
+      GC.PR_LLEVA_NRO_LOTE -> Json.toJson(i.prHasPartNumber),
+      GC.PR_LLEVA_NRO_SERIE -> Json.toJson(i.prHasSerial),
+      GC.PR_ES_KIT -> Json.toJson(i.prIsKit),
+      GC.UN_NAME -> Json.toJson(i.unName),
+      GC.STL_ID -> Json.toJson(i.stlId),
+      GC.STL_CODE -> Json.toJson(i.stlCode),
+
       C.STI_SALIDA -> Json.toJson(i.salida),
       C.STI_GRUPO -> Json.toJson(i.grupo),
       C.STI_ORDEN -> Json.toJson(i.orden)
     )
+    def stockItemSerieWrites(i: StockItemSerie) = Json.obj(
+      C.STI_GRUPO -> Json.toJson(i.stiGroup),
+      GC.PRNS_ID -> Json.toJson(i.id),
+      GC.PRNS_CODE -> Json.toJson(i.code),
+      GC.PRNS_DESCRIP -> Json.toJson(i.descrip),
+      GC.PRNS_FECHA_VTO -> Json.toJson(i.fechaVto)
+    )
+    def stockItemKitWrites(p: StockItemKit) = Json.obj(
+      GC.PR_ID -> Json.toJson(p.id),
+      GC.PR_NAME_VENTA -> Json.toJson(p.name),
+      GC.PRK_CANTIDAD -> Json.toJson(p.amount),
+      GC.PR_LLEVA_NRO_SERIE -> Json.toJson(p.hasSerial)
+    )
     def writeStockItems(items: List[StockItem]) = items.map(item => stockItemWrites(item))
+    def writeStockItemSeries(items: List[StockItemSerie]) = items.map(item => stockItemSerieWrites(item))
+    def writeStockItemKits(items: List[StockItemKit]) = items.map(item => stockItemKitWrites(item))
   }
 
   def get(id: Int) = GetAction { implicit request =>
@@ -225,19 +262,26 @@ object Stocks extends Controller with ProvidesUser {
       StockItem(
         item.id,
         item.descrip,
+        item.deplId,
         item.prId,
+        item.stlId,
         item.prnsId,
+        item.prnsDescrip,
+        DateFormatter.parse(item.prnsFechaVto),
         item.ingreso,
         item.salida,
         item.grupo,
-        item.orden
+        item.orden,
+        item.prIdKit,
+        item.stikOrden,
+        item.stikCantidad
       )
     })
   }
 
   def getStockItems(stock: StockData): StockItems = {
     StockItems(
-      getItems(stock.items)
+      getItems(stock.items), List(), List()
     )
   }
 

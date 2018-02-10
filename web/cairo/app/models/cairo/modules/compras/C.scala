@@ -285,17 +285,6 @@ object C {
   // OrdenPagoItemCuentaCorrienteTMP
   // val ORDEN_PAGO_ITEM_CUENTA_CORRIENTE_TMP = "OrdenPagoItemCuentaCorrienteTMP"
 
-  // Stock
-  val DEPL_ID_ORIGEN = "depl_id_origen"
-  val DEPL_ID_DESTINO = "depl_id_destino"
-  val DEPL_ID = "depl_id"
-  val DEPL_NAME = "depl_nombre"
-
-  // StockLote
-  val STOCK_LOTE = "StockLote"
-  val STL_ID = "stl_id"
-  val STL_CODE = "stl_codigo"
-
   // Remito Factura Compra TMP
   val REMITO_FACTURA_COMPRA_TMP = "RemitoFacturaCompraTMP"
   val RC_FC_TMP_ID = "rcfcTMP_id"

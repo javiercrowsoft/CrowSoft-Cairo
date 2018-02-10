@@ -3134,7 +3134,7 @@
 
           serialNumber = coll.add(null, Cairo.Collections.getKey(prnsId));
           serialNumber.setPrnsId(prnsId);
-          serialNumber.setCodigo(getValue(m_data.serialNumbers[_i], C.PRNS_CODE));
+          serialNumber.setCode(getValue(m_data.serialNumbers[_i], C.PRNS_CODE));
           serialNumber.setDescrip(getValue(m_data.serialNumbers[_i], C.PRNS_DESCRIP));
           serialNumber.setFechaVto(getValue(m_data.serialNumbers[_i], C.PRNS_FECHA_VTO));
           serialNumber.setPrIdItem(getValue(m_data.serialNumbers[_i], C.PR_ID));

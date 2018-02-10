@@ -9,7 +9,7 @@
 
     if(stId !== NO_ID) {
 
-      D.getDocCliente(D.Types.ASIENTO_CONTABLE, asId).whenSuccessWithResult(function(response) {
+      D.getDocCliente(D.Types.TRANSFERENCIA_STOCK, asId).whenSuccessWithResult(function(response) {
 
         if(response.id === NO_ID) {
           M.showInfo(getText(1693, "")); // Este comprobante no tiene un documento de stock asociado.
@@ -1258,7 +1258,7 @@
 
         elem = properties.add(null, C.LGJ_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setTable(Cairo.Tables.LEGAJOS);
+        elem.setSelectTable(Cairo.Tables.LEGAJOS);
         elem.setName(getText(1575, "")); // Legajo
         elem.setKey(K_LGJ_ID);
         elem.setSelectId(m_lgjId);
@@ -1515,7 +1515,7 @@
 
           serialNumber = coll.add(null, Cairo.Collections.getKey(prnsId));
           serialNumber.setPrnsId(prnsId);
-          serialNumber.setCodigo(getValue(dataSerials[_i], C.PRNS_CODE));
+          serialNumber.setCode(getValue(dataSerials[_i], C.PRNS_CODE));
           serialNumber.setDescrip(getValue(dataSerials[_i], C.PRNS_DESCRIP));
           serialNumber.setFechaVto(getValue(dataSerials[_i], C.PRNS_FECHA_VTO));
           serialNumber.setPrIdItem(getValue(dataSerials[_i], C.PR_ID));
@@ -2230,7 +2230,7 @@
     Edit.Controller.edit = function(id) {
 
       Cairo.LoadingMessage.show("Movimientos de Stock", "Loading Movimientos de Stock from Crowsoft Cairo server.");
-      var editor = Cairo.Asiento.Edit.Controller.getEditor();
+      var editor = Cairo.Stock.Edit.Controller.getEditor();
 
       var dialog = Cairo.Dialogs.Views.Controller.newDialog();
       var dialogItems = Cairo.Dialogs.Views.Controller.newDialog();

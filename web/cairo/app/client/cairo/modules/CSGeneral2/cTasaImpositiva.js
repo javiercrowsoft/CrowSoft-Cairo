@@ -65,7 +65,7 @@
       self.getCode = function() {
         return m_code;
       };
-      self.setCodigo = function(value) {
+      self.setCode = function(value) {
         m_code = value;
       };
 

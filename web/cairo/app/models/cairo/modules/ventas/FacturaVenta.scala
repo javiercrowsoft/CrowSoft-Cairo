@@ -924,8 +924,8 @@ object FacturaVenta {
     SqlParser.get[Int](GC.CUE_ID) ~
     SqlParser.get[Option[Int]](C.CUE_ID_IVA_RI) ~
     SqlParser.get[Option[Int]](C.CUE_ID_IVA_RNI) ~
-    SqlParser.get[Option[Int]](C.STL_ID) ~
-    SqlParser.get[Option[String]](C.STL_CODE) ~
+    SqlParser.get[Option[Int]](GC.STL_ID) ~
+    SqlParser.get[Option[String]](GC.STL_CODE) ~
     SqlParser.get[BigDecimal](C.FVI_IMPORTE) ~
     SqlParser.get[BigDecimal](C.FVI_IMPORTE_ORIGEN) ~
     SqlParser.get[Int](C.FVI_ORDEN) ~
@@ -1405,7 +1405,7 @@ object FacturaVenta {
         Field(GC.CUE_ID, item.base.cueId, FieldType.id),
         Field(C.CUE_ID_IVA_RI, item.base.cueIdIvaRi, FieldType.id),
         Field(C.CUE_ID_IVA_RNI, item.base.cueIdIvaRni, FieldType.id),
-        Field(C.STL_ID, item.base.stlId, FieldType.id),
+        Field(GC.STL_ID, item.base.stlId, FieldType.id),
         Field(C.FVI_ORDEN, item.base.orden, FieldType.integer),
         Field(C.FVI_CANTIDAD, item.totals.cantidad, FieldType.currency),
         Field(C.FVI_CANTIDAD_A_REMITIR, item.totals.cantidad, FieldType.currency),

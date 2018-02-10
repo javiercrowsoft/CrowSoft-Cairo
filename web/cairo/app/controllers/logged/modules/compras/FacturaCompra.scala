@@ -228,7 +228,7 @@ object FacturaCompras extends Controller with ProvidesUser {
                                  C.FC_TOTAL_PERCEPCIONES, C.FC_TOTAL, C.FC_TOTAL_ORIGEN)
 
   val facturaItemBase = List(C.FCI_DESCRIP, C.FCI_DESCUENTO, GC.PR_ID, GC.CCOS_ID, GC.TO_ID,
-                             GC.CUE_ID, C.CUE_ID_IVA_RI, C.CUE_ID_IVA_RNI, C.STL_ID, C.STL_CODE, C.FCI_ORDEN)
+                             GC.CUE_ID, C.CUE_ID_IVA_RI, C.CUE_ID_IVA_RNI, GC.STL_ID, GC.STL_CODE, C.FCI_ORDEN)
 
   val facturaItemTotals = List(C.FCI_CANTIDAD, C.FCI_PRECIO, C.FCI_PRECIO_LISTA, C.FCI_PRECIO_USR, C.FCI_NETO,
                                C.FCI_IVA_RI, C.FCI_IVA_RNI, C.FCI_INTERNOS, C.FCI_IVA_RIPORC, C.FCI_IVA_RNIPORC,
@@ -380,8 +380,8 @@ object FacturaCompras extends Controller with ProvidesUser {
             GC.CUE_ID -> number,
             C.CUE_ID_IVA_RI -> number,
             C.CUE_ID_IVA_RNI -> number,
-            C.STL_ID -> number,
-            C.STL_CODE -> text,
+            GC.STL_ID -> number,
+            GC.STL_CODE -> text,
             C.FCI_ORDEN -> number)
             (FacturaCompraItemDataBase.apply)(FacturaCompraItemDataBase.unapply),
           C.FACTURA_ITEM_TOTALS -> mapping (
@@ -577,8 +577,8 @@ object FacturaCompras extends Controller with ProvidesUser {
       GC.CUE_ID -> Json.toJson(i.base.cueId),
       C.CUE_ID_IVA_RI -> Json.toJson(i.base.cueIdIvaRi),
       C.CUE_ID_IVA_RNI -> Json.toJson(i.base.cueIdIvaRni),
-      C.STL_ID -> Json.toJson(i.base.stlId),
-      C.STL_CODE -> Json.toJson(i.base.stlCode),
+      GC.STL_ID -> Json.toJson(i.base.stlId),
+      GC.STL_CODE -> Json.toJson(i.base.stlCode),
       C.FCI_ORDEN -> Json.toJson(i.base.orden),
       GC.PR_LLEVA_NRO_SERIE -> Json.toJson(i.base.llevaNroSerie),
       GC.PR_LLEVA_NRO_LOTE -> Json.toJson(i.base.llevaNroLote),

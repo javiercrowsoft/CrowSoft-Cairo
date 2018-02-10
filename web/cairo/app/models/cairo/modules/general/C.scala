@@ -854,6 +854,8 @@ object C {
   val PR_WEB_IMAGE_UPDATE = "pr_webimageupdate"
   val PR_ID_WEB_PADRE = "pr_id_webpadre"
 
+  val PR_ID_KIT = "pr_id_kit"
+
   val RPT_NAME_COMPRA = "rpt_name_compra"
   val RPT_NAME_VENTA = "rpt_name_venta"
   val RPT_NAME_FACTURA = "rpt_name_factura"
@@ -1427,6 +1429,16 @@ object C {
   // AUXILIARY CONSTANTS
   val AUX_TI_ID_RNI_VENTA = -1
   val AUX_TI_ID_RNI_COMPRA = -2
+
+  // Stock
+  val DEPL_ID_ORIGEN = "depl_id_origen"
+  val DEPL_ID_DESTINO = "depl_id_destino"
+
+  // StockLote
+  val STOCK_LOTE = "StockLote"
+  val STL_ID = "stl_id"
+  val STL_CODE = "stl_codigo"
+
 }
 
 object S {

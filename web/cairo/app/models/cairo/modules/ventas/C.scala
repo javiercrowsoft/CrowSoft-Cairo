@@ -5,10 +5,6 @@ object C {
   // Asiento
   val AS_ID = "as_id"
 
-  // StockLote
-  val STL_ID = "stl_id"
-  val STL_CODE = "stl_codigo"
-
   // Stock
   val ST_ID = "st_id"
 
