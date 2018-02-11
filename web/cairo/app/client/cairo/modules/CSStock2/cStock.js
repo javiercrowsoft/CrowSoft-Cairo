@@ -103,6 +103,7 @@
       var val = Cairo.Util.val;
       var M = Cairo.Modal;
       var T = Dialogs.PropertyType;
+      var ST = Dialogs.PropertySubType;
 
       var C_MODULE = "cStock";
 
@@ -995,7 +996,8 @@
             Cairo.LoadingMessage.show("Movimiento de Stock", "Loading data for product.");
 
             var row = grid.getRows().item(lRow);
-            p = setDataProducto(row, newValueId);
+            p = setDataProducto(row, newValueId)
+              .then(function(result) { Cairo.LoadingMessage.close(); return result; });
             break;
 
         }
@@ -1203,7 +1205,7 @@
 
         elem = properties.add(null, Cairo.Constants.NUMBER_ID);
         elem.setType(T.numeric);
-        elem.setSubType(Dialogs.PropertySubType.integer);
+        elem.setSubType(ST.integer);
         elem.setName(getText(1065, "")); // Número
         elem.setKey(K_NUMERO);
         elem.setValue(m_numero);
@@ -1225,7 +1227,7 @@
         elem.setTextAlign(Dialogs.TextAlign.right);
 
         elem = properties.add(null, C.DEPL_ID_ORIGEN);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.DEPOSITO_LOGICO);
         elem.setName(getText(2014, "")); // Depósito Origen
         elem.setKey(K_DEPL_ID_ORIGEN);
@@ -1233,7 +1235,7 @@
         elem.setValue(m_depositoOrigen);
 
         elem = properties.add(null, C.DEPL_ID_DESTINO);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.DEPOSITO_LOGICO);
         elem.setName(getText(2015, "")); // Depósito Destino
         elem.setKey(K_DEPL_ID_DESTINO);
@@ -1241,7 +1243,7 @@
         elem.setValue(m_depositoDestino);
 
         elem = properties.add(null, C.SUC_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.SUCURSAL);
         elem.setName(getText(1281, "")); // Sucursal
         elem.setKey(K_SUC_ID);
@@ -1249,7 +1251,7 @@
         elem.setValue(m_sucursal);
 
         elem = properties.add(null, C.LGJ_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.LEGAJOS);
         elem.setName(getText(1575, "")); // Legajo
         elem.setKey(K_LGJ_ID);
@@ -1257,15 +1259,15 @@
         elem.setValue(m_legajo);
 
         elem = properties.add(null, CST.ST_DESCRIP);
-        elem.setType(Dialogs.PropertyType.text);
-        elem.setSubType(Dialogs.PropertySubType.memo);
+        elem.setType(T.text);
+        elem.setSubType(ST.memo);
         elem.setName(getText(1211, "")); // Observ.
         elem.setSize(5000);
         elem.setKey(K_DESCRIP);
         elem.setValue(m_descrip);
 
         elem = properties.add(null, CST.ST_DOC_CLIENTE);
-        elem.setType(Dialogs.PropertyType.text);
+        elem.setType(T.text);
         elem.setName(getText(1960, "")); // Generado Por
         elem.setKey(K_ID_CLIENTE);
         elem.setValue(m_docCliente);
@@ -1337,38 +1339,38 @@
 
         elem = columns.add(null);
         elem.setName(getText(1367, "")); // Articulo
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.PRODUCTOS_DE_STOCK);
         elem.setKey(KI_PR_ID);
 
         elem = columns.add(null);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
-        elem.setType(Dialogs.PropertyType.text);
-        elem.setSubType(Dialogs.PropertySubType.textButtonEx);
+        elem.setType(T.text);
+        elem.setSubType(ST.textButtonEx);
         elem.setKey(KI_DESCRIP);
 
         elem = columns.add(null);
         elem.setName(getText(1374, "")); // Cantidad
         elem.setFormat(Cairo.Settings.getQuantityDecimalsFormat());
-        elem.setType(Dialogs.PropertyType.numeric);
-        elem.setSubType(Dialogs.PropertySubType.double);
+        elem.setType(T.numeric);
+        elem.setSubType(ST.double);
         elem.setKey(KI_CANTIDAD);
 
         elem = columns.add(null);
         elem.setName(getText(1165, "")); // Unidad
-        elem.setType(Dialogs.PropertyType.text);
+        elem.setType(T.text);
         elem.setKey(KI_UNIDAD);
         elem.setEnabled(false);
 
         elem = columns.add(null);
         elem.setName(getText(1639, "")); // Nro. Serie
-        elem.setType(Dialogs.PropertyType.text);
-        elem.setSubType(Dialogs.PropertySubType.textButton);
+        elem.setType(T.text);
+        elem.setSubType(ST.textButton);
         elem.setKey(KI_NRO_SERIE);
 
         elem = columns.add(null, CST.STL_ID);
         elem.setName(getText(1640, "")); // Lote
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.LOTES_DE_STOCK);
         elem.setKey(KI_STL_ID);
 
@@ -1933,9 +1935,9 @@
         }
       };
 
-      var setDataProducto = function(row, pr_id) {
+      var setDataProducto = function(row, prId) {
 
-        var bChanged = pr_id !== cellId(row, KI_PR_ID);
+        var bChanged = prId !== cellId(row, KI_PR_ID);
 
         var p = DB.getData(
             "load[" + m_apiPath + "general/producto/" + prId.toString() + "/stock]");

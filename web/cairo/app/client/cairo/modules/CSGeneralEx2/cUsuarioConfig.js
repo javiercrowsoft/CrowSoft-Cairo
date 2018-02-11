@@ -285,6 +285,9 @@
       var m_docIdPrp = 0;
       var m_docPRPName = "";
 
+      var m_docIdSt = 0;
+      var m_docStName = "";
+
       var m_docIdLiq = 0;
       var m_docLiqName = "";
 
@@ -374,7 +377,7 @@
       };
 
       self.getDocStId = function() {
-
+        return m_docIdSt;
       };
       /*      
        self.getDocRsId = function() {
@@ -542,7 +545,7 @@
       };
 
       self.getDocStName = function() {
-
+        return m_docStName;
       };
       /*
        self.getDocRsName = function() {

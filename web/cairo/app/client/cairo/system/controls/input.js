@@ -55,10 +55,10 @@
       }
 
       var keyPressListener = function(e) {
-        Cairo.log("keypress: " + String.fromCharCode(e.keyCode));
+        Cairo.log("keypress: " + String.fromCharCode(that.getKeyCode(e)));
 
         var keys = "0123456789.,-+*/";
-        var key = String.fromCharCode(e.keyCode);
+        var key = String.fromCharCode(that.getKeyCode(e));
 
         var element = that.getElement();
         if(key === "=" || (OPERATORS.test(element.val()) && OPERATORS.test(key))) {

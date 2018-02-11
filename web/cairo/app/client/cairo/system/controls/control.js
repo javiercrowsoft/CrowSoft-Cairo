@@ -236,6 +236,18 @@
         }
       };
 
+      if(Cairo.Browser.identity.includes("Firefox")) {
+        that.getKeyCode = function(e) {
+          return e.charCode;
+        };
+      }
+      else {
+        that.getKeyCode = function(e) {
+          return e.keyCode;
+        };
+      }
+
+
       that.toString = function() {
         return that.getObjectType() + " - " + that.getName() + " - " + that.htmlTag;
       };

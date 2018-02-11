@@ -1045,8 +1045,8 @@
       };
 
       var tdKeyPressListener = function(e) {
-        Cairo.log("keypress: " + e.keyCode.toString());
-        Cairo.log("keypress: " + String.fromCharCode(e.keyCode));
+        Cairo.log("keypress: " + that.getKeyCode(e).toString());
+        Cairo.log("keypress: " + String.fromCharCode(that.getKeyCode(e)));
 
         var td = e.target;
 
@@ -1060,7 +1060,7 @@
           var args = {
             row: td.parentNode.rowIndex - 1, /* first row contains headers */
             col: td.cellIndex,
-            key: String.fromCharCode(e.keyCode)
+            key: String.fromCharCode(that.getKeyCode(e))
           };
 
           //
@@ -1084,7 +1084,7 @@
       };
 
       var tdKeyDownListener = function(e) {
-        Cairo.log("keydown: " + e.keyCode.toString());
+        Cairo.log("keydown: " + that.getKeyCode(e).toString());
         Cairo.log("keydown ctrl-key: " + e.ctrlKey.toString());
 
         var arrowKeyCodes = [37,38,39,40];
