@@ -55,6 +55,9 @@ case class ParsedTable(usId: Int, cairoCompanyId: Int, table: Table) {
 
    */
   private def getSelect(statement: String): String = {
+    def getWhere(whereStatement: String): String = {
+      if(whereStatement.isEmpty) "" else " where " + whereStatement
+    }
     if(statement.isEmpty) {
       val limit = if(table.selectLimit > 0) table.selectLimit else 300 // TODO: should be in databse config
       val codeColumn = {
@@ -68,7 +71,7 @@ case class ParsedTable(usId: Int, cairoCompanyId: Int, table: Table) {
       val select = s"select top ${limit} ${table.idColumn}, ${table.nameColumn} as ${nameColumnName} ${codeColumn}"
       val from = s" from ${table.realName}"
       val columnDefinition = s"|${table.nameColumn}:string${codeColumnDefinition}"
-      select + from + table.whereStatement + columnDefinition
+      select + from + getWhere(table.whereStatement) + columnDefinition
     }
     else statement
   }

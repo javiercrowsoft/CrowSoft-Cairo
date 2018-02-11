@@ -873,14 +873,6 @@
         m_listController = controller;
       };
 
-      self.setBranchId = function(rhs) {
-        m_branchId = rhs;
-      };
-
-      self.getBranchId = function() {
-        return m_branchId;
-      };
-
       self.columnAfterUpdate = function(key, lRow, lCol) {
         return P.resolvedPromise(true);
       };
@@ -915,7 +907,7 @@
       };
 
       self.columnBeforeEdit = function(key, lRow, lCol, iKeyAscii) {
-        var p = null;
+        var rtn = false;
 
         try {
 
@@ -923,7 +915,7 @@
 
             case K_ITEMS:
               var property = getProperty(m_items, C_ITEMS);
-              p = columnBeforeEdit(property, lRow, lCol, iKeyAscii);
+              rtn = columnBeforeEdit(property, lRow, lCol, iKeyAscii);
               break;
           }
 
@@ -932,7 +924,7 @@
           Cairo.manageErrorEx(ex.message, ex, "columnBeforeEdit", C_MODULE, "");
         }
 
-        return p || P.resolvedPromise(true);
+        return P.resolvedPromise(rtn);
       };
 
       var columnBeforeEdit = function(property, lRow, lCol, iKeyAscii) {
@@ -2145,7 +2137,7 @@
       };
 
       var getItems = function() {
-        return m_itemsProps().item(C_ITEMS);
+        return m_itemsProps.item(C_ITEMS);
       };
 
       var setAndLoadGridCompensar = function() {

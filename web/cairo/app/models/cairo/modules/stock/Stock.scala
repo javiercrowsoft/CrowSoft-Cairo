@@ -73,7 +73,9 @@ case class StockItemSerie(
                            code: String,
                            descrip: String,
                            fechaVto: Date,
-                           stiGroup: Int
+                           stiGroup: Int,
+                           prId: Int,
+                           prNameCompra: String
                            )
 
 case class StockItemKit(
@@ -459,19 +461,25 @@ object Stock {
     SqlParser.get[String](GC.PRNS_CODE) ~
     SqlParser.get[String](GC.PRNS_DESCRIP) ~
     SqlParser.get[Date](GC.PRNS_FECHA_VTO) ~
-    SqlParser.get[Int](C.STI_GRUPO) map {
+    SqlParser.get[Int](C.STI_GRUPO) ~
+    SqlParser.get[Int](GC.PR_ID) ~
+    SqlParser.get[String](GC.PR_NAME_COMPRA) map {
     case
         prnsId ~
         prnsCode ~
         prnsDescrip ~
         prnsFechaVto ~
-        stiGroup =>
+        stiGroup ~
+        prId ~
+        prNameCompra =>
       StockItemSerie(
         prnsId,
         prnsCode,
         prnsDescrip,
         prnsFechaVto,
-        stiGroup
+        stiGroup,
+        prId,
+        prNameCompra
       )
     }
   }

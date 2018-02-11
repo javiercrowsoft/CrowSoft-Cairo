@@ -41,7 +41,7 @@
 
       var C_ITEMS = "ITEMS";
       var C_PERCEPCIONES = "PERCEPCIONES";
-      var C_CAJAMSG = "CajaMsg";
+      var C_CAJA_MSG = "CajaMsg";
 
       var K_NUMERO = 1;
       var K_NRODOC = 2;
@@ -85,9 +85,9 @@
       var K_PERCEPCIONES = 35;
       var K_TOTAL_PERCEPCIONES = 36;
 
-      var K_ORDENCOMPRA = 40;
+      var K_ORDEN_COMPRA = 40;
 
-      var K_HIDECOLS = 41;
+      var K_HIDE_COLS = 41;
 
       var KI_FVI_ID = 2;
       var KI_CANTIDAD = 4;
@@ -120,9 +120,9 @@
       var KI_STL_ID = 30;
       var KI_PR_LLEVA_LOTE = 31;
 
-      var KI_PR_LOTEFIFO = 32;
+      var KI_PR_LOTE_FIFO = 32;
 
-      var KI_NOSTOCK = 33;
+      var KI_NO_STOCK = 33;
 
       var KI_TO_ID = 400;
 
@@ -1009,7 +1009,7 @@
             p = showFechaVto();
             break;
 
-          case K_HIDECOLS:
+          case K_HIDE_COLS:
 
             showHideCols(false);
             break;
@@ -1181,7 +1181,7 @@
                   fields.add(C.DEPL_ID, property.getSelectId(), Types.id);
                   break;
 
-                case K_ORDENCOMPRA:
+                case K_ORDEN_COMPRA:
                   fields.add(CV.FV_ORDEN_COMPRA, property.getValue(), Types.text);
                   break;
               }
@@ -2160,7 +2160,7 @@
                 if(valEmpty(cell.getId(), Types.id)
                   && cellId(row, KI_PR_LLEVA_LOTE)
                   && cellId(row, KI_PR_LLEVA_LOTE) === 0
-                  && cellId(row, KI_PR_LOTEFIFO) === 0) {
+                  && cellId(row, KI_PR_LOTE_FIFO) === 0) {
                   return M.showInfoWithFalse(getText(1632, "", strRow)); // Debe indicar un lote (1)
                 }
               }
@@ -2405,7 +2405,7 @@
         elem = properties.add(null, CV.FV_ORDEN_COMPRA);
         elem.setType(T.text);
         elem.setName(getText(1924, "")); // Orden de Compra
-        elem.setKey(K_ORDENCOMPRA);
+        elem.setKey(K_ORDEN_COMPRA);
         elem.setValue(m_ordenCompra);
         elem.setTabIndex(1);
 
@@ -2490,13 +2490,13 @@
         elem = properties.add(null, Cairo.Constants.HIDE_COLUMNS);
         elem.setType(T.check);
         elem.setName(getText(3901, "")); // Ocultar Columnas
-        elem.setKey(K_HIDECOLS);
+        elem.setKey(K_HIDE_COLS);
         elem.setValue(true);
         elem.setIsEditProperty(false);
 
         if(m_cajaMsg !== "") {
 
-          elem = properties.add(null, C_CAJAMSG);
+          elem = properties.add(null, C_CAJA_MSG);
           elem.setType(T.label);
           elem.setValue(m_cajaMsg);
           elem.setTextAlign(Dialogs.TextAlign.center);
@@ -2926,7 +2926,7 @@
 
         elem = columns.add(null);
         elem.setVisible(false);
-        elem.setKey(KI_PR_LOTEFIFO);
+        elem.setKey(KI_PR_LOTE_FIFO);
 
         elem = columns.add(null);
         elem.setVisible(false);
@@ -2942,7 +2942,7 @@
 
         elem = columns.add(null);
         elem.setVisible(false);
-        elem.setKey(KI_NOSTOCK);
+        elem.setKey(KI_NO_STOCK);
 
         grid.getRows().clear();
       }
@@ -3089,7 +3089,7 @@
 
           elem = row.add(null);
           elem.setId(getValue(m_data.items[_i], C.PR_LOTE_FIFO));
-          elem.setKey(KI_PR_LOTEFIFO);
+          elem.setKey(KI_PR_LOTE_FIFO);
 
           elem = row.add(null);
           elem.setId(getValue(m_data.items[_i], C.PR_LLEVA_NRO_SERIE));
@@ -3105,7 +3105,7 @@
 
           elem = row.add(null);
           elem.setId(getValue(m_data.items[_i], CV.FVI_NO_STOCK));
-          elem.setKey(KI_NOSTOCK);
+          elem.setKey(KI_NO_STOCK);
 
         }
 
@@ -3550,7 +3550,7 @@
                 grupo = cell.getId();
                 break;
 
-              case KI_NOSTOCK:
+              case KI_NO_STOCK:
                 fields.add(CV.FVI_NO_STOCK, cell.getId(), Types.boolean);
                 break;
 
@@ -3775,12 +3775,12 @@
           if(m_showStockData) {
             getCell(row, KI_PR_LLEVA_NRO_SERIE).setId(valField(response.data, C.PR_LLEVA_NRO_SERIE));
             getCell(row, KI_PR_LLEVA_LOTE).setId(valField(response.data, C.PR_LLEVA_NRO_LOTE));
-            getCell(row, KI_PR_LOTEFIFO).setId(valField(response.data, C.PR_LOTE_FIFO));
+            getCell(row, KI_PR_LOTE_FIFO).setId(valField(response.data, C.PR_LOTE_FIFO));
           }
           else {
             getCell(row, KI_PR_LLEVA_NRO_SERIE).setId(0);
             getCell(row, KI_PR_LLEVA_LOTE).setId(0);
-            getCell(row, KI_PR_LOTEFIFO).setId(0);
+            getCell(row, KI_PR_LOTE_FIFO).setId(0);
           }
 
           if(isKit) {
@@ -3845,7 +3845,7 @@
           if(prop.getKey() !== K_DOC_ID
             && prop.getKey() !== K_NUMERO
             && prop.getKey() !== K_EST_ID
-            && prop.getKey() !== K_HIDECOLS) {
+            && prop.getKey() !== K_HIDE_COLS) {
 
             if(bState) {
               if(prop.getKey() !== K_NRODOC) {
@@ -5017,7 +5017,7 @@
         if(Cairo.getVentasConfig().getExigirCaja() && (m_cjId !== NO_ID || m_bCajaError)) {
 
           p = loadCajaForCurrentUser(true).whenSuccess(function() {
-            var property = m_properties.item(C_CAJAMSG);
+            var property = m_properties.item(C_CAJA_MSG);
             property.setValue(m_cajaMsg);
 
             if(m_bCajaError) {

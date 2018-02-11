@@ -180,7 +180,9 @@ object Stocks extends Controller with ProvidesUser {
       GC.PRNS_ID -> Json.toJson(i.id),
       GC.PRNS_CODE -> Json.toJson(i.code),
       GC.PRNS_DESCRIP -> Json.toJson(i.descrip),
-      GC.PRNS_FECHA_VTO -> Json.toJson(i.fechaVto)
+      GC.PRNS_FECHA_VTO -> Json.toJson(i.fechaVto),
+      GC.PR_ID -> Json.toJson(i.prId),
+      GC.PR_NAME_COMPRA -> Json.toJson(i.prNameCompra)
     )
     def stockItemKitWrites(p: StockItemKit) = Json.obj(
       GC.PR_ID -> Json.toJson(p.id),
