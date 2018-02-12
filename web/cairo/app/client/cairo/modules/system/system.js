@@ -2512,8 +2512,8 @@
               var w_coll = editSerie.self.cProductoSerie.getColl(n);
               w_coll.prns_id = n * -1;
               w_coll.pr_id = prId ? prId : prId2);
-              w_coll.pr_id_item = kitS.self.getPr_id();
-              w_coll.pr_id_kit = kitS.self.getPr_id_kit();
+              w_coll.pr_id_item = kitS.self.getPrId();
+              w_coll.pr_id_kit = kitS.self.getPrIdKit();
               w_coll.KitItem = kitS.self.getName();
             }
           }
@@ -2532,11 +2532,11 @@
 
     }
 
-    editSerie.self.setDepl_id(deplId);
-    editSerie.self.setPr_id(prId);
+    editSerie.self.setDeplId(deplId);
+    editSerie.self.setPrId(prId);
     editSerie.self.setIsInput(isInput);
-    editSerie.self.setCli_id(cli_id);
-    editSerie.self.setProv_id(prov_id);
+    editSerie.self.setCliId(cli_id);
+    editSerie.self.setProvId(prov_id);
     editSerie.self.setDelete(deleteCount);
     editSerie.self.setDeleteCount(deleteCount);
 
@@ -2571,7 +2571,7 @@
       var delCount = null;
 
       pt = editSerie.self.getColl().get(i);
-      pt.self.setPr_id(prId ? prId : prId2));
+      pt.self.setPrId(prId ? prId : prId2));
 
       if(idx > ubSeries) {
         ubSeries = ubSeries + 400;
@@ -2588,7 +2588,7 @@
 
       idx = idx + 1;
 
-      coll.Add(pt, getKey(pt.self.getPrns_id()));
+      coll.Add(pt, getKey(pt.self.getPrnsId()));
     }
 
     idx = idx - 1;
@@ -2680,8 +2680,8 @@
               coll.Codigo = getNextNumber();
               coll.prns_id = n * -1;
               coll.pr_id = prId ? prId : prId2);
-              coll.pr_id_item = kitS.self.getPr_id();
-              coll.pr_id_kit = kitS.self.getPr_id_kit();
+              coll.pr_id_item = kitS.self.getPrId();
+              coll.pr_id_kit = kitS.self.getPrIdKit();
               coll.KitItem = kitS.self.getName();
             }
           }
@@ -2709,7 +2709,7 @@
       var delCount = null;
 
       pt = coll.get(i);
-      pt.self.setPr_id(prId ? prId : prId2));
+      pt.self.setPrId(prId ? prId : prId2));
       if(pt.self.getDeleted() && delCount < deleteCount) {
         delCount = delCount + 1;
         nros = nros+ pt.self.getCode()+ "(B),";

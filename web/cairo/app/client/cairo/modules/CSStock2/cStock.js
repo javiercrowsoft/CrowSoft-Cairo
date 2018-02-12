@@ -310,7 +310,7 @@
       };
 
       self.showDocDigital = function() {
-        var _rtn = null;
+        var _rtn = false;
         try {
 
           if(m_id === NO_ID) { return _rtn; }
@@ -864,7 +864,7 @@
           p = load(id).whenSuccess(loadAllItems, false).whenSuccess(afterLoad, false);
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "edit", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "edit", C_MODULE, "");
         }
 
         return p || P.resolvedPromise(false);
@@ -2319,7 +2319,7 @@
       };
 
       self.showDocDigital = function() {
-        var _rtn = null;
+        var _rtn = false;
 
         try {
 

@@ -156,7 +156,7 @@
       };
 
       self.showDocDigital = function() {
-        var _rtn = null;
+        var _rtn = false;
         try {
 
           if(m_id === NO_ID) { return _rtn; }
@@ -791,7 +791,7 @@
           }
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "validateRow", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "validateRow", C_MODULE, "");
         }
 
         return p || P.resolvedPromise(false);
@@ -834,7 +834,7 @@
           }
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "validateRow", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "validateRow", C_MODULE, "");
         }
         return P.resolvedPromise(isEmpty);
       };
@@ -1242,7 +1242,7 @@
           m_vRowCliProvUpdated = [];
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "Class_Initialize", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "Class_Initialize", C_MODULE, "");
         }
       };
 

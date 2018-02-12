@@ -267,7 +267,7 @@
       };
 
       self.showDocDigital = function() {
-        var _rtn = null;
+        var _rtn = false;
         try {
 
           if(m_id === NO_ID) { return _rtn; }
@@ -2760,7 +2760,7 @@
       };
 
       self.showDocDigital = function() {
-        var _rtn = null;
+        var _rtn = false;
 
         try {
 

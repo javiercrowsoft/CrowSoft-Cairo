@@ -2737,10 +2737,11 @@
 
         var masterHandlerPrintClick = function() {
           Cairo.safeExecute(function() {
-            var answer = m_client.messageEx(Dialogs.Message.MSG_ABM_PRINT, null);
-            if(answer !== true) {
-              Cairo.infoViewShow("Printing", "This dialog doesn't have a print option");
-            }
+            m_client.messageEx(Dialogs.Message.MSG_ABM_PRINT, null).then(function(answer){
+              if(answer !== true) {
+                Cairo.infoViewShow("Printing", "This dialog doesn't have a print option");
+              }
+            });
           });
         };
 

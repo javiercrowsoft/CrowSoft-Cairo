@@ -216,7 +216,7 @@
           }
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "isEmptyRow", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "isEmptyRow", C_MODULE, "");
         }
 
         return P.resolvedPromise(isEmpty);
@@ -250,7 +250,7 @@
           }
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "columnAfterUpdate", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "columnAfterUpdate", C_MODULE, "");
         }
 
         return p || P.resolvedPromise(true);
@@ -308,7 +308,7 @@
           }
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "columnBeforeEdit", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "columnBeforeEdit", C_MODULE, "");
         }
 
         return P.resolvedPromise(rtn);
@@ -334,7 +334,7 @@
           }
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "gridDblClick", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "gridDblClick", C_MODULE, "");
         }
         return P.resolvedPromise(true);
       };
@@ -392,7 +392,7 @@
 
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "validateRow", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "validateRow", C_MODULE, "");
         }
 
         return p || P.resolvedPromise(false);
@@ -939,7 +939,7 @@
           }
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "work", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "work", C_MODULE, "");
         }
 
         return p || P.resolvedPromise(true);
@@ -1064,7 +1064,7 @@
           p = p || P.resolvedPromise(true);
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "nextStep", C_MODULE, "");
+          Cairo.manageErrorEx(ex.message, ex, "nextStep", C_MODULE, "");
           p = P.resolvedPromise(false);
         }
 

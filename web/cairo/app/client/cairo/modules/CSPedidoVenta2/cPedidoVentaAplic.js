@@ -410,7 +410,7 @@
                     // **TODO:** goto found: GoTo ExitProc;
                 }
                 catch (ex) {
-                    Cairo.manageErrorEx(ex.message, "columnAfterUpdate", C_MODULE, "");
+                    Cairo.manageErrorEx(ex.message, ex, "columnAfterUpdate", C_MODULE, "");
                     // **TODO:** label found: ExitProc:;
                 }
                 // **TODO:** on error resume next found !!!
@@ -441,7 +441,7 @@
                     // **TODO:** goto found: GoTo ExitProc;
                 }
                 catch (ex) {
-                    Cairo.manageErrorEx(ex.message, "columnBeforeEdit", C_MODULE, "");
+                    Cairo.manageErrorEx(ex.message, ex, "columnBeforeEdit", C_MODULE, "");
                     // **TODO:** label found: ExitProc:;
                 }
                 // **TODO:** on error resume next found !!!
@@ -548,7 +548,7 @@
                     return;
                 }
                 catch (ex) {
-                    Cairo.manageErrorEx(ex.message, "dblClick", C_MODULE, "");
+                    Cairo.manageErrorEx(ex.message, ex, "dblClick", C_MODULE, "");
                 }
             };
 
@@ -585,7 +585,7 @@
                     return;
                 }
                 catch (ex) {
-                    Cairo.manageErrorEx(ex.message, "pEdit", C_MODULE, "");
+                    Cairo.manageErrorEx(ex.message, ex, "pEdit", C_MODULE, "");
                 }
             };
 
@@ -1904,7 +1904,7 @@
                     // **TODO:** goto found: GoTo ExitProc;
                 }
                 catch (ex) {
-                    Cairo.manageErrorEx(ex.message, "Class_Initialize", C_MODULE, "");
+                    Cairo.manageErrorEx(ex.message, ex, "Class_Initialize", C_MODULE, "");
                     // **TODO:** label found: ExitProc:;
                 }
                 // **TODO:** on error resume next found !!!
@@ -1923,7 +1923,7 @@
                     // **TODO:** goto found: GoTo ExitProc;
                 }
                 catch (ex) {
-                    Cairo.manageErrorEx(ex.message, "Class_Terminate", C_MODULE, "");
+                    Cairo.manageErrorEx(ex.message, ex, "Class_Terminate", C_MODULE, "");
                     // **TODO:** label found: ExitProc:;
                 }
                 // **TODO:** on error resume next found !!!

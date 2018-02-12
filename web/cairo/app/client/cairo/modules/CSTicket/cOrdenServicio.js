@@ -114,7 +114,7 @@
       };
 
       self.showDocDigital = function() {
-        var _rtn = null;
+        var _rtn = false;
 
         try {
 
