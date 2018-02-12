@@ -21,6 +21,20 @@
 
       var that = {};
 
+      //
+      // add the element and returns true if the element did NOT already exists
+      // in the collection, otherwise returns false.
+      //
+      that.addIfNotExists = function(value, key) {
+        if(that.contains(key)) {
+          return false;
+        }
+        else {
+          add(value, key);
+          return true;
+        }
+      };
+
       that.addBefore = function(index, value, key) {
         return add(value, key, index);
       };
@@ -138,7 +152,7 @@
 
       that.contains = function(indexOrKey) {
         return (checkIndex(indexOrKey, true) !== -1);
-      }
+      };
 
       that.item = function(indexOrKey) {
         var index = checkIndex(indexOrKey);

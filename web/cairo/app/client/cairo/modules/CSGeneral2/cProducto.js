@@ -5441,6 +5441,8 @@
         var grid = property.getGrid();
         var rows = grid.getRows();
 
+        rows.clear();
+
         for(var _i = 0, count = m_data.kit.length; _i < count; _i += 1) {
 
           var row = rows.add(null, getValue(m_data.kit[_i], C.PRFK_ID));

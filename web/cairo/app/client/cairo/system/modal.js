@@ -121,6 +121,24 @@
 
     showWarningWithFalse: function(message, title) {
       return this.showWarning(message, title).then(function() { return false; });
+    },
+
+    getPasteData: function() {
+      // TODO: show a message and request the user to press {ctrl|cmd}+v
+      //       below is the code to get the pasted data from the paste event
+      //       this function should return pastedData variable
+      /*
+      var clipboardData, pastedData;
+
+      // Stop data actually being pasted into div
+      e.stopPropagation();
+      e.preventDefault();
+
+      // Get pasted data via clipboard API
+      clipboardData = e.clipboardData || window.clipboardData;
+      pastedData = clipboardData.getData('Text');
+      */
+      return "dummy value";
     }
 
   };

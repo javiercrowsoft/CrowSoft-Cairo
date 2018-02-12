@@ -364,6 +364,7 @@
         // false: cancel was pressed
         //
         var m_okCancelResult = false;
+        var m_modalDefer = null;
 
         var m_tabIndex = 0;
 
@@ -2166,6 +2167,20 @@
           }
         };
 
+        self.showModal = function(obj, tabIndex) {
+          m_modalDefer = new Cairo.Promises.Defer();
+
+          self.show(obj, tabIndex);
+
+          return m_modalDefer.promise;
+        };
+
+        var resolveModalPromise = function() {
+          if(m_modalDefer !== null) {
+            defer.resolve();
+          }
+        };
+
         self.show = function(obj, tabIndex) {
           try {
             Cairo.LoadingMessage.showWait();
@@ -2591,6 +2606,7 @@
             if(m_showOkCancel) {
               masterHandlerCloseClick();
               m_okCancelResult = false;
+              resolveModalPromise();
             }
             else {
               if(m_sendRefresh) {
@@ -2737,7 +2753,7 @@
 
         var masterHandlerPrintClick = function() {
           Cairo.safeExecute(function() {
-            m_client.messageEx(Dialogs.Message.MSG_ABM_PRINT, null).then(function(answer){
+            m_client.messageEx(Dialogs.Message.MSG_ABM_PRINT, null).then(function(answer) {
               if(answer !== true) {
                 Cairo.infoViewShow("Printing", "This dialog doesn't have a print option");
               }
@@ -2828,6 +2844,7 @@
                     m_masterView.setSaved();
                     masterHandlerCloseClick();
                   }
+                  resolveModalPromise();
                 }
                 else {
                   if(m_sendNewABM) {
@@ -3529,7 +3546,7 @@
         };
 
         var wizHandlerGridValidateRow = function(index, eventArgs) {
-          return gridValidateRow(index, eventArgs.row, true).then(notCancel);;
+          return gridValidateRow(index, eventArgs.row, true).then(notCancel);
         };
 
         var wizHandlerSelectChange = function(index) {
@@ -3696,7 +3713,7 @@
         };
 
         var docHandlerGridValidateRow = function(index, eventArgs) {
-          return gridValidateRow(index, eventArgs.row, true).then(notCancel);;
+          return gridValidateRow(index, eventArgs.row, true).then(notCancel);
         };
 
         var docHandlerGridSelectionChange = function(index, eventArgs) {
@@ -5361,6 +5378,7 @@
                 else if(viewIsWizard(view)) {
                   wizHandlerCancelClick();
                 }
+                resolveModalPromise();
               }
             }
           );

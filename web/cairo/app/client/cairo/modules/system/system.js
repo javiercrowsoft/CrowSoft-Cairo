@@ -2489,7 +2489,7 @@
       for(i = 1; i <= coll.size(); i++) {
         editSerie.self.addProductoSerie(coll.get(i));
       }
-      n = editSerie.self.getColl().size();
+      n = editSerie.self.getSerialNumbers().size();
     }
 
     if(bEditKit) {
@@ -2509,7 +2509,7 @@
               //
               n = n + 1;
               editSerie.self.addProductoSerie(new cProductoSerieType());
-              var w_coll = editSerie.self.cProductoSerie.getColl(n);
+              var w_coll = editSerie.self.cProductoSerie.getSerialNumbers(n);
               w_coll.prns_id = n * -1;
               w_coll.pr_id = prId ? prId : prId2);
               w_coll.pr_id_item = kitS.self.getPrId();
@@ -2526,8 +2526,8 @@
       //
       for(i = n + 1; i <= cantidad; i++) {
         editSerie.self.addProductoSerie(new cProductoSerieType());
-        editSerie.self.getColl(i).prns_id = i * -1;
-        editSerie.self.getColl(i).pr_id = prId ? prId : prId2);
+        editSerie.self.getSerialNumbers(i).prns_id = i * -1;
+        editSerie.self.getSerialNumbers(i).pr_id = prId ? prId : prId2);
       }
 
     }
@@ -2565,12 +2565,12 @@
 
     // Paso de la ventana a la coleccion del item
     //
-    for(i = 1; i <= editSerie.self.getColl().size(); i++) {
+    for(i = 1; i <= editSerie.self.getSerialNumbers().size(); i++) {
 
       var pt = null;
       var delCount = null;
 
-      pt = editSerie.self.getColl().get(i);
+      pt = editSerie.self.getSerialNumbers().get(i);
       pt.self.setPrId(prId ? prId : prId2));
 
       if(idx > ubSeries) {
