@@ -38,6 +38,9 @@ object C {
   val STOCK_ITEM_TMP = "StockItemTMP"
   val STI_TMP_ID = "stiTMP_id"
 
+  val DEPL_ID_INTERNO = -2
+  val DEPL_ID_TERCERO = -3
+
 }
 
 object S {

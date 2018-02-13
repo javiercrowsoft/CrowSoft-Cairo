@@ -21,6 +21,10 @@
 
       };
 
+      self.getControlStock = function() {
+
+      };
+
       //
       // editor code
       //
@@ -41,7 +45,7 @@
       // TODO: implement
       self.load =  function(id) {
         return true;
-      }
+      };
 
       return self;
     };

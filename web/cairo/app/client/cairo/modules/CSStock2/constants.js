@@ -33,6 +33,13 @@
       StockItemTipo: {
         DESTINO: 1,
         ORIGEN: 2
+      },
+
+      ControlStock: {
+        NoControlaStock: 2,
+        StockLogico: 3,
+        StockFisico: 4,
+        StockNegativo: 5
       }
     }
   };

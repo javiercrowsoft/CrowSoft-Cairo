@@ -17,6 +17,11 @@
       var val = Cairo.Util.val;
       var getCell = Dialogs.cell;
       var U = Cairo.Util;
+      var NO_ID = Cairo.Constants.NO_ID;
+      var call = P.call;
+      var C = Cairo.General.Constants;
+      var DB = Cairo.Database;
+      var valField = DB.valField;
 
       var C_MODULE = "cProductoSerie";
 
@@ -46,7 +51,7 @@
       var m_isInput;
       var m_prId = 0;
       var m_deplId = 0;
-      var m_depf_id = 0;
+      var m_depfId = 0;
       var m_ctrlStock;
       var m_bEditKit;
       var m_bParteProdKit;
@@ -54,6 +59,8 @@
       var m_cliId = 0;
       var m_isDelete;
       var m_deleteCount = 0;
+
+      var m_apiPath = DB.getAPIVersion();
 
       self.getSerialNumbers = function() {
         return m_serialNumbers;
@@ -73,7 +80,6 @@
 
       self.setDeplId = function(rhs) {
         m_deplId = rhs;
-        pGetDepfId();
       };
 
       self.setBEditKit = function(rhs) {
@@ -124,7 +130,7 @@
       };
 
       self.edit = function() {
-        var rtn = false;
+        var p = null;
         
         try {
 
@@ -133,15 +139,17 @@
           m_dialog.setNoAskForSave(true);
           m_dialog.setInModalWindow(true);
 
-          loadCollection();
-
-          rtn = m_dialog.getOkCancelDialogResult();
+          p = getDepfId()
+            .then(call(loadCollection))
+            .then(function () {
+              return m_dialog.getOkCancelDialogResult();
+            });
         }
         catch (ex) {
           Cairo.manageErrorEx(ex.message, ex, "Edit", C_MODULE, "");
         }
         
-        return rtn;
+        return p || P.resolvedPromise(false);
       };
 
       self.copy = function() {
@@ -654,21 +662,22 @@
           var firstRow = items.getSelectedRow();
           if(firstRow < 0) { firstRow = 0; }
 
+          var p = P.resolvedPromise(true);
+
           for(var i = firstRow, count = m_serialNumbers.size(), q = 0; i <= count; i++, q++) {
 
             if(q >= data.length) { break; }
 
             var row = items.getGrid().getRows(i);
 
-            var cell = getCell(row, KI_NUMERO);
-            cell.setValue(data[q]);
+            getCell(row, KI_NUMERO).setValue(data[q]);
+
             if(! m_isInput) {
-              cell.setId(setPrnsId(row, i, cell.getValue()));
-              getCell(row, KI_PRNS_ID).setValue(cell.getId());
+              p = p.whenSuccess(setPrnsId(row));
             }
           }
 
-          m_dialog.showValue(items, true);
+          p.whenSuccess(m_dialog.showValue(items, true));
         });
       };
 
@@ -698,27 +707,29 @@
           var firstRow = items.getSelectedRow();
           if(firstRow < 0) { firstRow = 0; }
 
+          var p = P.resolvedPromise(true);
+
           for(var i = firstRow; i < m_serialNumbers.size(); i++) {
-            current = increment(current, bByChar, valueAux);
+            var inc = increment(current, bByChar, valueAux);
+            valueAux = inc.valueAux;
+            current = inc.current;
 
             var row = rows.item(i);
 
-            if(finish(current, last)) { break; }
+            if(finished(current, last)) { break; }
 
-            var cell = getCell(row, KI_NUMERO);
-            cell.setValue(current);
+            getCell(row, KI_NUMERO).setValue(current);
 
             if(! m_isInput) {
-              cell.setId(setPrnsId(row, i, cell.getValue()));
-              getCell(row, KI_PRNS_ID).setValue(cell.getId());
+              p = p.whenSuccess(setPrnsId(row));
             }
           }
 
-          m_dialog.showValue(items, true);
+          p.whenSuccess(m_dialog.showValue(items, true));
         });
       };
 
-      var finish = function(current, last) {
+      var finished = function(current, last) {
         var rtn = false;
 
         if(U.isNumeric(last) && U.isNumeric(current)) {
@@ -732,81 +743,85 @@
       };
 
       var getFirstSerie = function(first) {
+        var rtn = "";
 
         if(U.isNumeric(first)) {
 
           var strZeroLeft = "";
 
-          if(val(first).toString().trim().length < first.length) {
+          if(val(first).toString().length < first.length) {
             strZeroLeft = first.substr(0, first.length - val(first).toString().length);
           }
 
-          rtn = strZeroLeft+ (Abs(Cairo.Util.val(first) - 1)).toString();
-
+          rtn = strZeroLeft + (Math.abs(val(first) - 1)).toString();
         }
         else {
-          do          n = n + 1;
-            aux = first.Substring(first.Length - n);
-        } while (!IsNumeric(aux)) {
-          aux = aux.Substring(2);
-          if(G.isNumeric(aux)) {
-            rtn = Cairo.Util.val(aux) - 1;
+          var aux = "";
+          var n = 0;
+          do {
+            n = n + 1;
+            aux = first.substr(first.length - n);
+          } while (!U.isNumeric(aux));
+          aux = aux.substr(1);
+          if(U.isNumeric(aux)) {
+            rtn = val(aux) - 1;
           }
           else {
             rtn = 0;
           }
         }
-        return rtn;
+        return rtn.toString();
       };
 
-      var increment = function(value, bByChar, valueAux) { // TODO: Use of ByRef founded Private Function pIncrement(ByVal Value As String, ByVal bByChar As Boolean, ByRef valueAux As Long) As String
-        var length = null;
-        var strNumber = null;
-        var strZeroLeft = null;
+      var increment = function(value, bByChar, valueAux) {
 
-        if(bByChar) {
-        }
-        else {
-          if(G.isNumeric(value)) {
+        if(! bByChar) {
+          var strZeroLeft = "";
 
-            if(Cairo.Util.val(value).$.trim().Length < value.Length) {
-              strZeroLeft = value.Substring(1, value.Length - $.trim(Cairo.Util.val(value) + 1).Length);
+          if(U.isNumeric(value)) {
+
+            if(val(value).toString().length < value.length) {
+              strZeroLeft = value.substr(0, value.length - (val(value) + 1).toString().length);
             }
 
-            value = strZeroLeft+ Cairo.Util.val(value) + 1;
-
+            value = strZeroLeft + (U.val(value) + 1).toString();
           }
           else {
-            valueAux = valueAux + 1;
-            strNumber = valueAux;
-            length = value.Length - strNumber.Length;
+            valueAux += 1;
+            var strNumber = valueAux.toString();
+            var length = value.length - strNumber.length;
+
             if(length < 0) { length = 0; }
-            value = value.Substring(1, length);
-            value = value+ strNumber;
+
+            value = value.substr(0, length);
+            value = value + strNumber;
           }
         }
 
-        return value;
+        return {valueAux: valueAux, current: value };
       };
 
-      var pGetDepfId = function() {
-        if(m_deplId === Cairo.Constants.NO_ID) {
-          m_depf_id = Cairo.Constants.NO_ID;
-          m_ctrlStock = csENoControlaStock;
+      var getDepfId = function() {
+        var p = null;
+
+        m_depfId = NO_ID;
+
+        if(m_deplId === NO_ID) {
+          m_ctrlStock = Cairo.Stocks.Constants.ControlStock.NoControlaStock;
         }
         else {
-          Cairo.Database.getData(Cairo.General.Constants.DEPOSITOLOGICO, Cairo.General.Constants.DEPL_ID, m_deplId, Cairo.General.Constants.DEPF_ID, m_depf_id);
-          pGetTypeStockControl();
-        }
-      };
 
-      var pGetTypeStockControl = function() {
-        var rs = null;
-        var sqlstmt = null;
-        sqlstmt = "select cfg_valor from configuracion where cfg_grupo = "+ Cairo.Database.sqlString(c_GrupoGeneral)+ " and cfg_aspecto = "+ Cairo.Database.sqlString(c_TipoControlStock);
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return; }
-        if(rs.isEOF()) { return; }
-        m_ctrlStock = Cairo.Util.val(Cairo.Database.valField(rs.getFields(), Cairo.Constants.CFG_VALOR));
+          p = DB.getData("load[" + m_apiPath + "general/depositologico/" + m_deplId.toString() + "/info]");
+
+          p = p.then(function(response) {
+            if(response.success === true) {
+              m_depfId = valField(response.data, C.DEPF_ID);
+              m_ctrlStock = Cairo.getStockConfig().getControlStock();
+            }
+            return response.success;
+          });
+        }
+        return p || P.resolvedPromise(true);
       };
 
       self.initialize = function() {
@@ -818,27 +833,47 @@
         m_dialog = null;
       };
 
-      var setPrnsId = function(row, lRow, prnsCodigo) {
-        var sqlstmt = null;
-        var rs = null;
+      var setPrnsId = function(row) {
+        var prnsCodigo = getCell(row, KI_NUMERO).getValue();
+        var p = DB.getData("load[" + m_apiPath + "general/productonumeroserie/by_code/]", prnsCodigo);
 
-        sqlstmt = "select prns_id from ProductoNumeroSerie where prns_codigo = "+ Cairo.Database.sqlString(prnsCodigo)+ " and "+ getFilter(row, lRow);
-
-        if(!Cairo.Database.openRs(sqlstmt, rs)) { return 0; }
-
-        if(rs.isEOF()) { return 0; }
-
-        return Cairo.Database.valField(rs.getFields(), Cairo.General.Constants.PRNS_ID);
+        return p.then(function(response) {
+          var prnsId = NO_ID;
+          if(response.success === true) {
+            prnsId = valField(response.data, C.PRNS_ID);
+            getCell(row, KI_NUMERO).setId(prnsId);
+            getCell(row, KI_PRNS_ID).setValue(prnsId);
+          }
+          return response.success;
+        });
       };
 
       var getFilter = function(row, lRow) {
+        var pt = m_serialNumbers.get(lRow);
+        return "serial_number|" +
+          "editKit:" + U.boolToInt(m_bEditKit) +
+          ",parteProdKit:" + U.boolToInt(m_bParteProdKit) +
+          ",prIdKit:" + pt.getPrIdKit() +
+          ",prnsId:" + pt.getPrnsId() +
+          ",noFilterDepl:" + U.boolToInt(getNoFilterDepl()) +
+          ",deplId:" + m_deplId +
+          ",depfId:" + m_depfId +
+          ",cliId:" + m_cliId +
+          ",provId:" + m_provId +
+          ",rowPrId:" + getCell(row, KI_KIT_ITEM).getId() +
+          ",prId:" + m_prId +
+          ",ctrlStock:" + m_ctrlStock;
+      };
+
+      /*
+      var getFilter2 = function(row, lRow) {
         var filter = "";
         var pt = m_serialNumbers.get(lRow);
 
         if(m_bEditKit && !m_bParteProdKit) {
           // Tiene que ser un numero de serie asociado a un kit de este tipo de pr_id
           //
-          filter = Cairo.General.Constants.PR_ID+ " = "+ getCell(row, KI_KIT_ITEM).getId().toString()+ " and pr_id_kit = "+ m_prId;
+          filter = C.PR_ID + " = "+ getCell(row, KI_KIT_ITEM).getId().toString() + " and pr_id_kit = " + m_prId;
 
         }
         else if(m_bParteProdKit) {
@@ -857,10 +892,10 @@
         else {
           // Tiene que ser un numero de serie que no este asociado a ningun kit
           //
-          filter = Cairo.General.Constants.PR_ID+ " = "+ m_prId+ " and pr_id_kit is null";
+          filter = C.PR_ID+ " = "+ m_prId+ " and pr_id_kit is null";
         }
 
-        var bNoFilterDepl = pGetNoFilterDepl();
+        var bNoFilterDepl = getNoFilterDepl();
 
         if(!bNoFilterDepl) {
 
@@ -871,11 +906,11 @@
 
             filter = filter+ " and depl_id = "+ csE_DepositosInternos.cSEDEPLIDTERCERO.toString();
 
-            if(m_cliId != Cairo.Constants.NO_ID) {
+            if(m_cliId != NO_ID) {
               filter = filter+ " and cli_id = "+ m_cliId;
 
             }
-            else if(m_provId != Cairo.Constants.NO_ID) {
+            else if(m_provId != NO_ID) {
 
               filter = filter+ " and (prov_id = "+ m_provId+ " or prov_id is null)";
             }
@@ -887,7 +922,7 @@
             filter = filter+ " and depl_id not in (-2,-3)";
           }
 
-          if(m_deplId != Cairo.Constants.NO_ID) {
+          if(m_deplId != NO_ID) {
             // Este 'OR' es momentaneo hasta
             // que el control de stock este estable
             //
@@ -897,7 +932,7 @@
               // del deposito fisico al que pertenece el deposito logico
               // que me pasaron.
               //
-              filter = filter+ " and "+ Cairo.General.Constants.DEPL_ID+ " in (select depl_id from depositoLogico where depf_id = "+ m_depf_id+ ")";
+              filter = filter+ " and "+ Cairo.General.Constants.DEPL_ID+ " in (select depl_id from depositoLogico where depf_id = "+ m_depfId+ ")";
 
               // Sino es por deposito fisico exijo que este
               // en el deposito logico que me pasaron
@@ -920,8 +955,8 @@
 
         return filter;
       };
-
-      var pGetNoFilterDepl = function() {
+      */
+      var getNoFilterDepl = function() {
         return Cairo.Util.val(m_dialog.getProperties().item(C_NO_FILTER_DEPL).getValue());
       };
 
@@ -997,7 +1032,7 @@
           };
 
           var getKey = function(id) {
-            if(id === Cairo.Constants.NO_ID) {
+            if(id === NO_ID) {
               return "new-id:" + (new Date).getTime().toString()
             }
             else {

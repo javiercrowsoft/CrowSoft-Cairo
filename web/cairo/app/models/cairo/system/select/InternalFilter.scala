@@ -29,7 +29,8 @@ object InternalFilter {
     "supplier_account_group" -> "f:supplierAccountGroup",
     "supplier_account" -> "f:supplierAccount",
     "account_for_cuec_id" -> "f:accountForCuecId",
-    "rubro_tabla_item" -> "f:rubroTablaItem"
+    "rubro_tabla_item" -> "f:rubroTablaItem",
+    "serial_number" -> "f:serialNumber"
   )
 
   val emptyFilter = InternalFilter("", List())
@@ -66,6 +67,7 @@ object InternalFilter {
             case "f:supplierAccount" => supplierAccount(user)
             case "f:accountForCuecId" => accountForCuecId(user, parameters)
             case "f:rubroTablaItem" => rubroTablaItem(user, parameters)
+            case "f:serialNumber" => serialNumber(user, parameters)
             case _ => emptyFilter
           }
         }
@@ -222,5 +224,104 @@ object InternalFilter {
     InternalFilter(s"(rubt_id = ${rubtId})", List())
   }
 
+  private def serialNumber(user: CompanyUser, parameters: List[String]): InternalFilter = {
+    val params = parseParameters(parameters)
+
+    //---------------------------------------------
+    val editKit = G.getIntOrZero(params("editKit")) != 0
+    val parteProdKit = G.getIntOrZero(params("parteProdKit")) != 0
+    val prIdKit = G.getIntOrZero(params("prIdKit"))
+    val prnsId = G.getIntOrZero(params("prnsId"))
+    val noFilterDepl = G.getIntOrZero(params("noFilterDepl")) != 0
+    val deplId = G.getIntOrZero(params("deplId"))
+    val depfId = G.getIntOrZero(params("depfId"))
+    val cliId = G.getIntOrZero(params("cliId"))
+    val provId = G.getIntOrZero(params("provId"))
+    val rowPrId = G.getIntOrZero(params("rowPrId"))
+    val prId = G.getIntOrZero(params("prId"))
+    val crlStock = G.getIntOrZero(params("ctrlStock"))
+
+    val filter =
+      if(editKit && !parteProdKit) {
+        //
+        // it must be a serial number associated to a kit of this pr_id
+        //
+        "pr_id = " + rowPrId + " and pr_id_kit = " + prId
+      }
+      else if(parteProdKit) {
+        //
+        // it must be a serial number that is NOT associated to any kit or
+        // it is associated to a kit that is a component of the kit we are editing
+        //
+        "pr_id = " + rowPrId + (if(prIdKit != 0) " and pr_id_kit = " + prIdKit else " and pr_id_kit is null")
+      }
+      else {
+        //
+        // it must be a serial number that is NOT associated to any kit
+        //
+        "pr_id = " + prId + " and pr_id_kit is null"
+      }
+
+    val filterWithDeposit = filter + (
+
+      if(! noFilterDepl) {
+
+        // Los contra-documentos (devoluciones y notas de credito) envian
+        // el deposito del tercero y el cliente o proveedor segun corresponda
+        //
+        if(deplId == DEPL_ID_TERCERO) {
+
+          filter = filter+ " and depl_id = "+ csE_DepositosInternos.cSEDEPLIDTERCERO.toString();
+
+          if(m_cliId != NO_ID) {
+            filter = filter+ " and cli_id = "+ m_cliId;
+
+          }
+          else if(m_provId != NO_ID) {
+
+            filter = filter+ " and (prov_id = "+ m_provId+ " or prov_id is null)";
+          }
+
+        }
+        else {
+          // No puede estar en depositos internos del sistema
+          //
+          filter = filter+ " and depl_id not in (-2,-3)";
+        }
+
+        if(m_deplId != NO_ID) {
+          // Este 'OR' es momentaneo hasta
+          // que el control de stock este estable
+          //
+          if(m_ctrlStock === csEStockFisico || m_ctrlStock === csENoControlaStock) {
+            // Si me indico un deposito y el stock es por deposito fisico
+            // exijo que el numero de serie este en algun deposito logico
+            // del deposito fisico al que pertenece el deposito logico
+            // que me pasaron.
+            //
+            filter = filter+ " and "+ Cairo.General.Constants.DEPL_ID+ " in (select depl_id from depositoLogico where depf_id = "+ m_depfId+ ")";
+
+            // Sino es por deposito fisico exijo que este
+            // en el deposito logico que me pasaron
+            //
+          }
+          else if(m_ctrlStock === csEStockLogico) {
+            filter = filter+ " and "+ Cairo.General.Constants.DEPL_ID+ " = "+ m_deplId;
+          }
+
+        }
+        else {
+          filter = filter+ " and (1=2)";
+        }
+      }
+      else ""
+    )
+
+    if(pt.getPrnsId()) {
+      filter = "("+ filter+ ") or (prns_id = "+ pt.getPrnsId().toString()+ ")";
+    }
+
+    return filter;
+  }
 
 }
