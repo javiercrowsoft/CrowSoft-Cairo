@@ -22,6 +22,8 @@ case class InternalFilter(query: String, filters: List[QueryParameter]) {
 
 object InternalFilter {
 
+  val ST = models.cairo.modules.stock.C
+
   val filters = Map(
     "supplier_list_price" -> "f:supplierListPrice",
     "document" -> "f:document",
@@ -239,9 +241,9 @@ object InternalFilter {
     val provId = G.getIntOrZero(params("provId"))
     val rowPrId = G.getIntOrZero(params("rowPrId"))
     val prId = G.getIntOrZero(params("prId"))
-    val crlStock = G.getIntOrZero(params("ctrlStock"))
+    val ctrlStock = G.getIntOrZero(params("ctrlStock"))
 
-    val filter =
+    val prIdfilter =
       if(editKit && !parteProdKit) {
         //
         // it must be a serial number associated to a kit of this pr_id
@@ -262,66 +264,49 @@ object InternalFilter {
         "pr_id = " + prId + " and pr_id_kit is null"
       }
 
-    val filterWithDeposit = filter + (
-
+    val deplIdFilter =
       if(! noFilterDepl) {
-
-        // Los contra-documentos (devoluciones y notas de credito) envian
-        // el deposito del tercero y el cliente o proveedor segun corresponda
         //
-        if(deplId == DEPL_ID_TERCERO) {
-
-          filter = filter+ " and depl_id = "+ csE_DepositosInternos.cSEDEPLIDTERCERO.toString();
-
-          if(m_cliId != NO_ID) {
-            filter = filter+ " and cli_id = "+ m_cliId;
-
+        // the inverse documents (devolution and refund notice) sent
+        // DEPL_ID_TERCERO and cli_id or prov_id
+        //
+        (
+          if(deplId == ST.DEPL_ID_TERCERO) {
+            " and depl_id = " + ST.DEPL_ID_TERCERO + (
+              if(cliId != DBHelper.NoId) " and cli_id = " + cliId
+              else if(provId != DBHelper.NoId) " and (prov_id = " + provId + " or prov_id is null)"
+            )
           }
-          else if(m_provId != NO_ID) {
-
-            filter = filter+ " and (prov_id = "+ m_provId+ " or prov_id is null)";
-          }
-
-        }
-        else {
-          // No puede estar en depositos internos del sistema
-          //
-          filter = filter+ " and depl_id not in (-2,-3)";
-        }
-
-        if(m_deplId != NO_ID) {
-          // Este 'OR' es momentaneo hasta
-          // que el control de stock este estable
-          //
-          if(m_ctrlStock === csEStockFisico || m_ctrlStock === csENoControlaStock) {
-            // Si me indico un deposito y el stock es por deposito fisico
-            // exijo que el numero de serie este en algun deposito logico
-            // del deposito fisico al que pertenece el deposito logico
-            // que me pasaron.
+          else {
             //
-            filter = filter+ " and "+ Cairo.General.Constants.DEPL_ID+ " in (select depl_id from depositoLogico where depf_id = "+ m_depfId+ ")";
-
-            // Sino es por deposito fisico exijo que este
-            // en el deposito logico que me pasaron
+            // it CAN'T be in an internal deposit
             //
+            " and depl_id not in (-2,-3)"
           }
-          else if(m_ctrlStock === csEStockLogico) {
-            filter = filter+ " and "+ Cairo.General.Constants.DEPL_ID+ " = "+ m_deplId;
-          }
+        ) + (
+          if(deplId != DBHelper.NoId) {
+            //
+            // if deplId is not null and CTRL_STOCK == FISICO the serial number must be
+            // in some of the logic deposit of this depfId
+            //
+            if(ctrlStock == ST.STOCK_FISICO || ctrlStock == ST.NO_CONTROLA_STOCK) {
+              " and depl_id in (select depl_id from depositoLogico where depf_id = " + depfId + ")"
+            }
+            else if(ctrlStock == ST.STOCK_LOGICO) {
+              " and depl_id = " + deplId
+            }
 
-        }
-        else {
-          filter = filter+ " and (1=2)";
-        }
+          }
+          else {
+            " and (1=2)" // this is to force an empty result set
+          }
+        )
       }
       else ""
-    )
 
-    if(pt.getPrnsId()) {
-      filter = "("+ filter+ ") or (prns_id = "+ pt.getPrnsId().toString()+ ")";
-    }
+    val prnsIdFilter = if(prnsId != 0) "or (prns_id = " + prnsId + ")" else ""
 
-    return filter;
+    InternalFilter("(" + prIdfilter + deplIdFilter + ")" + prnsIdFilter, List())
   }
 
 }

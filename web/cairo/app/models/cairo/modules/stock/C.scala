@@ -41,6 +41,11 @@ object C {
   val DEPL_ID_INTERNO = -2
   val DEPL_ID_TERCERO = -3
 
+  val NO_CONTROLA_STOCK = 2
+  val STOCK_LOGICO = 3
+  val STOCK_FISICO = 4
+  val STOCK_NEGATIVO = 5
+
 }
 
 object S {
