@@ -966,18 +966,18 @@
     Edit.Controller = { getEditor: createObject };
 
   });
-
+/*
   Cairo.module("ProductoSerie.List", function(List, Cairo, Backbone, Marionette, $, _) {
     List.Controller = {
       list: function() {
 
         var self = this;
 
-        /*
+        / *
          this function will be called by the tab manager every time the
          view must be created. when the tab is not visible the tab manager
          will not call this function but only make the tab visible
-         */
+         * /
         var createTreeDialog = function(tabId) {
 
           var editors = Cairo.Editors.productoserieEditors || Cairo.Collections.createCollection(null);
@@ -1123,6 +1123,6 @@
       }
     };
   });
-
+*/
 
 }());
