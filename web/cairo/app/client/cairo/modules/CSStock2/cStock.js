@@ -1105,8 +1105,8 @@
       var validateRow = function(row, rowIndex) {
 
         var p = null;
-        var llevaNroSerie = false;
-        var cantidad = 0;
+        var hasSerial = false;
+        var amount = 0;
 
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
@@ -1118,7 +1118,7 @@
           switch (cell.getKey()) {
 
             case KI_CANTIDAD:
-              cantidad = val(cell.getValue());
+              amount = val(cell.getValue());
               if(valEmpty(cell.getValue(), Types.currency)) {
                 return M.showInfoWithFalse(getText(1365, "", strRow)); // Debe indicar una cantidad (1)
               }
@@ -1131,8 +1131,8 @@
               break;
 
             case KI_NRO_SERIE:
-              llevaNroSerie = cellId(row, KI_PR_LLEVA_NRO_SERIE) !== 0;
-              if(valEmpty(cell.getValue(), Types.text) && llevaNroSerie) {
+              hasSerial = cellId(row, KI_PR_LLEVA_NRO_SERIE) !== 0;
+              if(valEmpty(cell.getValue(), Types.text) && hasSerial) {
                 return M.showInfoWithFalse(getText(1630, "", strRow)); // Debe indicar un numero de serie (1)
               }
               break;
@@ -1141,8 +1141,7 @@
 
               if(valEmpty(cell.getId(), Types.id)
                 && cellId(row, KI_PR_LLEVA_LOTE)
-                && cellId(row, KI_PR_LLEVA_LOTE) === 0
-                && cellId(row, KI_PR_LOTEFIFO) === 0) {
+                && cellId(row, KI_PR_LLEVA_NRO_SERIE) === 0) {
                 return M.showInfoWithFalse(getText(1632, "", strRow)); // Debe indicar un lote (1)
               }
               break;
@@ -1153,12 +1152,12 @@
         // we need validate quantity match the
         // count of serial numbers collection
         //
-        if(llevaNroSerie) {
+        if(hasSerial) {
 
           var prId = cellId(row, KI_PR_ID);
 
           p = Cairo.SerialNumber.quantityChange(
-            row, KI_GRUPO, rowIndex, m_serialNumbers, cantidad, strRow,
+            row, KI_GRUPO, rowIndex, m_serialNumbers, amount, strRow,
             KI_PR_ID, KI_CANTIDAD, KI_NRO_SERIE, prId, getDeplIdOrigen(), false);
         }
 
@@ -1689,7 +1688,7 @@
               saveItemAux(
                 transaction, order, row, prIdKit,
                 kitSerial.getAmount() * cellFloat(row, KI_CANTIDAD),
-                kitSerial.getHasSerialNumber(), kitOrder);
+                kitSerial.getHasSerial(), kitOrder);
             }
 
             Dialogs.cell(row, KI_PR_ID).setId(prIdKit);

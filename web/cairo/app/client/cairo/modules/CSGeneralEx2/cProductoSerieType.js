@@ -10,8 +10,8 @@
       var m_prnsId = 0;
       var m_prId = 0;
       var m_code = "";
-      var m_codigo2 = "";
-      var m_codigo3 = "";
+      var m_code2 = "";
+      var m_code3 = "";
       var m_descrip = "";
       var m_fechaVto = null;
       var m_prIdItem = 0;
@@ -36,24 +36,24 @@
         return m_code;
       };
 
-      self.setCodigo = function(rhs) {
+      self.setCode = function(rhs) {
         m_code = rhs;
       };
 
       self.getCode2 = function() {
-        return m_codigo2;
+        return m_code2;
       };
 
-      self.setCodigo2 = function(rhs) {
-        m_codigo2 = rhs;
+      self.setCode2 = function(rhs) {
+        m_code2 = rhs;
       };
 
       self.getCode3 = function() {
-        return m_codigo3;
+        return m_code3;
       };
 
-      self.setCodigo3 = function(rhs) {
-        m_codigo3 = rhs;
+      self.setCode3 = function(rhs) {
+        m_code3 = rhs;
       };
 
       self.getDescrip = function() {

@@ -345,7 +345,7 @@
 
               if(result) {
                 //
-                // it is posible to go from validate to invalidate and viceversa
+                // it is possible to go from validate to invalidate and viceversa
                 //
                 if(estId === Cairo.Documents.Status.anulado) {
                   result = Cairo.Security.docHasPermissionTo(actionValidate, docId, Cairo.Security.ActionTypes.validate);
@@ -2070,6 +2070,10 @@
   var C = Cairo.General.Constants;
   var CC = Cairo.Compras.Constants;
   var NO_ID = Cairo.Constants.NO_ID;
+  var getText = Cairo.Language.getText;
+  var U = Cairo.Util;
+  var Dialogs = Cairo.Dialogs;
+  var getKey = Cairo.Util.getKey;
 
   Cairo.SerialNumber = {};
 
@@ -2219,25 +2223,25 @@
 
   Cairo.SerialNumber.validateCount2 = function(
     row, keyGroup, rowIndex, serialNumbers, cantidad, strRow, keyPrId,
-    keyCantidad, keyNSerie, prId, deplId, isInput) {
+    keyAmount, keyNSerie, prId, deplId, isInput) {
 
     return Cairo.SerialNumber.validateCount2Ex(
       row, keyGroup, rowIndex, serialNumbers, cantidad, strRow, keyPrId, 
-      keyCantidad, keyNSerie, prId, deplId, isInput, false);
+      keyAmount, keyNSerie, prId, deplId, isInput, false);
   };
 
   Cairo.SerialNumber.validateCount2Ex = function(
     row, keyGroup, rowIndex, serialNumbers, cantidad, strRow, keyPrId, 
-    keyCantidad, keyNSerie, prId, deplId, isInput, silent) {
+    keyAmount, keyNSerie, prId, deplId, isInput, silent) {
 
     return Cairo.SerialNumber.validateCount3Ex(
       row, keyGroup, rowIndex, serialNumbers, cantidad, strRow, keyPrId, 
-      keyCantidad, keyNSerie, prId, deplId, isInput, silent, false);
+      keyAmount, keyNSerie, prId, deplId, isInput, silent, false);
   };
 
   Cairo.SerialNumber.validateCount3Ex = function(
     row, keyGroup, rowIndex, serialNumbers, cantidad, strRow, keyPrId, 
-    keyCantidad, keyNSerie, prId, deplId, isInput, silent, superSilent) {
+    keyAmount, keyNSerie, prId, deplId, isInput, silent, superSilent) {
 
     /* TODO: complete this
 
@@ -2277,7 +2281,7 @@
       //La cantidad del rénglon  & RowIndex &  es menor a la cantidad de & _
       números(de serie asociados. Indique el/los números de serie a eleminar.);
 
-      if(!Cairo.SerialNumber.destroy(Dialogs.cell(row, keyGroup).getId(), val(Dialogs.cell(row, keyCantidad).getValue()), row, serialNumbers, keyGroup, keyNSerie, rowIndex, prId, deplId, isInput, nroSerieCount - cantidad)) {
+      if(!Cairo.SerialNumber.destroy(Dialogs.cell(row, keyGroup).getId(), val(Dialogs.cell(row, keyAmount).getValue()), row, serialNumbers, keyGroup, keyNSerie, rowIndex, prId, deplId, isInput, nroSerieCount - cantidad)) {
 
         cWindow.msgWarning(getText(2917, "", rowIndex));
         //El documento no será guardado hasta que no indique los números de & _
@@ -2292,7 +2296,7 @@
 
   Cairo.SerialNumber.validateCount = function(
     row, keyGroup, rowIndex, serialNumbers, cantidad, strRow, keyPrId,
-    keyCantidad, keyNSerie, prId, deplId, isInput) {
+    keyAmount, keyNSerie, prId, deplId, isInput) {
 
     /* TODO: complete this
 
@@ -2314,7 +2318,7 @@
       //La cantidad del rénglon " & RowIndex & " es menor a la cantidad de & _
       números(de serie asociados. Indique el/los números de serie a eleminar.);
 
-      if(!Cairo.SerialNumber.destroy(Dialogs.cell(row, keyGroup).getId(), val(Dialogs.cell(row, keyCantidad).getValue()), row, serialNumbers, keyGroup, keyNSerie, rowIndex, prId, deplId, isInput, nroSerieCount - cantidad)) {
+      if(!Cairo.SerialNumber.destroy(Dialogs.cell(row, keyGroup).getId(), val(Dialogs.cell(row, keyAmount).getValue()), row, serialNumbers, keyGroup, keyNSerie, rowIndex, prId, deplId, isInput, nroSerieCount - cantidad)) {
 
         cWindow.msgWarning(getText(2917, "", rowIndex));
         //El documento no será guardado hasta que no indique los números de & _
@@ -2328,31 +2332,31 @@
   };
 
   Cairo.SerialNumber.quantityChangePPK = function(
-    row, lRow, keyCantidad, newValue, keyGroup, serialNumbers, keyPrId, keyNSerie,
+    row, lRow, keyAmount, newValue, keyGroup, serialNumbers, keyPrId, keyNSerie,
     prId, deplId, isNew) {
 
     return quantityChange(
-      row, lRow, keyCantidad, newValue, keyGroup, serialNumbers, keyPrId, keyNSerie,
+      row, lRow, keyAmount, newValue, keyGroup, serialNumbers, keyPrId, keyNSerie,
       prId, deplId, false, NO_ID, true, isNew);
   };
 
   Cairo.SerialNumber.quantityChange = function(
-    row, lRow, keyCantidad, newValue, keyGroup, serialNumbers, keyPrId, keyNSerie,
+    row, lRow, keyAmount, newValue, keyGroup, serialNumbers, keyPrId, keyNSerie,
     prId, deplId, isInput, provId) {
 
     return quantityChange(
-      row, lRow, keyCantidad, newValue, keyGroup, serialNumbers, keyPrId, keyNSerie,
+      row, lRow, keyAmount, newValue, keyGroup, serialNumbers, keyPrId, keyNSerie,
       prId, deplId, isInput, provId, false, false);
   };
 
   var quantityChange = function(
-    row, lRow, keyCantidad, newValue, keyGroup, serialNumbers, keyPrId, keyNSerie,
+    row, lRow, keyAmount, newValue, keyGroup, serialNumbers, keyPrId, keyNSerie,
     prId, deplId, isInput, provId, isParteProd, isNewParteProd) {
 
     /* TODO: complete this
 
     var oldValue = null;
-    oldValue = val(Dialogs.cell(row, keyCantidad).getValue());
+    oldValue = val(Dialogs.cell(row, keyAmount).getValue());
 
     if(oldValue !== newValue && oldValue > 0) {
 
@@ -2380,7 +2384,7 @@
             return null;
           }
           else {
-            if(!Cairo.SerialNumber.destroy(Dialogs.cell(row, keyGroup).getId(), val(Dialogs.cell(row, keyCantidad).getValue()), row, serialNumbers, keyGroup, keyNSerie, lRow, prId, deplId, isInput, nroSerieCount - newValue)) {
+            if(!Cairo.SerialNumber.destroy(Dialogs.cell(row, keyGroup).getId(), val(Dialogs.cell(row, keyAmount).getValue()), row, serialNumbers, keyGroup, keyNSerie, lRow, prId, deplId, isInput, nroSerieCount - newValue)) {
               return null;
             }
           }
@@ -2401,120 +2405,124 @@
   };
 
   Cairo.SerialNumber.editInput = function(
-    grupo, cantidad, row, serialNumbers, keyGroup, keyNSerie, lRow,
+    group, amount, row, serialNumbers, keyGroup, keyNSerie, lRow,
     prId, deplId, isInput, bEditKit, collKitInfo, prov_id, cli_id) {
 
-    return edit (
-      grupo, cantidad, row, serialNumbers, keyGroup, keyNSerie, lRow,
+    return edit(
+      group, amount, row, serialNumbers, keyGroup, keyNSerie, lRow,
       NO_ID, deplId, isInput, bEditKit, false, collKitInfo, prov_id, cli_id, 0, prId);
   };
 
   Cairo.SerialNumber.edit = function(
-    grupo, cantidad, row, serialNumbers, keyGroup, keyNSerie, lRow,
+    group, amount, row, serialNumbers, keyGroup, keyNSerie, lRow,
     prId, deplId, isInput, bEditKit, collKitInfo, prov_id, cli_id) {
 
-    return edit (
-      grupo, cantidad, row, serialNumbers, keyGroup, keyNSerie, lRow,
+    return edit(
+      group, amount, row, serialNumbers, keyGroup, keyNSerie, lRow,
       prId, deplId, isInput, bEditKit, false, collKitInfo, prov_id, cli_id, 0, 0);
   };
 
   Cairo.SerialNumber.destroy = function(
-    grupo, cantidad, row, serialNumbers, keyGroup, keyNSerie, lRow, prId, deplId, isInput, deleteCount) {
+    group, amount, row, serialNumbers, keyGroup, keyNSerie, lRow, prId, deplId, isInput, deleteCount) {
 
-    return edit (
-      grupo, cantidad, row, serialNumbers, keyGroup, keyNSerie, lRow,
+    return edit(
+      group, amount, row, serialNumbers, keyGroup, keyNSerie, lRow,
       prId, deplId, isInput, false, false, null, NO_ID, NO_ID, deleteCount, 0);
   };
 
   Cairo.SerialNumber.editPPK = function(
-    grupo, cantidad, row, serialNumbers, keyGroup, keyNSerie, lRow,
+    group, amount, row, serialNumbers, keyGroup, keyNSerie, lRow,
     prId, deplId, isInput, bEditKit, collKitInfo) {
 
-    return edit (
-      grupo, cantidad, row, serialNumbers, keyGroup, keyNSerie, lRow,
+    return edit(
+      group, amount, row, serialNumbers, keyGroup, keyNSerie, lRow,
       prId, deplId, isInput, bEditKit, true, collKitInfo, 0, 0, 0, 0);
   };
 
   Cairo.SerialNumber.editPDK = function(
-    grupo, cantidad, row, serialNumbers, keyGroup, keyNSerie, lRow,
+    group, amount, row, serialNumbers, keyGroup, keyNSerie, lRow,
     prId, deplId, isInput, bEditKit, collKitInfo) {
 
-    return edit (
-      grupo, cantidad, row, serialNumbers, keyGroup, keyNSerie, lRow,
+    return edit(
+      group, amount, row, serialNumbers, keyGroup, keyNSerie, lRow,
       prId, deplId, isInput, bEditKit, false, collKitInfo, 0, 0, 0, 0);
   };
 
+  var getAmountForKit = function(collKitInfo, amount) {
+    var rtn = 0;
+
+    var _count = collKitInfo.size();
+    for (var _i = 0; _i < _count; _i++) {
+      var kitS = collKitInfo.item(_i);
+      if(kitS.getHasSerial()) {
+        rtn += kitS.getAmount() * amount;
+      }
+    }
+    return rtn;
+  };
+
   var edit  = function(
-    grupo, cantidad, row, serialNumbers, KI_GRUPO, KI_NROSERIE, lRow, 
+    group, amount, row, serialNumbers, KI_GROUP, KI_NRO_SERIE, lRow,
     prId, deplId, isInput, bEditKit, bParteProdKit, collKitInfo, 
-    prov_id, cli_id, deleteCount, prId2) {
+    provId, cliId, deleteCount, prId2) {
 
-    /* TODO: complete this
-
-    var editSerie = null;
-    var i = null;
-    var n = null;
-    var coll = null;
-
-    if(cantidad < 1) {
-      // Debe indicar una cantidad
-      cWindow.msgWarning(getText(2921, ""));
-      return null;
+    if(amount < 1) {
+      return Cairo.Modal.showWarningWithFail(getText(2921, "")); // Debe indicar una cantidad
     }
 
-    editSerie = new cProductoSerie();
+    var serieEditor = Cairo.ProductoSerie.Edit.Controller.getEditor();
 
-    editSerie.self.setBEditKit(bEditKit);
-    editSerie.self.setBParteProdKit(bParteProdKit);
+    serieEditor.setBEditKit(bEditKit);
+    serieEditor.setBParteProdKit(bParteProdKit);
 
     if(bEditKit) {
 
-      cantidad = getCantidadForKit(collKitInfo, cantidad);
+      amount = getAmountForKit(collKitInfo, amount);
 
       if(collKitInfo === null) {
-        cWindow.msgWarning(getText(2922, ""));
-        //No se recibió la definición del kit. No se pueden editar los & _
-        Números(de Serie);
-        return null;
+        return Cairo.Modal.showWarningWithFail(getText(2922, ""));
+          // No se recibió la definición del kit. No se pueden editar los & _
+          // Números(de Serie);
       }
     }
 
-    // Si ya existen numeros de serie para este item
-    //
-    if(mCollection.existsObjectInColl(serialNumbers, getKey(grupo))) {
+    var coll = null;
+    var n = 0;
 
-      // Paso de la coleccion a la ventana de edicion
+    // if there are serial numbers for this group in the collection
+    //
+    if(serialNumbers.contains(serialNumbers, U.getKey(group))) {
+
+      // copy from collection to dialog
       //
-      coll = serialNumbers.get(getKey(grupo));
-      for(i = 1; i <= coll.size(); i++) {
-        editSerie.self.addProductoSerie(coll.get(i));
+      coll = serialNumbers.get(U.getKey(group));
+      for(var i = 0, _count = coll.size(); i < _count; i += 1) {
+        serieEditor.addProductoSerie(coll.get(i));
       }
-      n = editSerie.self.getSerialNumbers().size();
+      n = serieEditor.getSerialNumbers().size();
     }
 
     if(bEditKit) {
 
       var kitS = null;
-
-      while (n < cantidad) {
-        var _count = collKitInfo.size();
-        for(var _i = 0; _i < _count; _i++) {
+      while (n < amount) {
+        for(var _i = 0, _count = collKitInfo.size(); _i < _count; _i += 1) {
           kitS = collKitInfo.item(_i);
 
-          if(kitS.self.getHasSerialNumber()) {
+          if(kitS.getHasSerial()) {
 
-            for(i = 1; i <= kitS.self.getCantidad(); i++) {
+            for(var j = 0, count_j = kitS.getAmount(); j < count_j ; j += 1) {
 
-              // Creo filas para los nuevos numeros de serie
+              // create rows for new serial numbers
               //
-              n = n + 1;
-              editSerie.self.addProductoSerie(new cProductoSerieType());
-              var w_coll = editSerie.self.cProductoSerie.getSerialNumbers(n);
-              w_coll.prns_id = n * -1;
-              w_coll.pr_id = prId ? prId : prId2);
-              w_coll.pr_id_item = kitS.self.getPrId();
-              w_coll.pr_id_kit = kitS.self.getPrIdKit();
-              w_coll.KitItem = kitS.self.getName();
+              n += 1;
+              serieEditor.addProductoSerie(Cairo.ProductoSerieType().createObject());
+              var coll = serieEditor.getSerialNumbers(n);
+              coll.setPrnsId(n * -1);
+              coll.setPrId(prId ? prId : prId2);
+              coll.setPrIdItem(kitS.getPrId());
+              coll.setPrIdKit(kitS.getPrIdKit());
+              coll.setKitItem(kitS.getName());
             }
           }
         }
@@ -2522,84 +2530,66 @@
     }
     else {
 
-      // Creo filas para los nuevos numeros de serie
+      // Add rows for new serial numbers
       //
-      for(i = n + 1; i <= cantidad; i++) {
-        editSerie.self.addProductoSerie(new cProductoSerieType());
-        editSerie.self.getSerialNumbers(i).prns_id = i * -1;
-        editSerie.self.getSerialNumbers(i).pr_id = prId ? prId : prId2);
+      for(i = n; i < amount; i += 1) {
+        serieEditor.addProductoSerie(Cairo.ProductoSerieType().createObject());
+        var serie = serieEditor.getSerialNumbers(i);
+        serie.setPrnsId(i * -1);
+        serie.setPrId(prId ? prId : prId2);
       }
-
     }
 
-    editSerie.self.setDeplId(deplId);
-    editSerie.self.setPrId(prId);
-    editSerie.self.setIsInput(isInput);
-    editSerie.self.setCliId(cli_id);
-    editSerie.self.setProvId(prov_id);
-    editSerie.self.setDelete(deleteCount);
-    editSerie.self.setDeleteCount(deleteCount);
+    serieEditor.setDeplId(deplId);
+    serieEditor.setPrId(prId);
+    serieEditor.setIsInput(isInput);
+    serieEditor.setCliId(cliId);
+    serieEditor.setProvId(provId);
+    serieEditor.setDelete(deleteCount);
+    serieEditor.setDeleteCount(deleteCount);
 
-    if(!editSerie.self.edit()) { return false; }
+    if(!serieEditor.edit()) { return false; }
 
-    var vSeries() = null;
-    var idx = null;
-    var ubSeries = null;
-
-    ubSeries = 400;
-    G.redim(vSeries, ubSeries);
-
-    // Si este item aun no tiene numeros de serie
-    // creo una nueva coleccion y la agrego a la coleccion de items
-    // el grupo esta en negativo para indicar que son nuevos
+    // if this item doesn't have serial numbers
+    // create a new collection and add it to items collection
+    // the group is negative to flag it is new
     //
     if(coll === null) {
-      grupo = lRow * -1;
-      // (NrosSerie.Count + 1) * -1
-      Dialogs.cell(row, KI_GRUPO).setID(grupo);
-      coll = new Collection();
-      serialNumbers.Add(coll, getKey(grupo));
-    }
-
-    mCollection.collClear(coll);
-
-    // Paso de la ventana a la coleccion del item
-    //
-    for(i = 1; i <= editSerie.self.getSerialNumbers().size(); i++) {
-
-      var pt = null;
-      var delCount = null;
-
-      pt = editSerie.self.getSerialNumbers().get(i);
-      pt.self.setPrId(prId ? prId : prId2));
-
-      if(idx > ubSeries) {
-        ubSeries = ubSeries + 400;
-        G.redimPreserve(vSeries, ubSeries);
-      }
-
-      if(pt.self.getDeleted() && delCount < deleteCount) {
-        delCount = delCount + 1;
-        vSeries[idx] = pt.self.getCode()+ (LenB(pt.self.getCode2()) ? " | "+ pt.self.getCode2() : "")).toString()+ "(B)";
-      }
-      else {
-        vSeries[idx] = pt.self.getCode()+ (LenB(pt.self.getCode2()) ? " | "+ pt.self.getCode2() : "")).toString();
-      }
-
-      idx = idx + 1;
-
-      coll.Add(pt, getKey(pt.self.getPrnsId()));
-    }
-
-    idx = idx - 1;
-    if(idx >= 0) {
-      G.redimPreserve(vSeries, idx);
-      Dialogs.cell(row, KI_NROSERIE).getValue() === Join(vSeries, ",");
+      group = lRow * -1;
+      Dialogs.cell(row, KI_GROUP).setId(group);
+      coll = Cairo.Collections.createCollection(Cairo.SerialNumber.create);
+      serialNumbers.add(coll, getKey(group));
     }
     else {
-      Dialogs.cell(row, KI_NROSERIE).getValue() === "";
+      coll.clear();
     }
-    */
+
+    // move from dialog to item collection
+    //
+    var series = [];
+    for(var i = 0, count = serieEditor.getSerialNumbers().size(); i < count; i += 1) {
+
+      var delCount = 0;
+
+      var pt = serieEditor.getSerialNumbers().get(i);
+      pt.setPrId(prId ? prId : prId2);
+
+      if(pt.getDeleted() && delCount < deleteCount) {
+        delCount = delCount + 1;
+        series.push(pt.getCode() + (pt.getCode2().length > 0 ? " | "+ pt.getCode2() : "") + "(B)");
+      }
+      else {
+        series.push(pt.getCode() + (pt.getCode2().length > 0 ? " | "+ pt.getCode2() : ""));
+      }
+
+      coll.add(pt, getKey(pt.getPrnsId()));
+    }
+
+    var serieNumbers = "";
+    if(series.length > 0) {
+      serieNumbers = series.join(",");
+    }
+    Dialogs.cell(row, KI_NRO_SERIE).setValue(serieNumbers);
 
     return Cairo.Promises.resolvedPromise(true);
   };
@@ -2624,7 +2614,7 @@
     }
 
     if(bEditKit) {
-      cantidad = getCantidadForKit(collKitInfo, cantidad);
+      cantidad = getAmountForKit(collKitInfo, cantidad);
 
       if(collKitInfo === null) {
         cWindow.msgWarning(getText(2922, ""));
@@ -2669,9 +2659,9 @@
         for(var _i = 0; _i < _count; _i++) {
           kitS = collKitInfo.item(_i);
 
-          if(kitS.self.getHasSerialNumber()) {
+          if(kitS.getHasSerial()) {
 
-            for(i = 1; i <= kitS.self.getCantidad(); i++) {
+            for(i = 1; i <= kitS.getCantidad(); i++) {
 
               // Creo filas para los nuevos numeros de serie
               //
@@ -2680,9 +2670,9 @@
               coll.Codigo = getNextNumber();
               coll.prns_id = n * -1;
               coll.pr_id = prId ? prId : prId2);
-              coll.pr_id_item = kitS.self.getPrId();
-              coll.pr_id_kit = kitS.self.getPrIdKit();
-              coll.KitItem = kitS.self.getName();
+              coll.pr_id_item = kitS.getPrId();
+              coll.pr_id_kit = kitS.getPrIdKit();
+              coll.KitItem = kitS.getName();
             }
           }
         }
@@ -2709,13 +2699,13 @@
       var delCount = null;
 
       pt = coll.get(i);
-      pt.self.setPrId(prId ? prId : prId2));
-      if(pt.self.getDeleted() && delCount < deleteCount) {
+      pt.setPrId(prId ? prId : prId2));
+      if(pt.getDeleted() && delCount < deleteCount) {
         delCount = delCount + 1;
-        nros = nros+ pt.self.getCode()+ "(B),";
+        nros = nros+ pt.getCode()+ "(B),";
       }
       else {
-        nros = nros+ pt.self.getCode()+ ",";
+        nros = nros+ pt.getCode()+ ",";
       }
     }
 
