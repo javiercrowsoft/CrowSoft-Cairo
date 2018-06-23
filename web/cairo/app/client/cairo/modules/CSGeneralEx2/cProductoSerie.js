@@ -111,7 +111,7 @@
 
           var pt2 = Cairo.ProductoSerieType.createObject();
 
-          pt2.setCodigo(pt.getCode());
+          pt2.setCode(pt.getCode());
           pt2.setCode2(pt.getCode2());
           pt2.setCode3(pt.getCode3());
           pt2.setDescrip(pt.getDescrip());
@@ -590,7 +590,7 @@
                 break;
 
               case KI_NUMERO:
-                pt.setCodigo(cell.getValue());
+                pt.setCode(cell.getValue());
                 break;
 
               case KI_NUMERO2:

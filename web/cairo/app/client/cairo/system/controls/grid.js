@@ -471,6 +471,14 @@
         return dateCtrl;
       };
 
+      var getButtonStyle = function(col) {
+        return (
+          col.getSubType() === S.textButtonEx
+            || col.getSubType() === S.textButton) ?
+          Cairo.Controls.ButtonStyle.single :
+          Cairo.Controls.ButtonStyle.none;
+      };
+
       var getControl = function(col) {
         var ctrl = null;
         try {
@@ -487,6 +495,7 @@
             case T.text:
               ctrl = getInputCtrl();
               ctrl.setType(CT.text);
+              ctrl.setButtonStyle(getButtonStyle(col));
               break;
 
             case T.date:
@@ -835,7 +844,7 @@
               td$.addClass('grid-td-editing');
               td$.addClass(getClassForColType(type));
               td$.html(ctrl.getElement());
-              ctrl.focus()
+              ctrl.focus();
               if(info.key === "") {
                 ctrl.select();
               }
@@ -931,14 +940,14 @@
 
       var nextVisibleTD = function(tds, currCol, moveTo) {
         if(moveTo > 0) {
-          return nextRigthVisibleTD(tds, currCol + moveTo);
+          return nextRightVisibleTD(tds, currCol + moveTo);
         }
         else {
           return nextLeftVisibleTD(tds, currCol + moveTo);
         }
       };
 
-      var nextRigthVisibleTD = function(tds, moveTo) {
+      var nextRightVisibleTD = function(tds, moveTo) {
         for(var i = moveTo; i < tds.length; i += 1) {
           if(self.columns.get(i).getVisible()) {
             return tds.item(i);

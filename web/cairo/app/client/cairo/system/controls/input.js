@@ -32,13 +32,17 @@
         inputDisabled: false,
         type: Controls.InputType.text,
         clazz: "",
-        mask: ""
+        mask: "",
+        buttonStyle: Controls.ButtonStyle.none,
+
+        input: null,
+        button: null
 
       };
 
       var that = Controls.createControl();
 
-      that.htmlTag = "<input/>";
+      that.htmlTag = '<div class="input-text-control"></div>';
 
       var superSetElement = that.setElement;
 
@@ -60,10 +64,10 @@
         var keys = "0123456789.,-+*/";
         var key = String.fromCharCode(that.getKeyCode(e));
 
-        var element = that.getElement();
-        if(key === "=" || (OPERATORS.test(element.val()) && OPERATORS.test(key))) {
+        var input = that.getElement().children();
+        if(key === "=" || (OPERATORS.test(input.val()) && OPERATORS.test(key))) {
 
-          that.setText(element.val());
+          that.setText(input.val());
           if(key === "=") {
             e.preventDefault();
           }
@@ -73,13 +77,30 @@
         }
       };
 
+      var addButton = function(element) {
+        if(self.button === null) {
+          var button = $('<button>!</button>');
+          button.attr('tabindex', -1);
+          element.append(button);
+          self.button = button;
+        }
+      };
+      var removeButton = function(element) {
+        if(self.button !== null) {
+          self.button.remove();
+          self.button = null;
+        }
+      };
+
       that.setElement = function(element, view, onChangeHandler) {
         superSetElement(element);
+        var input = $('<input/>');
+        element.append(input);
         if(self.type === Controls.InputType.password) {
-          element.attr('type', 'password');
+          input.attr('type', 'password');
         }
-        element.val(self.text);
-        element.addClass("dialog-control dialog-input-control");
+        input.val(self.text);
+        input.addClass("dialog-control dialog-input-control");
         var onChange;
         if(onChangeHandler !== undefined) {
           onChange = onChangeHandler;
@@ -87,15 +108,24 @@
         else {
           onChange = isText() ? view.onTextChange(that) : view.onMaskEditChange(that);
         }
-        element.change(function() {
-          that.setText(element.val());
+        input.change(function() {
+          that.setText(input.val());
           onChange();
         });
         if(!isText()) {
-          element.addClass("dialog-input-control-number");
-          element.on("keypress", keyPressListener);
+          input.addClass("dialog-input-control-number");
+          input.on("keypress", keyPressListener);
         }
+
+        if(self.buttonStyle === Controls.ButtonStyle.single) {
+          addButton(element);
+        }
+
         addRemoveClazz('addClass');
+
+        self.input = input;
+
+        that.setEnabled(that.getEnabled());
       };
 
       var val = Cairo.Util.val;
@@ -177,22 +207,30 @@
         self.text = getValue(text, true);
         var element = that.getElement();
         if(element) {
-          element.val(self.text);
+          element.children().val(self.text);
         }
       };
       that.getText = function() {
         var element = that.getElement();
         if(element) {
-          self.text = element.val();
+          self.text = element.children().val();
         }
         return self.text;
+      };
+
+      var superSetEnabled = that.setEnabled;
+
+      that.setEnabled = function(enabled) {
+        superSetEnabled(enabled);
+        if(self.input !== null) self.input.attr('disabled', !enabled);
+        if(self.button !== null) self.button.attr('disabled', !enabled);
       };
 
       that.setValue = function(text) {
         self.text = getValue(text, false);
         var element = that.getElement();
         if(element) {
-          element.val(self.text);
+          element.children().val(self.text);
         }
       };
       that.getValue = that.getText;
@@ -201,7 +239,7 @@
         if(self.clazz !== "") {
           var element = that.getElement();
           if(element !== null) {
-            element[f](self.clazz);
+            element.children()[f](self.clazz);
           }
         }
       };
@@ -218,7 +256,16 @@
       that.setMask = function(mask) {
         self.mask = mask;
       };
-      that.setButtonStyle = function(style) { /* TODO: implement this. */ };
+      that.setButtonStyle = function(style) {
+        self.buttonStyle = style;
+        var element = that.getElement();
+        if(style === Controls.ButtonStyle.single) {
+          addButton(element);
+        }
+        else {
+          removeButton();
+        }
+      };
       that.setPasswordChar = function(char) { /* TODO: implement this. */ };
       that.setFormatNumber = function(format) { /* TODO: implement this. */ };
       that.setMaxLength = function(length) { self.maxLength = length; };
@@ -232,13 +279,14 @@
         self.type = type;
         var element = that.getElement();
         if(element !== null) {
-          element.off("keypress");
+          var input = element.children();
+          input.off("keypress");
           if(!isText()) {
-            element.addClass("dialog-input-control-number");
-            element.on("keypress", keyPressListener);
+            input.addClass("dialog-input-control-number");
+            input.on("keypress", keyPressListener);
           }
           else {
-            element.removeClass("dialog-input-control-number");
+            input.removeClass("dialog-input-control-number");
           }
         }
       };
@@ -355,7 +403,21 @@
         }
 
         return rtn;
-      }
+      };
+
+      that.focus = function() {
+        var element = self.input;
+        if(element) {
+          element.focus();
+        }
+      };
+
+      that.select = function() {
+        var element = self.input;
+        if(element) {
+          element.select();
+        }
+      };
       
       return that;
     };
