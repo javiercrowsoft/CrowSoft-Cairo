@@ -76,6 +76,8 @@ Cairo.RubroTabla = {};
 Cairo.Common = {};
 Cairo.Entities = {};
 
+Cairo.ProductoSerie = {};
+
 PercepcionType = {
   tipoBase: 0,
   minimo: 0,

@@ -15,7 +15,7 @@ services:
     restart: always
     image: "postgres:9.1"
     volumes:
-      - /var/lib/docker/volumes/bf244ebe6dba7909d19407018626e1693e73e685ce689c639a0b383bb4a77d70/_data:/var/lib/postgresql/data    
+      - /var/lib/docker/volumes/bf244ebe6dba7909d19407018626e1693e73e685ce689c639a0b383bb4a77d70/_data:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: 14FeDyAr
     ports:

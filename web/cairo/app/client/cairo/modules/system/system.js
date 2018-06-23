@@ -2070,6 +2070,7 @@
   var C = Cairo.General.Constants;
   var CC = Cairo.Compras.Constants;
   var NO_ID = Cairo.Constants.NO_ID;
+  var getKey = Cairo.Util.getKey;
 
   Cairo.SerialNumber = {};
 
@@ -2445,76 +2446,66 @@
   };
 
   var edit  = function(
-    grupo, cantidad, row, serialNumbers, KI_GRUPO, KI_NROSERIE, lRow, 
-    prId, deplId, isInput, bEditKit, bParteProdKit, collKitInfo, 
-    prov_id, cli_id, deleteCount, prId2) {
+    group, amount, row, serialNumbers, KI_GRUPO, KI_NROSERIE, lRow,
+    prId, deplId, isInput, isEditKit, isParteProdKit, collKitInfo,
+    provId, cliId, deleteCount, prId2) {
 
-    /* TODO: complete this
-
-    var editSerie = null;
-    var i = null;
-    var n = null;
-    var coll = null;
-
-    if(cantidad < 1) {
-      // Debe indicar una cantidad
-      cWindow.msgWarning(getText(2921, ""));
-      return null;
+    if(amount < 1) {
+      return Cairo.Modal.showWarningWithFalse(getText(2921, "")); // Debe indicar una cantidad
     }
 
-    editSerie = new cProductoSerie();
+    var editSerie = Cairo.ProductoSerie.Edit.Controller.getEditor();
 
-    editSerie.self.setBEditKit(bEditKit);
-    editSerie.self.setBParteProdKit(bParteProdKit);
+    editSerie.setIsEditKit(isEditKit);
+    editSerie.setIsParteProdKit(isParteProdKit);
 
-    if(bEditKit) {
-
-      cantidad = getCantidadForKit(collKitInfo, cantidad);
-
-      if(collKitInfo === null) {
-        cWindow.msgWarning(getText(2922, ""));
-        //No se recibió la definición del kit. No se pueden editar los & _
-        Números(de Serie);
-        return null;
-      }
+    if(isEditKit) {
+      amount = getAmountForKit(collKitInfo, amount);
     }
 
-    // Si ya existen numeros de serie para este item
+    if(collKitInfo === null) {
+      return Cairo.Modal.showWarningWithFalse(getText(2922, ""));
+                                  // No se recibió la definición del kit. No se pueden editar los Números(de Serie);
+    }
+
+    var n = 0;
+
+    // if this item already have serial numbers associated to it
     //
-    if(mCollection.existsObjectInColl(serialNumbers, getKey(grupo))) {
+    if(serialNumbers.contains(getKey(group))) {
 
-      // Paso de la coleccion a la ventana de edicion
+      // from colleccion to edit dialog
       //
-      coll = serialNumbers.get(getKey(grupo));
-      for(i = 1; i <= coll.size(); i++) {
-        editSerie.self.addProductoSerie(coll.get(i));
+      var coll = serialNumbers.get(getKey(group));
+      for(var i = 0; i < coll.size(); i++) {
+        editSerie.addProductoSerie(coll.get(i));
       }
-      n = editSerie.self.getSerialNumbers().size();
+      n = editSerie.getSerialNumbers().size();
     }
 
-    if(bEditKit) {
+    if(isEditKit) {
 
       var kitS = null;
 
-      while (n < cantidad) {
+      while (n < amount) {
         var _count = collKitInfo.size();
         for(var _i = 0; _i < _count; _i++) {
           kitS = collKitInfo.item(_i);
 
-          if(kitS.self.getHasSerialNumber()) {
+          if(kitS.hasSerialNumber()) {
 
-            for(i = 1; i <= kitS.self.getCantidad(); i++) {
+            for(i = 0; i < kitS.size(); i++) {
 
-              // Creo filas para los nuevos numeros de serie
+              // add rows to contain new serial numbers
               //
-              n = n + 1;
-              editSerie.self.addProductoSerie(new cProductoSerieType());
-              var w_coll = editSerie.self.cProductoSerie.getSerialNumbers(n);
-              w_coll.prns_id = n * -1;
-              w_coll.pr_id = prId ? prId : prId2);
-              w_coll.pr_id_item = kitS.self.getPrId();
-              w_coll.pr_id_kit = kitS.self.getPrIdKit();
-              w_coll.KitItem = kitS.self.getName();
+              n += 1;
+              editSerie.addProductoSerie(new cProductoSerieType());
+              var coll = editSerie.getSerialNumbers(n);
+              coll.setPrnsId(n * -1);
+              coll.setPrId(prId != NO_ID ? prId : prId2);
+              w_coll.setPrIdItem = kitS.getPrId();
+              w_coll.pr_id_kit = kitS.getPrIdKit();
+              w_coll.KitItem = kitS.getName();
             }
           }
         }
@@ -2524,23 +2515,23 @@
 
       // Creo filas para los nuevos numeros de serie
       //
-      for(i = n + 1; i <= cantidad; i++) {
-        editSerie.self.addProductoSerie(new cProductoSerieType());
-        editSerie.self.getSerialNumbers(i).prns_id = i * -1;
-        editSerie.self.getSerialNumbers(i).pr_id = prId ? prId : prId2);
+      for(var i = n + 1; i <= cantidad; i++) {
+        editSerie.addProductoSerie(new cProductoSerieType());
+        editSerie.getSerialNumbers(i).prns_id = i * -1;
+        editSerie.getSerialNumbers(i).pr_id = prId ? prId : prId2);
       }
 
     }
 
-    editSerie.self.setDeplId(deplId);
-    editSerie.self.setPrId(prId);
-    editSerie.self.setIsInput(isInput);
-    editSerie.self.setCliId(cli_id);
-    editSerie.self.setProvId(prov_id);
-    editSerie.self.setDelete(deleteCount);
-    editSerie.self.setDeleteCount(deleteCount);
+    editSerie.setDeplId(deplId);
+    editSerie.setPrId(prId);
+    editSerie.setIsInput(isInput);
+    editSerie.setCliId(cli_id);
+    editSerie.setProvId(prov_id);
+    editSerie.setDelete(deleteCount);
+    editSerie.setDeleteCount(deleteCount);
 
-    if(!editSerie.self.edit()) { return false; }
+    if(!editSerie.edit()) { return false; }
 
     var vSeries() = null;
     var idx = null;
@@ -2565,30 +2556,30 @@
 
     // Paso de la ventana a la coleccion del item
     //
-    for(i = 1; i <= editSerie.self.getSerialNumbers().size(); i++) {
+    for(i = 1; i <= editSerie.getSerialNumbers().size(); i++) {
 
       var pt = null;
       var delCount = null;
 
-      pt = editSerie.self.getSerialNumbers().get(i);
-      pt.self.setPrId(prId ? prId : prId2));
+      pt = editSerie.getSerialNumbers().get(i);
+      pt.setPrId(prId ? prId : prId2));
 
       if(idx > ubSeries) {
         ubSeries = ubSeries + 400;
         G.redimPreserve(vSeries, ubSeries);
       }
 
-      if(pt.self.getDeleted() && delCount < deleteCount) {
+      if(pt.getDeleted() && delCount < deleteCount) {
         delCount = delCount + 1;
-        vSeries[idx] = pt.self.getCode()+ (LenB(pt.self.getCode2()) ? " | "+ pt.self.getCode2() : "")).toString()+ "(B)";
+        vSeries[idx] = pt.getCode()+ (LenB(pt.getCode2()) ? " | "+ pt.getCode2() : "")).toString()+ "(B)";
       }
       else {
-        vSeries[idx] = pt.self.getCode()+ (LenB(pt.self.getCode2()) ? " | "+ pt.self.getCode2() : "")).toString();
+        vSeries[idx] = pt.getCode()+ (LenB(pt.getCode2()) ? " | "+ pt.getCode2() : "")).toString();
       }
 
       idx = idx + 1;
 
-      coll.Add(pt, getKey(pt.self.getPrnsId()));
+      coll.Add(pt, getKey(pt.getPrnsId()));
     }
 
     idx = idx - 1;
@@ -2624,7 +2615,7 @@
     }
 
     if(bEditKit) {
-      cantidad = getCantidadForKit(collKitInfo, cantidad);
+      cantidad = getAmountForKit(collKitInfo, cantidad);
 
       if(collKitInfo === null) {
         cWindow.msgWarning(getText(2922, ""));
@@ -2669,9 +2660,9 @@
         for(var _i = 0; _i < _count; _i++) {
           kitS = collKitInfo.item(_i);
 
-          if(kitS.self.getHasSerialNumber()) {
+          if(kitS.hasSerialNumber()) {
 
-            for(i = 1; i <= kitS.self.getCantidad(); i++) {
+            for(i = 1; i <= kitS.getCantidad(); i++) {
 
               // Creo filas para los nuevos numeros de serie
               //
@@ -2680,9 +2671,9 @@
               coll.Codigo = getNextNumber();
               coll.prns_id = n * -1;
               coll.pr_id = prId ? prId : prId2);
-              coll.pr_id_item = kitS.self.getPrId();
-              coll.pr_id_kit = kitS.self.getPrIdKit();
-              coll.KitItem = kitS.self.getName();
+              coll.pr_id_item = kitS.getPrId();
+              coll.pr_id_kit = kitS.getPrIdKit();
+              coll.KitItem = kitS.getName();
             }
           }
         }
@@ -2709,13 +2700,13 @@
       var delCount = null;
 
       pt = coll.get(i);
-      pt.self.setPrId(prId ? prId : prId2));
-      if(pt.self.getDeleted() && delCount < deleteCount) {
+      pt.setPrId(prId ? prId : prId2));
+      if(pt.getDeleted() && delCount < deleteCount) {
         delCount = delCount + 1;
-        nros = nros+ pt.self.getCode()+ "(B),";
+        nros = nros+ pt.getCode()+ "(B),";
       }
       else {
-        nros = nros+ pt.self.getCode()+ ",";
+        nros = nros+ pt.getCode()+ ",";
       }
     }
 

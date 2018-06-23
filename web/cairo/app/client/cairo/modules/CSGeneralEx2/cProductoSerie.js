@@ -53,8 +53,8 @@
       var m_deplId = 0;
       var m_depfId = 0;
       var m_ctrlStock;
-      var m_bEditKit;
-      var m_bParteProdKit;
+      var m_isEditKit;
+      var m_isParteProdKit;
       var m_provId = 0;
       var m_cliId = 0;
       var m_isDelete;
@@ -82,12 +82,12 @@
         m_deplId = rhs;
       };
 
-      self.setBEditKit = function(rhs) {
-        m_bEditKit = rhs;
+      self.setIsEditKit = function(rhs) {
+        m_isEditKit = rhs;
       };
 
-      self.setBParteProdKit = function(rhs) {
-        m_bParteProdKit = rhs;
+      self.setIsParteProdKit = function(rhs) {
+        m_isParteProdKit = rhs;
       };
 
       self.setProvId = function(rhs) {
@@ -475,7 +475,7 @@
         elem = columns.add(null);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Language.getText(2899, "")); // Item
-        elem.setVisible(m_bEditKit);
+        elem.setVisible(m_isEditKit);
         elem.setKey(KI_KIT_ITEM);
 
         elem = columns.add(null, C_NRO_SERIE);
@@ -851,8 +851,8 @@
       var getFilter = function(row, lRow) {
         var pt = m_serialNumbers.get(lRow);
         return "serial_number|" +
-          "editKit:" + U.boolToInt(m_bEditKit) +
-          ",parteProdKit:" + U.boolToInt(m_bParteProdKit) +
+          "editKit:" + U.boolToInt(m_isEditKit) +
+          ",parteProdKit:" + U.boolToInt(m_isParteProdKit) +
           ",prIdKit:" + pt.getPrIdKit() +
           ",prnsId:" + pt.getPrnsId() +
           ",noFilterDepl:" + U.boolToInt(getNoFilterDepl()) +

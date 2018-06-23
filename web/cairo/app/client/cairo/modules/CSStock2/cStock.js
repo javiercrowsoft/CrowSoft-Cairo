@@ -1689,7 +1689,7 @@
               saveItemAux(
                 transaction, order, row, prIdKit,
                 kitSerial.getAmount() * cellFloat(row, KI_CANTIDAD),
-                kitSerial.getHasSerialNumber(), kitOrder);
+                kitSerial.hasSerialNumber(), kitOrder);
             }
 
             Dialogs.cell(row, KI_PR_ID).setId(prIdKit);
