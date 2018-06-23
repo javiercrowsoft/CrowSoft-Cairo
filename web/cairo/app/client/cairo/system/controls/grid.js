@@ -444,10 +444,13 @@
       };
 
       var inputCtrl = null;
-      var getInputCtrl = function() {
+      var getInputCtrl = function(info) {
         if(inputCtrl === null) {
           inputCtrl = Cairo.Controls.createInput();
           inputCtrl.setClass('grid-input-control');
+          if(info !== undefined) {
+            inputCtrl.addListener("onButtonClick", raiseEvent("onColumnButtonClick", info));
+          }
           createHtmlElement(inputCtrl);
         }
         return inputCtrl;
@@ -479,7 +482,7 @@
           Cairo.Controls.ButtonStyle.none;
       };
 
-      var getControl = function(col) {
+      var getControl = function(col, info) {
         var ctrl = null;
         try {
           switch (col.getType()) {
@@ -488,12 +491,12 @@
               break;
 
             case T.numeric:
-              ctrl = getInputCtrl();
+              ctrl = getInputCtrl(info);
               ctrl.setType(D.getCtrlType(col.getSubType()));
               break;
 
             case T.text:
-              ctrl = getInputCtrl();
+              ctrl = getInputCtrl(info);
               ctrl.setType(CT.text);
               ctrl.setButtonStyle(getButtonStyle(col));
               break;
@@ -837,7 +840,7 @@
             //
             // get the edit control and start the edition
             //
-            var ctrl = getControl(col);
+            var ctrl = getControl(col, info);
             if(ctrl !== null) {
               setValue(ctrl, col, info.key, getCurrentValue(col.getType(), info.row, info.col));
               var td$ = $(td);

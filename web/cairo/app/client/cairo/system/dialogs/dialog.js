@@ -4266,6 +4266,8 @@
         // and false is returned when the event has ben handle by m_client or by
         // this function (when column.subType === textButtonEx)
         //
+        // TODO: remove argument keyAscii ( not only in this function but in all clients m_client.columnButtonClick )
+        //
         var gridColumnButtonClick = function(index, rowIndex, colIndex, keyAscii) {
           var p = null;
           try {

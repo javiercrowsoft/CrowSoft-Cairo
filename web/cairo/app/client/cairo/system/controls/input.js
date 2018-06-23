@@ -36,7 +36,8 @@
         buttonStyle: Controls.ButtonStyle.none,
 
         input: null,
-        button: null
+        button: null,
+        listeners: []
 
       };
 
@@ -56,7 +57,7 @@
           || self.type === Controls.InputType.taxId
           || self.type === Controls.InputType.memo
         );
-      }
+      };
 
       var keyPressListener = function(e) {
         Cairo.log("keypress: " + String.fromCharCode(that.getKeyCode(e)));
@@ -82,10 +83,18 @@
           var button = $('<button>!</button>');
           button.attr('tabindex', -1);
           element.append(button);
+          button.click(function(e) {
+            var listeners = self.listeners["onButtonClick"];
+            if(listeners !== undefined) {
+              for(var i = 0, count = listeners.size; i < count; i += 1) {
+                listeners[i](e);
+              }
+            }
+          });
           self.button = button;
         }
       };
-      var removeButton = function(element) {
+      var removeButton = function() {
         if(self.button !== null) {
           self.button.remove();
           self.button = null;
@@ -418,7 +427,19 @@
           element.select();
         }
       };
-      
+
+      that.addListener = function(eventName, functionHandler) {
+        switch(eventName) {
+          case "onButtonClick":
+            self.listeners[eventName].push(functionHandler);
+            break;
+          default:
+            Cairo.logError(
+                'Invalid event listener registration. EventName: '
+                + eventName + ' - Handler: ' + functionHandler.toString());
+        }
+      };
+
       return that;
     };
 
