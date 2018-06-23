@@ -443,14 +443,17 @@
         );
       };
 
+      var inputOnButtonClick = function() {
+        if(self.editInfo !== null) {
+          raiseEvent("onColumnButtonClick", self.editInfo);
+        }
+      };
       var inputCtrl = null;
-      var getInputCtrl = function(info) {
+      var getInputCtrl = function() {
         if(inputCtrl === null) {
           inputCtrl = Cairo.Controls.createInput();
           inputCtrl.setClass('grid-input-control');
-          if(info !== undefined) {
-            inputCtrl.addListener("onButtonClick", raiseEvent("onColumnButtonClick", info));
-          }
+          inputCtrl.addListener("onButtonClick", inputOnButtonClick);
           createHtmlElement(inputCtrl);
         }
         return inputCtrl;
@@ -491,12 +494,12 @@
               break;
 
             case T.numeric:
-              ctrl = getInputCtrl(info);
+              ctrl = getInputCtrl();
               ctrl.setType(D.getCtrlType(col.getSubType()));
               break;
 
             case T.text:
-              ctrl = getInputCtrl(info);
+              ctrl = getInputCtrl();
               ctrl.setType(CT.text);
               ctrl.setButtonStyle(getButtonStyle(col));
               break;
@@ -1165,6 +1168,12 @@
               if(selStart === -1
                 || (moveToCol < 0 && selStart === 0 && selEnd === 0)
                 || (moveToCol > 0 && selStart === textLength && selEnd === selStart)) {
+
+                var tr = td.parentNode;
+                var args = {
+                  row: tr.rowIndex - 1, /* first row contains headers */
+                  col: td.cellIndex
+                };
                 endEdit().then(function() {
                   var nextTD = nextVisibleTD(td.parentNode.childNodes, td.cellIndex, moveToCol);
                   nextTD.focus();

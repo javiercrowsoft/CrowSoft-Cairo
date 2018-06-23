@@ -37,8 +37,9 @@
 
         input: null,
         button: null,
-        listeners: []
-
+        listeners: {
+          onButtonClick: []
+        }
       };
 
       var that = Controls.createControl();
@@ -84,11 +85,9 @@
           button.attr('tabindex', -1);
           element.append(button);
           button.click(function(e) {
-            var listeners = self.listeners["onButtonClick"];
-            if(listeners !== undefined) {
-              for(var i = 0, count = listeners.size; i < count; i += 1) {
-                listeners[i](e);
-              }
+            var listeners = self.listeners.onButtonClick;
+            for(var i = 0, count = listeners.length; i < count; i += 1) {
+              listeners[i](e);
             }
           });
           self.button = button;
