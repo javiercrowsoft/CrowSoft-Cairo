@@ -305,6 +305,72 @@ div.tree-select-dialog.ui-widget-content {
   float: right;
 }
 
+/* -------------- input text control ------------*/
+
+.input-text-control input {
+    width: -moz-calc(100% - 15px);
+    width: -webkit-calc(100% - 15px);
+    width: calc(100% - 15px);
+    height: 35px;
+    float: left;
+    border: 0;
+    background: #fff;
+    -moz-border-radius: 3px 0 0 3px !important;
+    -webkit-border-radius: 3px 0 0 3px !important;
+    border-radius: 3px 0 0 3px !important;
+}
+
+.input-text-control button {
+    overflow: visible;
+    position: relative;
+    float: right;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    height: 35px;
+    width: 15px;
+    font: bold 15px/30px 'lucida sans', 'trebuchet MS', 'Tahoma';
+    color: #fff;
+    text-transform: uppercase;
+    background: #3498db;
+    -moz-border-radius: 0 3px 3px 0;
+    -webkit-border-radius: 0 3px 3px 0;
+    border-radius: 0 3px 3px 0;
+    text-shadow: 0 -1px 0 rgba(0, 0 ,0, .3);
+}
+
+.input-text-control button:hover{
+    background: #3498db;
+}
+
+.input-text-control button:active,
+.input-text-control button:focus{
+    background: #3498db;
+}
+
+.input-text-control button:before {
+    content: '';
+    position: absolute;
+    border-width: 8px 8px 8px 0;
+    border-style: solid solid solid none;
+    border-color: transparent #3498db transparent;
+    top: 10px;
+    left: -6px;
+}
+
+.input-text-control button:hover:before{
+    border-right-color: #3498db;
+}
+
+.input-text-control button:focus:before{
+    border-right-color: #3498db;
+}
+
+.input-text-control button::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
 /* -------------- dialogs ------------*/
 
 .dialog-label {

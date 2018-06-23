@@ -155,7 +155,7 @@
 
     Dialogs.ButtonStyle = {
       none: 1,
-      sinlge: 2
+      single: 2
     };
 
     Dialogs.TextAlign = {
@@ -4299,7 +4299,7 @@
                     if(mustHandleEvent) {
                       // if this column's type is textButtonEx we show the input text dialog
                       //
-                      if(grid.getColumns().get(colIndex).getSubType() === Dialogs.PropertyType.textButtonEx) {
+                      if(grid.getColumns().get(colIndex).getSubType() === Dialogs.PropertySubType.textButtonEx) {
                         var cell = grid.getRows().get(rowIndex).get(colIndex);
                         p = Cairo.Modal.inputFormView("", "", cell.getValue()).then(
                           function(text) {
@@ -4501,7 +4501,7 @@
             p = m_client.messageEx(Dialogs.Message.MSG_BUTTON_TEXT_CLICK, property).then(
               function() {
 
-                if(property.getSubType() === Dialogs.PropertyType.textButtonEx) {
+                if(property.getSubType() === Dialogs.PropertySubType.textButtonEx) {
                   var c = getView().getTextInputs().get(index);
                   return Cairo.Modal.inputFormView("", "", c.getText()).then(
                     function(text) {
@@ -4865,7 +4865,7 @@
 
               if(subType !== Dialogs.PropertySubType.memo) {
                 if(c.getMask() !== "") {
-                  var buttonStyle = subType === Dialogs.PropertyType.textButton || subType === Dialogs.PropertyType.textButtonEx;
+                  var buttonStyle = subType === Dialogs.PropertySubType.textButton || subType === Dialogs.PropertySubType.textButtonEx;
                   buttonStyle = buttonStyle ? Dialogs.ButtonStyle.single : Dialogs.ButtonStyle.none;
                   c.setButtonStyle(buttonStyle);
                   c.setMask(property.getTextMask());
@@ -5096,14 +5096,14 @@
                       found = true;
                     }
                     // finally it can be a text with a button
-                    //   subType === Dialogs.PropertyType.textButton or Dialogs.PropertyType.textButtonEx
+                    //   subType === Dialogs.PropertySubType.textButton or Dialogs.PropertySubType.textButtonEx
                     // textButtonClick call will pass 0 as subType
                     //
                     // so this if handles text controls which has a button and aren't file or folder
                     //
                     else if((property.getType() === Dialogs.PropertyType.text
-                      && (property.getSubType() === Dialogs.PropertyType.textButton
-                      || property.getSubType() === Dialogs.PropertyType.textButtonEx))) {
+                      && (property.getSubType() === Dialogs.PropertySubType.textButton
+                      || property.getSubType() === Dialogs.PropertySubType.textButtonEx))) {
 
                       found = true;
                     }

@@ -33,6 +33,7 @@
         type: Controls.InputType.text,
         clazz: "",
         mask: "",
+        buttonStyle: Controls.ButtonStyle.none,
 
         input: null,
         button: null
@@ -41,7 +42,7 @@
 
       var that = Controls.createControl();
 
-      that.htmlTag = '<div></div>';
+      that.htmlTag = '<div class="input-text-control"></div>';
 
       var superSetElement = that.setElement;
 
@@ -76,6 +77,21 @@
         }
       };
 
+      var addButton = function(element) {
+        if(self.button === null) {
+          var button = $('<button>!</button>');
+          button.attr('tabindex', -1);
+          element.append(button);
+          self.button = button;
+        }
+      };
+      var removeButton = function(element) {
+        if(self.button !== null) {
+          self.button.remove();
+          self.button = null;
+        }
+      };
+
       that.setElement = function(element, view, onChangeHandler) {
         superSetElement(element);
         var input = $('<input/>');
@@ -100,6 +116,11 @@
           input.addClass("dialog-input-control-number");
           input.on("keypress", keyPressListener);
         }
+
+        if(self.buttonStyle === Controls.ButtonStyle.single) {
+          addButton(element);
+        }
+
         addRemoveClazz('addClass');
 
         self.input = input;
@@ -235,7 +256,16 @@
       that.setMask = function(mask) {
         self.mask = mask;
       };
-      that.setButtonStyle = function(style) { /* TODO: implement this. */ };
+      that.setButtonStyle = function(style) {
+        self.buttonStyle = style;
+        var element = that.getElement();
+        if(style === Controls.ButtonStyle.single) {
+          addButton(element);
+        }
+        else {
+          removeButton();
+        }
+      };
       that.setPasswordChar = function(char) { /* TODO: implement this. */ };
       that.setFormatNumber = function(format) { /* TODO: implement this. */ };
       that.setMaxLength = function(length) { self.maxLength = length; };

@@ -101,7 +101,7 @@
             self.element.select();
           }
         }
-        catch(ingore) {}
+        catch(ignore) {}
       };
 
       that.setSelectOnFocus = function(select) {

@@ -541,8 +541,8 @@
             case Dialogs.PropertyType.text:
               property.setCtrlIndex(getView().getTextInputs().count() - 1);
               c.setMaxLength(property.getSize());
-              c.setButtonStyle((property.getSubType() === Dialogs.PropertyType.textButton 
-                              || property.getSubType() === Dialogs.PropertyType.textButtonEx) 
+              c.setButtonStyle((property.getSubType() === Dialogs.PropertySubType.textButton
+                              || property.getSubType() === Dialogs.PropertySubType.textButtonEx)
                               ? Dialogs.ButtonStyle.single : Dialogs.ButtonStyle.none);
               break;
 

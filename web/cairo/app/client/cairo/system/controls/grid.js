@@ -471,6 +471,14 @@
         return dateCtrl;
       };
 
+      var getButtonStyle = function(col) {
+        return (
+          col.getSubType() === S.textButtonEx
+            || col.getSubType() === S.textButton) ?
+          Cairo.Controls.ButtonStyle.single :
+          Cairo.Controls.ButtonStyle.none;
+      };
+
       var getControl = function(col) {
         var ctrl = null;
         try {
@@ -487,6 +495,7 @@
             case T.text:
               ctrl = getInputCtrl();
               ctrl.setType(CT.text);
+              ctrl.setButtonStyle(getButtonStyle(col));
               break;
 
             case T.date:
