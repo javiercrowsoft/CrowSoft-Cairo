@@ -83,7 +83,7 @@
         that.setEnabled(self.enabled);
         if(self.cssClass !== "") {
           element.addClass(self.cssClass);
-        };
+        }
       };
       that.getElement = function() {
         return self.element;

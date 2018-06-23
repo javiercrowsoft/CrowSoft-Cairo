@@ -835,7 +835,7 @@
               td$.addClass('grid-td-editing');
               td$.addClass(getClassForColType(type));
               td$.html(ctrl.getElement());
-              ctrl.focus()
+              ctrl.focus();
               if(info.key === "") {
                 ctrl.select();
               }
@@ -931,14 +931,14 @@
 
       var nextVisibleTD = function(tds, currCol, moveTo) {
         if(moveTo > 0) {
-          return nextRigthVisibleTD(tds, currCol + moveTo);
+          return nextRightVisibleTD(tds, currCol + moveTo);
         }
         else {
           return nextLeftVisibleTD(tds, currCol + moveTo);
         }
       };
 
-      var nextRigthVisibleTD = function(tds, moveTo) {
+      var nextRightVisibleTD = function(tds, moveTo) {
         for(var i = moveTo; i < tds.length; i += 1) {
           if(self.columns.get(i).getVisible()) {
             return tds.item(i);
