@@ -25,3 +25,5 @@ database/backup/*salmax*.*
 .settings
 .project
 
+\#*\#
+.\#*
