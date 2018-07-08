@@ -3,7 +3,11 @@
 
   Cairo.module("ProductoSerie.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
 
+    var m_idDialog = 0;
+
     var createObject = function() {
+
+      m_idDialog += 1;
 
       var self = {};
 
@@ -209,11 +213,11 @@
       };
 
       self.getPath = function() {
-        return "#general/productoserie/" + m_id.toString();
+        return "#general/productoserie/" + m_idDialog.toString();
       };
 
       self.getEditorName = function() {
-        var id = m_id ? m_id.toString() : "N" + (new Date).getTime().toString();
+        var id = m_idDialog ? m_idDialog.toString() : "N" + (new Date).getTime().toString();
         return "productoserie" + id;
       };
 
@@ -452,7 +456,7 @@
           }
         }
 
-        return m_dialog.show(self);
+        return m_dialog.showModal(self);
       };
 
       var refreshCollection = function() {

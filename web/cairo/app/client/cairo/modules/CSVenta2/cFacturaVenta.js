@@ -2014,7 +2014,7 @@
                   p = Cairo.SerialNumber.edit(
                     cellId(row, KI_GRUPO), cellFloat(row, KI_CANTIDAD),
                     row, m_serialNumbers, KI_GRUPO, KI_NRO_SERIE, lRow, prId, getDeplId(),
-                    false, false, D.getKitInfo(prId, m_kitDefinitions), NO_ID, getCliId());
+                    false, false, Cairo.Kit.getKitInfo(prId, m_kitDefinitions), NO_ID, getCliId());
                 }
                 break;
             }

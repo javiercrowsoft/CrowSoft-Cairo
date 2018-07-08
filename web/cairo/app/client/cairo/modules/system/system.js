@@ -2484,6 +2484,7 @@
                                   // No se recibió la definición del kit. No se pueden editar los Números(de Serie);
     }
 
+    var coll = null;
     var n = 0;
 
     // if this item already have serial numbers associated to it
@@ -2492,7 +2493,7 @@
 
       // from colleccion to edit dialog
       //
-      var coll = serialNumbers.get(getKey(group));
+      coll = serialNumbers.get(getKey(group));
       for(var i = 0, count = coll.size(); i < count; i++) {
         serialEditor.addProductoSerie(coll.get(i));
       }
@@ -2514,7 +2515,7 @@
               // create rows for new serial numbers
               //
               n += 1;
-              serialEditor.addProductoSerie(Cairo.ProductoSerieType().createObject());
+              serialEditor.addProductoSerie(Cairo.ProductoSerieType.createObject());
               var coll = serialEditor.getSerialNumbers(n);
               coll.setPrnsId(n * -1);
               coll.setPrId(prId != NO_ID ? prId : prId2);
@@ -2531,8 +2532,8 @@
       // Add rows for new serial numbers
       //
       for(i = n; i < amount; i += 1) {
-        serialEditor.addProductoSerie(Cairo.ProductoSerieType().createObject());
-        var serialNumber = serialEditor.getSerialNumbers(i);
+        serialEditor.addProductoSerie(Cairo.ProductoSerieType.createObject());
+        var serialNumber = serialEditor.getSerialNumbers().item(i);
         serialNumber.setPrnsId(i * -1);
         serialNumber.setPrId(prId ? prId : prId2);
       }

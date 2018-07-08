@@ -13,7 +13,7 @@
       var m_code2 = "";
       var m_code3 = "";
       var m_descrip = "";
-      var m_fechaVto = null;
+      var m_fechaVto = Cairo.Constants.NO_DATE;
       var m_prIdItem = 0;
       var m_kitItem = "";
       var m_prIdKit = 0;

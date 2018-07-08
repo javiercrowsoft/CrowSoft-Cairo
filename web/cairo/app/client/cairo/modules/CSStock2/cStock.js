@@ -1028,7 +1028,7 @@
                   p = Cairo.SerialNumber.edit(
                     cellId(row, KI_GRUPO), cellFloat(row, KI_CANTIDAD),
                     row, m_serialNumbers, KI_GRUPO, KI_NRO_SERIE, lRow, prId, getDeplIdOrigen(),
-                    false, cellId(row, KI_ES_KIT) != 0, false, D.getKitInfo(prId, m_kitDefinitions), NO_ID, NO_ID);
+                    false, cellId(row, KI_ES_KIT) != 0, false, Cairo.Kit.getKitInfo(prId, m_kitDefinitions), NO_ID, NO_ID);
                 }
                 break;
             }
