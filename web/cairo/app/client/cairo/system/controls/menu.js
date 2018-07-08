@@ -3,6 +3,8 @@
 
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
+    var C_MODULE = "Controls.menu";
+
     var createMenu = function() {
       var self = {
         text: ""
@@ -13,6 +15,7 @@
       that.htmlTag = "<div><div/>";
       
       that.setText = function(text) {
+        Cairo.validateAssignmentIsNotNull(text, C_MODULE, "createMenu.setText");
         self.text = text;
       };
       

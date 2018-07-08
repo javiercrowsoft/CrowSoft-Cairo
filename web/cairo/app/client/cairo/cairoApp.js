@@ -891,12 +891,23 @@ var Cairo = new Marionette.Application();
   */
 
   var getDateValue = function(value) {
-    if(typeof value === "string") {
-      value = validateStringDate(value);
-    }
-    value = new Date(value.toString());
-    if(isNaN(value.getTime())) {
+    //
+    // we try to handle null and undefined in a way it allows as to continue working
+    // following the principle "chisporrotea pero no estalla"
+    //
+    if(value === undefined || value === null) {
+      debugger;
+      Cairo.log("getDateValue called with undefined or null", true);
       value = NO_DATE;
+    }
+    else {
+      if(typeof value === "string") {
+        value = validateStringDate(value);
+      }
+      value = new Date(value.toString());
+      if(isNaN(value.getTime())) {
+        value = NO_DATE;
+      }
     }
     return value;
   };
@@ -1707,5 +1718,12 @@ var Cairo = new Marionette.Application();
   $(window).on('resize', function(){
     resizeComponents();
   });
+
+  Cairo.validateAssignmentIsNotNull = function(value, module, functionName) {
+    if(value === undefined || value === null) {
+      Cairo.raiseError("Invalid null or undefined assignment", module + "." + functionName);
+      debugger;
+    }
+  };
 
 }());

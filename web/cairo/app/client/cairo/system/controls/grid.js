@@ -3,6 +3,8 @@
 
   Cairo.module("Controls.Grids", function(Grids, Cairo, Backbone, Marionette, $, _) {
 
+    var C_MODULE = "Controls.Grids.grid";
+
     var createGridGroup = function() {
       var self = {};
 
@@ -35,6 +37,7 @@
           return self.text;
         },
         setText: function(text) {
+          Cairo.validateAssignmentIsNotNull(text, C_MODULE, "createCell.setText");
           self.text = text;
         },
 
@@ -101,6 +104,7 @@
           return self.text;
         },
         setText: function(text) {
+          Cairo.validateAssignmentIsNotNull(text, C_MODULE, "createColumn.setText");
           self.text = text;
         },
 

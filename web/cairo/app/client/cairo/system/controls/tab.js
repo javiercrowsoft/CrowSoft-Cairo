@@ -227,6 +227,8 @@
 
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
+    var C_MODULE = "Controls.tab";
+
     var createTab = function() {
       var self = {
         text: "",
@@ -261,6 +263,7 @@
       };
 
       that.setText = function(text) {
+        Cairo.validateAssignmentIsNotNull(text, C_MODULE, "createTab.setText");
         //
         // for now we remove the index in the text
         //

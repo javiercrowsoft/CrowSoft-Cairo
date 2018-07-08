@@ -11,6 +11,8 @@
 
   Cairo.module("Dialogs.Grids", function(Grids, Cairo, Backbone, Marionette, $, _) {
 
+    var C_MODULE = "Dialogs.Grids.grid";
+
     var Dialogs = Cairo.Dialogs;
 
     var createManager = function() {
@@ -311,8 +313,9 @@
         return self.value;
       };
       that.setValue = function(value) {
-        if(value === undefined) {
-          Cairo.raiseError("setValue", "undefined can not be used when calling setValue");
+        if(value === undefined || value === null) {
+          Cairo.raiseError("Invalid null or undefined assignment", C_MODULE + ".createCell.setValue");
+          debugger;
         }
         self.value = value;
         return that;

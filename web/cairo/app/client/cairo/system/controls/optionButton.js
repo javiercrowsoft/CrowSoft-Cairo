@@ -3,6 +3,8 @@
 
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
+    var C_MODULE = "Controls.optionButton";
+
     var createOptionButton = function() {
       var self = {
         text: "",
@@ -14,8 +16,8 @@
       
       that.htmlTag = "<input/>";
 
-
       that.setText = function(text) {
+        Cairo.validateAssignmentIsNotNull(text, C_MODULE, "createOptionButton.setText");
         self.text = text;
       };
       that.getText = function() {

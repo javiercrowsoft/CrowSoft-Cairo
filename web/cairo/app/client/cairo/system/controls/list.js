@@ -3,6 +3,8 @@
 
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
+    var C_MODULE = "Controls.list";
+
     var createList = function() {
       var self = {
         text: ""
@@ -21,6 +23,7 @@
       };
 
       that.setText = function(text) {
+        Cairo.validateAssignmentIsNotNull(text, C_MODULE, "createList.setText");
         self.text = text;
         var element = that.getElement();
         if(element) {

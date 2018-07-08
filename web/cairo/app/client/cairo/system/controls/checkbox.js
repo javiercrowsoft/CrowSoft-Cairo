@@ -3,6 +3,8 @@
 
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
+    var C_MODULE = "Controls.checkbox";
+
     var createCheckbox = function() {
       var self = {
         text: "",
@@ -28,6 +30,7 @@
       };
 
       that.setText = function(text) {
+        Cairo.validateAssignmentIsNotNull(text, C_MODULE, "createCheckbox.setText");
         self.text = text;
       };
 

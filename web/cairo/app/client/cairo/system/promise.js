@@ -125,16 +125,16 @@
         var res;
         try{
           res = callbackData.func(result);
+          if(res instanceof Cairo.Promises.Promise) {
+            callbackData.defer.bind(res);
+          }
+          else {
+            callbackData.defer.resolve(res);
+          }
         }
         catch(ex) {
           that.printStackTrace();
-          throw ex;
-        }
-        if(res instanceof Cairo.Promises.Promise) {
-          callbackData.defer.bind(res);
-        }
-        else {
-          callbackData.defer.resolve(res);
+          callbackData.defer.reject(ex);
         }
       }, 0);
     },
@@ -165,9 +165,28 @@
       promise.error = error;
       promise.status = 'rejected';
       //Cairo.log("promise - rejected");
-      promise.errorCallbacks.forEach(function(callbackData) {
-        promise.executeCallback(callbackData, error);
-      });
+      if(promise.errorCallbacks.length !== 0) {
+        promise.errorCallbacks.forEach(function(callbackData) {
+          promise.executeCallback(callbackData, error);
+        });
+      }
+      else {
+        var message;
+        var ex;
+        if(error instanceof Error) {
+          ex = error;
+          message = error.message;
+        }
+        else {
+          if(error === undefined || error === null) {
+            message = "error undefined or null";
+          }
+          else {
+            message = error.toString();
+          }
+        }
+        Cairo.manageErrorEx(message, ex, "rejected", "Cairo.Promise", "");
+      }
     },
 
     // Make this promise behave like another promise:

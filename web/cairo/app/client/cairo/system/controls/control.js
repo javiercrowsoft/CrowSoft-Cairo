@@ -247,7 +247,6 @@
         };
       }
 
-
       that.toString = function() {
         return that.getObjectType() + " - " + that.getName() + " - " + that.htmlTag;
       };

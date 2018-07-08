@@ -2177,7 +2177,7 @@
 
         var resolveModalPromise = function() {
           if(m_modalDefer !== null) {
-            defer.resolve();
+            m_modalDefer.resolve();
           }
         };
 
@@ -2358,7 +2358,7 @@
                   if(!m_viewShowed) {
                     m_viewShowed = true;
                     if(viewIsMaster(view) || viewIsWizard(view)) {
-                      view.showView();
+                      view.preShowView();
 
                       if(viewIsWizard(view)) {
                         loadViewConfiguration(getView(), "master_" + Cairo.Company.getName() + " - "+ m_client.getTitle());
@@ -2377,7 +2377,7 @@
                 }
                 else {
                   if(viewIsMaster(view) || viewIsWizard(view)) {
-                    view.showView();
+                    view.preShowView();
 
                     if(viewIsWizard(view)) {
                       loadViewConfiguration(getView(), "master_" + Cairo.Company.getName() + " - "+ m_client.getTitle());

@@ -3,6 +3,8 @@
 
   Cairo.module("Controls", function(Controls, Cairo, Backbone, Marionette, $, _) {
 
+    var C_MODULE = "Controls.input";
+
     Controls.ButtonStyle = {
       single: 1,
       none: 2
@@ -212,6 +214,7 @@
       };
 
       that.setText = function(text) {
+        Cairo.validateAssignmentIsNotNull(text, C_MODULE, "createInput.setText");
         self.text = getValue(text, true);
         var element = that.getElement();
         if(element) {

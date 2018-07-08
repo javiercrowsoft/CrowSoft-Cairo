@@ -556,6 +556,7 @@
 
       that.hideLabel = function() {
         self.hideLabel = true;
+        return that;
       };
 
       that.labelIsHidden = function() {

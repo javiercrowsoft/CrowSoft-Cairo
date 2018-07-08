@@ -11,6 +11,8 @@
 
   Cairo.module("Dialogs.Views", function(Views, Cairo, Backbone, Marionette, $, _) {
 
+    var C_MODULE = "Dialogs.Views.view";
+
     var Controls = Cairo.Controls;
     
     var createControls = function(view, viewManager, existingForm) {
@@ -375,11 +377,11 @@
         ctrlLabels: Cairo.Collections.createCollection(Controls.createLabel, controls), // used to associate a label to a property
         titles: Cairo.Collections.createCollection(Controls.createLabel, controls),
 
-        bottomLine: Controls.createControl(),
-        background: Controls.createControl(),
-        btnSave: Controls.createControl(),
-        btnCancel: Controls.createControl(),
-        btnClose: Controls.createControl(),
+        bottomLine: Controls.createButton(),
+        background: Controls.createButton(),
+        btnSave: Controls.createButton(),
+        btnCancel: Controls.createButton(),
+        btnClose: Controls.createButton(),
         form: null,
 
         visible: false,
@@ -396,6 +398,7 @@
         return self.text;
       };
       that.setText = function(text) {
+        Cairo.validateAssignmentIsNotNull(text, C_MODULE, "createView.setText");
         self.text = text;
       };
 
@@ -676,7 +679,9 @@
         return true;
       };
 
-      that.showModalDialog = function () { /* TODO: implement this. */ };
+      that.showModalDialog = function () {
+        that.showDialog();
+      };
 
       that.showDialog = function() {
         showTab();
@@ -694,7 +699,7 @@
         Cairo.mainTab.closeTab(getRegion());
       };
 
-      that.showView = function() { /* TODO: implement this. */ };
+      that.preShowView = function() { /* TODO: implement this. */ };
       that.setFocusFirstControl = function() { /* TODO: implement this. */ };
       that.getActiveControl = function() { /* TODO: implement this. */ };
 
