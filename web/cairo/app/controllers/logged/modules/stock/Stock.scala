@@ -24,7 +24,11 @@ case class StockIdData(
 
 case class StockBaseData(
                             descrip: String,
-                            fecha: String
+                            fecha: String,
+                            deplIdOrigen: Int,
+                            deplIdDestino: Int,
+                            lgjId: Int,
+                            sucId: Int
                            )
 
 case class StockItemData(
@@ -92,7 +96,12 @@ object Stocks extends Controller with ProvidesUser {
         (StockIdData.apply)(StockIdData.unapply),
       C.STOCK_BASE -> mapping(
         C.ST_DESCRIP -> text,
-        C.ST_FECHA -> text)
+        C.ST_FECHA -> text,
+        GC.DEPL_ID_ORIGEN -> number,
+        GC.DEPL_ID_DESTINO -> number,
+        GC.LGJ_ID -> number,
+        GC.SUC_ID -> number
+      )
       (StockBaseData.apply)(StockBaseData.unapply),
       C.STOCK_ITEM_TMP -> Forms.list[StockItemData](
         mapping(
@@ -142,6 +151,15 @@ object Stocks extends Controller with ProvidesUser {
       C.ST_NUMERO -> Json.toJson(stock.ids.numero),
       C.ST_FECHA -> Json.toJson(stock.base.fecha),
       C.ST_DESCRIP -> Json.toJson(stock.base.descrip),
+      GC.DEPL_ID_ORIGEN -> Json.toJson(stock.base.deplIdOrigen),
+      GC.DEPL_NAME_ORIGEN -> Json.toJson(stock.base.deplNameOrigen),
+      GC.DEPL_ID_DESTINO -> Json.toJson(stock.base.deplIdDestino),
+      GC.DEPL_NAME_DESTINO -> Json.toJson(stock.base.deplNameDestino),
+      GC.SUC_ID -> Json.toJson(stock.base.sucId),
+      GC.SUC_NAME -> Json.toJson(stock.base.sucName),
+      GC.LGJ_ID -> Json.toJson(stock.base.lgjId),
+      GC.LGJ_CODE -> Json.toJson(stock.base.lgjCode),
+
 
       GC.DOCT_ID -> Json.toJson(stock.references.doctId),
       C.DOCT_ID_CLIENTE -> Json.toJson(stock.references.doctIdCliente),
@@ -296,7 +314,12 @@ object Stocks extends Controller with ProvidesUser {
         stock.ids.nroDoc),
       StockBase(
         DateFormatter.parse(stock.base.fecha),
-        stock.base.descrip),
+        stock.base.descrip,
+        stock.base.deplIdOrigen,
+        stock.base.deplIdDestino,
+        stock.base.sucId,
+        stock.base.lgjId
+      ),
       Stock.emptyStockReferences,
       getStockItems(stock)
     )

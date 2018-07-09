@@ -79,8 +79,8 @@ begin
 
       select st.*,
              doct_nombre || ' ' || st.st_doc_cliente doc_cliente,
-             origen.depl_nombre Origen,
-             destino.depl_nombre Destino,
+             origen.depl_nombre origen,
+             destino.depl_nombre destino,
              origen.depf_id,
              case
                 when lgj.lgj_titulo <> '' then lgj.lgj_titulo

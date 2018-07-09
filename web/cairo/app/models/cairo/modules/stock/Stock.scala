@@ -65,8 +65,59 @@ case class StockReferences(
 
 case class StockBase(
                         fecha: Date,
-                        descrip: String
-                      )
+                        descrip: String,
+                        deplIdOrigen: Int,
+                        deplNameOrigen: String,
+                        deplIdDestino: Int,
+                        deplNameDestino: String,
+                        sucId: Int,
+                        sucName: String,
+                        lgjId: Int,
+                        lgjCode: String
+                      ) {
+  def this(
+            fecha: Date,
+            descrip: String,
+            deplIdOrigen: Int,
+            deplIdDestino: Int,
+            sucId: Int,
+            lgjId: Int
+          ) = {
+    this(
+      fecha,
+      descrip,
+      deplIdOrigen,
+      "",
+      deplIdDestino,
+      "",
+      sucId,
+      "",
+      lgjId,
+      ""
+    )
+  }
+}
+
+object StockBase {
+
+  def apply(
+            fecha: Date,
+            descrip: String,
+            deplIdOrigen: Int,
+            deplIdDestino: Int,
+            sucId: Int,
+            lgjId: Int): StockBase = {
+    
+    new StockBase(
+      fecha,
+      descrip,
+      deplIdOrigen,
+      deplIdDestino,
+      sucId,
+      lgjId
+    )
+  }
+}
 
 case class StockItemSerie(
                            id: Int,
@@ -325,7 +376,7 @@ object Stock {
 
   lazy val emptyStock = Stock(
     StockId(DBHelper.NoId, 0, ""),
-    StockBase(U.NO_DATE, ""),
+    StockBase(U.NO_DATE, "", DBHelper.NoId, DBHelper.NoId, DBHelper.NoId, DBHelper.NoId),
     emptyStockReferences,
     emptyStockItems
   )
@@ -519,6 +570,14 @@ object Stock {
     SqlParser.get[Int](GC.EDITABLE) ~
     SqlParser.get[String](GC.EDIT_MSG) ~
     SqlParser.get[Date](C.ST_FECHA) ~
+    SqlParser.get[Int](GC.DEPL_ID_ORIGEN) ~
+    SqlParser.get[String](GC.DEPL_NAME_ORIGEN) ~
+    SqlParser.get[Int](GC.DEPL_ID_DESTINO) ~
+    SqlParser.get[String](GC.DEPL_NAME_DESTINO) ~
+    SqlParser.get[Int](GC.SUC_ID) ~
+    SqlParser.get[String](GC.SUC_NAME) ~
+    SqlParser.get[Option[Int]](GC.LGJ_ID) ~
+    SqlParser.get[Option[String]](GC.LGJ_CODE) ~
     SqlParser.get[Date](DBHelper.CREATED_AT) ~
     SqlParser.get[Date](DBHelper.UPDATED_AT) ~
     SqlParser.get[Int](DBHelper.UPDATED_BY) map {
@@ -538,6 +597,14 @@ object Stock {
         editable ~
         editMsg ~
         fecha ~
+        deplIdOrigen ~
+        deplNameOrigen ~
+        deplIdDestino ~
+        deplNameDestino ~
+        sucId ~
+        sucName ~
+        lgjId ~
+        lgjCode ~
         createdAt ~
         updatedAt ~
         updatedBy =>
@@ -551,7 +618,15 @@ object Stock {
         ),
         StockBase(
           fecha,
-          descrip
+          descrip,
+          deplIdOrigen,
+          deplNameOrigen,
+          deplIdDestino,
+          deplNameDestino,
+          sucId,
+          sucName,
+          lgjId.getOrElse(0),
+          lgjCode.getOrElse("")
         ),
         StockReferences(
           doctId,

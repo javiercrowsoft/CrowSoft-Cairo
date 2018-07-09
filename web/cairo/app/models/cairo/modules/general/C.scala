@@ -1434,6 +1434,9 @@ object C {
   val DEPL_ID_ORIGEN = "depl_id_origen"
   val DEPL_ID_DESTINO = "depl_id_destino"
 
+  val DEPL_NAME_ORIGEN = "origen"
+  val DEPL_NAME_DESTINO = "destino"
+
   // StockLote
   val STOCK_LOTE = "StockLote"
   val STL_ID = "stl_id"
