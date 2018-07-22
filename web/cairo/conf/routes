@@ -361,6 +361,12 @@ GET     /api/v1/documento/:id/customer/:cliId/account                           
 
 GET     /api/v1/documento/from_doct_id/:doctId/:doctIdApplic/:id/:idEx                       controllers.logged.modules.documentos.Documents.fromDoctId(doctId: Int, doctIdApplic: Int, id: Int, idEx: Int)
 
+GET     /api/v1/general/depositologico/:id                                                   controllers.logged.modules.general.DepositosLogicos.get(id: Int)
+POST    /api/v1/general/depositologico                                                       controllers.logged.modules.general.DepositosLogicos.create
+PUT     /api/v1/general/depositologico/:id                                                   controllers.logged.modules.general.DepositosLogicos.update(id: Int)
+DELETE  /api/v1/general/depositologico/:id                                                   controllers.logged.modules.general.DepositosLogicos.delete(id: Int)
+GET     /api/v1/general/depositologico/:id/info                                              controllers.logged.modules.general.DepositosLogicos.info(id: Int)
+
 #
 # contabilidad
 #

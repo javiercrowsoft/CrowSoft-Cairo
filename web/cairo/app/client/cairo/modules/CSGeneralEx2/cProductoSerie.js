@@ -489,7 +489,7 @@
         }
         else {
           elem.setType(Dialogs.PropertyType.select);
-          elem.setSelectTable(Cairo.Tables.PRODUCTO_NUMERO_SERIE);
+          elem.setSelectTable(Cairo.Tables.NUMEROS_DE_SERIE);
         }
         elem.setEnabled(! m_isDelete);
         elem.setKey(KI_NUMERO);

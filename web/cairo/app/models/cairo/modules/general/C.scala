@@ -95,6 +95,8 @@ object C {
   val DEPL_DESCRIP = "depl_descrip"
   val DEPL_ES_TEMP = "depl_estemp"
 
+  val CTRL_STOCK_TYPE = "ctrl_stock_type"
+
   // Zona
   val ZONA = "Zona"
   val ZON_ID = "zon_id"
