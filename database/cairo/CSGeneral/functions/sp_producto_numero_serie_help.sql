@@ -40,6 +40,9 @@ create or replace function sp_producto_numero_serie_help
   select * from sp_producto_numero_serie_help(1,1,0,'300%',0,596);
   fetch all from rtn;
 
+  select * from sp_producto_numero_serie_help( 1,1,0, 'estk7890031', 1, 0, '');
+  fetch all from rtn;
+  
 */
 (
   in p_emp_id integer,
@@ -74,7 +77,7 @@ begin
       v_sqlstmt := v_sqlstmt || 'prns_codigo     as Codigo, ';
       v_sqlstmt := v_sqlstmt || 'pr_nombreCompra as Articulo ';
       v_sqlstmt := v_sqlstmt || 'from ProductoNumeroSerie prns inner join Producto pr on prns.pr_id = pr.pr_id ';
-      v_sqlstmt := v_sqlstmt || 'where (prns_codigo = ''' || p_filter || ''') ';
+      v_sqlstmt := v_sqlstmt || 'where (lower(f_unaccent(prns_codigo)) = ''' || p_filter || ''') ';
 
       if p_prns_id <> 0 then
 

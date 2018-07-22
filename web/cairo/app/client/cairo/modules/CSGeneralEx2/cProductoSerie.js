@@ -185,7 +185,17 @@
       };
 
       self.messageEx = function(messageId, info) {
-        return P.resolvedPromise();
+        var p = null;
+
+        switch (messageId) {
+
+          case Dialogs.Message.MSG_GRID_VIRTUAL_ROW:
+
+            p = P.resolvedPromise(info);
+            break;
+        }
+
+        return p || P.resolvedPromise();
       };
 
       self.discardChanges = function() {
@@ -193,15 +203,17 @@
       };
 
       self.propertyChange = function(key) {
+        var p = null;          
         switch (key) {
           case K_CMD_EDIT_EX:
-            editByRange();
+            p = editByRange();
             break;
 
           case K_PASTE_FROM_XLS:
-            pasteFromXLS();
+            p = pasteFromXLS();
             break;
         }
+        return p || P.resolvedPromise();
       };
 
       self.save = function() {
@@ -656,7 +668,7 @@
 
       var pasteFromXLS = function() {
 
-        M.getPasteData().whenSuccess(function(pasteData) {
+        return M.getPasteData().whenSuccess(function(pasteData) {
 
           var data = pasteData.split("\n");
 

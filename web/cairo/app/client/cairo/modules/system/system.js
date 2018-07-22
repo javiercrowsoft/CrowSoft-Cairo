@@ -2547,50 +2547,51 @@
     serialEditor.setDelete(deleteCount);
     serialEditor.setDeleteCount(deleteCount);
 
-    if(!serialEditor.edit()) { return false; }
+    return serialEditor.edit().whenSuccess(function() {
 
-    // if this item doesn't have serial numbers
-    // create a new collection and add it to items collection
-    // the group is negative to flag it is new
-    //
-    if(coll === null) {
-      group = lRow * -1;
-      Dialogs.cell(row, KI_GROUP).setId(group);
-      coll = Cairo.Collections.createCollection(Cairo.SerialNumber.create);
-      serialNumbers.add(coll, getKey(group));
-    }
-    else {
-      coll.clear();
-    }
-
-    // move from dialog to item collection
-    //
-    var serials = [];
-    for(var i = 0, count = serialEditor.getSerialNumbers().size(); i < count; i += 1) {
-
-      var delCount = 0;
-
-      var pt = serialEditor.getSerialNumbers().get(i);
-      pt.setPrId(prId ? prId : prId2);
-
-      if(pt.getDeleted() && delCount < deleteCount) {
-        delCount = delCount + 1;
-        serials.push(pt.getCode() + (pt.getCode2().length > 0 ? " | "+ pt.getCode2() : "") + "(B)");
+      // if this item doesn't have serial numbers
+      // create a new collection and add it to items collection
+      // the group is negative to flag it is new
+      //
+      if(coll === null) {
+        group = lRow * -1;
+        Dialogs.cell(row, KI_GROUP).setId(group);
+        coll = Cairo.Collections.createCollection(Cairo.SerialNumber.create);
+        serialNumbers.add(coll, getKey(group));
       }
       else {
-        serials.push(pt.getCode() + (pt.getCode2().length > 0 ? " | "+ pt.getCode2() : ""));
+        coll.clear();
       }
 
-      coll.add(pt, getKey(pt.getPrnsId()));
-    }
+      // move from dialog to item collection
+      //
+      var serials = [];
+      for(var i = 0, count = serialEditor.getSerialNumbers().size(); i < count; i += 1) {
 
-    var strSerialNumbers = "";
-    if(serials.length > 0) {
-      strSerialNumbers = serials.join(",");
-    }
-    Dialogs.cell(row, KI_NRO_SERIE).setValue(strSerialNumbers);
+        var delCount = 0;
 
-    return Cairo.Promises.resolvedPromise(true);
+        var pt = serialEditor.getSerialNumbers().get(i);
+        pt.setPrId(prId ? prId : prId2);
+
+        if(pt.getDeleted() && delCount < deleteCount) {
+          delCount = delCount + 1;
+          serials.push(pt.getCode() + (pt.getCode2().length > 0 ? " | "+ pt.getCode2() : "") + "(B)");
+        }
+        else {
+          serials.push(pt.getCode() + (pt.getCode2().length > 0 ? " | "+ pt.getCode2() : ""));
+        }
+
+        coll.add(pt, getKey(pt.getPrnsId()));
+      }
+
+      var strSerialNumbers = "";
+      if(serials.length > 0) {
+        strSerialNumbers = serials.join(",");
+      }
+      Dialogs.cell(row, KI_NRO_SERIE).setValue(strSerialNumbers);
+
+      return Cairo.Promises.resolvedPromise(true);
+    });
   };
 
   var create = function(
