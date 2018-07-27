@@ -4285,45 +4285,33 @@
                 createRowIfDoesntExist(property, index, rowIndex);
 
                 p = m_client.columnButtonClick(propertyKey, rowIndex, colIndex, keyAscii).then(
+                  //
+                  // the mustHandleEvent flag is passed to the grid to inform that the client has handled the button
+                  // this code is executed either mustHandleEvent === true or false
+                  //
                   function(mustHandleEvent) {
                     var p = null;
                     var grid = property.getGrid();
 
-                    //
-                    // the mustHandleEvent is passed to the grid to inform that the client has handled the button
-                    // this code is executed either mustHandleEvent === true or false
-                    //
                     var updateCell = function() {
                       setRowValueInGrid(index, property, rowIndex, grid.getRows().item(rowIndex));
                       self.setChanged(true);
                     };
 
-                    if(mustHandleEvent) {
-                      // if this column's type is textButtonEx we show the input text dialog
-                      //
-                      if(grid.getColumns().get(colIndex).getSubType() === Dialogs.PropertySubType.textButtonEx) {
-                        var cell = grid.getRows().get(rowIndex).get(colIndex);
-                        p = Cairo.Modal.inputFormView("", "", cell.getValue()).then(
-                          function(text) {
-                            cell.setValue(text);
-                            updateCell();
-                            return false;
-                          },
-                          function() {
-                            updateCell();
-                            return false;
-                          }
-                        );
-                      }
-                      else {
-                        updateCell();
-                      }
-                    }
-                    else {
-                      updateCell();
+                    // if this column's type is textButtonEx we show the input text dialog
+                    //
+                    if(grid.getColumns().get(colIndex).getSubType() === Dialogs.PropertySubType.textButtonEx) {
+                      var cell = grid.getRows().get(rowIndex).get(colIndex);
+                      p = Cairo.Modal.inputFormView("", "", cell.getValue())
+                        .then(function(text) { cell.setValue(text);});
                     }
 
-                    return (p || P.resolvedPromise(mustHandleEvent));
+                    p = (p || P.resolvedPromise(mustHandleEvent)).then(function() {
+                      updateCell();
+                      return mustHandleEvent;
+                    });
+
+                    return p;
                   }
                 );
               }

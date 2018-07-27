@@ -449,7 +449,17 @@
 
       var inputOnButtonClick = function() {
         if(self.editInfo !== null) {
-          raiseEvent("onColumnButtonClick", self.editInfo);
+          raiseEvent("onColumnButtonClick", self.editInfo).then(
+            function(mustHandleEvent) {
+              if(! mustHandleEvent) {
+                var ctrl = getInputCtrl();
+                var info = self.editInfo;
+                var col = self.columns.getOrElse(info.col, null);
+                ctrl.setValue(getCurrentValue(col.getType(), info.row, info.col));
+                endEdit();
+              }
+            }
+          );
         }
       };
       var inputCtrl = null;
@@ -858,13 +868,18 @@
               if(info.key === "") {
                 ctrl.select();
               }
-              if(info.doSearch && col.getType() === T.select) {
-                ctrl.search();
-              }
               self.editInfo = {
                 td: td,
                 row: info.row,
                 col: info.col
+              };
+              if(info.doSearch) {
+                if (col.getType() === T.select) {
+                  ctrl.search();
+                }
+                else if(col.getType() === T.text && col.getSubType() === S.textButton) {
+                  inputOnButtonClick();
+                }
               }
             }
           }
@@ -1578,7 +1593,7 @@
           // finally we return the new tr element
           //
           return tr[0];
-        }
+        };
 
         gridManager.updateRow = function(rowIndex) {
           var tr = gridManager.body[0].childNodes.item(rowIndex + 1 /* first row is for headers */);
@@ -1723,7 +1738,7 @@
         else {
           return self.rows.count();
         }
-      }
+      };
 
       that.getRow = getRow;
 

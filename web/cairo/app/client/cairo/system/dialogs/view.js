@@ -762,7 +762,7 @@
             * the answer from that call.
             *
             * in the case of documents we have three listeners and we need to know
-            * to one of them we must call
+            * which one of them we must call
             *
             * */
             if(listener['containsProperty'] !== undefined) {
