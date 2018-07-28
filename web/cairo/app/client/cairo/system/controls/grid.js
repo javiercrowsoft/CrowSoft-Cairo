@@ -1801,6 +1801,13 @@
       that.setSelectOnFocus = function(select) {};
       that.onKeyUp = function(e) {};
 
+      var superSetEnabled = that.setEnabled;
+
+      that.setEnabled = function(enabled) {
+        superSetEnabled(enabled);
+        if(self.table !== null) self.table.attr('disabled', !enabled);
+      };
+
       return that;
     };
 

@@ -1033,3 +1033,8 @@ div.vertical-two-column:first-child {
   margin-bottom: 10px;
   padding-bottom: 5px;
 }
+
+.table[disabled]>tbody>tr.dialog-tr>td {
+  background-color: #dddddd;
+}
+
