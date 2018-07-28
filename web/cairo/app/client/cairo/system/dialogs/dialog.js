@@ -6485,18 +6485,16 @@
             for(var _i = 0; _i < controlCount; _i++) {
               var ctl = view.getControls().get(_i);
               if(controlIsGrid(ctl)) {
-                i = i + 1;
                 if(m_enabledState[i]) {
                   ctl.setEnabled(true);
                 }
+                i = i + 1;
               }
             }
             m_enabledState = [];
           }
           else {
-
             m_enabledState = [];
-
             for(var _i = 0; _i < controlCount; _i++) {
               var ctl = view.getControls().get(_i);
               if(controlIsGrid(ctl)) {
