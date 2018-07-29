@@ -1420,7 +1420,8 @@ var Cairo = new Marionette.Application();
 
       events: {
         "click button.js-submit-yes": "yesClicked",
-        "click button.js-submit-no": "noClicked"
+        "click button.js-submit-no": "noClicked",
+        "click button.js-submit-cancel": "cancelClicked"
       },
 
       yesClicked: function(e) {
@@ -1433,7 +1434,14 @@ var Cairo = new Marionette.Application();
         e.preventDefault();
         var data = { answer: 'no' };
         this.trigger("form:submit", data);
+      },
+
+      cancelClicked: function(e) {
+        e.preventDefault();
+        var data = { answer: 'cancel' };
+        this.trigger("form:submit", data);
       }
+
     });
 
     Views.ErrorMessageView = Marionette.ItemView.extend({
