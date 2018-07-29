@@ -67,6 +67,7 @@ Cairo.MovimientoFondo = {};
 Cairo.MovimientoFondoListDoc = {};
 
 Cairo.Stock = {};
+Cairo.StockListDoc = {};
 Cairo.ProductoSerie = {};
 
 Cairo.Rubro = {};

@@ -155,17 +155,37 @@
           e.preventDefault();
           var tabId = $(this).parents('li').children('a').attr('href');
           $(this).parents('li').remove('li');
+
+          // before remove the tab we get the tab at left
+          //
+          var mainTabs = $("#mainTabBody > .tab-pane");
+          var tabAtLeft = null;
+          for(var i = 1, count = mainTabs.length; i < count; i += 1) {
+            if("#" + mainTabs[i].id === tabId) {
+              tabAtLeft = mainTabs[i-1];
+              break;
+            }
+          }
+
           $(tabId).remove();
           tabs.remove(tabId);
 
-          // we navigate to the desktop
+          // we navigate to the tab on the left with a fallback to desktop
           //
           if(tabId === activeTab) {
             activeTab = null;
-            $(tabBar + ' a:first').tab('show');
-            Cairo.navigate('#');
-          }
 
+            if(tabAtLeft) {
+              var link = $("#link_" + tabAtLeft.id)
+              link.tab('show');
+              var route = link.data("route");
+              Cairo.navigate(route);
+            }
+            else {
+              $(tabBar + ' a:first').tab('show');
+              Cairo.navigate('#');
+            }
+          }
           // we use this property to prevent a click event that
           // will navigate to this tab after it has been removed
           //
