@@ -279,7 +279,11 @@
         path: "",
         transactions: []
       };
-      
+
+      var item = function(index) {
+        return self.fields[index];
+      };
+
       var fields = {
         add: function(name, value, type) {
           if(name === undefined || value === undefined || type === undefined) {
@@ -339,7 +343,12 @@
             tran.deletedList = transaction.getDeletedList();
           }
           return obj;
-        }
+        },
+        size: function() {
+          return self.fields.length;
+        },
+        get: item,
+        item: item
       };
 
       var that = {};

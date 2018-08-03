@@ -609,7 +609,7 @@ var Cairo = new Marionette.Application();
 
   var getKey = function(key) {
     if(isNumeric(key)) {
-      return "K" + key.toString();
+      return "k" + key.toString();
     }
     else {
       return key;

@@ -645,7 +645,7 @@
         for (var _i = 0, _count = m_serialNumbers.size(); _i < _count; _i++) {
           var pt = m_serialNumbers.item(_i);
 
-          if(! collAux.addIfNotExists(pt, "K"+ pt.getPrnsId().toString())) {
+          if(! collAux.addIfNotExists(pt, "k" + pt.getPrnsId().toString())) {
             series += pt.getCode() + ", ";
             q += 1;
             notUnique = true;

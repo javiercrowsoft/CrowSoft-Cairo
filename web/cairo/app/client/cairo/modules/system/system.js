@@ -1850,6 +1850,7 @@
   };
 
   // TODO: remove this comment after all code is translated colUpdateCuentaFilterForCuentaGrupo
+  //
   Cairo.Documents.colUpdateCuentaFilterForCuentaGrupo = function(property, row, col, dialog, KI_CUEG_ID, KI_CUE_ID) {
     var p = null;
     var grid = property.getGrid();

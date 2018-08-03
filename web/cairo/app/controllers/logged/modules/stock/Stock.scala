@@ -44,7 +44,7 @@ case class StockItemData(
                             salida: Double,
                             grupo: Int,
                             orden: Int,
-                            prIdKit: Int,
+                            prIdKit: Option[Int],
                             stikOrden: Int,
                             stikCantidad: Double
                           )
@@ -117,7 +117,7 @@ object Stocks extends Controller with ProvidesUser {
           C.STI_SALIDA -> of(Global.doubleFormat),
           C.STI_GRUPO -> number,
           C.STI_ORDEN -> number,
-          GC.PR_ID_KIT -> number,
+          GC.PR_ID_KIT -> optional(number),
           C.STIK_ORDEN -> number,
           C.STIK_CANTIDAD -> of(Global.doubleFormat))
         (StockItemData.apply)(StockItemData.unapply)
@@ -292,7 +292,7 @@ object Stocks extends Controller with ProvidesUser {
         item.salida,
         item.grupo,
         item.orden,
-        item.prIdKit,
+        item.prIdKit.getOrElse(DBHelper.NoId),
         item.stikOrden,
         item.stikCantidad
       )

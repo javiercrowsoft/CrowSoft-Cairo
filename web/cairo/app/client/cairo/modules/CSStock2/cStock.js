@@ -510,7 +510,7 @@
             return D.docCanBeSaved(m_dialog, CST.ST_FECHA);
           })
           .whenSuccess(function() {
-            if(getItems().getGrid().getRows().count() < 2) {
+            if(getItems().getGrid().getRows().count() === 0) {
               M.showWarning(getText(3903, "")); // El documento debe contener al menos un item
               return false;
             }
@@ -1849,8 +1849,8 @@
               var baseFields = register.getFields();
 
               for(var _j = 0, _countj = baseFields.size(); _j < _countj; _j++) {
-                var fld = register.getFields().item(_j);
-                fields.add(fld);
+                var fld = baseFields.item(_j);
+                fields.add(fld.name, fld.value, fld.type);
               }
 
               // if it is a new group, we use negative numbers for them,
@@ -2799,6 +2799,8 @@
             }
           };
 
+          // TODO: dry this function and other like this in this object
+          //
           var getKey = function(id) {
             if(id === NO_ID) {
               return "new-id:" + (new Date).getTime().toString()
