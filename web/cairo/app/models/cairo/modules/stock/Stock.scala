@@ -658,10 +658,15 @@ object Stock {
       List(
         Field(C.ST_ID, stock.id, FieldType.number),
         Field(GC.DOC_ID, stock.ids.docId, FieldType.id),
+        Field(GC.DOCT_ID, DT.MOVIMIENTO_STOCK, FieldType.id),
         Field(C.ST_NRODOC, stock.ids.nroDoc, FieldType.text),
         Field(C.ST_NUMERO, stock.ids.numero, FieldType.number),
         Field(C.ST_DESCRIP, stock.base.descrip, FieldType.text),
-        Field(C.ST_FECHA, stock.base.fecha, FieldType.date)
+        Field(C.ST_FECHA, stock.base.fecha, FieldType.date),
+        Field(GC.DEPL_ID_ORIGEN, stock.base.deplIdOrigen, FieldType.id),
+        Field(GC.DEPL_ID_DESTINO, stock.base.deplIdDestino, FieldType.id),
+        Field(GC.SUC_ID, stock.base.sucId, FieldType.id),
+        Field(GC.LGJ_ID, stock.base.lgjId, FieldType.id)
       )
     }
 
@@ -671,11 +676,18 @@ object Stock {
         Field(C.STI_ID, item.id, FieldType.number),
         Field(C.STI_DESCRIP, item.descrip, FieldType.text),
         Field(GC.PR_ID, item.prId, FieldType.id),
+        Field(GC.DEPL_ID, item.deplId, FieldType.id),
+        Field(GC.STL_ID, item.stlId, FieldType.id),
         Field(GC.PRNS_ID, item.prnsId, FieldType.id),
-        Field(C.STI_ORDEN, item.orden, FieldType.integer),
+        Field(GC.PRNS_DESCRIP, item.prnsDescrip, FieldType.text),
+        Field(GC.PRNS_FECHA_VTO, item.prnsFechaVto, FieldType.date),
         Field(C.STI_INGRESO, item.ingreso, FieldType.currency),
         Field(C.STI_SALIDA, item.salida, FieldType.currency),
-        Field(C.STI_GRUPO, item.grupo, FieldType.currency)
+        Field(C.STI_ORDEN, item.orden, FieldType.integer),
+        Field(C.STI_GRUPO, item.grupo, FieldType.currency),
+        Field(GC.PR_ID_KIT, item.prIdKit, FieldType.id),
+        Field(C.STIK_CANTIDAD, item.stikCantidad, FieldType.currency),
+        Field(C.STIK_ORDEN, item.stikOrden, FieldType.integer)
       )
     }
 

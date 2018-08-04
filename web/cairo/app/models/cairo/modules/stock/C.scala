@@ -27,8 +27,8 @@ object C {
   val STI_GRUPO = "sti_grupo"
 
   // StockItemKit
-  val STIK_ORDEN = "sti_orden"
-  val STIK_CANTIDAD = "sti_cantidad"
+  val STIK_ORDEN = "stik_orden"
+  val STIK_CANTIDAD = "stik_cantidad"
 
   // StockTMP
   val STOCK_TMP = "StockTMP"

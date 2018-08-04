@@ -37,16 +37,16 @@ case class StockItemData(
                             deplId: Int,
                             prId: Int,
                             stlId: Int,
-                            prnsId: Int,
-                            prnsDescrip: String,
-                            prnsFechaVto: String,
-                            ingreso: Double,
-                            salida: Double,
+                            prnsId: Option[Int],
+                            prnsDescrip: Option[String],
+                            prnsFechaVto: Option[String],
+                            ingreso: Option[Double],
+                            salida: Option[Double],
                             grupo: Int,
                             orden: Int,
                             prIdKit: Option[Int],
-                            stikOrden: Int,
-                            stikCantidad: Double
+                            stikOrden: Option[Int],
+                            stikCantidad: Option[Double]
                           )
 
 case class StockData(
@@ -82,9 +82,10 @@ object Stocks extends Controller with ProvidesUser {
 
   val stockIdFields = List(GC.DOC_ID, C.ST_NUMERO, C.ST_NRODOC)
 
-  val stockBaseFields = List(C.ST_DESCRIP, C.ST_FECHA)
+  val stockBaseFields = List(C.ST_DESCRIP, C.ST_FECHA, GC.DEPL_ID_ORIGEN, GC.DEPL_ID_DESTINO, GC.LGJ_ID, GC.SUC_ID)
 
-  val stockItemData = List(C.STI_ID, C.STI_DESCRIP, GC.PR_ID, GC.PRNS_ID, C.STI_INGRESO, C.STI_SALIDA, C.STI_GRUPO, C.STI_ORDEN)
+  val stockItemData = List(C.STI_ID, C.STI_DESCRIP, GC.PR_ID, GC.PRNS_ID, C.STI_INGRESO, C.STI_SALIDA, C.STI_GRUPO,
+    C.STI_ORDEN, GC.STL_ID, GC.DEPL_ID, GC.PRNS_DESCRIP, GC.PRNS_FECHA_VTO)
 
   val stockForm: Form[StockData] = Form(
     mapping(
@@ -110,16 +111,16 @@ object Stocks extends Controller with ProvidesUser {
           GC.DEPL_ID -> number,
           GC.PR_ID -> number,
           GC.STL_ID -> number,
-          GC.PRNS_ID -> number,
-          GC.PRNS_DESCRIP -> text,
-          GC.PRNS_FECHA_VTO -> text,
-          C.STI_INGRESO -> of(Global.doubleFormat),
-          C.STI_SALIDA -> of(Global.doubleFormat),
+          GC.PRNS_ID -> optional(number),
+          GC.PRNS_DESCRIP -> optional(text),
+          GC.PRNS_FECHA_VTO -> optional(text),
+          C.STI_INGRESO -> optional(of(Global.doubleFormat)),
+          C.STI_SALIDA -> optional(of(Global.doubleFormat)),
           C.STI_GRUPO -> number,
           C.STI_ORDEN -> number,
           GC.PR_ID_KIT -> optional(number),
-          C.STIK_ORDEN -> number,
-          C.STIK_CANTIDAD -> of(Global.doubleFormat))
+          C.STIK_ORDEN -> optional(number),
+          C.STIK_CANTIDAD -> optional(of(Global.doubleFormat)))
         (StockItemData.apply)(StockItemData.unapply)
       )
     )(StockData.apply)(StockData.unapply)
@@ -285,16 +286,16 @@ object Stocks extends Controller with ProvidesUser {
         item.deplId,
         item.prId,
         item.stlId,
-        item.prnsId,
-        item.prnsDescrip,
-        DateFormatter.parse(item.prnsFechaVto),
-        item.ingreso,
-        item.salida,
+        item.prnsId.getOrElse(DBHelper.NoId),
+        item.prnsDescrip.getOrElse(""),
+        DateFormatter.parse(item.prnsFechaVto.getOrElse("")),
+        item.ingreso.getOrElse(0),
+        item.salida.getOrElse(0),
         item.grupo,
         item.orden,
         item.prIdKit.getOrElse(DBHelper.NoId),
-        item.stikOrden,
-        item.stikCantidad
+        item.stikOrden.getOrElse(0),
+        item.stikCantidad.getOrElse(0)
       )
     })
   }
