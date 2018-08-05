@@ -1914,7 +1914,7 @@
               }
 
               order.n += 1;
-              fields.add(CST.STI_ORDEN, order, Types.integer);
+              fields.add(CST.STI_ORDEN, order.n, Types.integer);
 
               transaction.addRegister(registerSerial);
             }
@@ -1935,7 +1935,7 @@
           }
 
           order.n += 1;
-          fields.add(CST.STI_ORDEN, order, Types.integer);
+          fields.add(CST.STI_ORDEN, order.n, Types.integer);
 
           transaction.addRegister(register);
         }

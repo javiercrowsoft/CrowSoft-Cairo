@@ -111,16 +111,15 @@ begin
    end if;
 
    select st_id,
-          ta_id
+          doc_id,
+          st_nrodoc
      into v_st_id,
-          v_ta_id
+          v_doc_id,
+          v_st_nrodoc
    from StockTMP
-   join Documento
-     on StockTMP.doc_id = Documento.doc_id
    where stTMP_id = p_stTMP_id;
 
    v_st_id := coalesce(v_st_id, 0);
-
 
    set TRANSACTION READ WRITE;
 
@@ -173,10 +172,8 @@ begin
           from StockTMP
           where stTMP_id = p_stTMP_id );
 
-      select doc_id,
-             st_nrodoc
-        into v_doc_id,
-             v_st_nrodoc
+      select st_nrodoc
+        into v_st_nrodoc
       from Stock
       where st_id = v_st_id;
 /*
@@ -191,11 +188,9 @@ begin
       v_is_new := 0;
 
       select st_id,
-             st_nrodoc,
              st_descrip,
              st_fecha,
              suc_id,
-             doc_id,
              doct_id,
              lgj_id,
              depl_id_origen,
@@ -203,11 +198,9 @@ begin
              modifico,
              modificado
         into v_st_id,
-             v_st_nrodoc,
              v_st_descrip,
              v_st_fecha,
              v_suc_id,
-             v_doc_id,
              v_doct_id,
              v_lgj_id,
              v_depl_id_origen,
@@ -395,6 +388,8 @@ begin
 //                                                                                                                    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
+
+   select v_ta_id = ta_id from documento where doc_id = v_doc_id;
 
    perform sp_talonario_set(v_ta_id, v_st_nrodoc);
 
