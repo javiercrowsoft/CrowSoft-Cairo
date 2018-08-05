@@ -81,7 +81,7 @@ begin
 
    if p_restar = 0 then
 
-      select * from sp_doc_stock_validate(p_message) into p_success, p_st_id;
+      select * from sp_doc_stock_validate(p_st_id) into p_message, p_success;
 
    else
 
