@@ -41,25 +41,24 @@ begin
 
    while sqlserver_utilities.fetch_status(c_ns%found) = 0
    loop
-      begin
-         v_pr_id_kit := null;
 
-         select *
-           into v_pr_id_kit
-           from ( select pr_id_kit
-           from StockItem
-            where prns_id = v_prns_id
-                    and pr_id_kit is not null
-           order by st_id DESC )
-           LIMIT 1;
+      v_pr_id_kit := null;
 
-         update ProductoNumeroSerie
-            set pr_id_kit = v_pr_id_kit
-            where prns_id = v_prns_id;
+      select *
+        into v_pr_id_kit
+        from ( select pr_id_kit
+        from StockItem
+         where prns_id = v_prns_id
+                 and pr_id_kit is not null
+        order by st_id DESC )
+        LIMIT 1;
 
-         fetch c_ns into v_prns_id;
+      update ProductoNumeroSerie
+         set pr_id_kit = v_pr_id_kit
+         where prns_id = v_prns_id;
 
-      end;
+      fetch c_ns into v_prns_id;
+
    end loop;
 
    close c_ns;
@@ -111,14 +110,14 @@ begin
             begin
                select *
                  into v_depl_id
-                 from ( select S.depl_id
-                 from StockCache S
+                 from ( select s.depl_id
+                 from StockCache s
                         join StockItem si
-                         on S.depl_id = si.depl_id
+                         on s.depl_id = si.depl_id
                         and si.sti_ingreso > 0
-                        and S.prns_id = si.prns_id
-                  where S.prns_id = v_prns_id
-                          and S.stc_cantidad > 0
+                        and s.prns_id = si.prns_id
+                  where s.prns_id = v_prns_id
+                          and s.stc_cantidad > 0
                  order by si.st_id DESC )
                  LIMIT 1;
 

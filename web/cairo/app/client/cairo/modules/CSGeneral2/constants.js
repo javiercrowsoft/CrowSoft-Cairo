@@ -1578,6 +1578,11 @@
         hojaRuta: 1,
         mostrador: 2,
         ctacteMostradorFactura: 3
+      },
+
+      StockCodigoBarraTipo: {
+        fijo: 1,
+        caracter: 2
       }
 
     }

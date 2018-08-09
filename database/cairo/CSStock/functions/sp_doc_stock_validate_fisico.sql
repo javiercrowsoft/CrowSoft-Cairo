@@ -130,14 +130,14 @@ begin
                       s.stl_id
                from StockItemTMP s
                join DepositoLogico l
-                 on S.depl_id = l.depl_id
+                 on s.depl_id = l.depl_id
                join DepositoFisico f
                  on l.depf_id = f.depf_id
                join Producto p
                  on s.pr_id = p.pr_id
                where s.stTMP_id = p_stTMP_id
                group by p.pr_nombrecompra, p.pr_id, f.depf_nombre, f.depf_id, s.prns_id, s.stl_id
-               having sum(S.sti_salida) > ( select sum(s.stc_cantidad)
+               having sum(s.sti_salida) > ( select sum(s.stc_cantidad)
                                             from StockCache s
                                             join StockItemTMP i
                                               on s.pr_id = i.pr_id
@@ -165,7 +165,7 @@ begin
                fetch c_productos into v_pr_nombrecompra,v_pr_id,v_deposito,v_depf_id,v_prns_id,v_stl_id;
                exit when not found;
 
-               select sum(S.stc_cantidad),
+               select sum(s.stc_cantidad),
                       prns.prns_codigo,
                       stl.stl_codigo
                  into v_cantidad,

@@ -61,16 +61,16 @@ begin
       insert into StockCache
         ( stc_cantidad, pr_id, depl_id, prns_id, pr_id_kit, stl_id )
         ( select sum(k.sti_ingreso) - sum(k.sti_salida),
-                 S.pr_id,
+                 s.pr_id,
                  k.depl_id,
                  k.prns_id,
                  coalesce(k.pr_id, k.pr_id_kit),
-                 S.stl_id
-          from StockItem S left join StockItemKit k on S.stik_id = k.stik_id
-          where S.st_id = p_st_id
+                 s.stl_id
+          from StockItem S left join StockItemKit k on s.stik_id = k.stik_id
+          where s.st_id = p_st_id
             and ( k.depl_id <> -2 and k.depl_id <> -3 ) -- los depositos internos no importan
 
-          group by S.pr_id,k.depl_id,k.prns_id,coalesce(k.pr_id, k.pr_id_kit),S.stl_id );
+          group by s.pr_id,k.depl_id,k.prns_id,coalesce(k.pr_id, k.pr_id_kit),s.stl_id );
 
    end if;
 

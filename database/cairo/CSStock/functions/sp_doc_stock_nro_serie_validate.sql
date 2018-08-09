@@ -114,7 +114,8 @@ begin
               into v_depl_id
             from StockCache
             where prns_id = v_prns_id
-              and stc_cantidad > 0 and rownum <= 1;
+              and stc_cantidad > 0
+            limit 1;
 
          else
  
@@ -166,14 +167,14 @@ begin
             -- es decir que si lo tengo en produccion y en tercero y en ambos en cero
             -- lo dejo en el ultimo deposito que lo movio
             --
-            if not exists ( select *
+            if not exists ( select 1
                             from StockItem
                             where prns_id = v_prns_id
                               and depl_id = -2
                               and coalesce(pr_id_kit, 0) = v_pr_id_kit
                             group by prns_id,depl_id
                             having sum(sti_ingreso) - sum(sti_salida) > 0 )
-               and exists ( select *
+               and exists ( select 1
                             from StockItem
                             where prns_id = v_prns_id
                               and depl_id = -3 )
@@ -241,7 +242,7 @@ begin
       set pr_id_kit = null
    where prns_id in ( select prns_id
                       from ProductoNumeroSerie ps
-                      where not exists ( select *
+                      where not exists ( select 1
                                          from StockItem si
                                          join StockItemKit sk
                                            on si.stik_id = sk.stik_id
@@ -257,7 +258,7 @@ begin
    --
    update ProductoNumeroSerie
       set ppk_id = null
-   where not exists ( select si.prns_id
+   where not exists ( select 1
                       from StockItem si
                       join ParteProdKit ppk
                         on si.st_id = ppk.st_id1
@@ -269,7 +270,7 @@ begin
    if p_bDeleteSinMovimientos <> 0 then
 
       delete from ProductoNumeroSerie
-      where not exists ( select prns_id
+      where not exists ( select 1
                          from StockItem
                          where prns_id = ProductoNumeroSerie.prns_id )
         and ( prns_id = p_prns_id or p_prns_id = 0 )

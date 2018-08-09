@@ -42,6 +42,8 @@ create or replace function sp_producto_numero_serie_help
 
   select * from sp_producto_numero_serie_help( 1,1,0, 'estk7890031', 1, 0, '');
   fetch all from rtn;
+
+  select prns_id, prns_codigo      as Codigo, prns_codigo2     as Codigo2, prns_codigo3     as Codigo3, pr_nombreCompra  as Articulo, prns_descrip	  as "Observ.",  '%' as col_aux from ProductoNumeroSerie prns inner join Producto pr on prns.pr_id = pr.pr_id where (prns_codigo like '%%%' or prns_codigo2 like '%%%' or prns_codigo3 like '%%%' or pr_nombreCompra like '%%%' or prns_descrip like '%%%' or '%' = '')   and ((prns.pr_id = 4 and prns.pr_id_kit is null and depl_id not in (-2,-3) and depl_id in (select depl_id from depositoLogico where depf_id = 5))) limit 300;
   
 */
 (

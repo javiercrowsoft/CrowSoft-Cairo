@@ -296,6 +296,9 @@ PUT     /api/v1/general/ventaconfig/:id                                         
 GET     /api/v1/general/tesoreriaconfig/:id                                                  controllers.logged.modules.general.TesoreriaSettings.get(id: Int)
 PUT     /api/v1/general/tesoreriaconfig/:id                                                  controllers.logged.modules.general.TesoreriaSettings.update(id: Int)
 
+GET     /api/v1/general/stockconfig/:id                                                      controllers.logged.modules.general.StockSettings.get(id: Int)
+PUT     /api/v1/general/stockconfig/:id                                                      controllers.logged.modules.general.StockSettings.update(id: Int)
+
 GET     /api/v1/general/producto/:id                                                         controllers.logged.modules.general.Productos.get(id: Int)
 POST    /api/v1/general/producto                                                             controllers.logged.modules.general.Productos.create
 PUT     /api/v1/general/producto/:id                                                         controllers.logged.modules.general.Productos.update(id: Int)

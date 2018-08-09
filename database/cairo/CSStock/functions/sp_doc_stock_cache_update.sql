@@ -51,7 +51,7 @@ begin
       --
       update StockCache
          set stc_cantidad = stc_cantidad
-                            - ( select sti_ingreso + sti_salida
+                            - ( select sti_ingreso - sti_salida
                                 from StockItem i
                                 where i.st_id = p_st_id
                                   and StockCache.pr_id = i.pr_id

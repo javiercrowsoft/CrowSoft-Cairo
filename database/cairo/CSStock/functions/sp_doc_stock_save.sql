@@ -44,7 +44,7 @@ declare
 
    v_success smallint;
    v_error smallint;
-   v_message varchar(255);
+   v_message varchar(5000);
    v_cfg_valor varchar(5000);
 
    v_is_new integer;
@@ -381,6 +381,9 @@ begin
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
 
+   delete from StockItemTMP where stTMP_ID = p_stTMP_id;
+   delete from StockTMP where stTMP_ID = p_stTMP_id;
+
 /*
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                    //
@@ -389,7 +392,7 @@ begin
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
 
-   select v_ta_id = ta_id from documento where doc_id = v_doc_id;
+   select ta_id into v_ta_id from documento where doc_id = v_doc_id;
 
    perform sp_talonario_set(v_ta_id, v_st_nrodoc);
 
