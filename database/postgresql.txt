@@ -10,11 +10,15 @@ ALTER DATABASE {database name} SET timezone TO 'UTC';
 
 database/cairo/CSScript/postgresql/tables/cairo_script.sql
 
+4- run the file all_functions.sql
+
 run all functions and sequences (yes one by one ( O O )
                                                    d
                                                   ^^^
 
-was a joke you don't have to do one by one :P
+that was a joke you don't have to do one by one :P
+
+
 
 just run this in pgadmin and export to a file. use option "Query > Execute to a file".
 
