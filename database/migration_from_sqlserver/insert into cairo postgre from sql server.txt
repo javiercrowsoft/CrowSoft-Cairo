@@ -49,14 +49,7 @@ Execute this file using psql
 
 /Library/PostgreSQL/9.0/bin/psql -p 5434 -U postgres -d sdi_com_ar_cairo -a -f ~/Work/CrowSoft/Customers/Salmax/cairoSDI-utf8.sql > sdi_import.log
 
-- run all functions:
-
-/Library/PostgreSQL/9.0/bin/psql -p 5434 -U postgres -d development_cairo > /Users/javier/Documents/CrowSoft/Scripts/all_functions.sql <<"__END__"
-SELECT pg_get_functiondef(f.oid)
-FROM pg_catalog.pg_proc f
-INNER JOIN pg_catalog.pg_namespace n ON (f.pronamespace = n.oid)
-WHERE n.nspname = 'public'
-__END__
+- run all functions: ( to get all_functions file you need to run a select and export to file the results in pgadmin. read /database/postgresql.txt for details )
 
 /Library/PostgreSQL/9.0/bin/psql -p 5434 -U postgres -1 -v ON_ERROR_STOP -f /Users/javier/Documents/CrowSoft/Scripts/all_functions.sql sdi_com_ar_cairo
 
