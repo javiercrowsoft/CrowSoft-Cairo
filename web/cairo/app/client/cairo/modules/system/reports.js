@@ -39,6 +39,14 @@
 
       var defer = new Cairo.Promises.Defer();
 
+      // TODO: use JSON.stringify( message.data ).length > X to determine if we need to split the message
+      //       if true append prefix __PARTIAL_MESSAGE__ to message.action
+      //       split message.data into chunks of size X
+      //       when sending the last message don't append the prefix
+      //       CSReportWebServer will join message.data before parse the json string
+
+
+
       message = {
         destination: 'chrome-extension://' + Cairo.CSREPORTS_EXTENSION_ID + '/',
         message: message,
