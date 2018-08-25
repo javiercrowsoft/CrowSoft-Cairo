@@ -93,6 +93,7 @@
     * }
     *
     * _REPORT_DATA_ : {
+    *   report_type: _string_,
     *   report_title: _string_,
     *   report_name: _string_,
     *   report_code: _string_,
@@ -133,8 +134,9 @@
       return { name: name, value: value };
     };
 
-    that.createReportData = function(title, name, code, file, params, data) {
+    that.createReportData = function(type, title, name, code, file, params, data) {
       return {
+        type: type,
         title: title,
         name: name,
         code: code,
@@ -497,6 +499,8 @@
       var m_reportId = ""; // this is returned by CSReportWebServer in the REPORT_PREVIEW_DONE message
                            // it is used to call methods over an instance of a report like moveToPage
 
+      var INFORMES = "informes";
+
       self.show = function(id) {
         initialize();
         return load(id)
@@ -733,7 +737,7 @@
 
             var rd = Cairo.CSReportConnection.createReportDefinition(
               Cairo.CSReportConnection.ACTIONS.PREVIEW,
-              Cairo.CSReportConnection.createReportData(m_title, m_name, m_code, m_reportFile, params, data),
+              Cairo.CSReportConnection.createReportData(INFORMES, m_title, m_name, m_code, m_reportFile, params, data),
               m_webReportId
             );
 
