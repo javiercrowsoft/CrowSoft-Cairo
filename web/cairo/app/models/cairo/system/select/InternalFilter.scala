@@ -295,6 +295,7 @@ object InternalFilter {
             else if(ctrlStock == ST.STOCK_LOGICO) {
               " and depl_id = " + deplId
             }
+            else ""
 
           }
           else {
@@ -304,7 +305,7 @@ object InternalFilter {
       }
       else ""
 
-    val prnsIdFilter = if(prnsId != 0) "or (prns_id = " + prnsId + ")" else ""
+    val prnsIdFilter = if(prnsId != 0) " or (prns_id = " + prnsId + ")" else ""
 
     InternalFilter("(" + prIdfilter + deplIdFilter + ")" + prnsIdFilter, List())
   }

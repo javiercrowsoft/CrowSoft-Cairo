@@ -2838,7 +2838,7 @@
 
         c = m_properties.add(null, C.CUE_ID);
         c.setType(T.select);
-        c.setSelectTable(Cairo.Tables.CUE_ID);
+        c.setSelectTable(Cairo.Tables.CUENTA);
         c.setName(getText(1267, "")); // Cuenta
         c.setKey(K_CUE_ID);
         c.setValue(m_cuenta);

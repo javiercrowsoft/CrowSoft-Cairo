@@ -2555,7 +2555,7 @@
       // the group is negative to flag it is new
       //
       if(coll === null) {
-        group = lRow * -1;
+        group = (lRow + 1) * -1;
         Dialogs.cell(row, KI_GROUP).setId(group);
         coll = Cairo.Collections.createCollection(Cairo.SerialNumber.create);
         serialNumbers.add(coll, getKey(group));
@@ -3309,11 +3309,11 @@
         if(years < 0) months *= -1;
       }
       return months;
-    }
+    };
 
     var dateDiffInYears = function(a, b) {
       return a.getFullYear() - b.getFullYear();
-    }
+    };
 
     var dateDiff = function(datePart, dateA, dateB) {
       dateA = Cairo.Util.getDateValue(dateA);
@@ -3394,4 +3394,4 @@
       .then(Cairo.LoadingMessage.close);
   };
 
-}())
+}());

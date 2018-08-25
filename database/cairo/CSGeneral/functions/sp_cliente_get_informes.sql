@@ -52,8 +52,8 @@ begin
 
    select us_id
      into v_us_id
-     from Cliente
-      where cli_id = p_cli_id;
+   from Cliente
+   where cli_id = p_cli_id;
 
    open rtn for
       select per.per_id,

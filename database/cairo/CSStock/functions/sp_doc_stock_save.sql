@@ -44,7 +44,7 @@ declare
 
    v_success smallint;
    v_error smallint;
-   v_error_msg varchar(5000);
+   v_message varchar(5000);
    v_cfg_valor varchar(5000);
 
    v_is_new integer;
@@ -111,16 +111,15 @@ begin
    end if;
 
    select st_id,
-          ta_id
+          doc_id,
+          st_nrodoc
      into v_st_id,
-          v_ta_id
+          v_doc_id,
+          v_st_nrodoc
    from StockTMP
-   join Documento
-     on StockTMP.doc_id = Documento.doc_id
    where stTMP_id = p_stTMP_id;
 
    v_st_id := coalesce(v_st_id, 0);
-
 
    set TRANSACTION READ WRITE;
 
@@ -173,10 +172,8 @@ begin
           from StockTMP
           where stTMP_id = p_stTMP_id );
 
-      select doc_id,
-             st_nrodoc
-        into v_doc_id,
-             v_st_nrodoc
+      select st_nrodoc
+        into v_st_nrodoc
       from Stock
       where st_id = v_st_id;
 /*
@@ -191,11 +188,9 @@ begin
       v_is_new := 0;
 
       select st_id,
-             st_nrodoc,
              st_descrip,
              st_fecha,
              suc_id,
-             doc_id,
              doct_id,
              lgj_id,
              depl_id_origen,
@@ -203,11 +198,9 @@ begin
              modifico,
              modificado
         into v_st_id,
-             v_st_nrodoc,
              v_st_descrip,
              v_st_fecha,
              v_suc_id,
-             v_doc_id,
              v_doct_id,
              v_lgj_id,
              v_depl_id_origen,
@@ -269,267 +262,174 @@ begin
 
    v_lastStik_orden := 0;
 
+/*
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                    //
+//                                        items                                                                       //
+//                                                                                                                    //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
+
    v_orden := 1;
 
-   while exists ( select sti_orden
-                  from StockItemTMP
-                     where stTMP_id = p_stTMP_id
-                             and sti_orden = v_orden )
+   while exists(select 1 from StockItemTMP where stTMP_id = p_stTMP_id and sti_orden = v_orden)
    loop
-      begin
-         begin
-            /*
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		//                                                                                                               //
-		//                                        insert                                                                 //
-		//                                                                                                               //
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		*/
-            select sti_id,
-                           sti_orden,
-                           sti_ingreso,
-                           sti_salida,
-                           sti_grupo,
-                           pr_id,
-                           pr_id_kit,
-                           depl_id,
-                           prns_id,
-                           prns_descrip,
-                           prns_fechavto,
-                           stik_orden,
-                           stik_cantidad,
-                           stl_id
-              into v_sti_id,
-                   v_sti_orden,
-                   v_sti_ingreso,
-                   v_sti_salida,
-                   v_sti_grupo,
-                   v_pr_id,
-                   v_pr_id_kit,
-                   v_depl_id,
-                   v_prns_id,
-                   v_prns_descrip,
-                   v_prns_fechavto,
-                   v_stik_orden,
-                   v_stik_cantidad,
-                   v_stl_id
-              from StockItemTMP
-               where stTMP_id = p_stTMP_id
-                       and sti_orden = v_orden;
-         exception
-            when others then
-               v_sys_error := sqlstate;
-         end;
 
-         --///////////////////////////////////////////////////////////////////////////////
-         -- Kits
+      select sti_id,
+              sti_orden,
+              sti_ingreso,
+              sti_salida,
+              sti_grupo,
+              pr_id,
+              pr_id_kit,
+              depl_id,
+              prns_id,
+              prns_descrip,
+              prns_fechavto,
+              stik_orden,
+              stik_cantidad,
+              stl_id
+         into v_sti_id,
+              v_sti_orden,
+              v_sti_ingreso,
+              v_sti_salida,
+              v_sti_grupo,
+              v_pr_id,
+              v_pr_id_kit,
+              v_depl_id,
+              v_prns_id,
+              v_prns_descrip,
+              v_prns_fechavto,
+              v_stik_orden,
+              v_stik_cantidad,
+              v_stl_id
+         from StockItemTMP
+         where stTMP_id = p_stTMP_id
+           and sti_orden = v_orden;
+
+         -- kits
+         --
          if v_stik_orden <> 0 then
-         begin
             if v_stik_orden <> v_lastStik_orden then
-            declare
-               v_temp numeric(1,0); := 0;
-            begin
-               sp_dbGetNewId('StockItemKit',
-                             'stik_id',
-                             v_stik_id,
-                             0);
 
-               if v_sys_error <> '' then
-                  exit CONTROL_ERROR;
+               select sp_dbGetNewId('StockItemKit', 'stik_id') into v_stik_id;
 
-               end if;
-
-               begin
-                  select 1 into v_temp
-                    from DUAL
-                   where exists ( select *
-                                  from StockItemTMP
-                                     where stTMP_id = p_stTMP_id
-                                             and stik_orden = v_stik_orden
-                                             and prns_id is not null );
-               exception
-                  when others then
-                     null;
-               end;
-
-               if v_temp = 1 then
+               if exists ( select *
+                           from StockItemTMP
+                           where stTMP_id = p_stTMP_id
+                             and stik_orden = v_stik_orden
+                             and prns_id is not null )
+               then
                   v_stik_llevanroserie := 1;
-
                else
                   v_stik_llevanroserie := 0;
-
                end if;
 
-               insert into StockItemKit
-                 ( stik_id, stik_cantidad, pr_id, st_id, stik_llevanroserie )
-                 values ( v_stik_id, v_stik_cantidad, v_pr_id_kit, v_st_id, v_stik_llevanroserie );
+               insert into StockItemKit ( stik_id, stik_cantidad, pr_id, st_id, stik_llevanroserie )
+                                 values ( v_stik_id, v_stik_cantidad, v_pr_id_kit, v_st_id, v_stik_llevanroserie );
 
                v_lastStik_orden := v_Stik_orden;
 
-            end;
             end if;
 
-         end;
          else
+
             v_stik_id := null;
 
          end if;
 
          if v_prns_id is not null then
-         begin
-            select stl_id
-              into v_stl_id
-              from ProductoNumeroSerie
-               where prns_id = v_prns_id;
 
-         end;
-         end if;
-
-         --///////////////////////////////////////////////////////////////////////////////
-         sp_dbGetNewId('StockItem',
-                               'sti_id',
-                               v_sti_id,
-                               0);
-
-         if v_sys_error <> '' then
-            exit CONTROL_ERROR;
+            select stl_id into v_stl_id from ProductoNumeroSerie where prns_id = v_prns_id;
 
          end if;
 
-         begin
-            insert into StockItem
-              ( st_id, sti_id, sti_orden, sti_ingreso, sti_salida, sti_grupo, pr_id, stik_id, depl_id, prns_id, pr_id_kit, stl_id )
-              values ( v_st_id, v_sti_id, v_sti_orden, v_sti_ingreso, v_sti_salida, v_sti_grupo, v_pr_id, v_stik_id, v_depl_id, v_prns_id, v_pr_id_kit, v_stl_id );
-         exception
-            when others then
-               v_sys_error := sqlstate;
-         end;
+         select sp_dbGetNewId('StockItem', 'sti_id') into v_sti_id;
 
-         if v_sys_error <> '' then
-            exit CONTROL_ERROR;
-
-         end if;
+         insert into StockItem
+                ( st_id, sti_id, sti_orden, sti_ingreso, sti_salida, sti_grupo, pr_id, stik_id, depl_id,
+                  prns_id, pr_id_kit, stl_id )
+         values ( v_st_id, v_sti_id, v_sti_orden, v_sti_ingreso, v_sti_salida, v_sti_grupo, v_pr_id, v_stik_id, v_depl_id,
+                  v_prns_id, v_pr_id_kit, v_stl_id );
 
          if coalesce(v_prns_id, 0) <> 0 then
-         begin
+
             update ProductoNumeroSerie
                set prns_descrip = v_prns_descrip,
                    prns_fechavto = v_prns_fechavto
                where prns_id = v_prns_id;
 
-         end;
          end if;
 
          v_orden := v_orden + 1;
 
-      end;
    end loop;
 
-   -- While
-   --////////////////////////////////////////////////////////////////////////////////////////////////////////////
-   -- Agrego a StockCache lo que se movio con los items de este movimiento
-   --////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   -- agrego a StockCache lo que se movio con los items de este movimiento
    --
-   sp_doc_stock_cache_update(v_Message,
-                                  v_bSuccess,
-                                  v_st_id,
-                                  0);-- Sumar
-                                  
+   select * from sp_doc_stock_cache_update(v_st_id, 0 /* sumar */) into v_message, v_success;
 
-   if coalesce(v_bSuccess, 0) = 0 then
-      exit Validate;
-
+   if coalesce(v_success, 0) = 0 then
+      raise exception '%', v_message;
    end if;
 
-   --
-   --////////////////////////////////////////////////////////////////////////////////////////////////////////////
-   delete StockItemTMP
-
-      where stTMP_ID = p_stTMP_id;
-
-   delete StockTMP
-
-      where stTMP_ID = p_stTMP_id;
-
-   begin
-      select ta_id
-        into v_ta_id
-        from Documento
-         where doc_id = v_doc_id;
-   exception
-      when others then
-         v_sys_error := sqlstate;
-   end;
-
-   sp_talonario_set(v_ta_id,
-                   v_st_nrodoc);
-
-   if v_sys_error <> '' then
-      exit CONTROL_ERROR;
-
-   end if;
-
-   /*
+/*
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                    //
-//                                     HISTORIAL DE MODIFICACIONES                                                    //
+//                                     borrar temporales                                                              //
 //                                                                                                                    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
-   select modifico
-     into v_modifico
-     from Stock
-      where st_id = v_st_id;
+
+   delete from StockItemTMP where stTMP_ID = p_stTMP_id;
+   delete from StockTMP where stTMP_ID = p_stTMP_id;
+
+/*
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                    //
+//                                     talonarios                                                                     //
+//                                                                                                                    //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
+
+   select ta_id into v_ta_id from documento where doc_id = v_doc_id;
+
+   perform sp_talonario_set(v_ta_id, v_st_nrodoc);
+
+
+/*
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                    //
+//                                     historial de modificaciones                                                    //
+//                                                                                                                    //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
+
+   select modifico into v_modifico from Stock where st_id = v_st_id;
 
    if v_is_new <> 0 then
-      sp_historia_update(20001,
-                        v_st_id,
-                        v_modifico,
-                        1);
-
+      perform sp_historia_update(20001, v_st_id, v_modifico, 1);
    else
-      sp_historia_update(20001,
-                        v_st_id,
-                        v_modifico,
-                        3);
-
+      perform sp_historia_update(20001, v_st_id, v_modifico, 3);
    end if;
 
-   /*
+/*
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                    //
-//                                     FIN                                                                            //
+//                                     fin                                                                            //
 //                                                                                                                    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
-   COMMIT;
 
-   open cv_2 for
-      select v_st_id
-        from DUAL ;
+   rtn.type := 'st_id';
+   rtn.id := v_st_id;
 
-   return;
-
-   <<CONTROL_ERROR>>
-
-   raise exception 'Ha ocurrido un error al grabar el stock. sp_DocStockSave.' );
-
-   exit Roll;
-
-   <<Validate>>
-
-   v_Message := '@@ERROR_SP:' || coalesce(v_Message, '');
-
-   raise exception ( -20002, || ':' ||v_Message );
-
-   <<Roll>>
-
-   ROLLBACK;
+   return next rtn;
 
 exception
    when others then
 
-     raise exception 'Ha ocurrido un error al grabar la stock. sp_doc_stock_save. %. %.',
+     raise exception 'Ha ocurrido un error al grabar el movimiento de stock. sp_doc_stock_save. %. %.',
                       sqlstate, sqlerrm;
 
 end;

@@ -10,19 +10,35 @@ ALTER DATABASE {database name} SET timezone TO 'UTC';
 
 database/cairo/CSScript/postgresql/tables/cairo_script.sql
 
+4- run the file all_functions.sql
+
 run all functions and sequences (yes one by one ( O O )
                                                    d
                                                   ^^^
 
-was a joke you don't have to do one by one :P
+that was a joke you don't have to do one by one :P
 
 just run this in pgadmin and export to a file. use option "Query > Execute to a file".
 
-no ready yet. we need to change "\n with ;\n and remove the first line of the file.
+SELECT pg_get_functiondef(f.oid)
+FROM pg_catalog.pg_proc f
+INNER JOIN pg_catalog.pg_namespace n ON (f.pronamespace = n.oid)
+WHERE n.nspname = 'public'
+
+--
+
+no ready yet. we need to change "$function$ with $function$;" and then "AS $function$; with AS $function$" (be carefull with the order)
+and finally remove the first line of the file (it contains the name of the column for the select we used to create the file).
 
 now we have to run unaccent
 then debugger
-finally this file we have created with pgadmin.
+
+changes to the file we created with all functions
+-------------------------------------------------
+
+then open the file and serch for pldbg_ and delete all debugger functions
+then at the end of the file you will find unaccent. you need to delete them too.
+finally run the file we have created with pgadmin.
 
 so
 
@@ -32,3 +48,5 @@ so
 
 very good explanation about time zone
 http://stackoverflow.com/questions/6151084/which-timestamp-type-to-choose-in-a-postgresql-database
+
+5- run scripts from migration_from_sqlserver following the order set in their names. only run files which starts with numbers.

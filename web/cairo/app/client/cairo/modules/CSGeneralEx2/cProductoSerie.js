@@ -337,7 +337,7 @@
           //
           else if(column.getKey() === KI_NUMERO) {
             var row = property.getGrid().getRows().item(lRow);
-            column.setSelectFilter(Cairo.Database.sqlString(getFilter(row, lRow)));
+            column.setSelectFilter(getFilter(row, lRow));
             m_dialog.refreshColumnProperties(property, C_NRO_SERIE);
           }
         }
@@ -850,8 +850,8 @@
       };
 
       var setPrnsId = function(row) {
-        var prnsCodigo = getCell(row, KI_NUMERO).getValue();
-        var p = DB.getData("load[" + m_apiPath + "general/productonumeroserie/by_code/]", prnsCodigo);
+        var prnsCode = getCell(row, KI_NUMERO).getValue();
+        var p = DB.getData("load[" + m_apiPath + "general/productonumeroserie/by_code/]", prnsCode);
 
         return p.then(function(response) {
           var prnsId = NO_ID;

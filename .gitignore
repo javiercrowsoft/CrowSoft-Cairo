@@ -27,3 +27,5 @@ database/backup/*salmax*.*
 
 \#*\#
 .\#*
+tmp/
+

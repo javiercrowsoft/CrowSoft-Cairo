@@ -51,7 +51,7 @@ begin
       --
       update StockCache
          set stc_cantidad = stc_cantidad
-                            - ( select sti_ingreso + sti_salida
+                            - ( select sti_ingreso - sti_salida
                                 from StockItem i
                                 where i.st_id = p_st_id
                                   and StockCache.pr_id = i.pr_id
@@ -59,7 +59,15 @@ begin
                                   and coalesce(StockCache.prns_id, 0) = coalesce(i.prns_id, 0)
                                   and coalesce(StockCache.pr_id_kit, 0) = coalesce(i.pr_id_kit, 0)
                                   and coalesce(StockCache.stl_id, 0) = coalesce(i.stl_id, 0)
-                              );
+                              )
+      where exists (select * from StockItem i
+                        where i.st_id = p_st_id
+                          and StockCache.pr_id = i.pr_id 
+                          and StockCache.depl_id = i.depl_id 
+                          and coalesce(StockCache.prns_id, 0)   = coalesce(i.prns_id, 0)
+                          and coalesce(StockCache.pr_id_kit, 0) = coalesce(i.pr_id_kit, 0)
+                          and coalesce(StockCache.stl_id, 0)    = coalesce(i.stl_id, 0)
+                  );
 
    else
 
@@ -75,13 +83,21 @@ begin
                                   and coalesce(StockCache.prns_id, 0) = coalesce(i.prns_id, 0)
                                   and coalesce(StockCache.pr_id_kit, 0) = coalesce(i.pr_id_kit, 0)
                                   and coalesce(StockCache.stl_id, 0) = coalesce(i.stl_id, 0)
-                              );
+                              )
+      where exists (select * from StockItem i
+                        where i.st_id = p_st_id
+                          and StockCache.pr_id = i.pr_id 
+                          and StockCache.depl_id = i.depl_id 
+                          and coalesce(StockCache.prns_id, 0)   = coalesce(i.prns_id, 0)
+                          and coalesce(StockCache.pr_id_kit, 0) = coalesce(i.pr_id_kit, 0)
+                          and coalesce(StockCache.stl_id, 0)    = coalesce(i.stl_id, 0)
+                  );
 
    end if;
 
    if p_restar = 0 then
 
-      select * from sp_doc_stock_validate(p_message) into p_success, p_st_id;
+      select * from sp_doc_stock_validate(p_st_id) into p_message, p_success;
 
    else
 
@@ -91,7 +107,7 @@ begin
 
    if p_not_update_prns = 0 then
 
-      select sp_doc_stock_update_numero_serie(p_st_id) into p_restar;
+      perform sp_doc_stock_update_numero_serie(p_st_id, p_restar);
 
    end if;
 
