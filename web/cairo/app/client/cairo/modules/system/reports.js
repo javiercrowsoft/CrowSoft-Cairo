@@ -59,7 +59,7 @@
         var msg = {
           destination: 'chrome-extension://' + Cairo.CSREPORTS_EXTENSION_ID + '/',
           message: {
-            action: (index >= message.data.length ? "" : __PARTIAL_MESSAGE__ ) + message.action,
+            action: (index >= msgData.length ? "" : __PARTIAL_MESSAGE__ ) + message.action,
             data: chunk,
             webReportId: message.webReportId
           },
@@ -75,7 +75,7 @@
 
         window.postMessage(msg, window.location.href);
 
-        chunk = message.data.substr(index, MAX_MESSAGE_LENGTH);
+        chunk = msgData.substr(index, MAX_MESSAGE_LENGTH);
         index += MAX_MESSAGE_LENGTH;
 
         if(chunk.length == 0) break;
