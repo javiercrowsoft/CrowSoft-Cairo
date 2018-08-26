@@ -153,8 +153,9 @@
       return { name: name, value: value };
     };
 
-    that.createReportData = function(type, title, name, code, file, params, data) {
+    that.createReportData = function(url, type, title, name, code, file, params, data) {
       return {
+        url: url,
         type: type,
         title: title,
         name: name,
@@ -519,6 +520,7 @@
                            // it is used to call methods over an instance of a report like moveToPage
 
       var INFORMES = "informes";
+      var url = window.location.protocol + "//" + window.location.host + "/client/cairo/reports/"; //http://www.cairodigital.com.ar/client/cairo/reports/
 
       self.show = function(id) {
         initialize();
@@ -756,7 +758,7 @@
 
             var rd = Cairo.CSReportConnection.createReportDefinition(
               Cairo.CSReportConnection.ACTIONS.PREVIEW,
-              Cairo.CSReportConnection.createReportData(INFORMES, m_title, m_name, m_code, m_reportFile, params, data),
+              Cairo.CSReportConnection.createReportData(url, INFORMES, m_title, m_name, m_code, m_reportFile, params, data),
               m_webReportId
             );
 
