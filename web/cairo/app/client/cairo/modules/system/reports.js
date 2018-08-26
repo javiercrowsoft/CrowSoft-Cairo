@@ -35,6 +35,9 @@
       }
     }, false );
 
+    var MAX_MESSAGE_LENGTH = 2000;
+    var __PARTIAL_MESSAGE__ = "__PARTIAL_MESSAGE__";
+
     var sendMessage = function(message) {
 
       var defer = new Cairo.Promises.Defer();
@@ -45,22 +48,35 @@
       //       when sending the last message don't append the prefix
       //       CSReportWebServer will join message.data before parse the json string
 
+      var chunk = message.data.substr(0, MAX_MESSAGE_LENGTH);
+      var index = MAX_MESSAGE_LENGTH;
 
+      var msgId = Cairo.Util.getNextRandomId();
 
-      message = {
-        destination: 'chrome-extension://' + Cairo.CSREPORTS_EXTENSION_ID + '/',
-        message: message,
-        id: Cairo.Util.getNextRandomId()
-      };
+      while (chunk.length > 0) {
 
-      var pendingMessage = {
-        message: message,
-        defer: defer
-      };
+        var msg = {
+          destination: 'chrome-extension://' + Cairo.CSREPORTS_EXTENSION_ID + '/',
+          message: {
+            action: (index >= message.data.length ? __PARTIAL_MESSAGE__ : "" ) + message.action,
+            data: chunk,
+            webReportId: message.webReportId
+          },
+          id: msgId
+        };
 
-      m_pendingMessages[message.id] = pendingMessage;
+        var pendingMessage = {
+          message: msg,
+          defer: defer
+        };
 
-      window.postMessage(message, window.location.href);
+        m_pendingMessages[msgId] = pendingMessage;
+
+        window.postMessage(msg, window.location.href);
+
+        chunk = message.data.substr(index, MAX_MESSAGE_LENGTH);
+        index += MAX_MESSAGE_LENGTH;
+      }
 
       return defer.promise;
     };
