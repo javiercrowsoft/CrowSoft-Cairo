@@ -48,7 +48,8 @@
       //       when sending the last message don't append the prefix
       //       CSReportWebServer will join message.data before parse the json string
 
-      var chunk = message.data.substr(0, MAX_MESSAGE_LENGTH);
+      var msgData = JSON.stringify(message.data);
+      var chunk = msgData.substr(0, MAX_MESSAGE_LENGTH);
       var index = MAX_MESSAGE_LENGTH;
 
       var msgId = Cairo.Util.getNextRandomId();
