@@ -58,7 +58,7 @@
         var msg = {
           destination: 'chrome-extension://' + Cairo.CSREPORTS_EXTENSION_ID + '/',
           message: {
-            action: (index >= message.data.length ? __PARTIAL_MESSAGE__ : "" ) + message.action,
+            action: (index >= message.data.length ? "" : __PARTIAL_MESSAGE__ ) + message.action,
             data: chunk,
             webReportId: message.webReportId
           },
