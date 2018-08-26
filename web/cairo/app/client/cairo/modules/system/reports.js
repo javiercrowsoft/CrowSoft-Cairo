@@ -53,7 +53,7 @@
 
       var msgId = Cairo.Util.getNextRandomId();
 
-      while (chunk.length > 0) {
+      while (true) {
 
         var msg = {
           destination: 'chrome-extension://' + Cairo.CSREPORTS_EXTENSION_ID + '/',
@@ -76,6 +76,8 @@
 
         chunk = message.data.substr(index, MAX_MESSAGE_LENGTH);
         index += MAX_MESSAGE_LENGTH;
+
+        if(chunk.length > 0) break;
       }
 
       return defer.promise;
