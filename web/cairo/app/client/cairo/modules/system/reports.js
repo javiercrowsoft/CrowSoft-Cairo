@@ -143,7 +143,7 @@
       PDF: 'pdf',
       EXCEL: 'excel',
       PRINT: 'print'
-    }
+    };
 
     that.createReportDataSource = function(dataSourceName, recordset) {
       return { name: dataSourceName, data: recordset };
@@ -178,6 +178,15 @@
     };
 
     that.previewReport = function(reportDefinition) {
+      return sendMessage(reportDefinition).then(function(response) {
+        console.log(JSON.stringify(response.request));
+        console.log(JSON.stringify(response.response));
+        response.success = true;
+        return response;
+      });
+    };
+
+    that.printReport = function(reportDefinition) {
       return sendMessage(reportDefinition).then(function(response) {
         console.log(JSON.stringify(response.request));
         console.log(JSON.stringify(response.response));
@@ -758,6 +767,31 @@
 
             var rd = Cairo.CSReportConnection.createReportDefinition(
               Cairo.CSReportConnection.ACTIONS.PREVIEW,
+              Cairo.CSReportConnection.createReportData(url, INFORMES, m_title, m_name, m_code, m_reportFile, params, data),
+              m_webReportId
+            );
+
+            return Cairo.CSReportConnection.previewReport(rd);
+
+          });
+        });
+      };
+
+      self.print = function() {
+        var params = getParams();
+        return DB.getData("load[" + m_apiPath + C_REPORT_PATH + m_id + "/show]", null, params).then(function(response) {
+
+          var params = m_params.map(getReportParam);
+
+          var data = [Cairo.CSReportConnection.createReportDataSource(m_code, createRecordset(response.data))];
+
+          return getLogos().whenSuccessWithResult(function(response) {
+
+            data.push(Cairo.CSReportConnection.createReportDataSource(SMALL_LOGO_DATA_SOURCE, response.logos.small));
+            data.push(Cairo.CSReportConnection.createReportDataSource(BIG_LOGO_DATA_SOURCE, response.logos.big));
+
+            var rd = Cairo.CSReportConnection.createReportDefinition(
+              Cairo.CSReportConnection.ACTIONS.PRINT,
               Cairo.CSReportConnection.createReportData(url, INFORMES, m_title, m_name, m_code, m_reportFile, params, data),
               m_webReportId
             );

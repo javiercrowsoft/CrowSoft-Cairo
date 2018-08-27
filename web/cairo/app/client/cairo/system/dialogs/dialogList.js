@@ -343,7 +343,7 @@
             return;
           }
           catch (ex) {
-            Cairo.manageErrorEx(ex.message, ex, "refreshList", C_MODULE, "");
+            Cairo.manageErrorEx(ex.message, ex, "previewClick", C_MODULE, "");
           }
           return p || Cairo.Promises.resolvedPromise(false);
         };
@@ -415,7 +415,21 @@
           return m_client.deleteItem(args.id);
         };
 
-        var printClick = function() { /* TODO: implement this */ };
+        var printClick = function() {
+          var p;
+          try {
+            Cairo.LoadingMessage.show(m_client.getTitle(), "Loading data from Crowsoft Cairo server.");
+            refreshAux();
+            p = m_client.print().whenSuccessWithResult(function(response) {
+              // TODO: show a dialog to notify document has been printed
+            }).then(Cairo.LoadingMessage.close);
+            return;
+          }
+          catch (ex) {
+            Cairo.manageErrorEx(ex.message, ex, "printClick", C_MODULE, "");
+          }
+          return p || Cairo.Promises.resolvedPromise(false);
+        };
 
         var closeClick = function() {
           if(m_view !== null) {
