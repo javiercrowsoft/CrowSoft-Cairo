@@ -1259,6 +1259,31 @@ object Proveedor {
     }
   }
 
+  def getName(user: CompanyUser, provId: Int): String = getField(user, provId, C.PROV_NAME)
+  def getEmail(user: CompanyUser, provId: Int): String = getField(user, provId, C.PROV_EMAIL)
+
+  def getField(user: CompanyUser, provId: Int, columnName: String): String = DB.withTransaction(user.database.database) { implicit connection =>
+    val statement = connection.createStatement
+    val sql = s"select $columnName from Proveedor where prov_id = $provId"
+    val res = statement.executeQuery(sql)
+
+    connection.setAutoCommit(false)
+
+    try {
+      if(res.next) {
+        res.getString(columnName)
+      }
+      else {
+        ""
+      }
+    } catch {
+      case NonFatal(e) => {
+        Logger.error(s"can't get proveedor $columnName with provId $provId and empId ${user.cairoCompanyId} for user ${user.toString}. Error ${e.toString}")
+        throw e
+      }
+    } finally res.close
+  }
+
   def getRetenciones(user: CompanyUser, provId: Int, fecha: Date, pago: Double, facturas: String): Recordset = {
 
     DB.withTransaction(user.database.database) { implicit connection =>

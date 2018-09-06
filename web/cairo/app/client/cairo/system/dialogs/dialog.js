@@ -6212,11 +6212,11 @@
 
         self.printDocument = function() {
           return print(false);
-        }
+        };
 
         self.printDocEx = function(id) {
           return print(false, id);
-        }
+        };
 
         // TODO: check if this can be refactor in a cleaner code
         //
@@ -6302,10 +6302,12 @@
           var p = null;
 
           try {
-            if(m_client.isDocument === true) {
+            if(m_isDocument === true) {
+
+              id = id || NO_ID;
 
               if(id === NO_ID) {
-                id = m_client.getId();
+                id = m_client.id();
               }
 
               if(id === NO_ID) {
@@ -6318,11 +6320,11 @@
 
               p = p || P.resolvedPromise(true);
 
-              p.then(
+              p.whenSuccess(
                 function() {
                   var config = Cairo.Settings;
                   var reportConfig = config.Reports;
-                  var printManager = new Cairo.Entities.Printing.Manager();
+                  var printManager = Cairo.Entities.Printing.createManager();
 
                   printManager.setIsForEmail(byEmail);
 
@@ -6348,19 +6350,19 @@
                         0)));
 
                   return getEmailAddress()
-                  .then (
-                    function(email) {
-                      printManager.setEmailAddress(email.trim());
+                  .whenSuccessWithResult(
+                    function(result) {
+                      printManager.setEmailAddress(result.email.trim());
                       return getUserDescription();
                     }
-                  ).then(
+                  ).whenSuccess(
                     function(description) {
                       printManager.setUserDescription(description);
                     }
                   ).then(
                     function() {
                       printManager.setAutoPrint(m_autoPrint);
-                      return printManager.showPrint(id, NO_ID, m_client.getDocumentId())
+                      return printManager.showPrint(id, NO_ID, m_client.docId())
                     }
                   ).then(
                     function(result) {

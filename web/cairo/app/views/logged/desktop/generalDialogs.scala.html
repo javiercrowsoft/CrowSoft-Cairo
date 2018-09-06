@@ -70,3 +70,31 @@
         <button class="btn js-submit btn-info btn-small">Close</button>
     </form>
 </script>
+
+<script type="text/template" id="print-view">
+    <div class="print-container">
+        <form>
+            <div class="row">
+                <div class="col-sm-9 col-md-9 col-lg-9">
+                    <div class="input-text-form">
+                        <div class="control-group">
+                            <p><%= message %></p>
+                            <div id="reportGrid">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <button class="btn js-submit btn-info btn-small print-button">Preview</button><br>
+                    <button class="btn js-submit btn-info btn-small print-button">Print</button><br>
+                    <button class="btn js-submit btn-info btn-small print-button">e-Mail (pdf format)</button><br>
+                    <button class="btn js-submit btn-info btn-small print-button">Export to PDF</button><br>
+                    <button class="btn js-submit btn-info btn-small print-button">Export to folder</button><br>
+
+                    <button class="btn js-submit btn-info btn-small print-button">Close</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</script>

@@ -605,7 +605,7 @@
     return DB.getData("load[" + m_apiPath + "general/proveedor/" + provId.toString() + "/email]").then(
       function(response) {
         if(response.success === true) {
-          var email = valField(response.data, 'email');
+          var email = valField(response.data, C.PROV_EMAIL);
           return { success: true, email: email };
         }
         else {

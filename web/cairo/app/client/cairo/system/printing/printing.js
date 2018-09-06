@@ -11,22 +11,61 @@
 
   Cairo.module("Entities.Printing", function(Printing, Cairo, Backbone, Marionette, $, _) {
 
-    Printing.Manager = Backbone.Model.extend({
-      urlRoot: "",
+    var createObject = function() {
 
-      defaults: {
-      },
+      var self = {};
 
-      setPath: function(path) { /* TODO: implement this. */ },
-      setCommandTimeout: function(timeout) { /* TODO: implement this. */ },
-      setConnectionTimeout: function(timeout) { /* TODO: implement this. */ },
-      showPrint: function(id, tblId, docId) { /* TODO: implement this. */ },
-      setIsForEmail: function(timeout) { /* TODO: implement this. */ },
-      setEmailAddress: function(emaill) { /* TODO: implement this. */ },
-      setUserDescription: function(description) { /* TODO: implement this. */ },
-      setDocumentAsPrinted: function() { /* TODO: implement this. */ }
+      var m_path = "";
+      var m_timeout = 0;
+      var m_connectionTimeout = 0;
+      var m_isForEmail = false;
+      var m_emailAddress = "";
+      var m_userDescription = "";
+      var m_isPrinted = false;
+      var m_autoPrint = false;
 
-    });
+      self.setPath = function(path) {
+        m_path = path;
+      };
+
+      self.setCommandTimeout = function(timeout) {
+        m_timeout = timeout;
+      };
+
+      self.setConnectionTimeout = function(timeout) {
+        m_connectionTimeout = timeout;
+      };
+
+      self.showPrint = function(id, tblId, docId) {
+        //Controls.createGrid
+        Cairo.printViewShow("Printing", "This dialog doesn't have a print option", []);
+      };
+
+      self.setIsForEmail = function(isForEmail) {
+        m_isForEmail = isForEmail;
+      };
+
+      self.setEmailAddress = function(email) {
+        m_emailAddress = email;
+      };
+
+      self.setUserDescription = function(description) {
+        m_userDescription = description;
+      };
+
+      self.getDocumentIsPrinted = function() {
+        return m_isPrinted;
+      };
+
+      self.setAutoPrint = function(autoPrint) {
+        m_autoPrint = autoPrint;
+      };
+
+      return self;
+
+    };
+
+    Printing.createManager = createObject;
 
   });
 

@@ -1478,6 +1478,20 @@ var Cairo = new Marionette.Application();
 
     });
 
+    Views.PrintView = Marionette.ItemView.extend({
+      template: "#print-view",
+
+      events: {
+        "click button.js-submit": "submitClicked"
+      },
+
+      submitClicked: function(e) {
+        e.preventDefault();
+        this.trigger("form:submit");
+      }
+
+    });
+
   });
 
   Cairo.module("Common.Views", function(Views, Cairo, Backbone, Marionette, $, _) {
@@ -1532,6 +1546,19 @@ var Cairo = new Marionette.Application();
           var $title = $('<h1>', { text: this.title });
           this.$el.prepend($title);
         }
+      }
+    });
+
+    Views.Print = Views.PrintView.extend({
+      initialize: function() {
+        this.title = this.model.get("title");
+      },
+
+      onRender: function() {
+        var control = Cairo.Controls.createGrid();
+        var element = $(control.htmlTag);
+        control.setElement(element, null);
+        this.$("#reportGrid").append(element);
       }
     });
 
@@ -1623,12 +1650,33 @@ var Cairo = new Marionette.Application();
     return view;
   };
 
+  Cairo.printView = function(title, message, reports, closeHandler) {
+    var Model = Backbone.Model.extend({ urlRoot: "printMessage" });
+    var model = new Model({ title: title, message: message, reports: reports });
+    var view = new Cairo.Common.Views.Print({
+      model: model
+    });
+
+    view.on("form:submit", function(data) {
+      Cairo.log("submit handled - Data: " + data);
+      view.trigger("dialog:close");
+      if(closeHandler) { closeHandler(); }
+    });
+
+    return view;
+  };
+
   Cairo.infoViewShow = function(title, message, closeHandler) {
     var view = Cairo.infoView(title, message, closeHandler);
     Cairo.dialogRegion.show(view);
   };
   
   Cairo.warningViewShow = Cairo.infoViewShow;
+
+  Cairo.printViewShow = function(title, message, reports, closeHandler) {
+    var view = Cairo.printView(title, message, reports, closeHandler);
+    Cairo.dialogRegion.show(view);
+  };
 
   Cairo.manageErrorView = function(title, message, errorResponse, closeHandler) {
     var Model = Backbone.Model.extend({ urlRoot: "errorMessage" });

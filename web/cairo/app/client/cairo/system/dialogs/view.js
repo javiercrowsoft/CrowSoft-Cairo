@@ -60,7 +60,7 @@
               break;
           }
         }
-      }
+      };
 
       var getTabIndexInGroup = function(index, group) {
         if(group > 0) {
@@ -597,7 +597,7 @@
           mainRegion.show(mainView);
 
           Cairo.LoadingMessage.close();
-        }
+        };
 
         /*
          this function will be called by the tab manager every time the

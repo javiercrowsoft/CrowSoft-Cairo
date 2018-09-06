@@ -1197,6 +1197,9 @@
         return validateCuentaMoneda();
       };
 
+      // TODO: this function is not called. We must decide if it is not going to be used and then remove the code, or maybe
+      //       it should give a warning but allow the user to continue
+      //
       var validateCuit = function(provId) {
         var p = null;
 

@@ -349,6 +349,7 @@
       };
 
       var setListeners = function(view) {
+        if(view === undefined || view === null) return;
         addListener('onColumnBeforeEdit', view.onGridColumnBeforeEdit(that));
         addListener('onColumnAfterEdit', view.onGridColumnAfterEdit(that));
         addListener('onColumnAfterUpdate', view.onGridColumnAfterUpdate(that));

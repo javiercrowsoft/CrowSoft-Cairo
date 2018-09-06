@@ -1038,3 +1038,12 @@ div.vertical-two-column:first-child {
   background-color: #eeeeee;
 }
 
+.print-button {
+  width: 180px;
+  margin-bottom: 5px;
+}
+
+.print-container {
+  width: 900px;
+}
+

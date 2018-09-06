@@ -76,7 +76,9 @@ Cairo.Rubro.Load = {};
 Cairo.RubroTabla = {};
 
 Cairo.Common = {};
-Cairo.Entities = {};
+Cairo.Entities = {
+  Printing: {}
+};
 
 Cairo.ProductoSerie = {};
 

@@ -717,7 +717,21 @@ object Proveedores extends Controller with ProvidesUser {
 
   def name(id: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, { user =>
-      Ok
+      Ok(
+        Json.toJson(
+          Json.obj(
+            C.PROV_NAME -> Json.toJson(Proveedor.getName(user, id))
+          )))
+    })
+  }
+
+  def email(id: Int) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, { user =>
+      Ok(
+        Json.toJson(
+          Json.obj(
+            C.PROV_EMAIL -> Json.toJson(Proveedor.getEmail(user, id))
+          )))
     })
   }
 
