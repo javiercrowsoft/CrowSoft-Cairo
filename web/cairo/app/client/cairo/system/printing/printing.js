@@ -24,6 +24,10 @@
       var m_isPrinted = false;
       var m_autoPrint = false;
 
+      var NO_ID = Cairo.Constants.NO_ID;
+      var DB = Cairo.Database;
+      var m_apiPath = DB.getAPIVersion();
+
       self.setPath = function(path) {
         m_path = path;
       };
@@ -37,8 +41,24 @@
       };
 
       self.showPrint = function(id, tblId, docId) {
-        //Controls.createGrid
-        Cairo.printViewShow("Printing", "This dialog doesn't have a print option", []);
+        var p = null;
+
+        if(tblId !== NO_ID) {
+          p = DB.getData("load[" + m_apiPath + "tabla/" + tblId.toString() + "/reports]");
+        }
+        else {
+          p = DB.getData("load[" + m_apiPath + "documento/" + docId.toString() + "/reports]");
+        }
+
+        return p.then(function(response) {
+
+          var reports = [];
+          if(response.success === true) {
+            reports = DB.getResultSetFromData(response.data);
+          }
+          return Cairo.printViewShow("Printing", "Select the report(s) you want to print", reports);
+
+        });
       };
 
       self.setIsForEmail = function(isForEmail) {

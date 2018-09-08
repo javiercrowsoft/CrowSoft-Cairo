@@ -2062,7 +2062,7 @@
         elem.setKey(KICC_IMPORTE);
 
         grid.getRows().clear();
-      }
+      };
 
       var loadCtaCte = function(property) {
 

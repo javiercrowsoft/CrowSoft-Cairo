@@ -1,19 +1,12 @@
 package controllers.logged.modules.documentos
 
-import controllers._
-import models.cairo.modules.general.ProductoProveedor
-import play.api.mvc._
-import play.api.data._
-import play.api.data.Forms._
 import actions._
-import play.api.Logger
-import play.api.libs.json._
-import models.cairo.modules.documentos._
-import models.cairo.system.security.CairoSecurity
-import models.cairo.system.database.{Recordset, DBHelper}
-import java.util.Date
+import controllers._
 import formatters.json.DateFormatter
-import formatters.json.DateFormatter._
+import models.cairo.modules.documentos._
+import models.cairo.system.database.Recordset
+import play.api.libs.json._
+import play.api.mvc._
 
 
 object Documents extends Controller with ProvidesUser {
@@ -154,6 +147,15 @@ object Documents extends Controller with ProvidesUser {
             "name" -> Json.toJson(docInfo.name),
             "monId" -> Json.toJson(docInfo.monId)
           )))
+    })
+  }
+
+  def reports(id: Int) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, { user =>
+      Ok(
+        Json.toJson(
+          Recordset.getAsJson(
+            Document.reports(user, id))))
     })
   }
 }

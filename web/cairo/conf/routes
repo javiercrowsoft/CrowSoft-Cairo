@@ -339,6 +339,7 @@ GET     /api/v1/general/cliente/:id/name                                        
 GET     /api/v1/general/cliente/:id/cat_fiscal                                               controllers.logged.modules.general.Clientes.catFiscal(id: Int)
 GET     /api/v1/general/cliente/:id/validate_cuit                                            controllers.logged.modules.general.Clientes.validateCuit(id: Int)
 GET     /api/v1/general/cliente/:id/data_add                                                 controllers.logged.modules.general.Clientes.dataAdd(id: Int)
+GET     /api/v1/general/cliente/:id/email                                                    controllers.logged.modules.general.Clientes.email(id: Int)
 GET     /api/v1/general/cliente/validate_cuit/:cuit                                          controllers.logged.modules.general.Clientes.getCuitInfo(cuit: String)
 GET     /api/v1/general/cliente/:id/percepciones/:fecha                                      controllers.logged.modules.general.Clientes.getPercepciones(id: Int, fecha: String)
 
@@ -362,6 +363,7 @@ GET     /api/v1/documento/:id/supplier/:provId/next_number                      
 GET     /api/v1/documento/:id/supplier/:provId/account                                       controllers.logged.modules.documentos.Documents.supplierAccount(id: Int, provId: Int)
 GET     /api/v1/documento/:id/customer/:cliId/next_number                                    controllers.logged.modules.documentos.Documents.customerNextNumber(id: Int, cliId: Int)
 GET     /api/v1/documento/:id/customer/:cliId/account                                        controllers.logged.modules.documentos.Documents.customerAccount(id: Int, cliId: Int)
+GET     /api/v1/documento/:id/reports                                                        controllers.logged.modules.documentos.Documents.reports(id: Int)
 
 GET     /api/v1/documento/from_doct_id/:doctId/:doctIdApplic/:id/:idEx                       controllers.logged.modules.documentos.Documents.fromDoctId(doctId: Int, doctIdApplic: Int, id: Int, idEx: Int)
 

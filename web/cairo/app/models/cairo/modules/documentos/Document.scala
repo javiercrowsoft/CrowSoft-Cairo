@@ -353,6 +353,26 @@ object Document {
       }
     }
   }
+
+  def reports(user: CompanyUser, docId: Int): Recordset = DB.withTransaction(user.database.database) { implicit connection =>
+    val statement = connection.createStatement
+    val sql = s"select rptf_Id, rptf_nombre, rptf_copias, rptf_sugeridoemail as rptf_sugerido, rptf_csrfile, rptf_object from reporteformulario where doc_id = $docId"
+    val res = statement.executeQuery(sql)
+
+    connection.setAutoCommit(false)
+
+    try {
+
+      Recordset.load(res)
+
+    } catch {
+      case NonFatal(e) => {
+        Logger.error(s"can't get reports for docId $docId and empId ${user.cairoCompanyId} for user ${user.toString}. Error ${e.toString}")
+        throw e
+      }
+    } finally res.close
+  }
+
 }
 
 object DocumentEditStatus {

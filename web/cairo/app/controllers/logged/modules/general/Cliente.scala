@@ -921,7 +921,21 @@ object Clientes extends Controller with ProvidesUser {
 
   def name(id: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, { user =>
-      Ok
+      Ok(
+        Json.toJson(
+          Json.obj(
+            C.CLI_NAME -> Json.toJson(Cliente.getName(user, id))
+          )))
+    })
+  }
+
+  def email(id: Int) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, { user =>
+      Ok(
+        Json.toJson(
+          Json.obj(
+            C.CLI_EMAIL -> Json.toJson(Cliente.getEmail(user, id))
+          )))
     })
   }
 

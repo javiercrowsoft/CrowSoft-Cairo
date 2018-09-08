@@ -1555,9 +1555,89 @@ var Cairo = new Marionette.Application();
       },
 
       onRender: function() {
+        var reports = this.model.get("reports");
+        var grid = Cairo.Dialogs.Grids.createGrid();
+
+        var KI_RPT_ID = 1;
+        var KI_SELECT = 2;
+        var KI_NAME = 3;
+        var KI_COPIES = 4;
+        var KI_FILE = 5;
+        var KI_OBJECT = 6;
+
+        var getText = Cairo.Language.getText;
+        var T = Cairo.Dialogs.PropertyType;
+        var C = Cairo.General.Constants;
+        var DB = Cairo.Database;
+        var valField = DB.valField;
+
+        var columns = grid.getColumns();
+        columns.clear();
+
+        var col = columns.add(null);
+        col.setVisible(false);
+        col.setKey(KI_RPT_ID);
+
+        col = columns.add(null);
+        col.setName("");
+        col.setType(T.check);
+        col.setKey(KI_SELECT);
+
+        col = columns.add(null);
+        col.setName(getText(2708, "")); // Reporte
+        col.setKey(KI_NAME);
+
+        col = columns.add(null);
+        col.setName(getText(2574, "")); // Copias
+        col.setType(T.numeric);
+        col.setSubType(Cairo.Dialogs.PropertySubType.integer);
+        col.setKey(KI_COPIES);
+
+        col = columns.add(null);
+        col.setVisible(false);
+        col.setKey(KI_FILE);
+
+        col = columns.add(null);
+        col.setVisible(false);
+        col.setKey(KI_OBJECT);
+
         var control = Cairo.Controls.createGrid();
         var element = $(control.htmlTag);
         control.setElement(element, null);
+
+        var rows = grid.getRows();
+        rows.clear();
+
+        for(var i = 0, count = reports.length; i < count; i += 1) {
+          var row = rows.add(null,  valField(reports[i], C.RPTF_ID));
+
+          var elem = row.add(null);
+          elem.setValue(valField(reports[i], C.RPTF_ID));
+          elem.setKey(KI_RPT_ID);
+
+          elem = row.add(null);
+          elem.setId(parseInt(valField(reports[i], C.RPTF_SUGERIDO)));
+          elem.setKey(KI_SELECT);
+
+          elem = row.add(null);
+          elem.setValue(valField(reports[i], C.RPTF_NAME));
+          elem.setKey(KI_NAME);
+
+          elem = row.add(null);
+          elem.setValue(valField(reports[i], C.RPTF_COPIAS));
+          elem.setKey(KI_COPIES);
+
+          elem = row.add(null);
+          elem.setValue(valField(reports[i], C.RPTF_CSRFILE));
+          elem.setKey(KI_FILE);
+
+          elem = row.add(null);
+          elem.setValue(valField(reports[i], C.RPTF_OBJECT));
+          elem.setKey(KI_OBJECT);
+        }
+
+        Cairo.Dialogs.Grids.Manager.loadFromRows(control, grid, false, "Reports");
+
         this.$("#reportGrid").append(element);
       }
     });

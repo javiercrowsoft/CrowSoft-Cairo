@@ -1672,6 +1672,31 @@ object Cliente {
     }
   }
 
+  def getName(user: CompanyUser, cliId: Int): String = getField(user, cliId, C.CLI_NAME)
+  def getEmail(user: CompanyUser, cliId: Int): String = getField(user, cliId, C.CLI_EMAIL)
+
+  def getField(user: CompanyUser, cliId: Int, columnName: String): String = DB.withTransaction(user.database.database) { implicit connection =>
+    val statement = connection.createStatement
+    val sql = s"select $columnName from Cliente where cli_id = $cliId"
+    val res = statement.executeQuery(sql)
+
+    connection.setAutoCommit(false)
+
+    try {
+      if(res.next) {
+        res.getString(columnName)
+      }
+      else {
+        ""
+      }
+    } catch {
+      case NonFatal(e) => {
+        Logger.error(s"can't get cliente $columnName with cliId $cliId and empId ${user.cairoCompanyId} for user ${user.toString}. Error ${e.toString}")
+        throw e
+      }
+    } finally res.close
+  }
+  
   def getPercepciones(user: CompanyUser, id: Int, fecha: Date): Recordset = {
 
     DB.withTransaction(user.database.database) { implicit connection =>
