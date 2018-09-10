@@ -363,7 +363,7 @@ GET     /api/v1/documento/:id/supplier/:provId/next_number                      
 GET     /api/v1/documento/:id/supplier/:provId/account                                       controllers.logged.modules.documentos.Documents.supplierAccount(id: Int, provId: Int)
 GET     /api/v1/documento/:id/customer/:cliId/next_number                                    controllers.logged.modules.documentos.Documents.customerNextNumber(id: Int, cliId: Int)
 GET     /api/v1/documento/:id/customer/:cliId/account                                        controllers.logged.modules.documentos.Documents.customerAccount(id: Int, cliId: Int)
-GET     /api/v1/documento/:id/reports                                                        controllers.logged.modules.documentos.Documents.reports(id: Int)
+GET     /api/v1/documento/:id/reports/:forMail                                               controllers.logged.modules.documentos.Documents.reports(id: Int, forMail: Boolean)
 
 GET     /api/v1/documento/from_doct_id/:doctId/:doctIdApplic/:id/:idEx                       controllers.logged.modules.documentos.Documents.fromDoctId(doctId: Int, doctIdApplic: Int, id: Int, idEx: Int)
 

@@ -1570,6 +1570,7 @@ var Cairo = new Marionette.Application();
         var C = Cairo.General.Constants;
         var DB = Cairo.Database;
         var valField = DB.valField;
+        var P = Cairo.Promises;
 
         var columns = grid.getColumns();
         columns.clear();
@@ -1603,7 +1604,13 @@ var Cairo = new Marionette.Application();
 
         var control = Cairo.Controls.createGrid();
         var element = $(control.htmlTag);
-        control.setElement(element, null);
+        var alwaysTrue = function() {
+          return function() { return P.resolvedPromise(true); };
+        };
+        control.setElement(element, {
+          onGridColumnBeforeEdit: alwaysTrue,
+          onGridColumnAfterEdit: alwaysTrue
+        });
 
         var rows = grid.getRows();
         rows.clear();
@@ -1635,6 +1642,7 @@ var Cairo = new Marionette.Application();
           elem.setValue(valField(reports[i], C.RPTF_OBJECT));
           elem.setKey(KI_OBJECT);
         }
+        control.setEditEnabled(true);
 
         Cairo.Dialogs.Grids.Manager.loadFromRows(control, grid, false, "Reports");
 

@@ -150,12 +150,12 @@ object Documents extends Controller with ProvidesUser {
     })
   }
 
-  def reports(id: Int) = GetAction { implicit request =>
+  def reports(id: Int, forMail: Boolean) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, { user =>
       Ok(
         Json.toJson(
           Recordset.getAsJson(
-            Document.reports(user, id))))
+            Document.reports(user, id, forMail))))
     })
   }
 }

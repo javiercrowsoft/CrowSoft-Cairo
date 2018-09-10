@@ -350,17 +350,17 @@
 
       var setListeners = function(view) {
         if(view === undefined || view === null) return;
-        addListener('onColumnBeforeEdit', view.onGridColumnBeforeEdit(that));
-        addListener('onColumnAfterEdit', view.onGridColumnAfterEdit(that));
-        addListener('onColumnAfterUpdate', view.onGridColumnAfterUpdate(that));
-        addListener('onColumnButtonClick', view.onGridColumnButtonClick(that));
-        addListener('onValidateRow', view.onGridValidateRow(that));
-        addListener('onNewRow', view.onGridNewRow(that));
-        addListener('onDeleteRow', view.onGridDeleteRow(that));
-        addListener('onAfterDeleteRow', view.onGridAfterDeleteRow(that));
-        addListener('onDblClick', view.onGridDblClick(that));
-        addListener('onSelectionChange', view.onGridSelectionChange(that));
-        addListener('onSelectionRowChange', view.onGridSelectionRowChange(that));
+        if(view.onGridColumnBeforeEdit)   addListener('onColumnBeforeEdit', view.onGridColumnBeforeEdit(that));
+        if(view.onGridColumnAfterEdit)    addListener('onColumnAfterEdit', view.onGridColumnAfterEdit(that));
+        if(view.onGridColumnAfterUpdate)  addListener('onColumnAfterUpdate', view.onGridColumnAfterUpdate(that));
+        if(view.onGridColumnButtonClick)  addListener('onColumnButtonClick', view.onGridColumnButtonClick(that));
+        if(view.onGridValidateRow)        addListener('onValidateRow', view.onGridValidateRow(that));
+        if(view.onGridNewRow)             addListener('onNewRow', view.onGridNewRow(that));
+        if(view.onGridDeleteRow)          addListener('onDeleteRow', view.onGridDeleteRow(that));
+        if(view.onGridAfterDeleteRow)     addListener('onAfterDeleteRow', view.onGridAfterDeleteRow(that));
+        if(view.onGridDblClick)           addListener('onDblClick', view.onGridDblClick(that));
+        if(view.onGridSelectionChange)    addListener('onSelectionChange', view.onGridSelectionChange(that));
+        if(view.onGridSelectionRowChange) addListener('onSelectionRowChange', view.onGridSelectionRowChange(that));
       };
 
       //

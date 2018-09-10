@@ -354,9 +354,16 @@ object Document {
     }
   }
 
-  def reports(user: CompanyUser, docId: Int): Recordset = DB.withTransaction(user.database.database) { implicit connection =>
+  def reports(user: CompanyUser, docId: Int, forMail: Boolean): Recordset = DB.withTransaction(user.database.database) { implicit connection =>
     val statement = connection.createStatement
-    val sql = s"select rptf_Id, rptf_nombre, rptf_copias, rptf_sugeridoemail as rptf_sugerido, rptf_csrfile, rptf_object from reporteformulario where doc_id = $docId"
+    val sugerido =
+      if(forMail)
+        "rptf_sugeridoemail as rptf_sugerido"
+      else
+        "rptf_sugerido"
+
+    val sql = s"select rptf_Id, rptf_nombre, rptf_copias, $sugerido, rptf_csrfile, rptf_object from reporteformulario where doc_id = $docId"
+
     val res = statement.executeQuery(sql)
 
     connection.setAutoCommit(false)

@@ -40,14 +40,16 @@
         m_connectionTimeout = timeout;
       };
 
-      self.showPrint = function(id, tblId, docId) {
+      self.showPrint = function(id, tblId, docId, forMail) {
+        forMail = forMail || false;
+
         var p = null;
 
         if(tblId !== NO_ID) {
           p = DB.getData("load[" + m_apiPath + "tabla/" + tblId.toString() + "/reports]");
         }
         else {
-          p = DB.getData("load[" + m_apiPath + "documento/" + docId.toString() + "/reports]");
+          p = DB.getData("load[" + m_apiPath + "documento/" + docId.toString() + "/reports/" + forMail + "]");
         }
 
         return p.then(function(response) {
