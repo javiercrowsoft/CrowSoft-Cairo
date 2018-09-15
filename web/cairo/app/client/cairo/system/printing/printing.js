@@ -53,13 +53,35 @@
         }
 
         return p.then(function(response) {
-
+          var defer = new Cairo.Promises.Defer();
           var reports = [];
           if(response.success === true) {
             reports = DB.getResultSetFromData(response.data);
           }
-          return Cairo.printViewShow("Printing", "Select the report(s) you want to print", reports);
+          Cairo.printViewShow(
+            "Printing", "Select the report(s) you want to print",
+            reports,
+            function(action, reports) {
 
+              switch(action) {
+                case "print":
+                  break;
+                case "preview":
+                  for(var i = 0, count = reports.length; i < count; i += 1) {
+
+                  }
+                  break;
+                case "pdf":
+                  break;
+                case "email":
+                  break;
+                case "folder":
+                  break;
+                case "cancel":
+                  break;
+              }
+            });
+          return defer.promise;
         });
       };
 

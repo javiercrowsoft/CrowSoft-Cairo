@@ -408,6 +408,54 @@ object Report {
     }
   }
 
+  lazy val resourcePath = play.Play.application().path().getAbsolutePath()
+
+  private def getFile(user: CompanyUser, id: Int) = {
+    DB.withConnection(user.database.database) { implicit connection =>
+      SQL(s"SELECT t.${C.RPTF_CSRFILE} FROM ${C.REPORTE_FORMULARIO} t WHERE ${C.RPTF_ID} = {id}")
+        .on('id -> id)
+        .as(scalar[Option[String]].single)
+        .getOrElse("")
+    }
+  }
+
+  def showForm(user: CompanyUser, id: Int, paramId: Int): Recordset = {
+    import scala.xml.XML
+    val file = getFile(user, id)
+    if(file.isEmpty) {
+      Logger.error(s"can't get ${C.RPTF_CSRFILE} for id $id")
+      Recordset(Nil, Nil)
+    }
+    else {
+      val xml = XML.loadFile(resourcePath + "client/cairo/reports/formularios/" + file)
+      val source = (xml \ "RptConnect")(0).attribute("DataSource")
+
+      DB.withTransaction(user.database.database) { implicit connection =>
+
+        val sql = s"{call ${source} (?, ?)}"
+        val cs = connection.prepareCall(sql)
+
+        cs.setInt(1, id)
+        cs.registerOutParameter(2, Types.OTHER)
+
+        try {
+          cs.execute()
+
+          val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
+          Recordset.load(rs)
+
+        } catch {
+          case NonFatal(e) => {
+            Logger.error(s"can't get listing of reportes for user ${user.toString}. Error ${e.toString}")
+            throw e
+          }
+        } finally {
+          cs.close
+        }
+      }
+    }
+  }
+
   def show(user: CompanyUser, id: Int, params: Map[String, String]): Recordset = {
 
     def throwErrorReportNotFound(id: Int) = {

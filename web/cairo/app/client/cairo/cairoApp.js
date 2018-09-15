@@ -1482,12 +1482,37 @@ var Cairo = new Marionette.Application();
       template: "#print-view",
 
       events: {
-        "click button.js-submit": "submitClicked"
+        "click button.js-submit-preview": "previewClicked",
+        "click button.js-submit-print": "printClicked",
+        "click button.js-submit-email": "emailClicked",
+        "click button.js-submit-pdf": "pdfClicked",
+        "click button.js-submit-folder": "folderClicked",
+        "click button.js-submit-cancel": "cancelClicked"
       },
 
-      submitClicked: function(e) {
+      previewClicked: function(e) {
         e.preventDefault();
-        this.trigger("form:submit");
+        this.trigger("form:preview");
+      },
+      printClicked: function(e) {
+        e.preventDefault();
+        this.trigger("form:print");
+      },
+      emailClicked: function(e) {
+        e.preventDefault();
+        this.trigger("form:email");
+      },
+      pdfClicked: function(e) {
+        e.preventDefault();
+        this.trigger("form:pdf");
+      },
+      folderClicked: function(e) {
+        e.preventDefault();
+        this.trigger("form:folder");
+      },
+      cancelClicked: function(e) {
+        e.preventDefault();
+        this.trigger("form:cancel");
       }
 
     });
@@ -1646,6 +1671,8 @@ var Cairo = new Marionette.Application();
 
         Cairo.Dialogs.Grids.Manager.loadFromRows(control, grid, false, "Reports");
 
+        this.model.set("gridCtrl", control);
+
         this.$("#reportGrid").append(element);
       }
     });
@@ -1738,18 +1765,35 @@ var Cairo = new Marionette.Application();
     return view;
   };
 
-  Cairo.printView = function(title, message, reports, closeHandler) {
+  Cairo.printView = function(title, message, reports, actionHandler) {
     var Model = Backbone.Model.extend({ urlRoot: "printMessage" });
     var model = new Model({ title: title, message: message, reports: reports });
     var view = new Cairo.Common.Views.Print({
       model: model
     });
 
-    view.on("form:submit", function(data) {
-      Cairo.log("submit handled - Data: " + data);
+    var handler = function(action, data) {
+      Cairo.log("print handled - Data: " + data);
       view.trigger("dialog:close");
-      if(closeHandler) { closeHandler(); }
-    });
+      var gridCtrl = model.get("gridCtrl");
+      var rows = gridCtrl.getRows();
+      var selectedReports = [];
+      debugger;
+      for(var i = 0, count = rows.size(); i < count; i += 1) {
+        var row = rows.item(i);
+        if(Cairo.Util.val(row.getCells().item(2).getItemData()) !== 0) {
+          selectedReports.push(reports[i]);
+        }
+      }
+      actionHandler(action, selectedReports);
+    };
+
+    view.on("form:print",   function(data) { handler(data); });
+    view.on("form:preview", function(data) { handler(data); });
+    view.on("form:pdf",     function(data) { handler(data); });
+    view.on("form:email",   function(data) { handler(data); });
+    view.on("form:folder",  function(data) { handler(data); });
+    view.on("form:cancel",  function(data) { handler(data); });
 
     return view;
   };
@@ -1761,8 +1805,8 @@ var Cairo = new Marionette.Application();
   
   Cairo.warningViewShow = Cairo.infoViewShow;
 
-  Cairo.printViewShow = function(title, message, reports, closeHandler) {
-    var view = Cairo.printView(title, message, reports, closeHandler);
+  Cairo.printViewShow = function(title, message, reports, actionHandler) {
+    var view = Cairo.printView(title, message, reports, actionHandler);
     Cairo.dialogRegion.show(view);
   };
 

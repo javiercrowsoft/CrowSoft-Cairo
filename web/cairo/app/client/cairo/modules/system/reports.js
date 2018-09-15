@@ -2,6 +2,7 @@
   "use strict";
 
   var C_REPORT_PATH = "reports/report/";
+  var C_REPORT_FORM_PATH = "reports/reportForm/";
 
   var SMALL_LOGO_DATA_SOURCE = "SP_RptGetLogosChico";
   var BIG_LOGO_DATA_SOURCE = "SP_RptGetLogosGrande";
@@ -78,7 +79,7 @@
         chunk = msgData.substr(index, MAX_MESSAGE_LENGTH);
         index += MAX_MESSAGE_LENGTH;
 
-        if(chunk.length == 0) break;
+        if(chunk.length === 0) break;
       }
 
       return defer.promise;
@@ -249,12 +250,40 @@
 
   Cairo.CSReportConnection = createCSReportConnection();
 
+  // -------------------------------------------------------------------------------------------------------------------
+  // report commons
+  //
+
+  var DB = Cairo.Database;
+  var m_apiPath = Cairo.Database.getAPIVersion();
+
+  var createRecordset = function(data) {
+    return {
+      columns: data.get('columns'),
+      rows: data.get('rows')
+    };
+  };
+
+  var getLogos = function() {
+    var logos = {};
+    return DB.getData("load[" + m_apiPath + "reports/logo/small]", null)
+      .whenSuccessWithResult(function(response) {
+        logos.small = createRecordset(response.data);
+        return DB.getData("load[" + m_apiPath + "reports/logo/big]", null)
+          .whenSuccessWithResult(function(response) {
+            logos.big = createRecordset(response.data);
+            return {success: true, logos: logos };
+          });
+      });
+  };
+
+  // -------------------------------------------------------------------------------------------------------------------
+
   Cairo.module("Reports", function(Reports, Cairo, Backbone, Marionette, $, _) {
 
     Reports.createReports = function() {
 
       var C = Cairo.General.Constants;
-      var DB = Cairo.Database;
       var valField = DB.valField;
 
       var getNextId = function() {
@@ -312,8 +341,6 @@
 
       var m_groups = Cairo.Collections.createCollection(createGroup);
 
-      var m_apiPath = Cairo.Database.getAPIVersion();
-
       var load = function() {
 
         m_groups.clear();
@@ -366,6 +393,51 @@
 
   });
 
+  Cairo.module("Reports.ReportForm", function(ReportForm, Cairo, Backbone, Marionette, $, _) {
+
+    var createObject = function() {
+
+      var self = {};
+
+      var NO_ID = Cairo.Constants.NO_ID;
+
+      var m_id = NO_ID;
+      var m_name = "";
+
+      self.print = function(paramId) {
+        return print(Cairo.CSReportConnection.ACTIONS.PRINT, paramId);
+      };
+
+      var print = function(action, paramId) {
+        return DB.getData("load[" + m_apiPath + C_REPORT_FORM_PATH + m_id + "/" + paramId + "]", null).then(function(response) {
+
+          var params = Cairo.CSReportConnection.createReportParam("docId", paramId);
+
+          var data = [Cairo.CSReportConnection.createReportDataSource(m_code, createRecordset(response.data))];
+
+          return getLogos().whenSuccessWithResult(function(response) {
+
+            data.push(Cairo.CSReportConnection.createReportDataSource(SMALL_LOGO_DATA_SOURCE, response.logos.small));
+            data.push(Cairo.CSReportConnection.createReportDataSource(BIG_LOGO_DATA_SOURCE, response.logos.big));
+
+            var rd = Cairo.CSReportConnection.createReportDefinition(
+              action,
+              Cairo.CSReportConnection.createReportData(url, INFORMES, m_title, m_name, m_code, m_reportFile, params, data),
+              m_webReportId
+            );
+
+            return Cairo.CSReportConnection.previewReport(rd);
+
+          });
+        });
+      };
+
+    };
+
+    ReportForm.Controller = { getEditor: createObject };
+
+  });
+
   Cairo.module("Reports.Report", function(Report, Cairo, Backbone, Marionette, $, _) {
 
     Cairo.Reports.ParameterType = {
@@ -391,7 +463,6 @@
     PROPERTY_TYPE_FROM_PARAM_TYPE[RT.check] = T.check;
 
     var NO_ID = Cairo.Constants.NO_ID;
-    var DB = Cairo.Database;
     var C_MODULE = "Reports";
     var P = Cairo.Promises;
 
@@ -732,27 +803,9 @@
         return Cairo.CSReportConnection.createReportParam(p.getName(), p.getValue());
       };
 
-      var createRecordset = function(data) {
-        return {
-          columns: data.get('columns'),
-          rows: data.get('rows')
-        };
-      };
-
-      var getLogos = function() {
-        var logos = {};
-        return DB.getData("load[" + m_apiPath + "reports/logo/small]", null)
-          .whenSuccessWithResult(function(response) {
-            logos.small = createRecordset(response.data)
-            return DB.getData("load[" + m_apiPath + "reports/logo/big]", null)
-              .whenSuccessWithResult(function(response) {
-                logos.big = createRecordset(response.data)
-                return {success: true, logos: logos };
-              });
-          });
-      };
-
       self.preview = function() {
+        return print(Cairo.CSReportConnection.ACTIONS.PREVIEW);
+        /*
         var params = getParams();
         return DB.getData("load[" + m_apiPath + C_REPORT_PATH + m_id + "/show]", null, params).then(function(response) {
 
@@ -775,9 +828,12 @@
 
           });
         });
+        */
       };
 
       self.print = function() {
+        return print(Cairo.CSReportConnection.ACTIONS.PRINT);
+        /*
         var params = getParams();
         return DB.getData("load[" + m_apiPath + C_REPORT_PATH + m_id + "/show]", null, params).then(function(response) {
 
@@ -792,6 +848,32 @@
 
             var rd = Cairo.CSReportConnection.createReportDefinition(
               Cairo.CSReportConnection.ACTIONS.PRINT,
+              Cairo.CSReportConnection.createReportData(url, INFORMES, m_title, m_name, m_code, m_reportFile, params, data),
+              m_webReportId
+            );
+
+            return Cairo.CSReportConnection.previewReport(rd);
+
+          });
+        });
+        */
+      };
+
+      var print = function(action) {
+        var params = getParams();
+        return DB.getData("load[" + m_apiPath + C_REPORT_PATH + m_id + "/show]", null, params).then(function(response) {
+
+          var params = m_params.map(getReportParam);
+
+          var data = [Cairo.CSReportConnection.createReportDataSource(m_code, createRecordset(response.data))];
+
+          return getLogos().whenSuccessWithResult(function(response) {
+
+            data.push(Cairo.CSReportConnection.createReportDataSource(SMALL_LOGO_DATA_SOURCE, response.logos.small));
+            data.push(Cairo.CSReportConnection.createReportDataSource(BIG_LOGO_DATA_SOURCE, response.logos.big));
+
+            var rd = Cairo.CSReportConnection.createReportDefinition(
+              action,
               Cairo.CSReportConnection.createReportData(url, INFORMES, m_title, m_name, m_code, m_reportFile, params, data),
               m_webReportId
             );

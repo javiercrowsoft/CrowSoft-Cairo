@@ -103,6 +103,7 @@ PUT     /api/v1/reports/report/:id                                              
 DELETE  /api/v1/reports/report/:id                                                           controllers.logged.system.reports.Reports.delete(id: Int)
 
 GET     /api/v1/reports/report/:id/show                                                      controllers.logged.system.reports.Reports.show(id: Int)
+GET     /api/v1/reports/reportForm/:id/:paramId                                              controllers.logged.system.reports.Reports.showForm(id: Int, paramId: Int)
 
 # modules
 

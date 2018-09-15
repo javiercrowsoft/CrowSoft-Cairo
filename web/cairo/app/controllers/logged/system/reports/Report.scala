@@ -203,6 +203,15 @@ object Reports extends Controller with ProvidesUser {
     })
   }
 
+  def showForm(id: Int, paramId: Int) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(Report.getAction(id) _), { user =>
+      Ok(
+        Json.toJson(
+          Recordset.getAsJson(
+            Report.showForm(user, id, paramId))))
+    })
+  }
+
   def getLogoChico = { getLogo("chico") }
   def getLogoGrande = { getLogo("grande") }
 
