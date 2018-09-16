@@ -1788,12 +1788,12 @@ var Cairo = new Marionette.Application();
       actionHandler(action, selectedReports);
     };
 
-    view.on("form:print",   function(data) { handler(data); });
-    view.on("form:preview", function(data) { handler(data); });
-    view.on("form:pdf",     function(data) { handler(data); });
-    view.on("form:email",   function(data) { handler(data); });
-    view.on("form:folder",  function(data) { handler(data); });
-    view.on("form:cancel",  function(data) { handler(data); });
+    view.on("form:print",   function(data) { handler("print",   data); });
+    view.on("form:preview", function(data) { handler("preview", data); });
+    view.on("form:pdf",     function(data) { handler("pdf",     data); });
+    view.on("form:email",   function(data) { handler("email",   data); });
+    view.on("form:folder",  function(data) { handler("folder",  data); });
+    view.on("form:cancel",  function(data) { handler("cancel",  data); });
 
     return view;
   };

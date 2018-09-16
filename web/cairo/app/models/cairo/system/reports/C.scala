@@ -32,15 +32,15 @@ object C {
   val INFP_ORDER = "infp_orden"
 
   val REPORTE_FORMULARIO = "ReporteFormulario"
-  val RPTF_ID = "RPTF_id"
-  val RPTF_NAME = "RPTF_nombre"
-  val RPTF_CSRFILE = "RPTF_csrfile"
-  val RPTF_TIPO = "RPTF_tipo"
-  val RPTF_SUGERIDO = "RPTF_sugerido"
-  val RPTF_SUGERIDO_EMAIL = "RPTF_sugeridoemail"
-  val RPTF_COPIAS = "RPTF_copias"
-  val RPTF_DOC_IMPRIMIR_EN_ALTA = "RPTF_docImprimirEnAlta"
-  val RPTF_OBJECT = "RPTF_object"
+  val RPTF_ID = "rptf_id"
+  val RPTF_NAME = "rptf_nombre"
+  val RPTF_CSRFILE = "rptf_csrfile"
+  val RPTF_TIPO = "rptf_tipo"
+  val RPTF_SUGERIDO = "rptf_sugerido"
+  val RPTF_SUGERIDO_EMAIL = "rptf_sugeridoemail"
+  val RPTF_COPIAS = "rptf_copias"
+  val RPTF_DOC_IMPRIMIR_EN_ALTA = "rptf_docImprimirEnAlta"
+  val RPTF_OBJECT = "rptf_object"
 
 }
 

@@ -14,6 +14,7 @@ Cairo.Dialogs.WizardViews = {};
 Cairo.Select = {};
 Cairo.Modules = {};
 Cairo.Reports = {};
+Cairo.Reports.ReportForm = {};
 Cairo.Tasks = {};
 
 Cairo.addRegions = function() {};

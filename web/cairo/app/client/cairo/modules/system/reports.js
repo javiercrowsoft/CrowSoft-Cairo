@@ -256,6 +256,7 @@
 
   var DB = Cairo.Database;
   var m_apiPath = Cairo.Database.getAPIVersion();
+  var url = window.location.protocol + "//" + window.location.host + "/client/cairo/reports/"; //http://www.cairodigital.com.ar/client/cairo/reports/
 
   var createRecordset = function(data) {
     return {
@@ -395,23 +396,23 @@
 
   Cairo.module("Reports.ReportForm", function(ReportForm, Cairo, Backbone, Marionette, $, _) {
 
-    var createObject = function() {
+    var createObject = function(id, name) {
 
       var self = {};
 
       var FORMULARIOS = "formularios";
 
-      var NO_ID = Cairo.Constants.NO_ID;
       var getValue = DB.getValue;
 
-      var m_id = NO_ID;
-      var m_name = "";
+      var m_id = id;
+      var m_name = name;
+      var m_title = name;
       var m_webReportId = Cairo.CSReportConnection.registerReport(self);
       var m_reportId = ""; // this is returned by CSReportWebServer in the REPORT_PREVIEW_DONE message
                            // it is used to call methods over an instance of a report like moveToPage
 
-      self.print = function(paramId) {
-        return print(Cairo.CSReportConnection.ACTIONS.PRINT, paramId);
+      self.print = function(paramId, reportFile) {
+        return print(Cairo.CSReportConnection.ACTIONS.PRINT, paramId, reportFile);
       };
 
       var print = function(action, paramId, reportFile) {
@@ -474,6 +475,8 @@
             break;
         }
       };
+
+      return self;
 
     };
 
@@ -643,7 +646,6 @@
                            // it is used to call methods over an instance of a report like moveToPage
 
       var INFORMES = "informes";
-      var url = window.location.protocol + "//" + window.location.host + "/client/cairo/reports/"; //http://www.cairodigital.com.ar/client/cairo/reports/
 
       self.show = function(id) {
         initialize();

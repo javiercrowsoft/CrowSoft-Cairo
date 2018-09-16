@@ -443,7 +443,6 @@ object Report {
   }
 
   def showForm(user: CompanyUser, id: Int, paramId: Int): (String, Recordset) = {
-    import scala.xml.XML
     lazy val emptyData = ("", Recordset(Nil, Nil))
     val file = getFile(user, id)
     if(file.isEmpty) {
@@ -451,7 +450,8 @@ object Report {
       emptyData
     }
     else {
-      val xml = XML.loadFile(resourcePath + "client/cairo/reports/formularios/" + file)
+      import scala.xml.XML
+      val xml = XML.loadFile(resourcePath + "/app/client/cairo/reports/formularios/" + file)
       val dataSource = (xml \ "RptConnect").head.attribute("DataSource").head.toString
       if(dataSource.isEmpty) {
         Logger.error(s"this csr ${C.RPTF_CSRFILE} doesn't has a data source attribute")

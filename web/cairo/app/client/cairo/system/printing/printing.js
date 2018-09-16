@@ -15,6 +15,13 @@
 
       var self = {};
 
+      var NO_ID = Cairo.Constants.NO_ID;
+      var DB = Cairo.Database;
+      var valField = DB.valField;
+      var P = Cairo.Promises;
+      var call = P.call;
+      var C = Cairo.General.Constants;
+
       var m_path = "";
       var m_timeout = 0;
       var m_connectionTimeout = 0;
@@ -24,8 +31,6 @@
       var m_isPrinted = false;
       var m_autoPrint = false;
 
-      var NO_ID = Cairo.Constants.NO_ID;
-      var DB = Cairo.Database;
       var m_apiPath = DB.getAPIVersion();
 
       self.setPath = function(path) {
@@ -38,6 +43,14 @@
 
       self.setConnectionTimeout = function(timeout) {
         m_connectionTimeout = timeout;
+      };
+
+      var previewReport = function(id, reportInfo) {
+        var reportFile = valField(reportInfo, C.RPTF_CSRFILE);
+        var rptfId = valField(reportInfo, C.RPTF_ID);
+        var name = valField(reportInfo, C.RPTF_NAME);
+        var report = Cairo.Reports.ReportForm.Controller.getEditor(rptfId, name);
+        report.print(rptfId, id, reportFile);
       };
 
       self.showPrint = function(id, tblId, docId, forMail) {
@@ -67,8 +80,9 @@
                 case "print":
                   break;
                 case "preview":
+                  var p = P.resolvedPromise(true);
                   for(var i = 0, count = reports.length; i < count; i += 1) {
-
+                    p = p.then(call(previewReport, id, reports[i]));
                   }
                   break;
                 case "pdf":
