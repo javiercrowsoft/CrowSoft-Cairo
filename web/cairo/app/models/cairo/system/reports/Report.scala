@@ -419,40 +419,46 @@ object Report {
     }
   }
 
-  def showForm(user: CompanyUser, id: Int, paramId: Int): Recordset = {
+  private def loadFormData(user: CompanyUser, id: Int, paramId: Int, dataSource: String) = DB.withTransaction(user.database.database) { implicit connection =>
+    val sql = s"{call ${dataSource} (?, ?)}"
+    val cs = connection.prepareCall(sql)
+
+    cs.setInt(1, id)
+    cs.registerOutParameter(2, Types.OTHER)
+
+    try {
+      cs.execute()
+
+      val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
+      (dataSource, Recordset.load(rs))
+
+    } catch {
+      case NonFatal(e) => {
+        Logger.error(s"can't get listing of reportes for user ${user.toString}. Error ${e.toString}")
+        throw e
+      }
+    } finally {
+      cs.close
+    }
+  }
+
+  def showForm(user: CompanyUser, id: Int, paramId: Int): (String, Recordset) = {
     import scala.xml.XML
+    lazy val emptyData = ("", Recordset(Nil, Nil))
     val file = getFile(user, id)
     if(file.isEmpty) {
       Logger.error(s"can't get ${C.RPTF_CSRFILE} for id $id")
-      Recordset(Nil, Nil)
+      emptyData
     }
     else {
       val xml = XML.loadFile(resourcePath + "client/cairo/reports/formularios/" + file)
-      val source = (xml \ "RptConnect")(0).attribute("DataSource")
-
-      DB.withTransaction(user.database.database) { implicit connection =>
-
-        val sql = s"{call ${source} (?, ?)}"
-        val cs = connection.prepareCall(sql)
-
-        cs.setInt(1, id)
-        cs.registerOutParameter(2, Types.OTHER)
-
-        try {
-          cs.execute()
-
-          val rs = cs.getObject(2).asInstanceOf[java.sql.ResultSet]
-          Recordset.load(rs)
-
-        } catch {
-          case NonFatal(e) => {
-            Logger.error(s"can't get listing of reportes for user ${user.toString}. Error ${e.toString}")
-            throw e
-          }
-        } finally {
-          cs.close
-        }
+      val dataSource = (xml \ "RptConnect").head.attribute("DataSource").head.toString
+      if(dataSource.isEmpty) {
+        Logger.error(s"this csr ${C.RPTF_CSRFILE} doesn't has a data source attribute")
+        emptyData
       }
+      else
+        loadFormData(user, id, paramId, dataSource)
     }
   }
 

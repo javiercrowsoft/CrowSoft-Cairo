@@ -399,21 +399,29 @@
 
       var self = {};
 
+      var FORMULARIOS = "formularios";
+
       var NO_ID = Cairo.Constants.NO_ID;
+      var getValue = DB.getValue;
 
       var m_id = NO_ID;
       var m_name = "";
+      var m_webReportId = Cairo.CSReportConnection.registerReport(self);
+      var m_reportId = ""; // this is returned by CSReportWebServer in the REPORT_PREVIEW_DONE message
+                           // it is used to call methods over an instance of a report like moveToPage
 
       self.print = function(paramId) {
         return print(Cairo.CSReportConnection.ACTIONS.PRINT, paramId);
       };
 
-      var print = function(action, paramId) {
+      var print = function(action, paramId, reportFile) {
         return DB.getData("load[" + m_apiPath + C_REPORT_FORM_PATH + m_id + "/" + paramId + "]", null).then(function(response) {
 
           var params = Cairo.CSReportConnection.createReportParam("docId", paramId);
 
-          var data = [Cairo.CSReportConnection.createReportDataSource(m_code, createRecordset(response.data))];
+          var dataSourceName = getValue(response.data, "data_source");
+
+          var data = [Cairo.CSReportConnection.createReportDataSource(dataSourceName, createRecordset(response.data))];
 
           return getLogos().whenSuccessWithResult(function(response) {
 
@@ -422,7 +430,7 @@
 
             var rd = Cairo.CSReportConnection.createReportDefinition(
               action,
-              Cairo.CSReportConnection.createReportData(url, INFORMES, m_title, m_name, m_code, m_reportFile, params, data),
+              Cairo.CSReportConnection.createReportData(url, FORMULARIOS, m_title, m_name, "", reportFile, params, data),
               m_webReportId
             );
 
@@ -430,6 +438,41 @@
 
           });
         });
+      };
+
+      self.firstPage = function() {
+        Cairo.CSReportConnection.firstPage(m_webReportId, m_reportId);
+      };
+
+      self.previousPage = function() {
+        Cairo.CSReportConnection.previousPage(m_webReportId, m_reportId);
+      };
+
+      self.currentPage = function(page) {
+        Cairo.CSReportConnection.currentPage(page, m_webReportId, m_reportId);
+      };
+
+      self.nextPage = function() {
+        Cairo.CSReportConnection.nextPage(m_webReportId, m_reportId);
+      };
+
+      self.lastPage = function() {
+        Cairo.CSReportConnection.lastPage(m_webReportId, m_reportId);
+      };
+
+      self.processWebReportMessage = function(message) {
+        switch(message.messageType) {
+          case 'REPORT_PREVIEW_DONE':
+            m_reportId = message.reportId;
+            m_dialog.showPage(message.page);
+            m_dialog.setCurrentPage(1);
+            m_dialog.setTotalPages(message.totalPages);
+            break;
+          case 'REPORT_PREVIEW_PAGE':
+            m_dialog.showPage(message.page);
+            m_dialog.setCurrentPage(message.pageIndex);
+            break;
+        }
       };
 
     };
