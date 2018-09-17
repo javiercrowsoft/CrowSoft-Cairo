@@ -402,7 +402,7 @@
 
       var FORMULARIOS = "formularios";
 
-      var getValue = DB.getValue;
+      var valField = DB.valField;
 
       var m_id = id;
       var m_name = name;
@@ -420,9 +420,10 @@
 
           var params = Cairo.CSReportConnection.createReportParam("docId", paramId);
 
-          var dataSourceName = getValue(response.data, "data_source");
+          var dataSourceName = valField(response.data, "data_source");
+          var recordset = valField(response.data, "recordset");
 
-          var data = [Cairo.CSReportConnection.createReportDataSource(dataSourceName, createRecordset(response.data))];
+          var data = [Cairo.CSReportConnection.createReportDataSource(dataSourceName, recordset)];
 
           return getLogos().whenSuccessWithResult(function(response) {
 
@@ -431,7 +432,7 @@
 
             var rd = Cairo.CSReportConnection.createReportDefinition(
               action,
-              Cairo.CSReportConnection.createReportData(url, FORMULARIOS, m_title, m_name, "", reportFile, params, data),
+              Cairo.CSReportConnection.createReportData(url, FORMULARIOS, m_title, m_name, dataSourceName, reportFile, params, data),
               m_webReportId
             );
 

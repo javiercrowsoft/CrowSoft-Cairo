@@ -326,7 +326,7 @@
         var newGrid = $("<table class='document-list-grid'></table>");
         that.setElement(newGrid);
         self.container.append(newGrid);
-      }
+      };
 
       that.load = function(data) {
 
@@ -351,7 +351,7 @@
           var name = col.name.toLowerCase();
           return name.indexOf('_id') > -1 || name === 'typetask' || name === 'observaciones';
 
-        }
+        };
         var visibleToArray = function(col, i) {
           gridManager.hiddenStatus[i] = isHidden(col) ? " hidden" : "";
         };
@@ -418,12 +418,12 @@
 
       that.setShowEditButtons = function(show) {
         self.showEditButtons = show;
-      }
+      };
 
       that.setContainer = function(container, view) {
         self.container = container;
         setListeners(view);
-      }
+      };
 
       that.clear = function() { /* TODO: implement this. */ };
 

@@ -1778,7 +1778,6 @@ var Cairo = new Marionette.Application();
       var gridCtrl = model.get("gridCtrl");
       var rows = gridCtrl.getRows();
       var selectedReports = [];
-      debugger;
       for(var i = 0, count = rows.size(); i < count; i += 1) {
         var row = rows.item(i);
         if(Cairo.Util.val(row.getCells().item(2).getItemData()) !== 0) {

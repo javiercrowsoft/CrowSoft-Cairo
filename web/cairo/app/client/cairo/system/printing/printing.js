@@ -50,7 +50,7 @@
         var rptfId = valField(reportInfo, C.RPTF_ID);
         var name = valField(reportInfo, C.RPTF_NAME);
         var report = Cairo.Reports.ReportForm.Controller.getEditor(rptfId, name);
-        report.print(rptfId, id, reportFile);
+        report.print(id, reportFile);
       };
 
       self.showPrint = function(id, tblId, docId, forMail) {
