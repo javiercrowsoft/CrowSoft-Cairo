@@ -21,11 +21,18 @@ object Recordset {
         Row(getValues(rs, metaData, columnIndexes))
       }
 
-      def getTypeName(typeName: String, i: Int): String = typeName match {
-        case "numeric" => {
-          if(metaData.getScale(i) > 0) "decimal" else "integer"
+      def getTypeName(typeName: String, i: Int): String = {
+        /*
+          Logger.error(s">> getColumnName: ${metaData.getColumnName(i)}, " +
+                        s"getTypeName -> typeName: $typeName, " +
+                        s"scale: ${metaData.getScale(i)}, " +
+                        s"precision: ${metaData.getPrecision(i)}, " +
+                        s"isCurrency: ${metaData.isCurrency(i)}")
+        */
+        typeName match {
+          case "numeric" => "decimal"
+          case t => t
         }
-        case t => t
       }
 
       def createColumns(): List[ColumnDef] = {
