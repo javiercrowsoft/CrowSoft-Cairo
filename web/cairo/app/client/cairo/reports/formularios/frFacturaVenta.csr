@@ -787,7 +787,7 @@
                 </Aspect>
               </Line>
               <H Name="H" Text="" idxGroup="0" WhenEval="0" />
-              <V Name="V" Text="Function x()&#xD;&#xA;&#xD;&#xA;    x =  &quot;SON  &quot; &amp; ucase(_getstring(var_db_mon_nombre)) &amp; &quot; &quot;&#xD;&#xA;    x = x &amp; ucase(  _getstring(  _numbertostring( var_total, 1 ) ) )&#xD;&#xA;&#xD;&#xA;End Function" idxGroup="0" WhenEval="0" />
+              <V Name="V" Text="Function x()&#xD;&#xA;&#xD;&#xA;    x =  &quot;SON  &quot; &amp; _getstring(var_db_mon_nombre).ToUpper() &amp; &quot; &quot;&#xD;&#xA;    x = x &amp; _getstring(  _numbertostring( var_total, 1 ) ).ToUpper() &#xD;&#xA;&#xD;&#xA;End Function" idxGroup="0" WhenEval="0" />
               <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0" ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
                 <Series />
               </Chart>
@@ -816,7 +816,7 @@
                 </Aspect>
               </Image>
               <Label Text="TOTAL" CanGrow="0">
-                <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="###,###,###,###,##0.00;-###,###,###,###,##0.00" Left="8655" nZOrder="27" SelectColor="0" Top="10500" Width="1110" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="###,###,###,###,##0.00;-###,###,###,###,##0.00" Left="10065" nZOrder="27" SelectColor="0" Top="10500" Width="1110" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                   <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
                 </Aspect>
               </Label>
@@ -826,7 +826,7 @@
                 </Aspect>
               </Line>
               <H Name="H" Text="" idxGroup="0" WhenEval="0" />
-              <V Name="V" Text="function x ()&#xD;&#xA;&#xD;&#xA;  dim total&#xD;&#xA;  total = _sum(var_db_fvi_importe)&#xD;&#xA;  x = total *  _value( var_db_coef ) &#xD;&#xA;&#xD;&#xA;end function&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;" idxGroup="0" WhenEval="0" />
+              <V Name="V" Text="function x ()&#xD;&#xA;&#xD;&#xA;  dim total&#xD;&#xA;  total = _sum(var_db_fvi_importe)&#xD;&#xA;  x = total ' *  _value( var_db_coef ) &#xD;&#xA;&#xD;&#xA;end function&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;" idxGroup="0" WhenEval="0" />
               <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0" ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
                 <Series />
               </Chart>
