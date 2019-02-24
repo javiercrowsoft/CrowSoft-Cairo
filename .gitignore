@@ -28,4 +28,5 @@ database/backup/*salmax*.*
 \#*\#
 .\#*
 tmp/
+web/cairo/app/client/extensions/*
 

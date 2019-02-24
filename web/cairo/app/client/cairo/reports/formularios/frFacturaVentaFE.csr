@@ -1876,7 +1876,7 @@
                 </Aspect>
               </Line>
               <H Name="H" Text="" idxGroup="0" WhenEval="0" />
-              <V Name="V" Text="Function x()&#xD;&#xA;&#xD;&#xA;  dim obj&#xD;&#xA;  obj = createobject(&quot;CSReportBarcode.cBarcode&quot;)&#xD;&#xA;&#xD;&#xA;  dim rtn&#xD;&#xA;  rtn = obj.EncodeTo128( _getstring(var_db_cod_barra) )&#xD;&#xA;&#xD;&#xA;  if instr(1,rtn,&quot;Â&quot;)&lt;&gt;0 then&#xD;&#xA;    rtn = obj.Code128a( _getstring(var_db_cod_barra) )&#xD;&#xA;  end if&#xD;&#xA;&#xD;&#xA;  x = rtn&#xD;&#xA;&#xD;&#xA;End Function" idxGroup="0" WhenEval="0" />
+              <V Name="V" Text="Function x()&#xD;&#xA;&#xD;&#xA;  x =_getBarcode( _getstring(var_db_cod_barra) )&#xD;&#xA;&#xD;&#xA;End Function" idxGroup="0" WhenEval="0" />
               <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0" ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
                 <Series />
               </Chart>
