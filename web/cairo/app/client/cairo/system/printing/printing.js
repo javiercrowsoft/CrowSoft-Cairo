@@ -78,6 +78,10 @@
 
               switch(action) {
                 case "print":
+                  var p = P.resolvedPromise(true);
+                  for(var i = 0, count = reports.length; i < count; i += 1) {
+                    p = p.then(call(previewReport, id, reports[i]));
+                  }
                   break;
                 case "preview":
                   var p = P.resolvedPromise(true);

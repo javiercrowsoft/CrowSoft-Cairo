@@ -27,8 +27,9 @@ WHERE n.nspname = 'public'
 
 --
 
-no ready yet. we need to change "$function$ with $function$;" and then "AS $function$; with AS $function$" (be carefull with the order)
-and finally remove the first line of the file (it contains the name of the column for the select we used to create the file).
+no ready yet. we need to change "$function$ with $function$;" and then "AS $function$;
+with AS $function$" (be carefull with the order) and finally remove the first line 
+of the file (it contains the name of the column for the select we used to create the file).
 
 now we have to run unaccent
 then debugger
@@ -49,4 +50,5 @@ so
 very good explanation about time zone
 http://stackoverflow.com/questions/6151084/which-timestamp-type-to-choose-in-a-postgresql-database
 
-5- run scripts from migration_from_sqlserver following the order set in their names. only run files which starts with numbers.
+5- run scripts from migration_from_sqlserver following the order set in their names.
+only run files which starts with numbers.

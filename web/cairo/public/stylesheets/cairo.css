@@ -313,7 +313,7 @@ div.tree-select-dialog.ui-widget-content {
     width: calc(100% - 15px);
     height: 35px;
     float: left;
-    border: 0;
+    /*border: 0;*/
     background: #fff;
     -moz-border-radius: 3px 0 0 3px !important;
     -webkit-border-radius: 3px 0 0 3px !important;
@@ -1046,4 +1046,3 @@ div.vertical-two-column:first-child {
 .print-container {
   width: 750px;
 }
-
