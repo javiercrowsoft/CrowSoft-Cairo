@@ -115,6 +115,10 @@
           return show(client, Views.createParametersView());
         };
 
+        self.showPreview = function(client) {
+          return show(client, Views.createPreviewView());
+        };
+
         self.showValue = function(property) {
           var item = null;
           var view = getView();

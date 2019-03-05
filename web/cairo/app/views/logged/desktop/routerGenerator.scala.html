@@ -9,7 +9,8 @@ Cairo.module("CairoRouterApp", function(CairoRouterApp, Cairo, Backbone, Marione
       }
         "about" : "showAbout",
         "desktop" : "showDesktop",
-        "reports/report/:id" : "showReport"
+        "reports/report/:id" : "showReport",
+        "reports/preview/:id" : "showPreview"
     }
   });
 
@@ -35,8 +36,10 @@ Cairo.module("CairoRouterApp", function(CairoRouterApp, Cairo, Backbone, Marione
         },
         showReport: function(id) {
           Cairo.Reports.Report.Controller.show(id);
+        },
+        showPreview: function(id) {
+          Cairo.Reports.Preview.Controller.show(id);
         }
-
   };
 
   @for(routerEntry <- router) {

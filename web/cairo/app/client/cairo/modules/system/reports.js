@@ -3,6 +3,7 @@
 
   var C_REPORT_PATH = "reports/report/";
   var C_REPORT_FORM_PATH = "reports/reportForm/";
+  var C_REPORT_PREVIEW_PATH = "reports/preview/";
 
   var SMALL_LOGO_DATA_SOURCE = "SP_RptGetLogosChico";
   var BIG_LOGO_DATA_SOURCE = "SP_RptGetLogosGrande";
@@ -1147,7 +1148,7 @@
 
         // progress message
         //
-        Cairo.LoadingMessage.show("Reportes 1", "Loading Reporte from Crowsoft Cairo server.");
+        Cairo.LoadingMessage.show("Reportes", "Loading Reporte from Crowsoft Cairo server.");
 
         self.reportDialog = Report.Controller.getEditor();
         var dialog = Cairo.Dialogs.Views.ListController.newDialogList();
@@ -1159,6 +1160,294 @@
       };
 
       createReportDialog();
+    }
+
+  });
+
+  Cairo.module("Reports.Preview", function(Preview, Cairo, Backbone, Marionette, $, _) {
+
+    var T = Cairo.Dialogs.PropertyType;
+    var RT = Cairo.Reports.ParameterType;
+
+    var PROPERTY_TYPE_FROM_PARAM_TYPE = [];
+    PROPERTY_TYPE_FROM_PARAM_TYPE[RT.date] = T.date;
+    PROPERTY_TYPE_FROM_PARAM_TYPE[RT.select] = T.select;
+    PROPERTY_TYPE_FROM_PARAM_TYPE[RT.numeric] = T.numeric;
+    PROPERTY_TYPE_FROM_PARAM_TYPE[RT.sqlstmt] = T.list;
+    PROPERTY_TYPE_FROM_PARAM_TYPE[RT.text] = T.text;
+    PROPERTY_TYPE_FROM_PARAM_TYPE[RT.list] = T.list;
+    PROPERTY_TYPE_FROM_PARAM_TYPE[RT.check] = T.check;
+
+    var NO_ID = Cairo.Constants.NO_ID;
+    var C_MODULE = "Reports";
+    var P = Cairo.Promises;
+
+    var createObject = function() {
+
+      var self = {};
+
+      var getText = Cairo.Language.getText;
+      var NO_ID = Cairo.Constants.NO_ID;
+
+      var m_dialog;
+      var m_properties;
+
+      var m_listController;
+
+      var m_title = "";
+
+      var m_id = NO_ID;
+      var m_code = "";
+
+      var m_webReportId = Cairo.CSReportConnection.registerReport(self);
+      var m_reportId = ""; // this is returned by CSReportWebServer in the REPORT_PREVIEW_DONE message
+                           // it is used to call methods over an instance of a report like moveToPage
+
+      self.show = function() {
+        initialize();
+        return P.resolvedPromise(true).whenSuccess(loadCollection);
+      };
+
+      self.edit = function(rptId) {
+        m_listController.edit(rptId);
+      };
+
+      self.deleteItem = function(rptId) {
+        return m_listController.destroy(rptId);
+      };
+
+      self.showDocDigital = function() {
+        Cairo.log('Error showDocDigital was called in reports editor');
+      };
+
+      self.getEnabledSearchParam = function() {
+        return false;
+      };
+
+      self.getSearchParamTable = function() {
+        return NO_ID;
+      };
+
+      self.getBackgroundColor = function() {
+        return "#fff";
+      };
+
+      self.setSearchParam = function(id, name) {
+        Cairo.log('Error setSearchParam was called in reports editor');
+      };
+
+      self.processMenu = function(index) {
+
+      };
+
+      var loadCollection = function() {
+
+        m_properties.clear();
+
+        if(!m_dialog.showPreview(self)) { return false; }
+
+        return true;
+      };
+
+      self.getProperties = function() {
+        return m_properties;
+      };
+
+      self.propertyChange = function(key) {
+        return true;
+      };
+
+      self.refresh = function() {
+        Cairo.log('Error edit was called in previews editor');        
+      };
+
+      self.preview = function() {
+        Cairo.log('Error edit was called in previews editor');
+      };
+
+      self.print = function() {
+        Cairo.log('Error edit was called in previews editor');
+      };
+
+      self.firstPage = function() {
+        Cairo.CSReportConnection.firstPage(m_webReportId, m_reportId);
+      };
+
+      self.previousPage = function() {
+        Cairo.CSReportConnection.previousPage(m_webReportId, m_reportId);
+      };
+
+      self.currentPage = function(page) {
+        Cairo.CSReportConnection.currentPage(page, m_webReportId, m_reportId);
+      };
+
+      self.nextPage = function() {
+        Cairo.CSReportConnection.nextPage(m_webReportId, m_reportId);
+      };
+
+      self.lastPage = function() {
+        Cairo.CSReportConnection.lastPage(m_webReportId, m_reportId);
+      };
+
+      self.processWebReportMessage = function(message) {
+        switch(message.messageType) {
+          case 'REPORT_PREVIEW_DONE':
+            m_reportId = message.reportId;
+            m_dialog.showPage(message.page);
+            m_dialog.setCurrentPage(1);
+            m_dialog.setTotalPages(message.totalPages);
+            break;
+          case 'REPORT_PREVIEW_PAGE':
+            m_dialog.showPage(message.page);
+            m_dialog.setCurrentPage(message.pageIndex);
+            break;
+        }
+      };
+
+      self.save = function() {
+        Cairo.log('Error edit was called in previews editor');
+      };
+
+      self.getPath = function() {
+        return "#" + C_REPORT_PREVIEW_PATH + m_id.toString();
+      };
+
+      self.getEditorName = function() {
+        return "preview";
+      };
+
+      self.getTitle = function() {
+        return m_title;
+      };
+
+      self.getTabTitle = function() {
+        return m_code;
+      };
+
+      self.validate = function() {
+        return P.resolvedPromise(true);
+      };
+
+      self.setDialog = function(dialog) {
+        m_dialog = dialog;
+        m_properties = dialog.getProperties();
+      };
+
+      self.setListController = function(controller) {
+        m_listController = controller;
+      };
+
+      var initialize = function() {
+        try {
+          m_title = getText(2708, ""); // Reporte
+          m_dialog.setHaveDetail(false);
+        }
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, ex, "initialize", C_MODULE, "");
+        }
+      };
+
+      self.terminate = function() {
+        try {
+          m_dialog = null;
+          m_properties = null;
+          m_listController = null;
+          Cairo.CSReportConnection.unRegisterReport(m_webReportId);
+        }
+        catch (ex) {
+          Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
+        }
+      };
+
+      self.validate = function() {
+        return P.resolvedPromise(true);
+      };
+
+      return self;
+    };
+
+    Preview.Controller = { getEditor: createObject };
+
+    Preview.Controller.show = function(id) {
+
+      var self = this;
+
+      /*
+       this function will be called by the tab manager every time the
+       view must be created. when the tab is not visible the tab manager
+       will not call this function but only make the tab visible
+       */
+      var createPreviewDialog = function(tabId) {
+
+        var editors = Cairo.Editors.previewEditors || Cairo.Collections.createCollection(null);
+        Cairo.Editors.previewEditors = editors;
+
+        // ListController properties and methods
+        //
+        self.entityInfo = new Backbone.Model({
+          entitiesTitle: "Preview",
+          entityName: "preview",
+          entitiesName: "previews" // TODO: check if it is needed or should be remove
+        });
+
+        var getIndexFromEditor = function(editor) {
+          var count = editors.count();
+          for(var i = 0; i < count; i += 1) {
+            if(editors.item(i).editor === editor) {
+              return i;
+            }
+          }
+          return -1;
+        };
+
+        self.removeEditor = function(editor) {
+          var index = getIndexFromEditor(editor);
+          if(index >= 0) {
+            editors.remove(index);
+          }
+        };
+
+        var getKey = function(id) {
+          if(id === NO_ID) {
+            return "new-id:" + (new Date).getTime().toString()
+          }
+          else {
+            return "k:" + id.toString();
+          }
+        };
+
+        self.updateEditorKey = function(editor, newId) {
+          var index = getIndexFromEditor(editor);
+          if(index >= 0) {
+            var editor = editors.item(index);
+            editors.remove(index);
+            var key = getKey(newId);
+            editors.add(editor, key);
+          }
+        };
+
+        self.edit = function(id) {
+          Cairo.log('Error edit was called in previews editor');
+        };
+
+        self.destroy = function(id) {
+          Cairo.log('Error destroy was called in previews editor');
+        };
+
+        // progress message
+        //
+        Cairo.LoadingMessage.show("Previews", "Loading Preview from Crowsoft Cairo.");
+
+        self.previewDialog = Preview.Controller.getEditor();
+        var dialog = Cairo.Dialogs.Views.ListController.newDialogList();
+
+        self.previewDialog.setListController(self);
+        self.previewDialog.setDialog(dialog);
+        self.previewDialog.show(id).then(Cairo.LoadingMessage.close);
+
+      };
+
+      createPreviewDialog();
     }
 
   });
