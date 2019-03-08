@@ -45,15 +45,27 @@
         m_connectionTimeout = timeout;
       };
 
-      var previewReport = function(id, reportInfo) {
-        var reportFile = valField(reportInfo, C.RPTF_CSRFILE);
+      var reportDefinition = function(id, reportInfo, nroDoc) {
         var rptfId = valField(reportInfo, C.RPTF_ID);
         var name = valField(reportInfo, C.RPTF_NAME);
-        var report = Cairo.Reports.ReportForm.Controller.getEditor(rptfId, name);
-        report.print(id, reportFile);
+        return { 
+          reportFile: valField(reportInfo, C.RPTF_CSRFILE),
+          report: Cairo.Reports.ReportForm.Controller.getEditor(rptfId, name, nroDoc)
+        }
+      }
+
+      var printReport = function(id, reportInfo) {
+        var rptDef = reportDefinition(id, reportInfo);
+        rptDef.report.print(id, rptDef.reportFile);
       };
 
-      self.showPrint = function(id, tblId, docId, forMail) {
+      var previewReport = function(id, reportInfo, nroDoc) {
+        debugger;
+        var rptDef = reportDefinition(id, reportInfo, nroDoc);
+        rptDef.report.preview(id, rptDef.reportFile);
+      };
+
+      self.showPrint = function(id, tblId, docId, forMail, nroDoc) {
         forMail = forMail || false;
 
         var p = null;
@@ -80,13 +92,13 @@
                 case "print":
                   var p = P.resolvedPromise(true);
                   for(var i = 0, count = reports.length; i < count; i += 1) {
-                    p = p.then(call(previewReport, id, reports[i]));
+                    p = p.then(call(printReport, id, reports[i]));
                   }
                   break;
                 case "preview":
                   var p = P.resolvedPromise(true);
                   for(var i = 0, count = reports.length; i < count; i += 1) {
-                    p = p.then(call(previewReport, id, reports[i]));
+                    p = p.then(call(previewReport, id, reports[i], nroDoc));
                   }
                   break;
                 case "pdf":

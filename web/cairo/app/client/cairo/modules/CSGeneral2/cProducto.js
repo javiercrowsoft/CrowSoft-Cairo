@@ -5830,153 +5830,160 @@
     var NO_ID = Cairo.Constants.NO_ID;
     var getText = Cairo.Language.getText;
 
+    var createObject = function() {
+
+      var self = {};
+
+      var m_apiPath = Cairo.Database.getAPIVersion();
+  
+      var editors = Cairo.Editors.productoEditors || Cairo.Collections.createCollection(null);
+      Cairo.Editors.productoEditors = editors;
+
+      // ListController properties and methods
+      //
+      self.entityInfo = new Backbone.Model({
+        entitiesTitle: getText(5071, ""),
+        entityName: getText(5138, ""),
+        entitiesName: getText(5139, "")
+      });
+
+      self.showBranch = function(branchId) {
+        Cairo.log("Loading nodeId: " + branchId);
+        Cairo.Tree.List.Controller.listBranch(branchId, Cairo.Tree.List.Controller.showItems, self);
+      };
+
+      self.addLeave = function(id, branchId) {
+        try {
+          Cairo.Tree.List.Controller.addLeave(branchId, id, self);
+        }
+        catch(ignore) {
+          Cairo.log("Error when adding this item to the branch\n\n" + ignore.message);
+        }
+      };
+
+      self.refreshBranch = function(id, branchId) {
+        try {
+          Cairo.Tree.List.Controller.refreshBranchIfActive(branchId, id, self);
+        }
+        catch(ignore) {
+          Cairo.log("Error when refreshing a branch\n\n" + ignore.message);
+        }
+      };
+
+      var getIndexFromEditor = function(editor) {
+        var count = editors.count();
+        for(var i = 0; i < count; i += 1) {
+          if(editors.item(i).editor === editor) {
+            return i;
+          }
+        }
+        return -1;
+      };
+
+      self.removeEditor = function(editor) {
+        var index = getIndexFromEditor(editor);
+        if(index >= 0) {
+          editors.remove(index);
+        }
+      };
+
+      var getKey = function(id) {
+        if(id === NO_ID) {
+          return "new-id:" + (new Date).getTime().toString()
+        }
+        else {
+          return "k:" + id.toString();
+        }
+      };
+
+      self.updateEditorKey = function(editor, newId) {
+        var index = getIndexFromEditor(editor);
+        if(index >= 0) {
+          var editor = editors.item(index);
+          editors.remove(index);
+          var key = getKey(newId);
+          editors.add(editor, key);
+        }
+      };
+
+      self.edit = function(id, treeId, branchId) {
+        var key = getKey(id);
+        if(editors.contains(key)) {
+          editors.item(key).dialog.showDialog();
+        }
+        else {
+          var editor = Cairo.Producto.Edit.Controller.getEditor();
+          var dialog = Cairo.Dialogs.Views.Controller.newDialog();
+
+          editor.setTree(self);
+          editor.setDialog(dialog);
+          editor.setTreeId(treeId);
+          editor.setBranchId(branchId);
+          editor.edit(id);
+
+          editors.add({editor: editor, dialog: dialog}, key);
+        }
+      };
+
+      self.destroy = function(id, treeId, branchId) {
+        if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_PRODUCTO)) {
+          return Cairo.Promises.resolvedPromise(false);
+        }
+        return Cairo.Database.destroy(m_apiPath + "general/producto", id, Cairo.Constants.DELETE_FUNCTION, "Producto").whenSuccess(
+          function() {
+            try {
+              var key = getKey(id);
+              if(editors.contains(key)) {
+                editors.item(key).dialog.closeDialog();
+              }
+            }
+            catch(ignore) {
+              Cairo.log('Error closing dialog after delete');
+            }
+            return true;
+          }
+        );
+      };
+
+      return self;
+    };
+
+    var listController = null;
+
+    /*
+      this function will be called by the tab manager every time the
+      view must be created. when the tab is not visible the tab manager
+      will not call this function but only make the tab visible
+    */
+    var createTreeDialog = function(tabId) {
+
+      // progress message
+      //
+      Cairo.LoadingMessage.show("Productos", "Loading Productos from CrowSoft Cairo server.");
+
+      // create the tree region
+      //
+      Cairo.addRegions({ productoTreeRegion: tabId });
+
+      // create the dialog
+      //
+      Cairo.Tree.List.Controller.list(
+        Cairo.Tables.PRODUCTO,
+        new Cairo.Tree.List.TreeLayout({ model: listController.entityInfo }),
+        Cairo.productoTreeRegion,
+        listController);
+    };
+
+    var showTreeDialog = function() {
+      Cairo.Tree.List.Controller.showTreeDialog(listController);
+    };
+
+    var closeTreeDialog = function() { };
+
     List.Controller = {
       list: function() {
 
-        var self = this;
-        var m_apiPath = Cairo.Database.getAPIVersion();
-
-        /*
-         this function will be called by the tab manager every time the
-         view must be created. when the tab is not visible the tab manager
-         will not call this function but only make the tab visible
-         */
-        var createTreeDialog = function(tabId) {
-
-          var editors = Cairo.Editors.productoEditors || Cairo.Collections.createCollection(null);
-          Cairo.Editors.productoEditors = editors;
-
-          // ListController properties and methods
-          //
-          self.entityInfo = new Backbone.Model({
-            entitiesTitle: getText(5071, ""),
-            entityName: getText(5138, ""),
-            entitiesName: getText(5139, "")
-          });
-
-          self.showBranch = function(branchId) {
-            Cairo.log("Loading nodeId: " + branchId);
-            Cairo.Tree.List.Controller.listBranch(branchId, Cairo.Tree.List.Controller.showItems, self);
-          };
-
-          self.addLeave = function(id, branchId) {
-            try {
-              Cairo.Tree.List.Controller.addLeave(branchId, id, self);
-            }
-            catch(ignore) {
-              Cairo.log("Error when adding this item to the branch\n\n" + ignore.message);
-            }
-          };
-
-          self.refreshBranch = function(id, branchId) {
-            try {
-              Cairo.Tree.List.Controller.refreshBranchIfActive(branchId, id, self);
-            }
-            catch(ignore) {
-              Cairo.log("Error when refreshing a branch\n\n" + ignore.message);
-            }
-          };
-
-          var getIndexFromEditor = function(editor) {
-            var count = editors.count();
-            for(var i = 0; i < count; i += 1) {
-              if(editors.item(i).editor === editor) {
-                return i;
-              }
-            }
-            return -1;
-          };
-
-          self.removeEditor = function(editor) {
-            var index = getIndexFromEditor(editor);
-            if(index >= 0) {
-              editors.remove(index);
-            }
-          };
-
-          var getKey = function(id) {
-            if(id === NO_ID) {
-              return "new-id:" + (new Date).getTime().toString()
-            }
-            else {
-              return "k:" + id.toString();
-            }
-          };
-
-          self.updateEditorKey = function(editor, newId) {
-            var index = getIndexFromEditor(editor);
-            if(index >= 0) {
-              var editor = editors.item(index);
-              editors.remove(index);
-              var key = getKey(newId);
-              editors.add(editor, key);
-            }
-          };
-
-          self.edit = function(id, treeId, branchId) {
-            var key = getKey(id);
-            if(editors.contains(key)) {
-              editors.item(key).dialog.showDialog();
-            }
-            else {
-              var editor = Cairo.Producto.Edit.Controller.getEditor();
-              var dialog = Cairo.Dialogs.Views.Controller.newDialog();
-
-              editor.setTree(self);
-              editor.setDialog(dialog);
-              editor.setTreeId(treeId);
-              editor.setBranchId(branchId);
-              editor.edit(id);
-
-              editors.add({editor: editor, dialog: dialog}, key);
-            }
-          };
-
-          self.destroy = function(id, treeId, branchId) {
-            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_PRODUCTO)) {
-              return Cairo.Promises.resolvedPromise(false);
-            }
-            return Cairo.Database.destroy(m_apiPath + "general/producto", id, Cairo.Constants.DELETE_FUNCTION, "Producto").whenSuccess(
-              function() {
-                try {
-                  var key = getKey(id);
-                  if(editors.contains(key)) {
-                    editors.item(key).dialog.closeDialog();
-                  }
-                }
-                catch(ignore) {
-                  Cairo.log('Error closing dialog after delete');
-                }
-                return true;
-              }
-            );
-          };
-
-          // progress message
-          //
-          Cairo.LoadingMessage.show("Productos", "Loading Productos from CrowSoft Cairo server.");
-
-          // create the tree region
-          //
-          Cairo.addRegions({ productoTreeRegion: tabId });
-
-          // create the dialog
-          //
-          Cairo.Tree.List.Controller.list(
-            Cairo.Tables.PRODUCTO,
-            new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
-            Cairo.productoTreeRegion,
-            self);
-
-        };
-
-        var showTreeDialog = function() {
-          Cairo.Tree.List.Controller.showTreeDialog(self);
-        };
-
-        var closeTreeDialog = function() {
-
-        }
+        if(listController === null) listController = createObject();
 
         // create the tab
         //
@@ -5985,6 +5992,5 @@
       }
     };
   });
-
 
 }());

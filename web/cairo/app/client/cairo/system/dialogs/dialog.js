@@ -6230,10 +6230,10 @@
           );
         };
 
-        self.printDocumentWithResult = function(client, id, docId) {
+        self.printDocumentWithResult = function(client, id, docId, nroDoc) {
           var oldClient = m_client;
           m_client = client;
-          return self.printDocWithResult(id, docId).then(
+          return self.printDocWithResult(id, docId, nroDoc).then(
             function(result) {
               m_client = oldClient;
               return result;
@@ -6241,7 +6241,7 @@
           );
         };
 
-        self.printDocWithResult = function(id, docId) {
+        self.printDocWithResult = function(id, docId, nroDoc) {
           if(id === NO_ID) {
             return P.resolvedPromise(false);
           }
@@ -6287,7 +6287,7 @@
             ).then(
               function(title) {
                 printManager.setTitle(title);
-                return printManager.showPrint(id, NO_ID, docId);
+                return printManager.showPrint(id, NO_ID, docId, nroDoc);
               }
             ).then(
               function(result) {
@@ -6362,7 +6362,7 @@
                   ).then(
                     function() {
                       printManager.setAutoPrint(m_autoPrint);
-                      return printManager.showPrint(id, NO_ID, m_client.docId())
+                      return printManager.showPrint(id, NO_ID, m_client.docId(), false, m_client.nroDoc());
                     }
                   ).then(
                     function(result) {

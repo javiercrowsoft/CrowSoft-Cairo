@@ -123,7 +123,7 @@
       var m_numero = 0;
       var m_estado = "";
       var m_estId = 0;
-      var m_nrodoc = "";
+      var m_nroDoc = "";
       var m_descrip = "";
       var m_fecha = null;
       var m_neto = 0;
@@ -525,7 +525,7 @@
           case Dialogs.Message.MSG_DOC_HISTORY:
 
             if(m_id !== NO_ID) {
-              p = Cairo.History.show(Cairo.Tables.ORDENES_DE_PAGO, m_id, m_documento + " " + m_nrodoc);
+              p = Cairo.History.show(Cairo.Tables.ORDENES_DE_PAGO, m_id, m_documento + " " + m_nroDoc);
             }
             else {
               p = M.showInfo(getText(1552, "")); // El documento aun no ha sido guardado
@@ -846,11 +846,11 @@
       };
 
       self.getTitle = function() {
-        return TITLE + (m_id !== NO_ID ? " " + m_nrodoc + " - " + m_proveedor : "");
+        return TITLE + (m_id !== NO_ID ? " " + m_nroDoc + " - " + m_proveedor : "");
       };
 
       self.getTabTitle = function() {
-        return "OPG-" + m_nrodoc;
+        return "OPG-" + m_nroDoc;
       };
 
       self.validate = function() {
@@ -925,6 +925,10 @@
 
       self.docId = function() {
         return m_docId;
+      };
+
+      self.nroDoc = function() {
+        return m_nroDoc;
       };
 
       self.doctId = function() {
@@ -1258,7 +1262,7 @@
         elem.setName(getText(1065, "")); // Número
         elem.setSize(50);
         elem.setKey(K_NRODOC);
-        elem.setValue(m_nrodoc);
+        elem.setValue(m_nroDoc);
         elem.setTextMask(m_taMascara);
         elem.setTextAlign(Dialogs.TextAlign.right);
 
@@ -2128,7 +2132,7 @@
 
               m_id = valField(data, CT.OPG_ID);
               m_numero = valField(data, CT.OPG_NUMERO);
-              m_nrodoc = valField(data, CT.OPG_NRODOC);
+              m_nroDoc = valField(data, CT.OPG_NRODOC);
               m_descrip = valField(data, CT.OPG_DESCRIP);
               m_fecha = valField(data, CT.OPG_FECHA);
               m_neto = valField(data, CT.OPG_NETO);
@@ -2166,7 +2170,7 @@
             else {
               m_id = NO_ID;
               m_numero = 0;
-              m_nrodoc = "";
+              m_nroDoc = "";
               m_descrip = "";
               m_fecha = Cairo.Dates.today();
               m_neto = 0;
@@ -2387,7 +2391,7 @@
           .setValue(m_estado);
 
         properties.item(CT.OPG_NRODOC)
-          .setValue(m_nrodoc)
+          .setValue(m_nroDoc)
           .setTextMask(m_taMascara)
           .setTextAlign(Dialogs.TextAlign.right);
 
@@ -2918,13 +2922,13 @@
 
         m_applyEditor.setClient(self);
 
-        if(!m_applyEditor.show(m_id, m_total, m_nrodoc, m_proveedor)) {
+        if(!m_applyEditor.show(m_id, m_total, m_nroDoc, m_proveedor)) {
           m_applyEditor = null;
         }
         m_applyEditor.show(
             m_id,
             m_total,
-            m_nrodoc,
+            m_nroDoc,
             m_provId,
             m_proveedor).then(function(result) {
             if(result !== true) {
@@ -4425,12 +4429,7 @@
 
         var self = this;
 
-        /*
-         this function will be called by the tab manager every time the
-         view must be created. when the tab is not visible the tab manager
-         will not call this function but only make the tab visible
-         */
-        var createListDialog = function(tabId) {
+        var createListDialog = function() {
 
           var editors = Cairo.Editors.ordenPagoEditors || Cairo.Collections.createCollection(null);
           Cairo.Editors.ordenPagoEditors = editors;

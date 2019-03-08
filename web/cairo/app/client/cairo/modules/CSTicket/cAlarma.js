@@ -660,12 +660,7 @@
 
         var self = this;
 
-        /*
-         this function will be called by the tab manager every time the
-         view must be created. when the tab is not visible the tab manager
-         will not call this function but only make the tab visible
-         */
-        var createListDialog = function(tabId) {
+        var createListDialog = function() {
 
           var editors = Cairo.Editors.xxxxEditors || Cairo.Collections.createCollection(null);
           Cairo.Editors.xxxxEditors = editors;

@@ -179,15 +179,6 @@
       };
     };
 
-    that.previewReport = function(reportDefinition) {
-      return sendMessage(reportDefinition).then(function(response) {
-        console.log(JSON.stringify(response.request));
-        console.log(JSON.stringify(response.response));
-        response.success = true;
-        return response;
-      });
-    };
-
     that.printReport = function(reportDefinition) {
       return sendMessage(reportDefinition).then(function(response) {
         console.log(JSON.stringify(response.request));
@@ -397,7 +388,7 @@
 
   Cairo.module("Reports.ReportForm", function(ReportForm, Cairo, Backbone, Marionette, $, _) {
 
-    var createObject = function(id, name) {
+    var createObject = function(id, name, nroDoc) {
 
       var self = {};
 
@@ -407,16 +398,23 @@
 
       var m_id = id;
       var m_name = name;
-      var m_title = name;
+
+      var m_title = name + " " + nroDoc;
       var m_webReportId = Cairo.CSReportConnection.registerReport(self);
-      var m_reportId = ""; // this is returned by CSReportWebServer in the REPORT_PREVIEW_DONE message
-                           // it is used to call methods over an instance of a report like moveToPage
 
       self.print = function(paramId, reportFile) {
-        return print(Cairo.CSReportConnection.ACTIONS.PRINT, paramId, reportFile);
+        Cairo.LoadingMessage.show("Printing", "Loading data from Crowsoft Cairo server.");
+        return print(Cairo.CSReportConnection.ACTIONS.PRINT, paramId, reportFile)
+          .then(Cairo.LoadingMessage.close);
       };
 
-      var print = function(action, paramId, reportFile) {
+      self.preview = function(paramId, reportFile) {
+        debugger;
+        var preview = Cairo.Reports.Preview.Controller.show(name, nroDoc);
+        return print(Cairo.CSReportConnection.ACTIONS.PREVIEW, paramId, reportFile, preview.getWebReportId());
+      };
+
+      var print = function(action, paramId, reportFile, webReportId) {
         return DB.getData("load[" + m_apiPath + C_REPORT_FORM_PATH + m_id + "/" + paramId + "]", null).then(function(response) {
 
           var params = Cairo.CSReportConnection.createReportParam("docId", paramId);
@@ -434,48 +432,17 @@
             var rd = Cairo.CSReportConnection.createReportDefinition(
               action,
               Cairo.CSReportConnection.createReportData(url, FORMULARIOS, m_title, m_name, dataSourceName, reportFile, params, data),
-              m_webReportId
+              webReportId != undefined ? webReportId : m_webReportId
             );
 
-            return Cairo.CSReportConnection.previewReport(rd);
+            return Cairo.CSReportConnection.printReport(rd);
 
           });
         });
       };
 
-      self.firstPage = function() {
-        Cairo.CSReportConnection.firstPage(m_webReportId, m_reportId);
-      };
-
-      self.previousPage = function() {
-        Cairo.CSReportConnection.previousPage(m_webReportId, m_reportId);
-      };
-
-      self.currentPage = function(page) {
-        Cairo.CSReportConnection.currentPage(page, m_webReportId, m_reportId);
-      };
-
-      self.nextPage = function() {
-        Cairo.CSReportConnection.nextPage(m_webReportId, m_reportId);
-      };
-
-      self.lastPage = function() {
-        Cairo.CSReportConnection.lastPage(m_webReportId, m_reportId);
-      };
-
       self.processWebReportMessage = function(message) {
-        switch(message.messageType) {
-          case 'REPORT_PREVIEW_DONE':
-            m_reportId = message.reportId;
-            m_dialog.showPage(message.page);
-            m_dialog.setCurrentPage(1);
-            m_dialog.setTotalPages(message.totalPages);
-            break;
-          case 'REPORT_PREVIEW_PAGE':
-            m_dialog.showPage(message.page);
-            m_dialog.setCurrentPage(message.pageIndex);
-            break;
-        }
+        Cairo.log('Error processWebReportMessage was called in reportForm');
       };
 
       return self;
@@ -625,8 +592,6 @@
       var m_dialog;
       var m_properties;
 
-      var m_listController;
-
       var m_title = "";
 
       var m_id = NO_ID;
@@ -653,14 +618,6 @@
         initialize();
         return load(id)
           .whenSuccess(loadCollection);
-      };
-
-      self.edit = function(rptId) {
-        m_listController.edit(rptId);
-      };
-
-      self.deleteItem = function(rptId) {
-        return m_listController.destroy(rptId);
       };
 
       self.showDocDigital = function() {
@@ -852,58 +809,10 @@
 
       self.preview = function() {
         return print(Cairo.CSReportConnection.ACTIONS.PREVIEW);
-        /*
-        var params = getParams();
-        return DB.getData("load[" + m_apiPath + C_REPORT_PATH + m_id + "/show]", null, params).then(function(response) {
-
-          var params = m_params.map(getReportParam);
-
-          var data = [Cairo.CSReportConnection.createReportDataSource(m_code, createRecordset(response.data))];
-
-          return getLogos().whenSuccessWithResult(function(response) {
-
-            data.push(Cairo.CSReportConnection.createReportDataSource(SMALL_LOGO_DATA_SOURCE, response.logos.small));
-            data.push(Cairo.CSReportConnection.createReportDataSource(BIG_LOGO_DATA_SOURCE, response.logos.big));
-
-            var rd = Cairo.CSReportConnection.createReportDefinition(
-              Cairo.CSReportConnection.ACTIONS.PREVIEW,
-              Cairo.CSReportConnection.createReportData(url, INFORMES, m_title, m_name, m_code, m_reportFile, params, data),
-              m_webReportId
-            );
-
-            return Cairo.CSReportConnection.previewReport(rd);
-
-          });
-        });
-        */
       };
 
       self.print = function() {
         return print(Cairo.CSReportConnection.ACTIONS.PRINT);
-        /*
-        var params = getParams();
-        return DB.getData("load[" + m_apiPath + C_REPORT_PATH + m_id + "/show]", null, params).then(function(response) {
-
-          var params = m_params.map(getReportParam);
-
-          var data = [Cairo.CSReportConnection.createReportDataSource(m_code, createRecordset(response.data))];
-
-          return getLogos().whenSuccessWithResult(function(response) {
-
-            data.push(Cairo.CSReportConnection.createReportDataSource(SMALL_LOGO_DATA_SOURCE, response.logos.small));
-            data.push(Cairo.CSReportConnection.createReportDataSource(BIG_LOGO_DATA_SOURCE, response.logos.big));
-
-            var rd = Cairo.CSReportConnection.createReportDefinition(
-              Cairo.CSReportConnection.ACTIONS.PRINT,
-              Cairo.CSReportConnection.createReportData(url, INFORMES, m_title, m_name, m_code, m_reportFile, params, data),
-              m_webReportId
-            );
-
-            return Cairo.CSReportConnection.previewReport(rd);
-
-          });
-        });
-        */
       };
 
       var print = function(action) {
@@ -925,8 +834,7 @@
               m_webReportId
             );
 
-            return Cairo.CSReportConnection.previewReport(rd);
-
+            return Cairo.CSReportConnection.printReport(rd);
           });
         });
       };
@@ -1036,10 +944,6 @@
         m_properties = dialog.getProperties();
       };
 
-      self.setListController = function(controller) {
-        m_listController = controller;
-      };
-
       var createMenu = function() {
 
         if(m_menuLoaded) { return; }
@@ -1063,7 +967,6 @@
         try {
           m_dialog = null;
           m_properties = null;
-          m_listController = null;
           Cairo.CSReportConnection.unRegisterReport(m_webReportId);
         }
         catch (ex) {
@@ -1084,15 +987,7 @@
 
       var self = this;
 
-      /*
-       this function will be called by the tab manager every time the
-       view must be created. when the tab is not visible the tab manager
-       will not call this function but only make the tab visible
-       */
-      var createReportDialog = function(tabId) {
-
-        var editors = Cairo.Editors.reportEditors || Cairo.Collections.createCollection(null);
-        Cairo.Editors.reportEditors = editors;
+      var createReportDialog = function() {
 
         // ListController properties and methods
         //
@@ -1102,50 +997,6 @@
           entitiesName: "reportes" // TODO: check if it is needed or should be remove
         });
 
-        var getIndexFromEditor = function(editor) {
-          var count = editors.count();
-          for(var i = 0; i < count; i += 1) {
-            if(editors.item(i).editor === editor) {
-              return i;
-            }
-          }
-          return -1;
-        };
-
-        self.removeEditor = function(editor) {
-          var index = getIndexFromEditor(editor);
-          if(index >= 0) {
-            editors.remove(index);
-          }
-        };
-
-        var getKey = function(id) {
-          if(id === NO_ID) {
-            return "new-id:" + (new Date).getTime().toString()
-          }
-          else {
-            return "k:" + id.toString();
-          }
-        };
-
-        self.updateEditorKey = function(editor, newId) {
-          var index = getIndexFromEditor(editor);
-          if(index >= 0) {
-            var editor = editors.item(index);
-            editors.remove(index);
-            var key = getKey(newId);
-            editors.add(editor, key);
-          }
-        };
-
-        self.edit = function(id) {
-          Cairo.log('Error edit was called in reports editor');
-        };
-
-        self.destroy = function(id) {
-          Cairo.log('Error destroy was called in reports editor');
-        };
-
         // progress message
         //
         Cairo.LoadingMessage.show("Reportes", "Loading Reporte from Crowsoft Cairo server.");
@@ -1153,7 +1004,6 @@
         self.reportDialog = Report.Controller.getEditor();
         var dialog = Cairo.Dialogs.Views.ListController.newDialogList();
 
-        self.reportDialog.setListController(self);
         self.reportDialog.setDialog(dialog);
         self.reportDialog.show(id).then(Cairo.LoadingMessage.close);
 
@@ -1166,20 +1016,7 @@
 
   Cairo.module("Reports.Preview", function(Preview, Cairo, Backbone, Marionette, $, _) {
 
-    var T = Cairo.Dialogs.PropertyType;
-    var RT = Cairo.Reports.ParameterType;
-
-    var PROPERTY_TYPE_FROM_PARAM_TYPE = [];
-    PROPERTY_TYPE_FROM_PARAM_TYPE[RT.date] = T.date;
-    PROPERTY_TYPE_FROM_PARAM_TYPE[RT.select] = T.select;
-    PROPERTY_TYPE_FROM_PARAM_TYPE[RT.numeric] = T.numeric;
-    PROPERTY_TYPE_FROM_PARAM_TYPE[RT.sqlstmt] = T.list;
-    PROPERTY_TYPE_FROM_PARAM_TYPE[RT.text] = T.text;
-    PROPERTY_TYPE_FROM_PARAM_TYPE[RT.list] = T.list;
-    PROPERTY_TYPE_FROM_PARAM_TYPE[RT.check] = T.check;
-
-    var NO_ID = Cairo.Constants.NO_ID;
-    var C_MODULE = "Reports";
+    var C_MODULE = "Reports.Preview";
     var P = Cairo.Promises;
 
     var createObject = function() {
@@ -1192,28 +1029,25 @@
       var m_dialog;
       var m_properties;
 
-      var m_listController;
-
       var m_title = "";
 
       var m_id = NO_ID;
-      var m_code = "";
+      var m_name = "";
+      var m_nroDoc = "";
 
       var m_webReportId = Cairo.CSReportConnection.registerReport(self);
       var m_reportId = ""; // this is returned by CSReportWebServer in the REPORT_PREVIEW_DONE message
                            // it is used to call methods over an instance of a report like moveToPage
 
-      self.show = function() {
+      self.getWebReportId = function() {
+        return m_webReportId;
+      };
+
+      self.show = function(name, nroDoc) {
+        m_name = name;
+        m_nroDoc = nroDoc;
         initialize();
         return P.resolvedPromise(true).whenSuccess(loadCollection);
-      };
-
-      self.edit = function(rptId) {
-        m_listController.edit(rptId);
-      };
-
-      self.deleteItem = function(rptId) {
-        return m_listController.destroy(rptId);
       };
 
       self.showDocDigital = function() {
@@ -1233,7 +1067,7 @@
       };
 
       self.setSearchParam = function(id, name) {
-        Cairo.log('Error setSearchParam was called in reports editor');
+        Cairo.log('Error setSearchParam was called in reports.preview editor');
       };
 
       self.processMenu = function(index) {
@@ -1255,18 +1089,6 @@
 
       self.propertyChange = function(key) {
         return true;
-      };
-
-      self.refresh = function() {
-        Cairo.log('Error edit was called in previews editor');        
-      };
-
-      self.preview = function() {
-        Cairo.log('Error edit was called in previews editor');
-      };
-
-      self.print = function() {
-        Cairo.log('Error edit was called in previews editor');
       };
 
       self.firstPage = function() {
@@ -1304,10 +1126,6 @@
         }
       };
 
-      self.save = function() {
-        Cairo.log('Error edit was called in previews editor');
-      };
-
       self.getPath = function() {
         return "#" + C_REPORT_PREVIEW_PATH + m_id.toString();
       };
@@ -1321,7 +1139,7 @@
       };
 
       self.getTabTitle = function() {
-        return m_code;
+        return "Prev " + (m_nroDoc != undefined ? m_nroDoc : m_name); // TODO: use language
       };
 
       self.validate = function() {
@@ -1333,13 +1151,9 @@
         m_properties = dialog.getProperties();
       };
 
-      self.setListController = function(controller) {
-        m_listController = controller;
-      };
-
       var initialize = function() {
         try {
-          m_title = getText(2708, ""); // Reporte
+          m_title = "Preview: " + m_name + (m_nroDoc != undefined ? ": " + m_nroDoc : "") // TODO: use language
           m_dialog.setHaveDetail(false);
         }
         catch(ex) {
@@ -1351,7 +1165,6 @@
         try {
           m_dialog = null;
           m_properties = null;
-          m_listController = null;
           Cairo.CSReportConnection.unRegisterReport(m_webReportId);
         }
         catch (ex) {
@@ -1366,73 +1179,11 @@
       return self;
     };
 
-    Preview.Controller = { getEditor: createObject };
+    var show = function(name, nroDoc) {
 
-    Preview.Controller.show = function(id) {
+      var createPreviewDialog = function() {
 
-      var self = this;
-
-      /*
-       this function will be called by the tab manager every time the
-       view must be created. when the tab is not visible the tab manager
-       will not call this function but only make the tab visible
-       */
-      var createPreviewDialog = function(tabId) {
-
-        var editors = Cairo.Editors.previewEditors || Cairo.Collections.createCollection(null);
-        Cairo.Editors.previewEditors = editors;
-
-        // ListController properties and methods
-        //
-        self.entityInfo = new Backbone.Model({
-          entitiesTitle: "Preview",
-          entityName: "preview",
-          entitiesName: "previews" // TODO: check if it is needed or should be remove
-        });
-
-        var getIndexFromEditor = function(editor) {
-          var count = editors.count();
-          for(var i = 0; i < count; i += 1) {
-            if(editors.item(i).editor === editor) {
-              return i;
-            }
-          }
-          return -1;
-        };
-
-        self.removeEditor = function(editor) {
-          var index = getIndexFromEditor(editor);
-          if(index >= 0) {
-            editors.remove(index);
-          }
-        };
-
-        var getKey = function(id) {
-          if(id === NO_ID) {
-            return "new-id:" + (new Date).getTime().toString()
-          }
-          else {
-            return "k:" + id.toString();
-          }
-        };
-
-        self.updateEditorKey = function(editor, newId) {
-          var index = getIndexFromEditor(editor);
-          if(index >= 0) {
-            var editor = editors.item(index);
-            editors.remove(index);
-            var key = getKey(newId);
-            editors.add(editor, key);
-          }
-        };
-
-        self.edit = function(id) {
-          Cairo.log('Error edit was called in previews editor');
-        };
-
-        self.destroy = function(id) {
-          Cairo.log('Error destroy was called in previews editor');
-        };
+        var self = {};
 
         // progress message
         //
@@ -1441,14 +1192,19 @@
         self.previewDialog = Preview.Controller.getEditor();
         var dialog = Cairo.Dialogs.Views.ListController.newDialogList();
 
-        self.previewDialog.setListController(self);
         self.previewDialog.setDialog(dialog);
-        self.previewDialog.show(id).then(Cairo.LoadingMessage.close);
+        self.previewDialog.show(name, nroDoc).then(Cairo.LoadingMessage.close);
 
+        return self.previewDialog;
       };
 
-      createPreviewDialog();
-    }
+      return createPreviewDialog();
+    };
+
+    Preview.Controller = { 
+      getEditor: createObject, 
+      show: show
+    };
 
   });
 

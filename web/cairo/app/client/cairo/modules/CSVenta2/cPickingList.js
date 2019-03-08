@@ -52,7 +52,7 @@
       var m_fechaIni = null;
       var m_fechaFin = null;
 
-      var m_nrodoc = "";
+      var m_nroDoc = "";
       var m_cliId = "";
       var m_cliente = "";
       var m_venId = "";
@@ -189,7 +189,7 @@
             break;
 
           case K_NRODOC:
-            m_nrodoc = m_dialog.getProperties().item(CV.PKL_NRODOC).getValue();
+            m_nroDoc = m_dialog.getProperties().item(CV.PKL_NRODOC).getValue();
 
             break;
         }
@@ -257,7 +257,7 @@
           sqlstmt = sqlstmt+ Cairo.Database.sqlDate(m_fechaFin)+ ",";
         }
 
-        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_nrodoc)+ ",";
+        sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_nroDoc)+ ",";
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_cliId)+ ",";
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_venId)+ ",";
         sqlstmt = sqlstmt+ Cairo.Database.sqlString(m_zon_id);
@@ -266,7 +266,7 @@
       };
 
       var validateFilters = function() {
-        if(LenB(m_nrodoc)) { return; }
+        if(LenB(m_nroDoc)) { return; }
         if(LenB(m_cliId) && m_cliId !== "0") { return; }
         if(LenB(m_venId) && m_venId !== "0") { return; }
         if(LenB(m_zon_id) && m_zon_id !== "0") { return; }
@@ -602,7 +602,7 @@
         c.setName(getText(1065, ""));
         c.setSize(255);
         c.setKey(K_NRODOC);
-        c.setValue(m_nrodoc);
+        c.setValue(m_nroDoc);
 
         c = m_dialog.getProperties().add(null, C.CLI_ID);
         c.setType(Dialogs.PropertyType.select);
@@ -672,7 +672,7 @@
               m_fechaFin = Date;
               m_fechaDesdeV = "";
               m_fechaHastaV = "";
-              m_nrodoc = "";
+              m_nroDoc = "";
               m_cliId = "";
               m_cliente = "";
               m_venId = "";
@@ -855,12 +855,7 @@
 
         var self = this;
 
-        /*
-         this function will be called by the tab manager every time the
-         view must be created. when the tab is not visible the tab manager
-         will not call this function but only make the tab visible
-         */
-        var createListDialog = function(tabId) {
+        var createListDialog = function() {
 
           var editors = Cairo.Editors.xxxxEditors || Cairo.Collections.createCollection(null);
           Cairo.Editors.xxxxEditors = editors;

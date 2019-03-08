@@ -341,7 +341,7 @@
           try {
             Cairo.LoadingMessage.show(m_client.getTitle(), "Loading data from Crowsoft Cairo server.");
             refreshAux();
-            p = m_client.preview().whenSuccessWithResult(function(response) {
+            p = m_client.preview().whenSuccessWithResult(function() {
               m_view.showPreviewTab();
             }).then(Cairo.LoadingMessage.close);
             return;

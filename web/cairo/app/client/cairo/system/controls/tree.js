@@ -12,7 +12,7 @@
         Hoja    ( Leave )
 
         a tree is associated to a table through the field tbl_id which is a FK to table Tabla
-        the table Tabla is a dictionary which contains a definition for ever master table in
+        the table Tabla is a dictionary which contains a definition for every master table in
         the system
         every leave is associated with one row in the table associated to its tree
         every row which doesn't have a leave is in the root branch of the tree
@@ -20,9 +20,9 @@
         to define arbitrary sets of rows and the hierarchy is not only used to filter but
         to grouping and summarizing
         in accounting trees are used to define the trial balance. the user can create
-        as many trial balance as he need
+        as many trial balance as he/she needs
 
-      this tree module works with a table entity manager. All operations over the tree are
+      this tree module works with a table entity manager. all operations over the tree are
       handled by this module and all operations to the rows of the table associated to a tree
       are managed by the entity manager object.
 
@@ -537,7 +537,7 @@
     });
 
     /*
-        it draws a table with all the leave/rows in a branch or
+        it draws a table with all the leave/rows in a branch or shows
         a message alerting the user that there is no data to list
         when the branch is empty
         it is used by List.Controller.showItems

@@ -130,7 +130,7 @@
       var m_numero = 0;
       var m_estado = "";
       var m_estId = 0;
-      var m_nrodoc = "";
+      var m_nroDoc = "";
       var m_descrip = "";
       var m_fecha = null;
       var m_fechaEntrega = null;
@@ -340,14 +340,16 @@
 
       self.printDoc = function(fv_id, doc_id, cli_id, nroDoc, cliente) {
 
+
+        debugger;
+
         // used for the dialog title
         //
-        m_nrodoc = nroDoc;
+        m_nroDoc = nroDoc;
         m_cliente = cliente;
         m_cliId = cli_id;
 
-        return m_dialog.printDocWithResult(fv_id, doc_id);
-
+        return m_dialog.printDocWithResult(fv_id, doc_id, false, nroDoc);
       };
 
       self.setWizardCompleteSuccess = function(rhs) {
@@ -783,7 +785,7 @@
           case Dialogs.Message.MSG_DOC_HISTORY:
 
             if(m_id !== NO_ID) {
-              p = Cairo.History.show(Cairo.Tables.FACTURAS_DE_VENTA, m_id, m_documento + " " + m_nrodoc);
+              p = Cairo.History.show(Cairo.Tables.FACTURAS_DE_VENTA, m_id, m_documento + " " + m_nroDoc);
             }
             else {
               p = M.showInfo(getText(1552, "")); // El documento aun no ha sido guardado
@@ -813,7 +815,7 @@
 
           case Dialogs.Message.MSG_PRINT_GET_TITLE:
 
-            p = m_nrodoc+ " - "+ m_cliente;
+            p = m_nroDoc+ " - "+ m_cliente;
             break;
 
           case Dialogs.Message.MSG_ABM_KEY_F3:
@@ -1485,11 +1487,11 @@
       };
 
       self.getTitle = function() {
-        return TITLE + (m_id !== NO_ID ? " " + m_nrodoc + " - " + m_cliente : "");
+        return TITLE + (m_id !== NO_ID ? " " + m_nroDoc + " - " + m_cliente : "");
       };
 
       self.getTabTitle = function() {
-        return "FV-" + m_nrodoc;
+        return "FV-" + m_nroDoc;
       };
 
       self.validate = function() {
@@ -1632,6 +1634,10 @@
         return m_docId;
       };
 
+      self.nroDoc = function() {
+        return m_nroDoc;
+      };
+
       self.doctId = function() {
         return m_doctId;
       };
@@ -1649,7 +1655,7 @@
             m_doctId = valField(response.data, C.DOCT_ID);
             m_cliId = valField(response.data, C.CLI_ID);
             m_cliente = valField(response.data, C.CLI_NAME);
-            m_nrodoc = valField(response.data, CV.FV_NRODOC);
+            m_nroDoc = valField(response.data, CV.FV_NRODOC);
 
             return true;
 
@@ -2279,7 +2285,7 @@
         elem.setName(getText(1065, "")); // Número
         elem.setSize(50);
         elem.setKey(K_NRODOC);
-        elem.setValue(m_nrodoc);
+        elem.setValue(m_nroDoc);
         elem.setTextMask(m_taMascara);
         elem.setTextAlign(Dialogs.TextAlign.right);
 
@@ -3200,7 +3206,7 @@
 
               m_id = valField(data, CV.FV_ID);
               m_numero = valField(data, CV.FV_NUMERO);
-              m_nrodoc = valField(data, CV.FV_NRODOC);
+              m_nroDoc = valField(data, CV.FV_NRODOC);
               m_descrip = valField(data, CV.FV_DESCRIP);
               m_fecha = valField(data, CV.FV_FECHA);
               m_fechaEntrega = valField(data, CV.FV_FECHA_ENTREGA);
@@ -3292,7 +3298,7 @@
             else {
               m_id = NO_ID;
               m_numero = 0;
-              m_nrodoc = "";
+              m_nroDoc = "";
               m_descrip = "";
               m_fecha = Cairo.Dates.today();
               m_fechaEntrega = Cairo.Dates.tomorrow();
@@ -4125,7 +4131,7 @@
           .setValue(m_estado);
 
         m_properties.item(CV.FV_NRODOC)
-          .setValue(m_nrodoc)
+          .setValue(m_nroDoc)
           .setTextMask(m_taMascara)
           .setTextAlign(Dialogs.TextAlign.right);
 
@@ -4291,7 +4297,7 @@
         m_applyEditor.show(
             m_id,
             m_total * ((m_cotizacion !== 0) ? m_cotizacion : 1),
-            m_nrodoc,
+            m_nroDoc,
             m_cliId,
             m_cliente,
             m_sucId,
@@ -5043,7 +5049,7 @@
       };
 
       var getFileNamePostFix = function() {
-        return m_cliente.substring(0, 50) + "-" + m_nrodoc;
+        return m_cliente.substring(0, 50) + "-" + m_nroDoc;
       };
 
       var showMenuDocAction = function() {
@@ -6023,14 +6029,11 @@
     List.Controller = {
       list: function() {
 
+        debugger;
+
         var self = this;
 
-        /*
-         this function will be called by the tab manager every time the
-         view must be created. when the tab is not visible the tab manager
-         will not call this function but only make the tab visible
-         */
-        var createListDialog = function(tabId) {
+        var createListDialog = function() {
 
           var editors = Cairo.Editors.facturaVentaEditors || Cairo.Collections.createCollection(null);
           Cairo.Editors.facturaVentaEditors = editors;
