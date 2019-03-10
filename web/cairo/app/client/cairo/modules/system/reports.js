@@ -409,7 +409,6 @@
       };
 
       self.preview = function(paramId, reportFile) {
-        debugger;
         var preview = Cairo.Reports.Preview.Controller.show(name, nroDoc);
         return print(Cairo.CSReportConnection.ACTIONS.PREVIEW, paramId, reportFile, preview.getWebReportId());
       };

@@ -107,6 +107,10 @@
           }
         };
 
+        self.bringToFront = function() {
+          getView().bringToFront();
+        };
+
         self.showDocumentList = function(client) {
           return show(client, Views.createDocumentListView());
         };

@@ -315,7 +315,6 @@
       that.setValue = function(value) {
         if(value === undefined || value === null) {
           Cairo.raiseError("Invalid null or undefined assignment", C_MODULE + ".createCell.setValue");
-          debugger;
         }
         self.value = value;
         return that;

@@ -60,7 +60,6 @@
       };
 
       var previewReport = function(id, reportInfo, nroDoc) {
-        debugger;
         var rptDef = reportDefinition(id, reportInfo, nroDoc);
         rptDef.report.preview(id, rptDef.reportFile);
       };

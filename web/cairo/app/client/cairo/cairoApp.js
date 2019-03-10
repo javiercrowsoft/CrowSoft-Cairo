@@ -896,7 +896,6 @@ var Cairo = new Marionette.Application();
     // following the principle "chisporrotea pero no estalla"
     //
     if(value === undefined || value === null) {
-      debugger;
       Cairo.log("getDateValue called with undefined or null", true);
       value = NO_DATE;
     }
@@ -1909,7 +1908,6 @@ var Cairo = new Marionette.Application();
   Cairo.validateAssignmentIsNotNull = function(value, module, functionName) {
     if(value === undefined || value === null) {
       Cairo.raiseError("Invalid null or undefined assignment", module + "." + functionName);
-      debugger;
     }
   };
 
