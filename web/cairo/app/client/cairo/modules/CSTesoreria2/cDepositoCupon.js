@@ -327,7 +327,7 @@
         c.setValue(value);
         c.setSelectId(Cairo.Util.val(m_docId));
         c.setSelectIntValue(m_docId);
-        c.setSelectFilter("'{emp_id=0}doct_id = "+ csEDocumentoTipo.cSEDT_DEPOSITOCUPON.toString()+ "'");
+        c.setSelectFilter("'{emp_id=0}doct_id = "+ csEDocumentoTipo.cSEDT_DEPOSITO_CUPON.toString()+ "'");
 
 
         c = m_dialog.getProperties().add(null, C.EMP_ID);
@@ -691,7 +691,7 @@
 
         var sqlstmt = null;
 
-        sqlstmt = "delete ListaDocumentoParametro  where pre_id = "+ csTesoreriaPrestacion.cSPRETSRLISTDEPOSITOCUPON.toString()+ " and us_id = "+ m_us_id+ " and (emp_id is null or emp_id = "+ cUtil.getEmpId().toString()+ ")";
+        sqlstmt = "delete ListaDocumentoParametro  where pre_id = "+ csTesoreriaPrestacion.cSPRETSRLISTDEPOSITO_CUPON.toString()+ " and us_id = "+ m_us_id+ " and (emp_id is null or emp_id = "+ cUtil.getEmpId().toString()+ ")";
 
         if(!Cairo.Database.execute(sqlstmt, "cIABMClient_Save", C_MODULE, strError)) { return false; }
 
@@ -783,7 +783,7 @@
           fields.add(C.EMP_ID, cUtil.getEmpId(), Cairo.Constants.Types.id);
 
           fields.add(C.US_ID, m_us_id, Cairo.Constants.Types.id);
-          fields.add(C.PRE_ID, csTesoreriaPrestacion.cSPRETSRLISTDEPOSITOCUPON, Cairo.Constants.Types.id);
+          fields.add(C.PRE_ID, csTesoreriaPrestacion.cSPRETSRLISTDEPOSITO_CUPON, Cairo.Constants.Types.id);
 
 
 

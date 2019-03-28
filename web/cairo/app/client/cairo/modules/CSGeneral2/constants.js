@@ -84,7 +84,6 @@
       DOC_EDITABLE: "editable",
       DOC_EDIT_MSG: "editMsg",
       TA_PROPUESTO: "ta_propuesto",
-      TA_MASCARA: "ta_mascara",
 
       TA_NUMBER: "ta_number",
       TA_ENABLED: "ta_enabled",
@@ -847,6 +846,17 @@
 
       DOC_OBJECT_EDIT: "doc_object_edit",
 
+      // DocumentoGrupo
+      DOCUMENTOGRUPO: "DocumentoGrupo",
+      DOCG_ID: "docg_id",
+      DOCG_NAME: "docg_nombre",
+      DOCG_CODE: "docg_codigo",
+      DOCG_DESCRIP: "docg_descrip",
+
+      // DocumentoFirma
+      DOCUMENTO_FIRMA: "DocumentoFirma",
+      DOCFR_ID: "docfr_id",
+
       // fecha Control de Acceso
       FECHA_CONTROL_ACCESO: "FechaControlAcceso",
       FCA_ID: "fca_id",
@@ -855,10 +865,25 @@
       FCA_FECHA_HASTA: "fca_Fechahasta",
       FCA_FECHA_DESDE: "fca_Fechadesde",
 
+
       // Talonario
       TALONARIO: "Talonario",
       TA_ID: "ta_id",
       TA_NAME: "ta_nombre",
+      TA_CODE: "ta_codigo",
+      TA_DESCRIP: "ta_descrip",
+      TA_ULTIMO_NRO: "ta_ultimonro",
+      TA_TIPO: "ta_tipo",
+      TA_MASCARA: "ta_mascara",
+      TA_CAI: "ta_cai",
+      TA_PTO_VTA: "ta_puntovta",
+      TA_TIPO_AFIP: "ta_tipoafip",
+      TA_ID_FINAL: "ta_id_final",
+      TA_ID_INSCRIPTO: "ta_id_inscripto",
+      TA_ID_EXTERNO: "ta_id_externo",
+      TA_ID_INSCRIPTO_M: "ta_id_inscriptom",
+      TA_ID_HABERES: "ta_id_haberes",
+
 
       // PercepcionTipo
       PERCEPCIONTIPO: "PercepcionTipo",

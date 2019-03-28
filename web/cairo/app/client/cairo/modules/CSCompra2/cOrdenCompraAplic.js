@@ -1696,7 +1696,7 @@
                   // Si estoy vinculando contra una factura
                   if(vAplic(i).fci_id !== 0) {
                     register.setFieldId(mComprasConstantes.OC_FC_TMPID);
-                    register.setTable(mComprasConstantes.ORDENFACTURACOMPRATMP);
+                    register.setTable(mComprasConstantes.ORDENFACTURA_COMPRATMP);
                     register.getFields().add2(mComprasConstantes.FCI_ID, vAplic(i).fci_id, Cairo.Constants.Types.id);
                     register.getFields().add2(mComprasConstantes.OCI_ID, vAplic.oci_id, Cairo.Constants.Types.id);
 
@@ -1707,7 +1707,7 @@
                   else if(vAplic(i).rci_id !== 0) {
 
                     register.setFieldId(mComprasConstantes.OC_RC_TMPID);
-                    register.setTable(mComprasConstantes.ORDENREMITOCOMPRATMP);
+                    register.setTable(mComprasConstantes.ORDENREMITO_COMPRATMP);
                     register.getFields().add2(mComprasConstantes.RCI_ID, vAplic(i).rci_id, Cairo.Constants.Types.id);
                     register.getFields().add2(mComprasConstantes.OCI_ID, vAplic.oci_id, Cairo.Constants.Types.id);
 

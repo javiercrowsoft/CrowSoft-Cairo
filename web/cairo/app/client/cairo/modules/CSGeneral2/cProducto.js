@@ -1365,9 +1365,7 @@
                 p = createNameFromRubro().then(
                   function(success) {
                     if(success === false) {
-                      return M.showInfo(Cairo.Constants.MUST_SET_A_NAME).then(function () {
-                        return false;
-                      });
+                      return M.showInfoWithFalse(Cairo.Constants.MUST_SET_A_NAME);
                     }
                     else {
                       return true;

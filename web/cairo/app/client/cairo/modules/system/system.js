@@ -195,10 +195,24 @@
     orden: 5
   };
 
-  Cairo.Documents.OrderWizardType = {
-    directa: 0,
+  Cairo.Documents.PackingListWizardType = {
+    directo: 0,
+    pedido: 1,
+    remito: 2,
+    manifiesto: 3
+  };
+
+  Cairo.Documents.OrderSaleWizardType = {
+    directo: 0,
     presupuesto: 1
-  }
+  };
+
+  Cairo.Documents.OrderWizardType = {
+    directa = 0,
+    pedido = 1,
+    presupuesto = 2
+  };
+
 
   Cairo.Documents.ReceiptType = {
     original: 1,

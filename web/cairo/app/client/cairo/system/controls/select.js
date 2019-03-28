@@ -265,7 +265,7 @@
 
           var validatedDataIsEmpty = function() {
             var data = $(self).data("validated-data");
-            if(data === null) {
+            if(data === null || data === undefined) {
               return true;
             }
             else {

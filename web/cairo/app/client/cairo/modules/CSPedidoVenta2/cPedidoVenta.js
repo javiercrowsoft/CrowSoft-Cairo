@@ -2504,7 +2504,7 @@
       };
       
       var docDesdePresupuesto = function() {
-        return docAsistTipo() === D.OrderWizardType.presupuesto;
+        return docAsistTipo() === D.OrderSaleWizardType.presupuesto;
       };
 
       var showImporteAndIva = function(row) {

@@ -172,7 +172,7 @@
 
                     // Edit Apply
                     //
-                    if(!Cairo.Database.getData(mVentaConstantes.REMITOVENTA, mVentaConstantes.RV_ID, m_rvId, C.EMP_ID, m_emp_id)) { return false; }
+                    if(!Cairo.Database.getData(mVentaConstantes.REMITO_VENTA, mVentaConstantes.RV_ID, m_rvId, C.EMP_ID, m_emp_id)) { return false; }
 
                     if(!Cairo.Database.getData(Cairo.Constants.EMPRESA, C.EMP_ID, m_emp_id, Cairo.Constants.EMP_NAME, m_emp_nombre)) { return false; }
 
@@ -704,7 +704,7 @@
 
                 register = new cRegister();
                 register.setFieldId(mVentaConstantes.RV_TMPID);
-                register.setTable(mVentaConstantes.REMITOVENTATMP);
+                register.setTable(mVentaConstantes.REMITO_VENTATMP);
 
                 register.setId(Cairo.Constants.NEW_ID);
                 register.getFields().add2(mVentaConstantes.RV_ID, m_rvId, Cairo.Constants.Types.id);
@@ -1644,7 +1644,7 @@
 
                                     register = new cRegister();
                                     register.setFieldId(mVentaConstantes.PV_RV_TMPID);
-                                    register.setTable(mVentaConstantes.PEDIDOREMITOVENTATMP);
+                                    register.setTable(mVentaConstantes.PEDIDOREMITO_VENTATMP);
                                     register.setId(Cairo.Constants.NEW_ID);
 
                                     register.getFields().add2(mVentaConstantes.RV_TMPID, rvTMPId, Cairo.Constants.Types.id);
@@ -1684,7 +1684,7 @@
 
                                     register = new cRegister();
                                     register.setFieldId(mVentaConstantes.OS_RV_TMPID);
-                                    register.setTable(mVentaConstantes.ORDENREMITOVENTATMP);
+                                    register.setTable(mVentaConstantes.ORDENREMITO_VENTATMP);
                                     register.setId(Cairo.Constants.NEW_ID);
 
                                     register.getFields().add2(mVentaConstantes.RV_TMPID, rvTMPId, Cairo.Constants.Types.id);
@@ -1953,7 +1953,7 @@
                     };
 
                     self.destroy = function(id, treeId, branchId) {
-                        if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_REMITOVENTAAPLIC)) {
+                        if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_REMITO_VENTAAPLIC)) {
                             return Cairo.Promises.resolvedPromise(false);
                         }
                         var apiPath = Cairo.Database.getAPIVersion();
@@ -1984,7 +1984,7 @@
                     // create the dialog
                     //
                     Cairo.Tree.List.Controller.list(
-                        Cairo.Tables.REMITOVENTAAPLIC,
+                        Cairo.Tables.REMITO_VENTAAPLIC,
                         new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
                         Cairo.remitoventaaplicTreeRegion,
                         self);
@@ -2076,7 +2076,7 @@ object Remitoventaaplics extends Controller with ProvidesUser {
     }
 
     def get(id: Int) = GetAction { implicit request =>
-        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_REMITOVENTAAPLIC), { user =>
+        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_REMITO_VENTAAPLIC), { user =>
         Ok(Json.toJson(Remitoventaaplic.get(user, id)))
     })
 }
@@ -2090,7 +2090,7 @@ def update(id: Int) = PostAction { implicit request =>
 },
 remitoventaaplic => {
     Logger.debug(s"form: ${remitoventaaplic.toString}")
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_REMITOVENTAAPLIC), { user =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_REMITO_VENTAAPLIC), { user =>
     Ok(
         Json.toJson(
             Remitoventaaplic.update(user,
@@ -2112,7 +2112,7 @@ def create = PostAction { implicit request =>
 },
 remitoventaaplic => {
     Logger.debug(s"form: ${remitoventaaplic.toString}")
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_REMITOVENTAAPLIC), { user =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_REMITO_VENTAAPLIC), { user =>
     Ok(
         Json.toJson(
             Remitoventaaplic.create(user,
@@ -2126,7 +2126,7 @@ remitoventaaplic => {
 
 def delete(id: Int) = PostAction { implicit request =>
     Logger.debug("in remitoventaaplics.delete")
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_REMITOVENTAAPLIC), { user =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_REMITO_VENTAAPLIC), { user =>
     Remitoventaaplic.delete(user, id)
     // Backbonejs requires at least an empty json object in the response
     // if not it will call errorHandler even when we responded with 200 OK :P
@@ -2239,13 +2239,13 @@ private def save(user: CompanyUser, remitoventaaplic: Remitoventaaplic, isNew: B
             )
     }
     def throwException = {
-        throw new RuntimeException(s"Error when saving ${C.REMITOVENTAAPLIC}")
+        throw new RuntimeException(s"Error when saving ${C.REMITO_VENTAAPLIC}")
 }
 
 DBHelper.saveEx(
     user,
     Register(
-        C.REMITOVENTAAPLIC,
+        C.REMITO_VENTAAPLIC,
         C.ID,
         remitoventaaplic.id,
         false,
@@ -2266,7 +2266,7 @@ def load(user: CompanyUser, id: Int): Option[Remitoventaaplic] = {
 
 def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection(user.database.database) { implicit connection =>
-    SQL(s"SELECT t1.*, t2.${C.FK_NAME} FROM ${C.REMITOVENTAAPLIC} t1 INNER JOIN ${C.???} t2 ON t1.${C.FK_ID} = t2.${C.FK_ID} WHERE $where")
+    SQL(s"SELECT t1.*, t2.${C.FK_NAME} FROM ${C.REMITO_VENTAAPLIC} t1 INNER JOIN ${C.???} t2 ON t1.${C.FK_ID} = t2.${C.FK_ID} WHERE $where")
 .on(args: _*)
 .as(remitoventaaplicParser.singleOpt)
 }
@@ -2275,12 +2275,12 @@ def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, a
 def delete(user: CompanyUser, id: Int) = {
     DB.withConnection(user.database.database) { implicit connection =>
     try {
-        SQL(s"DELETE FROM ${C.REMITOVENTAAPLIC} WHERE ${C.ID} = {id}")
+        SQL(s"DELETE FROM ${C.REMITO_VENTAAPLIC} WHERE ${C.ID} = {id}")
     .on('id -> id)
             .executeUpdate
     } catch {
     case NonFatal(e) => {
-            Logger.error(s"can't delete a ${C.REMITOVENTAAPLIC}. ${C.ID} id: $id. Error ${e.toString}")
+            Logger.error(s"can't delete a ${C.REMITO_VENTAAPLIC}. ${C.ID} id: $id. Error ${e.toString}")
             throw e
         }
     }

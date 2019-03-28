@@ -224,7 +224,7 @@
                 case csECuentaCategoria.cSECUECCUENTASFISCALES:
                 case csECuentaCategoria.cSECUECACREEDORES:
                 case csECuentaCategoria.cSECUECCAJA:
-                case csECuentaCategoria.cSECUECDEPOSITOCUPONES:
+                case csECuentaCategoria.cSECUECDEPOSITO_CUPONES:
                   // Todo bien
                   break;
 
@@ -837,7 +837,7 @@
       };
 
       var bancoEnabled = function() {
-        return csECuentaCategoria.cSECUECDOCENCARTERA === m_categoriaId || csECuentaCategoria.cSECUECDEPOSITOCUPONES === m_categoriaId;
+        return csECuentaCategoria.cSECUECDOCENCARTERA === m_categoriaId || csECuentaCategoria.cSECUECDEPOSITO_CUPONES === m_categoriaId;
       };
       var libroIvaEnabled = function() {
         return (csECuentaCategoria.cSECUECBIENESDECAMBIO === m_categoriaId) || (csECuentaCategoria.cSECUECBIENESDEUSO === m_categoriaId) || (csECuentaCategoria.cSECUECINGRESOS === m_categoriaId) || (csECuentaCategoria.cSECUECEGRESOS === m_categoriaId);

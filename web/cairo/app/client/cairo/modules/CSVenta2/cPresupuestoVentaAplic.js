@@ -1371,7 +1371,7 @@
                                     // Si estoy vinculando contra un pedido
                                     if(vAplic(i).pvi_id !== 0) {
                                         register.setFieldId(mVentaConstantes.PRV_PV_TMPID);
-                                        register.setTable(mVentaConstantes.PRESUPUESTOPEDIDOVENTATMP);
+                                        register.setTable(mVentaConstantes.PRESUPUESTOPEDIDO_VENTATMP);
                                         register.getFields().add2(mVentaConstantes.PVI_ID, vAplic(i).pvi_id, Cairo.Constants.Types.id);
                                         register.getFields().add2(mVentaConstantes.PRVI_ID, vAplic.prvi_id, Cairo.Constants.Types.id);
 

@@ -946,7 +946,7 @@
 
 
       var getDocFilter = function() {
-        return "'{emp_id=0}doct_id = "+ csEDocumentoTipo.cSEDT_REMITO_VENTA.toString()+ " or doct_id = "+ csEDocumentoTipo.cSEDT_DEVOLUCIONREMITOVTA.toString()+ "'";
+        return "'{emp_id=0}doct_id = "+ csEDocumentoTipo.cSEDT_REMITO_VENTA.toString()+ " or doct_id = "+ csEDocumentoTipo.cSEDT_DEVOLUCION_REMITO_VTA.toString()+ "'";
       };
 
       var createMenu = function() {
@@ -1130,7 +1130,7 @@
           }
         }
 
-        if(!m_objApply.self.show(rvId, total, nroDoc, cliId, cliente, sucId, docId, doctId === csEDocumentoTipo.cSEDT_DEVOLUCIONREMITOVTA)) {
+        if(!m_objApply.self.show(rvId, total, nroDoc, cliId, cliente, sucId, docId, doctId === csEDocumentoTipo.cSEDT_DEVOLUCION_REMITO_VTA)) {
           m_objApply = null;
         }
 

@@ -80,7 +80,7 @@
 
 
       // PedidoCompra
-      PEDIDOCOMPRA: "PedidoCompra",
+      PEDIDO_COMPRA: "PedidoCompra",
       PC_ID: "pc_id",
       PC_NUMERO: "pc_numero",
       PC_NRODOC: "pc_nrodoc",

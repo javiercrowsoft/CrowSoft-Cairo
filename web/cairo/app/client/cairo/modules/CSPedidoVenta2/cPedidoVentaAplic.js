@@ -182,7 +182,7 @@
 
                     // Edit Apply
                     //
-                    if(!Cairo.Database.getData(mPedidoConstantes.PEDIDOVENTA, mPedidoConstantes.PV_ID, m_pvId, C.EMP_ID, m_emp_id)) { return false; }
+                    if(!Cairo.Database.getData(mPedidoConstantes.PEDIDO_VENTA, mPedidoConstantes.PV_ID, m_pvId, C.EMP_ID, m_emp_id)) { return false; }
 
                     if(!Cairo.Database.getData(Cairo.Constants.EMPRESA, C.EMP_ID, m_emp_id, Cairo.Constants.EMP_NAME, m_emp_nombre)) { return false; }
 
@@ -802,7 +802,7 @@
 
                 register = new cRegister();
                 register.setFieldId(mPedidoConstantes.PV_TMPID);
-                register.setTable(mPedidoConstantes.PEDIDOVENTATMP);
+                register.setTable(mPedidoConstantes.PEDIDO_VENTATMP);
 
                 register.setId(Cairo.Constants.NEW_ID);
                 register.getFields().add2(mPedidoConstantes.PV_ID, m_pvId, Cairo.Constants.Types.id);
@@ -1853,7 +1853,7 @@
 
                                     register = new cRegister();
                                     register.setFieldId(mPedidoConstantes.PV_PKLST_TMPID);
-                                    register.setTable(mPedidoConstantes.PEDIDOPACKINGLISTTMP);
+                                    register.setTable(mPedidoConstantes.PEDIDOPACKING_LISTTMP);
                                     register.setId(Cairo.Constants.NEW_ID);
 
                                     register.getFields().add2(mPedidoConstantes.PV_TMPID, pvTMPId, Cairo.Constants.Types.id);
@@ -1984,7 +1984,7 @@
                                     else if(vAplic(i).rvi_id !== 0) {
 
                                         register.setFieldId(mPedidoConstantes.PV_RV_TMPID);
-                                        register.setTable(mPedidoConstantes.PEDIDOREMITOVENTATMP);
+                                        register.setTable(mPedidoConstantes.PEDIDOREMITO_VENTATMP);
                                         register.getFields().add2(mPedidoConstantes.RVI_ID, vAplic(i).rvi_id, Cairo.Constants.Types.id);
                                         register.getFields().add2(mPedidoConstantes.PVI_ID, vAplic.pvi_id, Cairo.Constants.Types.id);
 
@@ -2052,7 +2052,7 @@
 
                                     register = new cRegister();
                                     register.setFieldId(mPedidoConstantes.PRV_PV_TMPID);
-                                    register.setTable(mPedidoConstantes.PRESUPUESTOPEDIDOVENTATMP);
+                                    register.setTable(mPedidoConstantes.PRESUPUESTOPEDIDO_VENTATMP);
                                     register.setId(Cairo.Constants.NEW_ID);
 
                                     register.getFields().add2(mPedidoConstantes.PV_TMPID, pvTMPId, Cairo.Constants.Types.id);
@@ -2186,7 +2186,7 @@
                     };
 
                     self.destroy = function(id, treeId, branchId) {
-                        if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_PEDIDOVENTAAPLIC)) {
+                        if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_PEDIDO_VENTAAPLIC)) {
                             return Cairo.Promises.resolvedPromise(false);
                         }
                         var apiPath = Cairo.Database.getAPIVersion();
@@ -2217,7 +2217,7 @@
                     // create the dialog
                     //
                     Cairo.Tree.List.Controller.list(
-                        Cairo.Tables.PEDIDOVENTAAPLIC,
+                        Cairo.Tables.PEDIDO_VENTAAPLIC,
                         new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
                         Cairo.pedidoventaaplicTreeRegion,
                         self);
@@ -2315,7 +2315,7 @@ object Pedidoventaaplics extends Controller with ProvidesUser {
     }
 
     def get(id: Int) = GetAction { implicit request =>
-        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_PEDIDOVENTAAPLIC), { user =>
+        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_PEDIDO_VENTAAPLIC), { user =>
         Ok(Json.toJson(Pedidoventaaplic.get(user, id)))
     })
 }
@@ -2329,7 +2329,7 @@ def update(id: Int) = PostAction { implicit request =>
 },
 pedidoventaaplic => {
     Logger.debug(s"form: ${pedidoventaaplic.toString}")
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_PEDIDOVENTAAPLIC), { user =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_PEDIDO_VENTAAPLIC), { user =>
     Ok(
         Json.toJson(
             Pedidoventaaplic.update(user,
@@ -2351,7 +2351,7 @@ def create = PostAction { implicit request =>
 },
 pedidoventaaplic => {
     Logger.debug(s"form: ${pedidoventaaplic.toString}")
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_PEDIDOVENTAAPLIC), { user =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_PEDIDO_VENTAAPLIC), { user =>
     Ok(
         Json.toJson(
             Pedidoventaaplic.create(user,
@@ -2365,7 +2365,7 @@ pedidoventaaplic => {
 
 def delete(id: Int) = PostAction { implicit request =>
     Logger.debug("in pedidoventaaplics.delete")
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_PEDIDOVENTAAPLIC), { user =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_PEDIDO_VENTAAPLIC), { user =>
     Pedidoventaaplic.delete(user, id)
     // Backbonejs requires at least an empty json object in the response
     // if not it will call errorHandler even when we responded with 200 OK :P
@@ -2478,13 +2478,13 @@ private def save(user: CompanyUser, pedidoventaaplic: Pedidoventaaplic, isNew: B
             )
     }
     def throwException = {
-        throw new RuntimeException(s"Error when saving ${C.PEDIDOVENTAAPLIC}")
+        throw new RuntimeException(s"Error when saving ${C.PEDIDO_VENTAAPLIC}")
 }
 
 DBHelper.saveEx(
     user,
     Register(
-        C.PEDIDOVENTAAPLIC,
+        C.PEDIDO_VENTAAPLIC,
         C.ID,
         pedidoventaaplic.id,
         false,
@@ -2505,7 +2505,7 @@ def load(user: CompanyUser, id: Int): Option[Pedidoventaaplic] = {
 
 def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection(user.database.database) { implicit connection =>
-    SQL(s"SELECT t1.*, t2.${C.FK_NAME} FROM ${C.PEDIDOVENTAAPLIC} t1 INNER JOIN ${C.???} t2 ON t1.${C.FK_ID} = t2.${C.FK_ID} WHERE $where")
+    SQL(s"SELECT t1.*, t2.${C.FK_NAME} FROM ${C.PEDIDO_VENTAAPLIC} t1 INNER JOIN ${C.???} t2 ON t1.${C.FK_ID} = t2.${C.FK_ID} WHERE $where")
 .on(args: _*)
 .as(pedidoventaaplicParser.singleOpt)
 }
@@ -2514,12 +2514,12 @@ def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, a
 def delete(user: CompanyUser, id: Int) = {
     DB.withConnection(user.database.database) { implicit connection =>
     try {
-        SQL(s"DELETE FROM ${C.PEDIDOVENTAAPLIC} WHERE ${C.ID} = {id}")
+        SQL(s"DELETE FROM ${C.PEDIDO_VENTAAPLIC} WHERE ${C.ID} = {id}")
     .on('id -> id)
             .executeUpdate
     } catch {
     case NonFatal(e) => {
-            Logger.error(s"can't delete a ${C.PEDIDOVENTAAPLIC}. ${C.ID} id: $id. Error ${e.toString}")
+            Logger.error(s"can't delete a ${C.PEDIDO_VENTAAPLIC}. ${C.ID} id: $id. Error ${e.toString}")
             throw e
         }
     }

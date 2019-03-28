@@ -697,7 +697,7 @@
 
                 register = new cRegister();
                 register.setFieldId(mComprasConstantes.RC_TMPID);
-                register.setTable(mComprasConstantes.REMITOCOMPRATMP);
+                register.setTable(mComprasConstantes.REMITO_COMPRATMP);
 
                 register.setId(Cairo.Constants.NEW_ID);
                 register.getFields().add2(mComprasConstantes.RC_ID, m_rcId, Cairo.Constants.Types.id);
@@ -1548,7 +1548,7 @@
 
                                     register = new cRegister();
                                     register.setFieldId(mComprasConstantes.OC_RC_TMPID);
-                                    register.setTable(mComprasConstantes.ORDENREMITOCOMPRATMP);
+                                    register.setTable(mComprasConstantes.ORDENREMITO_COMPRATMP);
                                     register.setId(Cairo.Constants.NEW_ID);
 
                                     register.getFields().add2(mComprasConstantes.RC_TMPID, rcTMPId, Cairo.Constants.Types.id);
@@ -1664,7 +1664,7 @@
                                     // Si estoy vinculando contra una factura
                                     if(vAplic(i).fci_id !== 0) {
                                         register.setFieldId(mComprasConstantes.RC_FC_TMPID);
-                                        register.setTable(mComprasConstantes.REMITOFACTURACOMPRATMP);
+                                        register.setTable(mComprasConstantes.REMITOFACTURA_COMPRATMP);
                                         register.getFields().add2(mComprasConstantes.FCI_ID, vAplic(i).fci_id, Cairo.Constants.Types.id);
                                         register.getFields().add2(mComprasConstantes.RCI_ID, vAplic.rci_id, Cairo.Constants.Types.id);
 
@@ -1817,7 +1817,7 @@
                     };
 
                     self.destroy = function(id, treeId, branchId) {
-                        if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_REMITOCOMPRAAPLIC)) {
+                        if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_REMITO_COMPRAAPLIC)) {
                             return Cairo.Promises.resolvedPromise(false);
                         }
                         var apiPath = Cairo.Database.getAPIVersion();
@@ -1848,7 +1848,7 @@
                     // create the dialog
                     //
                     Cairo.Tree.List.Controller.list(
-                        Cairo.Tables.REMITOCOMPRAAPLIC,
+                        Cairo.Tables.REMITO_COMPRAAPLIC,
                         new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
                         Cairo.remitocompraaplicTreeRegion,
                         self);
@@ -1937,7 +1937,7 @@ object Remitocompraaplics extends Controller with ProvidesUser {
     }
 
     def get(id: Int) = GetAction { implicit request =>
-        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_REMITOCOMPRAAPLIC), { user =>
+        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_REMITO_COMPRAAPLIC), { user =>
         Ok(Json.toJson(Remitocompraaplic.get(user, id)))
     })
 }
@@ -1951,7 +1951,7 @@ def update(id: Int) = PostAction { implicit request =>
 },
 remitocompraaplic => {
     Logger.debug(s"form: ${remitocompraaplic.toString}")
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_REMITOCOMPRAAPLIC), { user =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_REMITO_COMPRAAPLIC), { user =>
     Ok(
         Json.toJson(
             Remitocompraaplic.update(user,
@@ -1973,7 +1973,7 @@ def create = PostAction { implicit request =>
 },
 remitocompraaplic => {
     Logger.debug(s"form: ${remitocompraaplic.toString}")
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_REMITOCOMPRAAPLIC), { user =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_REMITO_COMPRAAPLIC), { user =>
     Ok(
         Json.toJson(
             Remitocompraaplic.create(user,
@@ -1987,7 +1987,7 @@ remitocompraaplic => {
 
 def delete(id: Int) = PostAction { implicit request =>
     Logger.debug("in remitocompraaplics.delete")
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_REMITOCOMPRAAPLIC), { user =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_REMITO_COMPRAAPLIC), { user =>
     Remitocompraaplic.delete(user, id)
     // Backbonejs requires at least an empty json object in the response
     // if not it will call errorHandler even when we responded with 200 OK :P
@@ -2100,13 +2100,13 @@ private def save(user: CompanyUser, remitocompraaplic: Remitocompraaplic, isNew:
             )
     }
     def throwException = {
-        throw new RuntimeException(s"Error when saving ${C.REMITOCOMPRAAPLIC}")
+        throw new RuntimeException(s"Error when saving ${C.REMITO_COMPRAAPLIC}")
 }
 
 DBHelper.saveEx(
     user,
     Register(
-        C.REMITOCOMPRAAPLIC,
+        C.REMITO_COMPRAAPLIC,
         C.ID,
         remitocompraaplic.id,
         false,
@@ -2127,7 +2127,7 @@ def load(user: CompanyUser, id: Int): Option[Remitocompraaplic] = {
 
 def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection(user.database.database) { implicit connection =>
-    SQL(s"SELECT t1.*, t2.${C.FK_NAME} FROM ${C.REMITOCOMPRAAPLIC} t1 INNER JOIN ${C.???} t2 ON t1.${C.FK_ID} = t2.${C.FK_ID} WHERE $where")
+    SQL(s"SELECT t1.*, t2.${C.FK_NAME} FROM ${C.REMITO_COMPRAAPLIC} t1 INNER JOIN ${C.???} t2 ON t1.${C.FK_ID} = t2.${C.FK_ID} WHERE $where")
 .on(args: _*)
 .as(remitocompraaplicParser.singleOpt)
 }
@@ -2136,12 +2136,12 @@ def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, a
 def delete(user: CompanyUser, id: Int) = {
     DB.withConnection(user.database.database) { implicit connection =>
     try {
-        SQL(s"DELETE FROM ${C.REMITOCOMPRAAPLIC} WHERE ${C.ID} = {id}")
+        SQL(s"DELETE FROM ${C.REMITO_COMPRAAPLIC} WHERE ${C.ID} = {id}")
     .on('id -> id)
             .executeUpdate
     } catch {
     case NonFatal(e) => {
-            Logger.error(s"can't delete a ${C.REMITOCOMPRAAPLIC}. ${C.ID} id: $id. Error ${e.toString}")
+            Logger.error(s"can't delete a ${C.REMITO_COMPRAAPLIC}. ${C.ID} id: $id. Error ${e.toString}")
             throw e
         }
     }

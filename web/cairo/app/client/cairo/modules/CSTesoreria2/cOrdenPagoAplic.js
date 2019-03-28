@@ -770,7 +770,7 @@
 
                     var register = new Cairo.Database.Register();
                     register.setFieldId(CT.FC_OPG_TMPID);
-                    register.setTable(CT.FACTURACOMPRAORDENPAGOTMP);
+                    register.setTable(CT.FACTURA_COMPRAORDENPAGOTMP);
                     register.setId(Cairo.Constants.NEW_ID);
 
                     bSave = false;

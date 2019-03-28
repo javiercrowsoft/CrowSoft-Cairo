@@ -872,7 +872,7 @@
 
 
       var getDocFilter = function() {
-        return "'{emp_id=0}doct_id = "+ csEDocumentoTipo.cSEDT_REMITOCOMPRA.toString()+ " or doct_id = "+ csEDocumentoTipo.cSEDT_DEVOLUCIONREMITOCPRA.toString()+ "'";
+        return "'{emp_id=0}doct_id = "+ csEDocumentoTipo.cSEDT_REMITO_COMPRA.toString()+ " or doct_id = "+ csEDocumentoTipo.cSEDT_DEVOLUCION_REMITO_CPRA.toString()+ "'";
       };
 
       var createMenu = function() {
@@ -1005,7 +1005,7 @@
           }
         }
 
-        if(!m_objApply.self.show(rcId, total, nroDoc, provId, proveedor, sucId, docId, doctId === csEDocumentoTipo.cSEDT_DEVOLUCIONREMITOCPRA)) {
+        if(!m_objApply.self.show(rcId, total, nroDoc, provId, proveedor, sucId, docId, doctId === csEDocumentoTipo.cSEDT_DEVOLUCION_REMITO_CPRA)) {
           m_objApply = null;
         }
 
@@ -1035,7 +1035,7 @@
         var provId = null;
 
         rcId = m_dialog.getId();
-        DB.getData(mComprasConstantes.REMITOCOMPRA, mComprasConstantes.RC_ID, rcId, mComprasConstantes.PROV_ID, provId);
+        DB.getData(mComprasConstantes.REMITO_COMPRA, mComprasConstantes.RC_ID, rcId, mComprasConstantes.PROV_ID, provId);
 
         return provId;
       };

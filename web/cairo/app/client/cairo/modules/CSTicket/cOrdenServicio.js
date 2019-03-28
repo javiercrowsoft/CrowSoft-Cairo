@@ -944,7 +944,7 @@
 
 
       var getDocFilter = function() {
-        return "'{emp_id=0}doct_id = "+ csEDocumentoTipo.cSEDT_ORDENSERVICIO.toString()+ " or doct_id = "+ csEDocumentoTipo.cSEDT_DEVOLUCIONREMITOCPRA.toString()+ "'";
+        return "'{emp_id=0}doct_id = "+ csEDocumentoTipo.cSEDT_ORDEN_SERVICIO.toString()+ " or doct_id = "+ csEDocumentoTipo.cSEDT_DEVOLUCION_REMITO_CPRA.toString()+ "'";
       };
 
       var createMenu = function() {
@@ -1079,7 +1079,7 @@
         if(osId) {
 
           var stId = null;
-          if(!DB.getData(mTicketConstantes.ORDENSERVICIO, mTicketConstantes.OS_ID, osId, mTicketConstantes.ST_ID, stId)) { return; }
+          if(!DB.getData(mTicketConstantes.ORDEN_SERVICIO, mTicketConstantes.OS_ID, osId, mTicketConstantes.ST_ID, stId)) { return; }
 
           if(stId === NO_ID) {
 
@@ -1205,7 +1205,7 @@
 
         }
 
-        DB.getData(mTicketConstantes.ORDENSERVICIO, mTicketConstantes.OS_ID, osId, mTicketConstantes.CLI_ID, cliId);
+        DB.getData(mTicketConstantes.ORDEN_SERVICIO, mTicketConstantes.OS_ID, osId, mTicketConstantes.CLI_ID, cliId);
 
         return cliId;
       };

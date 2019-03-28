@@ -148,7 +148,7 @@
 
                     // Edit Apply
                     //
-                    if(!Cairo.Database.getData(mTicketConstantes.ORDENSERVICIO, mTicketConstantes.OS_ID, m_osId, C.EMP_ID, m_emp_id)) { return false; }
+                    if(!Cairo.Database.getData(mTicketConstantes.ORDEN_SERVICIO, mTicketConstantes.OS_ID, m_osId, C.EMP_ID, m_emp_id)) { return false; }
 
                     if(!Cairo.Database.getData(Cairo.Constants.EMPRESA, C.EMP_ID, m_emp_id, Cairo.Constants.EMP_NAME, m_emp_nombre)) { return false; }
 
@@ -564,7 +564,7 @@
 
                 register = new cRegister();
                 register.setFieldId(mTicketConstantes.OS_TMPID);
-                register.setTable(mTicketConstantes.ORDENSERVICIOTMP);
+                register.setTable(mTicketConstantes.ORDEN_SERVICIOTMP);
 
                 register.setId(Cairo.Constants.NEW_ID);
                 register.getFields().add2(mTicketConstantes.OS_ID, m_osId, Cairo.Constants.Types.id);
@@ -1349,7 +1349,7 @@
                                     register = new cRegister();
 
                                     register.setFieldId(mTicketConstantes.OS_RV_TMPID);
-                                    register.setTable(mTicketConstantes.ORDENREMITOVENTATMP);
+                                    register.setTable(mTicketConstantes.ORDENREMITO_VENTATMP);
                                     register.getFields().add2(mTicketConstantes.RVI_ID, vAplic(i).rvi_id, Cairo.Constants.Types.id);
                                     register.getFields().add2(mTicketConstantes.OSI_ID, vAplic.osi_id, Cairo.Constants.Types.id);
 
@@ -1482,7 +1482,7 @@
                     };
 
                     self.destroy = function(id, treeId, branchId) {
-                        if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_ORDENSERVICIOAPLIC)) {
+                        if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_ORDEN_SERVICIOAPLIC)) {
                             return Cairo.Promises.resolvedPromise(false);
                         }
                         var apiPath = Cairo.Database.getAPIVersion();
@@ -1513,7 +1513,7 @@
                     // create the dialog
                     //
                     Cairo.Tree.List.Controller.list(
-                        Cairo.Tables.ORDENSERVICIOAPLIC,
+                        Cairo.Tables.ORDEN_SERVICIOAPLIC,
                         new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
                         Cairo.ordenservicioaplicTreeRegion,
                         self);
@@ -1600,7 +1600,7 @@ object Ordenservicioaplics extends Controller with ProvidesUser {
     }
 
     def get(id: Int) = GetAction { implicit request =>
-        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_ORDENSERVICIOAPLIC), { user =>
+        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_ORDEN_SERVICIOAPLIC), { user =>
         Ok(Json.toJson(Ordenservicioaplic.get(user, id)))
     })
 }
@@ -1614,7 +1614,7 @@ def update(id: Int) = PostAction { implicit request =>
 },
 ordenservicioaplic => {
     Logger.debug(s"form: ${ordenservicioaplic.toString}")
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_ORDENSERVICIOAPLIC), { user =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_ORDEN_SERVICIOAPLIC), { user =>
     Ok(
         Json.toJson(
             Ordenservicioaplic.update(user,
@@ -1636,7 +1636,7 @@ def create = PostAction { implicit request =>
 },
 ordenservicioaplic => {
     Logger.debug(s"form: ${ordenservicioaplic.toString}")
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_ORDENSERVICIOAPLIC), { user =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_ORDEN_SERVICIOAPLIC), { user =>
     Ok(
         Json.toJson(
             Ordenservicioaplic.create(user,
@@ -1650,7 +1650,7 @@ ordenservicioaplic => {
 
 def delete(id: Int) = PostAction { implicit request =>
     Logger.debug("in ordenservicioaplics.delete")
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_ORDENSERVICIOAPLIC), { user =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_ORDEN_SERVICIOAPLIC), { user =>
     Ordenservicioaplic.delete(user, id)
     // Backbonejs requires at least an empty json object in the response
     // if not it will call errorHandler even when we responded with 200 OK :P
@@ -1763,13 +1763,13 @@ private def save(user: CompanyUser, ordenservicioaplic: Ordenservicioaplic, isNe
             )
     }
     def throwException = {
-        throw new RuntimeException(s"Error when saving ${C.ORDENSERVICIOAPLIC}")
+        throw new RuntimeException(s"Error when saving ${C.ORDEN_SERVICIOAPLIC}")
 }
 
 DBHelper.saveEx(
     user,
     Register(
-        C.ORDENSERVICIOAPLIC,
+        C.ORDEN_SERVICIOAPLIC,
         C.ID,
         ordenservicioaplic.id,
         false,
@@ -1790,7 +1790,7 @@ def load(user: CompanyUser, id: Int): Option[Ordenservicioaplic] = {
 
 def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection(user.database.database) { implicit connection =>
-    SQL(s"SELECT t1.*, t2.${C.FK_NAME} FROM ${C.ORDENSERVICIOAPLIC} t1 INNER JOIN ${C.???} t2 ON t1.${C.FK_ID} = t2.${C.FK_ID} WHERE $where")
+    SQL(s"SELECT t1.*, t2.${C.FK_NAME} FROM ${C.ORDEN_SERVICIOAPLIC} t1 INNER JOIN ${C.???} t2 ON t1.${C.FK_ID} = t2.${C.FK_ID} WHERE $where")
 .on(args: _*)
 .as(ordenservicioaplicParser.singleOpt)
 }
@@ -1799,12 +1799,12 @@ def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, a
 def delete(user: CompanyUser, id: Int) = {
     DB.withConnection(user.database.database) { implicit connection =>
     try {
-        SQL(s"DELETE FROM ${C.ORDENSERVICIOAPLIC} WHERE ${C.ID} = {id}")
+        SQL(s"DELETE FROM ${C.ORDEN_SERVICIOAPLIC} WHERE ${C.ID} = {id}")
     .on('id -> id)
             .executeUpdate
     } catch {
     case NonFatal(e) => {
-            Logger.error(s"can't delete a ${C.ORDENSERVICIOAPLIC}. ${C.ID} id: $id. Error ${e.toString}")
+            Logger.error(s"can't delete a ${C.ORDEN_SERVICIOAPLIC}. ${C.ID} id: $id. Error ${e.toString}")
             throw e
         }
     }
