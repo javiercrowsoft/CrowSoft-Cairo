@@ -358,7 +358,7 @@
         return _rtn;
       };
 
-      self.messageEx = function(messageId,  info) {
+      self.messageEx = function(messageId, info) {
         var _rtn = null;
 
         switch (messageId) {
@@ -1378,10 +1378,10 @@
           }
         }
 
-        return pValidateEx(bSilent);
+        return validateEx(bSilent);
       };
 
-      var pValidateEx = function(bSilent) {
+      var validateEx = function(bSilent) {
         var property = null;
         var bGeneraRto = null;
         var bDocRto = null;
@@ -1426,22 +1426,18 @@
 
                 case K_GENERA_REMITO:
                   bGeneraRto = val(property.getValue());
-
                   break;
 
                 case K_MUEVE_STOCK:
                   bGeneraStock = val(property.getValue());
-
                   break;
 
                 case K_DOC_ID_REMITO:
                   bDocRto = !valEmpty(property.getSelectId(), Types.id);
-
                   break;
 
                 case K_DOC_ID_STOCK:
                   bDocStock = !valEmpty(property.getSelectId(), Types.id);
-
                   break;
 
                 case K_MON_ID:
@@ -1915,46 +1911,40 @@
         return true;
       };
 
-      var columnAfterEdit = function(key,  lRow,  lCol,  newValue,  newValueID) {
-        return true;
+      self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueId) {
+        return P.resolvedPromise(true);
       };
 
-      var columnAfterUpdate = function(key,  lRow,  lCol) {
+      self.columnAfterUpdate = function(key, lRow, lCol) {
         switch (key) {
           case K_REPORTES:
-            var row = null;
-            var property = m_dialog.getProperties().item("Reportes").getGrid();
+            var property = m_dialog.getProperties().item(C_REPORTES).getGrid();
 
-            if(property.Columns(lCol).key === KI_CSRFILE) {
+            if(property.getColumns().items(lCol).getKey() === KI_CSRFILE) {
 
-              var fileEx = null;
-              fileEx = new CSKernelFile.cFileEx();
+              var fileEx = new cFileEx();
+              var row = property.getRows().items(lRow);
 
-              row = property.Rows(lRow);
-              Dialogs.cell(row, KI_CSRFILE).getValue() === fileEx.FileGetName(Dialogs.cell(row, KI_CSRFILE).getValue());
+              Dialogs.cell(row, KI_CSRFILE).setValue(fileEx.fileGetName(Dialogs.cell(row, KI_CSRFILE).getValue()));
             }
             break;
         }
-        return true;
+        return P.resolvedPromise(true);
       };
 
-      var columnBeforeEdit = function(key,  lRow,  lCol,  iKeyAscii) {
-        return true;
+      self.columnBeforeEdit = function(key, lRow, lCol, iKeyAscii) {
+        return P.resolvedPromise(true);
       };
 
-      var columnButtonClick = function(key,  lRow,  lCol,  iKeyAscii) {
-        return true;
-      };
-
-      var columnClick = function(key,  lRow,  lCol) {
+      self.columnButtonClick = function(key, lRow, lCol, iKeyAscii) {
 
       };
 
-      var dblClick = function(key,  lRow,  lCol) {
-
+      self.gridDblClick = function(key, lRow, lCol) {
+        return P.resolvedPromise(false);
       };
 
-      var deleteRow = function(key,  row,  lRow) {
+      self.deleteRow = function(key, row, lRow) {
         var id = null;
 
         switch (key) {
@@ -1970,43 +1960,39 @@
             break;
         }
 
-        return true;
+        return P.resolvedPromise(true);
       };
 
-      var isEmptyRow = function(key,  row,  rowIndex) {
-        var _rtn = null;
+      self.isEmptyRow = function(key, row, rowIndex) {
+        var isEmpty = true;
         try {
 
           switch (key) {
             case K_REPORTES:
-              _rtn = pIsEmptyRow(row, rowIndex);
+              isEmpty = isEmptyRow(row, rowIndex);
               break;
 
             case K_FIRMAS:
-              _rtn = pIsEmptyRowFirmas(row, rowIndex);
+              isEmpty = isEmptyRowFirmas(row, rowIndex);
               break;
           }
-
-          //**TODO:** goto found: GoTo ExitProc;
         }
-        catch (ex) {
-          Cairo.manageErrorEx(ex.message, "validateRow", C_MODULE, "");
-          //**TODO:** label found: ExitProc:;
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.IS_EMPTY_ROW_FUNCTION, C_MODULE, "");
         }
-        //**TODO:** on error resume next found !!!
-      
-        return _rtn;
+
+        return P.resolvedPromise(isEmpty);
       };
 
-      var listAdHock = function(key,  row,  colIndex,  list) {
-
-      };
-
-      var newRow = function(key,  rows) {
+      var listAdHock = function(key, row, colIndex, list) {
 
       };
 
-      var validateRow = function(key,  row,  rowIndex) {
+      var newRow = function(key, rows) {
+
+      };
+
+      var validateRow = function(key, row, rowIndex) {
         var _rtn = null;
         try {
 
@@ -2055,7 +2041,7 @@
         return m_editing;
       };
 
-      self.edit = function(id,  inModalWindow) {
+      self.edit = function(id, inModalWindow) {
         var p = P.resolvedPromise(false);
         try {
 
@@ -2568,7 +2554,7 @@
         return true;
       };
 
-      var pValidateRowFirmas = function(row,  rowIndex) {
+      var pValidateRowFirmas = function(row, rowIndex) {
         var cell = null;
 
         var strRow = " (Row: " + rowIndex.toString() + ")";
@@ -2588,7 +2574,7 @@
         return P.resolvedPromise(true);
       };
 
-      var pValidateRowReportes = function(row,  rowIndex) {
+      var pValidateRowReportes = function(row, rowIndex) {
         var cell = null;
 
         var strRow = " (Row: " + rowIndex.toString() + ")";
@@ -4147,7 +4133,7 @@
         m_firmasDeleted = "";
       };
 
-      var pIsEmptyRow = function(row,  rowIndex) {
+      var isEmptyRow = function(row, rowIndex) {
         var cell = null;
 
         var bRowIsEmpty = true;
@@ -4175,7 +4161,7 @@
         return bRowIsEmpty;
       };
 
-      var pIsEmptyRowFirmas = function(row,  rowIndex) {
+      var isEmptyRowFirmas = function(row, rowIndex) {
         var cell = null;
 
         var bRowIsEmpty = true;
@@ -4391,7 +4377,7 @@
 
       // TODO: move to backend
       /*
-      var pSavePermisos = function(idFrom,  idTo,  bIsNew) {
+      var pSavePermisos = function(idFrom, idTo, bIsNew) {
         var sqlstmt = null;
 
         if(m_copy) {
