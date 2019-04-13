@@ -1716,8 +1716,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveItemAux = function(transaction, order, row, prIdKit, kitAmount, hasSerialNumber, kitOrder) {

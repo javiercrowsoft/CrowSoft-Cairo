@@ -1608,10 +1608,13 @@
       StockCodigoBarraTipo: {
         fijo: 1,
         caracter: 2
+      },
+
+      ReporteFormularioTipo: {
+        maestro: 1,
+        documento: 2
       }
-
     }
-
   };
 
   Cairo.Security.Actions.General = {

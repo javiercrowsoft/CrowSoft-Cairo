@@ -917,8 +917,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveItemsCliProv = function(mainRegister) {
@@ -979,8 +977,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveItemsRoles = function(mainRegister) {
@@ -1008,8 +1004,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var isEmptyRowCliProv = function(row, rowIndex) {

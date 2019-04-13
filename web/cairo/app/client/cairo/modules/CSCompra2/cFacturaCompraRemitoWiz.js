@@ -1991,8 +1991,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveVinculacion = function(mainRegister) {
@@ -2047,8 +2045,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var getFooter = function() {

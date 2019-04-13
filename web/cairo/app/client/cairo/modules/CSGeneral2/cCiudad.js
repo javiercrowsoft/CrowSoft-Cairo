@@ -351,7 +351,7 @@
         }
         catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.EDIT_FUNCTION, C_MODULE, "");
-      }
+        }
       
         return p;
       };

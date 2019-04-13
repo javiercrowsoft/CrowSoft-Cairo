@@ -3441,8 +3441,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveFacturas = function(mainRegister) {
@@ -3647,8 +3645,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveOtros = function(mainRegister) {
@@ -3741,8 +3737,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveEfectivo = function(mainRegister) {
@@ -3800,8 +3794,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveCtaCte = function(mainRegister) {
@@ -3852,8 +3844,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var validateDifCambio = function() {
@@ -3953,8 +3943,6 @@
 
           mainRegister.addTransaction(transaction);
         }
-
-        return true;
       };
 
       var saveDifCambioNCND = function(mainRegister, aplicado) {
@@ -4096,13 +4084,13 @@
         var neto = 0;
         var totalIva = 0;
         var iva = 0;
-        var items;
+        var items = [];
 
-        for(var i = 1, count = rates.length; i < count; i++) {
+        for(var i = 0, count = rates.length; i < count; i++) {
           iva += rates[i].importe;
         }
 
-        // the last item is used to register de what is left
+        // the last item is used to register what is left
         // in diferencia
         //
         for(var i = 0, count = rates.length -1; i < count; i++) {
@@ -4218,7 +4206,7 @@
       //
       var saveCobranzaND = function(mainRegister, importe, aplicado) {
 
-        if(aplicar > 0) {
+        if(aplicado > 0) {
 
           var transaction = new DB.createTransaction();
 
@@ -4318,8 +4306,6 @@
         transaction.addRegister(register);
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var getCuentas = function(prId) {

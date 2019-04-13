@@ -2178,8 +2178,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var cobranzaSaveCobranza = function(mainRegister) {
@@ -2275,8 +2273,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var cobranzaSaveCtaCte = function(mainRegister, cobzId, aplic, cobzCotizacion) {
@@ -2303,8 +2299,6 @@
         transaction.addRegister(register);
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var cobranzaGetAplic = function(aplic, cotizacion) {

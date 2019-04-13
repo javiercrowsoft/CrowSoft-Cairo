@@ -2124,8 +2124,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var ordenPagoSaveOrdenPago = function(mainRegister) {
@@ -2221,8 +2219,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var ordenPagoSaveCtaCte = function(mainRegister, opgId, aplic, opgCotizacion) {
@@ -2249,8 +2245,6 @@
         transaction.addRegister(register);
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var ordenPagoGetAplic = function(aplic, cotizacion) {

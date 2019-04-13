@@ -306,8 +306,6 @@
       }
 
       mainRegister.addTransaction(transaction);
-
-      return true;
     };
 
     self.calcularPercepciones = function(

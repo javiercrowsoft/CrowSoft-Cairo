@@ -2101,8 +2101,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveCheques = function(mainRegister) {
@@ -2212,8 +2210,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveEfectivo = function(mainRegister, cotizacion, isDefaultCurrency) {
@@ -2311,8 +2307,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var showTotals = function() {

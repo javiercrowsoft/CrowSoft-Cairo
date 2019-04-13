@@ -2495,8 +2495,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var docAsistTipo = function() {

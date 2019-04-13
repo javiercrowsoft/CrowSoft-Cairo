@@ -2943,8 +2943,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveItemsPercepcion = function(mainRegister) {
@@ -3006,8 +3004,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveItemsDpto = function(mainRegister) {
@@ -3060,8 +3056,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveItemsInformes = function(mainRegister) {
@@ -3096,8 +3090,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveItemsEmpresa = function(mainRegister) {
@@ -3127,8 +3119,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveItemsCuentaGrupo = function(mainRegister) {
@@ -3187,8 +3177,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveItemsContacto = function(mainRegister) {
@@ -3274,8 +3262,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var validateRowSucursales = function(row, rowIndex) {

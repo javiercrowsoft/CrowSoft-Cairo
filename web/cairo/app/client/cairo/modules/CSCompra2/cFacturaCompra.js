@@ -3636,8 +3636,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveOtros = function(mainRegister, cotizacion, isDefaultCurrency) {
@@ -3720,8 +3718,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveLegajos = function(mainRegister, cotizacion, isDefaultCurrency) {
@@ -3796,8 +3792,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var docAsistTipo = function() {
@@ -4545,8 +4539,6 @@
 
           mainRegister.addTransaction(transaction);
         }
-
-        return true;
       };
 
       var getPrId = function(prId) {

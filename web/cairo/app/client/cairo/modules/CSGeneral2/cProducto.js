@@ -3900,8 +3900,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveItemsWebCategorias = function(mainRegister) {
@@ -3949,8 +3947,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveItemsProveedor = function(mainRegister) {
@@ -4049,8 +4045,6 @@
 
         mainRegister.addTransaction(transaction);
         mainRegister.addTransaction(updatePriceTransaction);
-
-        return true;
       };
 
       var saveItemsCMI = function(mainRegister) {
@@ -4124,8 +4118,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveItemsLeyendas = function(mainRegister) {
@@ -4191,8 +4183,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveItemsWebImages = function(mainRegister) {
@@ -4258,8 +4248,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveItemsCliente = function(mainRegister) {
@@ -4325,8 +4313,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveItemsTags = function(mainRegister) {
@@ -4401,8 +4387,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var validateRowProveedor = function(row, rowIndex) {

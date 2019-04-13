@@ -299,8 +299,6 @@
       }
 
       mainRegister.addTransaction(transaction);
-
-      return true;
     };
 
     return self;

@@ -2453,7 +2453,7 @@
           fecha: DB.sqlDate(getFecha().getValue()),
           pago: DB.sqlNumber(total),
           facturas: facturas
-        }
+        };
         return DB.getData(
           "load[" + m_apiPath
             + "general/proveedor/" + getProveedor().toString()
@@ -3072,8 +3072,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveChequesT = function(mainRegister) {
@@ -3150,8 +3148,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveOtros = function(mainRegister) {
@@ -3244,8 +3240,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveEfectivo = function(mainRegister) {
@@ -3303,8 +3297,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveCtaCte = function(mainRegister) {
@@ -3355,8 +3347,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var getIva = function(vIva) {
@@ -3464,8 +3454,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var newEmptyProperties = function() {

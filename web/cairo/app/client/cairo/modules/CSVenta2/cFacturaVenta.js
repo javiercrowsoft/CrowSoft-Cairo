@@ -3596,8 +3596,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var docAsistTipo = function() {
@@ -4460,8 +4458,6 @@
 
           mainRegister.addTransaction(transaction);
         }
-
-        return true;
       };
 
       var getDeplId = function() {

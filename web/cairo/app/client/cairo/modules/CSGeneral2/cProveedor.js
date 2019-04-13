@@ -2254,8 +2254,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveItemsRetencion = function(mainRegister) {
@@ -2319,8 +2317,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveItemsDpto = function(mainRegister) {
@@ -2374,8 +2370,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveItemsCentrosCosto = function(mainRegister) {
@@ -2433,8 +2427,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveItemsEmpresa = function(mainRegister) {
@@ -2464,8 +2456,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveItemsCuentaGrupo = function(mainRegister) {
@@ -2523,8 +2513,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var validateCuitProveedor = function(cuit) {

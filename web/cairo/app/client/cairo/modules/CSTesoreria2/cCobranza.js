@@ -2732,8 +2732,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveTarjetas = function(mainRegister) {
@@ -2837,8 +2835,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveOtros = function(mainRegister) {
@@ -2939,8 +2935,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveEfectivo = function(mainRegister) {
@@ -3008,8 +3002,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveCtaCte = function(mainRegister) {
@@ -3073,8 +3065,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var showApplycation = function() {

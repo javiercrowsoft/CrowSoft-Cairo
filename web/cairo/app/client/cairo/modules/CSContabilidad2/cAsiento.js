@@ -1466,8 +1466,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var updateTotals = function() {
