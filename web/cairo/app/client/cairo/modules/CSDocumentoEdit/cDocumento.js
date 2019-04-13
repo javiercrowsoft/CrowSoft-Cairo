@@ -173,9 +173,6 @@
 
       var m_fca_id = 0;
       var m_fechaControlAcceso = "";
-      var m_creado = null;
-      var m_modificado = null;
-      var m_modifico = 0;
       var m_active;
       var m_editarImpresos;
       var m_llevaFirma;
@@ -250,21 +247,8 @@
       var m_apiPath = DB.getAPIVersion();
 
       var emptyData = {
-        proveedores: [],
-        clientes: [],
-        cmi: [],
-        leyendas: [],
-        tags: [],
-        categoriasWeb: [],
-        catalogosWeb: [],
-        webImages: [],
-        kit: [],
-        bom: [],
-        rubro: Cairo.Rubro.Load.createRubro(),
-        additionalFields: {
-          fields: [],
-          values: []
-        }
+        firmas: [],
+        reportes: []
       };
 
       var m_data = emptyData;
@@ -611,7 +595,7 @@
                   break;
 
                 case KI_US_ID:
-                  fields.add(Cairo.Constants.US_ID, cell.getId(), Types.id);
+                  fields.add(C.US_ID, cell.getId(), Types.id);
                   break;
               }
             }
@@ -627,8 +611,6 @@
         }
 
         mainRegister.addTransaction(transaction);
-
-        return true;
       };
 
       var saveDocEx = function(register) { 
@@ -732,7 +714,7 @@
                   break;
 
                 case K_ES_CREDITO_BANCO:
-                  fields.add(C.DOC_ES_CREDITOBANCO, property.getValue(), Types.boolean);
+                  fields.add(C.DOC_ES_CREDITO_BANCO, property.getValue(), Types.boolean);
                   break;
 
                 case K_ES_VENTA_ACCION:
@@ -1940,6 +1922,10 @@
 
       };
 
+      self.columnClick = function(key, lRow, lCol) {
+
+      };
+
       self.gridDblClick = function(key, lRow, lCol) {
         return P.resolvedPromise(false);
       };
@@ -1984,37 +1970,31 @@
         return P.resolvedPromise(isEmpty);
       };
 
-      var listAdHock = function(key, row, colIndex, list) {
-
+      self.newRow = function(key, rows) {
+        return P.resolvedPromise(true);
       };
 
-      var newRow = function(key, rows) {
+      self.validateRow = function(key, row, rowIndex) {
+        var p = null;
 
-      };
-
-      var validateRow = function(key, row, rowIndex) {
-        var _rtn = null;
         try {
 
           switch (key) {
+            
             case K_REPORTES:
-              _rtn = pValidateRowReportes(row, rowIndex);
+              p = validateRowReportes(row, rowIndex);
               break;
 
             case K_FIRMAS:
-              _rtn = pValidateRowFirmas(row, rowIndex);
+              p = validateRowFirmas(row, rowIndex);
               break;
           }
+        }
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.VALIDATE_ROW_FUNCTION, C_MODULE, "");
+        }
 
-          //**TODO:** goto found: GoTo ExitProc;
-        }
-        catch (ex) {
-          Cairo.manageErrorEx(ex.message, "validateRow", C_MODULE, "");
-          //**TODO:** label found: ExitProc:;
-        }
-        //**TODO:** on error resume next found !!!
-      
-        return _rtn;
+        return p || P.resolvedPromise(false);
       };
 
       self.getDialog = function() {
@@ -2043,20 +2023,12 @@
 
       self.edit = function(id, inModalWindow) {
         var p = P.resolvedPromise(false);
+
         try {
 
-          if(id === NO_ID) {
-            m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(csPreDNewDocumento)) { return p; }
-          } 
-          else {
-            m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(csPreDEditDocumento)) { return p; }
-          }
+          if(!validateAccessNewEdit(id)) { return p; }
 
-          //JMA I
           m_dialog.setInModalWindow(inModalWindow);
-          //JMA F
 
           p = load(id).then(
            function(success) {
@@ -2067,22 +2039,20 @@
                 m_editing = true;
                 m_copy = false;
 
-                //JMA I
                 if(inModalWindow) {
                   success = m_id !== NO_ID;
                 } 
                 else {
                   success = true;
                 }
-                //JMA I
 
               }
               return success;
           });
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "cIEditGeneric_Edit", C_MODULE, "");
-      }
+          Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.EDIT_FUNCTION, C_MODULE, "");
+        }
       
         return p;
       };
@@ -2097,6 +2067,18 @@
 
       self.getBranchId = function() {
         return m_branchId;
+      };
+
+      var validateAccessNewEdit = function(id) {
+        if(id === NO_ID) {
+          m_isNew = true;
+          if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_DOCUMENTO)) { return false; }
+        }
+        else {
+          m_isNew = false;
+          if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_DOCUMENTO)) { return false; }
+        }
+        return true;
       };
 
       var loadCollection = function() {
@@ -2166,7 +2148,7 @@
         elem.setValue(m_fechaControlAcceso);
         elem.setSelectId(m_fca_id);
 
-        pSetTipoDoc();
+        setTipoDoc();
 
         elem = properties.add(null, C.DOC_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
@@ -2195,140 +2177,138 @@
 
         var properties = m_dialog.getProperties();
 
-        elem = properties.item(C.DOCT_ID);
-        elem.setValue(m_documentoTipo);
-        elem.setSelectId(m_doct_id);
+        var property = properties.item(C.DOCT_ID);
+        property.setValue(m_documentoTipo);
+        property.setSelectId(m_doct_id);
 
-        elem = properties.item(C.EMP_ID);
-        elem.setValue(m_empresa);
-        elem.setSelectId(m_emp_id);
+        property = properties.item(C.EMP_ID);
+        property.setValue(m_empresa);
+        property.setSelectId(m_emp_id);
 
-        elem = properties.item(C.CICO_ID);
-        elem.setValue(m_circuitoContable);
-        elem.setSelectId(m_cico_id);
+        property = properties.item(C.CICO_ID);
+        property.setValue(m_circuitoContable);
+        property.setSelectId(m_cico_id);
 
-        elem = properties.item(C.DOC_NAME);
-        elem.setValue(m_name);
+        property = properties.item(C.DOC_NAME);
+        property.setValue(m_name);
 
-        elem = properties.item(C.DOC_CODE);
-        elem.setValue(m_code);
+        property = properties.item(C.DOC_CODE);
+        property.setValue(m_code);
 
-        elem = properties.item(Cairo.Constants.ACTIVE);
-        elem.setValue(m_active === true ? 1 : 0);
+        property = properties.item(Cairo.Constants.ACTIVE);
+        property.setValue(m_active === true ? 1 : 0);
 
-        elem = properties.item(C.DOC_EDITAR_IMPRESOS);
-        elem.setValue(Cairo.Util.boolToInt(m_editarImpresos));
+        property = properties.item(C.DOC_EDITAR_IMPRESOS);
+        property.setValue(Cairo.Util.boolToInt(m_editarImpresos));
 
-        elem = properties.item(C.FCA_ID);
-        elem.setValue(m_fechaControlAcceso);
-        elem.setSelectId(m_fca_id);
+        property = properties.item(C.FCA_ID);
+        property.setValue(m_fechaControlAcceso);
+        property.setSelectId(m_fca_id);
 
-        elem = properties.item(C.DOC_DESCRIP);
-        elem.setValue(m_descrip);
+        property = properties.item(C.DOC_DESCRIP);
+        property.setValue(m_descrip);
 
-        elem = properties.item(C.DOC_OBJECT_EDIT);
-        elem.setValue(m_object_edit);
+        property = properties.item(C.DOC_OBJECT_EDIT);
+        property.setValue(m_object_edit);
 
         return m_dialog.showValues(properties);
       };
 
       var load = function(id) {
 
-        var apiPath = DB.getAPIVersion();
-        return DB.getData("load[" + apiPath + "general/documento]", id).then(
+        return DB.getData("load[" + m_apiPath + "general/documento]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
 
+            m_data = loadDataFromResponse(response);
+
             if(response.data.id !== NO_ID) {
 
-              m_id = DB.valField(response.data, C.DOC_ID);
-              m_name = DB.valField(response.data, C.DOC_NAME);
-              m_code = DB.valField(response.data, C.DOC_CODE);
-              m_descrip = DB.valField(response.data, C.DOC_DESCRIP);
-              m_doct_id = DB.valField(response.data, C.DOCT_ID);
-              m_documentoTipo = DB.valField(response.data, C.DOCT_NAME);
-              m_cico_id = DB.valField(response.data, C.CICO_ID);
-              m_circuitoContable = DB.valField(response.data, C.CICO_NAME);
-              m_creado = DB.valField(response.data, Cairo.Constants.CREADO);
-              m_modificado = DB.valField(response.data, Cairo.Constants.MODIFICADO);
-              m_modifico = DB.valField(response.data, Cairo.Constants.MODIFICO);
-              m_llevaFirma = DB.valField(response.data, C.DOC_LLEVA_FIRMA);
+              m_id = valField(response.data, C.DOC_ID);
+              m_name = valField(response.data, C.DOC_NAME);
+              m_code = valField(response.data, C.DOC_CODE);
+              m_descrip = valField(response.data, C.DOC_DESCRIP);
+              m_doct_id = valField(response.data, C.DOCT_ID);
+              m_documentoTipo = valField(response.data, C.DOCT_NAME);
+              m_cico_id = valField(response.data, C.CICO_ID);
+              m_circuitoContable = valField(response.data, C.CICO_NAME);
+              m_llevaFirma = valField(response.data, C.DOC_LLEVA_FIRMA);
 
-              m_esResumenBco = DB.valField(response.data, C.DOC_ES_RESUMEN_BCO);
-              m_esCreditoBanco = DB.valField(response.data, C.DOC_ES_CREDITOBANCO);
-              m_esVentaAccion = DB.valField(response.data, C.DOC_ES_VENTA_ACCION);
-              m_esVentaCheque = DB.valField(response.data, C.DOC_ES_VENTA_CHEQUE);
-              m_esCobChequesgr = DB.valField(response.data, C.DOC_ES_COB_CHEQUE_SGR);
-              m_esCobCaidasgr = DB.valField(response.data, C.DOC_ES_COB_CAIDA_SGR);
+              m_esResumenBco = valField(response.data, C.DOC_ES_RESUMEN_BANCO);
+              m_esCreditoBanco = valField(response.data, C.DOC_ES_CREDITO_BANCO);
+              m_esVentaAccion = valField(response.data, C.DOC_ES_VENTA_ACCION);
+              m_esVentaCheque = valField(response.data, C.DOC_ES_VENTA_CHEQUE);
+              m_esCobChequesgr = valField(response.data, C.DOC_ES_COB_CHEQUE_SGR);
+              m_esCobCaidasgr = valField(response.data, C.DOC_ES_COB_CAIDA_SGR);
 
-              m_llevaFirmaCredito = DB.valField(response.data, C.DOC_LLEVA_FIRMA_CREDITO);
-              m_llevaFirmaPrint0 = DB.valField(response.data, C.DOC_LLEVA_FIRMA_PRINT0);
-              m_tipoFactura = DB.valField(response.data, C.DOC_TIPO_FACTURA);
-              m_tipoPackingList = DB.valField(response.data, C.DOC_TIPO_PACKING_LIST);
-              m_tipoORDEN_COMPRA = DB.valField(response.data, C.DOC_TIPO_ORDEN_COMPRA);
+              m_llevaFirmaCredito = valField(response.data, C.DOC_LLEVA_FIRMA_CREDITO);
+              m_llevaFirmaPrint0 = valField(response.data, C.DOC_LLEVA_FIRMA_PRINT0);
+              m_tipoFactura = valField(response.data, C.DOC_TIPO_FACTURA);
+              m_tipoPackingList = valField(response.data, C.DOC_TIPO_PACKING_LIST);
+              m_tipoORDEN_COMPRA = valField(response.data, C.DOC_TIPO_ORDEN_COMPRA);
 
-              m_rvDesdePv = DB.valField(response.data, C.DOC_RV_DESDE_PV);
-              m_rvDesdeOs = DB.valField(response.data, C.DOC_RV_DESDE_OS);
-              m_rcDesdeOc = DB.valField(response.data, C.DOC_RC_DESDE_OC);
-              m_rcDespachoImpo = DB.valField(response.data, C.DOC_RC_DESPACHO_IMPO);
-              m_rvBom = DB.valField(response.data, C.DOC_RV_BOM);
-              m_pvDesdePrv = DB.valField(response.data, C.DOC_PV_DESDE_PRV);
+              m_rvDesdePv = valField(response.data, C.DOC_RV_DESDE_PV);
+              m_rvDesdeOs = valField(response.data, C.DOC_RV_DESDE_OS);
+              m_rcDesdeOc = valField(response.data, C.DOC_RC_DESDE_OC);
+              m_rcDespachoImpo = valField(response.data, C.DOC_RC_DESPACHO_IMPO);
+              m_rvBom = valField(response.data, C.DOC_RV_BOM);
+              m_pvDesdePrv = valField(response.data, C.DOC_PV_DESDE_PRV);
 
-              m_fv_SinPercepcion = DB.valField(response.data, C.DOC_FV_SIN_PERCEPCION);
-              m_esFacturaElectronica = DB.valField(response.data, C.DOCES_FACTURA_ELECTRONICA);
+              m_fv_SinPercepcion = valField(response.data, C.DOC_FV_SIN_PERCEPCION);
+              m_esFacturaElectronica = valField(response.data, C.DOC_ES_FACTURA_ELECTRONICA);
 
-              m_stConsumo = DB.valField(response.data, C.DOC_ST_CONSUMO);
+              m_stConsumo = valField(response.data, C.DOC_ST_CONSUMO);
 
-              m_fechaControlAcceso = DB.valField(response.data, C.FCA_NAME);
-              m_fca_id = DB.valField(response.data, C.FCA_ID);
+              m_fechaControlAcceso = valField(response.data, C.FCA_NAME);
+              m_fca_id = valField(response.data, C.FCA_ID);
 
-              m_ta_id = DB.valField(response.data, C.TA_ID);
-              m_talonario = DB.valField(response.data, C.TA_NAME);
+              m_ta_id = valField(response.data, C.TA_ID);
+              m_talonario = valField(response.data, C.TA_NAME);
 
-              m_ta_id_Externo = DB.valField(response.data, C.TA_ID_EXTERNO);
-              m_talonarioExterno = DB.valField(response.data, "taExterno");
+              m_ta_id_Externo = valField(response.data, C.TA_ID_EXTERNO);
+              m_talonarioExterno = valField(response.data, "taExterno");
 
-              m_ta_id_Final = DB.valField(response.data, C.TA_ID_FINAL);
-              m_talonarioFinal = DB.valField(response.data, "taFinal");
+              m_ta_id_Final = valField(response.data, C.TA_ID_FINAL);
+              m_talonarioFinal = valField(response.data, "taFinal");
 
-              m_ta_id_Inscripto = DB.valField(response.data, C.TA_ID_INSCRIPTO);
-              m_talonarioInscripto = DB.valField(response.data, "taInscripto");
+              m_ta_id_Inscripto = valField(response.data, C.TA_ID_INSCRIPTO);
+              m_talonarioInscripto = valField(response.data, "taInscripto");
 
-              m_ta_id_InscriptoM = DB.valField(response.data, C.TA_ID_INSCRIPTO_M);
-              m_talonarioInscriptoM = DB.valField(response.data, "taInscriptoM");
+              m_ta_id_InscriptoM = valField(response.data, C.TA_ID_INSCRIPTO_M);
+              m_talonarioInscriptoM = valField(response.data, "taInscriptoM");
 
-              m_ta_id_Haberes = DB.valField(response.data, C.TA_ID_HABERES);
-              m_talonarioHaberes = DB.valField(response.data, "taHaberes");
+              m_ta_id_Haberes = valField(response.data, C.TA_ID_HABERES);
+              m_talonarioHaberes = valField(response.data, "taHaberes");
 
-              m_doc_id_Asiento = DB.valField(response.data, C.DOC_ID_ASIENTO);
-              m_documentoAsiento = DB.valField(response.data, "docAsiento");
+              m_doc_id_Asiento = valField(response.data, C.DOC_ID_ASIENTO);
+              m_documentoAsiento = valField(response.data, "docAsiento");
 
-              m_mon_id = DB.valField(response.data, C.MON_ID);
-              m_moneda = DB.valField(response.data, C.MON_NAME);
+              m_mon_id = valField(response.data, C.MON_ID);
+              m_moneda = valField(response.data, C.MON_NAME);
 
-              m_cueg_id = DB.valField(response.data, C.CUEG_ID);
-              m_cuentaGrupo = DB.valField(response.data, C.CUEG_NAME);
+              m_cueg_id = valField(response.data, C.CUEG_ID);
+              m_cuentaGrupo = valField(response.data, C.CUEG_NAME);
 
-              m_generaRemito = DB.valField(response.data, C.DOC_GENERA_REMITO);
-              m_mueveStock = DB.valField(response.data, C.DOC_MUEVE_STOCK);
+              m_generaRemito = valField(response.data, C.DOC_GENERA_REMITO);
+              m_mueveStock = valField(response.data, C.DOC_MUEVE_STOCK);
 
-              m_doc_id_Remito = DB.valField(response.data, C.DOC_ID_REMITO);
-              m_documentoRemito = DB.valField(response.data, "docRemito");
+              m_doc_id_Remito = valField(response.data, C.DOC_ID_REMITO);
+              m_documentoRemito = valField(response.data, "docRemito");
 
-              m_doc_id_Stock = DB.valField(response.data, C.DOC_ID_STOCK);
-              m_documentoStock = DB.valField(response.data, "docStock");
+              m_doc_id_Stock = valField(response.data, C.DOC_ID_STOCK);
+              m_documentoStock = valField(response.data, "docStock");
 
-              m_emp_id = DB.valField(response.data, C.EMP_ID);
-              m_empresa = DB.valField(response.data, Cairo.Constants.EMP_NAME);
+              m_emp_id = valField(response.data, C.EMP_ID);
+              m_empresa = valField(response.data, C.EMP_NAME);
 
-              m_active = DB.valField(response.data, Cairo.Constants.ACTIVE);
-              m_editarImpresos = DB.valField(response.data, C.DOC_EDITAR_IMPRESOS);
+              m_active = valField(response.data, Cairo.Constants.ACTIVE);
+              m_editarImpresos = valField(response.data, C.DOC_EDITAR_IMPRESOS);
 
-              m_docg_id = DB.valField(response.data, C.DOCG_ID);
-              m_documentoGrupo = DB.valField(response.data, C.DOCG_NAME);
+              m_docg_id = valField(response.data, C.DOCG_ID);
+              m_documentoGrupo = valField(response.data, C.DOCG_NAME);
 
-              m_object_edit = DB.valField(response.data, C.DOC_OBJECT_EDIT);
+              m_object_edit = valField(response.data, C.DOC_OBJECT_EDIT);
 
             } 
             else {
@@ -2338,9 +2318,6 @@
               m_descrip = "";
               m_doct_id = NO_ID;
               m_documentoTipo = "";
-              m_creado = Cairo.Constants.cSNODATE;
-              m_modificado = Cairo.Constants.cSNODATE;
-              m_modifico = 0;
               m_llevaFirma = false;
               m_esResumenBco = false;
               m_esCreditoBanco = false;
@@ -2417,155 +2394,165 @@
 
             }
 
-          return true;
-        });
+            return true;
+          });
       };
 
       var setGridFirmas = function(property) {
 
-        var o = null;
+        var elem;
+        var grid = property.getGrid();
 
-        o = property.getGrid().getColumns().add(null);
-        // TODO VER JAVIER
-        o.setName("docfr_id");
-        o.setVisible(false);
-        o.setKey(KI_DOCFR_ID);
+        var columns = grid.getColumns();
+        columns.clear();
 
-        o = property.getGrid().getColumns().add(null);
-        o.setName(getText(1137, "")); // Usuario
-        o.setType(Dialogs.PropertyType.select);
-        o.setTable(csUsuario);
-        o.setKey(KI_US_ID);
+        elem = columns.add(null);
+        elem.setName("docfr_id");
+        elem.setVisible(false);
+        elem.setKey(KI_DOCFR_ID);
 
-        var f = null;
-        var fv = null;
+        elem = columns..add(null);
+        elem.setName(getText(1137, "")); // Usuario
+        elem.setType(Dialogs.PropertyType.select);
+        elem.setTable(csUsuario);
+        elem.setKey(KI_US_ID);
 
-          for(var _i = 0; _i < m_data.firmas.length; _i += 1) {
+        grid.getRows().clear();
+      };
 
-          f = property.getGrid().getRows().add(null, rs(C.DOCFR_ID).Value);
+      var loadFirmas = function(property) {
+
+        var elem;
+        var grid = property.getGrid();
+        var rows = grid.getRows();
+
+        rows.clear();
+
+        for(var _i = 0, count = m_data.firmas.length; _i < count; _i += 1) {
+
+          var row = rows.add(null, getValue(m_data.firmas[_i], C.DOCFR_ID));
 
           elem = row.add(null);
-          elem.setValue(rs(C.DOCFR_ID).Value);
+          elem.setValue(getValue(m_data.firmas[_i]);
           elem.setKey(KI_DOCFR_ID);
 
           elem = row.add(null);
-          elem.setValue(DB.valField(m_data.firmas[_i], Cairo.Constants.US_NAME));
-          elem.setId(DB.valField(m_data.firmas[_i], Cairo.Constants.US_ID));
+          elem.setValue(getValue(m_data.firmas[_i], C.US_NAME));
+          elem.setId(getValue(m_data.firmas[_i], C.US_ID));
           elem.setKey(KI_US_ID);
 
         }
-
-        return true;
       };
 
       var setGridReportes = function(property) {
 
-        var o = null;
+        var elem;
+        var grid = property.getGrid();
+        var columns = grid.getColumns();
 
-        property.getGrid().getColumns().clear();
+        columns.clear();
 
-        o = property.getGrid().getColumns().add(null);
-        // TODO VER CON JAVIER
-        o.setName("rptf_id");
-        o.setVisible(false);
-        o.setKey(KI_RPTF_ID);
+        elem = columns.add(null);
+        elem.setVisible(false);
+        elem.setKey(KI_RPTF_ID);
 
-        o = property.getGrid().getColumns().add(null);
-        o.setName(Cairo.Constants.NAME_LABEL);
-        o.setType(Dialogs.PropertyType.text);
-        o.setKey(KI_NOMBRE);
+        elem = columns.add(null);
+        elem.setName(Cairo.Constants.NAME_LABEL);
+        elem.setType(Dialogs.PropertyType.text);
+        elem.setKey(KI_NOMBRE);
 
-        o = property.getGrid().getColumns().add(null);
-        o.setName(getText(2572, "")); // Archivo CSR
-        o.setType(Dialogs.PropertyType.file);
-        // TODO VER CON JAVIER
-        o.setSelectFilter("Reportes|*.csr");
-        o.setKey(KI_CSRFILE);
+        elem = columns.add(null);
+        elem.setName(getText(2572, "")); // Archivo CSR
+        elem.setType(Dialogs.PropertyType.file);
+        elem.setSelectFilter("Reportes|*.csr");
+        elem.setKey(KI_CSRFILE);
 
-        o = property.getGrid().getColumns().add(null);
-        o.setName(getText(2573, "")); // Sugerido
-        o.setType(Dialogs.PropertyType.check);
-        o.setKey(KI_SUGERIDO);
+        elem = columns.add(null);
+        elem.setName(getText(2573, "")); // Sugerido
+        elem.setType(Dialogs.PropertyType.check);
+        elem.setKey(KI_SUGERIDO);
 
-        o = property.getGrid().getColumns().add(null);
-        o.setName(getText(3915, "")); // Sugerido Mail
-        o.setType(Dialogs.PropertyType.check);
-        o.setKey(KI_SUGERIDOMAIL);
+        elem = columns.add(null);
+        elem.setName(getText(3915, "")); // Sugerido Mail
+        elem.setType(Dialogs.PropertyType.check);
+        elem.setKey(KI_SUGERIDOMAIL);
 
-        o = property.getGrid().getColumns().add(null);
-        o.setName(getText(2574, "")); // Copias
-        o.setType(Dialogs.PropertyType.numeric);
-        o.setSubType(Dialogs.PropertySubType.Integer);
-        o.setKey(KI_COPIAS);
+        elem = columns.add(null);
+        elem.setName(getText(2574, "")); // Copias
+        elem.setType(Dialogs.PropertyType.numeric);
+        elem.setSubType(Dialogs.PropertySubType.integer);
+        elem.setKey(KI_COPIAS);
 
-        o = property.getGrid().getColumns().add(null);
-        o.setName(getText(2575, "")); // Imprimir al grabar un Documento nuevo
-        o.setType(Dialogs.PropertyType.check);
-        o.setKey(KI_PRINTINNEW);
+        elem = columns.add(null);
+        elem.setName(getText(2575, "")); // Imprimir al grabar un Documento nuevo
+        elem.setType(Dialogs.PropertyType.check);
+        elem.setKey(KI_PRINTINNEW);
 
-        o = property.getGrid().getColumns().add(null);
-        o.setName(getText(2576, "")); // Objeto ActiveX
-        o.setType(Dialogs.PropertyType.text);
-        o.setKey(KI_RPT_OBJ);
+        elem = columns.add(null);
+        elem.setName(getText(2576, "")); // Objeto ActiveX
+        elem.setType(Dialogs.PropertyType.text);
+        elem.setKey(KI_RPT_OBJ);
 
-        var f = null;
-        var fv = null;
+        grid.getRows().clear();
+      };
 
-        property.getGrid().getRows().clear();
+      var loadReports = function(property) {
 
-          for(var _i = 0; _i < m_data.reportes.length; _i += 1) {
+        var elem;
+        var grid = property.getGrid();
+        var rows = grid.getRows();
 
-          f = property.getGrid().getRows().add(null, rs(Cairo.Constants.RPTFID).Value);
+        rows.clear();
+
+        for(var _i = 0; _i < m_data.reportes.length; _i += 1) {
+
+          var row = rows.add(null, getValue(m_data.reports[_i], C.RPTF_ID));
 
           elem = row.add(null);
-          elem.setValue(rs(Cairo.Constants.RPTFID).Value);
+          elem.setValue(getValue(m_data.reports[_i], C.RPTF_ID));
           elem.setKey(KI_RPTF_ID);
 
           elem = row.add(null);
-          elem.setValue(DB.valField(m_data.reportes[_i], Cairo.Constants.RPTFNAME));
+          elem.setValue(getValue(m_data.reportes[_i], C.RPTF_NAME));
           elem.setKey(KI_NOMBRE);
 
           elem = row.add(null);
-          elem.setValue(DB.valField(m_data.reportes[_i], Cairo.Constants.RPTFCSRFILE));
+          elem.setValue(getValue(m_data.reportes[_i], C.RPTF_CSRFILE));
           elem.setKey(KI_CSRFILE);
 
           elem = row.add(null);
-          elem.setId(DB.valField(m_data.reportes[_i], Cairo.Constants.RPTFSUGERIDO));
+          elem.setId(getValue(m_data.reportes[_i], C.RPTF_SUGERIDO));
           elem.setKey(KI_SUGERIDO);
 
           elem = row.add(null);
-          elem.setId(DB.valField(m_data.reportes[_i], Cairo.Constants.RPTFSUGERIDO_EMAIL));
+          elem.setId(getValue(m_data.reportes[_i], C.RPTF_SUGERIDO_EMAIL));
           elem.setKey(KI_SUGERIDOMAIL);
 
           elem = row.add(null);
-          elem.setValue(DB.valField(m_data.reportes[_i], Cairo.Constants.RPTFCOPIAS));
+          elem.setValue(getValue(m_data.reportes[_i], C.RPTF_COPIAS));
           elem.setKey(KI_COPIAS);
 
           elem = row.add(null);
-          elem.setId(DB.valField(m_data.reportes[_i], Cairo.Constants.RPTFDOC_IMPRIMIR_EN_ALTA));
+          elem.setId(getValue(m_data.reportes[_i], C.RPTF_DOC_IMPRIMIR_EN_ALTA));
           elem.setKey(KI_PRINTINNEW);
 
           elem = row.add(null);
-          elem.setValue(DB.valField(m_data.reportes[_i], Cairo.Constants.RPTFOBJECT));
+          elem.setValue(getValue(m_data.reportes[_i], C.RPTF_OBJECT));
           elem.setKey(KI_RPT_OBJ);
 
         }
-
-        return true;
       };
 
-      var pValidateRowFirmas = function(row, rowIndex) {
-        var cell = null;
-
+      var validateRowFirmas = function(row, rowIndex) {
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
         var _count = row.size();
         for (var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+          var cell = row.item(_i);
           switch (cell.getKey()) {
             case KI_US_ID:
               if(valEmpty(cell.getId(), Types.id)) {
-                MsgInfo(getText(1153, "", strRow)); // Debe indicar un usuario (1)
+                return M.showInfoWithFalse(getText(1153, "", strRow)); // Debe indicar un usuario (1)
               }
               break;
           }
@@ -2574,32 +2561,28 @@
         return P.resolvedPromise(true);
       };
 
-      var pValidateRowReportes = function(row, rowIndex) {
-        var cell = null;
-
+      var validateRowReportes = function(row, rowIndex) {
         var strRow = " (Row: " + rowIndex.toString() + ")";
-
-        CSKernelClient2.cIABMClient.setTitle(getText(2577, "")); // Reportes
 
         var _count = row.size();
         for (var _i = 0; _i < _count; _i++) {
-          cell = row.item(_i);
+          var cell = row.item(_i);
           switch (cell.getKey()) {
             case KI_NOMBRE:
               if(valEmpty(cell.getValue(), Types.text)) {
-                MsgInfo(getText(1811, "", strRow)); // Debe indicar un nombre (1)
+                return M.showInfoWithFalse(getText(1811, "", strRow)); // Debe indicar un nombre (1)
               }
               break;
 
             case KI_CSRFILE:
               if(valEmpty(cell.getValue(), Types.text)) {
-                MsgInfo(getText(2579, "", strRow)); // Debe indicar un Archivo CSR (1)
+                return M.showInfoWithFalse(getText(2579, "", strRow)); // Debe indicar un Archivo CSR (1)
               }
               break;
 
             case KI_COPIAS:
               if(val(cell.getValue()) < 1) {
-                MsgInfo(getText(2578, "", strRow)); // La cantidad de copias debe ser mayor o igual a 1 (1)
+                return M.showInfoWithFalse(getText(2578, "", strRow)); // La cantidad de copias debe ser mayor o igual a 1 (1)
               }
               break;
           }
@@ -2608,87 +2591,86 @@
         return P.resolvedPromise(true);
       };
 
-      var saveItemsReportes = function(mainTransaction) {
-        var transaction = new DB.Transaction();
+      var saveItemsReportes = function(mainRegister) {
+        var transaction = DB.createTransaction();
+        transaction.setTable(C.REPORTE_FORMULARIO);
 
-        var register = new DB.Register();
-        register.setFieldId(Cairo.Constants.RPTFID);
-        register.setTable(Cairo.Constants.REPORTEFORMULARIO);
-        register.setId(Cairo.Constants.NEW_ID);
+        var property = m_dialog.getProperties().item(C_CAIS);
+        var rows = property.getGrid().getRows();
 
-        var row = null;
-        var cell = null;
+        var _count = rows.size();
+        for(var _i = 0; _i < _count; _i++) {
 
-        var w_var fields = register.getFields();
-        var _count = m_dialog.getProperties().item(C_REPORTES).getGrid().getRows().size();
-        for (var _i = 0; _i < _count; _i++) {
-          row = m_dialog.getProperties().item(C_REPORTES).getGrid().getRows().item(_i);
+          var row = rows.item(_i);
 
-          fields.clear();
+          var register = new DB.Register();
 
-          var _count = row.size();
-          for (var _j = 0; _j < _count; _j++) {
-            cell = row.item(_j);
+          var fields = register.getFields();
+          register.setFieldId(C.RPTF_ID);
+          register.setId(Cairo.Constants.NEW_ID);
+
+          var _countj = row.size();
+          for(var _j = 0; _j < _countj; _j++) {
+
+            var cell = row.item(_j);
             switch (cell.getKey()) {
 
               case KI_RPTF_ID:
-                if(!m_copy) {
-                  register.setId(val(cell.getValue()));
+                if(m_copy) {
+                  fields.add(C.RPTF_ID, Cairo.Constants.NEW_ID, Types.integer);
+                }
+                else {
+                  fields.add(C.RPTF_ID, val(cell.getValue()), Types.integer);
                 }
                 break;
 
               case KI_NOMBRE:
-                fields.add(Cairo.Constants.RPTFNAME, cell.getValue(), Types.text);
+                fields.add(C.RPTF_NAME, cell.getValue(), Types.text);
                 break;
 
               case KI_CSRFILE:
-                fields.add(Cairo.Constants.RPTFCSRFILE, cell.getValue(), Types.text);
+                fields.add(C.RPTF_CSRFILE, cell.getValue(), Types.text);
                 break;
 
               case KI_SUGERIDO:
-                fields.add(Cairo.Constants.RPTFSUGERIDO, cell.getId(), Types.boolean);
+                fields.add(C.RPTF_SUGERIDO, cell.getId(), Types.boolean);
                 break;
 
               case KI_SUGERIDOMAIL:
-                fields.add(Cairo.Constants.RPTFSUGERIDO_EMAIL, cell.getId(), Types.boolean);
+                fields.add(C.RPTF_SUGERIDO_EMAIL, cell.getId(), Types.boolean);
                 break;
 
               case KI_COPIAS:
-                fields.add(Cairo.Constants.RPTFCOPIAS, val(cell.getValue()), Types.integer);
+                fields.add(C.RPTF_COPIAS, val(cell.getValue()), Types.integer);
                 break;
 
               case KI_PRINTINNEW:
-                fields.add(Cairo.Constants.RPTFDOC_IMPRIMIR_EN_ALTA, cell.getId(), Types.boolean);
+                fields.add(C.RPTF_DOC_IMPRIMIR_EN_ALTA, cell.getId(), Types.boolean);
                 break;
 
               case KI_RPT_OBJ:
-                fields.add(Cairo.Constants.RPTFOBJECT, cell.getValue(), Types.text);
+                fields.add(C.RPTF_OBJECT, cell.getValue(), Types.text);
                 break;
             }
           }
 
-          fields.add(Cairo.Constants.RPTFTIPO, csRptFTypes.cSRPTFMAESTRO, Types.integer);
+          fields.add(C.RPTF_TIPO, C.ReporteFormularioTipo.maestro, Types.integer);
           fields.add(C.DOC_ID, m_id, Types.id);
           fields.add(Cairo.Constants.ACTIVE, -1, Types.boolean);
-
-          fields.setHaveLastUpdate(true);
-          fields.setHaveWhoModify(true);
 
           transaction.addRegister(register);
         }
 
-        if(LenB(m_itemsDeletedReportes) && !m_copy) {
-          m_itemsDeletedReportes = RemoveLastColon(m_itemsDeletedReportes);
+        if(m_itemsDeletedReportes !== "" && !m_copy) {
 
-          if(!DB.execute(sqlstmt, "saveItemsReportes", C_MODULE)) { return false; }
+          transaction.setDeletedList(m_itemsDeletedReportes);
+
         }
 
-        mainTransaction.addTransaction(transaction);
-
-        return true;
+        mainRegister.addTransaction(transaction);
       };
 
-      var pSetTipoDoc = function() {
+      var setTipoDoc = function() {
         if(m_id === NO_ID) {
 
           m_dialog.getProperties().item(C.DOCT_ID).setEnabled(true);
