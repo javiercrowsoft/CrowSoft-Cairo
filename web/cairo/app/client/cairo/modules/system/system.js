@@ -98,7 +98,7 @@
       }
     );
   };
-  
+
   Cairo.Selections.addMultiRowsPurchase = function(ids, virtualRow, amountKey) {
     return addMultiRows(ids, virtualRow, amountKey, C.PR_NAME_COMPRA);
   };
@@ -113,7 +113,7 @@
     DOC_CHANGED: -2,
     TO_COMERCIAL_ID: 1,
     TO_COMERCIAL: getText(1014, "") // Comercial
-  }
+  };
 
   Cairo.Documents.Status = {
     error: 0,
@@ -173,15 +173,15 @@
     STOCK_CLIENTE: 45,
     ORDEN_PROD_KIT: 46,
     LIQUIDACION: 47
-  
+
     /*
     * NOTICE:
-    * 
+    *
     * this enum is repeated in sp_doc_set_impreso
     * it is used to set the document as printed
     * if you change this enum you must update the copy
     * in sp_doc_set_impreso
-    * 
+    *
     * */
   };
 
@@ -208,11 +208,10 @@
   };
 
   Cairo.Documents.OrderWizardType = {
-    directa = 0,
-    pedido = 1,
-    presupuesto = 2
+    directa: 0,
+    pedido: 1,
+    presupuesto: 2
   };
-
 
   Cairo.Documents.ReceiptType = {
     original: 1,
@@ -818,7 +817,7 @@
 
       if(response.success === true) {
         return {
-          
+
           ti_ri_compra: valField(response.data, 'ti_id_ivaricompra'),
           ri_percent_compra: valField(response.data, 'ti_ri_porc_compra'),
           ri_cue_id_compra: valField(response.data, 'cue_id_ri_compra'),
@@ -1495,7 +1494,7 @@
 
   Cairo.Documents.setTotal = function(row, kII_TOTAL, kII_APLICAR, kII_PRECIOIVA) {
     Dialogs.cell(row, kII_TOTAL).setValue(
-      val(Dialogs.cell(row, kII_APLICAR).getValue())  
+      val(Dialogs.cell(row, kII_APLICAR).getValue())
       * val(Dialogs.cell(row, kII_PRECIOIVA).getValue())
     );
   };
@@ -1516,13 +1515,13 @@
   Cairo.Documents.setDocumentForDoctId = function(docProperty, wiz, doctId, doctIdApplic, vIds, idEx) {
 
     var p = null;
-    
+
     if(docProperty.getSelectId() === NO_ID) {
 
       var id = 0;
-  
+
       if(vIds.length > 0) { id = vIds(1); }
-  
+
       p = DB.getData("load[" + m_apiPath + "documento/from_doctId/"
                   + doctId.toString() + "/" + doctIdApplic.toString()
                   + "/" + id.toString() + "/" + idEx.toString() + "]")
@@ -1886,7 +1885,7 @@
 
     return p || P.resolvedPromise(true);
   }
-  
+
   // tesoreria
 
   Cairo.Documents.setSelectFilterCuotas = function(row, property, dialog, tarjetaKey) {
@@ -2215,14 +2214,14 @@
   Cairo.SerialNumber.getCount = function(serialNumbers, grupo) {
 
     /* TODO: complete this
-    
+
     var pt = null;
     var rtn = null;
-  
+
     if(grupo === 0) { return 0; }
-  
+
     if(mCollection.existsObjectInColl(serialNumbers, getKey(grupo))) {
-  
+
       var _count = serialNumbers.get(getKey(grupo)).size();
       for(var _i = 0; _i < _count; _i++) {
         pt = serialNumbers.get(getKey(grupo)).item(_i);
@@ -2241,21 +2240,21 @@
     keyAmount, keyNSerie, prId, deplId, isInput) {
 
     return Cairo.SerialNumber.validateCount2Ex(
-      row, keyGroup, rowIndex, serialNumbers, cantidad, strRow, keyPrId, 
+      row, keyGroup, rowIndex, serialNumbers, cantidad, strRow, keyPrId,
       keyAmount, keyNSerie, prId, deplId, isInput, false);
   };
 
   Cairo.SerialNumber.validateCount2Ex = function(
-    row, keyGroup, rowIndex, serialNumbers, cantidad, strRow, keyPrId, 
+    row, keyGroup, rowIndex, serialNumbers, cantidad, strRow, keyPrId,
     keyAmount, keyNSerie, prId, deplId, isInput, silent) {
 
     return Cairo.SerialNumber.validateCount3Ex(
-      row, keyGroup, rowIndex, serialNumbers, cantidad, strRow, keyPrId, 
+      row, keyGroup, rowIndex, serialNumbers, cantidad, strRow, keyPrId,
       keyAmount, keyNSerie, prId, deplId, isInput, silent, false);
   };
 
   Cairo.SerialNumber.validateCount3Ex = function(
-    row, keyGroup, rowIndex, serialNumbers, cantidad, strRow, keyPrId, 
+    row, keyGroup, rowIndex, serialNumbers, cantidad, strRow, keyPrId,
     keyAmount, keyNSerie, prId, deplId, isInput, silent, superSilent) {
 
     /* TODO: complete this
@@ -2610,12 +2609,12 @@
   };
 
   var create = function(
-    grupo, cantidad, row, serialNumbers, KI_GRUPO, KI_NROSERIE, lRow, 
-    prId, deplId, isInput, bEditKit, bParteProdKit, collKitInfo, 
+    grupo, cantidad, row, serialNumbers, KI_GRUPO, KI_NROSERIE, lRow,
+    prId, deplId, isInput, bEditKit, bParteProdKit, collKitInfo,
     prov_id, cli_id, deleteCount, prId2) {
 
     /* TODO: complete this
-    
+
     var editSerie = null;
     var i = null;
     var n = null;
@@ -2747,7 +2746,7 @@
     return valField(rs.getFields(), 0);
     */
   };
-  
+
 }());
 
 // kit management
@@ -2769,9 +2768,9 @@
       amount: 0,
       hasSerial: false
     };
-    
+
     var that = {};
-    
+
     that.setPrId = function(prId) {
       self.prId = prId;
     };
@@ -2939,7 +2938,7 @@
 
     self.getDate = function(dateName, iniDate) {
       var date;
-      
+
       if(Cairo.Util.isNumeric(dateName)) {
         date = self.getDateById(dateName, iniDate);
       }
@@ -3202,7 +3201,7 @@
         dn.setId(Cairo.Dates.VirtualDates.MONTH_LAST_FIRST_DAY);
         dn.setName("Primer dia del mes anterior");
         dn.setCode("pma");
-        dn.setGroup("Mes");                                    
+        dn.setGroup("Mes");
 
         dn = m_dateNames.add(null, "uma");
         dn.setId(Cairo.Dates.VirtualDates.MONTH_LAST_LAST_DAY);
@@ -3234,17 +3233,17 @@
         dn.setCode("ump");
         dn.setGroup("Mes");
 
-        dn = m_dateNames.add(null, "paa");                   
+        dn = m_dateNames.add(null, "paa");
         dn.setId(Cairo.Dates.VirtualDates.YEAR_LAST_FIRST_DAY);
         dn.setName("Primer dia del año anterior");
         dn.setCode("paa");
         dn.setGroup("Año");
-                                                       
+
         dn = m_dateNames.add(null, "uaa");
         dn.setId(Cairo.Dates.VirtualDates.YEAR_LAST_LAST_DAY);
         dn.setName("Ultimo dia del año anterior");
         dn.setCode("uaa");
-        dn.setGroup("Año");                                      
+        dn.setGroup("Año");
 
         dn = m_dateNames.add(null, "pa");
         dn.setId(Cairo.Dates.VirtualDates.YEAR_FIRST_DAY);
@@ -3256,7 +3255,7 @@
         dn.setId(Cairo.Dates.VirtualDates.YEAR_LAST_DAY);
         dn.setName("Ultimo dia del año");
         dn.setCode("ua");
-        dn.setGroup("Año");                      
+        dn.setGroup("Año");
 
         dn = m_dateNames.add(null, "pap");
         dn.setId(Cairo.Dates.VirtualDates.YEAR_NEXT_FIRST_DAY);

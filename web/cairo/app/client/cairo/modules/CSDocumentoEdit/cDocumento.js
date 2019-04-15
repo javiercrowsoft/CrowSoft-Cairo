@@ -347,10 +347,10 @@
 
         switch (messageId) {
         
-          case Dialogs.Message.MSG_EDIT_PERMISOS:
+          case Dialogs.Message.MSG_EDIT_PERMISSIONS:
 
             if(m_id === NO_ID) {
-                                // Debe grabar el Documento para poder editar sus permisos, Documento
+              // Debe grabar el Documento para poder editar sus permisos, Documento
               return M.showInfo(getText(2559, ""), getText(1567, "")).then(function () {
                 return false;
               });
@@ -365,9 +365,9 @@
             _rtn = true;
             break;
 
-          case Dialogs.Message.MSG_SHOW_EDIT_PERMISOS:
+          case Dialogs.Message.MSG_SHOW_EDIT_PERMISSIONS:
 
-            _rtn = Dialogs.Message.MSG_SHOW_EDIT_PERMISOS;
+            _rtn = Dialogs.Message.MSG_SHOW_EDIT_PERMISSIONS;
             break;
 
           default:
@@ -411,6 +411,7 @@
       self.save = function() {
 
         var bIsNew = m_id === Cairo.Constants.NEW_ID;
+        var lastId = m_id;
 
         var register = new DB.Register();
         var fields = register.getFields();
@@ -496,19 +497,18 @@
           saveSignatures(register);
         }
 
-        savePermisos(lastId, register.getID(), bIsNew);
-
-        return DB.saveTransaction(
-          register,
-          false,
-          C.PR_CODE,
-          Cairo.Constants.CLIENT_SAVE_FUNCTION,
-          C_MODULE,
-          getText(2861, "") // Error al grabar el Documento
-
-        ).then(
-
-          function(result) {
+        var p = savePermisos1(lastId, register)
+          .then(function() {
+            return DB.saveTransaction(
+              register,
+              false,
+              C.PR_CODE,
+              Cairo.Constants.CLIENT_SAVE_FUNCTION,
+              C_MODULE,
+              getText(2861, "") // Error al grabar el Documento
+            );
+          })
+          .then(function(result) {
             if(result.success) {
               m_copy = false;
               return load(result.data.getId()).then(
@@ -519,6 +519,7 @@
                       updateList();
                       m_listController.updateEditorKey(self, m_id);
                     }
+                    savePermisos2(bIsNew);
                   }
                   m_isNew = false;
                   return success;
@@ -528,8 +529,9 @@
             else {
               return false;
             }
-          }
-        );
+          });
+
+        return p;
       };
 
       var getActive = function(value) {
@@ -4356,6 +4358,40 @@
             break;
         }
       };
+
+      var savePermisos1 = function(lastId, register) {
+        var p = P.resolvedPromise(false);
+        var copy = false;
+        if(m_copy) {
+          p = M.confirmViewYesDefault(
+            getText(1622, ""), // CrowSoft
+            getText(3478, "")  // desea copiar los permisos ?
+
+          ).whenSuccess(function() {
+            return copy = true;
+          });
+        }
+
+        p = p.then(function() {
+          register.getFields().add(C.DOC_COPY_PERMISSIONS, copy, Types.boolean);
+        });
+
+        return p;
+      };
+
+      var savePermisos2 = function(bIsNew) {
+        if(bIsNew) {
+          M.confirmViewYesDefault(
+            getText(1622, ""), // CrowSoft
+            getText(3525, "")  // desea editar los permisos ?
+
+          ).whenSuccess(function() {
+            self.messageEx(Dialogs.Message.MSG_EDIT_PERMISSIONS, null);
+          });
+        }
+        return true;
+      };
+
 
       // TODO: move to backend
       /*
