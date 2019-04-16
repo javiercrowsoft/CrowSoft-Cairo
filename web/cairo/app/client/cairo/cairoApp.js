@@ -693,7 +693,7 @@ var Cairo = new Marionette.Application();
           break;
       }
       return d;
-    }
+    };
 
     date = replaceAll(date, ".", "-");
 

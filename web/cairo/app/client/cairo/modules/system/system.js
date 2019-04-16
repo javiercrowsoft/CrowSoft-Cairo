@@ -1070,24 +1070,35 @@
     + Cairo.Documents.Types.TRANSFERENCIA_STOCK.toString()
   ;
 
-  Cairo.getStockLoteFilter = function(deplId,
-                                        stockFisico,
-                                        prIdKit,
-                                        depfId) {
-    return Cairo.getStockLoteFilterEx(deplId,
+  Cairo.Documents.REMITO_COMPRA_DOC_FILTER = "document|documentTypeId:"
+    + Cairo.Documents.Types.REMITO_COMPRA.toString()
+  ;
+
+
+  Cairo.getStockLoteFilter = function(prId,
+                                      deplId,
+                                      stockFisico,
+                                      prIdKit,
+                                      depfId) {
+
+    return Cairo.getStockLoteFilterEx(prId,
+                                      deplId,
                                       stockFisico,
                                       prIdKit,
                                       depfId,
                                       NO_ID, NO_ID);
   };
 
-  Cairo.getStockLoteFilterEx = function(deplId,
+  Cairo.getStockLoteFilterEx = function(prId,
+                                        deplId,
                                         stockFisico,
                                         prIdKit,
                                         depfId,
                                         cliId,
                                         provId) {
-    return "stock_lote:deplId:" + deplId.toString()
+    return "stock_lote|"
+      +  "prId:" + prId.toString()
+      + ",deplId:" + deplId.toString()
       + ",stockFisico:" + stockFisico.toString()
       + ",prIdKit:" + prIdKit.toString()
       + ",depfId:" + depfId.toString()

@@ -32,7 +32,9 @@ object InternalFilter {
     "supplier_account" -> "f:supplierAccount",
     "account_for_cuec_id" -> "f:accountForCuecId",
     "rubro_tabla_item" -> "f:rubroTablaItem",
-    "serial_number" -> "f:serialNumber"
+    "serial_number" -> "f:serialNumber",
+    "generic_filter" -> "f:genericFilter",
+    "stock_lote" -> "f:stockLote"
   )
 
   val emptyFilter = InternalFilter("", List())
@@ -70,6 +72,8 @@ object InternalFilter {
             case "f:accountForCuecId" => accountForCuecId(user, parameters)
             case "f:rubroTablaItem" => rubroTablaItem(user, parameters)
             case "f:serialNumber" => serialNumber(user, parameters)
+            case "f:genericFilter" => genericFilter(user, parameters)
+            case "f:stockLote" => throw new NotImplementedError("stock_lote internal filter is not implemented yet")
             case _ => emptyFilter
           }
         }
@@ -148,7 +152,7 @@ object InternalFilter {
   *
   *            For this reason all internalFilters for stored procedures must try to avoid strings as parameters
   *            and the parameters must be always cast to integer or any other number value like in the document
-  *            filter below. Notice it takes a list of doctIds and them are parsed to Int when mapped
+  *            filter below. Notice it takes a list of doctIds and those are parsed to Int when mapped
   *
   * */
 
@@ -308,6 +312,34 @@ object InternalFilter {
     val prnsIdFilter = if(prnsId != 0) " or (prns_id = " + prnsId + ")" else ""
 
     InternalFilter("(" + prIdfilter + deplIdFilter + ")" + prnsIdFilter, List())
+  }
+
+  val validOperators = List("=", "<>", ">", "<")
+
+  case class conditionTerm(operator: String, value: Any)
+
+  private def getValue(value: String): Any = value.trim match {
+    case v if v.startsWith("'") => value
+    case "true" => true
+    case "false" => false
+    case v => v.toDouble
+  }
+
+  private def genericFilter(user: CompanyUser, parameters: List[String]): InternalFilter = {
+    val params = parameters.map(p => p.split(":") match {
+      case a if a.size < 3 =>
+        throw new IllegalArgumentException("genericFilter param must have format {column:operator:value} ex: column:<>:1")
+
+      case a if ! a(0).matches("^[a-zA-Z][a-zA-Z0-9_]*") =>
+        throw new IllegalArgumentException("genericFilter columns name must start with a letter and only contain letters a-z A-Z _ and 0-9")
+
+      case a if validOperators.contains(a(1)) =>
+        throw new IllegalArgumentException(s"genericFilter invalid operator ${a(1)} must be ${validOperators.mkString(",")}")
+
+      case a if validOperators.contains(a(0)) =>
+        conditionTerm(s"${a(0)} ${a(1)} ?", getValue(a(2)))
+    })
+    InternalFilter(params.map(_.operator).mkString("and"), params.map(p => QueryParameter(p.value)))
   }
 
 }

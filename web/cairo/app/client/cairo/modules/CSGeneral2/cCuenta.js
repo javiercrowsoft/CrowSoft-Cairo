@@ -193,7 +193,7 @@
 
             if(Cairo.Util.val(properties.item("OTROS").getValue())) {
 
-              properties.item(C.CUEC_ID).setSelectFilter("cuec_tipo = "+ csECuentaCategoriaTipo.cSETCUECOTRO.toString());
+              properties.item(C.CUEC_ID).setSelectFilter("generic_filter|cuec_tipo:=:" + csECuentaCategoriaTipo.cSETCUECOTRO.toString());
 
               switch (properties.item(C.CUEC_ID).getSelectId()) {
                 case csECuentaCategoria.cSECUECOTROS:
@@ -212,7 +212,7 @@
 
             if(Cairo.Util.val(properties.item("PATRIMONIAL").getValue())) {
 
-              properties.item(C.CUEC_ID).setSelectFilter("cuec_tipo = "+ csECuentaCategoriaTipo.cSETCUECPATRIMONIAL.toString());
+              properties.item(C.CUEC_ID).setSelectFilter("generic_filter|cuec_tipo:=:" + csECuentaCategoriaTipo.cSETCUECPATRIMONIAL.toString());
 
               switch (properties.item(C.CUEC_ID).getSelectId()) {
                 case csECuentaCategoria.cSECUECDOCENCARTERA:
@@ -240,7 +240,7 @@
 
             if(Cairo.Util.val(properties.item("RESULTADO").getValue())) {
 
-              properties.item(C.CUEC_ID).setSelectFilter("cuec_tipo = "+ csECuentaCategoriaTipo.cSETCUECRESULTADO.toString());
+              properties.item(C.CUEC_ID).setSelectFilter("generic_filter|cuec_tipo:=:" + csECuentaCategoriaTipo.cSETCUECRESULTADO.toString());
 
               switch (properties.item(C.CUEC_ID).getSelectId()) {
                 case csECuentaCategoria.cSECUECCOSTOMERCVEND:
@@ -661,25 +661,25 @@
 
           case csECuentaCategoriaTipo.cSETCUECOTRO:
             properties.item("OTROS").setValue(1);
-            properties.item(C.CUEC_ID).setSelectFilter("cuec_tipo = "+ csECuentaCategoriaTipo.cSETCUECOTRO.toString());
+            properties.item(C.CUEC_ID).setSelectFilter("generic_filter|cuec_tipo:=:" + csECuentaCategoriaTipo.cSETCUECOTRO.toString());
 
             break;
 
           case csECuentaCategoriaTipo.cSETCUECPATRIMONIAL:
             properties.item("PATRIMONIAL").setValue(1);
-            properties.item(C.CUEC_ID).setSelectFilter("cuec_tipo = "+ csECuentaCategoriaTipo.cSETCUECPATRIMONIAL.toString());
+            properties.item(C.CUEC_ID).setSelectFilter("generic_filter|cuec_tipo:=:" + csECuentaCategoriaTipo.cSETCUECPATRIMONIAL.toString());
 
             break;
 
           case csECuentaCategoriaTipo.cSETCUECRESULTADO:
             properties.item("RESULTADO").setValue(1);
-            properties.item(C.CUEC_ID).setSelectFilter("cuec_tipo = "+ csECuentaCategoriaTipo.cSETCUECRESULTADO.toString());
+            properties.item(C.CUEC_ID).setSelectFilter("generic_filter|cuec_tipo:=:" + csECuentaCategoriaTipo.cSETCUECRESULTADO.toString());
 
             break;
 
           default:
             properties.item("PATRIMONIAL").setValue(1);
-            properties.item(C.CUEC_ID).setSelectFilter("cuec_tipo = "+ csECuentaCategoriaTipo.cSETCUECPATRIMONIAL.toString());
+            properties.item(C.CUEC_ID).setSelectFilter("generic_filter|cuec_tipo:=:" + csECuentaCategoriaTipo.cSETCUECPATRIMONIAL.toString());
 
             break;
         }

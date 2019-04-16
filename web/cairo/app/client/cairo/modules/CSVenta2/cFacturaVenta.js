@@ -1909,17 +1909,15 @@
                 }
 
                 var column = grid.getColumns().item(C.STL_ID);
-                column.setSelectFilter("'pr_id = " + cellId(row, KI_PR_ID).toString()
-                  + " and "
-                  + D.getStockLoteFilterEx(
+                column.setSelectFilter(D.getStockLoteFilterEx(
+                      cellId(row, KI_PR_ID),
                       getDeplId(),
                       Cairo.getStockConfig().getStockXFisico(),
                       prIdKit,
                       m_depfId,
                       getCliId(),
                       NO_ID
-                    )
-                  + "'");
+                    ));
 
                 m_dialog.refreshColumnProperties(property, C.STL_ID);
 

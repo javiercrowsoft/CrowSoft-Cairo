@@ -156,7 +156,9 @@
           case K_TIPO:
 
             var properties = m_dialog.getProperties();
-            properties.item(C.CUE_ID).setSelectFilter(D.getCuentaGrupoFilter( properties.item(C.CUEG_TIPO).getListItemData()));
+            properties.item(C.CUE_ID).setSelectFilter(
+              D.getCuentaGrupoFilter(
+                properties.item(C.CUEG_TIPO).getListItemData()));
             m_dialog.showValue(properties.item(C.CUE_ID));
             break;
         }
