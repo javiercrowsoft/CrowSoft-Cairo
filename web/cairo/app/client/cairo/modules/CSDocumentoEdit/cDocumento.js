@@ -3473,7 +3473,7 @@
         elem.setValue(m_cuentaGrupo);
         elem.setSelectId(m_cueg_id);
         elem.setKey(K_CUEG_ID);
-        elem.setSelectFilter("cueg_tipo = 4");
+        elem.setSelectFilter("generic_filter|cueg_tipo:=:4");
 
         elem = properties.add(null, C.DOC_ID_ASIENTO);
         elem.setType(Dialogs.PropertyType.select);
@@ -3587,7 +3587,7 @@
         elem = properties.add(null, C.DOC_ID_REMITO);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
-        elem.setSelectFilter("'emp_id = "+ m_emp_id+ " and doct_id = "+ D.Types.REMITO_VENTA.toString()+ "'");
+        elem.setSelectFilter(D.REMITO_VENTA_DOC_FILTER + "|emp_id:" + m_emp_id.toString());
         elem.setName(getText(2604, "")); // Documento Remito
         elem.setValue(m_documentoRemito);
         elem.setSelectId(m_doc_id_Remito);
@@ -3680,13 +3680,13 @@
         elem = properties.add(null, C.CUEG_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTAGRUPO);
-        elem.setName(getText(2597, "")); // Cuenta grupo
+        elem.setName(getText(2597, "")); // Cuenta Grupo
         elem.setValue(m_cuentaGrupo);
         elem.setSelectId(m_cueg_id);
         elem.setKey(K_CUEG_ID);
-        elem.setSelectFilter("cueg_tipo = 3");
+        elem.setSelectFilter("generic_filter|cueg_tipo:=:3");
 
-        var elem = properties.add(null, C.DOC_ID_ASIENTO);
+        elem = properties.add(null, C.DOC_ID_ASIENTO);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setSelectFilter(getAsIdFilter(m_emp_id));
@@ -4141,11 +4141,11 @@
             m_dialog.validateProp(null, C.TA_ID_EXTERNO);
 
             property = properties.item(C.DOC_ID_REMITO);
-            property.setSelectFilter("'emp_id: " + emp_id.toString()+ " and doct_id = "+ D.Types.REMITO_VENTA.toString()+ "'");
+            property.setSelectFilter(D.REMITO_VENTA_DOC_FILTER + "|emp_id:" + m_emp_id.toString());
             m_dialog.validateProp(null, C.DOC_ID_REMITO);
 
             property = properties.item(C.DOC_ID_STOCK);
-            property.setSelectFilter("'emp_id: " + emp_id.toString()+ " and doct_id = "+ D.Types.TRASFERENCIASTOCK.toString()+ "'");
+            property.setSelectFilter(D.TRANSFERENCIA_STOCK_DOC_FILTER + "|emp_id:" + m_emp_id.toString());
             m_dialog.validateProp(null, C.DOC_ID_STOCK);
 
             break;
@@ -4155,7 +4155,7 @@
           case D.Types.NOTA_DEBITO_COMPRA:
 
             property = properties.item(C.DOC_ID_ASIENTO);
-            property.setSelectFilter("'emp_id: " + emp_id.toString()+ " and doct_id = "+ D.Types.ASIENTOCONTABLE.toString()+ "'");
+            property.setSelectFilter(D.ASIENTOS_DOC_FILTER + "|emp_id:"+ emp_id.toString());
             m_dialog.validateProp(null, C.DOC_ID_ASIENTO);
 
             property = properties.item(C.TA_ID_INSCRIPTO);
@@ -4175,11 +4175,11 @@
             m_dialog.validateProp(null, C.TA_ID_INSCRIPTO_M);
 
             property = properties.item(C.DOC_ID_REMITO);
-            property.setSelectFilter("'emp_id: " + emp_id.toString()+ " and doct_id = "+ D.Types.REMITO_COMPRA.toString()+ "'");
+            property.setSelectFilter(D.REMITO_COMPRA_DOC_FILTER + "|emp_id:" + m_emp_id.toString());
             m_dialog.validateProp(null, C.DOC_ID_REMITO);
 
             property = properties.item(C.DOC_ID_STOCK);
-            property.setSelectFilter("'emp_id: " + emp_id.toString()+ " and doct_id = "+ D.Types.TRASFERENCIASTOCK.toString()+ "'");
+            property.setSelectFilter(D.TRANSFERENCIA_STOCK_DOC_FILTER + "|emp_id:" + m_emp_id.toString());
             m_dialog.validateProp(null, C.DOC_ID_STOCK);
 
             break;
@@ -4192,7 +4192,7 @@
             m_dialog.validateProp(null, C.TA_ID);
 
             property = properties.item(C.DOC_ID_STOCK);
-            property.setSelectFilter("'emp_id: " + emp_id.toString()+ " and doct_id = "+ D.Types.TRASFERENCIASTOCK.toString()+ "'");
+            property.setSelectFilter(D.TRANSFERENCIA_STOCK_DOC_FILTER + "|emp_id:" + m_emp_id.toString());
             m_dialog.validateProp(null, C.DOC_ID_STOCK);
             break;
 
@@ -4210,7 +4210,7 @@
             m_dialog.validateProp(null, C.TA_ID);
 
             property = properties.item(C.DOC_ID_STOCK);
-            property.setSelectFilter("'emp_id: " + emp_id.toString()+ " and doct_id = "+ D.Types.TRASFERENCIASTOCK.toString()+ "'");
+            property.setSelectFilter(D.TRANSFERENCIA_STOCK_DOC_FILTER + "|emp_id:" + m_emp_id.toString());
             m_dialog.validateProp(null, C.DOC_ID_STOCK);
 
             break;
@@ -4223,7 +4223,7 @@
             m_dialog.validateProp(null, C.TA_ID);
 
             property = properties.item(C.DOC_ID_STOCK);
-            property.setSelectFilter("'emp_id: " + emp_id.toString()+ " and doct_id = "+ D.Types.TRASFERENCIASTOCK.toString()+ "'");
+            property.setSelectFilter(D.TRANSFERENCIA_STOCK_DOC_FILTER + "|emp_id:" + m_emp_id.toString());
             m_dialog.validateProp(null, C.DOC_ID_STOCK);
 
             break;
@@ -4231,7 +4231,7 @@
           case D.Types.IMPORTACION_TEMP:
 
             property = properties.item(C.DOC_ID_STOCK);
-            property.setSelectFilter("'emp_id: " + emp_id.toString()+ " and doct_id = "+ D.Types.TRASFERENCIASTOCK.toString()+ "'");
+            property.setSelectFilter(D.TRANSFERENCIA_STOCK_DOC_FILTER + "|emp_id:" + m_emp_id.toString());
             m_dialog.validateProp(null, C.DOC_ID_STOCK);
 
             //     Case csEDT_PedidoVenta, csEDT_DevolucionPedidoVta
@@ -4252,7 +4252,7 @@
           case D.Types.MOVIMIENTO_FONDO:
 
             property = properties.item(C.DOC_ID_ASIENTO);
-            property.setSelectFilter("'emp_id: " + emp_id.toString()+ " and doct_id = "+ D.Types.ASIENTOCONTABLE.toString()+ "'");
+            property.setSelectFilter(D.ASIENTOS_DOC_FILTER + "|emp_id:"+ emp_id.toString());
             m_dialog.validateProp(null, C.DOC_ID_ASIENTO);
 
             break;
@@ -4262,7 +4262,7 @@
           case D.Types.RESOLUCION_CUPON:
 
             property = properties.item(C.DOC_ID_ASIENTO);
-            property.setSelectFilter("'emp_id: " + emp_id.toString()+ " and doct_id = "+ D.Types.ASIENTOCONTABLE.toString()+ "'");
+            property.setSelectFilter(D.ASIENTOS_DOC_FILTER + "|emp_id:"+ emp_id.toString());
             m_dialog.validateProp(null, C.DOC_ID_ASIENTO);
 
             break;
@@ -4274,7 +4274,7 @@
             m_dialog.validateProp(null, C.TA_ID);
 
             property = properties.item(C.DOC_ID_ASIENTO);
-            property.setSelectFilter("'emp_id: " + emp_id.toString()+ " and doct_id = "+ D.Types.ASIENTOCONTABLE.toString()+ "'");
+            property.setSelectFilter(D.ASIENTOS_DOC_FILTER + "|emp_id:"+ emp_id.toString());
             m_dialog.validateProp(null, C.DOC_ID_ASIENTO);
 
             break;
@@ -4287,7 +4287,7 @@
           case D.Types.STOCK_CLIENTE:
 
             property = properties.item(C.DOC_ID_STOCK);
-            property.setSelectFilter("'emp_id: " + emp_id.toString()+ " and doct_id = "+ D.Types.TRASFERENCIASTOCK.toString()+ "'");
+            property.setSelectFilter(D.TRANSFERENCIA_STOCK_DOC_FILTER + "|emp_id:" + m_emp_id.toString());
             m_dialog.validateProp(null, C.DOC_ID_STOCK);
 
             break;
@@ -4541,7 +4541,7 @@
 
         var closeTreeDialog = function() {
 
-        }
+        };
 
         //create the tab
         // 

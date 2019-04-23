@@ -1074,6 +1074,10 @@
     + Cairo.Documents.Types.REMITO_COMPRA.toString()
   ;
 
+  Cairo.Documents.REMITO_VENTA_DOC_FILTER = "document|documentTypeId:"
+    + Cairo.Documents.Types.REMITO_VENTA.toString()
+  ;
+
 
   Cairo.getStockLoteFilter = function(prId,
                                       deplId,
