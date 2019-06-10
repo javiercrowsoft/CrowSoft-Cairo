@@ -672,12 +672,57 @@ object C {
   val DOCUMENTO = "Documento"
   val DOC_ID = "doc_id"
   val DOC_NAME = "doc_nombre"
-  val DOC_MUEVE_STOCK = "doc_muevestock"
-  val DOC_TIPO_FACTURA = "doc_tipofactura"
+
+  val DOC_SIN_PERC = "doc_sin_perc"
   val DOC_TIPO_PEDIDO = "doc_tipopedido"
+
+  val DOC_CODE = "doc_codigo"
+  val DOC_DESCRIP = "doc_descrip"
+  val DOC_LLEVA_FIRMA = "doc_llevaFirma"
+  val DOC_LLEVA_FIRMA_CREDITO = "doc_llevaFirmaCredito"
+  val DOC_ID_ASIENTO = "doc_id_asiento"
+  val DOC_RV_DESDE_PV = "doc_rv_desde_pv"
+  val DOC_RV_DESDE_OS = "doc_rv_desde_os"
+  val DOC_PV_DESDE_PRV = "doc_pv_desde_prv"
+  val DOC_TIPO_FACTURA = "doc_tipofactura"
+  val DOC_TIPO_PACKING_LIST = "doc_tipopackinglist"
+  val DOC_TIPO_ORDEN_COMPRA = "doc_tipoordencompra"
+  val DOC_ID_REMITO = "doc_id_remito"
+  val DOC_ID_STOCK = "doc_id_stock"
+  val DOC_GENERA_REMITO = "doc_generaremito"
+  val DOC_MUEVE_STOCK = "doc_muevestock"
+  val DOC_RC_DESDE_OC = "doc_rc_desde_oc"
+  val DOC_RV_BOM = "doc_rv_bom"
+  val DOC_RC_DESPACHO_IMPO = "doc_rc_despachoimpo"
+  val DOC_FV_SIN_PERCEPCION = "doc_fv_sinpercepcion"
+  val DOC_ST_CONSUMO = "doc_st_consumo"
+  val DOC_EDITAR_IMPRESOS = "doc_editarimpresos"
+  val DOC_LLEVA_FIRMA_PRINT0 = "doc_llevaFirmaPrint0"
+  val DOC_ES_FACTURA_ELECTRONICA = "doc_esFacturaElectronica"
+
+  val DOC_ES_RESUMEN_BANCO = "doc_esresumenbco"
+  val DOC_ES_CREDITO_BANCO = "doc_escreditobanco"
+  val DOC_ES_VENTA_ACCION = "doc_esventaaccion"
+  val DOC_ES_VENTA_CHEQUE = "doc_esventacheque"
+  val DOC_ES_COB_CHEQUE_SGR = "doc_escobchequesgr"
+  val DOC_ES_COB_CAIDA_SGR = "doc_escobcaidasgr"
+
+  val DOC_OBJECT_EDIT = "doc_object_edit"
 
   val DOC_EDITABLE_STATUS = "doc_editable_status"
   val DOC_EDITABLE_MESSAGE = "doc_editable_message"
+
+  val DOCG_ID = "docg_id"
+
+  val DOCUMENTO_BASE = "base"
+  val DOCUMENTO_TIPO_ASISTENTE = "tipo"
+  val DOCUMENTO_FACTURA_VENTA = "facturaVenta"
+  val DOCUMENTO_REFERENCE = "reference"
+  val DOCUMENTO_ITEMS = "items"
+  val DOCUMENTO_REPORTES = "reportes"
+  val DOCUMENTO_FIRMAS = "firmas"
+  val REPORTES_DELETED = "reporteDeleted"
+  val FIRMA_DELETED = "firmaDeleted"
 
   // Talonario
   val TALONARIO = "Talonario"
@@ -688,6 +733,12 @@ object C {
 
   val TA_NUMBER = "ta_number"
   val TA_ENABLED = "ta_enabled"
+
+  val TA_ID_FINAL = "ta_id_final"
+  val TA_ID_INSCRIPTO = "ta_id_inscripto"
+  val TA_ID_EXTERNO = "ta_id_externo"
+  val TA_ID_INSCRIPTO_M = "ta_id_inscriptom"
+  val TA_ID_HABERES = "ta_id_haberes"
 
   // PercepcionTipo
   val PERCEPCION_TIPO = "PercepcionTipo"
@@ -1396,6 +1447,23 @@ object C {
   val BRAN_ID = "ram_id"
   val BRAN_NAME = "ram_nombre"
 
+  // ReporteFormulario
+  val REPORTE_FORMULARIO = "ReporteFormulario"
+  val RPTF_ID = "rptf_id"
+  val RPTF_NAME = "rptf_nombre"
+  val RPTF_CSRFILE = "rptf_csrfile"
+  val RPTF_TIPO = "rptf_tipo"
+  val RPTF_SUGERIDO = "rptf_sugerido"
+  val RPTF_SUGERIDO_EMAIL = "rptf_sugeridoemail"
+  val RPTF_COPIAS = "rptf_copias"
+  val RPTF_DOC_IMPRIMIR_EN_ALTA = "rptf_docImprimirEnAlta"
+  val RPTF_OBJECT = "rptf_object"
+
+  // DocumentoFirma
+  val DOCUMENTO_FIRMA = "DocumentoFirma"
+  val DOCFR_ID = "docfr_id"
+
+  // Informe
   val INFORME = "Informe"
   val INF_ID = "inf_id"
   val INF_CODE = "inf_codigo"
@@ -1425,8 +1493,8 @@ object C {
   val FCA_ID = "fca_id"
   val FCA_NAME = "fca_nombre"
   val FCA_CODE = "fca_codigo"
-  val FCA_FECHA_HASTA = "fca_Fechahasta"
-  val FCA_FECHA_DESDE = "fca_Fechadesde"
+  val FCA_FECHA_HASTA = "fca_fechahasta"
+  val FCA_FECHA_DESDE = "fca_fechadesde"
 
   // AUXILIARY CONSTANTS
   val AUX_TI_ID_RNI_VENTA = -1

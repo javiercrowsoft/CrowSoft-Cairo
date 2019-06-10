@@ -843,46 +843,46 @@
         var tab_web = 8;
         var tab_crm = 9;
 
-        var w_tabs = m_dialog.getTabs();
+        var tabs = m_dialog.getTabs();
 
-        w_tabs.clear();
+        tabs.clear();
 
-        var tab = w_tabs.add(null);
+        var tab = tabs.add(null);
         tab.setName(Cairo.Constants.TAB_GENERAL);
 
-        var tab = w_tabs.add(null);
+        tab = tabs.add(null);
         tab.setName(getText(4791, "")); // Dir.
         tab.setIndex(tab_direccion);
 
-        var tab = w_tabs.add(null);
+        tab = tabs.add(null);
         tab.setName(getText(4789, "")); // Suc.
         tab.setIndex(tab_sucursales);
 
-        var tab = w_tabs.add(null);
+        tab = tabs.add(null);
         tab.setName(getText(1035, "")); // Contacto
         tab.setIndex(tab_contactos);
 
-        var tab = w_tabs.add(null);
+        tab = tabs.add(null);
         tab.setName(getText(1392, "")); // Crédito
         tab.setIndex(tab_credito);
 
-        var tab = w_tabs.add(null);
+        tab = tabs.add(null);
         tab.setName(getText(1507, "")); // Ctas.
         tab.setIndex(tab_cuentagrupo);
 
-        var tab = w_tabs.add(null);
+        tab = tabs.add(null);
         tab.setName(getText(4790, "")); // Percep.
         tab.setIndex(tab_percepcion);
 
-        var tab = w_tabs.add(null);
+        tab = tabs.add(null);
         tab.setName(getText(1171, "")); // Empresas
         tab.setIndex(tab_empresas);
 
-        var tab = w_tabs.add(null);
+        tab = tabs.add(null);
         tab.setName(getText(1038, "")); // Web
         tab.setIndex(tab_web);
 
-        var tab = w_tabs.add(null);
+        tab = tabs.add(null);
         tab.setName(getText(4660, "")); // CRM
         tab.setIndex(tab_crm);
 
@@ -899,33 +899,33 @@
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, C.CLI_RAZONSOCIAL);
+        elem = properties.add(null, C.CLI_RAZONSOCIAL);
         elem.setType(T.text);
         elem.setName(getText(1178, "")); // Razon Social
         elem.setSize(255);
         elem.setKey(K_RAZONSOCIAL);
         elem.setValue(m_razonsocial);
 
-        var elem = properties.add(null, C.CLI_CODE);
+        elem = properties.add(null, C.CLI_CODE);
         elem.setType(T.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(255);
         elem.setKey(K_CODE);
         elem.setValue(m_code);
 
-        var elem = properties.add(null, Cairo.Constants.ACTIVE);
+        elem = properties.add(null, Cairo.Constants.ACTIVE);
         elem.setType(T.check);
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
         elem.setKey(K_ACTIVE);
         elem.setValue(Cairo.Util.boolToInt(m_active));
 
-        var elem = properties.add(null, C.CLI_ES_PROSPECTO);
+        elem = properties.add(null, C.CLI_ES_PROSPECTO);
         elem.setType(T.check);
         elem.setName(getText(3952, "")); // Es un prospecto
         elem.setKey(K_ESPROSPECTO);
         elem.setValue(val(m_esProspecto));
 
-        var elem = properties.add(null, C.CLI_CAT_FISCAL);
+        elem = properties.add(null, C.CLI_CAT_FISCAL);
         elem.setType(T.list);
         elem.setName(getText(1181, "")); // Categoria Fiscal
         elem.setKey(K_CATFISCAL);
@@ -934,65 +934,65 @@
 
         var list = elem.getList();
 
-        var elem = list.add(null, C.CategoriaFiscal.consumidorFinal);
+        elem = list.add(null, C.CategoriaFiscal.consumidorFinal);
         elem.setId(C.CategoriaFiscal.consumidorFinal);
         elem.setValue(getText(1182, "")); // Consumidor final
 
-        var elem = list.add(null, C.CategoriaFiscal.inscripto);
+        elem = list.add(null, C.CategoriaFiscal.inscripto);
         elem.setId(C.CategoriaFiscal.inscripto);
         elem.setValue(getText(1184, "")); // Inscripto
 
-        var elem = list.add(null, C.CategoriaFiscal.noInscripto);
+        elem = list.add(null, C.CategoriaFiscal.noInscripto);
         elem.setId(C.CategoriaFiscal.noInscripto);
         elem.setValue(getText(1183, "")); // No Inscripto
 
-        var elem = list.add(null, C.CategoriaFiscal.extranjero);
+        elem = list.add(null, C.CategoriaFiscal.extranjero);
         elem.setId(C.CategoriaFiscal.extranjero);
         elem.setValue(getText(1185, "")); // Extranjero
 
-        var elem = list.add(null, C.CategoriaFiscal.exento);
+        elem = list.add(null, C.CategoriaFiscal.exento);
         elem.setId(C.CategoriaFiscal.exento);
         elem.setValue(getText(1186, "")); // Exento
 
-        var elem = list.add(null, C.CategoriaFiscal.monotributo);
+        elem = list.add(null, C.CategoriaFiscal.monotributo);
         elem.setId(C.CategoriaFiscal.monotributo);
         elem.setValue(getText(1187, "")); // Monotributo
 
-        var elem = list.add(null, C.CategoriaFiscal.extranjeroIva);
+        elem = list.add(null, C.CategoriaFiscal.extranjeroIva);
         elem.setId(C.CategoriaFiscal.extranjeroIva);
         elem.setValue(getText(1188, "")); // Extranjero con Iva
 
-        var elem = list.add(null, C.CategoriaFiscal.noCategorizado);
+        elem = list.add(null, C.CategoriaFiscal.noCategorizado);
         elem.setId(C.CategoriaFiscal.noCategorizado);
         elem.setValue(getText(1189, "")); // No categorizado
 
-        var elem = list.add(null, C.CategoriaFiscal.noResponsable);
+        elem = list.add(null, C.CategoriaFiscal.noResponsable);
         elem.setId(C.CategoriaFiscal.noResponsable);
         elem.setValue(getText(1190, "")); // No responsable
 
-        var elem = list.add(null, C.CategoriaFiscal.noResponsableExento);
+        elem = list.add(null, C.CategoriaFiscal.noResponsableExento);
         elem.setId(C.CategoriaFiscal.noResponsableExento);
         elem.setValue(getText(1191, "")); // No responsable exento
 
-        var elem = list.add(null, C.CategoriaFiscal.inscriptoM);
+        elem = list.add(null, C.CategoriaFiscal.inscriptoM);
         elem.setId(C.CategoriaFiscal.inscriptoM);
         elem.setValue(getText(1192, "")); // Inscripto M
 
-        var elem = properties.add(null, C.CLI_CUIT);
+        elem = properties.add(null, C.CLI_CUIT);
         elem.setType(T.text);
         elem.setName(getText(1179, "")); // Cuit
         elem.setSize(13);
         elem.setKey(K_CUIT);
         elem.setValue(m_cuit);
 
-        var elem = properties.add(null, C.CLI_INGRESOSBRUTOS);
+        elem = properties.add(null, C.CLI_INGRESOSBRUTOS);
         elem.setType(T.text);
         elem.setName(getText(1180, "")); // Ingresos Brutos
         elem.setSize(20);
         elem.setKey(K_INGRESOSBRUTOS);
         elem.setValue(m_ingresosbrutos);
 
-        var elem = properties.add(null, C.CLI_ID_PADRE);
+        elem = properties.add(null, C.CLI_ID_PADRE);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CLIENTE); // Cliente Padre
         elem.setName(getText(1509, ""));
@@ -1001,21 +1001,21 @@
         elem.setSelectId(m_cliId_padre);
         elem.setSelectFilter(D.getCustomerFatherFilter(m_id));
 
-        var elem = properties.add(null, C.CLI_CONTACTO);
+        elem = properties.add(null, C.CLI_CONTACTO);
         elem.setType(T.text);
         elem.setName(getText(1035, "")); // Contacto
         elem.setSize(100);
         elem.setKey(K_CONTACTO);
         elem.setValue(m_contacto);
 
-        var elem = properties.add(null, C.CLI_CHEQUEORDEN);
+        elem = properties.add(null, C.CLI_CHEQUEORDEN);
         elem.setType(T.text);
         elem.setName(getText(1396, "")); // Cheque a la orden
         elem.setSize(100);
         elem.setKey(K_CHEQUEORDEN);
         elem.setValue(m_chequeorden);
 
-        var elem = properties.add(null, C.CPG_ID);
+        elem = properties.add(null, C.CPG_ID);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CONDICIONES_DE_PAGO);
         elem.setName(getText(1395, "")); // Condición de pago
@@ -1023,7 +1023,7 @@
         elem.setValue(m_condicionPago);
         elem.setSelectId(m_cpg_id);
 
-        var elem = properties.add(null, C.FP_ID);
+        elem = properties.add(null, C.FP_ID);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.FORMA_DE_PAGO);
         elem.setName(getText(3773, "")); // Forma de pago
@@ -1031,7 +1031,7 @@
         elem.setValue(m_formapago);
         elem.setSelectId(m_fp_id);
 
-        var elem = properties.add(null, C.LP_ID);
+        elem = properties.add(null, C.LP_ID);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.LISTAS_DE_PRECIOS);
         elem.setSelectFilter(D.getListaPrecioForCliente(NO_ID, m_id));
@@ -1040,7 +1040,7 @@
         elem.setValue(m_listaPrecio);
         elem.setSelectId(m_lp_id);
 
-        var elem = properties.add(null, C.LD_ID);
+        elem = properties.add(null, C.LD_ID);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.LISTAS_DE_DESCUENTOS);
         elem.setSelectFilter(D.getListaDescuentoForCliente(NO_ID, m_id));
@@ -1049,7 +1049,7 @@
         elem.setValue(m_listaDescuento);
         elem.setSelectId(m_ld_id);
 
-        var elem = properties.add(null, C.VEN_ID);
+        elem = properties.add(null, C.VEN_ID);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.VENDEDOR);
         elem.setName(getText(1510, "")); // Vendedor
@@ -1057,7 +1057,7 @@
         elem.setValue(m_vendedor);
         elem.setSelectId(m_ven_id);
 
-        var elem = properties.add(null, C.TRANS_ID);
+        elem = properties.add(null, C.TRANS_ID);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TRANSPORTE);
         elem.setName(getText(1050, "")); // Transporte
@@ -1065,25 +1065,25 @@
         elem.setValue(m_transporte);
         elem.setSelectId(m_trans_id);
 
-        var elem = properties.add(null, C.CLI_EXIGE_TRANSPORTE);
+        elem = properties.add(null, C.CLI_EXIGE_TRANSPORTE);
         elem.setType(T.check);
         elem.setName(getText(1511, "")); // Exige Transporte
         elem.setKey(K_EXIGETRANS);
         elem.setValue(val(m_exigeTrans));
 
-        var elem = properties.add(null, C.CLI_EXIGE_PROVINCIA);
+        elem = properties.add(null, C.CLI_EXIGE_PROVINCIA);
         elem.setType(T.check);
         elem.setName(getText(1512, "")); // Exige Provincia
         elem.setKey(K_EXIGEPROVINCIA);
         elem.setValue(val(m_exigeProvincia));
 
-        var elem = properties.add(null, C.CLI_PCIA_TRANSPORTE);
+        elem = properties.add(null, C.CLI_PCIA_TRANSPORTE);
         elem.setType(T.check);
         elem.setName(getText(1513, "")); // Tomar Pcia. desde Transporte
         elem.setKey(K_PCIATRANSPORTE);
         elem.setValue(val(m_pciaTransporte));
 
-        var elem = properties.add(null, C.CLI_CREDITOCTA_CTE);
+        elem = properties.add(null, C.CLI_CREDITOCTA_CTE);
         elem.setType(T.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setName(getText(1399, "")); // Crédito en cta.cte.
@@ -1091,7 +1091,7 @@
         elem.setKey(K_CREDITO_CTA_CTE);
         elem.setValue(m_creditoctacte);
 
-        var elem = properties.add(null, C.CLI_CREDITOTOTAL);
+        elem = properties.add(null, C.CLI_CREDITOTOTAL);
         elem.setType(T.numeric);
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setName(getText(1400, "")); // Crédito Total
@@ -1099,14 +1099,14 @@
         elem.setKey(K_CREDITO_TOTAL);
         elem.setValue(m_creditototal);
 
-        var elem = properties.add(null, C.CLI_CREDITOACTIVO);
+        elem = properties.add(null, C.CLI_CREDITOACTIVO);
         elem.setType(T.check);
         elem.setName(getText(1401, "")); // Crédito Activo
         elem.setTabIndex(tab_credito);
         elem.setKey(K_CREDITO_ACTIVO);
         elem.setValue(val(m_creditoactivo));
 
-        var elem = properties.add(null, C.CLI_DESCRIP);
+        elem = properties.add(null, C.CLI_DESCRIP);
         elem.setType(T.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
@@ -1114,14 +1114,14 @@
         elem.setKey(K_DESCRIP);
         elem.setValue(m_descrip);
 
-        var elem = properties.add(null, C.CLI_CALLE);
+        elem = properties.add(null, C.CLI_CALLE);
         elem.setType(T.text);
         elem.setName(getText(1194, "")); // Calle
         elem.setTabIndex(tab_direccion);
         elem.setKey(K_CALLE);
         elem.setValue(m_calle);
 
-        var elem = properties.add(null, C.CLI_CALLENUMERO);
+        elem = properties.add(null, C.CLI_CALLENUMERO);
         elem.setType(T.text);
         elem.setName(getText(1065, "")); // Numero
         elem.setTabIndex(tab_direccion);
@@ -1129,7 +1129,7 @@
         elem.setKey(K_CALLENUMERO);
         elem.setValue(m_callenumero);
 
-        var elem = properties.add(null, C.CLI_PISO);
+        elem = properties.add(null, C.CLI_PISO);
         elem.setType(T.text);
         elem.setName(getText(1196, "")); // Piso
         elem.setTabIndex(tab_direccion);
@@ -1137,7 +1137,7 @@
         elem.setKey(K_PISO);
         elem.setValue(m_piso);
 
-        var elem = properties.add(null, C.CLI_DEPTO);
+        elem = properties.add(null, C.CLI_DEPTO);
         elem.setType(T.text);
         elem.setName(getText(1278, "")); // Departamento
         elem.setTabIndex(tab_direccion);
@@ -1145,7 +1145,7 @@
         elem.setKey(K_DEPTO);
         elem.setValue(m_depto);
 
-        var elem = properties.add(null, C.CLI_CODPOSTAL);
+        elem = properties.add(null, C.CLI_CODPOSTAL);
         elem.setType(T.text);
         elem.setName(getText(1199, "")); // Codigo Postal
         elem.setTabIndex(tab_direccion);
@@ -1153,7 +1153,7 @@
         elem.setKey(K_CODPOSTAL);
         elem.setValue(m_codpostal);
 
-        var elem = properties.add(null, C.CPA_ID);
+        elem = properties.add(null, C.CPA_ID);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CODIGOS_POSTALES);
         elem.setName(getText(4964, "")); // CPA
@@ -1162,35 +1162,35 @@
         elem.setValue(m_cpaNombre);
         elem.setSelectId(m_cpa_id);
 
-        var elem = properties.add(null, C.CLI_HORARIO_MDESDE);
+        elem = properties.add(null, C.CLI_HORARIO_MDESDE);
         elem.setType(T.time);
         elem.setName(getText(4965, "")); // Horario desde
         elem.setTabIndex(tab_direccion);
         elem.setValue(m_horario_m_desde);
         elem.setKey(K_HORARIO_M_DESDE);
 
-        var elem = properties.add(null, C.CLI_HORARIO_MHASTA);
+        elem = properties.add(null, C.CLI_HORARIO_MHASTA);
         elem.setType(T.time);
         elem.setName(getText(4966, "")); // Hasta
         elem.setTabIndex(tab_direccion);
         elem.setValue(m_horario_m_hasta);
         elem.setKey(K_HORARIO_M_HASTA);
 
-        var elem = properties.add(null, C.CLI_HORARIO_TDESDE);
+        elem = properties.add(null, C.CLI_HORARIO_TDESDE);
         elem.setType(T.time);
         elem.setName(getText(4967, "")); // Desde
         elem.setTabIndex(tab_direccion);
         elem.setValue(m_horario_t_desde);
         elem.setKey(K_HORARIO_T_DESDE);
 
-        var elem = properties.add(null, C.CLI_HORARIO_THASTA);
+        elem = properties.add(null, C.CLI_HORARIO_THASTA);
         elem.setType(T.time);
         elem.setName(getText(4966, "")); // Hasta
         elem.setTabIndex(tab_direccion);
         elem.setValue(m_horario_t_hasta);
         elem.setKey(K_HORARIO_T_HASTA);
 
-        var elem = properties.add(null, C.CLI_LOCALIDAD);
+        elem = properties.add(null, C.CLI_LOCALIDAD);
         elem.setType(T.text);
         elem.setName(getText(1198, "")); // Localidad
         elem.setTabIndex(tab_direccion);
@@ -1198,7 +1198,7 @@
         elem.setKey(K_LOCALIDAD);
         elem.setValue(m_localidad);
 
-        var elem = properties.add(null, C.PRO_ID);
+        elem = properties.add(null, C.PRO_ID);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.PROVINCIA);
         elem.setName(getText(1080, "")); // Provincia
@@ -1207,7 +1207,7 @@
         elem.setValue(m_provincia);
         elem.setSelectId(m_pro_id);
 
-        var elem = properties.add(null, C.ZON_ID);
+        elem = properties.add(null, C.ZON_ID);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.ZONA);
         elem.setName(getText(1402, "")); // Zona
@@ -1216,7 +1216,7 @@
         elem.setValue(m_zona);
         elem.setSelectId(m_zon_id);
 
-        var elem = properties.add(null, C.CLI_TEL);
+        elem = properties.add(null, C.CLI_TEL);
         elem.setType(T.text);
         elem.setName(getText(1036, "")); // Teléfono
         elem.setTabIndex(tab_direccion);
@@ -1224,7 +1224,7 @@
         elem.setKey(K_TEL);
         elem.setValue(m_tel);
 
-        var elem = properties.add(null, C.CLI_FAX);
+        elem = properties.add(null, C.CLI_FAX);
         elem.setType(T.text);
         elem.setName(getText(1200, "")); // Fax
         elem.setTabIndex(tab_direccion);
@@ -1232,7 +1232,7 @@
         elem.setKey(K_FAX);
         elem.setValue(m_fax);
 
-        var elem = properties.add(null, C.CLI_EMAIL);
+        elem = properties.add(null, C.CLI_EMAIL);
         elem.setType(T.text);
         elem.setName(getText(1034, "")); // E-Mail
         elem.setTabIndex(tab_direccion);
@@ -1240,7 +1240,7 @@
         elem.setKey(K_EMAIL);
         elem.setValue(m_email);
 
-        var elem = properties.add(null, C.CLI_WEB);
+        elem = properties.add(null, C.CLI_WEB);
         elem.setType(T.text);
         elem.setName(getText(1038, "")); // Web
         elem.setTabIndex(tab_direccion);
@@ -1248,7 +1248,7 @@
         elem.setKey(K_WEB);
         elem.setValue(m_web);
 
-        var elem = properties.add(null, C.CLI_MESSENGER);
+        elem = properties.add(null, C.CLI_MESSENGER);
         elem.setType(T.text);
         elem.setName(getText(1515, "")); // Contactos Messanger
         elem.setTabIndex(tab_direccion);
@@ -1256,7 +1256,7 @@
         elem.setKey(K_MESSANGER);
         elem.setValue(m_messanger);
 
-        var elem = properties.add(null, C.CLI_YAHOO);
+        elem = properties.add(null, C.CLI_YAHOO);
         elem.setType(T.text);
         elem.setName(getText(1514, "")); // Contacto Yahoo
         elem.setTabIndex(tab_direccion);
@@ -1264,7 +1264,7 @@
         elem.setKey(K_YAHOO);
         elem.setValue(m_yahoo);
 
-        var elem = properties.add(null, C_SUCURSALES);
+        elem = properties.add(null, C_SUCURSALES);
         elem.setType(T.grid);
         elem.hideLabel();
         setGridSucursales(elem);
@@ -1345,14 +1345,14 @@
         elem.setGridRemoveEnabled(true);
         m_itemsDeletedDptos = "";
 
-        var elem = properties.add(null, C.CLI_INF_ACTIVE);
+        elem = properties.add(null, C.CLI_INF_ACTIVE);
         elem.setType(T.check);
         elem.setName(getText(1517, "")); // Habilitar el acceso via extranet
         elem.setKey(K_US_WEB);
         elem.setValue(m_us_id !== NO_ID && m_us_activo);
         elem.setTabIndex(tab_web);
 
-        var elem = properties.add(null, C_WEB_MAIL);
+        elem = properties.add(null, C_WEB_MAIL);
         elem.setType(T.button);
         elem.setName(getText(1519, "")); // Enviar Email
         elem.setKey(K_WEB_MAIL);
@@ -1360,7 +1360,7 @@
         elem.setEnabled(m_us_id !== NO_ID && m_us_activo);
         elem.setTabIndex(tab_web);
 
-        var elem = properties.add(null, C.CLI_INF_US_ID);
+        elem = properties.add(null, C.CLI_INF_US_ID);
         elem.setType(T.text);
         elem.setName(getText(1518, "")); // Usuario Web
         elem.setSize(50);
@@ -1383,9 +1383,7 @@
         elem.setEnabled(m_us_id !== NO_ID && m_us_activo);
         m_itemsDeletedInf = "";
 
-        // CRM
-
-        var elem = properties.add(null, C.CLICT_ID);
+        elem = properties.add(null, C.CLICT_ID);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TIPOS_DE_CONTACTO);
         elem.setName(getText(4661, "")); // Tipo de Contacto
@@ -1394,7 +1392,7 @@
         elem.setSelectId(m_clict_id);
         elem.setTabIndex(tab_crm);
 
-        var elem = properties.add(null, C.CLI_ID_REFERIDO);
+        elem = properties.add(null, C.CLI_ID_REFERIDO);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CLIENTE);
         elem.setName(getText(4662, "")); // Referido por
@@ -1404,7 +1402,7 @@
         elem.setSelectFilter(D.getCustomerReferrerFilter(m_id));
         elem.setTabIndex(tab_crm);
 
-        var elem = properties.add(null, C.PROY_ID);
+        elem = properties.add(null, C.PROY_ID);
         elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.PROYECTO);
         elem.setName(getText(4663, "")); // Campaña de Marketing
@@ -2110,13 +2108,12 @@
 
       var setGridPercepcion = function(property) {
 
-        var elem;
         var grid = property.getGrid();
         
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_CLIPERC_ID);
 
@@ -2147,7 +2144,6 @@
 
       var loadPercepcion = function(property) {
         
-        var elem;
         var grid = property.getGrid();
         var rows = grid.getRows();
 
@@ -2157,7 +2153,7 @@
 
           var row = rows.add(null, getValue(m_data.percepciones[_i], C.CLI_PERC_ID));
 
-          elem = row.add(null);
+          var elem = row.add(null);
           elem.setValue(getValue(m_data.percepciones[_i], C.CLI_PERC_ID));
           elem.setKey(KI_CLIPERC_ID);
 
@@ -2184,15 +2180,15 @@
 
       var setGridDpto = function(property) {
 
-        var elem;
         var grid = property.getGrid();
 
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_DPTOCLI_ID);
+
         elem = columns.add(null);
         elem.setName(getText(1278, "")); // Departamento
         elem.setType(T.select);
@@ -2204,7 +2200,6 @@
 
       var loadDpto = function(property) {
 
-        var elem;
         var grid = property.getGrid();
         var rows = grid.getRows();
 
@@ -2214,7 +2209,7 @@
 
           var row = rows.add(null, getValue(m_data.dptos[_i], C.DPTO_CLI_ID));
 
-          elem = row.add(null);
+          var elem = row.add(null);
           elem.setValue(valField(m_data.dptos[_i], C.DPTO_CLI_ID));
           elem.setKey(KI_DPTOCLI_ID);
 
@@ -2228,13 +2223,12 @@
 
       var setGridInformes = function(property) {
 
-        var elem;
         var grid = property.getGrid();
 
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_PER_ID);
 
@@ -2260,7 +2254,6 @@
 
       var loadInformes = function(property) {
 
-        var elem;
         var grid = property.getGrid();
         var rows = grid.getRows();
 
@@ -2270,7 +2263,7 @@
 
           var row = rows.add(null, getValue(m_data.informes[_i], C.PER_ID));
 
-          elem = row.add(null);
+          var elem = row.add(null);
           elem.setValue(valField(m_data.informes[_i], C.PER_ID));
           elem.setKey(KI_PER_ID);
 
@@ -2292,13 +2285,12 @@
 
       var setGridEmpresas = function(property) {
 
-        var elem;
         var grid = property.getGrid();
 
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
 
         elem = columns.add(null);
@@ -2315,7 +2307,6 @@
 
       var loadEmpresas = function(property) {
 
-        var elem;
         var grid = property.getGrid();
         var rows = grid.getRows();
         var bSelect = m_data.empresas.length === 1;
@@ -2326,7 +2317,7 @@
 
           var row = rows.add(null);
 
-          elem = row.add(null);
+          var elem = row.add(null);
           elem.setValue(getValue(m_data.empresas[_i], C.EMP_ID));
 
           elem = row.add(null);
@@ -2348,13 +2339,12 @@
 
       var setGridCuentaGrupo = function(property) {
 
-        var elem;
         var grid = property.getGrid();
 
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_CLICUEG_ID);
 
@@ -2378,7 +2368,6 @@
 
       var loadCuentaGrupo = function(property) {
 
-        var elem;
         var grid = property.getGrid();
         var rows = grid.getRows();
 
@@ -2388,7 +2377,7 @@
 
           var row = rows.add(null, getValue(m_data.cuentasGrupo[_i], C.CLI_CUEG_ID));
 
-          elem = row.add(null);
+          var elem = row.add(null);
           elem.setValue(getValue(m_data.cuentasGrupo[_i], C.CLI_CUEG_ID));
           elem.setKey(KI_CLICUEG_ID);
 
@@ -2407,13 +2396,12 @@
 
       var setGridContactos = function(property) {
 
-        var elem;
         var grid = property.getGrid();
 
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_CONT_ID);
 
@@ -2462,7 +2450,6 @@
 
       var loadContactos = function(property) {
 
-        var elem;
         var grid = property.getGrid();
         var rows = grid.getRows();
 
@@ -2472,7 +2459,7 @@
 
           var row = rows.add(null, getValue(m_data.contactos[_i], C.CONT_ID));
 
-          elem = row.add(null);
+          var elem = row.add(null);
           elem.setValue(getValue(m_data.contactos[_i], C.CONT_ID));
           elem.setKey(KI_CONT_ID);
 
@@ -2513,13 +2500,12 @@
 
       var setGridSucursales = function(property) {
 
-        var elem;
         var grid = property.getGrid();
 
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_S_CLIS_ID);
 
@@ -2611,7 +2597,6 @@
 
       var loadSucursales = function(property) {
 
-        var elem;
         var grid = property.getGrid();
         var rows = grid.getRows();
 
@@ -2621,7 +2606,7 @@
 
           var row = rows.add(null, getValue(m_data.sucursales[_i], C.CLIS_ID));
 
-          elem = row.add(null);
+          var elem = row.add(null);
           elem.setValue(getValue(m_data.sucursales[_i], C.CLIS_ID));
           elem.setKey(KI_S_CLIS_ID);
 
@@ -3574,7 +3559,7 @@
 
         var closeTreeDialog = function() {
 
-        }
+        };
 
         // create the tab
         //

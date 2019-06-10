@@ -428,10 +428,10 @@
           register.setId(m_id);
         }
 
-        var _count = properties.size();
+        var _count = m_dialog.getProperties().size();
         for (var _i = 0; _i < _count; _i++) {
 
-          var property = properties.item(_i);
+          var property = m_dialog.getProperties().item(_i);
           
           switch (property.getKey()) {
             case K_NAME:
@@ -494,7 +494,7 @@
 
         if(!bIsNew) {
           saveItemsReportes(register);
-          saveSignatures(register);
+          saveFirmas(register);
         }
 
         var p = savePermisos1(lastId, register)
@@ -560,7 +560,7 @@
         return DB.execute(sqlstmt);
       };
 
-      var saveSignatures = function(mainRegister) {
+      var saveFirmas = function(mainRegister) {
         if(m_llevaFirma || m_llevaFirmaCredito || m_llevaFirmaPrint0) {
 
           var transaction = DB.createTransaction();
@@ -2889,7 +2889,7 @@
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setSelectFilter(D.TRANSFERENCIA_STOCK_DOC_FILTER + "|emp_id:" + m_emp_id.toString());
-        elem.setName(getText(2580, ""); // Documento Stock"
+        elem.setName(getText(2580, "")); // Documento Stock"
         elem.setValue(m_documentoStock);
         elem.setSelectId(m_doc_id_Stock);
         elem.setKey(K_DOC_ID_STOCK);
@@ -3326,7 +3326,7 @@
         elem.setValue(Cairo.Util.boolToInt(m_mueveStock));
         elem.setTabIndex(tab.getIndex());
 
-        var elem = properties.add(null, C.DOC_ID_STOCK);
+        elem = properties.add(null, C.DOC_ID_STOCK);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setSelectFilter(D.TRANSFERENCIA_STOCK_DOC_FILTER + "|emp_id:" + m_emp_id.toString());
@@ -4006,7 +4006,7 @@
         elem.setValue(m_moneda);
         elem.setSelectId(m_mon_id);
 
-        var elem = properties.add(null, C.DOC_ID_ASIENTO);
+        elem = properties.add(null, C.DOC_ID_ASIENTO);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setSelectFilter(getAsIdFilter(m_emp_id));
@@ -4030,6 +4030,7 @@
         var elem = properties.add(null, C_REPORTES);
         elem.setType(Dialogs.PropertyType.grid);
         setGridReportes(elem);
+        loadReports(elem);
         elem.setName(getText(2577, "")); // Reportes
         elem.setKey(K_REPORTES);
         elem.setTabIndex(tab.getIndex());
@@ -4054,6 +4055,7 @@
         var elem = properties.add(null, C_FIRMAS);
         elem.setType(Dialogs.PropertyType.grid);
         setGridFirmas(elem);
+        loadFirmas(elem);
         elem.setName(getText(2610, "")); // Firmas
         elem.setKey(K_FIRMAS);
         elem.setTabIndex(tab.getIndex());
@@ -4338,24 +4340,18 @@
         }
         return true;
       };
-
       
       var getAsIdFilter = function(emp_id) {
         return Cairo.Documents.ASIENTOS_DOC_FILTER + "|empId:" + emp_id.toString() + "activo:true";
       };
 
-      self.initialize = function() {
+      var initialize = function() {
         try {
 
-          c_ErrorSave = getText(2611, ""); // Error al grabar Documento
-
-          //**TODO:** goto found: GoTo ExitProc;
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, "Class_Initialize", C_MODULE, "");
-          //**TODO:** label found: ExitProc:;
+          Cairo.manageErrorEx(ex.message, ex, "initialize", C_MODULE, "");
         }
-        //**TODO:** on error resume next found !!!
       };
 
       var destroy = function() {
@@ -4395,10 +4391,13 @@
   });
 
   Cairo.module("Documento.List", function(List, Cairo, Backbone, Marionette, $, _) {
+    var NO_ID = Cairo.Constants.NO_ID;
+
     List.Controller = {
       list: function() {
 
         var self = this;
+        var m_apiPath = Cairo.Database.getAPIVersion();
 
         /*
          this function will be called by the tab manager every time the
@@ -4498,10 +4497,9 @@
 
           self.destroy = function(id, treeId, branchId) {
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_DOCUMENTO)) {
-              return P.resolvedPromise(false);
+              return Cairo.Promises.resolvedPromise(false);
             }
-            var apiPath = DB.getAPIVersion();
-            return DB.destroy(apiPath + "general/documento", id, Cairo.Constants.DELETE_FUNCTION, "Documento").success(
+            return Cairo.Database.destroy(m_apiPath + "general/documento", id, Cairo.Constants.DELETE_FUNCTION, "Documento").success(
               function() {
                 try {
                   var key = getKey(id);

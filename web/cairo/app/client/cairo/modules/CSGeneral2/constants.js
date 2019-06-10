@@ -864,8 +864,8 @@
       FCA_ID: "fca_id",
       FCA_NAME: "fca_nombre",
       FCA_CODE: "fca_codigo",
-      FCA_FECHA_HASTA: "fca_Fechahasta",
-      FCA_FECHA_DESDE: "fca_Fechadesde",
+      FCA_FECHA_HASTA: "fca_fechahasta",
+      FCA_FECHA_DESDE: "fca_fechadesde",
 
 
       // Talonario

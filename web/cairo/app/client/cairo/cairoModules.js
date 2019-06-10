@@ -31,6 +31,7 @@ Cairo.Usuario = {};
 Cairo.Producto = {};
 Cairo.Proveedor = {};
 Cairo.Cliente = {};
+Cairo.Documento = {};
 
 Cairo.EditDocumento = {};
 Cairo.FacturaCompra = {};
