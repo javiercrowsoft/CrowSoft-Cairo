@@ -400,6 +400,7 @@ object Clientes extends Controller with ProvidesUser {
       "dummy" -> Json.toJson("")
     )
     def clienteSucursalWrite(p: ClienteSucursal) = Json.obj(
+      C.CLIS_ID -> Json.toJson(p.id),
       C.CLIS_CODE -> Json.toJson(p.code),
       C.CLIS_NAME -> Json.toJson(p.name),
       C.CLIS_DESCRIP -> Json.toJson(p.descrip),
@@ -494,7 +495,7 @@ object Clientes extends Controller with ProvidesUser {
       case _ => Map.empty
     }
 
-    def preprocessCaiParam(field: JsValue) = {
+    def preprocessSucursalParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
       JsObject(Global.preprocessFormParams(clienteSucursal, "", params).toSeq)
     }
@@ -530,7 +531,7 @@ object Clientes extends Controller with ProvidesUser {
     }
 
     def preprocessSucursalesParam(items: JsValue, group: String): Map[String, JsValue] = items match {
-      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessCaiParam(_))))
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessSucursalParam(_))))
       case _ => Map.empty
     }
 
@@ -581,7 +582,7 @@ object Clientes extends Controller with ProvidesUser {
       case Nil => Map(C.CLIENTE_SUCURSAL_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.CLIENTE_SUCURSAL_DELETED -> Json.toJson(deletedList._2))
     }
-    val clienteSucursals = sucursalRows.toList match {
+    val clienteSucursales = sucursalRows.toList match {
       case (k: String, item: JsValue) :: t => preprocessSucursalesParam(item, C.CLIENTE_SUCURSAL)
       case _ => Map(C.CLIENTE_SUCURSAL -> JsArray(List()))
     }
@@ -663,7 +664,7 @@ object Clientes extends Controller with ProvidesUser {
     val clienteItems = Map(C.CLIENTE_ITEMS -> JsObject((
       clienteEmpresas
         ++ clientePercepciones ++ percepcionDeleted ++ clienteDepartamentos ++ departamentoDeleted
-        ++ clienteSucursals ++ sucursalDeleted ++ clienteCuentasGrupo ++ cuentaGrupoDeleted
+        ++ clienteSucursales ++ sucursalDeleted ++ clienteCuentasGrupo ++ cuentaGrupoDeleted
         ++ clienteContactos ++ contactoDeleted ++ clienteInformes ++ informeDeleted).toSeq
     ))
 

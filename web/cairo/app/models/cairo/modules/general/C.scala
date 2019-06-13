@@ -680,15 +680,23 @@ object C {
   val DOC_DESCRIP = "doc_descrip"
   val DOC_LLEVA_FIRMA = "doc_llevaFirma"
   val DOC_LLEVA_FIRMA_CREDITO = "doc_llevaFirmaCredito"
+
   val DOC_ID_ASIENTO = "doc_id_asiento"
+  val DOC_NAME_ASIENTO = "docAsiento"
+
   val DOC_RV_DESDE_PV = "doc_rv_desde_pv"
   val DOC_RV_DESDE_OS = "doc_rv_desde_os"
   val DOC_PV_DESDE_PRV = "doc_pv_desde_prv"
   val DOC_TIPO_FACTURA = "doc_tipofactura"
   val DOC_TIPO_PACKING_LIST = "doc_tipopackinglist"
   val DOC_TIPO_ORDEN_COMPRA = "doc_tipoordencompra"
+
   val DOC_ID_REMITO = "doc_id_remito"
+  val DOC_NAME_REMITO = "docRemito"
+
   val DOC_ID_STOCK = "doc_id_stock"
+  val DOC_NAME_STOCK = "docStock"
+
   val DOC_GENERA_REMITO = "doc_generaremito"
   val DOC_MUEVE_STOCK = "doc_muevestock"
   val DOC_RC_DESDE_OC = "doc_rc_desde_oc"
@@ -712,7 +720,12 @@ object C {
   val DOC_EDITABLE_STATUS = "doc_editable_status"
   val DOC_EDITABLE_MESSAGE = "doc_editable_message"
 
+
+  val DOCUMENTO_GRUPO = "DocumentoGrupo"
   val DOCG_ID = "docg_id"
+  val DOCG_NAME = "docg_nombre"
+  val DOCG_CODE = "docg_codigo"
+  val DOCG_DESCRIP = "docg_descrip"
 
   val DOCUMENTO_BASE = "base"
   val DOCUMENTO_TIPO_ASISTENTE = "tipo"
@@ -722,7 +735,7 @@ object C {
   val DOCUMENTO_REPORTES = "reportes"
   val DOCUMENTO_FIRMAS = "firmas"
   val REPORTES_DELETED = "reporteDeleted"
-  val FIRMA_DELETED = "firmaDeleted"
+  val FIRMAS_DELETED = "firmaDeleted"
 
   // Talonario
   val TALONARIO = "Talonario"
@@ -735,10 +748,19 @@ object C {
   val TA_ENABLED = "ta_enabled"
 
   val TA_ID_FINAL = "ta_id_final"
+  val TA_NAME_FINAL = "taFinal"
+
   val TA_ID_INSCRIPTO = "ta_id_inscripto"
+  val TA_NAME_INSCRIPTO = "taInscripto"
+
   val TA_ID_EXTERNO = "ta_id_externo"
+  val TA_NAME_EXTERNO = "taExterno"
+
   val TA_ID_INSCRIPTO_M = "ta_id_inscriptom"
+  val TA_NAME_INSCRIPTO_M = "taInscriptoM"
+
   val TA_ID_HABERES = "ta_id_haberes"
+  val TA_NAME_HABERES = "taHaberes"
 
   // PercepcionTipo
   val PERCEPCION_TIPO = "PercepcionTipo"

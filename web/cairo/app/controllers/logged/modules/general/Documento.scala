@@ -20,26 +20,17 @@ case class DocumentoBaseData(
                               llevaFirmaCredito: Boolean,
                               llevaFirmaPrint: Boolean,
                               objectEdit: String,
-
-                              tipo: DocumentoTipoData,
-
                               generaRemito: Boolean,
                               mueveStock: Boolean,
-
-                              facturaVenta: DocumentoFacturaVentaData,
-
                               esResumenBco: Boolean,
-
                               esCobChequeSGR: Boolean,
                               esCobCaidaSGR: Boolean,
-
                               stConsumo: Boolean,
-
                               descrip: String
                             )
 
 case class DocumentoFacturaVentaData(
-                                  esFacturaElectronica: Int,
+                                  esFacturaElectronica: Boolean,
                                   sinPercepcion: Boolean,
                                   esCreditoBanco: Boolean,
                                   esVentaAccion: Boolean,
@@ -107,6 +98,9 @@ case class DocumentoData(
                         code: String,
 
                         base: DocumentoBaseData,
+                        tipo: DocumentoTipoData,
+                        facturaVenta: DocumentoFacturaVentaData,
+
                         references: DocumentoReferencesData,
 
                         items: DocumentoItemsData
@@ -125,6 +119,9 @@ object Documentos extends Controller with ProvidesUser {
   val documentoFacturaVentaFields = List(C.DOC_ES_FACTURA_ELECTRONICA, C.DOC_FV_SIN_PERCEPCION, C.DOC_ES_CREDITO_BANCO,
     C.DOC_ES_VENTA_ACCION, C.DOC_ES_VENTA_CHEQUE)
 
+  val documentoReferenceFields = List(C.CICO_ID, C.EMP_ID, C.DOCT_ID, C.FCA_ID, C.MON_ID, C.TA_ID, C.TA_ID_FINAL, C.TA_ID_INSCRIPTO,
+    C.TA_ID_EXTERNO, C.TA_ID_INSCRIPTO_M, C.TA_ID_HABERES, C.CUEG_ID, C.DOC_ID_ASIENTO, C.DOC_ID_REMITO, C.DOC_ID_STOCK, C.DOCG_ID)
+
   val documentoReporte = List(C.RPTF_ID, C.RPTF_NAME, C.RPTF_CSRFILE, C.RPTF_SUGERIDO, C.RPTF_SUGERIDO_EMAIL, C.RPTF_COPIAS,
     C.RPTF_DOC_IMPRIMIR_EN_ALTA, C.RPTF_OBJECT)
 
@@ -142,31 +139,31 @@ object Documentos extends Controller with ProvidesUser {
         C.DOC_LLEVA_FIRMA_CREDITO -> boolean,
         C.DOC_LLEVA_FIRMA_PRINT0 -> boolean,
         C.DOC_OBJECT_EDIT -> text,
-        C.DOCUMENTO_TIPO_ASISTENTE -> mapping(
-          C.DOC_TIPO_FACTURA -> number,
-          C.DOC_TIPO_PACKING_LIST -> number,
-          C.DOC_TIPO_ORDEN_COMPRA -> number,
-          C.DOC_RC_DESDE_OC -> boolean,
-          C.DOC_RC_DESPACHO_IMPO -> boolean,
-          C.DOC_PV_DESDE_PRV -> boolean,
-          C.DOC_RV_DESDE_PV -> boolean,
-          C.DOC_RV_DESDE_OS -> boolean,
-          C.DOC_RV_BOM -> boolean
-        )(DocumentoTipoData.apply)(DocumentoTipoData.unapply),
         C.DOC_GENERA_REMITO -> boolean,
         C.DOC_MUEVE_STOCK -> boolean,
-        C.DOCUMENTO_FACTURA_VENTA -> mapping(
-          C.DOC_ES_FACTURA_ELECTRONICA -> number,
-          C.DOC_FV_SIN_PERCEPCION -> boolean,
-          C.DOC_ES_CREDITO_BANCO -> boolean,
-          C.DOC_ES_VENTA_ACCION -> boolean,
-          C.DOC_ES_VENTA_CHEQUE -> boolean
-        )(DocumentoFacturaVentaData.apply)(DocumentoFacturaVentaData.unapply),
         C.DOC_ES_RESUMEN_BANCO -> boolean,
         C.DOC_ES_COB_CHEQUE_SGR -> boolean,
         C.DOC_ES_COB_CHEQUE_SGR -> boolean,
         C.DOC_ST_CONSUMO -> boolean,
         C.DOC_DESCRIP -> text)(DocumentoBaseData.apply)(DocumentoBaseData.unapply),
+      C.DOCUMENTO_TIPO_ASISTENTE -> mapping(
+        C.DOC_TIPO_FACTURA -> number,
+        C.DOC_TIPO_PACKING_LIST -> number,
+        C.DOC_TIPO_ORDEN_COMPRA -> number,
+        C.DOC_RC_DESDE_OC -> boolean,
+        C.DOC_RC_DESPACHO_IMPO -> boolean,
+        C.DOC_PV_DESDE_PRV -> boolean,
+        C.DOC_RV_DESDE_PV -> boolean,
+        C.DOC_RV_DESDE_OS -> boolean,
+        C.DOC_RV_BOM -> boolean
+      )(DocumentoTipoData.apply)(DocumentoTipoData.unapply),
+      C.DOCUMENTO_FACTURA_VENTA -> mapping(
+        C.DOC_ES_FACTURA_ELECTRONICA -> boolean,
+        C.DOC_FV_SIN_PERCEPCION -> boolean,
+        C.DOC_ES_CREDITO_BANCO -> boolean,
+        C.DOC_ES_VENTA_ACCION -> boolean,
+        C.DOC_ES_VENTA_CHEQUE -> boolean
+      )(DocumentoFacturaVentaData.apply)(DocumentoFacturaVentaData.unapply),
       C.DOCUMENTO_REFERENCE -> mapping(
         C.CICO_ID -> number,
         C.EMP_ID -> number,
@@ -202,7 +199,7 @@ object Documentos extends Controller with ProvidesUser {
             C.US_ID -> number)(FirmaData.apply)(FirmaData.unapply)
         ),
         C.REPORTES_DELETED -> text,
-        C.FIRMA_DELETED -> text
+        C.FIRMAS_DELETED -> text
       )(DocumentoItemsData.apply)(DocumentoItemsData.unapply)
     )(DocumentoData.apply)(DocumentoData.unapply))
 
@@ -214,156 +211,79 @@ object Documentos extends Controller with ProvidesUser {
       C.DOC_CODE -> Json.toJson(documento.code),
 
       C.DOC_NAME -> Json.toJson(documento.base.name),
-      C.DOC_RAZONSOCIAL -> Json.toJson(documento.base.razonSocial),
-      C.DOC_ES_PROSPECTO -> Json.toJson(documento.base.esProspecto),
-      C.DOC_CAT_FISCAL -> Json.toJson(documento.base.catFiscal),
-      C.DOC_CUIT -> Json.toJson(documento.base.cuit),
-      C.DOC_INGRESOSBRUTOS -> Json.toJson(documento.base.ingresosBrutos),
-      C.DOC_CONTACTO -> Json.toJson(documento.base.contacto),
-      C.DOC_CHEQUEORDEN -> Json.toJson(documento.base.chequeOrden),
-      C.DOC_EXIGE_TRANSPORTE -> Json.toJson(documento.base.exigeTransporte),
-      C.DOC_EXIGE_PROVINCIA -> Json.toJson(documento.base.exigeProvincia),
-      C.DOC_PCIA_TRANSPORTE -> Json.toJson(documento.base.pciaTransporte),
-      C.DOC_CREDITOCTACTE -> Json.toJson(documento.base.creditoCtaCte),
-      C.DOC_CREDITOTOTAL -> Json.toJson(documento.base.creditoTotal),
-      C.DOC_CREDITOACTIVO -> Json.toJson(documento.base.creditoActivo),
+
+      C.DOC_EDITAR_IMPRESOS -> Json.toJson(documento.base.editarImpresos),
+      C.DOC_LLEVA_FIRMA -> Json.toJson(documento.base.llevaFirma),
+      C.DOC_LLEVA_FIRMA_CREDITO -> Json.toJson(documento.base.llevaFirmaCredito),
+      C.DOC_LLEVA_FIRMA_PRINT0 -> Json.toJson(documento.base.llevaFirmaPrint),
+      C.DOC_OBJECT_EDIT -> Json.toJson(documento.base.objectEdit),
+
+      C.DOC_TIPO_FACTURA -> Json.toJson(documento.base.tipo.tipoFactura),
+      C.DOC_TIPO_PACKING_LIST -> Json.toJson(documento.base.tipo.tipoPackingList),
+      C.DOC_TIPO_ORDEN_COMPRA -> Json.toJson(documento.base.tipo.tipoOrdenCompra),
+      C.DOC_RC_DESDE_OC -> Json.toJson(documento.base.tipo.rcDesdeOc),
+      C.DOC_RC_DESPACHO_IMPO -> Json.toJson(documento.base.tipo.rcDesdeDespacho),
+      C.DOC_PV_DESDE_PRV -> Json.toJson(documento.base.tipo.pvDesdePrv),
+      C.DOC_RV_DESDE_PV -> Json.toJson(documento.base.tipo.rvDesdePv),
+      C.DOC_RV_DESDE_OS -> Json.toJson(documento.base.tipo.rvDesdeOs),
+      C.DOC_RV_BOM -> Json.toJson(documento.base.tipo.rvBOM),
+
+      C.DOC_RV_BOM -> Json.toJson(documento.base.generaRemito),
+      C.DOC_RV_BOM -> Json.toJson(documento.base.mueveStock),
+
+      C.DOC_ES_FACTURA_ELECTRONICA -> Json.toJson(documento.base.facturaVenta.esFacturaElectronica),
+      C.DOC_FV_SIN_PERCEPCION -> Json.toJson(documento.base.facturaVenta.sinPercepcion),
+      C.DOC_ES_CREDITO_BANCO -> Json.toJson(documento.base.facturaVenta.esCreditoBanco),
+      C.DOC_ES_VENTA_ACCION -> Json.toJson(documento.base.facturaVenta.esVentaAccion),
+      C.DOC_ES_VENTA_CHEQUE -> Json.toJson(documento.base.facturaVenta.esVentaCheque),
+
+      C.DOC_ES_RESUMEN_BANCO -> Json.toJson(documento.base.esResumenBco),
+      C.DOC_ES_COB_CHEQUE_SGR -> Json.toJson(documento.base.esCobChequeSGR),
+      C.DOC_ES_COB_CAIDA_SGR -> Json.toJson(documento.base.esCobCaidaSGR),
+      C.DOC_ST_CONSUMO -> Json.toJson(documento.base.stConsumo),
+
       C.DOC_DESCRIP -> Json.toJson(documento.base.descrip),
 
-      C.DOC_CALLE -> Json.toJson(documento.address.calle),
-      C.DOC_CALLENUMERO -> Json.toJson(documento.address.calleNumero),
-      C.DOC_PISO -> Json.toJson(documento.address.piso),
-      C.DOC_DEPTO -> Json.toJson(documento.address.depto),
-      C.DOC_CODPOSTAL -> Json.toJson(documento.address.codPostal),
-      C.DOC_LOCALIDAD -> Json.toJson(documento.address.localidad),
-      C.DOC_HORARIO_MDESDE -> Json.toJson(documento.address.horarioMDesde),
-      C.DOC_HORARIO_MHASTA -> Json.toJson(documento.address.horarioMHasta),
-      C.DOC_HORARIO_TDESDE -> Json.toJson(documento.address.horarioTDesde),
-      C.DOC_HORARIO_THASTA -> Json.toJson(documento.address.horarioTHasta),
-      C.DOC_TEL -> Json.toJson(documento.address.tel),
-      C.DOC_FAX -> Json.toJson(documento.address.fax),
-      C.DOC_EMAIL -> Json.toJson(documento.address.email),
-      C.DOC_WEB -> Json.toJson(documento.address.web),
-      C.DOC_MESSENGER -> Json.toJson(documento.address.messenger),
-      C.DOC_YAHOO -> Json.toJson(documento.address.yahoo),
+      C.TA_ID -> Json.toJson(documento.talonario.taId),
+      C.TA_ID_FINAL -> Json.toJson(documento.talonario.taIdFinal),
+      C.TA_ID_INSCRIPTO -> Json.toJson(documento.talonario.taIdInscripto),
+      C.TA_ID_EXTERNO -> Json.toJson(documento.talonario.taIdExterno),
+      C.TA_ID_INSCRIPTO_M -> Json.toJson(documento.talonario.taIdInscriptoM),
+      C.TA_ID_HABERES -> Json.toJson(documento.talonario.taIdHaberes),
 
-      C.DOC_ID_PADRE -> Json.toJson(documento.references.cliIdPadre),
-      C.DOC_NOMBRE_PADRE -> Json.toJson(documento.references.padre),
-      C.CPA_ID -> Json.toJson(documento.references.address.cpaId),
-      C.CPA_CODE -> Json.toJson(documento.references.address.cpaCode),
-      C.LP_ID -> Json.toJson(documento.references.priceLists.lpId),
-      C.LP_NAME -> Json.toJson(documento.references.priceLists.lpName),
-      C.LD_ID -> Json.toJson(documento.references.priceLists.ldId),
-      C.LD_NAME -> Json.toJson(documento.references.priceLists.ldName),
-      C.CPG_ID -> Json.toJson(documento.references.cpgId),
-      C.CPG_NAME -> Json.toJson(documento.references.cpgName),
-      C.PRO_ID -> Json.toJson(documento.references.address.proId),
-      C.PRO_NAME -> Json.toJson(documento.references.address.proName),
-      C.ZON_ID -> Json.toJson(documento.references.address.zonId),
-      C.ZON_NAME -> Json.toJson(documento.references.address.zonName),
-      C.FP_ID -> Json.toJson(documento.references.fpId),
-      C.FP_NAME -> Json.toJson(documento.references.fpName),
-      C.VEN_ID -> Json.toJson(documento.references.venId),
-      C.VEN_NAME -> Json.toJson(documento.references.venName),
-      C.TRANS_ID -> Json.toJson(documento.references.address.transId),
-      C.TRANS_NAME -> Json.toJson(documento.references.address.transName),
-      C.CLICT_ID -> Json.toJson(documento.references.clictId),
-      C.CLICT_NAME -> Json.toJson(documento.references.clictName),
-      C.DOC_ID_REFERIDO -> Json.toJson(documento.references.cliIdReferido),
-      C.REFERIDO -> Json.toJson(documento.references.referido),
-      C.PROY_ID -> Json.toJson(documento.references.proyId),
-      C.PROY_NAME -> Json.toJson(documento.references.proyName),
+      C.DOC_ID_ASIENTO -> Json.toJson(documento.docAux.docIdAsiento),
+      C.DOC_ID_REMITO -> Json.toJson(documento.docAux.docIdRemito),
+      C.DOC_ID_STOCK -> Json.toJson(documento.docAux.docIdStock),
+      C.DOCG_ID -> Json.toJson(documento.docAux.docgId),
 
-      // TODO: implement this
-      C.DOC_INF_US_ID -> Json.toJson(documento.references.webUser.usId),
-      C.US_NAME -> Json.toJson(documento.references.webUser.name),
-      C.DOC_INF_ACTIVE -> Json.toJson(documento.references.webUser.active),
+      C.CICO_ID -> Json.toJson(documento.references.cicoId),
+      C.EMP_ID -> Json.toJson(documento.references.empId),
+      C.DOCT_ID -> Json.toJson(documento.references.doctId),
+      C.FCA_ID -> Json.toJson(documento.references.fcaId),
+      C.MON_ID -> Json.toJson(documento.references.monId),
+      C.CUEG_ID -> Json.toJson(documento.references.cuegId),
 
       // Items
-      "sucursales" -> Json.toJson(writeDocumentoSucursal(documento.items.sucursales)),
-      "empresas" -> Json.toJson(writeDocumentoEmpresas(documento.items.empresas)),
-      "cuentasGrupo" -> Json.toJson(writeDocumentoCuentasGrupo(documento.items.cuentasGrupo)),
-      "percepciones" -> Json.toJson(writeDocumentoPercepciones(documento.items.percepciones)),
-      "dptos" -> Json.toJson(writeDocumentoDptos(documento.items.dptos)),
-      "contactos" -> Json.toJson(writeDocumentoContactos(documento.items.contactos)),
-      "informes" -> Json.toJson(writeDocumentoInformes(documento.items.informes)),
-      "additionalFields" -> Json.toJson(additionalFieldsWrites)
+      "reportes" -> Json.toJson(writeDocumentoReportes(documento.items.reportes)),
+      "firmas" -> Json.toJson(writeDocumentoFirmas(documento.items.firmas))
     )
-    def additionalFieldsWrites() = Json.obj(
-      "fields" -> Json.toJson(writeEmptyCols(List())),
-      "values" -> Json.toJson(writeEmptyCols(List()))
+    def documentoReporteWrite(p: Reporte) = Json.obj(
+      C.RPTF_ID -> Json.toJson(p.id),
+      C.RPTF_NAME -> Json.toJson(p.name),
+      C.RPTF_CSRFILE -> Json.toJson(p.csrFile),
+      C.RPTF_SUGERIDO -> Json.toJson(p.sugerido),
+      C.RPTF_SUGERIDO_EMAIL -> Json.toJson(p.sugeridoMail),
+      C.RPTF_COPIAS -> Json.toJson(p.copias),
+      C.RPTF_DOC_IMPRIMIR_EN_ALTA -> Json.toJson(p.printInNew),
+      C.RPTF_OBJECT -> Json.toJson(p.rptObj)
     )
-    def itemWrites(item: Any) = Json.obj(
-      "dummy" -> Json.toJson("")
+    def documentoFirmaWrite(p: Firma) = Json.obj(
+      C.DOCFR_ID -> Json.toJson(p.id),
+      C.US_ID -> Json.toJson(p.usId),
+      C.US_NAME -> Json.toJson(p.usName)
     )
-    def documentoSucursalWrite(p: DocumentoSucursal) = Json.obj(
-      C.CLIS_CODE -> Json.toJson(p.code),
-      C.CLIS_NAME -> Json.toJson(p.name),
-      C.CLIS_DESCRIP -> Json.toJson(p.descrip),
-      C.CLIS_CONTACTO -> Json.toJson(p.contacto),
-      C.CLIS_CALLE -> Json.toJson(p.calle),
-      C.CLIS_CALLE_NUMERO -> Json.toJson(p.calleNumero),
-      C.CLIS_PISO -> Json.toJson(p.piso),
-      C.CLIS_DEPTO -> Json.toJson(p.depto),
-      C.CLIS_COD_POSTAL -> Json.toJson(p.codPostal),
-      C.CLIS_LOCALIDAD -> Json.toJson(p.localidad),
-      C.CLIS_TEL -> Json.toJson(p.tel),
-      C.CLIS_FAX -> Json.toJson(p.fax),
-      C.CLIS_EMAIL -> Json.toJson(p.email),
-      C.PA_ID -> Json.toJson(p.paId),
-      C.PRO_ID -> Json.toJson(p.proId),
-      C.ZON_ID -> Json.toJson(p.zonId)
-    )
-    def documentoEmpresaWrite(p: DocumentoEmpresa) = Json.obj(
-      C.EMP_DOC_ID -> Json.toJson(p.id),
-      C.EMP_ID -> Json.toJson(p.empId),
-      C.EMP_NAME -> Json.toJson(p.empName)
-    )
-    def documentoCuentaGrupoWrite(p: DocumentoCuentaGrupo) = Json.obj(
-      C.DOC_CUEG_ID -> Json.toJson(p.id),
-      C.CUEG_ID -> Json.toJson(p.cuegId),
-      C.CUEG_NAME -> Json.toJson(p.cuegName),
-      C.CUE_ID -> Json.toJson(p.cueId),
-      C.CUE_NAME -> Json.toJson(p.cueName)
-    )
-    def documentoPercepcionWrite(p: DocumentoPercepcion) = Json.obj(
-      C.DOC_PERC_ID -> Json.toJson(p.id),
-      C.PERC_ID -> Json.toJson(p.percId),
-      C.PERC_NAME -> Json.toJson(p.percName),
-      C.DOC_PERC_DESDE -> Json.toJson(p.desde),
-      C.DOC_PERC_HASTA -> Json.toJson(p.hasta)
-    )
-    def documentoDptoWrite(p: DocumentoDepartamento) = Json.obj(
-      C.DPTO_DOC_ID -> Json.toJson(p.id),
-      C.DPTO_ID -> Json.toJson(p.dptoId),
-      C.DPTO_NAME -> Json.toJson(p.dptoName)
-    )
-    def documentoContactoWrite(p: DocumentoContacto) = Json.obj(
-      C.CONT_ID -> Json.toJson(p.id),
-      C.CONT_CODE -> Json.toJson(p.code),
-      C.CONT_NAME -> Json.toJson(p.name),
-      C.CONT_DESCRIP -> Json.toJson(p.descrip),
-      C.CONT_TEL -> Json.toJson(p.tel),
-      C.CONT_CELULAR -> Json.toJson(p.mobile),
-      C.CONT_EMAIL -> Json.toJson(p.email),
-      C.CONT_CARGO -> Json.toJson(p.cargo),
-      C.CONT_DIRECCION -> Json.toJson(p.address),
-      DBHelper.ACTIVE -> Json.toJson(p.active)
-    )
-    def documentoInformeWrite(p: DocumentoInforme) = Json.obj(
-      C.PER_ID -> Json.toJson(p.perId),
-      C.INF_ID -> Json.toJson(p.infId),
-      C.INF_CODE -> Json.toJson(p.infCode),
-      C.INF_NAME -> Json.toJson(p.infName),
-      C.PRE_ID -> Json.toJson(p.preId)
-    )
-    def writeEmptyCols(items: List[Any]) = items.map(item => itemWrites(item))
-    def writeDocumentoSucursal(items: List[DocumentoSucursal]) = items.map(item => documentoSucursalWrite(item))
-    def writeDocumentoEmpresas(items: List[DocumentoEmpresa]) = items.map(item => documentoEmpresaWrite(item))
-    def writeDocumentoCuentasGrupo(items: List[DocumentoCuentaGrupo]) = items.map(item => documentoCuentaGrupoWrite(item))
-    def writeDocumentoPercepciones(items: List[DocumentoPercepcion]) = items.map(item => documentoPercepcionWrite(item))
-    def writeDocumentoDptos(items: List[DocumentoDepartamento]) = items.map(item => documentoDptoWrite(item))
-    def writeDocumentoContactos(items: List[DocumentoContacto]) = items.map(item => documentoContactoWrite(item))
-    def writeDocumentoInformes(items: List[DocumentoInforme]) = items.map(item => documentoInformeWrite(item))
+    def writeDocumentoReportes(items: List[Reporte]) = items.map(item => documentoReporteWrite(item))
+    def writeDocumentoFirmas(items: List[Firma]) = items.map(item => documentoFirmaWrite(item))
   }
 
   def get(id: Int) = GetAction { implicit request =>
@@ -390,73 +310,23 @@ object Documentos extends Controller with ProvidesUser {
       case _ => Map.empty
     }
 
-    def preprocessCaiParam(field: JsValue) = {
+    def preprocessReporteParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(documentoSucursal, "", params).toSeq)
+      JsObject(Global.preprocessFormParams(documentoReporte, "", params).toSeq)
     }
 
-    def preprocessEmpresaParam(field: JsValue) = {
+    def preprocessFirmaParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(documentoEmpresa, "", params).toSeq)
+      JsObject(Global.preprocessFormParams(documentoFirma, "", params).toSeq)
     }
 
-    def preprocessCuentaGrupoParam(field: JsValue) = {
-      val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(documentoCuentaGrupo, "", params).toSeq)
-    }
-
-    def preprocessPercepcionParam(field: JsValue) = {
-      val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(documentoPercepcion, "", params).toSeq)
-    }
-
-    def preprocessDepartamentoParam(field: JsValue) = {
-      val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(documentoDepartamento, "", params).toSeq)
-    }
-
-    def preprocessContactoParam(field: JsValue) = {
-      val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(documentoContacto, "", params).toSeq)
-    }
-
-    def preprocessInformeParam(field: JsValue) = {
-      val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(documentoInforme, "", params).toSeq)
-    }
-
-    def preprocessSucursalesParam(items: JsValue, group: String): Map[String, JsValue] = items match {
-      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessCaiParam(_))))
+    def preprocessReportesParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessReporteParam(_))))
       case _ => Map.empty
     }
 
-    def preprocessEmpresasParam(items: JsValue, group: String): Map[String, JsValue] = items match {
-      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessEmpresaParam(_))))
-      case _ => Map.empty
-    }
-
-    def preprocessCuentasGrupoParam(items: JsValue, group: String): Map[String, JsValue] = items match {
-      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessCuentaGrupoParam(_))))
-      case _ => Map.empty
-    }
-
-    def preprocessPercepcionesParam(items: JsValue, group: String): Map[String, JsValue] = items match {
-      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessPercepcionParam(_))))
-      case _ => Map.empty
-    }
-
-    def preprocessDepartamentosParam(items: JsValue, group: String): Map[String, JsValue] = items match {
-      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessDepartamentoParam(_))))
-      case _ => Map.empty
-    }
-
-    def preprocessContactosParam(items: JsValue, group: String): Map[String, JsValue] = items match {
-      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessContactoParam(_))))
-      case _ => Map.empty
-    }
-
-    def preprocessInformesParam(items: JsValue, group: String): Map[String, JsValue] = items match {
-      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessInformeParam(_))))
+    def preprocessFirmasParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessFirmaParam(_))))
       case _ => Map.empty
     }
 
@@ -465,107 +335,44 @@ object Documentos extends Controller with ProvidesUser {
     // groups for DocumentoData
     //
     val documentoId = Global.preprocessFormParams(List("id", DBHelper.ACTIVE, C.DOC_CODE), "", params)
-    val documentoBaseGroup = Global.preprocessFormParams(documentoBaseFields, C.CLIENTE_BASE, params)
-    val documentoAddressGroup = Global.preprocessFormParams(documentoAddressFields, C.CLIENTE_ADDRESS, params)
-    val documentoReferencesGroup = Global.preprocessFormParams(documentoReferencesFields, C.CLIENTE_REFERENCES, params)
+    val documentoBaseGroup = Global.preprocessFormParams(documentoBaseFields, C.DOCUMENTO_BASE, params)
+    val documentoTipoAsistenteGroup = Global.preprocessFormParams(documentoTipoFields, C.DOCUMENTO_TIPO_ASISTENTE, params)
+    val documentoFacturaVentaGroup = Global.preprocessFormParams(documentoFacturaVentaFields, C.DOCUMENTO_FACTURA_VENTA, params)
+    val documentoReferenceGroup = Global.preprocessFormParams(documentoReferenceFields, C.DOCUMENTO_REFERENCE, params)
 
-    // sucursales
+    // reportes
     //
-    val sucursalesInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.CLIENTE_SUCURSAL, params))
-    val sucursalRows = Global.getParamsJsonRequestFor(C.ITEMS, sucursalesInfo)
-    val sucursalDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, sucursalesInfo).toList match {
-      case Nil => Map(C.CLIENTE_SUCURSAL_DELETED -> Json.toJson(""))
-      case deletedList :: t => Map(C.CLIENTE_SUCURSAL_DELETED -> Json.toJson(deletedList._2))
+    val reportesInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.REPORTE_FORMULARIO, params))
+    val reporteRows = Global.getParamsJsonRequestFor(C.ITEMS, reportesInfo)
+    val reporteDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, reportesInfo).toList match {
+      case Nil => Map(C.REPORTES_DELETED -> Json.toJson(""))
+      case deletedList :: t => Map(C.REPORTES_DELETED -> Json.toJson(deletedList._2))
     }
-    val documentoSucursals = sucursalRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessSucursalesParam(item, C.CLIENTE_SUCURSAL)
-      case _ => Map(C.CLIENTE_SUCURSAL -> JsArray(List()))
+    val documentoReportes = reporteRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessReportesParam(item, C.REPORTE_FORMULARIO)
+      case _ => Map(C.REPORTE_FORMULARIO -> JsArray(List()))
     }
 
-    // empresas
+    // firmas
     //
-    val empresasInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.EMPRESA_CLIENTE, params))
-    val empresaRows = Global.getParamsJsonRequestFor(C.ITEMS, empresasInfo)
-    val documentoEmpresas = empresaRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessEmpresasParam(item, C.EMPRESA_CLIENTE)
-      case _ => Map(C.EMPRESA_CLIENTE -> JsArray(List()))
+    val firmasInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.DOCUMENTO_FIRMA, params))
+    val firmaRows = Global.getParamsJsonRequestFor(C.ITEMS, firmasInfo)
+    val firmaDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, firmasInfo).toList match {
+      case Nil => Map(C.FIRMAS_DELETED -> Json.toJson(""))
+      case deletedList :: t => Map(C.FIRMAS_DELETED -> Json.toJson(deletedList._2))
+    }
+    val documentoFirmas = firmaRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessFirmasParam(item, C.DOCUMENTO_FIRMA)
+      case _ => Map(C.DOCUMENTO_FIRMA -> JsArray(List()))
     }
 
-    // cuentas grupo
-    //
-    val cuentasGrupoInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.CLIENTE_CUENTA_GRUPO, params))
-    val cuentaGrupoRows = Global.getParamsJsonRequestFor(C.ITEMS, cuentasGrupoInfo)
-    val cuentaGrupoDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, cuentasGrupoInfo).toList match {
-      case Nil => Map(C.CLIENTE_CUENTA_GRUPO_DELETED -> Json.toJson(""))
-      case deletedList :: t => Map(C.CLIENTE_CUENTA_GRUPO_DELETED -> Json.toJson(deletedList._2))
-    }
-    val documentoCuentasGrupo = cuentaGrupoRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessCuentasGrupoParam(item, C.CLIENTE_CUENTA_GRUPO)
-      case _ => Map(C.CLIENTE_CUENTA_GRUPO -> JsArray(List()))
-    }
-
-    // percepciones
-    //
-    val percepcionesInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.CLIENTE_PERCEPCION, params))
-    val percepcionRows = Global.getParamsJsonRequestFor(C.ITEMS, percepcionesInfo)
-    val percepcionDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, percepcionesInfo).toList match {
-      case Nil => Map(C.CLIENTE_PERCEPCIONES_DELETED -> Json.toJson(""))
-      case deletedList :: t => Map(C.CLIENTE_PERCEPCIONES_DELETED -> Json.toJson(deletedList._2))
-    }
-    val documentoPercepciones = percepcionRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessPercepcionesParam(item, C.CLIENTE_PERCEPCION)
-      case _ => Map(C.CLIENTE_PERCEPCION -> JsArray(List()))
-    }
-
-    // departamentos
-    //
-    val departamentosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.DEPARTAMENTO_CLIENTE, params))
-    val departamentoRows = Global.getParamsJsonRequestFor(C.ITEMS, departamentosInfo)
-    val departamentoDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, departamentosInfo).toList match {
-      case Nil => Map(C.CLIENTE_DEPARTAMENTO_DELETED -> Json.toJson(""))
-      case deletedList :: t => Map(C.CLIENTE_DEPARTAMENTO_DELETED -> Json.toJson(deletedList._2))
-    }
-    val documentoDepartamentos = departamentoRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessDepartamentosParam(item, C.DEPARTAMENTO_CLIENTE)
-      case _ => Map(C.DEPARTAMENTO_CLIENTE -> JsArray(List()))
-    }
-
-    // contactos
-    //
-    val contactosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.CONTACTO, params))
-    val contactoRows = Global.getParamsJsonRequestFor(C.ITEMS, contactosInfo)
-    val contactoDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, contactosInfo).toList match {
-      case Nil => Map(C.CLIENTE_CONTACTO_DELETED -> Json.toJson(""))
-      case deletedList :: t => Map(C.CLIENTE_CONTACTO_DELETED -> Json.toJson(deletedList._2))
-    }
-    val documentoContactos = contactoRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessContactosParam(item, C.CONTACTO)
-      case _ => Map(C.CONTACTO -> JsArray(List()))
-    }
-
-    // informes
-    //
-    val informesInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.INFORME, params))
-    val informeRows = Global.getParamsJsonRequestFor(C.ITEMS, informesInfo)
-    val informeDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, informesInfo).toList match {
-      case Nil => Map(C.CLIENTE_INFORME_DELETED -> Json.toJson(""))
-      case deletedList :: t => Map(C.CLIENTE_INFORME_DELETED -> Json.toJson(deletedList._2))
-    }
-    val documentoInformes = informeRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessInformesParam(item, C.INFORME)
-      case _ => Map(C.INFORME -> JsArray(List()))
-    }
-
-    val documentoItems = Map(C.CLIENTE_ITEMS -> JsObject((
-      documentoEmpresas
-        ++ documentoPercepciones ++ percepcionDeleted ++ documentoDepartamentos ++ departamentoDeleted
-        ++ documentoSucursals ++ sucursalDeleted ++ documentoCuentasGrupo ++ cuentaGrupoDeleted
-        ++ documentoContactos ++ contactoDeleted ++ documentoInformes ++ informeDeleted).toSeq
+    val documentoItems = Map(C.DOCUMENTO_ITEMS -> JsObject((
+      documentoReportes ++ reporteDeleted ++ documentoFirmas ++ firmaDeleted).toSeq
     ))
 
     JsObject(
-      (documentoId ++ documentoBaseGroup ++ documentoAddressGroup ++ documentoReferencesGroup
-        ++ documentoItems).toSeq)
+      (documentoId ++ documentoBaseGroup ++ documentoTipoAsistenteGroup ++ documentoFacturaVentaGroup
+        ++ documentoReferenceGroup ++ documentoItems).toSeq)
   }
   //
   //
@@ -745,7 +552,7 @@ object Documentos extends Controller with ProvidesUser {
       },
       documento => {
         Logger.debug(s"form: ${documento.toString}")
-        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_CLIENTE), { user =>
+        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_DOCUMENTO), { user =>
           Ok(
             Json.toJson(
               Documento.update(user,
@@ -767,7 +574,7 @@ object Documentos extends Controller with ProvidesUser {
       },
       documento => {
         Logger.debug(s"form: ${documento.toString}")
-        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_CLIENTE), { user =>
+        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_DOCUMENTO), { user =>
           Ok(
             Json.toJson(
               Documento.create(user,
@@ -782,7 +589,7 @@ object Documentos extends Controller with ProvidesUser {
 
   def delete(id: Int) = PostAction { implicit request =>
     Logger.debug("in Documentos.delete")
-    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_CLIENTE), { user =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_DOCUMENTO), { user =>
       Documento.delete(user, id)
       // Backbonejs requires at least an empty json object in the response
       // if not it will call errorHandler even when we responded with 200 OK :P
