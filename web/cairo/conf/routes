@@ -368,6 +368,11 @@ GET     /api/v1/documento/:id/reports/:forMail                                  
 
 GET     /api/v1/documento/from_doct_id/:doctId/:doctIdApplic/:id/:idEx                       controllers.logged.modules.documentos.Documents.fromDoctId(doctId: Int, doctIdApplic: Int, id: Int, idEx: Int)
 
+GET     /api/v1/general/documento/:id                                                        controllers.logged.modules.general.Documentos.get(id: Int)
+POST    /api/v1/general/documento                                                            controllers.logged.modules.general.Documentos.create
+PUT     /api/v1/general/documento/:id                                                        controllers.logged.modules.general.Documentos.update(id: Int)
+DELETE  /api/v1/general/documento/:id                                                        controllers.logged.modules.general.Documentos.delete(id: Int)
+
 GET     /api/v1/general/depositologico/:id                                                   controllers.logged.modules.general.DepositosLogicos.get(id: Int)
 POST    /api/v1/general/depositologico                                                       controllers.logged.modules.general.DepositosLogicos.create
 PUT     /api/v1/general/depositologico/:id                                                   controllers.logged.modules.general.DepositosLogicos.update(id: Int)

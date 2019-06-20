@@ -529,6 +529,10 @@
       that.getOptionGroup = function() {
         return self.optionGroup;
       };
+      that.setOptionGroup = function(optionGroup) {
+        self.optionGroup = optionGroup;
+        return that;
+      };
 
       that.getTextAlign = function() {
         return self.textAlign;

@@ -195,7 +195,8 @@ case class DocumentoReferences(
       "",
       monId,
       "",
-      cuegId
+      cuegId,
+      ""
     )
   }
 }
@@ -256,10 +257,6 @@ object Firma {
 
   def apply(id: Int, usId: Int) = {
     new Firma(id, usId)
-  }
-
-  def apply(id: Int, usId: Int, name: String) = {
-    new Firma(id, usId, name)
   }
 
 }
@@ -360,7 +357,7 @@ object Documento {
     DocumentoBase("", false, false, false, false, "",
       DocumentoTipo(0, 0, 0, false, false, false, false, false, false),
       false, false,
-      DocumentoFacturaVenta(0, false, false, false, false),
+      DocumentoFacturaVenta(false, false, false, false, false),
       false, false, false, false, ""),
     DocumentoTalonario(DBHelper.NoId, DBHelper.NoId, DBHelper.NoId,
       DBHelper.NoId, DBHelper.NoId, DBHelper.NoId),

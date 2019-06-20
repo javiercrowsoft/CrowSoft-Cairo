@@ -378,110 +378,36 @@ object Documentos extends Controller with ProvidesUser {
   //
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  def getSucursales(sucursales: List[DocumentoSucursalData]): List[DocumentoSucursal] = {
-    sucursales.map(sucursal => {
-      DocumentoSucursal(
-        sucursal.id,
-        sucursal.code,
-        sucursal.name,
-        sucursal.descrip,
-        sucursal.contacto,
-        sucursal.calle,
-        sucursal.calleNumero,
-        sucursal.piso,
-        sucursal.depto,
-        sucursal.codPostal,
-        sucursal.localidad,
-        sucursal.tel,
-        sucursal.fax,
-        sucursal.email,
-        sucursal.paId,
-        sucursal.proId,
-        sucursal.zonId
+  def getReportes(reportes: List[ReporteData]): List[Reporte] = {
+    reportes.map(reporte => {
+      Reporte(
+        reporte.id,
+        reporte.name,
+        reporte.csrFile,
+        reporte.sugerido,
+        reporte.sugeridoMail,
+        reporte.copias,
+        reporte.printInNew,
+        reporte.rptObj
       )
     })
   }
 
-  def getEmpresas(empresas: List[DocumentoEmpresaData]): List[DocumentoEmpresa] = {
-    empresas.map(empresa => {
-      DocumentoEmpresa(
-        DBHelper.NoId,
-        empresa.empId
-      )
-    })
-  }
-
-  def getCuentasGrupo(cuentasGrupo: List[DocumentoCuentaGrupoData]): List[DocumentoCuentaGrupo] = {
-    cuentasGrupo.map(cuentaGrupo => {
-      DocumentoCuentaGrupo(
-        cuentaGrupo.id,
-        cuentaGrupo.cuegId,
-        cuentaGrupo.cueId
-      )
-    })
-  }
-
-  def getPercepciones(percepciones: List[DocumentoPercepcionData]): List[DocumentoPercepcion] = {
-    percepciones.map(percepcion => {
-      DocumentoPercepcion(
-        percepcion.id,
-        percepcion.percId,
-        DateFormatter.parse(percepcion.desde),
-        DateFormatter.parse(percepcion.hasta)
-      )
-    })
-  }
-
-  def getDepartamentos(departamentos: List[DocumentoDepartamentoData]): List[DocumentoDepartamento] = {
-    departamentos.map(departamento => {
-      DocumentoDepartamento(
-        departamento.id,
-        departamento.dptoId
-      )
-    })
-  }
-
-  def getContactos(contactos: List[DocumentoContactoData]): List[DocumentoContacto] = {
-    contactos.map(contacto => {
-      DocumentoContacto(
-        contacto.id,
-        contacto.code,
-        contacto.name,
-        contacto.descrip,
-        contacto.tel,
-        contacto.mobile,
-        contacto.email,
-        contacto.cargo,
-        contacto.address,
-        contacto.active
-      )
-    })
-  }
-
-  def getInformes(informes: List[DocumentoInformeData]): List[DocumentoInforme] = {
-    informes.map(informe => {
-      DocumentoInforme(
-        informe.preId
+  def getFirmas(firmas: List[FirmaData]): List[Firma] = {
+    firmas.map(firma => {
+      Firma(
+        firma.id,
+        firma.usId
       )
     })
   }
 
   def getDocumentoItems(documento: DocumentoData): DocumentoItems = {
     DocumentoItems(
-      getSucursales(documento.items.sucursales),
-      getEmpresas(documento.items.empresas),
-      getCuentasGrupo(documento.items.cuentasGrupo),
-      getPercepciones(documento.items.percepciones),
-      getDepartamentos(documento.items.firmas),
-      getContactos(documento.items.contactos),
-      getInformes(documento.items.informes),
-      List(),
-      documento.items.sucursalDeleted,
-      documento.items.cuentaGrupoDeleted,
-      documento.items.percepcionDeleted,
-      documento.items.departamentoDeleted,
-      documento.items.contactoDeleted,
-      documento.items.informeDeleted
+      getReportes(documento.items.reportes),
+      getFirmas(documento.items.firmas),
+      documento.items.reporteDeleted,
+      documento.items.firmaDeleted
     )
   }
 
@@ -492,53 +418,62 @@ object Documentos extends Controller with ProvidesUser {
       documento.code,
       DocumentoBase(
         documento.base.name,
-        documento.base.razonSocial,
-        documento.base.esProspecto,
-        documento.base.catFiscal,
-        documento.base.cuit,
-        documento.base.ingresosBrutos,
-        documento.base.contacto,
-        documento.base.chequeOrden,
-        documento.base.exigeTransporte,
-        documento.base.exigeProvincia,
-        documento.base.pciaTransporte,
-        documento.base.creditoCtaCte,
-        documento.base.creditoTotal,
-        documento.base.creditoActivo,
+        documento.base.editarImpresos,
+        documento.base.llevaFirma,
+        documento.base.llevaFirmaCredito,
+        documento.base.llevaFirmaPrint,
+        documento.base.objectEdit,
+
+        DocumentoTipo(
+          documento.tipo.tipoFactura,
+          documento.tipo.tipoPackingList,
+          documento.tipo.tipoOrdenCompra,
+          documento.tipo.rcDesdeOc,
+          documento.tipo.rcDesdeDespacho,
+          documento.tipo.pvDesdePrv,
+          documento.tipo.rvDesdePv,
+          documento.tipo.rvDesdeOs,
+          documento.tipo.rvBOM),
+
+        documento.base.generaRemito,
+        documento.base.mueveStock,
+
+        DocumentoFacturaVenta(
+          documento.facturaVenta.esFacturaElectronica,
+          documento.facturaVenta.sinPercepcion,
+          documento.facturaVenta.esCreditoBanco,
+          documento.facturaVenta.esVentaAccion,
+          documento.facturaVenta.esVentaCheque),
+
+        documento.base.esResumenBco,
+        documento.base.esCobChequeSGR,
+        documento.base.esCobCaidaSGR,
+        documento.base.stConsumo,
         documento.base.descrip),
-      DocumentoAddress(
-        documento.address.calle,
-        documento.address.calleNumero,
-        documento.address.piso,
-        documento.address.depto,
-        documento.address.codPostal,
-        documento.address.localidad,
-        documento.address.tel,
-        documento.address.fax,
-        documento.address.email,
-        documento.address.web,
-        documento.address.messenger,
-        documento.address.yahoo,
-        DateFormatter.parse(documento.address.horarioMDesde),
-        DateFormatter.parse(documento.address.horarioMHasta),
-        DateFormatter.parse(documento.address.horarioTDesde),
-        DateFormatter.parse(documento.address.horarioTHasta)),
+
+      DocumentoTalonario(
+        documento.references.taId,
+        documento.references.taIdFinal,
+        documento.references.taIdInscripto,
+        documento.references.taIdExterno,
+        documento.references.taIdInscriptoM,
+        documento.references.taIdHaberes
+      ),
+      DocumentoAux(
+        documento.references.docIdAsiento,
+        documento.references.docIdRemito,
+        documento.references.docIdStock,
+        documento.references.docgId
+      ),
       DocumentoReferences(
-        documento.references.cliIdPadre,
-        documento.references.cpaId,
-        documento.references.lpId,
-        documento.references.ldId,
-        documento.references.cpgId,
-        documento.references.proId,
-        documento.references.zonId,
-        documento.references.fpId,
-        documento.references.venId,
-        documento.references.transId,
-        documento.references.clictId,
-        documento.references.cliIdReferido,
-        documento.references.proyId,
-        documento.references.webUsName,
-        documento.references.webUserActive),
+        documento.references.cicoId,
+        documento.references.empId,
+        documento.references.doctId,
+        documento.references.fcaId,
+        documento.references.monId,
+        documento.references.cuegId
+      ),
+
       getDocumentoItems(documento)
     )
   }

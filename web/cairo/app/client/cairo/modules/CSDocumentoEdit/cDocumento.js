@@ -2102,7 +2102,7 @@
 
         var elem = properties.add(null, C.DOCT_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.DOCUMENTO_TIPO);
+        elem.setSelectTable(Cairo.Tables.TIPOS_DE_DOCUMENTO);
         elem.setName(getText(2366, "")); // Tipo de Documento
         elem.setKey(K_DOCT_ID);
         elem.setValue(m_documentoTipo);
@@ -2223,6 +2223,15 @@
         property.setValue(m_object_edit);
 
         return m_dialog.showValues(properties);
+      };
+
+      var loadDataFromResponse = function(response) {
+        var data = response.data;
+
+        data.reportes = data.get('reportes');
+        data.firmas = data.get('firmas');
+
+        return data;
       };
 
       var load = function(id) {
@@ -2837,7 +2846,7 @@
 
         var elem = properties.add(null, C.TA_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
         elem.setValue(m_talonario);
@@ -2851,7 +2860,7 @@
 
         var elem = properties.add(null, C.TA_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
         elem.setValue(m_talonario);
@@ -2871,7 +2880,7 @@
 
         var elem = properties.add(null, C.TA_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
         elem.setValue(m_talonario);
@@ -2904,7 +2913,7 @@
 
         var elem = properties.add(null, C.TA_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
         elem.setValue(m_talonario);
@@ -2929,7 +2938,7 @@
 
         var elem = properties.add(null, C.TA_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
         elem.setValue(m_talonario);
@@ -2965,7 +2974,7 @@
 
         elem = properties.add(null, C.TA_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
         elem.setValue(m_talonario);
@@ -3016,7 +3025,7 @@
 
         elem = properties.add(null, C.TA_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
         elem.setValue(m_talonario);
@@ -3064,7 +3073,7 @@
 
         elem = properties.add(null, C.TA_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
         elem.setValue(m_talonario);
@@ -3088,7 +3097,7 @@
 
         elem = properties.add(null, C.TA_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
         elem.setValue(m_talonario);
@@ -3201,7 +3210,7 @@
 
         elem = properties.add(null, C.TA_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
         elem.setValue(m_talonario);
@@ -3253,7 +3262,7 @@
 
         elem = properties.add(null, C.TA_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
         elem.setValue(m_talonario);
@@ -3305,7 +3314,7 @@
 
         elem = properties.add(null, C.TA_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
         elem.setValue(m_talonario);
@@ -3352,7 +3361,7 @@
 
         elem = properties.add(null, C.TA_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
         elem.setValue(m_talonario);
@@ -3380,7 +3389,7 @@
 
         elem = properties.add(null, C.TA_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
         elem.setValue(m_talonario);
@@ -3419,7 +3428,7 @@
 
         elem = properties.add(null, C.TA_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
         elem.setValue(m_talonario);
@@ -3468,7 +3477,7 @@
 
         elem = properties.add(null, C.CUEG_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.CUENTAGRUPO);
+        elem.setSelectTable(Cairo.Tables.GRUPO_DE_CUENTA);
         elem.setName(getText(2597, "")); // Cuenta Grupo
         elem.setValue(m_cuentaGrupo);
         elem.setSelectId(m_cueg_id);
@@ -3487,7 +3496,7 @@
 
         elem = properties.add(null, C.TA_ID_INSCRIPTO);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(2598, "")); // Talonario Inscripto
         elem.setKey(K_TA_ID_INSCRIPTO);
         elem.setValue(m_talonarioInscripto);
@@ -3497,7 +3506,7 @@
 
         elem = properties.add(null, C.TA_ID_FINAL);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(2599, "")); // Talonario Exento/Mono/C.F.
         elem.setKey(K_TA_ID_FINAL);
         elem.setValue(m_talonarioFinal);
@@ -3507,7 +3516,7 @@
 
         elem = properties.add(null, C.TA_ID_EXTERNO);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(2600, "")); // Talonario Externo
         elem.setKey(K_TA_ID_EXTERNO);
         elem.setValue(m_talonarioExterno);
@@ -3679,7 +3688,7 @@
 
         elem = properties.add(null, C.CUEG_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.CUENTAGRUPO);
+        elem.setSelectTable(Cairo.Tables.GRUPO_DE_CUENTA);
         elem.setName(getText(2597, "")); // Cuenta Grupo
         elem.setValue(m_cuentaGrupo);
         elem.setSelectId(m_cueg_id);
@@ -3698,7 +3707,7 @@
 
         elem = properties.add(null, C.TA_ID_INSCRIPTO);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(2598, "")); // Talonario Inscripto
         elem.setKey(K_TA_ID_INSCRIPTO);
         elem.setValue(m_talonarioInscripto);
@@ -3708,7 +3717,7 @@
 
         elem = properties.add(null, C.TA_ID_FINAL);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(2599, "")); // Talonario Exento/Mono/C.F./R.N.I.
         elem.setKey(K_TA_ID_FINAL);
         elem.setValue(m_talonarioFinal);
@@ -3718,7 +3727,7 @@
 
         elem = properties.add(null, C.TA_ID_EXTERNO);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(2600, "")); // Talonario Externo
         elem.setKey(K_TA_ID_EXTERNO);
         elem.setValue(m_talonarioExterno);
@@ -3728,7 +3737,7 @@
 
         elem = properties.add(null, C.TA_ID_INSCRIPTO_M);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(2606, "")); // Talonario Inscripto M
         elem.setKey(K_TA_ID_INSCRIPTOM);
         elem.setValue(m_talonarioInscriptoM);
@@ -3835,7 +3844,7 @@
 
         elem = properties.add(null, C.TA_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
         elem.setValue(m_talonario);
@@ -3863,7 +3872,7 @@
 
         elem = properties.add(null, C.TA_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
         elem.setValue(m_talonario);
@@ -3906,7 +3915,7 @@
 
         elem = properties.add(null, C.TA_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
         elem.setValue(m_talonario);
@@ -3984,7 +3993,7 @@
 
         elem = properties.add(null, C.TA_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
         elem.setValue(m_talonario);
@@ -3992,7 +4001,7 @@
 
         elem = properties.add(null, C.TA_ID_HABERES);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(4641, "")); // Talonario de Recibo
         elem.setKey(K_TA_ID_HABERES);
         elem.setValue(m_talonarioHaberes);
