@@ -16,6 +16,20 @@
       
       that.htmlTag = "<input/>";
 
+      var superSetElement = that.setElement;
+
+      that.setElement = function(element, view) {
+        superSetElement(element);
+        element.attr('type', 'radio');
+        element.attr('name', 'n_' + self.group);
+        element.prop('checked', self.value);
+        var onClick = view.onOptionButtonClick(that);
+        element.click(function() {
+          that.setValue(element.is(':checked'));
+          onClick();
+        });
+      };
+
       that.setText = function(text) {
         Cairo.validateAssignmentIsNotNull(text, C_MODULE, "createOptionButton.setText");
         self.text = text;

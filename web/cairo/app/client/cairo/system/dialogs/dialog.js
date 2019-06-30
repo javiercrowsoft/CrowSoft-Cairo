@@ -4751,8 +4751,7 @@
 
           var label = null;
 
-          if(property.getType() !== Dialogs.PropertyType.option
-            && property.getType() !== Dialogs.PropertyType.toolbar
+          if(property.getType() !== Dialogs.PropertyType.toolbar
             && property.getType() !== Dialogs.PropertyType.label
             && property.getType() !== Dialogs.PropertyType.title
             && property.getNoShowLabel() === false
@@ -4978,10 +4977,7 @@
 
           /* label formatting */
 
-          if(property.getType() === Dialogs.PropertyType.option) {
-            c.setText(property.getName());
-          }
-          else if(property.getType() === Dialogs.PropertyType.toolbar) {
+          if(property.getType() === Dialogs.PropertyType.toolbar) {
 
             // TODO: implement frameToolbar
             //

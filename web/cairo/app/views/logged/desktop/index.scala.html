@@ -167,6 +167,10 @@ Backbone templates
 <script src="@routes.Assets.at("javascripts/vendor/jquery.tabbable.js")" type="text/javascript"></script>
 
 <script src="./client/cairo/config/marionette/regions/dialog.js"></script>
+<script>
+  var Cairo = new Marionette.Application();
+</script>
+<script src="./client/cairo/common/views.js"></script>
 <script src="./client/cairo/cairoApp.js"></script>
 <script>
 
@@ -208,7 +212,6 @@ Backbone templates
 </script>
 <script src="./client/cairo/session.js"></script>
 <script src="./client/cairo/config/storage/localstorage.js"></script>
-<script src="./client/cairo/common/views.js"></script>
 <script src="./client/cairo/system/browser.js"></script>
 <script src="./client/cairo/system/promise.js"></script>
 <script src="./client/cairo/system/modal.js"></script>
@@ -309,31 +312,33 @@ Backbone templates
 </script>
 
 <script>
-  $(document).ready(function () {
-      function closeNav() {
-          $(".navbar-collapse").stop().css({ 'height': '1px' }).removeClass('in').addClass("collapse");
-          $(".menu-panel").stop().css({ 'height': '1px' }).removeClass('in').addClass("collapse");
-      }
+    $(document).ready(function () {
+        function closeNav() {
+            $(".navbar-collapse").stop().css({ 'height': '1px' }).removeClass('in').addClass("collapse");
+            $(".menu-panel").stop().css({ 'height': '1px' }).removeClass('in').addClass("collapse");
+        }
 
-      $('.menu').click(function (event) {
-          closeNav();
-      });
+        $('.menu').click(function (event) {
+            closeNav();
+        });
 
-      // load general settings
-      //
-      var p = Cairo.Configuration.createConfigObjects();
-
-      // starts Cairo
-      //
-      p.then(function() {
-        Cairo.start();
-
-        // load desktop
+        // load general settings
         //
-        Cairo.Desktop.Region.Controller.showDesktop();
-        Cairo.execute("set:active:header", "desktop");
-      });
-  });
+        var p = Cairo.Configuration.createConfigObjects();
+
+        // starts Cairo
+        //
+        p.then(function() {
+
+            // load desktop
+            //
+            Cairo.Desktop.Region.Controller.showDesktop();
+            Cairo.execute("set:active:header", "desktop");
+
+            Cairo.start();
+
+        });
+    });
 </script>
 
 }

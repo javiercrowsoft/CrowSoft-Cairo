@@ -1299,7 +1299,7 @@
       };
 
       self.getPath = function() {
-        return "#general/documento/" + m_id.toString();
+        return "#documento/documento/" + m_id.toString();
       };
 
       self.getEditorName = function() {
@@ -2526,10 +2526,10 @@
 
         for(var _i = 0; _i < m_data.reportes.length; _i += 1) {
 
-          var row = rows.add(null, getValue(m_data.reports[_i], C.RPTF_ID));
+          var row = rows.add(null, getValue(m_data.reportes[_i], C.RPTF_ID));
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.reports[_i], C.RPTF_ID));
+          elem.setValue(getValue(m_data.reportes[_i], C.RPTF_ID));
           elem.setKey(KI_RPTF_ID);
 
           elem = row.add(null);
@@ -4397,6 +4397,14 @@
 
     Edit.Controller = { getEditor: createObject };
 
+    Edit.Controller.edit = function(id) {
+      var editor = Cairo.Documento.Edit.Controller.getEditor();
+      var dialog = Cairo.Dialogs.Views.Controller.newDialog();
+
+      editor.setDialog(dialog);
+      editor.edit(id);
+    };
+
   });
 
   Cairo.module("Documento.List", function(List, Cairo, Backbone, Marionette, $, _) {
@@ -4552,7 +4560,7 @@
 
         //create the tab
         // 
-        Cairo.mainTab.showTab("Documentos", "documentoTreeRegion", "#general/documentos", createTreeDialog, closeTreeDialog, showTreeDialog);
+        Cairo.mainTab.showTab("Documentos", "documentoTreeRegion", "#documento/documentos", createTreeDialog, closeTreeDialog, showTreeDialog);
 
       }
     };

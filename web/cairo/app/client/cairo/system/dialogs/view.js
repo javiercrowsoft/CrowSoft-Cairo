@@ -834,6 +834,12 @@
         };
       };
 
+      that.onOptionButtonClick = function(control) {
+        return function() {
+          that.raiseEvent("optionButtonClick", control.getIndex());
+        };
+      };
+
       that.onTabClick = function(control) {
         return function() {
           that.raiseEvent("tabClick", { index: control.getIndex(), tag: control.getTag() });

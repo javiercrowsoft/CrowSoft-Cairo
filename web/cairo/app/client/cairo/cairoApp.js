@@ -1,5 +1,3 @@
-var Cairo = new Marionette.Application();
-
 (function() {
   "use strict";
 
@@ -631,7 +629,7 @@ var Cairo = new Marionette.Application();
   * new Date("2") => Thu Feb 01 2001 00:00:00 GMT-0300 (ART)     // WAT
   * new Date("2-1") => Thu Feb 01 2001 00:00:00 GMT-0300 (ART)   // WAT
   * new Date("12-1") => Sat Dec 01 2001 00:00:00 GMT-0300 (ART)  // hooo, now I understand. I was confused because
-  *                                                                 I live in Argentina. Obviuslly that has to be the
+  *                                                                 I live in Argentina. Obviously that has to be the
   *                                                                 reason. I am a dd/mm/yy person :D
   *                                                                 BUTTTTT wait ... WHY 2001 !!! I am not in 2001
   *                                                                 it is 2015 (at least when I was writing this)
