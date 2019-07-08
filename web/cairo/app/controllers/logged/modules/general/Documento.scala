@@ -20,33 +20,33 @@ case class DocumentoBaseData(
                               llevaFirmaCredito: Boolean,
                               llevaFirmaPrint: Boolean,
                               objectEdit: String,
-                              generaRemito: Boolean,
-                              mueveStock: Boolean,
-                              esResumenBco: Boolean,
-                              esCobChequeSGR: Boolean,
-                              esCobCaidaSGR: Boolean,
-                              stConsumo: Boolean,
+                              generaRemito: Option[Boolean],
+                              mueveStock: Option[Boolean],
+                              esResumenBco: Option[Boolean],
+                              esCobChequeSGR: Option[Boolean],
+                              esCobCaidaSGR: Option[Boolean],
+                              stConsumo: Option[Boolean],
                               descrip: String
                             )
 
 case class DocumentoFacturaVentaData(
-                                  esFacturaElectronica: Boolean,
-                                  sinPercepcion: Boolean,
-                                  esCreditoBanco: Boolean,
-                                  esVentaAccion: Boolean,
-                                  esVentaCheque: Boolean
+                                  esFacturaElectronica: Option[Boolean],
+                                  sinPercepcion: Option[Boolean],
+                                  esCreditoBanco: Option[Boolean],
+                                  esVentaAccion: Option[Boolean],
+                                  esVentaCheque: Option[Boolean]
                                 )
 
 case class DocumentoTipoData(
-                          tipoFactura: Int,
-                          tipoPackingList: Int,
-                          tipoOrdenCompra: Int,
-                          rcDesdeOc: Boolean,
-                          rcDesdeDespacho: Boolean,
-                          pvDesdePrv: Boolean,
-                          rvDesdePv: Boolean,
-                          rvDesdeOs: Boolean,
-                          rvBOM: Boolean
+                          tipoFactura: Option[Int],
+                          tipoPackingList: Option[Int],
+                          tipoOrdenCompra: Option[Int],
+                          rcDesdeOc: Option[Boolean],
+                          rcDesdeDespacho: Option[Boolean],
+                          pvDesdePrv: Option[Boolean],
+                          rvDesdePv: Option[Boolean],
+                          rvDesdeOs: Option[Boolean],
+                          rvBOM: Option[Boolean]
                         )
 
 case class DocumentoReferencesData(
@@ -55,17 +55,17 @@ case class DocumentoReferencesData(
                                     doctId: Int,
                                     fcaId: Int,
                                     monId: Int,
-                                    taId: Int,
-                                    taIdFinal: Int,
-                                    taIdInscripto: Int,
-                                    taIdExterno: Int,
-                                    taIdInscriptoM: Int,
-                                    taIdHaberes: Int,
-                                    cuegId: Int,
-                                    docIdAsiento: Int,
-                                    docIdRemito: Int,
-                                    docIdStock: Int,
-                                    docgId: Int
+                                    taId: Option[Int],
+                                    taIdFinal: Option[Int],
+                                    taIdInscripto: Option[Int],
+                                    taIdExterno: Option[Int],
+                                    taIdInscriptoM: Option[Int],
+                                    taIdHaberes: Option[Int],
+                                    cuegId: Option[Int],
+                                    docIdAsiento: Option[Int],
+                                    docIdRemito: Option[Int],
+                                    docIdStock: Option[Int],
+                                    docgId: Option[Int]
                                   )
 
 case class ReporteData(
@@ -127,6 +127,22 @@ object Documentos extends Controller with ProvidesUser {
 
   val documentoFirma = List(C.DOCFR_ID, C.US_ID)
 
+  /*
+    case K_NAME:
+    case K_CODE:
+    case K_DESCRIP:
+    case K_CICO_ID:
+    case K_EMP_ID:
+    case K_DOCT_ID:
+    case K_FCA_ID:
+    case K_ACTIVE:
+    case K_EDITAR_IMPRESOS:
+    case K_LLEVA_FIRMA:
+    case K_LLEVA_FIRMA_CREDITO:
+    case K_LLEVA_FIRMA_PRINT_0:
+    case K_DOC_EDIT_OBJECT:
+  * */
+
   val documentoForm = Form(
     mapping(
       "id" -> optional(number),
@@ -139,30 +155,30 @@ object Documentos extends Controller with ProvidesUser {
         C.DOC_LLEVA_FIRMA_CREDITO -> boolean,
         C.DOC_LLEVA_FIRMA_PRINT0 -> boolean,
         C.DOC_OBJECT_EDIT -> text,
-        C.DOC_GENERA_REMITO -> boolean,
-        C.DOC_MUEVE_STOCK -> boolean,
-        C.DOC_ES_RESUMEN_BANCO -> boolean,
-        C.DOC_ES_COB_CHEQUE_SGR -> boolean,
-        C.DOC_ES_COB_CHEQUE_SGR -> boolean,
-        C.DOC_ST_CONSUMO -> boolean,
+        C.DOC_GENERA_REMITO -> optional(boolean),
+        C.DOC_MUEVE_STOCK -> optional(boolean),
+        C.DOC_ES_RESUMEN_BANCO -> optional(boolean),
+        C.DOC_ES_COB_CHEQUE_SGR -> optional(boolean),
+        C.DOC_ES_COB_CHEQUE_SGR -> optional(boolean),
+        C.DOC_ST_CONSUMO -> optional(boolean),
         C.DOC_DESCRIP -> text)(DocumentoBaseData.apply)(DocumentoBaseData.unapply),
       C.DOCUMENTO_TIPO_ASISTENTE -> mapping(
-        C.DOC_TIPO_FACTURA -> number,
-        C.DOC_TIPO_PACKING_LIST -> number,
-        C.DOC_TIPO_ORDEN_COMPRA -> number,
-        C.DOC_RC_DESDE_OC -> boolean,
-        C.DOC_RC_DESPACHO_IMPO -> boolean,
-        C.DOC_PV_DESDE_PRV -> boolean,
-        C.DOC_RV_DESDE_PV -> boolean,
-        C.DOC_RV_DESDE_OS -> boolean,
-        C.DOC_RV_BOM -> boolean
+        C.DOC_TIPO_FACTURA -> optional(number),
+        C.DOC_TIPO_PACKING_LIST -> optional(number),
+        C.DOC_TIPO_ORDEN_COMPRA -> optional(number),
+        C.DOC_RC_DESDE_OC -> optional(boolean),
+        C.DOC_RC_DESPACHO_IMPO -> optional(boolean),
+        C.DOC_PV_DESDE_PRV -> optional(boolean),
+        C.DOC_RV_DESDE_PV -> optional(boolean),
+        C.DOC_RV_DESDE_OS -> optional(boolean),
+        C.DOC_RV_BOM -> optional(boolean)
       )(DocumentoTipoData.apply)(DocumentoTipoData.unapply),
       C.DOCUMENTO_FACTURA_VENTA -> mapping(
-        C.DOC_ES_FACTURA_ELECTRONICA -> boolean,
-        C.DOC_FV_SIN_PERCEPCION -> boolean,
-        C.DOC_ES_CREDITO_BANCO -> boolean,
-        C.DOC_ES_VENTA_ACCION -> boolean,
-        C.DOC_ES_VENTA_CHEQUE -> boolean
+        C.DOC_ES_FACTURA_ELECTRONICA -> optional(boolean),
+        C.DOC_FV_SIN_PERCEPCION -> optional(boolean),
+        C.DOC_ES_CREDITO_BANCO -> optional(boolean),
+        C.DOC_ES_VENTA_ACCION -> optional(boolean),
+        C.DOC_ES_VENTA_CHEQUE -> optional(boolean)
       )(DocumentoFacturaVentaData.apply)(DocumentoFacturaVentaData.unapply),
       C.DOCUMENTO_REFERENCE -> mapping(
         C.CICO_ID -> number,
@@ -170,17 +186,17 @@ object Documentos extends Controller with ProvidesUser {
         C.DOCT_ID -> number,
         C.FCA_ID -> number,
         C.MON_ID -> number,
-        C.TA_ID -> number,
-        C.TA_ID_FINAL -> number,
-        C.TA_ID_INSCRIPTO -> number,
-        C.TA_ID_EXTERNO -> number,
-        C.TA_ID_INSCRIPTO_M -> number,
-        C.TA_ID_HABERES -> number,
-        C.CUEG_ID -> number,
-        C.DOC_ID_ASIENTO -> number,
-        C.DOC_ID_REMITO -> number,
-        C.DOC_ID_STOCK -> number,
-        C.DOCG_ID -> number)(DocumentoReferencesData.apply)(DocumentoReferencesData.unapply),
+        C.TA_ID -> optional(number),
+        C.TA_ID_FINAL -> optional(number),
+        C.TA_ID_INSCRIPTO -> optional(number),
+        C.TA_ID_EXTERNO -> optional(number),
+        C.TA_ID_INSCRIPTO_M -> optional(number),
+        C.TA_ID_HABERES -> optional(number),
+        C.CUEG_ID -> optional(number),
+        C.DOC_ID_ASIENTO -> optional(number),
+        C.DOC_ID_REMITO -> optional(number),
+        C.DOC_ID_STOCK -> optional(number),
+        C.DOCG_ID -> optional(number))(DocumentoReferencesData.apply)(DocumentoReferencesData.unapply),
       C.DOCUMENTO_ITEMS -> mapping(
         C.DOCUMENTO_REPORTES -> Forms.list[ReporteData](
           mapping (
@@ -441,45 +457,45 @@ object Documentos extends Controller with ProvidesUser {
         documento.base.objectEdit,
 
         DocumentoTipo(
-          documento.tipo.tipoFactura,
-          documento.tipo.tipoPackingList,
-          documento.tipo.tipoOrdenCompra,
-          documento.tipo.rcDesdeOc,
-          documento.tipo.rcDesdeDespacho,
-          documento.tipo.pvDesdePrv,
-          documento.tipo.rvDesdePv,
-          documento.tipo.rvDesdeOs,
-          documento.tipo.rvBOM),
+          documento.tipo.tipoFactura.getOrElse(0),
+          documento.tipo.tipoPackingList.getOrElse(0),
+          documento.tipo.tipoOrdenCompra.getOrElse(0),
+          documento.tipo.rcDesdeOc.getOrElse(false),
+          documento.tipo.rcDesdeDespacho.getOrElse(false),
+          documento.tipo.pvDesdePrv.getOrElse(false),
+          documento.tipo.rvDesdePv.getOrElse(false),
+          documento.tipo.rvDesdeOs.getOrElse(false),
+          documento.tipo.rvBOM.getOrElse(false)),
 
-        documento.base.generaRemito,
-        documento.base.mueveStock,
+        documento.base.generaRemito.getOrElse(false),
+        documento.base.mueveStock.getOrElse(false),
 
         DocumentoFacturaVenta(
-          documento.facturaVenta.esFacturaElectronica,
-          documento.facturaVenta.sinPercepcion,
-          documento.facturaVenta.esCreditoBanco,
-          documento.facturaVenta.esVentaAccion,
-          documento.facturaVenta.esVentaCheque),
+          documento.facturaVenta.esFacturaElectronica.getOrElse(false),
+          documento.facturaVenta.sinPercepcion.getOrElse(false),
+          documento.facturaVenta.esCreditoBanco.getOrElse(false),
+          documento.facturaVenta.esVentaAccion.getOrElse(false),
+          documento.facturaVenta.esVentaCheque.getOrElse(false)),
 
-        documento.base.esResumenBco,
-        documento.base.esCobChequeSGR,
-        documento.base.esCobCaidaSGR,
-        documento.base.stConsumo,
+        documento.base.esResumenBco.getOrElse(false),
+        documento.base.esCobChequeSGR.getOrElse(false),
+        documento.base.esCobCaidaSGR.getOrElse(false),
+        documento.base.stConsumo.getOrElse(false),
         documento.base.descrip),
 
       DocumentoTalonario(
-        documento.references.taId,
-        documento.references.taIdFinal,
-        documento.references.taIdInscripto,
-        documento.references.taIdExterno,
-        documento.references.taIdInscriptoM,
-        documento.references.taIdHaberes
+        documento.references.taId.getOrElse(0),
+        documento.references.taIdFinal.getOrElse(0),
+        documento.references.taIdInscripto.getOrElse(0),
+        documento.references.taIdExterno.getOrElse(0),
+        documento.references.taIdInscriptoM.getOrElse(0),
+        documento.references.taIdHaberes.getOrElse(0)
       ),
       DocumentoAux(
-        documento.references.docIdAsiento,
-        documento.references.docIdRemito,
-        documento.references.docIdStock,
-        documento.references.docgId
+        documento.references.docIdAsiento.getOrElse(0),
+        documento.references.docIdRemito.getOrElse(0),
+        documento.references.docIdStock.getOrElse(0),
+        documento.references.docgId.getOrElse(0)
       ),
       DocumentoReferences(
         documento.references.cicoId,
@@ -487,7 +503,7 @@ object Documentos extends Controller with ProvidesUser {
         documento.references.doctId,
         documento.references.fcaId,
         documento.references.monId,
-        documento.references.cuegId
+        documento.references.cuegId.getOrElse(0)
       ),
 
       getDocumentoItems(documento)

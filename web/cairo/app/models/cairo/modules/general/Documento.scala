@@ -755,8 +755,8 @@ object Documento {
         Field(C.DOC_RV_DESDE_OS, Register.boolToInt(documento.base.tipo.rvDesdeOs), FieldType.boolean),
         Field(C.DOC_RV_BOM, Register.boolToInt(documento.base.tipo.rvBOM), FieldType.boolean),
 
-        Field(C.DOC_RV_BOM, Register.boolToInt(documento.base.generaRemito), FieldType.boolean),
-        Field(C.DOC_RV_BOM, Register.boolToInt(documento.base.mueveStock), FieldType.boolean),
+        Field(C.DOC_GENERA_REMITO, Register.boolToInt(documento.base.generaRemito), FieldType.boolean),
+        Field(C.DOC_MUEVE_STOCK, Register.boolToInt(documento.base.mueveStock), FieldType.boolean),
 
         Field(C.DOC_ES_FACTURA_ELECTRONICA, Register.boolToInt(documento.base.facturaVenta.esFacturaElectronica), FieldType.boolean),
         Field(C.DOC_FV_SIN_PERCEPCION, Register.boolToInt(documento.base.facturaVenta.sinPercepcion), FieldType.boolean),

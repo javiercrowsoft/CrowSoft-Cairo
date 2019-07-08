@@ -610,9 +610,9 @@
           if(m_firmasDeleted !== "" && !m_copy) {
             transaction.setDeletedList(m_firmasDeleted);
           }
-        }
 
-        mainRegister.addTransaction(transaction);
+          mainRegister.addTransaction(transaction);
+        }
       };
 
       var saveDocEx = function(register) { 
@@ -708,7 +708,7 @@
                   break;
 
                 case K_FACTURA_ELECTRONICA:
-                  fields.add(C.DOCES_FACTURA_ELECTRONICA, property.getValue(), Types.boolean);
+                  fields.add(C.DOC_ES_FACTURA_ELECTRONICA, property.getValue(), Types.boolean);
                   break;
 
                 case K_FV_SIN_PERCEPCION:
@@ -1900,7 +1900,7 @@
           if(!bSilent) { return M.showInfoWithFalse(getText(2567, "")); } // Debe indicar un documento para generar el movimiento de stock
         }
 
-        return true;
+        return P.resolvedPromise(true);
       };
 
       self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueId) {
@@ -2615,7 +2615,7 @@
         var transaction = DB.createTransaction();
         transaction.setTable(C.REPORTE_FORMULARIO);
 
-        var property = m_dialog.getProperties().item(C_CAIS);
+        var property = m_dialog.getProperties().item(C_REPORTES);
         var rows = property.getGrid().getRows();
 
         var _count = rows.size();
