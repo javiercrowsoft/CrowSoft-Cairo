@@ -215,7 +215,7 @@
             }
           }
           return false;
-        }
+        };
 
         var refreshNodeSelection = function(data) {
           if(data && data.id && data.id.toString().substring(0, 1) === 'N') {

@@ -604,11 +604,11 @@
 
           if(control.getType !== undefined) {
             if(!(
-              control.getObjectType() === "Controls.input"
+              control.getObjectType() === "cairo.controls.input"
                 && control.getType() !== Controls.InputType.text
               )
               && !(
-              control.getObjectType() === "Controls.datePicker"
+              control.getObjectType() === "cairo.controls.datePicker"
                 && control.getType() !== Controls.DatePickerType.time
               )
               ) {

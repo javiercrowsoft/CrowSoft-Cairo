@@ -5312,7 +5312,8 @@
           if(property === null) {
             property = m_properties.get(strKey);
           }
-          if(property.getControl().getType() === Dialogs.PropertyType.select) {
+          debugger;
+          if(property.getControl().getType() === "cairo.controls.select") {
             property.getControl().validate();
           }
         };
@@ -6035,11 +6036,11 @@
 
           if(control.getType !== undefined) {
             if(!(
-                  control.getObjectType() === "Controls.input"
+                  control.getObjectType() === "cairo.controls.input"
                     && control.getType() !== Controls.InputType.text
                 )
               && !(
-                  control.getObjectType() === "Controls.datePicker"
+                  control.getObjectType() === "cairo.controls.datePicker"
                     && control.getType() !== Controls.DatePickerType.time
                   )
               ) {

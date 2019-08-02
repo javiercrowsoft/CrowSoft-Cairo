@@ -4351,7 +4351,7 @@
       };
       
       var getAsIdFilter = function(emp_id) {
-        return Cairo.Documents.ASIENTOS_DOC_FILTER + "|empId:" + emp_id.toString() + "activo:true";
+        return Cairo.Documents.ASIENTOS_DOC_FILTER + ",empId:" + emp_id.toString() + ",activo:true";
       };
 
       var initialize = function() {

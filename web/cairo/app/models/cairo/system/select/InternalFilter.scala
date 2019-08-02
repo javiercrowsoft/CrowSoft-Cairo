@@ -170,14 +170,22 @@ object InternalFilter {
       }
       else ""
     }
+    val empId = {
+      if(params.contains("empId")) {
+        params("empId").split("[*]").map(empId => s"emp_id = ${G.getIntOrZero(empId)}").mkString(" or ")
+      }
+      else ""
+    }
+    val active = {
+      if(params.contains("activo")) {
+        val b = if(params("activo") == "true") "<> 0" else "= 0"
+        s"activo $b"
+      }
+      else ""
+    }
     val sqlstmt = {
-      if(doctIds.isEmpty) {
-        invoiceTypes
-      }
-      else if(invoiceTypes.isEmpty) {
-        doctIds
-      }
-      else s"(($doctIds) and ($invoiceTypes))"
+      val filters = List(doctIds, invoiceTypes, empId, active).filterNot(_.isEmpty).map(f => s"($f)").mkString(" and ")
+      if(filters.isEmpty()) "" else filters
     }
     InternalFilter(
       sqlstmt,
