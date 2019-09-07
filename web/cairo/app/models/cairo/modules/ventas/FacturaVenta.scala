@@ -1966,7 +1966,7 @@ object FacturaVenta {
         true
       ) match {
         case SaveResult(true, id) =>
-        case SaveResult(false, id) => throwException
+        case SaveResult(false, _) => throwException
       }
     }
 

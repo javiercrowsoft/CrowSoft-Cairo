@@ -206,7 +206,7 @@ object CentroCosto {
       C.CCOS_CODE
     ) match {
       case SaveResult(true, id) => load(user, id).getOrElse(throwException)
-      case SaveResult(false, id) => throwException
+      case SaveResult(false, _) => throwException
     }
   }
 

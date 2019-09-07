@@ -846,7 +846,7 @@
 
       DOC_OBJECT_EDIT: "doc_object_edit",
 
-      DOC_COPY_PERMISSIONS: "doc_copy_permissions", // used for copied documents
+      DOC_ID_PERMISSIONS: "doc_copy_permissions", // used for copied documents
 
       // DocumentoGrupo
       DOCUMENTOGRUPO: "DocumentoGrupo",

@@ -724,15 +724,17 @@ object Documento {
     }
   }
 
-  def create(user: CompanyUser, documento: Documento): Documento = {
-    save(user, documento, true)
+  def create(user: CompanyUser, documento: Documento,
+             docIdPermissions: Int // when a document is copied we can apply the same permissions as the source document
+             ): Documento = {
+    save(user, documento, true, docIdPermissions)
   }
 
   def update(user: CompanyUser, documento: Documento): Documento = {
-    save(user, documento, false)
+    save(user, documento, false, DBHelper.NoId)
   }
 
-  private def save(user: CompanyUser, documento: Documento, isNew: Boolean): Documento = {
+  private def save(user: CompanyUser, documento: Documento, isNew: Boolean, docIdPermissions: Int): Documento = {
     def getFields = {
       List(
         Field(DBHelper.ACTIVE, Register.boolToInt(documento.active), FieldType.boolean),
@@ -833,7 +835,7 @@ object Documento {
         itemInfo.item.id == DBHelper.NewId
       ) match {
         case SaveResult(true, id) => true
-        case SaveResult(false, id) => throwException
+        case SaveResult(false, _) => throwException
       }
     }
 
@@ -858,7 +860,7 @@ object Documento {
         itemInfo.item.id == DBHelper.NewId
       ) match {
         case SaveResult(true, id) => true
-        case SaveResult(false, id) => throwException
+        case SaveResult(false, _) => throwException
       }
     }
 
@@ -883,9 +885,16 @@ object Documento {
       case SaveResult(true, id) => {
         saveReportes(id)
         saveFirmas(id)
+        savePermissions(docIdPermissions)
         load(user, id).getOrElse(throwException)
       }
-      case SaveResult(false, id) => throwException
+      case SaveResult(false, _) => throwException
+    }
+  }
+
+  def savePermissions(docIdPermissions: Int) = {
+    if(docIdPermissions != DBHelper.NoId) {
+
     }
   }
 

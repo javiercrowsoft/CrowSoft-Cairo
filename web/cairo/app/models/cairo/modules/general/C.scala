@@ -720,6 +720,7 @@ object C {
   val DOC_EDITABLE_STATUS = "doc_editable_status"
   val DOC_EDITABLE_MESSAGE = "doc_editable_message"
 
+  val DOC_ID_PERMISSIONS = "doc_id_permissions" // used for copied documents
 
   val DOCUMENTO_GRUPO = "DocumentoGrupo"
   val DOCG_ID = "docg_id"

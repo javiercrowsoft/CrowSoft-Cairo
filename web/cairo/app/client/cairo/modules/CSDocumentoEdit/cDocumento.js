@@ -4326,12 +4326,12 @@
             getText(3478, "")  // desea copiar los permisos ?
 
           ).whenSuccess(function() {
-            return copy = true;
+            copy = true;
           });
         }
 
         p = p.then(function() {
-          register.getFields().add(C.DOC_COPY_PERMISSIONS, copy, Types.boolean);
+          register.getFields().add(C.DOC_ID_PERMISSIONS, (copy ? m_id : NO_ID), Types.id);
         });
 
         return p;

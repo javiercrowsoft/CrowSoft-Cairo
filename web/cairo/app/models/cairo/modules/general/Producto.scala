@@ -2469,7 +2469,7 @@ object Producto {
         itemInfo.item.id == DBHelper.NewId
       ) match {
         case SaveResult(true, id) => true
-        case SaveResult(false, id) => throwException
+        case SaveResult(false, _) => throwException
       }
     }
 
@@ -2494,7 +2494,7 @@ object Producto {
         itemInfo.item.id == DBHelper.NewId
       ) match {
         case SaveResult(true, id) => true
-        case SaveResult(false, id) => throwException
+        case SaveResult(false, _) => throwException
       }
     }
 
@@ -2519,7 +2519,7 @@ object Producto {
         itemInfo.item.id == DBHelper.NewId
       ) match {
         case SaveResult(true, id) => true
-        case SaveResult(false, id) => throwException
+        case SaveResult(false, _) => throwException
       }
     }
 
@@ -2544,7 +2544,7 @@ object Producto {
         itemInfo.item.id == DBHelper.NewId
       ) match {
         case SaveResult(true, id) => true
-        case SaveResult(false, id) => throwException
+        case SaveResult(false, _) => throwException
       }
     }
 
@@ -2569,7 +2569,7 @@ object Producto {
         itemInfo.item.id == DBHelper.NewId
       ) match {
         case SaveResult(true, id) => true
-        case SaveResult(false, id) => throwException
+        case SaveResult(false, _) => throwException
       }
     }
 
@@ -2594,7 +2594,7 @@ object Producto {
         itemInfo.item.id == DBHelper.NewId
       ) match {
         case SaveResult(true, id) => true
-        case SaveResult(false, id) => throwException
+        case SaveResult(false, _) => throwException
       }
     }
 
@@ -2619,7 +2619,7 @@ object Producto {
         itemInfo.item.id == DBHelper.NewId
       ) match {
         case SaveResult(true, id) => true
-        case SaveResult(false, id) => throwException
+        case SaveResult(false, _) => throwException
       }
     }
 
@@ -2644,7 +2644,7 @@ object Producto {
         itemInfo.item.id == DBHelper.NewId
       ) match {
         case SaveResult(true, id) => true
-        case SaveResult(false, id) => throwException
+        case SaveResult(false, _) => throwException
       }
     }
 
@@ -2677,7 +2677,7 @@ object Producto {
         saveWebImages(id)
         load(user, id).getOrElse(throwException)
       }
-      case SaveResult(false, id) => throwException
+      case SaveResult(false, _) => throwException
     }
   }
 

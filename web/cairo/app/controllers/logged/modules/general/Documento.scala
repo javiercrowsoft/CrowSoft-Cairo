@@ -26,7 +26,8 @@ case class DocumentoBaseData(
                               esCobChequeSGR: Option[Boolean],
                               esCobCaidaSGR: Option[Boolean],
                               stConsumo: Option[Boolean],
-                              descrip: String
+                              descrip: String,
+                              docIdPermissions: Int
                             )
 
 case class DocumentoFacturaVentaData(
@@ -111,7 +112,7 @@ object Documentos extends Controller with ProvidesUser {
 
   val documentoBaseFields = List(C.DOC_NAME, C.DOC_CODE, C.DOC_EDITAR_IMPRESOS, C.DOC_LLEVA_FIRMA, C.DOC_LLEVA_FIRMA_CREDITO, C.DOC_LLEVA_FIRMA_PRINT0,
     C.DOC_OBJECT_EDIT, C.DOC_GENERA_REMITO, C.DOC_MUEVE_STOCK, C.DOC_ES_RESUMEN_BANCO, C.DOC_ES_COB_CHEQUE_SGR, C.DOC_ES_COB_CAIDA_SGR,
-    C.DOC_ST_CONSUMO, C.DOC_DESCRIP)
+    C.DOC_ST_CONSUMO, C.DOC_DESCRIP, C.DOC_ID_PERMISSIONS)
 
   val documentoTipoFields = List(C.DOC_TIPO_FACTURA, C.DOC_TIPO_PACKING_LIST, C.DOC_TIPO_ORDEN_COMPRA,
     C.DOC_RC_DESDE_OC, C.DOC_RC_DESPACHO_IMPO, C.DOC_PV_DESDE_PRV, C.DOC_RV_DESDE_PV, C.DOC_RV_DESDE_OS, C.DOC_RV_BOM)
@@ -161,7 +162,8 @@ object Documentos extends Controller with ProvidesUser {
         C.DOC_ES_COB_CHEQUE_SGR -> optional(boolean),
         C.DOC_ES_COB_CHEQUE_SGR -> optional(boolean),
         C.DOC_ST_CONSUMO -> optional(boolean),
-        C.DOC_DESCRIP -> text)(DocumentoBaseData.apply)(DocumentoBaseData.unapply),
+        C.DOC_DESCRIP -> text,
+        C.DOC_ID_PERMISSIONS -> number)(DocumentoBaseData.apply)(DocumentoBaseData.unapply),
       C.DOCUMENTO_TIPO_ASISTENTE -> mapping(
         C.DOC_TIPO_FACTURA -> optional(number),
         C.DOC_TIPO_PACKING_LIST -> optional(number),
@@ -545,7 +547,8 @@ object Documentos extends Controller with ProvidesUser {
           Ok(
             Json.toJson(
               Documento.create(user,
-                getDocumento(documento, DBHelper.NoId)
+                getDocumento(documento, DBHelper.NoId),
+                documento.base.docIdPermissions
               )
             )
           )

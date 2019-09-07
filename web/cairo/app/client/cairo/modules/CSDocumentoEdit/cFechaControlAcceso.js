@@ -660,11 +660,11 @@
 
         var closeTreeDialog = function() {
 
-        }
+        };
 
         // create the tab
         //
-        Cairo.mainTab.showTab("FechaControlAccesos", "fechacontrolaccesoTreeRegion", "#documento/fechasdecontroldeacceso", createTreeDialog, closeTreeDialog, showTreeDialog);
+        Cairo.mainTab.showTab("Fechas de Control de Acceso", "fechacontrolaccesoTreeRegion", "#documento/fechasdecontroldeacceso", createTreeDialog, closeTreeDialog, showTreeDialog);
 
       }
     };

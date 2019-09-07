@@ -776,7 +776,7 @@ object Proveedor {
         itemInfo.item.id == DBHelper.NewId
       ) match {
         case SaveResult(true, id) => true
-        case SaveResult(false, id) => throwException
+        case SaveResult(false, _) => throwException
       }
     }
 
@@ -801,7 +801,7 @@ object Proveedor {
         true
       ) match {
         case SaveResult(true, id) => true
-        case SaveResult(false, id) => throwException
+        case SaveResult(false, _) => throwException
       }
     }
 
@@ -826,7 +826,7 @@ object Proveedor {
         itemInfo.item.id == DBHelper.NewId
       ) match {
         case SaveResult(true, id) => true
-        case SaveResult(false, id) => throwException
+        case SaveResult(false, _) => throwException
       }
     }
 
@@ -851,7 +851,7 @@ object Proveedor {
         itemInfo.item.id == DBHelper.NewId
       ) match {
         case SaveResult(true, id) => true
-        case SaveResult(false, id) => throwException
+        case SaveResult(false, _) => throwException
       }
     }
 
@@ -876,7 +876,7 @@ object Proveedor {
         itemInfo.item.id == DBHelper.NewId
       ) match {
         case SaveResult(true, id) => true
-        case SaveResult(false, id) => throwException
+        case SaveResult(false, _) => throwException
       }
     }
 
@@ -901,7 +901,7 @@ object Proveedor {
         itemInfo.item.id == DBHelper.NewId
       ) match {
         case SaveResult(true, id) => true
-        case SaveResult(false, id) => throwException
+        case SaveResult(false, _) => throwException
       }
     }
 
@@ -932,7 +932,7 @@ object Proveedor {
         saveCentrosCosto(id)
         load(user, id).getOrElse(throwException)
       }
-      case SaveResult(false, id) => throwException
+      case SaveResult(false, _) => throwException
     }
   }
 
