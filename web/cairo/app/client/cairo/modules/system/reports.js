@@ -134,7 +134,7 @@
     * }
     *
     * _REPORT_PAGE_DATA_ : {
-    *   report_page: _int_
+    *   page: _int_
     * }
     *
     * */
@@ -198,7 +198,7 @@
 
     var createReportPageData = function(page, reportId) {
       return {
-        report_page: page,
+        page: page,
         reportId: reportId
       };
     };

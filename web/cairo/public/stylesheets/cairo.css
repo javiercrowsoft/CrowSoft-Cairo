@@ -305,6 +305,12 @@ div.tree-select-dialog.ui-widget-content {
   float: right;
 }
 
+ul.fancytree-container {
+    font-family: tahoma, arial, helvetica;
+    font-size: 11pt;
+}
+
+
 /* -------------- input text control ------------*/
 
 .input-text-control input {
