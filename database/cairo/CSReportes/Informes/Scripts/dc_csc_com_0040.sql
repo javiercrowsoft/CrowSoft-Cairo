@@ -28,9 +28,9 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_lsdoc_facturas_compra()
+-- Function: dc_csc_com_0040()
 
--- drop function sp_lsdoc_facturas_compra(integer, date, date, varchar, varchar, varchar, varchar, varchar, varchar, varchar);
+-- drop function dc_csc_com_0040(integer, date, date, varchar, varchar, varchar, varchar);
 
 /*---------------------------------------------------------------------
 Nombre: Compras por proveedor y articulo
@@ -38,12 +38,12 @@ Nombre: Compras por proveedor y articulo
 
 /*
 
-select * from DC_CSC_COM_0040 (1, '2000-05-03', '2016-05-12', '0', '0', '0', '0');
+select * from dc_csc_com_0040(1, '2000-05-03', '2016-05-12', '0', '0', '0', '0');
 fetch all from rtn;
 
 */
 
-create or replace function DC_CSC_COM_0040(
+create or replace function dc_csc_com_0040(
 
   in p_us_id    integer,
   in p_Fini     date,
@@ -449,5 +449,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function DC_CSC_COM_0040(integer, date, date, varchar, varchar, varchar, varchar)
+alter function dc_csc_com_0040(integer, date, date, varchar, varchar, varchar, varchar)
   owner to postgres;

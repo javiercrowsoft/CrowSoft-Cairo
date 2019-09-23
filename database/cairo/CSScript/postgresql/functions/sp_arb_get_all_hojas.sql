@@ -53,12 +53,12 @@ begin
    ) on commit drop;
 
    if p_ram_id = 0 then
-      RETURN;
+      return;
    end if;
 
    if p_clienteId = 0 then
       raise exception '@@ERROR_SP:El procedimiento almacenado sp_ArbGetAllHojas no puede ser llamado para obtener un cursor. Se debe usar sp_ArbGetAllHojasRs.';
-      RETURN;
+      return;
    end if;
 	 
    v_tot1 := -1;
