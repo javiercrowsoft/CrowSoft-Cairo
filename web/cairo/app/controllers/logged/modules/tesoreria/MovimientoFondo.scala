@@ -14,6 +14,8 @@ import formatters.json.DateFormatter
 import formatters.json.DateFormatter._
 import scala.util.control.NonFatal
 
+import Global.{getJsValueAsMap, getParamsJsonRequestFor, preprocessFormParams, doubleFormat, getParamsFromJsonRequest}
+
 case class MovimientoFondoIdData(
                                   docId: Int,
                                   numero: Int,
@@ -166,8 +168,8 @@ object MovimientosFondo extends Controller with ProvidesUser {
         C.MF_GRABAR_ASIENTO -> boolean)
       (MovimientoFondoBaseData.apply)(MovimientoFondoBaseData.unapply),
       C.MF_FECHA -> text,
-      C.MF_COTIZACION -> of(Global.doubleFormat),
-      C.MF_TOTAL -> of(Global.doubleFormat),
+      C.MF_COTIZACION -> of(doubleFormat),
+      C.MF_TOTAL -> of(doubleFormat),
       C.MOVIMIENTO_FONDO_ITEM_CHEQUE_TMP -> Forms.list[MovimientoFondoItemChequeData](
         mapping(
           C.MFI_ID -> number,
@@ -180,9 +182,9 @@ object MovimientosFondo extends Controller with ProvidesUser {
           (MovimientoFondoItemBaseData.apply)(MovimientoFondoItemBaseData.unapply),
           GC.MON_ID -> number,
           C.MOVIMIENTO_FONDO_ITEM_TOTALS -> mapping (
-            C.MFI_IMPORTE -> of(Global.doubleFormat),
-            C.MFI_IMPORTE_ORIGEN -> of(Global.doubleFormat),
-            C.MFI_IMPORTE_ORIGEN_HABER -> optional(of(Global.doubleFormat)))
+            C.MFI_IMPORTE -> of(doubleFormat),
+            C.MFI_IMPORTE_ORIGEN -> of(doubleFormat),
+            C.MFI_IMPORTE_ORIGEN_HABER -> optional(of(doubleFormat)))
           (MovimientoFondoItemTotalsData.apply)(MovimientoFondoItemTotalsData.unapply),
           GC.CHQ_ID -> number,
           C.CHEQ_ID -> optional(number),
@@ -204,9 +206,9 @@ object MovimientosFondo extends Controller with ProvidesUser {
           (MovimientoFondoItemBaseData.apply)(MovimientoFondoItemBaseData.unapply),
           GC.MON_ID -> number,
           C.MOVIMIENTO_FONDO_ITEM_TOTALS -> mapping (
-            C.MFI_IMPORTE -> of(Global.doubleFormat),
-            C.MFI_IMPORTE_ORIGEN -> of(Global.doubleFormat),
-            C.MFI_IMPORTE_ORIGEN_HABER -> optional(of(Global.doubleFormat)))
+            C.MFI_IMPORTE -> of(doubleFormat),
+            C.MFI_IMPORTE_ORIGEN -> of(doubleFormat),
+            C.MFI_IMPORTE_ORIGEN_HABER -> optional(of(doubleFormat)))
           (MovimientoFondoItemTotalsData.apply)(MovimientoFondoItemTotalsData.unapply),
           GC.CLI_ID -> number,
           C.CHEQ_ID -> optional(number),
@@ -228,9 +230,9 @@ object MovimientosFondo extends Controller with ProvidesUser {
           (MovimientoFondoItemBaseData.apply)(MovimientoFondoItemBaseData.unapply),
           GC.MON_ID -> number,
           C.MOVIMIENTO_FONDO_ITEM_TOTALS -> mapping (
-            C.MFI_IMPORTE -> of(Global.doubleFormat),
-            C.MFI_IMPORTE_ORIGEN -> of(Global.doubleFormat),
-            C.MFI_IMPORTE_ORIGEN_HABER -> optional(of(Global.doubleFormat)))
+            C.MFI_IMPORTE -> of(doubleFormat),
+            C.MFI_IMPORTE_ORIGEN -> of(doubleFormat),
+            C.MFI_IMPORTE_ORIGEN_HABER -> optional(of(doubleFormat)))
           (MovimientoFondoItemTotalsData.apply)(MovimientoFondoItemTotalsData.unapply),
           GC.BCO_ID -> number,
           C.CHEQ_ID -> optional(number),
@@ -251,9 +253,9 @@ object MovimientosFondo extends Controller with ProvidesUser {
             C.MFI_ORDEN -> number)
           (MovimientoFondoItemBaseData.apply)(MovimientoFondoItemBaseData.unapply),
           C.MOVIMIENTO_FONDO_ITEM_TOTALS -> mapping (
-            C.MFI_IMPORTE -> of(Global.doubleFormat),
-            C.MFI_IMPORTE_ORIGEN -> of(Global.doubleFormat),
-            C.MFI_IMPORTE_ORIGEN_HABER -> optional(of(Global.doubleFormat)))
+            C.MFI_IMPORTE -> of(doubleFormat),
+            C.MFI_IMPORTE_ORIGEN -> of(doubleFormat),
+            C.MFI_IMPORTE_ORIGEN_HABER -> optional(of(doubleFormat)))
           (MovimientoFondoItemTotalsData.apply)(MovimientoFondoItemTotalsData.unapply)
         )(MovimientoFondoItemEfectivoData.apply)(MovimientoFondoItemEfectivoData.unapply)
       ),
@@ -452,21 +454,16 @@ object MovimientosFondo extends Controller with ProvidesUser {
 
   private def preprocessParams(implicit request:Request[AnyContent]): JsObject = {
 
-    def getJsValueAsMap(list: Map[String, JsValue]): Map[String, JsValue] = list.toList match {
-      case (key: String, jsValue: JsValue) :: t => jsValue.as[Map[String, JsValue]]
-      case _ => Map.empty
-    }
-
     def preprocessChequeParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
 
       // groups for MovimientoFondoChequeData
       //
-      val movimientoFondoCheque = Global.preprocessFormParams(
+      val movimientoFondoCheque = preprocessFormParams(
         List(C.MFI_ID, GC.MON_ID, GC.CHQ_ID, C.CHEQ_ID, C.MFI_TMP_CHEQUE, C.MFI_TMP_FECHA_COBRO,
           C.MFI_TMP_FECHA_VTO, GC.CLE_ID), "", params)
-      val movimientoFondoChequeBaseGroup = Global.preprocessFormParams(movimientoFondoItemBase, C.MOVIMIENTO_FONDO_ITEM_BASE, params)
-      val movimientoFondoChequeTotalsGroup = Global.preprocessFormParams(movimientoFondoItemTotals, C.MOVIMIENTO_FONDO_ITEM_TOTALS, params)
+      val movimientoFondoChequeBaseGroup = preprocessFormParams(movimientoFondoItemBase, C.MOVIMIENTO_FONDO_ITEM_BASE, params)
+      val movimientoFondoChequeTotalsGroup = preprocessFormParams(movimientoFondoItemTotals, C.MOVIMIENTO_FONDO_ITEM_TOTALS, params)
 
       val cheque = JsObject(
         (movimientoFondoCheque ++ movimientoFondoChequeBaseGroup ++ movimientoFondoChequeTotalsGroup).toSeq)
@@ -478,11 +475,11 @@ object MovimientosFondo extends Controller with ProvidesUser {
 
       // groups for MovimientoFondoChequeTData
       //
-      val movimientoFondoChequeT = Global.preprocessFormParams(
+      val movimientoFondoChequeT = preprocessFormParams(
         List(C.MFI_ID, GC.MON_ID, GC.CLI_ID, C.CHEQ_ID, C.MFI_TMP_CHEQUE, C.MFI_TMP_FECHA_COBRO,
           C.MFI_TMP_FECHA_VTO, GC.CLE_ID), "", params)
-      val movimientoFondoChequeTBaseGroup = Global.preprocessFormParams(movimientoFondoItemBase, C.MOVIMIENTO_FONDO_ITEM_BASE, params)
-      val movimientoFondoChequeTTotalsGroup = Global.preprocessFormParams(movimientoFondoItemTotals, C.MOVIMIENTO_FONDO_ITEM_TOTALS, params)
+      val movimientoFondoChequeTBaseGroup = preprocessFormParams(movimientoFondoItemBase, C.MOVIMIENTO_FONDO_ITEM_BASE, params)
+      val movimientoFondoChequeTTotalsGroup = preprocessFormParams(movimientoFondoItemTotals, C.MOVIMIENTO_FONDO_ITEM_TOTALS, params)
 
       val chequeT = JsObject(
         (movimientoFondoChequeT ++ movimientoFondoChequeTBaseGroup ++ movimientoFondoChequeTTotalsGroup).toSeq)
@@ -494,11 +491,11 @@ object MovimientosFondo extends Controller with ProvidesUser {
 
       // groups for MovimientoFondoChequeIData
       //
-      val movimientoFondoChequeI = Global.preprocessFormParams(
+      val movimientoFondoChequeI = preprocessFormParams(
         List(C.MFI_ID, GC.MON_ID, GC.BCO_ID, GC.CLI_ID, C.CHEQ_ID, C.MFI_TMP_CHEQUE, C.MFI_TMP_FECHA_COBRO,
           C.MFI_TMP_FECHA_VTO, GC.CLE_ID), "", params)
-      val movimientoFondoChequeIBaseGroup = Global.preprocessFormParams(movimientoFondoItemBase, C.MOVIMIENTO_FONDO_ITEM_BASE, params)
-      val movimientoFondoChequeITotalsGroup = Global.preprocessFormParams(movimientoFondoItemTotals, C.MOVIMIENTO_FONDO_ITEM_TOTALS, params)
+      val movimientoFondoChequeIBaseGroup = preprocessFormParams(movimientoFondoItemBase, C.MOVIMIENTO_FONDO_ITEM_BASE, params)
+      val movimientoFondoChequeITotalsGroup = preprocessFormParams(movimientoFondoItemTotals, C.MOVIMIENTO_FONDO_ITEM_TOTALS, params)
 
       val chequeI = JsObject(
         (movimientoFondoChequeI ++ movimientoFondoChequeIBaseGroup ++ movimientoFondoChequeITotalsGroup).toSeq)
@@ -510,9 +507,9 @@ object MovimientosFondo extends Controller with ProvidesUser {
 
       // groups for MovimientoFondoEfectivoData
       //
-      val movimientoFondoEfectivo = Global.preprocessFormParams(List(C.MFI_ID, GC.MON_ID), "", params)
-      val movimientoFondoEfectivoBaseGroup = Global.preprocessFormParams(movimientoFondoItemBase, C.MOVIMIENTO_FONDO_ITEM_BASE, params)
-      val movimientoFondoEfectivoTotalsGroup = Global.preprocessFormParams(movimientoFondoItemTotals, C.MOVIMIENTO_FONDO_ITEM_TOTALS, params)
+      val movimientoFondoEfectivo = preprocessFormParams(List(C.MFI_ID, GC.MON_ID), "", params)
+      val movimientoFondoEfectivoBaseGroup = preprocessFormParams(movimientoFondoItemBase, C.MOVIMIENTO_FONDO_ITEM_BASE, params)
+      val movimientoFondoEfectivoTotalsGroup = preprocessFormParams(movimientoFondoItemTotals, C.MOVIMIENTO_FONDO_ITEM_TOTALS, params)
 
       val efectivo = JsObject(
         (movimientoFondoEfectivo ++ movimientoFondoEfectivoBaseGroup ++ movimientoFondoEfectivoTotalsGroup).toSeq)
@@ -539,19 +536,19 @@ object MovimientosFondo extends Controller with ProvidesUser {
       case _ => Map.empty
     }
 
-    val params = Global.getParamsFromJsonRequest
+    val params = getParamsFromJsonRequest
 
     // groups for MovimientoFondoData
     //
-    val facturaId = Global.preprocessFormParams(List("id", C.MF_FECHA, C.MF_COTIZACION, C.MF_TOTAL), "", params)
-    val facturaIdGroup = Global.preprocessFormParams(movimientoFondoIdFields, C.MOVIMIENTO_FONDO_ID, params)
-    val facturaBaseGroup = Global.preprocessFormParams(movimientoFondoBaseFields, C.MOVIMIENTO_FONDO_BASE, params)
+    val facturaId = preprocessFormParams(List("id", C.MF_FECHA, C.MF_COTIZACION, C.MF_TOTAL), "", params)
+    val facturaIdGroup = preprocessFormParams(movimientoFondoIdFields, C.MOVIMIENTO_FONDO_ID, params)
+    val facturaBaseGroup = preprocessFormParams(movimientoFondoBaseFields, C.MOVIMIENTO_FONDO_BASE, params)
 
     // cheques
     //
-    val chequesInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.MOVIMIENTO_FONDO_ITEM_CHEQUE_TMP, params))
-    val chequeRows = Global.getParamsJsonRequestFor(GC.ITEMS, chequesInfo)
-    val chequeDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, chequesInfo).toList match {
+    val chequesInfo = getJsValueAsMap(getParamsJsonRequestFor(C.MOVIMIENTO_FONDO_ITEM_CHEQUE_TMP, params))
+    val chequeRows = getParamsJsonRequestFor(GC.ITEMS, chequesInfo)
+    val chequeDeleted: Map[String, JsValue] = getParamsJsonRequestFor(GC.DELETED_LIST, chequesInfo).toList match {
       case Nil => Map(C.MOVIMIENTO_FONDO_ITEM_CHEQUE_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.MOVIMIENTO_FONDO_ITEM_CHEQUE_DELETED -> Json.toJson(deletedList._2))
     }
@@ -559,9 +556,9 @@ object MovimientosFondo extends Controller with ProvidesUser {
 
     // cheques tercero
     //
-    val chequesTInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.MOVIMIENTO_FONDO_ITEM_CHEQUET_TMP, params))
-    val chequeTRows = Global.getParamsJsonRequestFor(GC.ITEMS, chequesTInfo)
-    val chequeTDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, chequesTInfo).toList match {
+    val chequesTInfo = getJsValueAsMap(getParamsJsonRequestFor(C.MOVIMIENTO_FONDO_ITEM_CHEQUET_TMP, params))
+    val chequeTRows = getParamsJsonRequestFor(GC.ITEMS, chequesTInfo)
+    val chequeTDeleted: Map[String, JsValue] = getParamsJsonRequestFor(GC.DELETED_LIST, chequesTInfo).toList match {
       case Nil => Map(C.MOVIMIENTO_FONDO_ITEM_CHEQUET_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.MOVIMIENTO_FONDO_ITEM_CHEQUET_DELETED -> Json.toJson(deletedList._2))
     }
@@ -569,9 +566,9 @@ object MovimientosFondo extends Controller with ProvidesUser {
 
     // cheques ingreso
     //
-    val chequesIInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.MOVIMIENTO_FONDO_ITEM_CHEQUET_TMP, params))
-    val chequeIRows = Global.getParamsJsonRequestFor(GC.ITEMS, chequesIInfo)
-    val chequeIDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, chequesIInfo).toList match {
+    val chequesIInfo = getJsValueAsMap(getParamsJsonRequestFor(C.MOVIMIENTO_FONDO_ITEM_CHEQUET_TMP, params))
+    val chequeIRows = getParamsJsonRequestFor(GC.ITEMS, chequesIInfo)
+    val chequeIDeleted: Map[String, JsValue] = getParamsJsonRequestFor(GC.DELETED_LIST, chequesIInfo).toList match {
       case Nil => Map(C.MOVIMIENTO_FONDO_ITEM_CHEQUEI_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.MOVIMIENTO_FONDO_ITEM_CHEQUEI_DELETED -> Json.toJson(deletedList._2))
     }
@@ -579,9 +576,9 @@ object MovimientosFondo extends Controller with ProvidesUser {
 
     // efectivos
     //
-    val efectivosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.MOVIMIENTO_FONDO_ITEM_EFECTIVO_TMP, params))
-    val efectivoRows = Global.getParamsJsonRequestFor(GC.ITEMS, efectivosInfo)
-    val efectivoDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, efectivosInfo).toList match {
+    val efectivosInfo = getJsValueAsMap(getParamsJsonRequestFor(C.MOVIMIENTO_FONDO_ITEM_EFECTIVO_TMP, params))
+    val efectivoRows = getParamsJsonRequestFor(GC.ITEMS, efectivosInfo)
+    val efectivoDeleted: Map[String, JsValue] = getParamsJsonRequestFor(GC.DELETED_LIST, efectivosInfo).toList match {
       case Nil => Map(C.MOVIMIENTO_FONDO_ITEM_EFECTIVO_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.MOVIMIENTO_FONDO_ITEM_EFECTIVO_DELETED -> Json.toJson(deletedList._2))
     }

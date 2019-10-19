@@ -33,6 +33,8 @@ object C {
   val TOTAL = "total"
   val NRO_DOC = "nrodoc"
 
+  val IS_AUTO_APPLY = "is_auto_apply" // used for OrdenPago when it is automatic
+
   val PROVEEDOR_CAI_DELETED = "deletedCai"
   val PROVEEDOR_CUENTA_GRUPO_DELETED = "deletedCuentaGrupo"
   val PROVEEDOR_RETENCIONES_DELETED = "deletedRetencion"

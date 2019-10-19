@@ -102,6 +102,11 @@ object Global {
     else
       Map(group -> JsObject(filteredParams.toSeq))
   }
+
+  def getJsValueAsMap(list: Map[String, JsValue]): Map[String, JsValue] = list.toList match {
+    case (key: String, jsValue: JsValue) :: t => jsValue.as[Map[String, JsValue]]
+    case _ => Map.empty
+  }
 }
 
 object LoggedResponse extends Controller {

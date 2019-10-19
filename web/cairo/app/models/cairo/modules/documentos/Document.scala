@@ -28,7 +28,8 @@ case class TransInfo(
                       docId: Int,
                       doctId: Int,
                       empId: Int,
-                      empName: String)
+                      empName: String,
+                      isAuto: Boolean)
 case class DocumentInfo(monId: Int, doctId: Int, docTipoFactura: Int, mueveStock: Boolean)
 case class DocInfo(id: Int, name: String, monId: Int)
 case class DocumentNumberInfo(number: Int, mask: String, enabled: Boolean)
@@ -102,7 +103,7 @@ object Document {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_doc_get_trans_info(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}"
+      val sql = "{call sp_doc_get_trans_info(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, user.cairoCompanyId)
@@ -121,6 +122,7 @@ object Document {
       cs.registerOutParameter(14, Types.INTEGER)
       cs.registerOutParameter(15, Types.INTEGER)
       cs.registerOutParameter(16, Types.VARCHAR)
+      cs.registerOutParameter(17, Types.TINYINT)
 
       try {
         cs.execute()
@@ -138,7 +140,8 @@ object Document {
           cs.getInt(13),
           cs.getInt(14),
           cs.getInt(15),
-          cs.getString(16))
+          cs.getString(16),
+          cs.getInt(17) != 0)
 
       } catch {
         case NonFatal(e) => {

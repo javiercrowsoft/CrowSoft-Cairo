@@ -16,6 +16,8 @@ import formatters.json.DateFormatter._
 import scala.util.control.NonFatal
 import models.cairo.modules.general.VentaModo
 
+import Global.{getJsValueAsMap, getParamsJsonRequestFor, preprocessFormParams, doubleFormat, getParamsFromJsonRequest}
+
 case class PedidoVentaIdData(
                                 docId: Int,
                                 numero: Int,
@@ -195,8 +197,8 @@ object PedidoVentas extends Controller with ProvidesUser {
         C.PV_FECHA_ENTREGA -> text)
         (PedidoVentaDatesData.apply)(PedidoVentaDatesData.unapply),
       C.PEDIDO_PRECIOS -> mapping (
-        C.PV_DESCUENTO1 -> of(Global.doubleFormat),
-        C.PV_DESCUENTO2 -> of(Global.doubleFormat),
+        C.PV_DESCUENTO1 -> of(doubleFormat),
+        C.PV_DESCUENTO2 -> of(doubleFormat),
         GC.LP_ID -> number,
         GC.LD_ID -> number)
         (PedidoVentaPreciosData.apply)(PedidoVentaPreciosData.unapply),
@@ -210,13 +212,13 @@ object PedidoVentas extends Controller with ProvidesUser {
         GC.CAM_ID_SEMI -> number)
         (PedidoVentaStockData.apply)(PedidoVentaStockData.unapply),
       C.PEDIDO_TOTALS -> mapping (
-        C.PV_NETO -> of(Global.doubleFormat),
-        C.PV_IVA_RI -> of(Global.doubleFormat),
-        C.PV_IVA_RNI -> of(Global.doubleFormat),
-        C.PV_SUBTOTAL -> of(Global.doubleFormat),
-        C.PV_IMPORTE_DESC_1 -> of(Global.doubleFormat),
-        C.PV_IMPORTE_DESC_2 -> of(Global.doubleFormat),
-        C.PV_TOTAL -> of(Global.doubleFormat))
+        C.PV_NETO -> of(doubleFormat),
+        C.PV_IVA_RI -> of(doubleFormat),
+        C.PV_IVA_RNI -> of(doubleFormat),
+        C.PV_SUBTOTAL -> of(doubleFormat),
+        C.PV_IMPORTE_DESC_1 -> of(doubleFormat),
+        C.PV_IMPORTE_DESC_2 -> of(doubleFormat),
+        C.PV_TOTAL -> of(doubleFormat))
         (PedidoVentaTotalsData.apply)(PedidoVentaTotalsData.unapply),
       C.PEDIDO_VENTA_ITEM_TMP -> Forms.list[PedidoVentaItemData](
         mapping(
@@ -228,16 +230,16 @@ object PedidoVentas extends Controller with ProvidesUser {
             C.PVI_ORDEN -> number)
             (PedidoVentaItemDataBase.apply)(PedidoVentaItemDataBase.unapply),
           C.PEDIDO_ITEM_TOTALS -> mapping (
-            C.PVI_CANTIDAD -> of(Global.doubleFormat),
-            C.PVI_PRECIO -> of(Global.doubleFormat),
-            C.PVI_PRECIO_LISTA -> of(Global.doubleFormat),
-            C.PVI_PRECIO_USR -> of(Global.doubleFormat),
-            C.PVI_NETO -> of(Global.doubleFormat),
-            C.PVI_IVA_RI -> of(Global.doubleFormat),
-            C.PVI_IVA_RNI -> optional(of(Global.doubleFormat)),
-            C.PVI_IVA_RIPORC -> of(Global.doubleFormat),
-            C.PVI_IVA_RNIPORC -> of(Global.doubleFormat),
-            C.PVI_IMPORTE -> of(Global.doubleFormat))
+            C.PVI_CANTIDAD -> of(doubleFormat),
+            C.PVI_PRECIO -> of(doubleFormat),
+            C.PVI_PRECIO_LISTA -> of(doubleFormat),
+            C.PVI_PRECIO_USR -> of(doubleFormat),
+            C.PVI_NETO -> of(doubleFormat),
+            C.PVI_IVA_RI -> of(doubleFormat),
+            C.PVI_IVA_RNI -> optional(of(doubleFormat)),
+            C.PVI_IVA_RIPORC -> of(doubleFormat),
+            C.PVI_IVA_RNIPORC -> of(doubleFormat),
+            C.PVI_IMPORTE -> of(doubleFormat))
             (PedidoVentaItemDataTotals.apply)(PedidoVentaItemDataTotals.unapply))
           (PedidoVentaItemData.apply)(PedidoVentaItemData.unapply)
       ),
@@ -245,7 +247,7 @@ object PedidoVentas extends Controller with ProvidesUser {
       C.PRESUPUESTO_PEDIDO_VENTA_TMP -> Forms.list[PedidoVentaPresupuestoData](
         mapping (
           C.PRVI_ID -> number,
-          C.PRV_PV_CANTIDAD -> of(Global.doubleFormat),
+          C.PRV_PV_CANTIDAD -> of(doubleFormat),
           C.PVI_ID -> number)
           (PedidoVentaPresupuestoData.apply)(PedidoVentaPresupuestoData.unapply)
       )
@@ -407,24 +409,14 @@ object PedidoVentas extends Controller with ProvidesUser {
 
   private def preprocessParams(implicit request:Request[AnyContent]): JsObject = {
 
-    def getJsValueAsMap(list: Map[String, JsValue]): Map[String, JsValue] = list.toList match {
-      case (key: String, jsValue: JsValue) :: t => jsValue.as[Map[String, JsValue]]
-      case _ => Map.empty
-    }
-
-    def preprocessSeriesParam(items: JsValue, group: String): Map[String, JsValue] = items match {
-      case jsArray: JsArray => Map(group -> jsArray)
-      case _ => Map(group -> JsArray(List()))
-    }
-
     def preprocessItemParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
 
       // groups for PedidoVentaItemData
       //
-      val pedidoItem = Global.preprocessFormParams(List(C.PVI_ID), "", params)
-      val pedidoItemBaseGroup = Global.preprocessFormParams(pedidoItemBase, C.PEDIDO_ITEM_BASE, params)
-      val pedidoItemTotalsGroup = Global.preprocessFormParams(pedidoItemTotals, C.PEDIDO_ITEM_TOTALS, params)
+      val pedidoItem = preprocessFormParams(List(C.PVI_ID), "", params)
+      val pedidoItemBaseGroup = preprocessFormParams(pedidoItemBase, C.PEDIDO_ITEM_BASE, params)
+      val pedidoItemTotalsGroup = preprocessFormParams(pedidoItemTotals, C.PEDIDO_ITEM_TOTALS, params)
 
       val item = JsObject(
         (pedidoItem ++ pedidoItemBaseGroup ++ pedidoItemTotalsGroup).toSeq)
@@ -433,7 +425,7 @@ object PedidoVentas extends Controller with ProvidesUser {
 
     def preprocessPresupuestoParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(pedidoPresupuesto, "", params).toSeq)
+      JsObject(preprocessFormParams(pedidoPresupuesto, "", params).toSeq)
     }
 
     def preprocessItemsParam(items: JsValue, group: String): Map[String, JsValue] = items match {
@@ -446,23 +438,23 @@ object PedidoVentas extends Controller with ProvidesUser {
       case _ => Map.empty
     }
 
-    val params = Global.getParamsFromJsonRequest
+    val params = getParamsFromJsonRequest
 
     // groups for PedidoVentaData
     //
-    val pedidoId = Global.preprocessFormParams(List("id"), "", params)
-    val pedidoIdGroup = Global.preprocessFormParams(pedidoIdFields, C.PEDIDO_ID, params)
-    val pedidoBaseGroup = Global.preprocessFormParams(pedidoBaseFields, C.PEDIDO_BASE, params)
-    val pedidoDatesGroup = Global.preprocessFormParams(pedidoDatesFields, C.PEDIDO_DATES, params)
-    val pedidoPreciosGroup = Global.preprocessFormParams(pedidoPreciosFields, C.PEDIDO_PRECIOS, params)
-    val pedidoStockGroup = Global.preprocessFormParams(pedidoStockFields, C.PEDIDO_STOCK, params)
-    val pedidoTotalGroup = Global.preprocessFormParams(pedidoTotalsFields, C.PEDIDO_TOTALS, params)
+    val pedidoId = preprocessFormParams(List("id"), "", params)
+    val pedidoIdGroup = preprocessFormParams(pedidoIdFields, C.PEDIDO_ID, params)
+    val pedidoBaseGroup = preprocessFormParams(pedidoBaseFields, C.PEDIDO_BASE, params)
+    val pedidoDatesGroup = preprocessFormParams(pedidoDatesFields, C.PEDIDO_DATES, params)
+    val pedidoPreciosGroup = preprocessFormParams(pedidoPreciosFields, C.PEDIDO_PRECIOS, params)
+    val pedidoStockGroup = preprocessFormParams(pedidoStockFields, C.PEDIDO_STOCK, params)
+    val pedidoTotalGroup = preprocessFormParams(pedidoTotalsFields, C.PEDIDO_TOTALS, params)
 
     // items
     //
-    val itemsInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.PEDIDO_VENTA_ITEM_TMP, params))
-    val itemRows = Global.getParamsJsonRequestFor(GC.ITEMS, itemsInfo)
-    val itemDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, itemsInfo).toList match {
+    val itemsInfo = getJsValueAsMap(getParamsJsonRequestFor(C.PEDIDO_VENTA_ITEM_TMP, params))
+    val itemRows = getParamsJsonRequestFor(GC.ITEMS, itemsInfo)
+    val itemDeleted: Map[String, JsValue] = getParamsJsonRequestFor(GC.DELETED_LIST, itemsInfo).toList match {
       case Nil => Map(C.PEDIDO_ITEM_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.PEDIDO_ITEM_DELETED -> Json.toJson(deletedList._2))
     }
@@ -470,8 +462,8 @@ object PedidoVentas extends Controller with ProvidesUser {
 
     // presupuestos
     //
-    val presupuestosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.PRESUPUESTO_PEDIDO_VENTA_TMP, params))
-    val remitoRows = Global.getParamsJsonRequestFor(GC.ITEMS, presupuestosInfo)
+    val presupuestosInfo = getJsValueAsMap(getParamsJsonRequestFor(C.PRESUPUESTO_PEDIDO_VENTA_TMP, params))
+    val remitoRows = getParamsJsonRequestFor(GC.ITEMS, presupuestosInfo)
     val pedidoPresupuestos = remitoRows.toList match {
       case (k: String, item: JsValue) :: t => preprocessPresupuestosParam(item, C.PRESUPUESTO_PEDIDO_VENTA_TMP)
       case _ => Map(C.PRESUPUESTO_PEDIDO_VENTA_TMP -> JsArray(List()))

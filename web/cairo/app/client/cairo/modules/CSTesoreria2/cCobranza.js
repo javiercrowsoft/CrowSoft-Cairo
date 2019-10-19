@@ -496,7 +496,7 @@
 
           case Dialogs.Message.MSG_DOC_APPLY:
 
-            showApplycation();
+            showApply();
             break;
 
           case Dialogs.Message.MSG_DOC_DELETE:
@@ -3067,7 +3067,7 @@
         mainRegister.addTransaction(transaction);
       };
 
-      var showApplycation = function() {
+      var showApply = function() {
 
         if(!Cairo.Security.docHasPermissionTo(
           CS.MODIFY_APLIC,
@@ -4065,7 +4065,7 @@
               break;
 
             case m_menuShowAplic:
-              showApplycation();
+              showApply();
               break;
 
             case m_menuShowAsiento:
@@ -4566,7 +4566,7 @@
         }
       };
 
-      var showApplycation = function() {
+      var showApply = function() {
 
         var showEditor = function(info) {
           if(!Cairo.Security.docHasPermissionTo(

@@ -158,7 +158,7 @@
               break;
 
             case m_menuShowAplic:
-              showApplycation();
+              showApply();
               break;
 
             case m_menuSign:
@@ -950,7 +950,7 @@
         return p;
       };
 
-      var showApplycation = function() {
+      var showApply = function() {
 
         var ocId = null;
         ocId = m_dialog.getId();

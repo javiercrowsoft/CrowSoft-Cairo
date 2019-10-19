@@ -476,6 +476,9 @@ POST    /api/v1/tesoreria/ordenpago/from_facturas                               
 PUT     /api/v1/tesoreria/ordenpago/:id                                                      controllers.logged.modules.tesoreria.OrdenesPago.update(id: Int)
 DELETE  /api/v1/tesoreria/ordenpago/:id                                                      controllers.logged.modules.tesoreria.OrdenesPago.delete(id: Int)
 
+GET     /api/v1/tesoreria/ordenpago/aplic/:id                                                controllers.logged.modules.tesoreria.OrdenesPago.getAplic(id: Int)
+PUT     /api/v1/tesoreria/ordenpago/aplic/:id                                                controllers.logged.modules.tesoreria.OrdenesPago.saveAplic(id: Int)
+
 
 GET     /api/v1/tesoreria/cobranzas                                                          controllers.logged.modules.tesoreria.Cobranzas.list(from: Option[String], to: Option[String], cliId: Option[String], estId: Option[String], ccosId: Option[String], sucId: Option[String], cobId: Option[String], docId: Option[String], empId: Option[String])
 GET     /api/v1/tesoreria/cobranzas/parameters                                               controllers.logged.modules.tesoreria.Cobranzas.parameters()

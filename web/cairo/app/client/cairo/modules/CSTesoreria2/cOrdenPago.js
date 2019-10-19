@@ -436,7 +436,7 @@
 
           case Dialogs.Message.MSG_DOC_APPLY:
             
-            showApplycation();
+            showApply();
             break;
 
           case Dialogs.Message.MSG_DOC_DELETE:
@@ -2852,7 +2852,7 @@
             var cell = row.item(_j);
             switch (cell.getKey()) {
 
-              case KICH_OPGI_ID:
+              case KICC_OPGI_ID:
                 if(m_copy) {
                   fields.add(CT.OPGI_ID, Cairo.Constants.NEW_ID, Types.integer);
                 }
@@ -2891,40 +2891,49 @@
         mainRegister.addTransaction(transaction);
       };
 
-      var showApplycation = function() {
+      var showApply = function() {
 
-        if(!Cairo.Security.docHasPermissionTo(
-          CS.MODIFY_APLIC,
-          m_docId,
-          Cairo.Security.ActionTypes.apply)) {
-          return false;
-        }
-
-        if(m_applyEditor === null) {
-          m_applyEditor = Cairo.OrdenPagoAplic.createObject();
-        }
-        else {
-          if(m_applyEditor.getId() !== m_id) {
-            m_applyEditor.setClient(null);
-            m_applyEditor = Cairo.OrdenPagoAplic.createObject();
+        var showEditor = function(info) {
+          if(!Cairo.Security.docHasPermissionTo(
+              CS.MODIFY_APLIC,
+              m_docId,
+              Cairo.Security.ActionTypes.apply)) {
+            return false;
           }
-        }
 
-        m_applyEditor.setClient(self);
+          if(m_applyEditor === null) {
+            m_applyEditor = Cairo.OrdenPagoAplic.Edit.Controller.getEditor();
+          }
+          else {
+            if(m_applyEditor.getId() !== m_id) {
+              m_applyEditor.setClient(null);
+              m_applyEditor = Cairo.OrdenPagoAplic.Edit.Controller.getEditor();
+            }
+          }
 
-        if(!m_applyEditor.show(m_id, m_total, m_nroDoc, m_proveedor)) {
-          m_applyEditor = null;
-        }
-        m_applyEditor.show(
-            m_id,
-            m_total,
-            m_nroDoc,
-            m_provId,
-            m_proveedor).then(function(result) {
-            if(result !== true) {
+          m_applyEditor.setClient(self);
+
+          m_applyEditor.show(
+            info.id,
+            info.total,
+            info.nrodoc,
+            info.proveedor,
+            info.emp_id,
+            info.empresa,
+            info.is_auto_apply)
+          .then(function (result) {
+            if (result !== true) {
               m_applyEditor = null;
             }
           });
+        };
+
+        // TODO: if the document is not saved it should show a message
+        //       if the document has unsaved changes it should suggest
+        //       the user to save changes
+        if(m_id !== NO_ID) {
+          D.getDocumentInfo(D.Types.ORDEN_PAGO, m_id).whenSuccessWithResult(showEditor);
+        }
       };
 
       var getChequesT = function() {
@@ -3875,7 +3884,7 @@
               break;
 
             case m_menuShowAplic:
-              showApplycation();
+              showApply();
               break;
 
             case m_menuShowAsiento:
@@ -4344,7 +4353,7 @@
         }
       };
 
-      var showApplycation = function() {
+      var showApply = function() {
 
         var showEditor = function(info) {
           if(!Cairo.Security.docHasPermissionTo(

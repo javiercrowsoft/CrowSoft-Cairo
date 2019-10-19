@@ -460,7 +460,8 @@
      info.doc_id,
      info.doct_id === D.Types.NOTA_CREDITO_COMPRA,
      info.emp_id,
-     info.empresa
+     info.empresa,
+     info.is_auto_apply // only when it is a payment
      */
     return DB.getData("load[" + m_apiPath + "documento/" + doctId.toString() + "/info]", id).then(function(response) {
 
@@ -478,6 +479,7 @@
         info.doct_id = valField(response.data, C.DOCT_ID);
         info.emp_id = valField(response.data, C.EMP_ID);
         info.empresa = valField(response.data, C.EMP_NAME);
+        info.is_auto_apply = valField(response.data, C.IS_AUTO_APPLY)
       }
       return info;
     });

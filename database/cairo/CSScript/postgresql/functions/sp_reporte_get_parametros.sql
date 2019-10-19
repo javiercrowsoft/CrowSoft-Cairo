@@ -1,4 +1,4 @@
-/*
+﻿/*
 CrowSoft-Cairo
 ==============
 
@@ -65,10 +65,10 @@ begin
              coalesce(r.rptp_valor,i.infp_default) as rptp_valor,
              coalesce(r.rptp_visible,i.infp_visible) as rptp_visible,
              r.rpt_id,
-             sp_reporte_get_parametro_value(
+             coalesce(sp_reporte_get_parametro_value(
                 coalesce(r.rptp_valor,i.infp_default),
                 i.infp_tipo,
-                i.tbl_id) as select_value_name
+                i.tbl_id), '') as select_value_name
 
       from Reporte rpt
       inner join InformeParametro i on rpt.inf_id = i.inf_id

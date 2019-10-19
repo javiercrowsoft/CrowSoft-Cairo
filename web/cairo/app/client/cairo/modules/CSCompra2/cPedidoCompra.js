@@ -147,7 +147,7 @@
               break;
 
             case m_menuShowAplic:
-              showApplycation();
+              showApply();
 
               break;
 
@@ -898,7 +898,7 @@
         return p;
       };
 
-      var showApplycation = function() {
+      var showApply = function() {
 
         var pcId = null;
         pcId = m_dialog.getId();

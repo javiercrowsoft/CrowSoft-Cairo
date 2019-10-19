@@ -153,7 +153,7 @@
               break;
 
             case m_menuShowAplic:
-              showApplycation();
+              showApply();
 
               break;
 
@@ -957,7 +957,7 @@
       };
 
 
-      var showApplycation = function() {
+      var showApply = function() {
 
         var rcId = null;
         rcId = m_dialog.getId();

@@ -15,6 +15,8 @@ import formatters.json.DateFormatter
 import formatters.json.DateFormatter._
 import scala.util.control.NonFatal
 
+import Global.{getJsValueAsMap, getParamsJsonRequestFor, preprocessFormParams, doubleFormat, getParamsFromJsonRequest}
+
 case class AsientoIdData(
                           docId: Int,
                           numero: Int,
@@ -89,9 +91,9 @@ object Asientos extends Controller with ProvidesUser {
           C.ASI_DESCRIP -> text,
           GC.CUE_ID -> number,
           GC.CCOS_ID -> number,
-          C.ASI_DEBE -> of(Global.doubleFormat),
-          C.ASI_HABER -> of(Global.doubleFormat),
-          C.ASI_ORIGEN -> of(Global.doubleFormat),
+          C.ASI_DEBE -> of(doubleFormat),
+          C.ASI_HABER -> of(doubleFormat),
+          C.ASI_ORIGEN -> of(doubleFormat),
           C.ASI_ORDEN -> number)
         (AsientoItemData.apply)(AsientoItemData.unapply)
       ),
@@ -169,11 +171,6 @@ object Asientos extends Controller with ProvidesUser {
 
   private def preprocessParams(implicit request:Request[AnyContent]): JsObject = {
 
-    def getJsValueAsMap(list: Map[String, JsValue]): Map[String, JsValue] = list.toList match {
-      case (key: String, jsValue: JsValue) :: t => jsValue.as[Map[String, JsValue]]
-      case _ => Map.empty
-    }
-
     def preprocessSeriesParam(items: JsValue, group: String): Map[String, JsValue] = items match {
       case jsArray: JsArray => Map(group -> jsArray)
       case _ => Map(group -> JsArray(List()))
@@ -184,7 +181,7 @@ object Asientos extends Controller with ProvidesUser {
 
       // groups for AsientoItemData
       //
-      val asientoItem = Global.preprocessFormParams(asientoItemData, "", params)
+      val asientoItem = preprocessFormParams(asientoItemData, "", params)
 
       JsObject((asientoItem).toSeq)
     }
@@ -194,19 +191,19 @@ object Asientos extends Controller with ProvidesUser {
       case _ => Map.empty
     }
 
-    val params = Global.getParamsFromJsonRequest
+    val params = getParamsFromJsonRequest
 
     // groups for AsientoData
     //
-    val asientoId = Global.preprocessFormParams(List("id"), "", params)
-    val asientoIdGroup = Global.preprocessFormParams(asientoIdFields, C.ASIENTO_ID, params)
-    val asientoBaseGroup = Global.preprocessFormParams(asientoBaseFields, C.ASIENTO_BASE, params)
+    val asientoId = preprocessFormParams(List("id"), "", params)
+    val asientoIdGroup = preprocessFormParams(asientoIdFields, C.ASIENTO_ID, params)
+    val asientoBaseGroup = preprocessFormParams(asientoBaseFields, C.ASIENTO_BASE, params)
 
     // items
     //
-    val itemsInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.ASIENTO_ITEM_TMP, params))
-    val itemRows = Global.getParamsJsonRequestFor(GC.ITEMS, itemsInfo)
-    val itemDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, itemsInfo).toList match {
+    val itemsInfo = getJsValueAsMap(getParamsJsonRequestFor(C.ASIENTO_ITEM_TMP, params))
+    val itemRows = getParamsJsonRequestFor(GC.ITEMS, itemsInfo)
+    val itemDeleted: Map[String, JsValue] = getParamsJsonRequestFor(GC.DELETED_LIST, itemsInfo).toList match {
       case Nil => Map(C.ASIENTO_ITEM_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.ASIENTO_ITEM_DELETED -> Json.toJson(deletedList._2))
     }

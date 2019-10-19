@@ -620,7 +620,7 @@
             };
 
             var pColBEdit = function(property,  lRow,  lCol,  iKeyAscii) { // TODO: Use of ByRef founded Private Function pColBEdit(ByRef IProperty As cIABMProperty, ByVal lRow As Long, ByVal lCol As Long, ByVal iKeyAscii As Integer)
-                switch (cABMUtil.pGetKeyFromCol(property.getGrid().getColumns(), lCol)) {
+                switch (property.getGrid().getColumns().item(lCol).getKey()) {
                     // Facturas
                     case KI_APLICADO:
                         break;

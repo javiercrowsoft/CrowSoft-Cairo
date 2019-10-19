@@ -38,6 +38,7 @@ Cairo.FacturaCompra = {};
 Cairo.FacturaCompraListDoc = {};
 Cairo.FacturaCompraRemitoWiz = {};
 Cairo.FacturaCompraWiz = {};
+Cairo.FacturaCompraAplic = {};
 
 Cairo.FacturaVenta = {};
 Cairo.FacturaVentaListDoc = {};
@@ -61,6 +62,7 @@ Cairo.CobranzaListDoc = {};
 Cairo.OrdenPago = {};
 Cairo.OrdenPagoWizard = {};
 Cairo.OrdenPagoListDoc = {};
+Cairo.OrdenPagoAplic = {};
 
 Cairo.DepositoBanco = {};
 Cairo.DepositoBancoListDoc = {};

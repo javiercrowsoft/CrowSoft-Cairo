@@ -612,7 +612,6 @@
         loadVencimientos(elem);
         elem.setKey(K_VENCIMIENTOS);
         elem.setName(getText(1644, "")); // Vencimientos
-        elem.hideLabel();
         elem.setGridEditEnabled(false);
         elem.setGridAddEnabled(false);
         elem.setGridRemoveEnabled(false);
@@ -626,7 +625,6 @@
         setGridAplicOrdenPago(elem);
         elem.setKey(K_APLIC_ORDENPAGO);
         elem.setName("OrdenPago");
-        elem.hideLabel();
         elem.setGridEditEnabled(true);
         elem.setGridAddEnabled(false);
         elem.setGridRemoveEnabled(false);

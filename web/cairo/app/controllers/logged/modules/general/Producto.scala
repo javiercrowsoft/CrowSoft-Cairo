@@ -13,6 +13,7 @@ import models.cairo.system.security.CairoSecurity
 import models.cairo.system.database.DBHelper
 import formatters.json.DateFormatter._
 
+import Global.{getJsValueAsMap, getParamsJsonRequestFor, preprocessFormParams, doubleFormat, getParamsFromJsonRequest}
 
 case class ProductoBaseData(
                              codigoExterno: String,
@@ -310,18 +311,18 @@ object Productos extends Controller with ProvidesUser {
         C.CUEG_ID_COMPRA -> number,
         C.TI_ID_RI_COMPRA -> number,
         C.TI_ID_INTERNOS_COMPRA -> number,
-        C.PR_PORC_INTERNO_C -> of(Global.doubleFormat),
+        C.PR_PORC_INTERNO_C -> of(doubleFormat),
         C.CCOS_ID_COMPRA -> number)(ProductoCompraData.apply)(ProductoCompraData.unapply),
       C.PRODUCTO_STOCK -> mapping(
         C.PR_LLEVA_STOCK -> boolean,
         C.UN_ID_STOCK -> number,
-        C.PR_STOCK_COMPRA -> of(Global.doubleFormat),
+        C.PR_STOCK_COMPRA -> of(doubleFormat),
         C.PR_X -> number,
         C.PR_Y -> number,
         C.PR_Z -> number,
-        C.PR_STOCK_MINIMO -> of(Global.doubleFormat),
-        C.PR_REPOSICION -> of(Global.doubleFormat),
-        C.PR_STOCK_MAXIMO -> of(Global.doubleFormat),
+        C.PR_STOCK_MINIMO -> of(doubleFormat),
+        C.PR_REPOSICION -> of(doubleFormat),
+        C.PR_STOCK_MAXIMO -> of(doubleFormat),
         C.PR_LLEVA_NRO_SERIE -> boolean,
         C.PR_LLEVA_NRO_LOTE -> boolean,
         C.PR_LOTE_FIFO -> boolean,
@@ -333,15 +334,15 @@ object Productos extends Controller with ProvidesUser {
         C.PR_NAME_FACTURA -> text,
         C.PR_DESCRIP_VENTA -> text,
         C.UN_ID_VENTA -> number,
-        C.PR_VENTA_COMPRA -> of(Global.doubleFormat),
-        C.PR_VENTA_STOCK -> of(Global.doubleFormat),
+        C.PR_VENTA_COMPRA -> of(doubleFormat),
+        C.PR_VENTA_STOCK -> of(doubleFormat),
         C.CUEG_ID_VENTA -> number,
         C.PR_ES_LISTA -> boolean,
         C.PR_DINERARIO -> boolean,
         C.PR_NO_REDONDEO -> boolean,
         C.TI_ID_RI_VENTA -> number,
         C.TI_ID_INTERNOS_VENTA -> number,
-        C.PR_PORC_INTERNO_V -> of(Global.doubleFormat),
+        C.PR_PORC_INTERNO_V -> of(doubleFormat),
         C.CCOS_ID_VENTA -> number)(ProductoVentaData.apply)(ProductoVentaData.unapply),
       C.PRODUCTO_RUBRO -> mapping(
         C.RUB_ID -> number,
@@ -357,8 +358,8 @@ object Productos extends Controller with ProvidesUser {
         C.RUBTI_ID_10 -> optional(number))(ProductoRubroData.apply)(ProductoRubroData.unapply),
       C.PRODUCTO_COMEX -> mapping(
         C.UN_ID_PESO -> number,
-        C.PR_PESO_NETO -> of(Global.doubleFormat),
-        C.PR_PESO_TOTAL -> of(Global.doubleFormat),
+        C.PR_PESO_NETO -> of(doubleFormat),
+        C.PR_PESO_TOTAL -> of(doubleFormat),
         C.PR_CANT_X_CAJA_EXPO -> number,
         C.EMBL_ID -> number,
         C.PR_FLETE_EXPO -> boolean,
@@ -387,7 +388,7 @@ object Productos extends Controller with ProvidesUser {
         C.PR_CODIGO_HTML -> text,
         C.PR_CODIGO_HTML_DETALLE -> text,
         C.PR_EXPO_WEB -> number,
-        C.PR_VENTA_WEB_MAXIMA -> of(Global.doubleFormat),
+        C.PR_VENTA_WEB_MAXIMA -> of(doubleFormat),
         C.LEY_ID -> number,
         C.PR_WEB_IMAGE_FOLDER -> text)(ProductoWebData.apply)(ProductoWebData.unapply),
       C.PRODUCTO_NOMBRES -> mapping(
@@ -408,7 +409,7 @@ object Productos extends Controller with ProvidesUser {
             C.PRPROV_CODIGO_BARRA -> text,
             C.PA_ID -> number,
             C.LP_ID -> number,
-            C.LPI_PRECIO -> of(Global.doubleFormat),
+            C.LPI_PRECIO -> of(doubleFormat),
             C.LPI_FECHA -> text,
             C.PRPROV_LPI_TOP -> boolean)(ProductoProveedorData.apply)(ProductoProveedorData.unapply)
         ),
@@ -427,7 +428,7 @@ object Productos extends Controller with ProvidesUser {
             C.PRCMI_DESCRIP -> text,
             C.PRCMI_FECHA_ALTA -> text,
             C.PRCMI_FECHA_VTO -> text,
-            C.PRCMI_PRECIO -> of(Global.doubleFormat))(ProductoCMIData.apply)(ProductoCMIData.unapply)
+            C.PRCMI_PRECIO -> of(doubleFormat))(ProductoCMIData.apply)(ProductoCMIData.unapply)
         ),
         C.PRODUCTO_LEYENDA -> Forms.list[ProductoLeyendaData](
           mapping(
@@ -776,49 +777,44 @@ object Productos extends Controller with ProvidesUser {
 
   private def preprocessParams(implicit request:Request[AnyContent]): JsObject = {
 
-    def getJsValueAsMap(list: Map[String, JsValue]): Map[String, JsValue] = list.toList match {
-      case (key: String, jsValue: JsValue) :: t => jsValue.as[Map[String, JsValue]]
-      case _ => Map.empty
-    }
-
     def preprocessProveedorParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(productoProveedorFields, "", params).toSeq)
+      JsObject(preprocessFormParams(productoProveedorFields, "", params).toSeq)
     }
 
     def preprocessClienteParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(productoClienteFields, "", params).toSeq)
+      JsObject(preprocessFormParams(productoClienteFields, "", params).toSeq)
     }
 
     def preprocessCMIParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(productoCMIFields, "", params).toSeq)
+      JsObject(preprocessFormParams(productoCMIFields, "", params).toSeq)
     }
 
     def preprocessLeyendaParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(productoLeyendaFields, "", params).toSeq)
+      JsObject(preprocessFormParams(productoLeyendaFields, "", params).toSeq)
     }
 
     def preprocessTagParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(productoTagFields, "", params).toSeq)
+      JsObject(preprocessFormParams(productoTagFields, "", params).toSeq)
     }
 
     def preprocessCategoriaWebParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(productoCategoriaWebFields, "", params).toSeq)
+      JsObject(preprocessFormParams(productoCategoriaWebFields, "", params).toSeq)
     }
 
     def preprocessCatalogoWebParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(productoCatalogoWebFields, "", params).toSeq)
+      JsObject(preprocessFormParams(productoCatalogoWebFields, "", params).toSeq)
     }
 
     def preprocessWebImageParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(productoWebImageFields, "", params).toSeq)
+      JsObject(preprocessFormParams(productoWebImageFields, "", params).toSeq)
     }
 
     def preprocessProveedoresParam(items: JsValue, group: String): Map[String, JsValue] = items match {
@@ -861,26 +857,26 @@ object Productos extends Controller with ProvidesUser {
       case _ => Map.empty
     }
 
-    val params = Global.getParamsFromJsonRequest
+    val params = getParamsFromJsonRequest
 
     // groups for productoData
     //
-    val productoId = Global.preprocessFormParams(List("id", DBHelper.ACTIVE, C.PR_CODE), "", params)
-    val productoBaseGroup = Global.preprocessFormParams(productoBaseFields, C.PRODUCTO_BASE, params)
-    val productoCompraGroup = Global.preprocessFormParams(productoCompraFields, C.PRODUCTO_COMPRA, params)
-    val productoStockGroup = Global.preprocessFormParams(productoStockFields, C.PRODUCTO_STOCK, params)
-    val productoVentaGroup = Global.preprocessFormParams(productoVentaFields, C.PRODUCTO_VENTA, params)
-    val productoRubroGroup = Global.preprocessFormParams(productoRubroFields, C.PRODUCTO_RUBRO, params)
-    val productoComexGroup = Global.preprocessFormParams(productoComexFields, C.PRODUCTO_COMEX, params)
-    val productoKitGroup = Global.preprocessFormParams(productoKitFields, C.PRODUCTO_KIT_GROUP, params)
-    val productoWebGroup = Global.preprocessFormParams(productoWebFields, C.PRODUCTO_WEB, params)
-    val productoNombreGroup = Global.preprocessFormParams(productoNombresFields, C.PRODUCTO_NOMBRES, params)
+    val productoId = preprocessFormParams(List("id", DBHelper.ACTIVE, C.PR_CODE), "", params)
+    val productoBaseGroup = preprocessFormParams(productoBaseFields, C.PRODUCTO_BASE, params)
+    val productoCompraGroup = preprocessFormParams(productoCompraFields, C.PRODUCTO_COMPRA, params)
+    val productoStockGroup = preprocessFormParams(productoStockFields, C.PRODUCTO_STOCK, params)
+    val productoVentaGroup = preprocessFormParams(productoVentaFields, C.PRODUCTO_VENTA, params)
+    val productoRubroGroup = preprocessFormParams(productoRubroFields, C.PRODUCTO_RUBRO, params)
+    val productoComexGroup = preprocessFormParams(productoComexFields, C.PRODUCTO_COMEX, params)
+    val productoKitGroup = preprocessFormParams(productoKitFields, C.PRODUCTO_KIT_GROUP, params)
+    val productoWebGroup = preprocessFormParams(productoWebFields, C.PRODUCTO_WEB, params)
+    val productoNombreGroup = preprocessFormParams(productoNombresFields, C.PRODUCTO_NOMBRES, params)
 
     // proveedores
     //
-    val proveedoresInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.PRODUCTO_PROVEEDOR, params))
-    val proveedorRows = Global.getParamsJsonRequestFor(C.ITEMS, proveedoresInfo)
-    val proveedorDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, proveedoresInfo).toList match {
+    val proveedoresInfo = getJsValueAsMap(getParamsJsonRequestFor(C.PRODUCTO_PROVEEDOR, params))
+    val proveedorRows = getParamsJsonRequestFor(C.ITEMS, proveedoresInfo)
+    val proveedorDeleted: Map[String, JsValue] = getParamsJsonRequestFor(C.DELETED_LIST, proveedoresInfo).toList match {
       case Nil => Map(C.PRODUCTO_PROVEEDOR_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.PRODUCTO_PROVEEDOR_DELETED -> Json.toJson(deletedList._2))
     }
@@ -891,9 +887,9 @@ object Productos extends Controller with ProvidesUser {
 
     // clientes
     //
-    val clientesInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.PRODUCTO_CLIENTE, params))
-    val clienteRows = Global.getParamsJsonRequestFor(C.ITEMS, clientesInfo)
-    val clienteDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, clientesInfo).toList match {
+    val clientesInfo = getJsValueAsMap(getParamsJsonRequestFor(C.PRODUCTO_CLIENTE, params))
+    val clienteRows = getParamsJsonRequestFor(C.ITEMS, clientesInfo)
+    val clienteDeleted: Map[String, JsValue] = getParamsJsonRequestFor(C.DELETED_LIST, clientesInfo).toList match {
       case Nil => Map(C.PRODUCTO_CLIENTE_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.PRODUCTO_CLIENTE_DELETED -> Json.toJson(deletedList._2))
     }
@@ -904,9 +900,9 @@ object Productos extends Controller with ProvidesUser {
 
     // cmi
     //
-    val cmisInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.PRODUCTO_COMUNIDAD_INTERNET, params))
-    val cmiRows = Global.getParamsJsonRequestFor(C.ITEMS, cmisInfo)
-    val cmiDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, cmisInfo).toList match {
+    val cmisInfo = getJsValueAsMap(getParamsJsonRequestFor(C.PRODUCTO_COMUNIDAD_INTERNET, params))
+    val cmiRows = getParamsJsonRequestFor(C.ITEMS, cmisInfo)
+    val cmiDeleted: Map[String, JsValue] = getParamsJsonRequestFor(C.DELETED_LIST, cmisInfo).toList match {
       case Nil => Map(C.PRODUCTO_CMI_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.PRODUCTO_CMI_DELETED -> Json.toJson(deletedList._2))
     }
@@ -917,9 +913,9 @@ object Productos extends Controller with ProvidesUser {
 
     // leyendas
     //
-    val leyendasInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.PRODUCTO_LEYENDA, params))
-    val leyendaRows = Global.getParamsJsonRequestFor(C.ITEMS, leyendasInfo)
-    val leyendaDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, leyendasInfo).toList match {
+    val leyendasInfo = getJsValueAsMap(getParamsJsonRequestFor(C.PRODUCTO_LEYENDA, params))
+    val leyendaRows = getParamsJsonRequestFor(C.ITEMS, leyendasInfo)
+    val leyendaDeleted: Map[String, JsValue] = getParamsJsonRequestFor(C.DELETED_LIST, leyendasInfo).toList match {
       case Nil => Map(C.PRODUCTO_LEYENDA_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.PRODUCTO_LEYENDA_DELETED -> Json.toJson(deletedList._2))
     }
@@ -930,9 +926,9 @@ object Productos extends Controller with ProvidesUser {
 
     // tags
     //
-    val tagsInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.PRODUCTO_TAG, params))
-    val tagRows = Global.getParamsJsonRequestFor(C.ITEMS, tagsInfo)
-    val tagDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, tagsInfo).toList match {
+    val tagsInfo = getJsValueAsMap(getParamsJsonRequestFor(C.PRODUCTO_TAG, params))
+    val tagRows = getParamsJsonRequestFor(C.ITEMS, tagsInfo)
+    val tagDeleted: Map[String, JsValue] = getParamsJsonRequestFor(C.DELETED_LIST, tagsInfo).toList match {
       case Nil => Map(C.PRODUCTO_TAG_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.PRODUCTO_TAG_DELETED -> Json.toJson(deletedList._2))
     }
@@ -943,8 +939,8 @@ object Productos extends Controller with ProvidesUser {
 
     // categoriasWeb
     //
-    val categoriasWebInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.CATALOGO_WEB_CATEGORIA_ITEM, params))
-    val categoriaWebRows = Global.getParamsJsonRequestFor(C.ITEMS, categoriasWebInfo)
+    val categoriasWebInfo = getJsValueAsMap(getParamsJsonRequestFor(C.CATALOGO_WEB_CATEGORIA_ITEM, params))
+    val categoriaWebRows = getParamsJsonRequestFor(C.ITEMS, categoriasWebInfo)
     val productoCategoriasWeb = categoriaWebRows.toList match {
       case (k: String, item: JsValue) :: t => preprocessCategoriasWebParam(item, C.CATALOGO_WEB_CATEGORIA_ITEM)
       case _ => Map(C.CATALOGO_WEB_CATEGORIA_ITEM -> JsArray(List()))
@@ -952,8 +948,8 @@ object Productos extends Controller with ProvidesUser {
 
     // catalogosWeb
     //
-    val catalogosWebInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.CATALOGO_WEB_ITEM, params))
-    val catalogoWebRows = Global.getParamsJsonRequestFor(C.ITEMS, catalogosWebInfo)
+    val catalogosWebInfo = getJsValueAsMap(getParamsJsonRequestFor(C.CATALOGO_WEB_ITEM, params))
+    val catalogoWebRows = getParamsJsonRequestFor(C.ITEMS, catalogosWebInfo)
     val productoCatalogosWeb = catalogoWebRows.toList match {
       case (k: String, item: JsValue) :: t => preprocessCatalogosWebParam(item, C.CATALOGO_WEB_ITEM)
       case _ => Map(C.CATALOGO_WEB_ITEM -> JsArray(List()))
@@ -961,9 +957,9 @@ object Productos extends Controller with ProvidesUser {
 
     // webImages
     //
-    val webImagesInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.PRODUCTO_WEB_IMAGE, params))
-    val webImageRows = Global.getParamsJsonRequestFor(C.ITEMS, webImagesInfo)
-    val webImageDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, webImagesInfo).toList match {
+    val webImagesInfo = getJsValueAsMap(getParamsJsonRequestFor(C.PRODUCTO_WEB_IMAGE, params))
+    val webImageRows = getParamsJsonRequestFor(C.ITEMS, webImagesInfo)
+    val webImageDeleted: Map[String, JsValue] = getParamsJsonRequestFor(C.DELETED_LIST, webImagesInfo).toList match {
       case Nil => Map(C.PRODUCTO_WEB_IMAGE_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.PRODUCTO_WEB_IMAGE_DELETED -> Json.toJson(deletedList._2))
     }

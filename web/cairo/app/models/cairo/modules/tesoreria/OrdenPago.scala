@@ -14,7 +14,8 @@ import java.util.Date
 import play.api.Logger
 import play.api.libs.json._
 import scala.util.control.NonFatal
-import models.cairo.modules.general.U
+import models.cairo.modules.documentos.DocumentEditStatus
+import models.cairo.modules.general.{CondicionPago, U}
 import formatters.json.DateFormatter
 import models.cairo.modules.general.DocumentListParam
 
@@ -567,6 +568,31 @@ object OrdenPagoParams {
     )
   }
 }
+
+case class PagoItem(
+                     fcId: Int,
+                     fcdId: Int,
+                     fcpId: Int,
+                     fcopgCotizacion: Double,
+                     fcopgImporte: Double,
+                     fcopgImporteOrigen: Double
+                   )
+
+case class PagoCtaCte(
+                       cueId: Int,
+                       opgiImporteOrigen: Double,
+                       opgiImporte: Double,
+                       opgiOrden: Int,
+                       opgiTipo: Int,
+                       opgiOtroTipo: Int
+                     )
+
+case class OrdenPagoAplic(
+                           opgId: Int,
+                           docId: Int,
+                           items: List[PagoItem],
+                           ctaCte: List[PagoCtaCte]
+                         )
 
 object OrdenPago {
 
@@ -1942,5 +1968,295 @@ object OrdenPago {
         cs.close
       }
     }
+  }
+
+  def getAplic(user: CompanyUser, id: Int, aplicType: Int): Recordset = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_doc_orden_pago_get_aplic(?, ?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, user.cairoCompanyId)
+      cs.setInt(2, id)
+      cs.setInt(3, aplicType)
+      cs.registerOutParameter(4, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(4).asInstanceOf[java.sql.ResultSet]
+        Recordset.load(rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get aplic list for id [$id] and user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  def saveAplic(user: CompanyUser, ordenPagoAplic: OrdenPagoAplic): Int = {
+    def getFields = {
+      List(
+        Field(C.OPG_ID, ordenPagoAplic.opgId, FieldType.number),
+        Field(C.OPG_NUMERO, ordenPagoAplic.opgId, FieldType.number),
+        Field(GC.DOC_ID, ordenPagoAplic.docId, FieldType.id),
+        Field(GC.EST_ID, DocumentEditStatus.PENDING, FieldType.id),
+        Field(GC.SUC_ID, DBHelper.NoId, FieldType.number),
+        Field(GC.PROV_ID, DBHelper.NoId, FieldType.number)
+      )
+    }
+
+    def getOrdenPagoFields(item: OrdenPagoAplic, opgTMPId: Int) = {
+      List(
+        Field(C.OPG_TMP_ID, opgTMPId, FieldType.id),
+        Field(C.OPG_ID, item.opgId, FieldType.number),
+        Field(C.OPG_NUMERO, 0, FieldType.number),
+        Field(GC.PROV_ID, DBHelper.NoId, FieldType.number),
+        Field(GC.SUC_ID, DBHelper.NoId, FieldType.number),
+        Field(GC.DOC_ID, DBHelper.NoId, FieldType.number),
+        Field(GC.EST_ID, DBHelper.NoId, FieldType.number)
+      )
+    }
+
+    def getOrdenPagoItemFields(item: PagoItem, opgTMPId: Int) = {
+      List(
+        Field(C.OPG_TMP_ID, opgTMPId, FieldType.id),
+        Field(C.OPG_ID, item.opgId, FieldType.id),
+        Field(C.FC_ID, item.fcId, FieldType.id),
+        Field(C.FCD_ID, item.fcdId, FieldType.id),
+        Field(C.FCP_ID, item.fcpId, FieldType.id),
+        Field(C.FC_OPG_ID, item.fcopgId, FieldType.id),
+        Field(C.FC_OPG_COTIZACION, item.fcopgCotizacion, FieldType.currency),
+        Field(C.FC_OPG_IMPORTE, item.fcopgImporte, FieldType.currency),
+        Field(C.FC_OPG_IMPORTE_ORIGEN, item.fcopgImporteOrigen, FieldType.currency)
+      )
+    }
+
+    def getOrdenPagoCtaCteFields(item: PagoCtaCte, opgTMPId: Int) = {
+      List(
+        Field(TC.OPG_TMP_ID, opgTMPId, FieldType.id),
+        Field(GC.CUE_ID, item.cueId, FieldType.number),
+        Field(TC.OPGI_IMPORTE_ORIGEN, item.opgiImporteOrigen, FieldType.currency),
+        Field(TC.OPGI_IMPORTE, item.opgiImporte, FieldType.currency),
+        Field(TC.OPGI_ORDEN, item.opgiOrden, FieldType.number),
+        Field(TC.OPGI_TIPO, item.opgiTipo, FieldType.number),
+        Field(TC.OPGI_OTRO_TIPO, item.opgiOtroTipo, FieldType.number)
+      )
+    }
+
+    def throwError = {
+      throwException(s"Error when saving application of ${C.ORDEN_PAGO}")
+    }
+
+    def throwException(message: String) = {
+      throw new RuntimeException(message)
+    }
+
+    case class OrdenPagoItemInfo(opgTMPId: Int, item: PagoItem)
+
+    def saveOrdenPagoItem(itemInfo: OrdenPagoItemInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          TC.FACTURA_COMPRA_ORDEN_PAGO_TMP,
+          TC.FC_OPG_TMP_ID,
+          DBHelper.NoId,
+          false,
+          false,
+          false,
+          getOrdenPagoItemFields(itemInfo.item, itemInfo.opgTMPId)),
+        true
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwError
+      }
+    }
+
+    def saveOrdenPagoItems(items: List[PagoItem], opgTMPId: Int) = {
+      items.map(item => saveOrdenPagoItem(OrdenPagoItemInfo(opgTMPId, item)))
+    }
+
+    case class OrdenPagoCtaCteInfo(opgTMPId: Int, item: PagoCtaCte)
+
+    def saveOrdenPagoCtaCte(itemInfo: OrdenPagoCtaCteInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          TC.ORDEN_PAGO_ITEM_TMP,
+          TC.OPGI_TMP_ID,
+          DBHelper.NoId,
+          false,
+          false,
+          false,
+          getOrdenPagoCtaCteFields(itemInfo.item, itemInfo.opgTMPId)),
+        true
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwError
+      }
+    }
+
+    def saveOrdenPagoCtasCtes(items: List[PagoCtaCte], opgTMPId: Int) = {
+      items.map(item => saveOrdenPagoCtaCte(OrdenPagoCtaCteInfo(opgTMPId, item)))
+    }
+
+    case class OrdenPagoInfo(fcTMPId: Int, item: FacturaCompraOrdenPagoItem)
+
+    def saveOrdenPago(itemInfo: OrdenPagoInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          TC.ORDEN_PAGO_TMP,
+          TC.OPG_TMP_ID,
+          DBHelper.NoId,
+          false,
+          false,
+          true,
+          getOrdenPagoFields(itemInfo.item, itemInfo.fcTMPId)),
+        true
+      ) match {
+        case SaveResult(true, id) => {
+          Logger.info(s"items ${itemInfo.item.items}")
+          Logger.info(s"ctacte ${itemInfo.item.ctaCte}")
+          saveOrdenPagoItems(itemInfo.item.items, id)
+          saveOrdenPagoCtasCtes(itemInfo.item.ctaCte, id)
+        }
+        case SaveResult(false, id) => throwError
+      }
+    }
+
+    def saveOrdenesPago(fcTMPId: Int) = {
+      ordenPagoAplic.ordenPago.map(item => saveOrdenPago(OrdenPagoInfo(fcTMPId, item)))
+    }
+
+    case class RowResult(rowType: String, id: Int, message: String)
+
+    def executeSave(fcTMPId: Int): List[RowResult] = {
+
+      DB.withTransaction(user.database.database) { implicit connection =>
+        val sql = "select * from sp_doc_orden_pago_save_aplic(?, ?)"
+        val cs = connection.prepareStatement(sql)
+
+        cs.setInt(1, user.masterUserId)
+        cs.setInt(2, fcTMPId)
+
+        try {
+          val rs = cs.executeQuery()
+
+          /*
+          *
+          * all sp_doc_SOME_DOCUMENT_save must return a setof row_result
+          *
+          * row_result is a composite type in postgresql defined as:
+          *
+          * CREATE TYPE row_result AS (
+          *    type    varchar,
+          *    id      integer,
+          *    message varchar,
+          *    r       refcursor
+          * );
+          *
+          *
+          * ex: CREATE OR REPLACE FUNCTION sp_doc_factura_compra_save( params )
+          *     RETURNS SETOF row_result AS ...
+          *
+          * the field type is used to identify the value in the row. there are three
+          * kind of types: resultset, success, key
+          * for first two (resultset and success) the value of type is string with
+          * one of these two values ex: 'resultset' or 'success'
+          * when type == 'resultset' the field r must be not null and contain a ResultSet
+          * when type == 'success' the id field can contain 0 (False) or not 0 (-1,1 or any other number but NO 0) (True)
+          * the last kind of type is key. in this case the key must be the name of a column like fc_id, as_id, pr_id, etc
+          * it can be any column name. if the type is an integer like in fc_id, as_id or any other id column the field id
+          * is used to contain the returned value
+          * if the type is any other the column message is used
+          *
+          * there are two special types for key: 'INFO', 'ERROR'
+          * when type == 'ERROR' the system will raise an exception
+          * when type == 'INFO' the system will show an alert
+          * in both cases the field message contains the description
+          *
+          * this set must contain at least one row
+          *
+          * the field r (ResultSet) is not normally read in a save document operation.
+          *
+          * */
+
+          try {
+            def getIdOrMessage: RowResult = {
+              val rowType = rs.getString(1)
+
+              rowType match {
+                case "ERROR" => throwException(rs.getString(3))
+                case "INFO" => RowResult("INFO", 0, rs.getString(3))
+                case "opg_id" => RowResult("opg_id", rs.getInt(2), "")
+                case _ => RowResult("IGNORED", 0, "")
+              }
+            }
+
+            def getSaveResult: List[RowResult] = {
+              if(rs.next()) {
+                getIdOrMessage :: getSaveResult
+              }
+              else {
+                List()
+              }
+            }
+            getSaveResult
+
+          } finally {
+            rs.close
+          }
+
+        } catch {
+          case NonFatal(e) => {
+            Logger.error(s"can't save application of ${C.ORDEN_PAGO} with id ${ordenPagoAplic.opgId} for user ${user.toString}. Error ${e.toString}")
+            throw e
+          }
+        } finally {
+          cs.close
+        }
+      }
+    }
+
+    def getIdFromMessages(messages: List[RowResult]) = {
+      def findId(messages: List[RowResult], id: Int): Int = messages match {
+        case Nil => id
+        case h :: t => {
+          val _id = h match {
+            case RowResult("opg_id", id, m) => id
+            case _ => id
+          }
+          findId(t, _id)
+        }
+      }
+      findId(messages, 0)
+    }
+
+    DBHelper.save(
+      user,
+      Register(
+        C.ORDEN_PAGO_TMP,
+        C.OPG_TMP_ID,
+        DBHelper.NoId,
+        false,
+        true,
+        true,
+        getFields),
+      true
+    ) match {
+      case SaveResult(true, opgTMPId) => {
+        saveOrdenesPago(opgTMPId)
+        val messagesAndId = executeSave(opgTMPId)
+        getIdFromMessages(messagesAndId)
+      }
+      case SaveResult(false, id) => throwError
+    }
+
   }
 }

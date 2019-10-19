@@ -189,7 +189,7 @@
               break;
 
             case m_menuShowAplic:
-              showApplycation();
+              showApply();
 
               break;
 
@@ -1104,7 +1104,7 @@
         }
       };
 
-      var showApplycation = function() {
+      var showApply = function() {
 
         var osId = null;
         osId = m_dialog.getId();

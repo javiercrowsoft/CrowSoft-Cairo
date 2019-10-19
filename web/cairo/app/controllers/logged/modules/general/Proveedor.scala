@@ -13,6 +13,8 @@ import models.cairo.system.security.CairoSecurity
 import models.cairo.system.database.{Recordset, DBHelper}
 import formatters.json.DateFormatter._
 
+import Global.{getJsValueAsMap, getParamsJsonRequestFor, preprocessFormParams, doubleFormat, getParamsFromJsonRequest}
+
 case class ProveedorBaseData(
                           name: String,
                           razonSocial: String,
@@ -160,8 +162,8 @@ object Proveedores extends Controller with ProvidesUser {
         C.PROV_NRO_CTA_BANCO -> text,
         C.PROV_CBU -> text,
         C.PROV_NRO_CLIENTE -> text,
-        C.PROV_CREDITOCTACTE -> of(Global.doubleFormat),
-        C.PROV_CREDITOTOTAL -> of(Global.doubleFormat),
+        C.PROV_CREDITOCTACTE -> of(doubleFormat),
+        C.PROV_CREDITOTOTAL -> of(doubleFormat),
         C.PROV_CREDITOACTIVO -> boolean,
         C.PROV_DESCRIP -> text)(ProveedorBaseData.apply)(ProveedorBaseData.unapply),
       C.PROVEEDOR_ADDRESS -> mapping(
@@ -359,39 +361,34 @@ object Proveedores extends Controller with ProvidesUser {
 
   private def preprocessParams(implicit request:Request[AnyContent]): JsObject = {
 
-    def getJsValueAsMap(list: Map[String, JsValue]): Map[String, JsValue] = list.toList match {
-      case (key: String, jsValue: JsValue) :: t => jsValue.as[Map[String, JsValue]]
-      case _ => Map.empty
-    }
-   
     def preprocessCaiParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(proveedorCai, "", params).toSeq)
+      JsObject(preprocessFormParams(proveedorCai, "", params).toSeq)
     }
 
     def preprocessEmpresaParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(proveedorEmpresa, "", params).toSeq)
+      JsObject(preprocessFormParams(proveedorEmpresa, "", params).toSeq)
     }
 
     def preprocessCuentaGrupoParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(proveedorCuentaGrupo, "", params).toSeq)
+      JsObject(preprocessFormParams(proveedorCuentaGrupo, "", params).toSeq)
     }
 
     def preprocessRetencionParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(proveedorRetencion, "", params).toSeq)
+      JsObject(preprocessFormParams(proveedorRetencion, "", params).toSeq)
     }
 
     def preprocessDepartamentoParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(proveedorDepartamento, "", params).toSeq)
+      JsObject(preprocessFormParams(proveedorDepartamento, "", params).toSeq)
     }
 
     def preprocessCentroCostoParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(proveedorCentroCosto, "", params).toSeq)
+      JsObject(preprocessFormParams(proveedorCentroCosto, "", params).toSeq)
     }
 
     def preprocessCaisParam(items: JsValue, group: String): Map[String, JsValue] = items match {
@@ -424,20 +421,20 @@ object Proveedores extends Controller with ProvidesUser {
       case _ => Map.empty
     }
     
-    val params = Global.getParamsFromJsonRequest
+    val params = getParamsFromJsonRequest
 
     // groups for ProveedorData
     //
-    val proveedorId = Global.preprocessFormParams(List("id", DBHelper.ACTIVE, C.PROV_CODE), "", params)
-    val proveedorBaseGroup = Global.preprocessFormParams(proveedorBaseFields, C.PROVEEDOR_BASE, params)
-    val proveedorAddressGroup = Global.preprocessFormParams(proveedorAddressFields, C.PROVEEDOR_ADDRESS, params)
-    val proveedorReferencesGroup = Global.preprocessFormParams(proveedorReferencesFields, C.PROVEEDOR_REFERENCES, params)
+    val proveedorId = preprocessFormParams(List("id", DBHelper.ACTIVE, C.PROV_CODE), "", params)
+    val proveedorBaseGroup = preprocessFormParams(proveedorBaseFields, C.PROVEEDOR_BASE, params)
+    val proveedorAddressGroup = preprocessFormParams(proveedorAddressFields, C.PROVEEDOR_ADDRESS, params)
+    val proveedorReferencesGroup = preprocessFormParams(proveedorReferencesFields, C.PROVEEDOR_REFERENCES, params)
 
     // cais
     //
-    val caisInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.PROVEEDOR_CAI, params))
-    val caiRows = Global.getParamsJsonRequestFor(C.ITEMS, caisInfo)
-    val caiDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, caisInfo).toList match {
+    val caisInfo = getJsValueAsMap(getParamsJsonRequestFor(C.PROVEEDOR_CAI, params))
+    val caiRows = getParamsJsonRequestFor(C.ITEMS, caisInfo)
+    val caiDeleted: Map[String, JsValue] = getParamsJsonRequestFor(C.DELETED_LIST, caisInfo).toList match {
       case Nil => Map(C.PROVEEDOR_CAI_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.PROVEEDOR_CAI_DELETED -> Json.toJson(deletedList._2))
     }
@@ -448,8 +445,8 @@ object Proveedores extends Controller with ProvidesUser {
 
     // empresas
     //
-    val empresasInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.EMPRESA_PROVEEDOR, params))
-    val empresaRows = Global.getParamsJsonRequestFor(C.ITEMS, empresasInfo)
+    val empresasInfo = getJsValueAsMap(getParamsJsonRequestFor(C.EMPRESA_PROVEEDOR, params))
+    val empresaRows = getParamsJsonRequestFor(C.ITEMS, empresasInfo)
     val proveedorEmpresas = empresaRows.toList match {
       case (k: String, item: JsValue) :: t => preprocessEmpresasParam(item, C.EMPRESA_PROVEEDOR)
       case _ => Map(C.EMPRESA_PROVEEDOR -> JsArray(List()))
@@ -457,9 +454,9 @@ object Proveedores extends Controller with ProvidesUser {
     
     // cuenta grupo
     //
-    val cuentasGrupoInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.PROVEEDOR_CUENTA_GRUPO, params))
-    val cuentaGrupoRows = Global.getParamsJsonRequestFor(C.ITEMS, cuentasGrupoInfo)
-    val cuentaGrupoDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, cuentasGrupoInfo).toList match {
+    val cuentasGrupoInfo = getJsValueAsMap(getParamsJsonRequestFor(C.PROVEEDOR_CUENTA_GRUPO, params))
+    val cuentaGrupoRows = getParamsJsonRequestFor(C.ITEMS, cuentasGrupoInfo)
+    val cuentaGrupoDeleted: Map[String, JsValue] = getParamsJsonRequestFor(C.DELETED_LIST, cuentasGrupoInfo).toList match {
       case Nil => Map(C.PROVEEDOR_CUENTA_GRUPO_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.PROVEEDOR_CUENTA_GRUPO_DELETED -> Json.toJson(deletedList._2))
     }
@@ -470,9 +467,9 @@ object Proveedores extends Controller with ProvidesUser {
 
     // retenciones
     //
-    val retencionesInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.PROVEEDOR_RETENCION, params))
-    val retencionRows = Global.getParamsJsonRequestFor(C.ITEMS, retencionesInfo)
-    val retencionDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, retencionesInfo).toList match {
+    val retencionesInfo = getJsValueAsMap(getParamsJsonRequestFor(C.PROVEEDOR_RETENCION, params))
+    val retencionRows = getParamsJsonRequestFor(C.ITEMS, retencionesInfo)
+    val retencionDeleted: Map[String, JsValue] = getParamsJsonRequestFor(C.DELETED_LIST, retencionesInfo).toList match {
       case Nil => Map(C.PROVEEDOR_RETENCIONES_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.PROVEEDOR_RETENCIONES_DELETED -> Json.toJson(deletedList._2))
     }
@@ -483,9 +480,9 @@ object Proveedores extends Controller with ProvidesUser {
 
     // departamentos
     //
-    val departamentosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.DEPARTAMENTO_PROVEEDOR, params))
-    val departamentoRows = Global.getParamsJsonRequestFor(C.ITEMS, departamentosInfo)
-    val departamentoDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, departamentosInfo).toList match {
+    val departamentosInfo = getJsValueAsMap(getParamsJsonRequestFor(C.DEPARTAMENTO_PROVEEDOR, params))
+    val departamentoRows = getParamsJsonRequestFor(C.ITEMS, departamentosInfo)
+    val departamentoDeleted: Map[String, JsValue] = getParamsJsonRequestFor(C.DELETED_LIST, departamentosInfo).toList match {
       case Nil => Map(C.PROVEEDOR_DEPARTAMENTO_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.PROVEEDOR_DEPARTAMENTO_DELETED -> Json.toJson(deletedList._2))
     }
@@ -496,9 +493,9 @@ object Proveedores extends Controller with ProvidesUser {
 
     // centros de costo
     //
-    val centrosCostoInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.PROVEEDOR_CENTRO_COSTO, params))
-    val centroCostoRows = Global.getParamsJsonRequestFor(C.ITEMS, centrosCostoInfo)
-    val centroCostoDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, centrosCostoInfo).toList match {
+    val centrosCostoInfo = getJsValueAsMap(getParamsJsonRequestFor(C.PROVEEDOR_CENTRO_COSTO, params))
+    val centroCostoRows = getParamsJsonRequestFor(C.ITEMS, centrosCostoInfo)
+    val centroCostoDeleted: Map[String, JsValue] = getParamsJsonRequestFor(C.DELETED_LIST, centrosCostoInfo).toList match {
       case Nil => Map(C.PROVEEDOR_CENTRO_COSTO_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.PROVEEDOR_CENTRO_COSTO_DELETED -> Json.toJson(deletedList._2))
     }

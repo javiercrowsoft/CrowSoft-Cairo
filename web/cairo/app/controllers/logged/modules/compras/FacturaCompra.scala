@@ -15,6 +15,8 @@ import formatters.json.DateFormatter
 import formatters.json.DateFormatter._
 import scala.util.control.NonFatal
 
+import Global.{getJsValueAsMap, getParamsJsonRequestFor, preprocessFormParams, doubleFormat, getParamsFromJsonRequest}
+
 case class FacturaCompraIdData(
                                 docId: Int,
                                 numero: Int,
@@ -264,7 +266,7 @@ object FacturaCompras extends Controller with ProvidesUser {
             TC.FCD_ID_FACTURA -> number,
             TC.FCP_ID_NOTA_CREDITO -> number,
             TC.FCP_ID_FACTURA -> number,
-            TC.FC_NC_IMPORTE -> of(Global.doubleFormat),
+            TC.FC_NC_IMPORTE -> of(doubleFormat),
             TC.FC_NC_ID-> number
           )(FacturaCompraNotaCreditoItem.apply)(FacturaCompraNotaCreditoItem.unapply)
       ),
@@ -278,16 +280,16 @@ object FacturaCompras extends Controller with ProvidesUser {
                 TC.FCD_ID -> number,
                 TC.FCP_ID -> number,
                 TC.FC_OPG_ID -> number,
-                TC.FC_OPG_COTIZACION -> of(Global.doubleFormat),
-                TC.FC_OPG_IMPORTE -> of(Global.doubleFormat),
-                TC.FC_OPG_IMPORTE_ORIGEN -> of(Global.doubleFormat)
+                TC.FC_OPG_COTIZACION -> of(doubleFormat),
+                TC.FC_OPG_IMPORTE -> of(doubleFormat),
+                TC.FC_OPG_IMPORTE_ORIGEN -> of(doubleFormat)
               )(PagoItem.apply)(PagoItem.unapply)
             ),
             TC.ORDEN_PAGO_ITEM_CUENTA_CORRIENTE_TMP -> Forms.list[PagoCtaCte](
               mapping(
                 GC.CUE_ID -> number,
-                TC.OPGI_IMPORTE_ORIGEN -> of(Global.doubleFormat),
-                TC.OPGI_IMPORTE -> of(Global.doubleFormat),
+                TC.OPGI_IMPORTE_ORIGEN -> of(doubleFormat),
+                TC.OPGI_IMPORTE -> of(doubleFormat),
                 TC.OPGI_ORDEN -> number,
                 TC.OPGI_TIPO -> number,
                 TC.OPGI_OTRO_TIPO -> number
@@ -299,7 +301,7 @@ object FacturaCompras extends Controller with ProvidesUser {
           mapping(
             C.OCI_ID -> number,
             C.FCI_ID -> number,
-            C.OC_FC_CANTIDAD -> of(Global.doubleFormat),
+            C.OC_FC_CANTIDAD -> of(doubleFormat),
             C.OC_FC_ID -> number
           )(FacturaCompraOrdenCompraItem.apply)(FacturaCompraOrdenCompraItem.unapply)
       ),
@@ -307,7 +309,7 @@ object FacturaCompras extends Controller with ProvidesUser {
           mapping(
             C.RCI_ID -> number,
             C.FCI_ID -> number,
-            C.RC_FC_CANTIDAD -> of(Global.doubleFormat),
+            C.RC_FC_CANTIDAD -> of(doubleFormat),
             C.RC_FC_ID -> number
           )(FacturaCompraRemitoCompraItem.apply)(FacturaCompraRemitoCompraItem.unapply)
       )
@@ -341,14 +343,14 @@ object FacturaCompras extends Controller with ProvidesUser {
         C.FC_FECHA_VTO -> text)
         (FacturaCompraDatesData.apply)(FacturaCompraDatesData.unapply),
       C.FACTURA_PRECIOS -> mapping (
-        C.FC_DESCUENTO1 -> of(Global.doubleFormat),
-        C.FC_DESCUENTO2 -> of(Global.doubleFormat),
+        C.FC_DESCUENTO1 -> of(doubleFormat),
+        C.FC_DESCUENTO2 -> of(doubleFormat),
         GC.LP_ID -> number,
         GC.LD_ID -> number)
         (FacturaCompraPreciosData.apply)(FacturaCompraPreciosData.unapply),
       C.FACTURA_COTIZACION -> mapping (
-        C.FC_COTIZACION -> of(Global.doubleFormat),
-        C.FC_COTIZACION_PROV -> of(Global.doubleFormat))
+        C.FC_COTIZACION -> of(doubleFormat),
+        C.FC_COTIZACION_PROV -> of(doubleFormat))
         (FacturaCompraCotizacionData.apply)(FacturaCompraCotizacionData.unapply),
       C.FACTURA_STOCK -> mapping (
         C.PRO_ID_ORIGEN -> number,
@@ -356,17 +358,17 @@ object FacturaCompras extends Controller with ProvidesUser {
         GC.DEPL_ID -> number)
         (FacturaCompraStockData.apply)(FacturaCompraStockData.unapply),
       C.FACTURA_TOTALS -> mapping (
-        C.FC_NETO -> of(Global.doubleFormat),
-        C.FC_IVA_RI -> of(Global.doubleFormat),
-        C.FC_IVA_RNI -> of(Global.doubleFormat),
-        C.FC_INTERNOS -> of(Global.doubleFormat),
-        C.FC_SUBTOTAL -> of(Global.doubleFormat),
-        C.FC_IMPORTE_DESC_1 -> of(Global.doubleFormat),
-        C.FC_IMPORTE_DESC_2 -> of(Global.doubleFormat),
-        C.FC_TOTAL_OTROS -> of(Global.doubleFormat),
-        C.FC_TOTAL_PERCEPCIONES -> of(Global.doubleFormat),
-        C.FC_TOTAL -> of(Global.doubleFormat),
-        C.FC_TOTAL_ORIGEN -> of(Global.doubleFormat)
+        C.FC_NETO -> of(doubleFormat),
+        C.FC_IVA_RI -> of(doubleFormat),
+        C.FC_IVA_RNI -> of(doubleFormat),
+        C.FC_INTERNOS -> of(doubleFormat),
+        C.FC_SUBTOTAL -> of(doubleFormat),
+        C.FC_IMPORTE_DESC_1 -> of(doubleFormat),
+        C.FC_IMPORTE_DESC_2 -> of(doubleFormat),
+        C.FC_TOTAL_OTROS -> of(doubleFormat),
+        C.FC_TOTAL_PERCEPCIONES -> of(doubleFormat),
+        C.FC_TOTAL -> of(doubleFormat),
+        C.FC_TOTAL_ORIGEN -> of(doubleFormat)
         )(FacturaCompraTotalsData.apply)(FacturaCompraTotalsData.unapply),
       C.FACTURA_COMPRA_ITEM_TMP -> Forms.list[FacturaCompraItemData](
         mapping(
@@ -385,19 +387,19 @@ object FacturaCompras extends Controller with ProvidesUser {
             C.FCI_ORDEN -> number)
             (FacturaCompraItemDataBase.apply)(FacturaCompraItemDataBase.unapply),
           C.FACTURA_ITEM_TOTALS -> mapping (
-            C.FCI_CANTIDAD -> of(Global.doubleFormat),
-            C.FCI_PRECIO -> of(Global.doubleFormat),
-            C.FCI_PRECIO_LISTA -> of(Global.doubleFormat),
-            C.FCI_PRECIO_USR -> of(Global.doubleFormat),
-            C.FCI_NETO -> of(Global.doubleFormat),
-            C.FCI_IVA_RI -> of(Global.doubleFormat),
-            C.FCI_IVA_RNI -> optional(of(Global.doubleFormat)),
-            C.FCI_INTERNOS -> of(Global.doubleFormat),
-            C.FCI_IVA_RIPORC -> of(Global.doubleFormat),
-            C.FCI_IVA_RNIPORC -> of(Global.doubleFormat),
-            C.FCI_INTERNOS_PORC -> of(Global.doubleFormat),
-            C.FCI_IMPORTE -> of(Global.doubleFormat),
-            C.FCI_IMPORTE_ORIGEN -> of(Global.doubleFormat))
+            C.FCI_CANTIDAD -> of(doubleFormat),
+            C.FCI_PRECIO -> of(doubleFormat),
+            C.FCI_PRECIO_LISTA -> of(doubleFormat),
+            C.FCI_PRECIO_USR -> of(doubleFormat),
+            C.FCI_NETO -> of(doubleFormat),
+            C.FCI_IVA_RI -> of(doubleFormat),
+            C.FCI_IVA_RNI -> optional(of(doubleFormat)),
+            C.FCI_INTERNOS -> of(doubleFormat),
+            C.FCI_IVA_RIPORC -> of(doubleFormat),
+            C.FCI_IVA_RNIPORC -> of(doubleFormat),
+            C.FCI_INTERNOS_PORC -> of(doubleFormat),
+            C.FCI_IMPORTE -> of(doubleFormat),
+            C.FCI_IMPORTE_ORIGEN -> of(doubleFormat))
             (FacturaCompraItemDataTotals.apply)(FacturaCompraItemDataTotals.unapply),
           C.FACTURA_COMPRA_ITEM_SERIE_TMP -> Forms.list[FacturaCompraItemDataSerie](
             mapping (
@@ -414,11 +416,11 @@ object FacturaCompras extends Controller with ProvidesUser {
         mapping (
           C.FCOT_ID -> number,
           GC.CUE_ID -> number,
-          C.FCOT_DEBE -> of(Global.doubleFormat),
-          C.FCOT_HABER -> of(Global.doubleFormat),
+          C.FCOT_DEBE -> of(doubleFormat),
+          C.FCOT_HABER -> of(doubleFormat),
           GC.CCOS_ID -> number,
           C.FCOT_DESCRIP -> text,
-          C.FCOT_ORIGEN -> of(Global.doubleFormat),
+          C.FCOT_ORIGEN -> of(doubleFormat),
           C.FCOT_ORDEN -> number)
           (FacturaCompraOtroData.apply)(FacturaCompraOtroData.unapply)
       ),
@@ -426,9 +428,9 @@ object FacturaCompras extends Controller with ProvidesUser {
         mapping (
           C.FCLGJ_ID -> number,
           GC.LGJ_ID -> number,
-          C.FCLGJ_IMPORTE -> of(Global.doubleFormat),
+          C.FCLGJ_IMPORTE -> of(doubleFormat),
           C.FCLGJ_DESCRIP -> text,
-          C.FCLGJ_IMPORTE_ORIGEN -> of(Global.doubleFormat),
+          C.FCLGJ_IMPORTE_ORIGEN -> of(doubleFormat),
           C.FCLGJ_ORDEN -> number)
           (FacturaCompraLegajoData.apply)(FacturaCompraLegajoData.unapply)
       ),
@@ -436,12 +438,12 @@ object FacturaCompras extends Controller with ProvidesUser {
         mapping (
           C.FCPERC_ID -> number,
           GC.PERC_ID -> number,
-          C.FCPERC_BASE -> of(Global.doubleFormat),
-          C.FCPERC_PORCENTAJE -> of(Global.doubleFormat),
-          C.FCPERC_IMPORTE -> of(Global.doubleFormat),
+          C.FCPERC_BASE -> of(doubleFormat),
+          C.FCPERC_PORCENTAJE -> of(doubleFormat),
+          C.FCPERC_IMPORTE -> of(doubleFormat),
           GC.CCOS_ID -> number,
           C.FCPERC_DESCRIP -> text,
-          C.FCPERC_ORIGEN -> of(Global.doubleFormat),
+          C.FCPERC_ORIGEN -> of(doubleFormat),
           C.FCPERC_ORDEN -> number)
           (FacturaCompraPercepcionData.apply)(FacturaCompraPercepcionData.unapply)
       ),
@@ -452,7 +454,7 @@ object FacturaCompras extends Controller with ProvidesUser {
       C.REMITO_FACTURA_COMPRA_TMP -> Forms.list[FacturaCompraRemitoData](
         mapping (
           C.RCI_ID -> number,
-          C.RC_FC_CANTIDAD -> of(Global.doubleFormat),
+          C.RC_FC_CANTIDAD -> of(doubleFormat),
           C.FCI_ID -> number)
           (FacturaCompraRemitoData.apply)(FacturaCompraRemitoData.unapply)
       )
@@ -665,11 +667,6 @@ object FacturaCompras extends Controller with ProvidesUser {
 
   private def preprocessParams(implicit request:Request[AnyContent]): JsObject = {
 
-    def getJsValueAsMap(list: Map[String, JsValue]): Map[String, JsValue] = list.toList match {
-      case (key: String, jsValue: JsValue) :: t => jsValue.as[Map[String, JsValue]]
-      case _ => Map.empty
-    }
-
     def preprocessSeriesParam(items: JsValue, group: String): Map[String, JsValue] = items match {
       case jsArray: JsArray => Map(group -> jsArray)
       case _ => Map(group -> JsArray(List()))
@@ -680,9 +677,9 @@ object FacturaCompras extends Controller with ProvidesUser {
 
       // groups for FacturaCompraItemData
       //
-      val facturaItem = Global.preprocessFormParams(List(C.FCI_ID), "", params)
-      val facturaItemBaseGroup = Global.preprocessFormParams(facturaItemBase, C.FACTURA_ITEM_BASE, params)
-      val facturaItemTotalsGroup = Global.preprocessFormParams(facturaItemTotals, C.FACTURA_ITEM_TOTALS, params)
+      val facturaItem = preprocessFormParams(List(C.FCI_ID), "", params)
+      val facturaItemBaseGroup = preprocessFormParams(facturaItemBase, C.FACTURA_ITEM_BASE, params)
+      val facturaItemTotalsGroup = preprocessFormParams(facturaItemTotals, C.FACTURA_ITEM_TOTALS, params)
 
       // in the POSTED JSON we have this structure:
       //
@@ -708,9 +705,9 @@ object FacturaCompras extends Controller with ProvidesUser {
       // fields: itemDeleted, otroDeleted, percepcionDeleted and legajoDeleted
       //
 
-      val serieInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.FACTURA_COMPRA_ITEM_SERIE_TMP, params))
-      val serieRows = Global.getParamsJsonRequestFor(GC.ITEMS, serieInfo)
-      val deletedList: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, serieInfo).toList match {
+      val serieInfo = getJsValueAsMap(getParamsJsonRequestFor(C.FACTURA_COMPRA_ITEM_SERIE_TMP, params))
+      val serieRows = getParamsJsonRequestFor(GC.ITEMS, serieInfo)
+      val deletedList: Map[String, JsValue] = getParamsJsonRequestFor(GC.DELETED_LIST, serieInfo).toList match {
         case Nil => Map(GC.DELETED_LIST -> Json.toJson(""))
         case deletedList :: t => Map(deletedList)
       }
@@ -726,22 +723,22 @@ object FacturaCompras extends Controller with ProvidesUser {
 
     def preprocessOtroParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(facturaOtro, "", params).toSeq)
+      JsObject(preprocessFormParams(facturaOtro, "", params).toSeq)
     }
 
     def preprocessPercepcionParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(facturaPercepcion, "", params).toSeq)
+      JsObject(preprocessFormParams(facturaPercepcion, "", params).toSeq)
     }
 
     def preprocessLegajoParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(facturaLegajo, "", params).toSeq)
+      JsObject(preprocessFormParams(facturaLegajo, "", params).toSeq)
     }
 
     def preprocessRemitoParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(facturaRemito, "", params).toSeq)
+      JsObject(preprocessFormParams(facturaRemito, "", params).toSeq)
     }
 
     def preprocessItemsParam(items: JsValue, group: String): Map[String, JsValue] = items match {
@@ -769,24 +766,24 @@ object FacturaCompras extends Controller with ProvidesUser {
       case _ => Map.empty
     }
 
-    val params = Global.getParamsFromJsonRequest
+    val params = getParamsFromJsonRequest
 
     // groups for FacturaCompraData
     //
-    val facturaId = Global.preprocessFormParams(List("id"), "", params)
-    val facturaIdGroup = Global.preprocessFormParams(facturaIdFields, C.FACTURA_ID, params)
-    val facturaBaseGroup = Global.preprocessFormParams(facturaBaseFields, C.FACTURA_BASE, params)
-    val facturaDatesGroup = Global.preprocessFormParams(facturaDatesFields, C.FACTURA_DATES, params)
-    val facturaPreciosGroup = Global.preprocessFormParams(facturaPreciosFields, C.FACTURA_PRECIOS, params)
-    val facturaCotizacionGroup = Global.preprocessFormParams(facturaCotizacionFields, C.FACTURA_COTIZACION, params)
-    val facturaStockGroup = Global.preprocessFormParams(facturaStockFields, C.FACTURA_STOCK, params)
-    val facturaTotalGroup = Global.preprocessFormParams(facturaTotalsFields, C.FACTURA_TOTALS, params)
+    val facturaId = preprocessFormParams(List("id"), "", params)
+    val facturaIdGroup = preprocessFormParams(facturaIdFields, C.FACTURA_ID, params)
+    val facturaBaseGroup = preprocessFormParams(facturaBaseFields, C.FACTURA_BASE, params)
+    val facturaDatesGroup = preprocessFormParams(facturaDatesFields, C.FACTURA_DATES, params)
+    val facturaPreciosGroup = preprocessFormParams(facturaPreciosFields, C.FACTURA_PRECIOS, params)
+    val facturaCotizacionGroup = preprocessFormParams(facturaCotizacionFields, C.FACTURA_COTIZACION, params)
+    val facturaStockGroup = preprocessFormParams(facturaStockFields, C.FACTURA_STOCK, params)
+    val facturaTotalGroup = preprocessFormParams(facturaTotalsFields, C.FACTURA_TOTALS, params)
 
     // items
     //
-    val itemsInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.FACTURA_COMPRA_ITEM_TMP, params))
-    val itemRows = Global.getParamsJsonRequestFor(GC.ITEMS, itemsInfo)
-    val itemDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, itemsInfo).toList match {
+    val itemsInfo = getJsValueAsMap(getParamsJsonRequestFor(C.FACTURA_COMPRA_ITEM_TMP, params))
+    val itemRows = getParamsJsonRequestFor(GC.ITEMS, itemsInfo)
+    val itemDeleted: Map[String, JsValue] = getParamsJsonRequestFor(GC.DELETED_LIST, itemsInfo).toList match {
       case Nil => Map(C.FACTURA_ITEM_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.FACTURA_ITEM_DELETED -> Json.toJson(deletedList._2))
     }
@@ -794,9 +791,9 @@ object FacturaCompras extends Controller with ProvidesUser {
 
     // otros
     //
-    val otrosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.FACTURA_COMPRA_OTRO_TMP, params))
-    val otroRows = Global.getParamsJsonRequestFor(GC.ITEMS, otrosInfo)
-    val otroDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, otrosInfo).toList match {
+    val otrosInfo = getJsValueAsMap(getParamsJsonRequestFor(C.FACTURA_COMPRA_OTRO_TMP, params))
+    val otroRows = getParamsJsonRequestFor(GC.ITEMS, otrosInfo)
+    val otroDeleted: Map[String, JsValue] = getParamsJsonRequestFor(GC.DELETED_LIST, otrosInfo).toList match {
       case Nil => Map(C.FACTURA_OTRO_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.FACTURA_OTRO_DELETED -> Json.toJson(deletedList._2))
     }
@@ -807,9 +804,9 @@ object FacturaCompras extends Controller with ProvidesUser {
 
     // percepciones
     //
-    val percepcionesInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.FACTURA_COMPRA_PERCEPCION_TMP, params))
-    val percepcionRows = Global.getParamsJsonRequestFor(GC.ITEMS, percepcionesInfo)
-    val percepcionDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, percepcionesInfo).toList match {
+    val percepcionesInfo = getJsValueAsMap(getParamsJsonRequestFor(C.FACTURA_COMPRA_PERCEPCION_TMP, params))
+    val percepcionRows = getParamsJsonRequestFor(GC.ITEMS, percepcionesInfo)
+    val percepcionDeleted: Map[String, JsValue] = getParamsJsonRequestFor(GC.DELETED_LIST, percepcionesInfo).toList match {
       case Nil => Map(C.FACTURA_PERCEPCION_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.FACTURA_PERCEPCION_DELETED -> Json.toJson(deletedList._2))
     }
@@ -820,9 +817,9 @@ object FacturaCompras extends Controller with ProvidesUser {
 
     // legajos
     //
-    val legajosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.FACTURA_COMPRA_LEGAJO_TMP, params))
-    val legajoRows = Global.getParamsJsonRequestFor(GC.ITEMS, legajosInfo)
-    val legajoDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, legajosInfo).toList match {
+    val legajosInfo = getJsValueAsMap(getParamsJsonRequestFor(C.FACTURA_COMPRA_LEGAJO_TMP, params))
+    val legajoRows = getParamsJsonRequestFor(GC.ITEMS, legajosInfo)
+    val legajoDeleted: Map[String, JsValue] = getParamsJsonRequestFor(GC.DELETED_LIST, legajosInfo).toList match {
       case Nil => Map(C.FACTURA_LEGAJO_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.FACTURA_LEGAJO_DELETED -> Json.toJson(deletedList._2))
     }
@@ -833,8 +830,8 @@ object FacturaCompras extends Controller with ProvidesUser {
 
     // remitos
     //
-    val remitosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.REMITO_FACTURA_COMPRA_TMP, params))
-    val remitoRows = Global.getParamsJsonRequestFor(GC.ITEMS, remitosInfo)
+    val remitosInfo = getJsValueAsMap(getParamsJsonRequestFor(C.REMITO_FACTURA_COMPRA_TMP, params))
+    val remitoRows = getParamsJsonRequestFor(GC.ITEMS, remitosInfo)
     val facturaRemitos = remitoRows.toList match {
       case (k: String, item: JsValue) :: t => preprocessRemitosParam(item, C.REMITO_FACTURA_COMPRA_TMP)
       case _ => Map(C.REMITO_FACTURA_COMPRA_TMP -> JsArray(List()))
@@ -863,24 +860,19 @@ object FacturaCompras extends Controller with ProvidesUser {
 
   private def preprocessAplicParams(implicit request:Request[AnyContent]): JsObject = {
 
-    def getJsValueAsMap(list: Map[String, JsValue]): Map[String, JsValue] = list.toList match {
-      case (key: String, jsValue: JsValue) :: t => jsValue.as[Map[String, JsValue]]
-      case _ => Map.empty
-    }
-
     def preprocessNotaCreditoParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(notaCredito, "", params).toSeq)
+      JsObject(preprocessFormParams(notaCredito, "", params).toSeq)
     }
 
     def preprocessOrdenCompraParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(ordenCompra, "", params).toSeq)
+      JsObject(preprocessFormParams(ordenCompra, "", params).toSeq)
     }
 
     def preprocessRemitoCompraParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(remitoCompra, "", params).toSeq)
+      JsObject(preprocessFormParams(remitoCompra, "", params).toSeq)
     }
 
     def preprocessNotasCreditoParam(items: JsValue, group: String): Map[String, JsValue] = items match {
@@ -898,16 +890,16 @@ object FacturaCompras extends Controller with ProvidesUser {
       case _ => Map.empty
     }
 
-    val params = Global.getParamsFromJsonRequest
+    val params = getParamsFromJsonRequest
 
     // groups for FacturaCompraData
     //
-    val facturaId = Global.preprocessFormParams(List(C.FC_ID, GC.DOC_ID), "", params)
+    val facturaId = preprocessFormParams(List(C.FC_ID, GC.DOC_ID), "", params)
 
     // notas credito
     //
-    val notasCreditoInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(TC.FACTURA_COMPRA_NOTA_CREDITO_TMP, params))
-    val notaCreditoRows = Global.getParamsJsonRequestFor(GC.ITEMS, notasCreditoInfo)
+    val notasCreditoInfo = getJsValueAsMap(getParamsJsonRequestFor(TC.FACTURA_COMPRA_NOTA_CREDITO_TMP, params))
+    val notaCreditoRows = getParamsJsonRequestFor(GC.ITEMS, notasCreditoInfo)
     val notasCredito = notaCreditoRows.toList match {
       case (k: String, item: JsValue) :: t => preprocessNotasCreditoParam(item, TC.FACTURA_COMPRA_NOTA_CREDITO_TMP)
       case _ => Map(TC.FACTURA_COMPRA_NOTA_CREDITO_TMP -> JsArray(List()))
@@ -915,8 +907,8 @@ object FacturaCompras extends Controller with ProvidesUser {
 
     // ordenes de compra
     //
-    val ordenesCompraInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.ORDEN_FACTURA_COMPRA_TMP, params))
-    val ordenCompraRows = Global.getParamsJsonRequestFor(GC.ITEMS, ordenesCompraInfo)
+    val ordenesCompraInfo = getJsValueAsMap(getParamsJsonRequestFor(C.ORDEN_FACTURA_COMPRA_TMP, params))
+    val ordenCompraRows = getParamsJsonRequestFor(GC.ITEMS, ordenesCompraInfo)
     val ordenesCompra = ordenCompraRows.toList match {
       case (k: String, item: JsValue) :: t => preprocessOrdenesCompraParam(item, C.ORDEN_FACTURA_COMPRA_TMP)
       case _ => Map(C.ORDEN_FACTURA_COMPRA_TMP -> JsArray(List()))
@@ -924,8 +916,8 @@ object FacturaCompras extends Controller with ProvidesUser {
 
     // remitos
     //
-    val remitosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.REMITO_FACTURA_COMPRA_TMP, params))
-    val remitoRows = Global.getParamsJsonRequestFor(GC.ITEMS, remitosInfo)
+    val remitosInfo = getJsValueAsMap(getParamsJsonRequestFor(C.REMITO_FACTURA_COMPRA_TMP, params))
+    val remitoRows = getParamsJsonRequestFor(GC.ITEMS, remitosInfo)
     val remitosCompra = remitoRows.toList match {
       case (k: String, item: JsValue) :: t => preprocessRemitosCompraParam(item, C.REMITO_FACTURA_COMPRA_TMP)
       case _ => Map(C.REMITO_FACTURA_COMPRA_TMP -> JsArray(List()))
@@ -937,12 +929,12 @@ object FacturaCompras extends Controller with ProvidesUser {
 
       def preprocessOrdenPagoParam(field: JsValue) = {
         val params = field.as[Map[String, JsValue]]
-        JsObject(Global.preprocessFormParams(ordenPago, "", params).toSeq)
+        JsObject(preprocessFormParams(ordenPago, "", params).toSeq)
       }
 
       def preprocessCtaCteParam(field: JsValue) = {
         val params = field.as[Map[String, JsValue]]
-        JsObject(Global.preprocessFormParams(ctaCte, "", params).toSeq)
+        JsObject(preprocessFormParams(ctaCte, "", params).toSeq)
       }
 
       def preprocessOrdenesPagoParam(items: JsValue, group: String): Map[String, JsValue] = items match {
@@ -955,13 +947,13 @@ object FacturaCompras extends Controller with ProvidesUser {
         case _ => Map.empty
       }
 
-      val ordenPagoId = Global.preprocessFormParams(List(TC.OPG_ID), "", params)
+      val ordenPagoId = preprocessFormParams(List(TC.OPG_ID), "", params)
 
       // ordenes de pago item
       //
-      val ordenesPagoInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(TC.FACTURA_COMPRA_ORDEN_PAGO_TMP, params))
+      val ordenesPagoInfo = getJsValueAsMap(getParamsJsonRequestFor(TC.FACTURA_COMPRA_ORDEN_PAGO_TMP, params))
       Logger.debug(s"ordenesPagoInfo: ${ordenesPagoInfo}")
-      val ordenPagoRows = Global.getParamsJsonRequestFor(GC.ITEMS, ordenesPagoInfo)
+      val ordenPagoRows = getParamsJsonRequestFor(GC.ITEMS, ordenesPagoInfo)
       Logger.debug(s"ordenPagoRows: ${ordenPagoRows}")
       val ordenesPago = ordenPagoRows.toList match {
         case (k: String, item: JsValue) :: t => preprocessOrdenesPagoParam(item, TC.FACTURA_COMPRA_ORDEN_PAGO_TMP)
@@ -970,9 +962,9 @@ object FacturaCompras extends Controller with ProvidesUser {
 
       // ordenes de pago cta cte
       //
-      val ctasCteInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(TC.ORDEN_PAGO_ITEM_CUENTA_CORRIENTE_TMP, params))
+      val ctasCteInfo = getJsValueAsMap(getParamsJsonRequestFor(TC.ORDEN_PAGO_ITEM_CUENTA_CORRIENTE_TMP, params))
       Logger.debug(s"ctasCteInfo: ${ctasCteInfo}")
-      val ctaCteRows = Global.getParamsJsonRequestFor(GC.ITEMS, ctasCteInfo)
+      val ctaCteRows = getParamsJsonRequestFor(GC.ITEMS, ctasCteInfo)
       Logger.debug(s"ctaCteRows: ${ctaCteRows}")
       val ctasCtePago = ctaCteRows.toList match {
         case (k: String, item: JsValue) :: t => preprocessOrdenesPagoParam(item, TC.ORDEN_PAGO_ITEM_CUENTA_CORRIENTE_TMP)
@@ -991,8 +983,8 @@ object FacturaCompras extends Controller with ProvidesUser {
 
     // ordenes de pago item
     //
-    val ordenesPagoItemInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(TC.ORDEN_PAGO_TMP, params))
-    val ordenPagoItemRows = Global.getParamsJsonRequestFor(GC.ITEMS, ordenesPagoItemInfo)
+    val ordenesPagoItemInfo = getJsValueAsMap(getParamsJsonRequestFor(TC.ORDEN_PAGO_TMP, params))
+    val ordenPagoItemRows = getParamsJsonRequestFor(GC.ITEMS, ordenesPagoItemInfo)
     val ordenesPagoItem = ordenPagoItemRows.toList match {
       case (k: String, item: JsValue) :: t => preprocessOrdenesPagoItemParam(item, TC.ORDEN_PAGO_TMP)
       case _ => Map(TC.ORDEN_PAGO_TMP -> JsArray(List()))

@@ -43,7 +43,8 @@ object Documents extends Controller with ProvidesUser {
             GC.DOC_ID -> Json.toJson(info.docId),
             GC.DOCT_ID -> Json.toJson(info.doctId),
             GC.EMP_ID -> Json.toJson(info.empId),
-            GC.EMP_NAME -> Json.toJson(info.empName)
+            GC.EMP_NAME -> Json.toJson(info.empName),
+            GC.IS_AUTO_APPLY -> Json.toJson(info.isAuto)
           )))
     })
   }

@@ -13,6 +13,8 @@ import models.cairo.system.security.CairoSecurity
 import models.cairo.system.database.{DBHelper, Recordset}
 import formatters.json.DateFormatter._
 
+import Global.{getJsValueAsMap, getParamsJsonRequestFor, preprocessFormParams, doubleFormat, getParamsFromJsonRequest}
+
 case class ClienteBaseData(
                             name: String,
                             razonSocial: String,
@@ -205,8 +207,8 @@ object Clientes extends Controller with ProvidesUser {
         C.CLI_EXIGE_TRANSPORTE -> boolean,
         C.CLI_EXIGE_PROVINCIA -> boolean,
         C.CLI_PCIA_TRANSPORTE -> boolean,
-        C.CLI_CREDITOCTACTE -> of(Global.doubleFormat),
-        C.CLI_CREDITOTOTAL -> of(Global.doubleFormat),
+        C.CLI_CREDITOCTACTE -> of(doubleFormat),
+        C.CLI_CREDITOTOTAL -> of(doubleFormat),
         C.CLI_CREDITOACTIVO -> boolean,
         C.CLI_DESCRIP -> text)(ClienteBaseData.apply)(ClienteBaseData.unapply),
       C.CLIENTE_ADDRESS -> mapping(
@@ -490,44 +492,39 @@ object Clientes extends Controller with ProvidesUser {
 
   private def preprocessParams(implicit request:Request[AnyContent]): JsObject = {
 
-    def getJsValueAsMap(list: Map[String, JsValue]): Map[String, JsValue] = list.toList match {
-      case (key: String, jsValue: JsValue) :: t => jsValue.as[Map[String, JsValue]]
-      case _ => Map.empty
-    }
-
     def preprocessSucursalParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(clienteSucursal, "", params).toSeq)
+      JsObject(preprocessFormParams(clienteSucursal, "", params).toSeq)
     }
 
     def preprocessEmpresaParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(clienteEmpresa, "", params).toSeq)
+      JsObject(preprocessFormParams(clienteEmpresa, "", params).toSeq)
     }
 
     def preprocessCuentaGrupoParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(clienteCuentaGrupo, "", params).toSeq)
+      JsObject(preprocessFormParams(clienteCuentaGrupo, "", params).toSeq)
     }
 
     def preprocessPercepcionParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(clientePercepcion, "", params).toSeq)
+      JsObject(preprocessFormParams(clientePercepcion, "", params).toSeq)
     }
 
     def preprocessDepartamentoParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(clienteDepartamento, "", params).toSeq)
+      JsObject(preprocessFormParams(clienteDepartamento, "", params).toSeq)
     }
 
     def preprocessContactoParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(clienteContacto, "", params).toSeq)
+      JsObject(preprocessFormParams(clienteContacto, "", params).toSeq)
     }
 
     def preprocessInformeParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(clienteInforme, "", params).toSeq)
+      JsObject(preprocessFormParams(clienteInforme, "", params).toSeq)
     }
 
     def preprocessSucursalesParam(items: JsValue, group: String): Map[String, JsValue] = items match {
@@ -565,20 +562,20 @@ object Clientes extends Controller with ProvidesUser {
       case _ => Map.empty
     }
 
-    val params = Global.getParamsFromJsonRequest
+    val params = getParamsFromJsonRequest
 
     // groups for ClienteData
     //
-    val clienteId = Global.preprocessFormParams(List("id", DBHelper.ACTIVE, C.CLI_CODE), "", params)
-    val clienteBaseGroup = Global.preprocessFormParams(clienteBaseFields, C.CLIENTE_BASE, params)
-    val clienteAddressGroup = Global.preprocessFormParams(clienteAddressFields, C.CLIENTE_ADDRESS, params)
-    val clienteReferencesGroup = Global.preprocessFormParams(clienteReferencesFields, C.CLIENTE_REFERENCES, params)
+    val clienteId = preprocessFormParams(List("id", DBHelper.ACTIVE, C.CLI_CODE), "", params)
+    val clienteBaseGroup = preprocessFormParams(clienteBaseFields, C.CLIENTE_BASE, params)
+    val clienteAddressGroup = preprocessFormParams(clienteAddressFields, C.CLIENTE_ADDRESS, params)
+    val clienteReferencesGroup = preprocessFormParams(clienteReferencesFields, C.CLIENTE_REFERENCES, params)
 
     // sucursales
     //
-    val sucursalesInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.CLIENTE_SUCURSAL, params))
-    val sucursalRows = Global.getParamsJsonRequestFor(C.ITEMS, sucursalesInfo)
-    val sucursalDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, sucursalesInfo).toList match {
+    val sucursalesInfo = getJsValueAsMap(getParamsJsonRequestFor(C.CLIENTE_SUCURSAL, params))
+    val sucursalRows = getParamsJsonRequestFor(C.ITEMS, sucursalesInfo)
+    val sucursalDeleted: Map[String, JsValue] = getParamsJsonRequestFor(C.DELETED_LIST, sucursalesInfo).toList match {
       case Nil => Map(C.CLIENTE_SUCURSAL_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.CLIENTE_SUCURSAL_DELETED -> Json.toJson(deletedList._2))
     }
@@ -589,8 +586,8 @@ object Clientes extends Controller with ProvidesUser {
 
     // empresas
     //
-    val empresasInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.EMPRESA_CLIENTE, params))
-    val empresaRows = Global.getParamsJsonRequestFor(C.ITEMS, empresasInfo)
+    val empresasInfo = getJsValueAsMap(getParamsJsonRequestFor(C.EMPRESA_CLIENTE, params))
+    val empresaRows = getParamsJsonRequestFor(C.ITEMS, empresasInfo)
     val clienteEmpresas = empresaRows.toList match {
       case (k: String, item: JsValue) :: t => preprocessEmpresasParam(item, C.EMPRESA_CLIENTE)
       case _ => Map(C.EMPRESA_CLIENTE -> JsArray(List()))
@@ -598,9 +595,9 @@ object Clientes extends Controller with ProvidesUser {
 
     // cuentas grupo
     //
-    val cuentasGrupoInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.CLIENTE_CUENTA_GRUPO, params))
-    val cuentaGrupoRows = Global.getParamsJsonRequestFor(C.ITEMS, cuentasGrupoInfo)
-    val cuentaGrupoDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, cuentasGrupoInfo).toList match {
+    val cuentasGrupoInfo = getJsValueAsMap(getParamsJsonRequestFor(C.CLIENTE_CUENTA_GRUPO, params))
+    val cuentaGrupoRows = getParamsJsonRequestFor(C.ITEMS, cuentasGrupoInfo)
+    val cuentaGrupoDeleted: Map[String, JsValue] = getParamsJsonRequestFor(C.DELETED_LIST, cuentasGrupoInfo).toList match {
       case Nil => Map(C.CLIENTE_CUENTA_GRUPO_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.CLIENTE_CUENTA_GRUPO_DELETED -> Json.toJson(deletedList._2))
     }
@@ -611,9 +608,9 @@ object Clientes extends Controller with ProvidesUser {
 
     // percepciones
     //
-    val percepcionesInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.CLIENTE_PERCEPCION, params))
-    val percepcionRows = Global.getParamsJsonRequestFor(C.ITEMS, percepcionesInfo)
-    val percepcionDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, percepcionesInfo).toList match {
+    val percepcionesInfo = getJsValueAsMap(getParamsJsonRequestFor(C.CLIENTE_PERCEPCION, params))
+    val percepcionRows = getParamsJsonRequestFor(C.ITEMS, percepcionesInfo)
+    val percepcionDeleted: Map[String, JsValue] = getParamsJsonRequestFor(C.DELETED_LIST, percepcionesInfo).toList match {
       case Nil => Map(C.CLIENTE_PERCEPCIONES_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.CLIENTE_PERCEPCIONES_DELETED -> Json.toJson(deletedList._2))
     }
@@ -624,9 +621,9 @@ object Clientes extends Controller with ProvidesUser {
 
     // departamentos
     //
-    val departamentosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.DEPARTAMENTO_CLIENTE, params))
-    val departamentoRows = Global.getParamsJsonRequestFor(C.ITEMS, departamentosInfo)
-    val departamentoDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, departamentosInfo).toList match {
+    val departamentosInfo = getJsValueAsMap(getParamsJsonRequestFor(C.DEPARTAMENTO_CLIENTE, params))
+    val departamentoRows = getParamsJsonRequestFor(C.ITEMS, departamentosInfo)
+    val departamentoDeleted: Map[String, JsValue] = getParamsJsonRequestFor(C.DELETED_LIST, departamentosInfo).toList match {
       case Nil => Map(C.CLIENTE_DEPARTAMENTO_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.CLIENTE_DEPARTAMENTO_DELETED -> Json.toJson(deletedList._2))
     }
@@ -637,9 +634,9 @@ object Clientes extends Controller with ProvidesUser {
 
     // contactos
     //
-    val contactosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.CONTACTO, params))
-    val contactoRows = Global.getParamsJsonRequestFor(C.ITEMS, contactosInfo)
-    val contactoDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, contactosInfo).toList match {
+    val contactosInfo = getJsValueAsMap(getParamsJsonRequestFor(C.CONTACTO, params))
+    val contactoRows = getParamsJsonRequestFor(C.ITEMS, contactosInfo)
+    val contactoDeleted: Map[String, JsValue] = getParamsJsonRequestFor(C.DELETED_LIST, contactosInfo).toList match {
       case Nil => Map(C.CLIENTE_CONTACTO_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.CLIENTE_CONTACTO_DELETED -> Json.toJson(deletedList._2))
     }
@@ -650,9 +647,9 @@ object Clientes extends Controller with ProvidesUser {
 
     // informes
     //
-    val informesInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.INFORME, params))
-    val informeRows = Global.getParamsJsonRequestFor(C.ITEMS, informesInfo)
-    val informeDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(C.DELETED_LIST, informesInfo).toList match {
+    val informesInfo = getJsValueAsMap(getParamsJsonRequestFor(C.INFORME, params))
+    val informeRows = getParamsJsonRequestFor(C.ITEMS, informesInfo)
+    val informeDeleted: Map[String, JsValue] = getParamsJsonRequestFor(C.DELETED_LIST, informesInfo).toList match {
       case Nil => Map(C.CLIENTE_INFORME_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.CLIENTE_INFORME_DELETED -> Json.toJson(deletedList._2))
     }

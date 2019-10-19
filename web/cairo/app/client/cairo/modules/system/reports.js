@@ -479,6 +479,8 @@
     var NO_ID = Cairo.Constants.NO_ID;
     var C_MODULE = "Reports";
     var P = Cairo.Promises;
+    var U = Cairo.Util;
+    var bToI = U.boolToInt;
 
     var createParam = function() {
       var self = {
@@ -680,15 +682,10 @@
       };
 
       var loadCollection = function() {
-
         m_properties.clear();
-
         m_params.each(createParamProperty, m_properties);
-
         createMenu();
-        if(!m_dialog.showParams(self)) { return false; }
-
-        return true;
+        return m_dialog.showParams(self);
       };
 
       var refreshCollection = function() {
@@ -778,6 +775,11 @@
           case RT.numeric:
 
             value = val(value);
+            break;
+
+          case RT.check:
+
+            value = bToI(value);
             break;
 
           case RT.sqlstmt:
@@ -1074,12 +1076,8 @@
       };
 
       var loadCollection = function() {
-
         m_properties.clear();
-
-        if(!m_dialog.showPreview(self)) { return false; }
-
-        return true;
+        return m_dialog.showPreview(self);
       };
 
       self.getProperties = function() {

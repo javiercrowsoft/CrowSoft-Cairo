@@ -1,4 +1,4 @@
-/*
+﻿/*
 CrowSoft-Cairo
 ==============
 
@@ -30,7 +30,7 @@ javier at crowsoft.com.ar
 */
 -- Function: dc_csc_con_0140()
 
--- drop function dc_csc_con_0140(integer, date, date, varchar, varchar, varchar, varchar, varchar, integer, integer, integer, integer, integer, integer);
+-- drop function dc_csc_con_0140(integer, date, date, varchar, varchar, varchar, varchar, varchar, varchar, integer, integer, integer, integer, varchar);
 
 /*---------------------------------------------------------------------
 Nombre: Listado de sumas y saldos
@@ -59,18 +59,19 @@ create or replace function dc_csc_con_0140
   in p_doc_id varchar,
   in p_mon_id varchar,
   in p_emp_id varchar,
-  in ip_arb_id integer default 0,
+  in ip_arb_id varchar default '0',
   in p_usarCodigo integer default 0,
   in p_resumido integer default 0,
   in p_ocultardh integer default 0,
   in p_ocultarsaldo0 integer default 0,
-  in ip_arb_id integer default 0,
+  in ip_arbv_id varchar default '0',
   out rtn refcursor
 )
   returns refcursor as
 $BODY$
 declare
-   p_arb_id integer := ip_arb_id;
+   p_arb_id integer := to_number(ip_arb_id);
+   p_arbv_id integer := to_number(ip_arbv_id);
    v_cue_id integer;
    v_mon_id integer;
    v_emp_id integer;
@@ -115,8 +116,8 @@ begin
    ) on commit drop;
 
    -- validacion de parametros
-   -- si me pasan un arbv_id y no pasan abr_id
-   -- tomo arb_id de arbv_id
+   -- si me pasan un p_arbv_id y no pasan p_abr_id
+   -- tomo arb_id de p_arbv_id
    --
    if p_arb_id = 0 and p_arbv_id <> 0 then
 
@@ -129,8 +130,7 @@ begin
 
    rtn := 'rtn';
 
-   -- valido que arb_id de arbv_id y arb_id
-   -- de @@arb_id sean el mismo
+   -- valido que arb_id de p_arbv_id y arb_id de p_arb_id sean el mismo
    --
    if p_arb_id <> 0 and p_arbv_id <> 0 then
 
@@ -294,10 +294,10 @@ begin
          v_ram_id_cuenta := 0;
       end if;
 
-      perform sp_ArbGetGroups(v_clienteID, v_arbv_id, v_IsRaiz);
+      perform sp_ArbGetGroups(v_clienteID, p_arbv_id, v_IsRaiz);
 
   else
-      perform sp_ArbGetGroups(v_clienteID, v_arbv_id, 1;
+      perform sp_ArbGetGroups(v_clienteID, p_arbv_id, 1);
   end if;
 
    if v_ram_id_moneda <> 0 then
@@ -337,8 +337,8 @@ begin
    end if;
 
    if v_ram_id_documento <> 0 then
-   begin
-      --	exec sp_ArbGetGroups @ram_id_circuitocontable, @clienteID, @@us_id
+   
+      -- exec sp_ArbGetGroups @ram_id_circuitocontable, @clienteID, @@us_id
       select sp_ArbIsRaiz(v_ram_id_documento) into v_IsRaiz;
 
       if v_IsRaiz = 0 then
@@ -363,6 +363,13 @@ begin
           where rptarb_cliente = v_clienteID and tbl_id = 17
           group by rptarb_hojaid );
 
+
+      update tt_t_hoja set ram_estado = r.ramv_estado
+      from ramavista r
+      where tt_t_hoja.ram_id = r.ram_id
+        and arbv_id = p_arbv_id;
+
+      /*
       update tt_t_hoja
          set ram_estado = ( select r.ramv_estado
                             from ramavista r
@@ -374,6 +381,8 @@ begin
                     where ram_id = r.ram_id
                       and arbv_id = p_arbv_id
                   );
+
+       */
 
       update tt_t_hoja set ram_estado = 1 where ram_estado = 0;
 
@@ -418,7 +427,7 @@ begin
              case
                 when p_usarCodigo = 0 then cue.cue_identificacionExterna
                 else cue.cue_codigo
-             end Codigo_Contable,
+             end as "Codigo Contable",
              sum(asi.asi_debe) Debe,
              sum(asi.asi_haber) Haber,
              sum(asi.asi_debe) - sum(asi.asi_haber) Saldo
@@ -531,5 +540,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function dc_csc_tsr_0090(integer, date, date, varchar, varchar, varchar, varchar, varchar, integer, integer, integer, integer, integer, integer)
+alter function dc_csc_con_0140(integer, date, date, varchar, varchar, varchar, varchar, varchar, varchar, integer, integer, integer, integer, varchar)
   owner to postgres;

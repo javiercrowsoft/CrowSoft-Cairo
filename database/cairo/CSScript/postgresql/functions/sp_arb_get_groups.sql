@@ -1,4 +1,4 @@
-/*
+﻿/*
 CrowSoft-Cairo
 ==============
 
@@ -28,16 +28,16 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_arbgetgroups()
+-- Function: sp_arbgetgroups(integer, integer, integer)
 
--- drop function sp_arbgetgroups();
+-- drop function sp_arbgetgroups(integer, integer, integer);
 
 create or replace function sp_arbgetgroups(
   in p_clienteId integer,
   in p_arbv_id integer,
   in p_IsRaiz integer
 )
-  returns refcursor as
+  returns void as
 $BODY$
 declare
 
@@ -150,7 +150,6 @@ begin
 
             end if;
       end loop;
-   end;
 end;
 $BODY$
   language plpgsql volatile

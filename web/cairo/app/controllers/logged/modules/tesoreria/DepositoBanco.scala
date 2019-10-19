@@ -14,6 +14,8 @@ import formatters.json.DateFormatter
 import formatters.json.DateFormatter._
 import scala.util.control.NonFatal
 
+import Global.{getJsValueAsMap, getParamsJsonRequestFor, preprocessFormParams, doubleFormat, getParamsFromJsonRequest}
+
 case class DepositoBancoIdData(
                                   docId: Int,
                                   numero: Int,
@@ -149,8 +151,8 @@ object DepositosBanco extends Controller with ProvidesUser {
         C.DBCO_GRABAR_ASIENTO -> boolean)
       (DepositoBancoBaseData.apply)(DepositoBancoBaseData.unapply),
       C.DBCO_FECHA -> text,
-      C.DBCO_COTIZACION -> of(Global.doubleFormat),
-      C.DBCO_TOTAL -> of(Global.doubleFormat),
+      C.DBCO_COTIZACION -> of(doubleFormat),
+      C.DBCO_TOTAL -> of(doubleFormat),
       C.DEPOSITO_BANCO_ITEM_CHEQUE_TMP -> Forms.list[DepositoBancoItemChequeData](
         mapping(
           C.DBCOI_ID -> number,
@@ -163,8 +165,8 @@ object DepositosBanco extends Controller with ProvidesUser {
           (DepositoBancoItemBaseData.apply)(DepositoBancoItemBaseData.unapply),
           GC.MON_ID -> number,
           C.DEPOSITO_BANCO_ITEM_TOTALS -> mapping (
-            C.DBCOI_IMPORTE -> of(Global.doubleFormat),
-            C.DBCOI_IMPORTE_ORIGEN -> of(Global.doubleFormat))
+            C.DBCOI_IMPORTE -> of(doubleFormat),
+            C.DBCOI_IMPORTE_ORIGEN -> of(doubleFormat))
           (DepositoBancoItemTotalsData.apply)(DepositoBancoItemTotalsData.unapply),
           GC.BCO_ID -> number,
           GC.CHQ_ID -> number,
@@ -187,8 +189,8 @@ object DepositosBanco extends Controller with ProvidesUser {
           (DepositoBancoItemBaseData.apply)(DepositoBancoItemBaseData.unapply),
           GC.MON_ID -> number,
           C.DEPOSITO_BANCO_ITEM_TOTALS -> mapping (
-            C.DBCOI_IMPORTE -> of(Global.doubleFormat),
-            C.DBCOI_IMPORTE_ORIGEN -> of(Global.doubleFormat))
+            C.DBCOI_IMPORTE -> of(doubleFormat),
+            C.DBCOI_IMPORTE_ORIGEN -> of(doubleFormat))
           (DepositoBancoItemTotalsData.apply)(DepositoBancoItemTotalsData.unapply),
           GC.BCO_ID -> number,
           C.CHEQ_ID -> optional(number),
@@ -209,8 +211,8 @@ object DepositosBanco extends Controller with ProvidesUser {
             C.DBCOI_ORDEN -> number)
           (DepositoBancoItemBaseData.apply)(DepositoBancoItemBaseData.unapply),
           C.DEPOSITO_BANCO_ITEM_TOTALS -> mapping (
-            C.DBCOI_IMPORTE -> of(Global.doubleFormat),
-            C.DBCOI_IMPORTE_ORIGEN -> of(Global.doubleFormat))
+            C.DBCOI_IMPORTE -> of(doubleFormat),
+            C.DBCOI_IMPORTE_ORIGEN -> of(doubleFormat))
           (DepositoBancoItemTotalsData.apply)(DepositoBancoItemTotalsData.unapply)
         )(DepositoBancoItemEfectivoData.apply)(DepositoBancoItemEfectivoData.unapply)
       ),
@@ -369,21 +371,16 @@ object DepositosBanco extends Controller with ProvidesUser {
 
   private def preprocessParams(implicit request:Request[AnyContent]): JsObject = {
 
-    def getJsValueAsMap(list: Map[String, JsValue]): Map[String, JsValue] = list.toList match {
-      case (key: String, jsValue: JsValue) :: t => jsValue.as[Map[String, JsValue]]
-      case _ => Map.empty
-    }
-
     def preprocessChequeParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
 
       // groups for DepositoBancoChequeData
       //
-      val depositoBancoCheque = Global.preprocessFormParams(
+      val depositoBancoCheque = preprocessFormParams(
         List(C.DBCOI_ID, GC.MON_ID, GC.BCO_ID, GC.CHQ_ID, C.CHEQ_ID, C.DBCOI_TMP_CHEQUE, C.DBCOI_TMP_FECHA_COBRO,
           C.DBCOI_TMP_FECHA_VTO, GC.CLE_ID), "", params)
-      val depositoBancoChequeBaseGroup = Global.preprocessFormParams(depositoBancoItemBase, C.DEPOSITO_BANCO_ITEM_BASE, params)
-      val depositoBancoChequeTotalsGroup = Global.preprocessFormParams(depositoBancoItemTotals, C.DEPOSITO_BANCO_ITEM_TOTALS, params)
+      val depositoBancoChequeBaseGroup = preprocessFormParams(depositoBancoItemBase, C.DEPOSITO_BANCO_ITEM_BASE, params)
+      val depositoBancoChequeTotalsGroup = preprocessFormParams(depositoBancoItemTotals, C.DEPOSITO_BANCO_ITEM_TOTALS, params)
 
       val cheque = JsObject(
         (depositoBancoCheque ++ depositoBancoChequeBaseGroup ++ depositoBancoChequeTotalsGroup).toSeq)
@@ -395,11 +392,11 @@ object DepositosBanco extends Controller with ProvidesUser {
 
       // groups for DepositoBancoChequeTData
       //
-      val depositoBancoChequeT = Global.preprocessFormParams(
+      val depositoBancoChequeT = preprocessFormParams(
         List(C.DBCOI_ID, GC.MON_ID, GC.BCO_ID, GC.BCO_ID, C.CHEQ_ID, C.DBCOI_TMP_CHEQUE, C.DBCOI_TMP_FECHA_COBRO,
           C.DBCOI_TMP_FECHA_VTO, GC.CLE_ID), "", params)
-      val depositoBancoChequeTBaseGroup = Global.preprocessFormParams(depositoBancoItemBase, C.DEPOSITO_BANCO_ITEM_BASE, params)
-      val depositoBancoChequeTTotalsGroup = Global.preprocessFormParams(depositoBancoItemTotals, C.DEPOSITO_BANCO_ITEM_TOTALS, params)
+      val depositoBancoChequeTBaseGroup = preprocessFormParams(depositoBancoItemBase, C.DEPOSITO_BANCO_ITEM_BASE, params)
+      val depositoBancoChequeTTotalsGroup = preprocessFormParams(depositoBancoItemTotals, C.DEPOSITO_BANCO_ITEM_TOTALS, params)
 
       val chequeT = JsObject(
         (depositoBancoChequeT ++ depositoBancoChequeTBaseGroup ++ depositoBancoChequeTTotalsGroup).toSeq)
@@ -411,11 +408,11 @@ object DepositosBanco extends Controller with ProvidesUser {
 
       // groups for DepositoBancoChequeIData
       //
-      val depositoBancoChequeI = Global.preprocessFormParams(
+      val depositoBancoChequeI = preprocessFormParams(
         List(C.DBCOI_ID, GC.MON_ID, GC.BCO_ID, GC.BCO_ID, C.CHEQ_ID, C.DBCOI_TMP_CHEQUE, C.DBCOI_TMP_FECHA_COBRO,
           C.DBCOI_TMP_FECHA_VTO, GC.CLE_ID), "", params)
-      val depositoBancoChequeIBaseGroup = Global.preprocessFormParams(depositoBancoItemBase, C.DEPOSITO_BANCO_ITEM_BASE, params)
-      val depositoBancoChequeITotalsGroup = Global.preprocessFormParams(depositoBancoItemTotals, C.DEPOSITO_BANCO_ITEM_TOTALS, params)
+      val depositoBancoChequeIBaseGroup = preprocessFormParams(depositoBancoItemBase, C.DEPOSITO_BANCO_ITEM_BASE, params)
+      val depositoBancoChequeITotalsGroup = preprocessFormParams(depositoBancoItemTotals, C.DEPOSITO_BANCO_ITEM_TOTALS, params)
 
       val chequeI = JsObject(
         (depositoBancoChequeI ++ depositoBancoChequeIBaseGroup ++ depositoBancoChequeITotalsGroup).toSeq)
@@ -427,9 +424,9 @@ object DepositosBanco extends Controller with ProvidesUser {
 
       // groups for DepositoBancoEfectivoData
       //
-      val depositoBancoEfectivo = Global.preprocessFormParams(List(C.DBCOI_ID, GC.MON_ID), "", params)
-      val depositoBancoEfectivoBaseGroup = Global.preprocessFormParams(depositoBancoItemBase, C.DEPOSITO_BANCO_ITEM_BASE, params)
-      val depositoBancoEfectivoTotalsGroup = Global.preprocessFormParams(depositoBancoItemTotals, C.DEPOSITO_BANCO_ITEM_TOTALS, params)
+      val depositoBancoEfectivo = preprocessFormParams(List(C.DBCOI_ID, GC.MON_ID), "", params)
+      val depositoBancoEfectivoBaseGroup = preprocessFormParams(depositoBancoItemBase, C.DEPOSITO_BANCO_ITEM_BASE, params)
+      val depositoBancoEfectivoTotalsGroup = preprocessFormParams(depositoBancoItemTotals, C.DEPOSITO_BANCO_ITEM_TOTALS, params)
 
       val efectivo = JsObject(
         (depositoBancoEfectivo ++ depositoBancoEfectivoBaseGroup ++ depositoBancoEfectivoTotalsGroup).toSeq)
@@ -451,20 +448,20 @@ object DepositosBanco extends Controller with ProvidesUser {
       case _ => Map.empty
     }
 
-    val params = Global.getParamsFromJsonRequest
+    val params = getParamsFromJsonRequest
 
     // groups for DepositoBancoData
     //
-    val facturaId = Global.preprocessFormParams(List("id", C.DBCO_FECHA, C.DBCO_COTIZACION), "", params)
-    val facturaIdGroup = Global.preprocessFormParams(depositoBancoIdFields, C.DEPOSITO_BANCO_ID, params)
-    val facturaBaseGroup = Global.preprocessFormParams(depositoBancoBaseFields, C.DEPOSITO_BANCO_BASE, params)
-    val facturaTotalGroup = Global.preprocessFormParams(depositoBancoTotalsFields, C.DEPOSITO_BANCO_TOTALS, params)
+    val facturaId = preprocessFormParams(List("id", C.DBCO_FECHA, C.DBCO_COTIZACION), "", params)
+    val facturaIdGroup = preprocessFormParams(depositoBancoIdFields, C.DEPOSITO_BANCO_ID, params)
+    val facturaBaseGroup = preprocessFormParams(depositoBancoBaseFields, C.DEPOSITO_BANCO_BASE, params)
+    val facturaTotalGroup = preprocessFormParams(depositoBancoTotalsFields, C.DEPOSITO_BANCO_TOTALS, params)
 
     // cheques
     //
-    val chequesInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.DEPOSITO_BANCO_ITEM_CHEQUE_TMP, params))
-    val chequeRows = Global.getParamsJsonRequestFor(GC.ITEMS, chequesInfo)
-    val chequeDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, chequesInfo).toList match {
+    val chequesInfo = getJsValueAsMap(getParamsJsonRequestFor(C.DEPOSITO_BANCO_ITEM_CHEQUE_TMP, params))
+    val chequeRows = getParamsJsonRequestFor(GC.ITEMS, chequesInfo)
+    val chequeDeleted: Map[String, JsValue] = getParamsJsonRequestFor(GC.DELETED_LIST, chequesInfo).toList match {
       case Nil => Map(C.DEPOSITO_BANCO_ITEM_CHEQUE_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.DEPOSITO_BANCO_ITEM_CHEQUE_DELETED -> Json.toJson(deletedList._2))
     }
@@ -472,9 +469,9 @@ object DepositosBanco extends Controller with ProvidesUser {
 
     // cheques tercero
     //
-    val chequesTInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.DEPOSITO_BANCO_ITEM_CHEQUET_TMP, params))
-    val chequeTRows = Global.getParamsJsonRequestFor(GC.ITEMS, chequesTInfo)
-    val chequeTDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, chequesTInfo).toList match {
+    val chequesTInfo = getJsValueAsMap(getParamsJsonRequestFor(C.DEPOSITO_BANCO_ITEM_CHEQUET_TMP, params))
+    val chequeTRows = getParamsJsonRequestFor(GC.ITEMS, chequesTInfo)
+    val chequeTDeleted: Map[String, JsValue] = getParamsJsonRequestFor(GC.DELETED_LIST, chequesTInfo).toList match {
       case Nil => Map(C.DEPOSITO_BANCO_ITEM_CHEQUET_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.DEPOSITO_BANCO_ITEM_CHEQUET_DELETED -> Json.toJson(deletedList._2))
     }
@@ -482,9 +479,9 @@ object DepositosBanco extends Controller with ProvidesUser {
 
     // efectivos
     //
-    val efectivosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.DEPOSITO_BANCO_ITEM_EFECTIVO_TMP, params))
-    val efectivoRows = Global.getParamsJsonRequestFor(GC.ITEMS, efectivosInfo)
-    val efectivoDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, efectivosInfo).toList match {
+    val efectivosInfo = getJsValueAsMap(getParamsJsonRequestFor(C.DEPOSITO_BANCO_ITEM_EFECTIVO_TMP, params))
+    val efectivoRows = getParamsJsonRequestFor(GC.ITEMS, efectivosInfo)
+    val efectivoDeleted: Map[String, JsValue] = getParamsJsonRequestFor(GC.DELETED_LIST, efectivosInfo).toList match {
       case Nil => Map(C.DEPOSITO_BANCO_ITEM_EFECTIVO_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.DEPOSITO_BANCO_ITEM_EFECTIVO_DELETED -> Json.toJson(deletedList._2))
     }

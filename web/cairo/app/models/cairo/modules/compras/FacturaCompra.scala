@@ -3,7 +3,6 @@ package models.cairo.modules.compras
 import java.sql.{Connection, CallableStatement, ResultSet, Types, SQLException}
 import anorm.SqlParser._
 import anorm._
-import models.cairo.modules.documentos.DocumentEditStatus
 import services.{G, DateUtil}
 import services.db.DB
 import models.cairo.system.database.{DBHelper, Register, Field, FieldType, SaveResult, Recordset}
@@ -15,6 +14,7 @@ import java.util.Date
 import play.api.Logger
 import play.api.libs.json._
 import scala.util.control.NonFatal
+import models.cairo.modules.documentos.DocumentEditStatus
 import models.cairo.modules.general.{CondicionPago, U, DocumentListParam}
 import formatters.json.DateFormatter
 

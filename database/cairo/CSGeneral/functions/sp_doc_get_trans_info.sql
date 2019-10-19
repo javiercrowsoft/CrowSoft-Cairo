@@ -35,9 +35,11 @@ javier at crowsoft.com.ar
 create or replace
 function sp_doc_get_trans_info
 /*
-  select emp_id from facturacompra
+  select fc_id from facturacompra
+  select opg_id from ordenpago
   select * from sp_doc_get_trans_info(1,1,1,1)
   select * from sp_doc_get_trans_info(2,1,1,1)
+  select * from sp_doc_get_trans_info(1,16,3,1)
 */
 (
   in p_emp_id integer,
@@ -75,6 +77,20 @@ begin
 
       p_prov_id := 0;
       p_prov_nombre := '';
+
+   elsif p_doct_id = 16 /* orden de pago */ then
+
+      select opg_id, opg_cotizacion, opg_total, opg_nrodoc, opg.prov_id, prov_nombre, opg.suc_id, opg.doc_id, opg.doct_id, opg.emp_id, emp_nombre
+        into p_id, p_cotizacion, p_total, p_nrodoc, p_prov_id, p_prov_nombre, p_suc_id, p_doc_id, p_doct_id_out, p_emp_id_out, p_emp_nombre
+      from ordenPago opg
+      inner join proveedor prov
+       on opg.opg_id = prov.prov_id
+      inner join empresa emp
+       on opg.emp_id = emp.emp_id
+      where opg_id = p_id;
+
+      p_cli_id := 0;
+      p_cli_nombre := '';
 
    else
 

@@ -848,6 +848,8 @@
 
       DOC_ID_PERMISSIONS: "doc_copy_permissions", // used for copied documents
 
+      IS_AUTO_APPLY: "is_auto_apply", // used for OrdenPago when it is automatic
+
       // DocumentoGrupo
       DOCUMENTOGRUPO: "DocumentoGrupo",
       DOCG_ID: "docg_id",

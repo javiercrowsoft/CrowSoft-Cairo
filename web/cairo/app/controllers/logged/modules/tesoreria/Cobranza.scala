@@ -14,6 +14,8 @@ import formatters.json.DateFormatter
 import formatters.json.DateFormatter._
 import scala.util.control.NonFatal
 
+import Global.{getJsValueAsMap, getParamsJsonRequestFor, preprocessFormParams, doubleFormat, getParamsFromJsonRequest}
+
 case class CobranzaIdData(
                            docId: Int,
                            numero: Int,
@@ -203,11 +205,11 @@ object Cobranzas extends Controller with ProvidesUser {
         C.COBZ_GRABAR_ASIENTO -> boolean)
         (CobranzaBaseData.apply)(CobranzaBaseData.unapply),
       C.COBZ_FECHA -> text,
-      C.COBZ_COTIZACION -> of(Global.doubleFormat),
+      C.COBZ_COTIZACION -> of(doubleFormat),
       C.COBRANZA_TOTALS -> mapping (
-        C.COBZ_NETO -> of(Global.doubleFormat),
-        C.COBZ_OTROS -> of(Global.doubleFormat),
-        C.COBZ_TOTAL -> of(Global.doubleFormat)
+        C.COBZ_NETO -> of(doubleFormat),
+        C.COBZ_OTROS -> of(doubleFormat),
+        C.COBZ_TOTAL -> of(doubleFormat)
       )(CobranzaTotalsData.apply)(CobranzaTotalsData.unapply),
       C.COBRANZA_ITEM_CHEQUE_TMP -> Forms.list[CobranzaItemChequeData](
         mapping(
@@ -220,8 +222,8 @@ object Cobranzas extends Controller with ProvidesUser {
             (CobranzaItemBaseData.apply)(CobranzaItemBaseData.unapply),
           GC.MON_ID -> number,
           C.COBRANZA_ITEM_TOTALS -> mapping (
-            C.COBZI_IMPORTE -> of(Global.doubleFormat),
-            C.COBZI_IMPORTE_ORIGEN -> of(Global.doubleFormat))
+            C.COBZI_IMPORTE -> of(doubleFormat),
+            C.COBZI_IMPORTE_ORIGEN -> of(doubleFormat))
             (CobranzaItemTotalsData.apply)(CobranzaItemTotalsData.unapply),
           GC.BCO_ID -> number,
           C.CHEQ_ID -> optional(number),
@@ -243,8 +245,8 @@ object Cobranzas extends Controller with ProvidesUser {
             (CobranzaItemBaseData.apply)(CobranzaItemBaseData.unapply),
           GC.MON_ID -> number,
           C.COBRANZA_ITEM_TOTALS -> mapping (
-            C.COBZI_IMPORTE -> of(Global.doubleFormat),
-            C.COBZI_IMPORTE_ORIGEN -> of(Global.doubleFormat))
+            C.COBZI_IMPORTE -> of(doubleFormat),
+            C.COBZI_IMPORTE_ORIGEN -> of(doubleFormat))
             (CobranzaItemTotalsData.apply)(CobranzaItemTotalsData.unapply),
           C.TJCC_ID -> number,
           C.COBZI_TMP_CUPON -> text,
@@ -267,8 +269,8 @@ object Cobranzas extends Controller with ProvidesUser {
             C.COBZI_ORDEN -> number)
             (CobranzaItemBaseData.apply)(CobranzaItemBaseData.unapply),
           C.COBRANZA_ITEM_TOTALS -> mapping (
-            C.COBZI_IMPORTE -> of(Global.doubleFormat),
-            C.COBZI_IMPORTE_ORIGEN -> of(Global.doubleFormat))
+            C.COBZI_IMPORTE -> of(doubleFormat),
+            C.COBZI_IMPORTE_ORIGEN -> of(doubleFormat))
             (CobranzaItemTotalsData.apply)(CobranzaItemTotalsData.unapply)
         )(CobranzaItemEfectivoData.apply)(CobranzaItemEfectivoData.unapply)
       ),
@@ -282,14 +284,14 @@ object Cobranzas extends Controller with ProvidesUser {
             C.COBZI_ORDEN -> number)
             (CobranzaItemBaseData.apply)(CobranzaItemBaseData.unapply),
           C.COBRANZA_ITEM_TOTALS -> mapping (
-            C.COBZI_IMPORTE -> of(Global.doubleFormat),
-            C.COBZI_IMPORTE_ORIGEN -> of(Global.doubleFormat))
+            C.COBZI_IMPORTE -> of(doubleFormat),
+            C.COBZI_IMPORTE_ORIGEN -> of(doubleFormat))
             (CobranzaItemTotalsData.apply)(CobranzaItemTotalsData.unapply),
           C.COBZI_OTRO_TIPO -> number,
           C.COBRANZA_ITEM_OTRO_RETENCION -> mapping (
             GC.RET_ID -> number,
             C.COBZI_NRO_RETENCION -> text,
-            C.COBZI_PORC_RETENCION -> of(Global.doubleFormat),
+            C.COBZI_PORC_RETENCION -> of(doubleFormat),
             C.COBZI_FECHA_RETENCION -> text,
             C.FV_ID_RET -> number)
           (CobranzaItemRetencionData.apply)(CobranzaItemRetencionData.unapply)
@@ -305,8 +307,8 @@ object Cobranzas extends Controller with ProvidesUser {
             C.COBZI_ORDEN -> number)
             (CobranzaItemBaseData.apply)(CobranzaItemBaseData.unapply),
           C.COBRANZA_ITEM_TOTALS -> mapping (
-            C.COBZI_IMPORTE -> of(Global.doubleFormat),
-            C.COBZI_IMPORTE_ORIGEN -> of(Global.doubleFormat))
+            C.COBZI_IMPORTE -> of(doubleFormat),
+            C.COBZI_IMPORTE_ORIGEN -> of(doubleFormat))
             (CobranzaItemTotalsData.apply)(CobranzaItemTotalsData.unapply)
         )(CobranzaItemCuentaCorrienteData.apply)(CobranzaItemCuentaCorrienteData.unapply)
       ),
@@ -319,9 +321,9 @@ object Cobranzas extends Controller with ProvidesUser {
         mapping (
           C.FV_ID -> number,
           C.FVD_ID -> number,
-          C.FV_COBZ_IMPORTE -> of(Global.doubleFormat),
-          C.FV_COBZ_IMPORTE_ORIGEN -> of(Global.doubleFormat),
-          C.FV_COBZ_COTIZACION -> of(Global.doubleFormat)
+          C.FV_COBZ_IMPORTE -> of(doubleFormat),
+          C.FV_COBZ_IMPORTE_ORIGEN -> of(doubleFormat),
+          C.FV_COBZ_COTIZACION -> of(doubleFormat)
         )(FacturaCobranzaData.apply)(FacturaCobranzaData.unapply)
       )
     )(CobranzaData.apply)(CobranzaData.unapply)
@@ -517,21 +519,16 @@ object Cobranzas extends Controller with ProvidesUser {
 
   private def preprocessParams(implicit request:Request[AnyContent]): JsObject = {
 
-    def getJsValueAsMap(list: Map[String, JsValue]): Map[String, JsValue] = list.toList match {
-      case (key: String, jsValue: JsValue) :: t => jsValue.as[Map[String, JsValue]]
-      case _ => Map.empty
-    }
-
     def preprocessChequeParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
 
       // groups for CobranzaChequeData
       //
-      val cobranzaCheque = Global.preprocessFormParams(
+      val cobranzaCheque = preprocessFormParams(
         List(C.COBZI_ID, GC.MON_ID, GC.BCO_ID, C.CHEQ_ID, C.COBZI_TMP_CHEQUE, C.COBZI_TMP_PROPIO, C.COBZI_TMP_FECHA_COBRO,
           C.COBZI_TMP_FECHA_VTO, GC.CLE_ID), "", params)
-      val cobranzaChequeBaseGroup = Global.preprocessFormParams(cobranzaItemBase, C.COBRANZA_ITEM_BASE, params)
-      val cobranzaChequeTotalsGroup = Global.preprocessFormParams(cobranzaItemTotals, C.COBRANZA_ITEM_TOTALS, params)
+      val cobranzaChequeBaseGroup = preprocessFormParams(cobranzaItemBase, C.COBRANZA_ITEM_BASE, params)
+      val cobranzaChequeTotalsGroup = preprocessFormParams(cobranzaItemTotals, C.COBRANZA_ITEM_TOTALS, params)
 
       val cheque = JsObject(
         (cobranzaCheque ++ cobranzaChequeBaseGroup ++ cobranzaChequeTotalsGroup).toSeq)
@@ -543,11 +540,11 @@ object Cobranzas extends Controller with ProvidesUser {
 
       // groups for CobranzaTarjetaData
       //
-      val cobranzaTarjeta = Global.preprocessFormParams(
+      val cobranzaTarjeta = preprocessFormParams(
         List(C.COBZI_ID, GC.MON_ID, C.TJCC_ID, C.COBZI_TMP_CUPON, GC.TJC_ID, GC.TJCCU_ID, C.COBZI_TMP_FECHA_VTO,
           C.COBZI_TMP_NRO_TARJETA, C.COBZI_TMP_AUTORIZACION, C.COBZI_TARJETA_TIPO, C.COBZI_TMP_TITULAR), "", params)
-      val cobranzaTarjetaBaseGroup = Global.preprocessFormParams(cobranzaItemBase, C.COBRANZA_ITEM_BASE, params)
-      val cobranzaTarjetaTotalsGroup = Global.preprocessFormParams(cobranzaItemTotals, C.COBRANZA_ITEM_TOTALS, params)
+      val cobranzaTarjetaBaseGroup = preprocessFormParams(cobranzaItemBase, C.COBRANZA_ITEM_BASE, params)
+      val cobranzaTarjetaTotalsGroup = preprocessFormParams(cobranzaItemTotals, C.COBRANZA_ITEM_TOTALS, params)
 
       val tarjeta = JsObject(
         (cobranzaTarjeta ++ cobranzaTarjetaBaseGroup ++ cobranzaTarjetaTotalsGroup).toSeq)
@@ -559,9 +556,9 @@ object Cobranzas extends Controller with ProvidesUser {
 
       // groups for CobranzaEfectivoData
       //
-      val cobranzaEfectivo = Global.preprocessFormParams(List(C.COBZI_ID, GC.MON_ID), "", params)
-      val cobranzaEfectivoBaseGroup = Global.preprocessFormParams(cobranzaItemBase, C.COBRANZA_ITEM_BASE, params)
-      val cobranzaEfectivoTotalsGroup = Global.preprocessFormParams(cobranzaItemTotals, C.COBRANZA_ITEM_TOTALS, params)
+      val cobranzaEfectivo = preprocessFormParams(List(C.COBZI_ID, GC.MON_ID), "", params)
+      val cobranzaEfectivoBaseGroup = preprocessFormParams(cobranzaItemBase, C.COBRANZA_ITEM_BASE, params)
+      val cobranzaEfectivoTotalsGroup = preprocessFormParams(cobranzaItemTotals, C.COBRANZA_ITEM_TOTALS, params)
 
       val efectivo = JsObject(
         (cobranzaEfectivo ++ cobranzaEfectivoBaseGroup ++ cobranzaEfectivoTotalsGroup).toSeq)
@@ -573,10 +570,10 @@ object Cobranzas extends Controller with ProvidesUser {
 
       // groups for CobranzaOtroData
       //
-      val cobranzaOtro = Global.preprocessFormParams(List(C.COBZI_ID, C.COBZI_OTRO_TIPO), "", params)
-      val cobranzaOtroBaseGroup = Global.preprocessFormParams(cobranzaItemBase, C.COBRANZA_ITEM_BASE, params)
-      val cobranzaOtroTotalsGroup = Global.preprocessFormParams(cobranzaItemTotals, C.COBRANZA_ITEM_TOTALS, params)
-      val cobranzaOtroRetencionGroup = Global.preprocessFormParams(cobranzaItemOtroRetencion, C.COBRANZA_ITEM_OTRO_RETENCION, params)
+      val cobranzaOtro = preprocessFormParams(List(C.COBZI_ID, C.COBZI_OTRO_TIPO), "", params)
+      val cobranzaOtroBaseGroup = preprocessFormParams(cobranzaItemBase, C.COBRANZA_ITEM_BASE, params)
+      val cobranzaOtroTotalsGroup = preprocessFormParams(cobranzaItemTotals, C.COBRANZA_ITEM_TOTALS, params)
+      val cobranzaOtroRetencionGroup = preprocessFormParams(cobranzaItemOtroRetencion, C.COBRANZA_ITEM_OTRO_RETENCION, params)
 
       val otro = JsObject(
         (cobranzaOtro ++ cobranzaOtroBaseGroup ++ cobranzaOtroTotalsGroup ++ cobranzaOtroRetencionGroup).toSeq)
@@ -588,9 +585,9 @@ object Cobranzas extends Controller with ProvidesUser {
 
       // groups for CobranzaCuentaCorrienteData
       //
-      val cobranzaCuentaCorriente = Global.preprocessFormParams(List(C.COBZI_ID, GC.MON_ID), "", params)
-      val cobranzaCuentaCorrienteBaseGroup = Global.preprocessFormParams(cobranzaItemBase, C.COBRANZA_ITEM_BASE, params)
-      val cobranzaCuentaCorrienteTotalsGroup = Global.preprocessFormParams(cobranzaItemTotals, C.COBRANZA_ITEM_TOTALS, params)
+      val cobranzaCuentaCorriente = preprocessFormParams(List(C.COBZI_ID, GC.MON_ID), "", params)
+      val cobranzaCuentaCorrienteBaseGroup = preprocessFormParams(cobranzaItemBase, C.COBRANZA_ITEM_BASE, params)
+      val cobranzaCuentaCorrienteTotalsGroup = preprocessFormParams(cobranzaItemTotals, C.COBRANZA_ITEM_TOTALS, params)
 
       val cuentaCorriente = JsObject(
         (cobranzaCuentaCorriente ++ cobranzaCuentaCorrienteBaseGroup ++ cobranzaCuentaCorrienteTotalsGroup).toSeq)
@@ -599,7 +596,7 @@ object Cobranzas extends Controller with ProvidesUser {
     
     def preprocessFacturaParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(Global.preprocessFormParams(facturaCobranza, "", params).toSeq)
+      JsObject(preprocessFormParams(facturaCobranza, "", params).toSeq)
     }
 
     def preprocessChequesParam(items: JsValue, group: String): Map[String, JsValue] = items match {
@@ -632,20 +629,20 @@ object Cobranzas extends Controller with ProvidesUser {
       case _ => Map.empty
     }
 
-    val params = Global.getParamsFromJsonRequest
+    val params = getParamsFromJsonRequest
 
     // groups for CobranzaData
     //
-    val facturaId = Global.preprocessFormParams(List("id", C.COBZ_FECHA, C.COBZ_COTIZACION), "", params)
-    val facturaIdGroup = Global.preprocessFormParams(cobranzaIdFields, C.COBRANZA_ID, params)
-    val facturaBaseGroup = Global.preprocessFormParams(cobranzaBaseFields, C.COBRANZA_BASE, params)
-    val facturaTotalGroup = Global.preprocessFormParams(cobranzaTotalsFields, C.COBRANZA_TOTALS, params)
+    val facturaId = preprocessFormParams(List("id", C.COBZ_FECHA, C.COBZ_COTIZACION), "", params)
+    val facturaIdGroup = preprocessFormParams(cobranzaIdFields, C.COBRANZA_ID, params)
+    val facturaBaseGroup = preprocessFormParams(cobranzaBaseFields, C.COBRANZA_BASE, params)
+    val facturaTotalGroup = preprocessFormParams(cobranzaTotalsFields, C.COBRANZA_TOTALS, params)
 
     // cheques
     //
-    val chequesInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.COBRANZA_ITEM_CHEQUE_TMP, params))
-    val chequeRows = Global.getParamsJsonRequestFor(GC.ITEMS, chequesInfo)
-    val chequeDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, chequesInfo).toList match {
+    val chequesInfo = getJsValueAsMap(getParamsJsonRequestFor(C.COBRANZA_ITEM_CHEQUE_TMP, params))
+    val chequeRows = getParamsJsonRequestFor(GC.ITEMS, chequesInfo)
+    val chequeDeleted: Map[String, JsValue] = getParamsJsonRequestFor(GC.DELETED_LIST, chequesInfo).toList match {
       case Nil => Map(C.COBRANZA_ITEM_CHEQUE_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.COBRANZA_ITEM_CHEQUE_DELETED -> Json.toJson(deletedList._2))
     }
@@ -653,9 +650,9 @@ object Cobranzas extends Controller with ProvidesUser {
 
     // items
     //
-    val tarjetasInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.COBRANZA_ITEM_TARJETA_TMP, params))
-    val tarjetaRows = Global.getParamsJsonRequestFor(GC.ITEMS, tarjetasInfo)
-    val tarjetaDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, tarjetasInfo).toList match {
+    val tarjetasInfo = getJsValueAsMap(getParamsJsonRequestFor(C.COBRANZA_ITEM_TARJETA_TMP, params))
+    val tarjetaRows = getParamsJsonRequestFor(GC.ITEMS, tarjetasInfo)
+    val tarjetaDeleted: Map[String, JsValue] = getParamsJsonRequestFor(GC.DELETED_LIST, tarjetasInfo).toList match {
       case Nil => Map(C.COBRANZA_ITEM_TARJETA_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.COBRANZA_ITEM_TARJETA_DELETED -> Json.toJson(deletedList._2))
     }
@@ -663,9 +660,9 @@ object Cobranzas extends Controller with ProvidesUser {
 
     // efectivos
     //
-    val efectivosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.COBRANZA_ITEM_EFECTIVO_TMP, params))
-    val efectivoRows = Global.getParamsJsonRequestFor(GC.ITEMS, efectivosInfo)
-    val efectivoDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, efectivosInfo).toList match {
+    val efectivosInfo = getJsValueAsMap(getParamsJsonRequestFor(C.COBRANZA_ITEM_EFECTIVO_TMP, params))
+    val efectivoRows = getParamsJsonRequestFor(GC.ITEMS, efectivosInfo)
+    val efectivoDeleted: Map[String, JsValue] = getParamsJsonRequestFor(GC.DELETED_LIST, efectivosInfo).toList match {
       case Nil => Map(C.COBRANZA_ITEM_EFECTIVO_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.COBRANZA_ITEM_EFECTIVO_DELETED -> Json.toJson(deletedList._2))
     }
@@ -673,9 +670,9 @@ object Cobranzas extends Controller with ProvidesUser {
 
     // otros
     //
-    val otrosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.COBRANZA_ITEM_OTRO_TMP, params))
-    val otroRows = Global.getParamsJsonRequestFor(GC.ITEMS, otrosInfo)
-    val otroDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, otrosInfo).toList match {
+    val otrosInfo = getJsValueAsMap(getParamsJsonRequestFor(C.COBRANZA_ITEM_OTRO_TMP, params))
+    val otroRows = getParamsJsonRequestFor(GC.ITEMS, otrosInfo)
+    val otroDeleted: Map[String, JsValue] = getParamsJsonRequestFor(GC.DELETED_LIST, otrosInfo).toList match {
       case Nil => Map(C.COBRANZA_ITEM_OTRO_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.COBRANZA_ITEM_OTRO_DELETED -> Json.toJson(deletedList._2))
     }
@@ -683,9 +680,9 @@ object Cobranzas extends Controller with ProvidesUser {
 
     // ctaCtes
     //
-    val ctaCtesInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.COBRANZA_ITEM_CUENTA_CORRIENTE_TMP, params))
-    val cuentaCorrienteRows = Global.getParamsJsonRequestFor(GC.ITEMS, ctaCtesInfo)
-    val cuentaCorrienteDeleted: Map[String, JsValue] = Global.getParamsJsonRequestFor(GC.DELETED_LIST, ctaCtesInfo).toList match {
+    val ctaCtesInfo = getJsValueAsMap(getParamsJsonRequestFor(C.COBRANZA_ITEM_CUENTA_CORRIENTE_TMP, params))
+    val cuentaCorrienteRows = getParamsJsonRequestFor(GC.ITEMS, ctaCtesInfo)
+    val cuentaCorrienteDeleted: Map[String, JsValue] = getParamsJsonRequestFor(GC.DELETED_LIST, ctaCtesInfo).toList match {
       case Nil => Map(C.COBRANZA_ITEM_CUENTA_CORRIENTE_DELETED -> Json.toJson(""))
       case deletedList :: t => Map(C.COBRANZA_ITEM_CUENTA_CORRIENTE_DELETED -> Json.toJson(deletedList._2))
     }
@@ -694,8 +691,8 @@ object Cobranzas extends Controller with ProvidesUser {
     
     // facturas
     //
-    val facturasInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.FACTURA_VENTA_COBRANZA_TMP, params))
-    val facturaRows = Global.getParamsJsonRequestFor(GC.ITEMS, facturasInfo)
+    val facturasInfo = getJsValueAsMap(getParamsJsonRequestFor(C.FACTURA_VENTA_COBRANZA_TMP, params))
+    val facturaRows = getParamsJsonRequestFor(GC.ITEMS, facturasInfo)
     val facturaFacturas = facturaRows.toList match {
       case (k: String, item: JsValue) :: t => preprocessFacturasParam(item, C.FACTURA_VENTA_COBRANZA_TMP)
       case _ => Map(C.FACTURA_VENTA_COBRANZA_TMP -> JsArray(List()))

@@ -179,6 +179,33 @@ object OrdenesPago extends Controller with ProvidesUser {
 
   val facturaOrdenPago = List(C.FC_ID, C.FCD_ID, C.FC_OPG_IMPORTE, C.FC_OPG_IMPORTE_ORIGEN, C.FC_OPG_COTIZACION)
 
+  val ordenPagoAplicForm: Form[OrdenPagoAplic] = Form(
+    mapping(
+      C.OPG_ID -> number,
+      GC.DOC_ID -> number,
+      C.FACTURA_COMPRA_ORDEN_PAGO_TMP -> Forms.list[PagoItem](
+        mapping(
+          C.FC_ID -> number,
+          C.FCD_ID -> number,
+          C.FCP_ID -> number,
+          C.FC_OPG_COTIZACION -> of(Global.doubleFormat),
+          C.FC_OPG_IMPORTE -> of(Global.doubleFormat),
+          C.FC_OPG_IMPORTE_ORIGEN -> of(Global.doubleFormat)
+        )(PagoItem.apply)(PagoItem.unapply)
+      ),
+      C.ORDEN_PAGO_ITEM_CUENTA_CORRIENTE_TMP -> Forms.list[PagoCtaCte](
+        mapping(
+          GC.CUE_ID -> number,
+          C.OPGI_IMPORTE_ORIGEN -> of(Global.doubleFormat),
+          C.OPGI_IMPORTE -> of(Global.doubleFormat),
+          C.OPGI_ORDEN -> number,
+          C.OPGI_TIPO -> number,
+          C.OPGI_OTRO_TIPO -> number
+        )(PagoCtaCte.apply)(PagoCtaCte.unapply)
+      )
+    )(OrdenPagoAplic.apply)(OrdenPagoAplic.unapply)
+  )
+
   val ordenPagoForm: Form[OrdenPagoData] = Form(
     mapping(
       "id" -> optional(number),
@@ -1082,5 +1109,38 @@ object OrdenesPago extends Controller with ProvidesUser {
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_ORDEN_PAGO), { user =>
       Ok(Json.toJson(Recordset.getAsJson(OrdenPago.facturas(user, ids.getOrElse("")))))
     })
+  }
+
+  def getAplic(id: Int) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.MODIFY_APLIC), { user =>
+      Ok(Json.obj(
+        "items" -> Recordset.getAsJson(OrdenPago.getAplic(user, id, 4))
+      ))
+    })
+  }
+
+  def saveAplic(id: Int) = GetAction { implicit request =>
+    ordenPagoAplicForm.bindFromRequest.fold(
+      formWithErrors => {
+        Logger.debug(s"invalid form: ${formWithErrors.toString}")
+        BadRequest
+      },
+      ordenPagoAplic => {
+        Logger.debug(s"form: ${ordenPagoAplic.toString}")
+        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.MODIFY_APLIC), { user =>
+          try {
+            Ok(
+              Json.toJson(
+                OrdenPago.saveAplic(user, facturaCompraAplic)
+              )
+            )
+          } catch {
+            case NonFatal(e) => {
+              responseError(e)
+            }
+          }
+        })
+      }
+    )
   }
 }

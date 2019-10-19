@@ -471,7 +471,7 @@
 
           case Dialogs.Message.MSG_DOC_APPLY:
             
-            showApplycationcation();
+            showApplycation();
             break;
 
           case Dialogs.Message.MSG_DOC_INVALIDATE:
@@ -3021,7 +3021,7 @@
 
       };
 
-      var showApplycationcation = function() {
+      var showApplycation = function() {
 
         if(!Cairo.Security.docHasPermissionTo(
           CS.MODIFY_APLIC,
@@ -3490,7 +3490,7 @@
               break;
 
             case m_menuShowAplic:
-              showApplycation();
+              showApply();
               break;
 
             case m_menuSign:
@@ -4072,7 +4072,7 @@
         return p;
       };
 
-      var showApplycation = function() {
+      var showApply = function() {
 
         var showEditor = function(info) {
           if(!Cairo.Security.docHasPermissionTo(

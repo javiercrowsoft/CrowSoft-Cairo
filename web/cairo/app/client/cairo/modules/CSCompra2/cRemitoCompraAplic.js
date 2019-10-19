@@ -1404,7 +1404,7 @@
             };
 
             var pItColBEdit = function(property,  lRow,  lCol,  iKeyAscii) { // TODO: Use of ByRef founded Private Function pItColBEdit(ByRef IProperty As cIABMProperty, ByVal lRow As Long, ByVal lCol As Long, ByVal iKeyAscii As Integer)
-                switch (cABMUtil.pGetKeyFromCol(property.getGrid().getColumns(), lCol)) {
+                switch (property.getGrid().getColumns().item(lCol).getKey()) {
                     case KIP_APLICADO:
                         break;
 

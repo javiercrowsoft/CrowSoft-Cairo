@@ -490,7 +490,7 @@
 
           case Dialogs.Message.MSG_DOC_APPLY:
 
-            showApplycation();
+            showApply();
             break;
 
           case Dialogs.Message.MSG_DOC_EDIT_STATE:
@@ -4388,7 +4388,7 @@
         m_applyEditor = null;
       };
 
-      var showApplycation = function() {
+      var showApply = function() {
 
         var showEditor = function(info) {
           if (!Cairo.Security.docHasPermissionTo(
@@ -4427,6 +4427,7 @@
             }
           });
         };
+
         // TODO: if the document is not saved it should show a message
         //       if the document has unsaved changes it should suggest
         //       the user to save changes
@@ -4864,7 +4865,7 @@
               break;
 
             case m_menuShowAplic:
-              showApplycation();
+              showApply();
               break;
 
             case m_menuShowAsiento:
@@ -5367,7 +5368,7 @@
         }
       };
 
-      var showApplycation = function() {
+      var showApply = function() {
 
         var showEditor = function(info) {
           if(!Cairo.Security.docHasPermissionTo(

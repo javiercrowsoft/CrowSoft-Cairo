@@ -16,6 +16,8 @@ import formatters.json.DateFormatter
 import formatters.json.DateFormatter._
 import scala.util.control.NonFatal
 
+import Global.{getJsValueAsMap, getParamsJsonRequestFor, preprocessFormParams, doubleFormat, getParamsFromJsonRequest}
+
 case class StockIdData(
                           docId: Int,
                           numero: Int,
@@ -114,13 +116,13 @@ object Stocks extends Controller with ProvidesUser {
           GC.PRNS_ID -> optional(number),
           GC.PRNS_DESCRIP -> optional(text),
           GC.PRNS_FECHA_VTO -> optional(text),
-          C.STI_INGRESO -> optional(of(Global.doubleFormat)),
-          C.STI_SALIDA -> optional(of(Global.doubleFormat)),
+          C.STI_INGRESO -> optional(of(doubleFormat)),
+          C.STI_SALIDA -> optional(of(doubleFormat)),
           C.STI_GRUPO -> number,
           C.STI_ORDEN -> number,
           GC.PR_ID_KIT -> optional(number),
           C.STIK_ORDEN -> optional(number),
-          C.STIK_CANTIDAD -> optional(of(Global.doubleFormat)))
+          C.STIK_CANTIDAD -> optional(of(doubleFormat)))
         (StockItemData.apply)(StockItemData.unapply)
       )
     )(StockData.apply)(StockData.unapply)
@@ -233,11 +235,6 @@ object Stocks extends Controller with ProvidesUser {
 
   private def preprocessParams(implicit request:Request[AnyContent]): JsObject = {
 
-    def getJsValueAsMap(list: Map[String, JsValue]): Map[String, JsValue] = list.toList match {
-      case (key: String, jsValue: JsValue) :: t => jsValue.as[Map[String, JsValue]]
-      case _ => Map.empty
-    }
-
     def preprocessSeriesParam(items: JsValue, group: String): Map[String, JsValue] = items match {
       case jsArray: JsArray => Map(group -> jsArray)
       case _ => Map(group -> JsArray(List()))
@@ -248,7 +245,7 @@ object Stocks extends Controller with ProvidesUser {
 
       // groups for StockItemData
       //
-      val stockItem = Global.preprocessFormParams(stockItemData, "", params)
+      val stockItem = preprocessFormParams(stockItemData, "", params)
 
       JsObject((stockItem).toSeq)
     }
@@ -258,18 +255,18 @@ object Stocks extends Controller with ProvidesUser {
       case _ => Map.empty
     }
 
-    val params = Global.getParamsFromJsonRequest
+    val params = getParamsFromJsonRequest
 
     // groups for StockData
     //
-    val stockId = Global.preprocessFormParams(List("id"), "", params)
-    val stockIdGroup = Global.preprocessFormParams(stockIdFields, C.STOCK_ID, params)
-    val stockBaseGroup = Global.preprocessFormParams(stockBaseFields, C.STOCK_BASE, params)
+    val stockId = preprocessFormParams(List("id"), "", params)
+    val stockIdGroup = preprocessFormParams(stockIdFields, C.STOCK_ID, params)
+    val stockBaseGroup = preprocessFormParams(stockBaseFields, C.STOCK_BASE, params)
 
     // items
     //
-    val itemsInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.STOCK_ITEM_TMP, params))
-    val itemRows = Global.getParamsJsonRequestFor(GC.ITEMS, itemsInfo)
+    val itemsInfo = getJsValueAsMap(getParamsJsonRequestFor(C.STOCK_ITEM_TMP, params))
+    val itemRows = getParamsJsonRequestFor(GC.ITEMS, itemsInfo)
     val stockItems = preprocessItemsParam(itemRows.head._2, C.STOCK_ITEM_TMP)
 
     JsObject((stockId ++ stockIdGroup ++ stockBaseGroup ++ stockItems).toSeq)
