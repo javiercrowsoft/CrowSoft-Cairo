@@ -51,14 +51,17 @@ function sp_doc_get_trans_info
   out p_total decimal(18,6),
   out p_nrodoc varchar,
   out p_prov_id integer,
+  
   out p_prov_nombre varchar,
   out p_cli_id integer,
   out p_cli_nombre varchar,
   out p_suc_id integer,
+  
   out p_doc_id integer,
   out p_doct_id_out integer,
   out p_emp_id_out integer,
-  out p_emp_nombre varchar
+  out p_emp_nombre varchar,
+  out p_is_auto integer
 )
   returns record as
 $BODY$
@@ -66,8 +69,8 @@ begin
 
    if p_doct_id in (1,7,9) /* ventas */ then
 
-      select fv_id, fv_cotizacion, fv_total, fv_nrodoc, fv.cli_id, cli_nombre, fv.suc_id, fv.doc_id, fv.doct_id, fv.emp_id, emp_nombre
-        into p_id, p_cotizacion, p_total, p_nrodoc, p_cli_id, p_cli_nombre, p_suc_id, p_doc_id, p_doct_id_out, p_emp_id_out, p_emp_nombre 
+      select fv_id, fv_cotizacion, fv_total, fv_nrodoc, fv.cli_id, cli_nombre, fv.suc_id, fv.doc_id, fv.doct_id, fv.emp_id, emp_nombre, 0 
+        into p_id, p_cotizacion, p_total, p_nrodoc, p_cli_id, p_cli_nombre, p_suc_id, p_doc_id, p_doct_id_out, p_emp_id_out, p_emp_nombre, p_is_auto 
       from facturaVenta fv
       inner join cliente cli
        on fv.cli_id = cli.cli_id
@@ -80,8 +83,8 @@ begin
 
    elsif p_doct_id = 16 /* orden de pago */ then
 
-      select opg_id, opg_cotizacion, opg_total, opg_nrodoc, opg.prov_id, prov_nombre, opg.suc_id, opg.doc_id, opg.doct_id, opg.emp_id, emp_nombre
-        into p_id, p_cotizacion, p_total, p_nrodoc, p_prov_id, p_prov_nombre, p_suc_id, p_doc_id, p_doct_id_out, p_emp_id_out, p_emp_nombre
+      select opg_id, opg_cotizacion, opg_total, opg_nrodoc, opg.prov_id, prov_nombre, opg.suc_id, opg.doc_id, opg.doct_id, opg.emp_id, emp_nombre, case when fc_id is not null then 1 else 0 end
+        into p_id, p_cotizacion, p_total, p_nrodoc, p_prov_id, p_prov_nombre, p_suc_id, p_doc_id, p_doct_id_out, p_emp_id_out, p_emp_nombre, p_is_auto
       from ordenPago opg
       inner join proveedor prov
        on opg.opg_id = prov.prov_id
@@ -94,8 +97,8 @@ begin
 
    else
 
-      select fc_id, fc_cotizacion, fc_total, fc_nrodoc, fc.prov_id, prov_nombre, fc.suc_id, fc.doc_id, fc.doct_id, doc.emp_id, emp_nombre
-        into p_id, p_cotizacion, p_total, p_nrodoc, p_prov_id, p_prov_nombre, p_suc_id, p_doc_id, p_doct_id_out, p_emp_id_out, p_emp_nombre 
+      select fc_id, fc_cotizacion, fc_total, fc_nrodoc, fc.prov_id, prov_nombre, fc.suc_id, fc.doc_id, fc.doct_id, doc.emp_id, emp_nombre, 0 
+        into p_id, p_cotizacion, p_total, p_nrodoc, p_prov_id, p_prov_nombre, p_suc_id, p_doc_id, p_doct_id_out, p_emp_id_out, p_emp_nombre, p_is_auto
       from facturaCompra fc
       inner join proveedor prov
        on fc.prov_id = prov.prov_id

@@ -18,19 +18,17 @@
 
       var P = Cairo.Promises;
       var C = Cairo.General.Constants;
-      var CC = Cairo.Compras.Constants;
       var CT = Cairo.Tesoreria.Constants;
+      var CC = Cairo.Compras.Constants;
       var getCell = Dialogs.cell;
-      var cellVal = Dialogs.cellVal;
+      var cellFloat = Dialogs.cellFloat;
       var val = Cairo.Util.val;
       var D = Cairo.Documents;
       var M = Cairo.Modal;
       var DB = Cairo.Database;
       var NO_ID = Cairo.Constants.NO_ID;
-      var cellFloat = Dialogs.cellFloat;
       var Types = Cairo.Constants.Types;
       var valField = DB.valField;
-      var valFieldDateValue = DB.valFieldDateValue;
 
       var K_APLICACIONES = 1;
       var K_PENDIENTE = 2;
@@ -54,9 +52,8 @@
       var KI_APLICADO3 = 12;
 
       var m_editing;
-      var m_dialog;
+      var m_dialog = null;
       var m_total = 0;
-      var m_generalConfig;
       var m_opgId = 0;
       var m_opgNumero = "";
       var m_proveedor = "";
@@ -130,7 +127,17 @@
       };
 
       self.messageEx = function(messageID, info) {
-        return P.resolvedPromise(true);
+        var p = null;
+
+        switch (messageID) {
+
+          case Dialogs.Message.MSG_GRID_VIRTUAL_ROW:
+
+            p = P.resolvedPromise(info);
+            break;
+        }
+
+        return p || P.resolvedPromise();
       };
 
       self.discardChanges = function() {
@@ -230,8 +237,6 @@
 
               m_data = loadDataFromResponse(response);
 
-              loadItems();
-
               return true;
             }
           });
@@ -269,7 +274,6 @@
       };
 
       self.getEditorName = function() {
-        var id = m_id ? m_id.toString() : "N" + (new Date).getTime().toString();
         return "ordenpagoaplic" + m_opgId;
       };
 
@@ -483,7 +487,7 @@
         grid.getRows().clear();
       };
 
-      var loadItems = function() {
+      var loadItems = function(property) {
 
         var elem;
         var grid = property.getGrid();
@@ -508,12 +512,12 @@
           elem.setKey(KI_FCP_ID);
 
           elem = row.add(null);
-          elem.setValue(valField(m_data.items[_i], CT.DOC_NAME));
+          elem.setValue(valField(m_data.items[_i], C.DOC_NAME));
           elem.setKey(KI_DOC);
 
           elem = row.add(null);
-          elem.setValue(valField(m_data.items[_i], CT.FC_NRODOC));
-          elem.setId(valField(m_data.items[_i], CT.FC_ID));
+          elem.setValue(valField(m_data.items[_i], CC.FC_NRODOC));
+          elem.setId(valField(m_data.items[_i], CC.FC_ID));
           elem.setKey(KI_FC_ID);
 
           elem = row.add(null);
@@ -567,8 +571,8 @@
 
             var cell = getCell(row, KI_APLICADO);
 
-            var pendiente = val(getPendiente().getValue()) + val(cellVal(row, KI_APLICADO3));
-            var maxVal = val(cellVal(row, KI_PENDIENTE2)) + val(cellVal(row, KI_APLICADO2));
+            var pendiente = val(getPendiente().getValue()) + cellFloat(row, KI_APLICADO3);
+            var maxVal = cellFloat(row, KI_PENDIENTE2) + cellFloat(row, KI_APLICADO2);
 
             if(maxVal > pendiente) {
               maxVal = pendiente;
@@ -585,9 +589,9 @@
 
             cell = getCell(row, KI_PENDIENTE);
             cell.setValue(
-              val(cellVal(row, KI_PENDIENTE2))
+              cellFloat(row, KI_PENDIENTE2)
               + (
-                  val(cellVal(row, KI_APLICADO2)) - val(cellVal(row, KI_APLICADO))
+                  cellFloat(row, KI_APLICADO2) - cellFloat(row, KI_APLICADO)
                 )
             );
 
@@ -672,7 +676,7 @@
 
               switch (cell.getKey()) {
                 case KI_FC_ID:
-                  fields.add(CT.FC_ID, cell.getId(), Types.id);
+                  fields.add(CC.FC_ID, cell.getId(), Types.id);
                   break;
 
                 case KI_FCD_ID:

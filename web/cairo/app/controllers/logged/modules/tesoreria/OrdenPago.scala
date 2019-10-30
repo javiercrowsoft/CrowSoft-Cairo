@@ -1131,7 +1131,7 @@ object OrdenesPago extends Controller with ProvidesUser {
           try {
             Ok(
               Json.toJson(
-                OrdenPago.saveAplic(user, facturaCompraAplic)
+                OrdenPago.saveAplic(user, ordenPagoAplic)
               )
             )
           } catch {

@@ -1974,18 +1974,17 @@ object OrdenPago {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_doc_orden_pago_get_aplic(?, ?, ?, ?)}"
+      val sql = "{call sp_doc_orden_pago_get_aplic(?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, user.cairoCompanyId)
       cs.setInt(2, id)
-      cs.setInt(3, aplicType)
-      cs.registerOutParameter(4, Types.OTHER)
+      cs.registerOutParameter(3, Types.OTHER)
 
       try {
         cs.execute()
 
-        val rs = cs.getObject(4).asInstanceOf[java.sql.ResultSet]
+        val rs = cs.getObject(3).asInstanceOf[java.sql.ResultSet]
         Recordset.load(rs)
 
       } catch {
@@ -2011,26 +2010,12 @@ object OrdenPago {
       )
     }
 
-    def getOrdenPagoFields(item: OrdenPagoAplic, opgTMPId: Int) = {
-      List(
-        Field(C.OPG_TMP_ID, opgTMPId, FieldType.id),
-        Field(C.OPG_ID, item.opgId, FieldType.number),
-        Field(C.OPG_NUMERO, 0, FieldType.number),
-        Field(GC.PROV_ID, DBHelper.NoId, FieldType.number),
-        Field(GC.SUC_ID, DBHelper.NoId, FieldType.number),
-        Field(GC.DOC_ID, DBHelper.NoId, FieldType.number),
-        Field(GC.EST_ID, DBHelper.NoId, FieldType.number)
-      )
-    }
-
     def getOrdenPagoItemFields(item: PagoItem, opgTMPId: Int) = {
       List(
         Field(C.OPG_TMP_ID, opgTMPId, FieldType.id),
-        Field(C.OPG_ID, item.opgId, FieldType.id),
         Field(C.FC_ID, item.fcId, FieldType.id),
         Field(C.FCD_ID, item.fcdId, FieldType.id),
         Field(C.FCP_ID, item.fcpId, FieldType.id),
-        Field(C.FC_OPG_ID, item.fcopgId, FieldType.id),
         Field(C.FC_OPG_COTIZACION, item.fcopgCotizacion, FieldType.currency),
         Field(C.FC_OPG_IMPORTE, item.fcopgImporte, FieldType.currency),
         Field(C.FC_OPG_IMPORTE_ORIGEN, item.fcopgImporteOrigen, FieldType.currency)
@@ -2039,13 +2024,13 @@ object OrdenPago {
 
     def getOrdenPagoCtaCteFields(item: PagoCtaCte, opgTMPId: Int) = {
       List(
-        Field(TC.OPG_TMP_ID, opgTMPId, FieldType.id),
+        Field(C.OPG_TMP_ID, opgTMPId, FieldType.id),
         Field(GC.CUE_ID, item.cueId, FieldType.number),
-        Field(TC.OPGI_IMPORTE_ORIGEN, item.opgiImporteOrigen, FieldType.currency),
-        Field(TC.OPGI_IMPORTE, item.opgiImporte, FieldType.currency),
-        Field(TC.OPGI_ORDEN, item.opgiOrden, FieldType.number),
-        Field(TC.OPGI_TIPO, item.opgiTipo, FieldType.number),
-        Field(TC.OPGI_OTRO_TIPO, item.opgiOtroTipo, FieldType.number)
+        Field(C.OPGI_IMPORTE_ORIGEN, item.opgiImporteOrigen, FieldType.currency),
+        Field(C.OPGI_IMPORTE, item.opgiImporte, FieldType.currency),
+        Field(C.OPGI_ORDEN, item.opgiOrden, FieldType.number),
+        Field(C.OPGI_TIPO, item.opgiTipo, FieldType.number),
+        Field(C.OPGI_OTRO_TIPO, item.opgiOtroTipo, FieldType.number)
       )
     }
 
@@ -2063,8 +2048,8 @@ object OrdenPago {
       DBHelper.save(
         user,
         Register(
-          TC.FACTURA_COMPRA_ORDEN_PAGO_TMP,
-          TC.FC_OPG_TMP_ID,
+          C.FACTURA_COMPRA_ORDEN_PAGO_TMP,
+          C.FC_OPG_TMP_ID,
           DBHelper.NoId,
           false,
           false,
@@ -2087,8 +2072,8 @@ object OrdenPago {
       DBHelper.save(
         user,
         Register(
-          TC.ORDEN_PAGO_ITEM_TMP,
-          TC.OPGI_TMP_ID,
+          C.ORDEN_PAGO_ITEM_TMP,
+          C.OPGI_TMP_ID,
           DBHelper.NoId,
           false,
           false,
@@ -2103,35 +2088,6 @@ object OrdenPago {
 
     def saveOrdenPagoCtasCtes(items: List[PagoCtaCte], opgTMPId: Int) = {
       items.map(item => saveOrdenPagoCtaCte(OrdenPagoCtaCteInfo(opgTMPId, item)))
-    }
-
-    case class OrdenPagoInfo(fcTMPId: Int, item: FacturaCompraOrdenPagoItem)
-
-    def saveOrdenPago(itemInfo: OrdenPagoInfo) = {
-      DBHelper.save(
-        user,
-        Register(
-          TC.ORDEN_PAGO_TMP,
-          TC.OPG_TMP_ID,
-          DBHelper.NoId,
-          false,
-          false,
-          true,
-          getOrdenPagoFields(itemInfo.item, itemInfo.fcTMPId)),
-        true
-      ) match {
-        case SaveResult(true, id) => {
-          Logger.info(s"items ${itemInfo.item.items}")
-          Logger.info(s"ctacte ${itemInfo.item.ctaCte}")
-          saveOrdenPagoItems(itemInfo.item.items, id)
-          saveOrdenPagoCtasCtes(itemInfo.item.ctaCte, id)
-        }
-        case SaveResult(false, id) => throwError
-      }
-    }
-
-    def saveOrdenesPago(fcTMPId: Int) = {
-      ordenPagoAplic.ordenPago.map(item => saveOrdenPago(OrdenPagoInfo(fcTMPId, item)))
     }
 
     case class RowResult(rowType: String, id: Int, message: String)
@@ -2251,7 +2207,8 @@ object OrdenPago {
       true
     ) match {
       case SaveResult(true, opgTMPId) => {
-        saveOrdenesPago(opgTMPId)
+        saveOrdenPagoItems(ordenPagoAplic.items, opgTMPId)
+        saveOrdenPagoCtasCtes(ordenPagoAplic.ctaCte, opgTMPId)
         val messagesAndId = executeSave(opgTMPId)
         getIdFromMessages(messagesAndId)
       }

@@ -265,7 +265,7 @@ object C {
   val ORDEN_PAGO_ITEM_BORRADO_TMP = "OrdenPagoItemBorradoTMP"
   val OPGIB_TMP_ID = "OpgibTMP_Id"
 
-  // FacturaCompraCobranza
+  // FacturaCompraOrdenPagoTMP
   val FACTURA_COMPRA_ORDEN_PAGO_TMP = "FacturaCompraOrdenPagoTMP"
   val FC_OPG_IMPORTE = "fcopg_importe"
   val FC_OPG_TMP_ID = "fcopgTMP_id"

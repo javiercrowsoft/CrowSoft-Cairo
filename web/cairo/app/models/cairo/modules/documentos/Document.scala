@@ -17,18 +17,22 @@ import models.cairo.modules.general.U
 case class DocumentEditStatus(status: Int, message: String)
 case class TransInfo(
                       id: Int,
+
                       cotizacion: Double,
                       total: Double,
                       nrodoc: String,
                       provId: Int,
+
                       provName: String,
                       cliId: Int,
                       cliName: String,
                       sucId: Int,
+
                       docId: Int,
                       doctId: Int,
                       empId: Int,
                       empName: String,
+
                       isAuto: Boolean)
 case class DocumentInfo(monId: Int, doctId: Int, docTipoFactura: Int, mueveStock: Boolean)
 case class DocInfo(id: Int, name: String, monId: Int)
@@ -110,19 +114,23 @@ object Document {
       cs.setInt(2, doctId)
       cs.setInt(3, id)
       cs.setInt(4, user.masterUserId)
+
       cs.registerOutParameter(5, Types.DECIMAL)
       cs.registerOutParameter(6, Types.DECIMAL)
       cs.registerOutParameter(7, Types.VARCHAR)
       cs.registerOutParameter(8, Types.INTEGER)
+
       cs.registerOutParameter(9, Types.VARCHAR)
       cs.registerOutParameter(10, Types.INTEGER)
       cs.registerOutParameter(11, Types.VARCHAR)
       cs.registerOutParameter(12, Types.INTEGER)
+
       cs.registerOutParameter(13, Types.INTEGER)
       cs.registerOutParameter(14, Types.INTEGER)
       cs.registerOutParameter(15, Types.INTEGER)
       cs.registerOutParameter(16, Types.VARCHAR)
-      cs.registerOutParameter(17, Types.TINYINT)
+
+      cs.registerOutParameter(17, Types.INTEGER)
 
       try {
         cs.execute()
