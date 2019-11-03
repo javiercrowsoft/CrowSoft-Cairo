@@ -3753,6 +3753,47 @@
       }
     };
 
+    Edit.Controller.editAplic = function(id) {
+
+      var NO_ID = Cairo.Constants.NO_ID;
+      var D = Cairo.Documents;
+      var CS = Cairo.Security.Actions.Tesoreria;
+
+      var showEditor = function(info) {
+        if(!Cairo.Security.docHasPermissionTo(
+          CS.MODIFY_APLIC,
+          info.doc_id,
+          Cairo.Security.ActionTypes.apply)) {
+          return false;
+        }
+
+        var editor = Cairo.OrdenPagoAplic.Edit.Controller.getEditor();
+
+        editor.setClient(self);
+
+        editor.show(
+          info.id,
+          info.total,
+          info.nrodoc,
+          info.proveedor,
+          info.emp_id,
+          info.empresa,
+          info.is_auto_apply)
+          .then(function (result) {
+            if (result !== true) {
+              editor = null;
+            }
+          });
+      };
+
+      // TODO: if the document is not saved it should show a message
+      //       if the document has unsaved changes it should suggest
+      //       the user to save changes
+      if(id !== NO_ID) {
+        D.getDocumentInfo(D.Types.ORDEN_PAGO, id).whenSuccessWithResult(showEditor);
+      }
+    };
+
   });
 
   Cairo.module("OrdenPagoListDoc.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
@@ -4377,9 +4418,9 @@
             info.empresa);
         };
 
-        var fvId = m_dialog.getId();
-        if(fvId !== NO_ID) {
-          D.getDocumentInfo(D.Types.ORDEN_PAGO, fvId).whenSuccessWithResult(showEditor);
+        var opgId = m_dialog.getId();
+        if(opgId !== NO_ID) {
+          D.getDocumentInfo(D.Types.ORDEN_PAGO, opgId).whenSuccessWithResult(showEditor);
         }
       };
 

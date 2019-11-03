@@ -4,8 +4,9 @@ Cairo.module("CairoRouterApp", function(CairoRouterApp, Cairo, Backbone, Marione
   CairoRouterApp.Router = Marionette.AppRouter.extend({
     appRoutes: {
       @for(routerEntry <- router) {
-         "@{routerEntry.path}": "@{routerEntry.action}@{routerEntry.handlerObject}",
-         @if(!routerEntry.path2.isEmpty){"@{routerEntry.path2}": "@{routerEntry.action2}@{routerEntry.handlerObject}",}
+        "@{routerEntry.path}": "@{routerEntry.action}@{routerEntry.handlerObject}",
+        @if(!routerEntry.path2.isEmpty){"@{routerEntry.path2}": "@{routerEntry.action2}@{routerEntry.handlerObject}",}
+        @for(re <- routerEntry.wizards.filter(_.routerEntry.isDefined).map(_.routerEntry.get)) {"@{re.path2}": "@{re.action2}@{re.handlerObject}",}
       }
         "about" : "showAbout",
         "desktop" : "showDesktop",
@@ -23,6 +24,13 @@ Cairo.module("CairoRouterApp", function(CairoRouterApp, Cairo, Backbone, Marione
             @{routerEntry.action2}@{routerEntry.handlerObject}: function(@routerEntry.path2Param){
                 Cairo.@{routerEntry.handlerObject}.@{routerEntry.action2.capitalize}.Controller.@{routerEntry.action2}(@routerEntry.path2Param);
                 Cairo.execute("set:active:header", "@{routerEntry.handlerObject}");
+            },
+        }
+
+        @for(re <- routerEntry.wizards.filter(_.routerEntry.isDefined).map(_.routerEntry.get)) {
+            @{re.action2}@{re.handlerObject}: function(@re.path2Param){
+                Cairo.@{re.handlerObject}.@{re.action.capitalize}.Controller.@{re.action2}(@re.path2Param);
+                Cairo.execute("set:active:header", "@{re.handlerObject}");
             },
         }
     }
@@ -47,6 +55,12 @@ Cairo.module("CairoRouterApp", function(CairoRouterApp, Cairo, Backbone, Marione
             Cairo.on("@{routerEntry.handlerObject.toLowerCase}:@{routerEntry.action2}", function(@routerEntry.path2Param){
                 Cairo.navigate(@Html(routerEntry.path2ForNavigate));
                 API.@{routerEntry.action2}@{routerEntry.handlerObject}(@routerEntry.path2Param);
+            });
+        }
+        @for(re <- routerEntry.wizards.filter(_.routerEntry.isDefined).map(_.routerEntry.get)) {
+            Cairo.on("@{re.handlerObject.toLowerCase}:@{re.action2}", function(@re.path2Param){
+                Cairo.navigate(@Html(re.path2ForNavigate));
+                API.@{re.action2}@{re.handlerObject}(@re.path2Param);
             });
         }
   }

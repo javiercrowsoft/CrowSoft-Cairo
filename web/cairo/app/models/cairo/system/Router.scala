@@ -2,7 +2,7 @@ package models.cairo.system
 
 import play.api.Logger
 
-case class Wizard(fileHandler: String)
+case class Wizard(fileHandler: String, routerEntry: Option[RouterEntry] = None)
 
 case class RouterEntry(fileHandler: String, action: String, path: String, action2: String, path2: String, wizards: List[Wizard]) {
   val handlerObject = fileHandler.substring(fileHandler.indexOf("/") + 2)
@@ -29,8 +29,11 @@ object Router {
       fileHandler match {
         case "CSCompra2/cFacturaCompra" => List(Wizard("CSCompra2/cFacturaCompraRemitoWiz"), Wizard("CSCompra2/cFacturaCompraAplic"))
         case "CSVenta2/cFacturaVenta" => List(Wizard("CSVenta2/cFacturaVentaRemitoWiz"), Wizard("CSVenta2/cFacturaVentaAplic"))
-        case "CSTesoreria2/cCobranza" => List(Wizard("CSTesoreria2/cCobranzaWizard"))
-        case "CSTesoreria2/cOrdenPago" => List(Wizard("CSTesoreria2/cOrdenPagoWizard"), Wizard("CSTesoreria2/cOrdenPagoAplic"))
+        case "CSTesoreria2/cCobranza" => List(Wizard("CSTesoreria2/cCobranzaWizard"), Wizard("CSTesoreria2/cCobranzaPagoAplic"))
+        case "CSTesoreria2/cOrdenPago" =>
+          List(
+            Wizard("CSTesoreria2/cOrdenPagoWizard"),
+            Wizard("CSTesoreria2/cOrdenPagoAplic", Some(RouterEntry("cOrdenPago","edit","","editAplic","tesoreria/ordenpagoaplic/:id", List()))))
         case _ => List()
       }
     }

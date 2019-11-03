@@ -91,6 +91,8 @@
           m_proveedor = proveedor;
           m_total = total;
           m_isAutomatic = isAutomatic;
+          m_empId = empId;
+          m_empName = empName;
 
           return edit();
         }
@@ -158,6 +160,7 @@
         }
 
         if(m_empId !== Cairo.Company.getId()) {
+          debugger;
           return D.msgApplyDisabled(m_empName);
         }
         
@@ -270,7 +273,7 @@
       };
 
       self.getPath = function() {
-        return "#general/ordenpagoaplic/" + m_opgId.toString();
+        return "#tesoreria/ordenpagoaplic/" + m_opgId.toString();
       };
 
       self.getEditorName = function() {

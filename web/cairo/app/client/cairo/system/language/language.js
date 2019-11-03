@@ -9,7 +9,7 @@
       var args = Array.prototype.slice.call(arguments, 2);
 
       for(var i = 0, count = args.length; i < count; i += 1) {
-        message = message.replace("#" + (i+1) + "#", args[i]);
+        message =  Cairo.Util.replaceAll(message,"#" + (i+1) + "#", args[i]);
       }
       return message;
     };
