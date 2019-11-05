@@ -1,18 +1,22 @@
 package models.cairo.modules.tesoreria
 
-import java.sql.{Connection, CallableStatement, ResultSet, Types, SQLException}
+import java.sql.{CallableStatement, Connection, ResultSet, SQLException, Types}
+
 import anorm.SqlParser._
 import anorm._
-import services.{G, DateUtil}
+import services.{DateUtil, G}
 import services.db.DB
-import models.cairo.system.database.{DBHelper, Register, Field, FieldType, SaveResult, Recordset}
+import models.cairo.system.database.{DBHelper, Field, FieldType, Recordset, Register, SaveResult}
 import models.cairo.system.database.DBHelper.rowToFloat
 import java.math.BigDecimal
+
 import play.api.Play.current
 import models.domain.CompanyUser
 import java.util.Date
+
 import play.api.Logger
 import play.api.libs.json._
+
 import scala.util.control.NonFatal
 import models.cairo.modules.documentos.DocumentEditStatus
 import models.cairo.modules.general.{CondicionPago, U}
@@ -589,7 +593,6 @@ case class PagoCtaCte(
 
 case class OrdenPagoAplic(
                            opgId: Int,
-                           docId: Int,
                            items: List[PagoItem],
                            ctaCte: List[PagoCtaCte]
                          )
@@ -2003,8 +2006,11 @@ object OrdenPago {
       List(
         Field(C.OPG_ID, ordenPagoAplic.opgId, FieldType.number),
         Field(C.OPG_NUMERO, ordenPagoAplic.opgId, FieldType.number),
-        Field(GC.DOC_ID, ordenPagoAplic.docId, FieldType.id),
-        Field(GC.EST_ID, DocumentEditStatus.PENDING, FieldType.id),
+
+        // it is not a real document but the temp table mandate not null
+        //
+        Field(GC.DOC_ID, DBHelper.NoId, FieldType.number),
+        Field(GC.EST_ID, DBHelper.NoId, FieldType.number),
         Field(GC.SUC_ID, DBHelper.NoId, FieldType.number),
         Field(GC.PROV_ID, DBHelper.NoId, FieldType.number)
       )
@@ -2018,7 +2024,9 @@ object OrdenPago {
         Field(C.FCP_ID, item.fcpId, FieldType.id),
         Field(C.FC_OPG_COTIZACION, item.fcopgCotizacion, FieldType.currency),
         Field(C.FC_OPG_IMPORTE, item.fcopgImporte, FieldType.currency),
-        Field(C.FC_OPG_IMPORTE_ORIGEN, item.fcopgImporteOrigen, FieldType.currency)
+        Field(C.FC_OPG_IMPORTE_ORIGEN, item.fcopgImporteOrigen, FieldType.currency),
+        Field(C.FC_OPG_ID, DBHelper.NoId, FieldType.number),
+        Field(C.OPG_ID, DBHelper.NoId, FieldType.number)
       )
     }
 
@@ -2030,7 +2038,8 @@ object OrdenPago {
         Field(C.OPGI_IMPORTE, item.opgiImporte, FieldType.currency),
         Field(C.OPGI_ORDEN, item.opgiOrden, FieldType.number),
         Field(C.OPGI_TIPO, item.opgiTipo, FieldType.number),
-        Field(C.OPGI_OTRO_TIPO, item.opgiOtroTipo, FieldType.number)
+        Field(C.OPGI_OTRO_TIPO, item.opgiOtroTipo, FieldType.number),
+        Field(C.OPGI_ID, DBHelper.NoId, FieldType.number)
       )
     }
 

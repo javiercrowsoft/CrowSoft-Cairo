@@ -452,10 +452,10 @@ object DepositosBanco extends Controller with ProvidesUser {
 
     // groups for DepositoBancoData
     //
-    val facturaId = preprocessFormParams(List("id", C.DBCO_FECHA, C.DBCO_COTIZACION), "", params)
-    val facturaIdGroup = preprocessFormParams(depositoBancoIdFields, C.DEPOSITO_BANCO_ID, params)
-    val facturaBaseGroup = preprocessFormParams(depositoBancoBaseFields, C.DEPOSITO_BANCO_BASE, params)
-    val facturaTotalGroup = preprocessFormParams(depositoBancoTotalsFields, C.DEPOSITO_BANCO_TOTALS, params)
+    val depositoBancoId = preprocessFormParams(List("id", C.DBCO_FECHA, C.DBCO_COTIZACION), "", params)
+    val depositoBancoIdGroup = preprocessFormParams(depositoBancoIdFields, C.DEPOSITO_BANCO_ID, params)
+    val depositoBancoBaseGroup = preprocessFormParams(depositoBancoBaseFields, C.DEPOSITO_BANCO_BASE, params)
+    val depositoBancoTotalGroup = preprocessFormParams(depositoBancoTotalsFields, C.DEPOSITO_BANCO_TOTALS, params)
 
     // cheques
     //
@@ -488,7 +488,7 @@ object DepositosBanco extends Controller with ProvidesUser {
     val depositoBancoEfectivos = preprocessEfectivosParam(efectivoRows.head._2, C.DEPOSITO_BANCO_ITEM_EFECTIVO_TMP)
 
     JsObject(
-      (facturaId ++ facturaIdGroup ++ facturaBaseGroup ++ facturaTotalGroup
+      (depositoBancoId ++ depositoBancoIdGroup ++ depositoBancoBaseGroup ++ depositoBancoTotalGroup
         ++ depositoBancoCheques ++ chequeDeleted
         ++ depositoBancoChequeT ++ chequeTDeleted
         ++ depositoBancoEfectivos ++ efectivoDeleted).toSeq)

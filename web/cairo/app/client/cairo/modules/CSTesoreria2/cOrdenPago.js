@@ -3769,8 +3769,6 @@
 
         var editor = Cairo.OrdenPagoAplic.Edit.Controller.getEditor();
 
-        editor.setClient(self);
-
         editor.show(
           info.id,
           info.total,

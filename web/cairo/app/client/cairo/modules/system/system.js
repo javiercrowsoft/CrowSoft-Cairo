@@ -1990,7 +1990,7 @@
     };
 
     var getCuentasAux = function(
-      facturas, KI_FV_ID, KI_APLICAR, KI_COTIZACION,
+      facturas, KI_FAC_ID, KI_APLICAR, KI_COTIZACION,
       deudor, anticipo, cueIdAnticipo, anticipoCuenta, anticipoOrigen) {
 
       var facIds = [];
@@ -1999,7 +1999,7 @@
       for(var _i = 0, _count = facturas.getRows().size(); _i < _count; _i++) {
         var row = facturas.getRows().item(_i);
         if(val(Dialogs.cell(row, KI_APLICAR).getValue())) {
-          addFacId(facIds, Dialogs.cell(row, KI_FV_ID).getId());
+          addFacId(facIds, Dialogs.cell(row, KI_FAC_ID).getId());
         }
       }
 
@@ -2040,7 +2040,7 @@
                 if(value > 0) {
                   var cotizacion = val(Dialogs.cell(row, KI_COTIZACION).getValue());
                   var valueOrigen = zeroDiv(value, cotizacion);
-                  addCtaCte(value, valueOrigen, ctaCte, facturaCueId, Dialogs.cell(row, KI_FV_ID).getId());
+                  addCtaCte(value, valueOrigen, ctaCte, facturaCueId, Dialogs.cell(row, KI_FAC_ID).getId());
                 }
               }
 

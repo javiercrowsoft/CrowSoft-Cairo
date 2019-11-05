@@ -1,4 +1,4 @@
-/*
+﻿/*
 CrowSoft-Cairo
 ==============
 
@@ -33,11 +33,10 @@ javier at crowsoft.com.ar
 -- drop function sp_doc_orden_pago_get_aplic(integer, integer);
 
 /*
-delete facturaCompraOrdenPago
-delete facturaComprapago
-select * from OrdenPago
-exec sp_doc_orden_pagoGetAplic 15
-sp_columns FacturaCompraOrdenPago
+
+select * from sp_doc_orden_pago_get_aplic(1,3);
+fetch all from rtn;
+
 */
 
 create or replace function sp_doc_orden_pago_get_aplic

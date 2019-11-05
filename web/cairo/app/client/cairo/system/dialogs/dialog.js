@@ -5312,7 +5312,6 @@
           if(property === null) {
             property = m_properties.get(strKey);
           }
-          debugger;
           if(property.getControl().getType() === "cairo.controls.select") {
             property.getControl().validate();
           }

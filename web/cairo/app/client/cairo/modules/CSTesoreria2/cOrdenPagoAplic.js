@@ -59,7 +59,7 @@
       var m_proveedor = "";
       var m_isAutomatic = false;
 
-      var m_client;
+      var m_client = null;
       var m_empId = 0;
       var m_empName = "";
 
@@ -160,7 +160,6 @@
         }
 
         if(m_empId !== Cairo.Company.getId()) {
-          debugger;
           return D.msgApplyDisabled(m_empName);
         }
         
@@ -174,9 +173,9 @@
         var fields = register.getFields();
 
         fields.add(CT.OPG_NUMERO, 0, Types.long);
-        fields.add(CT.PROV_ID, NO_ID, Types.long);
-        fields.add(CT.SUC_ID, NO_ID, Types.long);
-        fields.add(CT.DOC_ID, NO_ID, Types.long);
+        fields.add(C.PROV_ID, NO_ID, Types.long);
+        fields.add(C.SUC_ID, NO_ID, Types.long);
+        fields.add(C.DOC_ID, NO_ID, Types.long);
         fields.add(C.EST_ID, NO_ID, Types.long);
         fields.add(CT.OPG_ID, m_opgId, Types.id);
 
@@ -524,16 +523,14 @@
           elem.setKey(KI_FC_ID);
 
           elem = row.add(null);
-          if(valField(m_data.items[_i], CT.FCD_FECHA) === null) {
-            if(valField(m_data.items[_i], CT.FCP_FECHA) === null) {
-              elem.setValue("");
-            }
-            else {
-              elem.setValue(valField(m_data.items[_i], CT.FCP_FECHA));
-            }
+          if(valField(m_data.items[_i], CT.FCD_FECHA) !== null) {
+            elem.setValue(valField(m_data.items[_i], CT.FCD_FECHA));
+          }
+          else if(valField(m_data.items[_i], CT.FCP_FECHA) !== null) {
+            elem.setValue(valField(m_data.items[_i], CT.FCP_FECHA));
           }
           else {
-            elem.setValue(valField(m_data.items[_i], CT.FCD_FECHA));
+            elem.setValue("");
           }
           elem.setKey(KI_FECHA);
 
@@ -651,6 +648,8 @@
       var saveItems = function(mainRegister) {
         var transaction = DB.createTransaction();
 
+        transaction.setTable(CT.FACTURA_COMPRA_ORDEN_PAGO_TMP);
+
         var _count = getItems().getRows().size();
         for(var _i = 0; _i < _count; _i++) {
 
@@ -661,7 +660,6 @@
 
           var register = new DB.Register();
           register.setFieldId(CT.FC_OPG_TMP_ID);
-          register.setTable(CT.FACTURA_COMPRA_ORDEN_PAGO_TMP);
           register.setId(Cairo.Constants.NEW_ID);
 
           var fields = register.getFields();
@@ -715,6 +713,8 @@
       var saveCtaCte = function(mainRegister) {
         var transaction = DB.createTransaction();
 
+        transaction.setTable(CT.ORDEN_PAGO_ITEM_CUENTA_CORRIENTE_TMP);
+
         return D.Tesoreria.getCuentasAcreedor(
           getItems(), KI_FC_ID, KI_APLICADO, KI_COTIZACION,0, 0, 0, 0)
           .whenSuccessWithResult(function(response) {
@@ -725,12 +725,11 @@
 
               var register = new DB.Register();
               register.setFieldId(CT.OPGI_TMP_ID);
-              register.setTable(CT.ORDEN_PAGO_ITEM_CUENTA_CORRIENTE_TMP);
               register.setId(Cairo.Constants.NEW_ID);
 
               var fields = register.getFields();
 
-              fields.add(CT.CUE_ID, cuentas[_i].cueId, Types.id);
+              fields.add(C.CUE_ID, cuentas[_i].cueId, Types.id);
               fields.add(CT.OPGI_IMPORTE_ORIGEN, cuentas[_i].importeOrigen, Types.currency);
               fields.add(CT.OPGI_IMPORTE, cuentas[_i].importe, Types.currency);
 
@@ -742,6 +741,7 @@
             }
 
             mainRegister.addTransaction(transaction);
+            return true;
           });
       };
 

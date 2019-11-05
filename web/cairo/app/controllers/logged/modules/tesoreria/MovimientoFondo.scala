@@ -540,9 +540,9 @@ object MovimientosFondo extends Controller with ProvidesUser {
 
     // groups for MovimientoFondoData
     //
-    val facturaId = preprocessFormParams(List("id", C.MF_FECHA, C.MF_COTIZACION, C.MF_TOTAL), "", params)
-    val facturaIdGroup = preprocessFormParams(movimientoFondoIdFields, C.MOVIMIENTO_FONDO_ID, params)
-    val facturaBaseGroup = preprocessFormParams(movimientoFondoBaseFields, C.MOVIMIENTO_FONDO_BASE, params)
+    val movimientoFondoId = preprocessFormParams(List("id", C.MF_FECHA, C.MF_COTIZACION, C.MF_TOTAL), "", params)
+    val movimientoFondoIdGroup = preprocessFormParams(movimientoFondoIdFields, C.MOVIMIENTO_FONDO_ID, params)
+    val movimientoFondoBaseGroup = preprocessFormParams(movimientoFondoBaseFields, C.MOVIMIENTO_FONDO_BASE, params)
 
     // cheques
     //
@@ -585,7 +585,7 @@ object MovimientosFondo extends Controller with ProvidesUser {
     val movimientoFondoEfectivos = preprocessEfectivosParam(efectivoRows.head._2, C.MOVIMIENTO_FONDO_ITEM_EFECTIVO_TMP)
 
     JsObject(
-      (facturaId ++ facturaIdGroup ++ facturaBaseGroup
+      (movimientoFondoId ++ movimientoFondoIdGroup ++ movimientoFondoBaseGroup
         ++ movimientoFondoCheques ++ chequeDeleted
         ++ movimientoFondoChequeT ++ chequeTDeleted
         ++ movimientoFondoChequeI ++ chequeIDeleted

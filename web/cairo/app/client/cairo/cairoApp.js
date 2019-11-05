@@ -888,34 +888,34 @@
   testDates();
   */
 
-  var getDateValue = function(value) {
+  var getDateValue = function(maybeDate) {
     //
     // we try to handle null and undefined in a way it allows as to continue working
     // following the principle "chisporrotea pero no estalla"
     //
-    if(value === undefined || value === null) {
+    if(maybeDate === undefined || maybeDate === null) {
       Cairo.log("getDateValue called with undefined or null", true);
-      value = NO_DATE;
+      maybeDate = NO_DATE;
     }
     else {
-      if(typeof value === "string") {
-        value = validateStringDate(value);
+      if(typeof maybeDate === "string") {
+        maybeDate = validateStringDate(maybeDate);
       }
-      value = new Date(value.toString());
-      if(isNaN(value.getTime())) {
-        value = NO_DATE;
+      maybeDate = new Date(maybeDate);
+      if(isNaN(maybeDate.getTime())) {
+        maybeDate = NO_DATE;
       }
     }
-    return value;
+    return maybeDate;
   };
 
-  var getDateFormatted = function(date) {
-    if(date === "") {
+  var getDateFormatted = function(maybeDate) {
+    if(maybeDate === "") {
       return "";
     }
     else {
-      date = new Date(date);
-      return date.getTime() === NO_DATE.getTime() || !isDate(date) ? "" : $.datepicker.formatDate(DATE_FORMAT, date);
+      maybeDate = new Date(maybeDate);
+      return maybeDate.getTime() === NO_DATE.getTime() || !isDate(maybeDate) ? "" : $.datepicker.formatDate(DATE_FORMAT, maybeDate);
     }
   };
 

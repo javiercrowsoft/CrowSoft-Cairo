@@ -633,10 +633,10 @@ object Cobranzas extends Controller with ProvidesUser {
 
     // groups for CobranzaData
     //
-    val facturaId = preprocessFormParams(List("id", C.COBZ_FECHA, C.COBZ_COTIZACION), "", params)
-    val facturaIdGroup = preprocessFormParams(cobranzaIdFields, C.COBRANZA_ID, params)
-    val facturaBaseGroup = preprocessFormParams(cobranzaBaseFields, C.COBRANZA_BASE, params)
-    val facturaTotalGroup = preprocessFormParams(cobranzaTotalsFields, C.COBRANZA_TOTALS, params)
+    val cobranzaId = preprocessFormParams(List("id", C.COBZ_FECHA, C.COBZ_COTIZACION), "", params)
+    val cobranzaIdGroup = preprocessFormParams(cobranzaIdFields, C.COBRANZA_ID, params)
+    val cobranzaBaseGroup = preprocessFormParams(cobranzaBaseFields, C.COBRANZA_BASE, params)
+    val cobranzaTotalGroup = preprocessFormParams(cobranzaTotalsFields, C.COBRANZA_TOTALS, params)
 
     // cheques
     //
@@ -699,7 +699,7 @@ object Cobranzas extends Controller with ProvidesUser {
     }
 
     JsObject(
-      (facturaId ++ facturaIdGroup ++ facturaBaseGroup ++ facturaTotalGroup
+      (cobranzaId ++ cobranzaIdGroup ++ cobranzaBaseGroup ++ cobranzaTotalGroup
         ++ cobranzaCheques ++ chequeDeleted
         ++ cobranzaTarjetas ++ tarjetaDeleted
         ++ cobranzaEfectivos ++ efectivoDeleted

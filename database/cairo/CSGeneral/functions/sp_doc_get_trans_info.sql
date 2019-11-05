@@ -86,8 +86,8 @@ begin
       select opg_id, opg_cotizacion, opg_total, opg_nrodoc, opg.prov_id, prov_nombre, opg.suc_id, opg.doc_id, opg.doct_id, opg.emp_id, emp_nombre, case when fc_id is not null then 1 else 0 end
         into p_id, p_cotizacion, p_total, p_nrodoc, p_prov_id, p_prov_nombre, p_suc_id, p_doc_id, p_doct_id_out, p_emp_id_out, p_emp_nombre, p_is_auto
       from ordenPago opg
-      inner join proveedor prov
-       on opg.opg_id = prov.prov_id
+      left join proveedor prov
+       on opg.prov_id = prov.prov_id
       inner join empresa emp
        on opg.emp_id = emp.emp_id
       where opg_id = p_id;
