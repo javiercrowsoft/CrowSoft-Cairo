@@ -1664,12 +1664,14 @@
         var link = $('<a href="#' + report.getPath() + '">');
         var descripCol = $('<div class="col-sm-7">');
         var descrip = $('<p>');
+        var code = $('<p>');
 
         link.text(report.getName());
         linkCol.append(link);
 
         descrip.text(report.getDescrip());
-        descripCol.append(descrip)
+        code.text(report.getCode());
+        descripCol.append(descrip).append(code);
 
         row.append(linkCol).append(descripCol);
         container.append(row);

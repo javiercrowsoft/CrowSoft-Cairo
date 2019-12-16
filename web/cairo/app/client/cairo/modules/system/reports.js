@@ -290,10 +290,11 @@
           descrip: ''
         };
         var that = {};
-        that.init = function(id, name, descrip) {
+        that.init = function(id, name, descrip, code) {
           self.id = id;
           self.name = name;
           self.descrip = descrip;
+          self.code = code;
         };
         that.getId = function() {
           return self.id;
@@ -303,6 +304,9 @@
         };
         that.getDescrip = function() {
           return self.descrip;
+        };
+        that.getCode = function() {
+          return self.code;
         };
         that.getPath = function() {
           return C_REPORT_PATH + self.id;
@@ -363,7 +367,8 @@
                 report.init(
                   valField(reports[_i], C.RPT_ID),
                   valField(reports[_i], C.RPT_NAME),
-                  valField(reports[_i], C.RPT_DESCRIP)
+                  valField(reports[_i], C.RPT_DESCRIP),
+                  valField(reports[_i], C.INF_CODE)
                 );
               }
             }

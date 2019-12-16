@@ -1,4 +1,4 @@
-/*
+﻿/*
 CrowSoft-Cairo
 ==============
 
@@ -55,7 +55,8 @@ begin
              r.rpt_id,
              r.rpt_nombre,
              i.inf_modulo,
-             r.rpt_descrip
+             r.rpt_descrip,
+             i.inf_codigo
 
    from Reporte r
    join Informe i
