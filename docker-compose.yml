@@ -9,7 +9,7 @@ services:
     links:
      - app-db
     stdin_open: true
-    command: play -Dconfig.file=conf/dev-docker.conf run
+    command: play -Dhttps.protocols=TLSv1.2 -Dconfig.file=conf/dev-docker.conf run
 
   app-db:
     restart: always
