@@ -336,7 +336,7 @@
             case K_CODE:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
                 return Cairo.Modal.showInfoWithFalse(getText(1008, ""));
-                // Debe indicar un C�digo"
+                // Debe indicar un Código"
               }
               break;
 

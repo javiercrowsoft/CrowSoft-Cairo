@@ -295,7 +295,7 @@
 
             case K_VALOR_CODIGO:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
-                // Debe indicar un valor para el c�digo
+                // Debe indicar un valor para el código
                 Cairo.Modal.showInfo(getText(3906, ""));
               }
               break;
@@ -410,7 +410,7 @@
 
         var elem = properties.add(null, C.PRHC_VALOR_CODE);
         elem.setType(Dialogs.PropertyType.text);
-        // Valor C�digo
+        // Valor Código
         elem.setName(getText(3909, ""));
         elem.setKey(K_VALOR_CODIGO);
         elem.setValue(m_valor_codigo);

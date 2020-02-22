@@ -318,7 +318,7 @@
 
         if(bCodigoSicore && !bHaveSicore) {
           return Cairo.Modal.showInfoWithFalse(getText(1263, ""));
-          // Debe indicar un c�digo sicore
+          // Debe indicar un código sicore
         }
 
         return Cairo.Promises.resolvedPromise(true);
@@ -439,7 +439,7 @@
 
         var elem = properties.add(null, C.RETT_CODIGO_SICORE);
         elem.setType(Dialogs.PropertyType.text);
-        // C�digo Sicore
+        // Código Sicore
         elem.setName(getText(1265, ""));
         elem.setSize(50);
         elem.setKey(K_CODIGOSICORE);

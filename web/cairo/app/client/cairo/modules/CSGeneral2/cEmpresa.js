@@ -9,6 +9,7 @@
 
       var getText = Cairo.Language.getText;
 
+      var P = Cairo.Promises;
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
       var C = Cairo.General.Constants;
@@ -383,14 +384,14 @@
 
             case K_CODE:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
-                // Debe indicar un c�digo
+                // Debe indicar un código
                 Cairo.Modal.showInfo(getText(1008, ""));
               }
               break;
 
             case K_RAZONSOCIAL:
               if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
-                // Debe indicar una raz�n social
+                // Debe indicar una Razón social
                 Cairo.Modal.showInfo(getText(1172, ""));
               }
               break;
@@ -439,6 +440,7 @@
       };
 
       self.edit = function(id, inModalWindow) {
+        var p = P.resolvedPromise(false);
         try {
 
           if(id === NO_ID) {
@@ -452,20 +454,30 @@
 
           m_dialog.setInModalWindow(inModalWindow);
 
-          if(!load(id)) { return false; }
+          p = load(id).then(
+            function(success) {
+              if(success) {
+                if(!loadCollection()) { return false; }
 
-          if(!loadCollection()) { return false; }
+                m_editing = true;
+                m_copy = false;
 
-          m_editing = true;
-          m_copy = false;
+                if(inModalWindow) {
+                  success = m_id !== NO_ID;
+                }
+                else {
+                  success = true;
+                }
 
-          m_dialog.setInModalWindow(inModalWindow);
-
-          return null;
+              }
+              return success;
+            });
         }
         catch(ex) {
-          Cairo.manageErrorEx(ex.message, ex, "cIEditGeneric_Edit", "cEmpresa", "");
+          Cairo.manageErrorEx(ex.message, Cairo.Constants.EDIT_FUNCTION, C_MODULE, "");
         }
+
+        return p;
       };
 
       self.setTree = function(value) {
@@ -522,7 +534,7 @@
 
         var elem = properties.add(null, C.EMP_CODIGO_BARRA);
         elem.setType(Dialogs.PropertyType.text);
-        // C�digo de Barras
+        // Código de Barras
         elem.setName(getText(1177, ""));
         elem.setSize(15);
         elem.setKey(K_CODIGO_BARRA);
@@ -530,7 +542,7 @@
 
         var elem = properties.add(null, C.EMP_RAZONSOCIAL);
         elem.setType(Dialogs.PropertyType.text);
-        // Raz�n Social
+        // Razón Social
         elem.setName(getText(1178, ""));
         elem.setSize(255);
         elem.setKey(K_RAZONSOCIAL);
@@ -668,7 +680,7 @@
 
         var elem = properties.add(null, C.EMP_CODPOSTAL);
         elem.setType(Dialogs.PropertyType.text);
-        // C�digo Postal
+        // Código Postal
         elem.setName(getText(1199, ""));
         elem.setSize(50);
         elem.setKey(K_CODPOSTAL);
