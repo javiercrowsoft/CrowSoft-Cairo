@@ -127,9 +127,7 @@
           input.on("keypress", keyPressListener);
         }
 
-        if(self.buttonStyle === Controls.ButtonStyle.single) {
-          addButton(element);
-        }
+        setButtonsStyleAux(element, self.buttonStyle);
 
         addRemoveClazz('addClass');
 
@@ -267,16 +265,22 @@
       that.setMask = function(mask) {
         self.mask = mask;
       };
-      that.setButtonStyle = function(style) {
-        self.buttonStyle = style;
-        var element = that.getElement();
-        if(style === Controls.ButtonStyle.single) {
+
+      var setButtonsStyleAux = function(element, style) {
+        if (style === Controls.ButtonStyle.single) {
           addButton(element);
         }
         else {
           removeButton();
         }
       };
+
+      that.setButtonStyle = function(style) {
+        self.buttonStyle = style;
+        var element = that.getElement();
+        if(element) setButtonsStyleAux(element, style);
+      };
+
       that.setPasswordChar = function(char) { /* TODO: implement this. */ };
       that.setFormatNumber = function(format) { /* TODO: implement this. */ };
       that.setMaxLength = function(length) { self.maxLength = length; };

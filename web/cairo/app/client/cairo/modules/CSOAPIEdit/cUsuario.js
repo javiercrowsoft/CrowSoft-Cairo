@@ -501,18 +501,6 @@
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        elem = properties.add(null, C.US_CLAVE);
-        elem.setType(Dialogs.PropertyType.password);
-        elem.setName(getText(2807, "")); // Clave
-        elem.setValue(m_password);
-        elem.setKey(K_PASSWORD);
-
-        elem = properties.add(null, "CONFIRMACION");
-        elem.setType(Dialogs.PropertyType.password);
-        elem.setName("Confirmar");
-        elem.setValue(m_password);
-        elem.setKey(K_CONFIRME);
-
         elem = properties.add(null, Cairo.Constants.ACTIVE);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
@@ -530,6 +518,18 @@
         elem.setName(getText(2810, "")); // Externo
         elem.setKey(K_EXTERNO);
         elem.setValue(bToI(m_externo));
+
+        elem = properties.add(null, C.US_CLAVE);
+        elem.setType(Dialogs.PropertyType.password);
+        elem.setName(getText(2807, "")); // Clave
+        elem.setValue(m_password);
+        elem.setKey(K_PASSWORD);
+
+        elem = properties.add(null, "CONFIRMACION");
+        elem.setType(Dialogs.PropertyType.password);
+        elem.setName("Confirmar");
+        elem.setValue(m_password);
+        elem.setKey(K_CONFIRME);
 
         elem = properties.add(null, C.US_EMP_X_DPTO);
         elem.setType(Dialogs.PropertyType.check);
