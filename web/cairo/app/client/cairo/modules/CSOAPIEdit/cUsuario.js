@@ -1414,7 +1414,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Usuarios", "Loading Usuarios from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("Usuarios", "Loading Usuarios from CrowSoft Cairo server.");
 
           // create the tree region
           //

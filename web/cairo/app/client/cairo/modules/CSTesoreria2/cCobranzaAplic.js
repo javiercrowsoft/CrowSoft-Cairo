@@ -965,7 +965,7 @@
 
                     // progress message
                     //
-                    Cairo.LoadingMessage.show("CobranzaAplics", "Loading cobranzaaplic from Crowsoft Cairo server.");
+                    Cairo.LoadingMessage.show("CobranzaAplics", "Loading cobranzaaplic from CrowSoft Cairo server.");
 
                     // create the tree region
                     //

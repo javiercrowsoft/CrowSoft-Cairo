@@ -1504,7 +1504,7 @@
 
                     // progress message
                     //
-                    Cairo.LoadingMessage.show("OrdenServicioAplics", "Loading ordenservicioaplic from Crowsoft Cairo server.");
+                    Cairo.LoadingMessage.show("OrdenServicioAplics", "Loading ordenservicioaplic from CrowSoft Cairo server.");
 
                     // create the tree region
                     //

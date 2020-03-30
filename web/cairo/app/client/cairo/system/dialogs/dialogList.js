@@ -320,7 +320,7 @@
         var refreshClick = function() {
           var p;
           try {
-            Cairo.LoadingMessage.show(m_client.getTitle(), "Loading data from Crowsoft Cairo server.");
+            Cairo.LoadingMessage.show(m_client.getTitle(), "Loading data from CrowSoft Cairo server.");
             refreshAux();
             p = m_client.refresh().whenSuccessWithResult(function(response) {
               m_view.getListGrid().load(response.data);
@@ -343,7 +343,7 @@
         var previewClick = function() {
           var p;
           try {
-            Cairo.LoadingMessage.show(m_client.getTitle(), "Loading data from Crowsoft Cairo server.");
+            Cairo.LoadingMessage.show(m_client.getTitle(), "Loading data from CrowSoft Cairo server.");
             refreshAux();
             p = m_client.preview().whenSuccessWithResult(function() {
               m_view.showPreviewTab();
@@ -426,7 +426,7 @@
         var printClick = function() {
           var p;
           try {
-            Cairo.LoadingMessage.show(m_client.getTitle(), "Loading data from Crowsoft Cairo server.");
+            Cairo.LoadingMessage.show(m_client.getTitle(), "Loading data from CrowSoft Cairo server.");
             refreshAux();
             p = m_client.print().whenSuccessWithResult(function(response) {
               // TODO: show a dialog to notify document has been printed

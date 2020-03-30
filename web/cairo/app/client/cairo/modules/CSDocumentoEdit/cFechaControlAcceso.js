@@ -638,7 +638,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("FechaControlAccesos", "Loading fechacontrolacceso from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("FechaControlAccesos", "Loading fechacontrolacceso from CrowSoft Cairo server.");
 
           // create the tree region
           //

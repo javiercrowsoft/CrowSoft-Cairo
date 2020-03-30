@@ -2208,7 +2208,7 @@
 
                     // progress message
                     //
-                    Cairo.LoadingMessage.show("PedidoVentaAplics", "Loading pedidoventaaplic from Crowsoft Cairo server.");
+                    Cairo.LoadingMessage.show("PedidoVentaAplics", "Loading pedidoventaaplic from CrowSoft Cairo server.");
 
                     // create the tree region
                     //

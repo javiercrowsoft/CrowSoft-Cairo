@@ -3731,7 +3731,7 @@
 
     Edit.Controller.edit = function(id) {
 
-      Cairo.LoadingMessage.show("Ordenes de Pago", "Loading Orden de Pago from Crowsoft Cairo server.");
+      Cairo.LoadingMessage.show("Ordenes de Pago", "Loading Orden de Pago from CrowSoft Cairo server.");
       var editor = Cairo.OrdenPago.Edit.Controller.getEditor();
 
       //
@@ -3861,7 +3861,7 @@
       var m_menuShowNotes = 0;
       var m_menuShowInfoProv = 0;
       var m_menuAddNote = 0;
-      var m_menuShowAplic = 0;
+      var m_menuShowApply = 0;
       var m_menuShowAsiento = 0;
       var m_menuSign = 0;
 
@@ -3922,7 +3922,7 @@
               addNote();
               break;
 
-            case m_menuShowAplic:
+            case m_menuShowApply:
               showApply();
               break;
 
@@ -4332,7 +4332,7 @@
         m_menuShowNotes = m_dialog.addMenu(getText(1616, "")); // Ver Notas
         m_dialog.addMenu("-");
 
-        m_menuShowAplic = m_dialog.addMenu(getText(1617, "")); // Ver Aplicaciones
+        m_menuShowApply = m_dialog.addMenu(getText(1617, "")); // Ver Aplicaciones
         m_dialog.addMenu("-");
 
         m_menuShowAsiento = m_dialog.addMenu(getText(1692, "")); // Ver Asiento Contable
@@ -4522,7 +4522,7 @@
               editors.item(key).dialog.showDialog();
             }
             else {
-              Cairo.LoadingMessage.show("OrdenPago", "Loading Ordenes de Pago from Crowsoft Cairo server.");
+              Cairo.LoadingMessage.show("OrdenPago", "Loading Ordenes de Pago from CrowSoft Cairo server.");
 
               var editor = Cairo.OrdenPago.Edit.Controller.getEditor();
               var dialog = Cairo.Dialogs.Views.Controller.newDialog();
@@ -4564,7 +4564,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("OrdenPago", "Loading Ordenes de Pago from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("OrdenPago", "Loading Ordenes de Pago from CrowSoft Cairo server.");
 
           self.documentList = Cairo.OrdenPagoListDoc.Edit.Controller.getEditor();
           var dialog = Cairo.Dialogs.Views.ListController.newDialogList();

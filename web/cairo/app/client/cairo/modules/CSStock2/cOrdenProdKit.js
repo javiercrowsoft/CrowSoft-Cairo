@@ -910,7 +910,7 @@
               editors.item(key).dialog.showDialog();
             }
             else {
-              Cairo.LoadingMessage.show("Xxxx", "Loading Xxxxs from Crowsoft Cairo server.");
+              Cairo.LoadingMessage.show("Xxxx", "Loading Xxxxs from CrowSoft Cairo server.");
 
               var editor = Cairo.Xxxx.Edit.Controller.getEditor();
               var dialog = Cairo.Dialogs.Views.Controller.newDialog();
@@ -952,7 +952,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Xxxx", "Loading Xxxxs from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("Xxxx", "Loading Xxxxs from CrowSoft Cairo server.");
 
           self.documentList = Cairo.XxxxListDoc.Edit.Controller.getEditor();
           var dialog = Cairo.Dialogs.Views.ListController.newDialogList();

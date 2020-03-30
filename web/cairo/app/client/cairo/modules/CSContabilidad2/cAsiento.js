@@ -1617,7 +1617,7 @@
 
     Edit.Controller.edit = function(id) {
 
-      Cairo.LoadingMessage.show("Asientos", "Loading Asientos from Crowsoft Cairo server.");
+      Cairo.LoadingMessage.show("Asientos", "Loading Asientos from CrowSoft Cairo server.");
       var editor = Cairo.Asiento.Edit.Controller.getEditor();
 
       var dialog = Cairo.Dialogs.Views.Controller.newDialog();
@@ -2152,7 +2152,7 @@
               editors.item(key).dialog.showDialog();
             }
             else {
-              Cairo.LoadingMessage.show("Asiento", "Loading Asientos from Crowsoft Cairo server.");
+              Cairo.LoadingMessage.show("Asiento", "Loading Asientos from CrowSoft Cairo server.");
 
               var editor = Cairo.Asiento.Edit.Controller.getEditor();
               var dialog = Cairo.Dialogs.Views.Controller.newDialog();
@@ -2194,7 +2194,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Asiento", "Loading Asientos from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("Asiento", "Loading Asientos from CrowSoft Cairo server.");
 
           self.documentList = Cairo.AsientoListDoc.Edit.Controller.getEditor();
           var dialog = Cairo.Dialogs.Views.ListController.newDialogList();

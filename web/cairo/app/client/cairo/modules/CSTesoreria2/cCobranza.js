@@ -3904,7 +3904,7 @@
 
     Edit.Controller.edit = function(id) {
 
-      Cairo.LoadingMessage.show("Cobranzas", "Loading Cobranza from Crowsoft Cairo server.");
+      Cairo.LoadingMessage.show("Cobranzas", "Loading Cobranza from CrowSoft Cairo server.");
       var editor = Cairo.Cobranza.Edit.Controller.getEditor();
 
       //
@@ -3998,7 +3998,7 @@
       var m_menuShowNotes = 0;
       var m_menuShowInfoCli = 0;
       var m_menuAddNote = 0;
-      var m_menuShowAplic = 0;
+      var m_menuShowApply = 0;
       var m_menuShowAsiento = 0;
       var m_menuSign = 0;
 
@@ -4064,7 +4064,7 @@
               addNote();
               break;
 
-            case m_menuShowAplic:
+            case m_menuShowApply:
               showApply();
               break;
 
@@ -4500,7 +4500,7 @@
         m_menuShowNotes = m_dialog.addMenu(getText(1616, "")); // Ver Notas
         m_dialog.addMenu("-");
 
-        m_menuShowAplic = m_dialog.addMenu(getText(1617, "")); // Ver Aplicaciones
+        m_menuShowApply = m_dialog.addMenu(getText(1617, "")); // Ver Aplicaciones
         m_dialog.addMenu("-");
 
         m_menuShowAsiento = m_dialog.addMenu(getText(1692, "")); // Ver Asiento Contable
@@ -4692,7 +4692,7 @@
               editors.item(key).dialog.showDialog();
             }
             else {
-              Cairo.LoadingMessage.show("Cobranza", "Loading Cobranzas from Crowsoft Cairo server.");
+              Cairo.LoadingMessage.show("Cobranza", "Loading Cobranzas from CrowSoft Cairo server.");
 
               var editor = Cairo.Cobranza.Edit.Controller.getEditor();
               var dialog = Cairo.Dialogs.Views.Controller.newDialog();
@@ -4734,7 +4734,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Cobranza", "Loading Cobranzas from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("Cobranza", "Loading Cobranzas from CrowSoft Cairo server.");
 
           self.documentList = Cairo.CobranzaListDoc.Edit.Controller.getEditor();
           var dialog = Cairo.Dialogs.Views.ListController.newDialogList();

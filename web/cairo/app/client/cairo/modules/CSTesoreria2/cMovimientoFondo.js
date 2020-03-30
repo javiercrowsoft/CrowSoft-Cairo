@@ -3632,7 +3632,7 @@
 
     Edit.Controller.edit = function(id) {
 
-      Cairo.LoadingMessage.show("Movimientos de Fondo", "Loading Movimiento de Fondo from Crowsoft Cairo server.");
+      Cairo.LoadingMessage.show("Movimientos de Fondo", "Loading Movimiento de Fondo from CrowSoft Cairo server.");
       var editor = Cairo.MovimientoFondo.Edit.Controller.getEditor();
 
       var dialog = Cairo.Dialogs.Views.Controller.newDialog();
@@ -4361,7 +4361,7 @@
               editors.item(key).dialog.showDialog();
             }
             else {
-              Cairo.LoadingMessage.show("MovimientoFondo", "Loading Movimientos de Fondos from Crowsoft Cairo server.");
+              Cairo.LoadingMessage.show("MovimientoFondo", "Loading Movimientos de Fondos from CrowSoft Cairo server.");
 
               var editor = Cairo.MovimientoFondo.Edit.Controller.getEditor();
               var dialog = Cairo.Dialogs.Views.Controller.newDialog();
@@ -4403,7 +4403,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("MovimientoFondo", "Loading Movimientos de Fondos from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("MovimientoFondo", "Loading Movimientos de Fondos from CrowSoft Cairo server.");
 
           self.documentList = Cairo.MovimientoFondoListDoc.Edit.Controller.getEditor();
           var dialog = Cairo.Dialogs.Views.ListController.newDialogList();

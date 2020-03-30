@@ -2229,7 +2229,7 @@
 
     Edit.Controller.edit = function(id) {
 
-      Cairo.LoadingMessage.show("Movimientos de Stock", "Loading Movimientos de Stock from Crowsoft Cairo server.");
+      Cairo.LoadingMessage.show("Movimientos de Stock", "Loading Movimientos de Stock from CrowSoft Cairo server.");
       var editor = Cairo.Stock.Edit.Controller.getEditor();
 
       var dialog = Cairo.Dialogs.Views.Controller.newDialog();
@@ -2821,7 +2821,7 @@
               editors.item(key).dialog.showDialog();
             }
             else {
-              Cairo.LoadingMessage.show("Stock", "Loading Stocks from Crowsoft Cairo server.");
+              Cairo.LoadingMessage.show("Stock", "Loading Stocks from CrowSoft Cairo server.");
 
               var editor = Cairo.Stock.Edit.Controller.getEditor();
               var dialog = Cairo.Dialogs.Views.Controller.newDialog();
@@ -2863,7 +2863,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Stock", "Loading Stocks from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("Stock", "Loading Stocks from CrowSoft Cairo server.");
 
           self.documentList = Cairo.StockListDoc.Edit.Controller.getEditor();
           var dialog = Cairo.Dialogs.Views.ListController.newDialogList();

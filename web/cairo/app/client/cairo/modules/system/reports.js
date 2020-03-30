@@ -408,7 +408,7 @@
       var m_webReportId = Cairo.CSReportConnection.registerReport(self);
 
       self.print = function(paramId, reportFile) {
-        Cairo.LoadingMessage.show("Printing", "Loading data from Crowsoft Cairo server.");
+        Cairo.LoadingMessage.show("Printing", "Loading data from CrowSoft Cairo server.");
         return print(Cairo.CSReportConnection.ACTIONS.PRINT, paramId, reportFile)
           .then(Cairo.LoadingMessage.close);
       };
@@ -1005,7 +1005,7 @@
 
         // progress message
         //
-        Cairo.LoadingMessage.show("Reportes", "Loading Reporte from Crowsoft Cairo server.");
+        Cairo.LoadingMessage.show("Reportes", "Loading Reporte from CrowSoft Cairo server.");
 
         self.reportDialog = Report.Controller.getEditor();
         var dialog = Cairo.Dialogs.Views.ListController.newDialogList();
@@ -1189,7 +1189,7 @@
 
         // progress message
         //
-        Cairo.LoadingMessage.show("Previews", "Loading Preview from Crowsoft Cairo.");
+        Cairo.LoadingMessage.show("Previews", "Loading Preview from CrowSoft Cairo.");
 
         self.previewDialog = Preview.Controller.getEditor();
         var dialog = Cairo.Dialogs.Views.ListController.newDialogList();

@@ -1975,7 +1975,7 @@
 
                     // progress message
                     //
-                    Cairo.LoadingMessage.show("RemitoVentaAplics", "Loading remitoventaaplic from Crowsoft Cairo server.");
+                    Cairo.LoadingMessage.show("RemitoVentaAplics", "Loading remitoventaaplic from CrowSoft Cairo server.");
 
                     // create the tree region
                     //

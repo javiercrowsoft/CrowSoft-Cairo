@@ -2658,7 +2658,7 @@
 
     Edit.Controller.edit = function(id) {
 
-      Cairo.LoadingMessage.show("Deposito Bancario", "Loading Deposito Bancario from Crowsoft Cairo server.");
+      Cairo.LoadingMessage.show("Deposito Bancario", "Loading Deposito Bancario from CrowSoft Cairo server.");
       var editor = Cairo.DepositoBanco.Edit.Controller.getEditor();
 
       var dialog = Cairo.Dialogs.Views.Controller.newDialog();
@@ -3360,7 +3360,7 @@
               editors.item(key).dialog.showDialog();
             }
             else {
-              Cairo.LoadingMessage.show("DepositoBanco", "Loading Depositos Bancarios from Crowsoft Cairo server.");
+              Cairo.LoadingMessage.show("DepositoBanco", "Loading Depositos Bancarios from CrowSoft Cairo server.");
 
               var editor = Cairo.DepositoBanco.Edit.Controller.getEditor();
               var dialog = Cairo.Dialogs.Views.Controller.newDialog();
@@ -3402,7 +3402,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("DepositoBanco", "Loading Depositos Bancarios from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("DepositoBanco", "Loading Depositos Bancarios from CrowSoft Cairo server.");
 
           self.documentList = Cairo.DepositoBancoListDoc.Edit.Controller.getEditor();
           var dialog = Cairo.Dialogs.Views.ListController.newDialogList();

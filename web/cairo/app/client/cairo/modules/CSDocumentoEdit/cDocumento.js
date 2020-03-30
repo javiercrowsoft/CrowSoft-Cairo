@@ -4534,7 +4534,7 @@
 
           //progress message
           // 
-          Cairo.LoadingMessage.show("Documentos", "Loading documento from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("Documentos", "Loading documento from CrowSoft Cairo server.");
 
           //create the tree region
           // 

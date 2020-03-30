@@ -82,7 +82,7 @@
       var m_menuShowNotes = 0;
       var m_menuShowInfoProv = 0;
       var m_menuAddNote = 0;
-      var m_menuShowAplic = 0;
+      var m_menuShowApply = 0;
       var m_menuSign = 0;
 
       var m_objApply;
@@ -157,7 +157,7 @@
 
               break;
 
-            case m_menuShowAplic:
+            case m_menuShowApply:
               showApply();
               break;
 
@@ -903,7 +903,7 @@
         m_menuShowNotes = m_objList.addMenu(getText(1616, ""));
         m_objList.addMenu("-");
         // Ver Aplicaciones
-        m_menuShowAplic = m_objList.addMenu(getText(1617, ""));
+        m_menuShowApply = m_objList.addMenu(getText(1617, ""));
       };
 
       var showNotes = function() {
@@ -1200,7 +1200,7 @@
               editors.item(key).dialog.showDialog();
             }
             else {
-              Cairo.LoadingMessage.show("Xxxx", "Loading Xxxxs from Crowsoft Cairo server.");
+              Cairo.LoadingMessage.show("Xxxx", "Loading Xxxxs from CrowSoft Cairo server.");
 
               var editor = Cairo.Xxxx.Edit.Controller.getEditor();
               var dialog = Cairo.Dialogs.Views.Controller.newDialog();
@@ -1242,7 +1242,7 @@
 
           // progress message
           //
-          Cairo.LoadingMessage.show("Xxxx", "Loading Xxxxs from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("Xxxx", "Loading Xxxxs from CrowSoft Cairo server.");
 
           self.documentList = Cairo.XxxxListDoc.Edit.Controller.getEditor();
           var dialog = Cairo.Dialogs.Views.ListController.newDialogList();

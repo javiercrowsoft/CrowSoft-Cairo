@@ -4699,7 +4699,7 @@
 
     Edit.Controller.edit = function(id) {
 
-      Cairo.LoadingMessage.show("Factura de Compras", "Loading Factura de Compras from Crowsoft Cairo server.");
+      Cairo.LoadingMessage.show("Factura de Compras", "Loading Factura de Compras from CrowSoft Cairo server.");
       var editor = Cairo.FacturaCompra.Edit.Controller.getEditor();
 
       //
@@ -4798,7 +4798,7 @@
       var m_menuShowNotes = 0;
       var m_menuShowInfoProv = 0;
       var m_menuAddNote = 0;
-      var m_menuShowAplic = 0;
+      var m_menuShowApply = 0;
       var m_menuShowAsiento = 0;
       var m_menuShowDocAux = 0;
       var m_menuSign = 0;
@@ -4864,7 +4864,7 @@
               addNote();
               break;
 
-            case m_menuShowAplic:
+            case m_menuShowApply:
               showApply();
               break;
 
@@ -5299,7 +5299,7 @@
         m_menuShowNotes = m_dialog.addMenu(getText(1616, "")); // Ver Notas
         m_dialog.addMenu("-");
         
-        m_menuShowAplic = m_dialog.addMenu(getText(1617, "")); // Ver Aplicaciones
+        m_menuShowApply = m_dialog.addMenu(getText(1617, "")); // Ver Aplicaciones
         m_menuShowAsiento = m_dialog.addMenu(getText(1692, "")); // Ver Asiento Contable
         m_menuShowDocAux = m_dialog.addMenu(getText(1691, "")); // Ver Documento Asociado
       };
@@ -5523,7 +5523,7 @@
               editors.item(key).dialog.showDialog();
             }
             else {
-              Cairo.LoadingMessage.show("FacturaCompras", "Loading Factura de Compras from Crowsoft Cairo server.");
+              Cairo.LoadingMessage.show("FacturaCompras", "Loading Factura de Compras from CrowSoft Cairo server.");
 
               var editor = Cairo.FacturaCompra.Edit.Controller.getEditor();
               var dialog = Cairo.Dialogs.Views.Controller.newDialog();
@@ -5565,7 +5565,7 @@
 
           // progress message
           // 
-          Cairo.LoadingMessage.show("FacturaCompras", "Loading Factura de Compras from Crowsoft Cairo server.");
+          Cairo.LoadingMessage.show("FacturaCompras", "Loading Factura de Compras from CrowSoft Cairo server.");
 
           self.documentList = Cairo.FacturaCompraListDoc.Edit.Controller.getEditor();
           var dialog = Cairo.Dialogs.Views.ListController.newDialogList();
