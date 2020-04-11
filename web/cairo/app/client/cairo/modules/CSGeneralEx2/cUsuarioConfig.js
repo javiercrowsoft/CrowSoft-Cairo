@@ -676,7 +676,7 @@
         return m_viewNamesInToolbar;
       };
 
-      self.getUsarColoresEnDocumentos = function() {
+      self.getUseColorsInDocuments = function() {
         return m_usarColoresEnDocumentos;
       };
 

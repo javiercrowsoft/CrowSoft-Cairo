@@ -4676,7 +4676,7 @@
       };
 
       var setColorBackground = function() {
-        if(Cairo.UserConfig.getUsarColoresEnDocumentos()) {
+        if(Cairo.UserConfig.getUseColorsInDocuments()) {
           if(m_lastDoctId === D.Types.NOTA_CREDITO_COMPRA) {
             m_dialog.setBackColorTabMain("#c1c1f6");
           }

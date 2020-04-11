@@ -391,7 +391,7 @@
           }).then(function() {
 
             setDataCliente();
-            return D.setDocNumber(m.lastDocId, m.dialog, CV.PV_NRODOC)
+            return D.setDocNumber(m.lastDocId, m.dialog, CV.PV_NRODOC);
 
           }).then(function(enabled) {
 
@@ -670,7 +670,7 @@
                 })
                 .whenSuccess(function() {
 
-                  return D.setDocNumber(m.lastDocId, m.dialog, CC.AS_NRODOC)
+                  return D.setDocNumber(m.lastDocId, m.dialog, CV.PV_NRODOC)
                     .then(function(enabled) {
 
                       m.taPropuesto = enabled;
@@ -735,9 +735,7 @@
 
       self.save = function() {
       
-        var p = null;
-
-        p = D.docCanBeEdited(m.docEditable, m.docEditMsg)
+        var p = D.docCanBeEdited(m.docEditable, m.docEditMsg)
           .whenSuccess(function() {
             return D.docCanBeSaved(m.dialog, CV.PV_FECHA);
           })
@@ -3246,7 +3244,7 @@
       };
 
       var setColorBackground = function() {
-        if(Cairo.UserConfig.getUsarColoresEnDocumentos()) {
+        if(Cairo.UserConfig.getUseColorsInDocuments()) {
           if(m.lastDoctId === D.Types.DEVOLUCION_PEDIDO_VTA) {
             m.dialog.setBackColorTabMain("#ffaa00");
           }

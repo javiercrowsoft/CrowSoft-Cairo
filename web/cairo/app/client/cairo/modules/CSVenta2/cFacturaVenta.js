@@ -210,9 +210,9 @@
       var m_listController = null;
 
       var m_lastDocId = 0;
-      var m_lastMonId = 0;
-      var m_lastDocTipoFactura = 0;
       var m_lastDoctId = 0;
+      var m_lastDocTipoFactura = 0;
+      var m_lastMonId = 0;
       var m_lastCliId = 0;
       var m_lastDocName = "";
       var m_lastCliName = "";
@@ -550,12 +550,12 @@
           }).then(function() {
 
             setDataCliente();
-            return D.setDocNumberForCliente(m_lastCliId, m_lastDocId, m_dialog)
+            return D.setDocNumberForCliente(m_lastCliId, m_lastDocId, m_dialog);
 
           }).then(function(enabled) {
 
             m_taPropuesto = enabled;
-            setColorBackground();
+            setBackgroundColor();
             return true;
 
           });
@@ -934,7 +934,7 @@
                     .then(function() {
 
                       showHideCols(true);
-                      setColorBackground();
+                      setBackgroundColor();
 
                     });
                 });
@@ -1018,8 +1018,6 @@
 
       self.save = function() {
 
-        var p;
-
         var cotizacion = 0;
         var totalOrigen = 0;
         var isDefaultCurrency = false;
@@ -1032,7 +1030,7 @@
         var docId = 0;
         var isNew = false;
 
-        p = validateCajaState()
+        var p = validateCajaState()
           .whenSuccess(
             call(D.docCanBeEdited, m_docEditable, m_docEditMsg)
           )
@@ -1809,8 +1807,7 @@
           case K_ITEMS:
             var items = getItems();
 
-            var row = null;
-            row = items.getGrid().getRows().item(virtualRow.getInfo().row);
+            var row = items.getGrid().getRows().item(virtualRow.getInfo().row);
 
             if(row.item(virtualRow.getInfo().col).getKey() === KI_PR_ID) {
 
@@ -2651,7 +2648,7 @@
 
         D.showDataAddCliente(Cairo.UserConfig.getShowDataAddInVentas(), m_dialog);
 
-        setColorBackground();
+        setBackgroundColor();
 
         return true;
       };
@@ -5108,8 +5105,8 @@
         );
       };
 
-      var setColorBackground = function() {
-        if(Cairo.UserConfig.getUsarColoresEnDocumentos()) {
+      var setBackgroundColor = function() {
+        if(Cairo.UserConfig.getUseColorsInDocuments()) {
           if(m_lastDoctId === D.Types.NOTA_CREDITO_COMPRA) {
             m_dialog.setBackColorTabMain("#c1c1f6");
           }
