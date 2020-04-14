@@ -1840,7 +1840,7 @@
         elem.setKey(K_CLI_ID);
         elem.setSelectId(m_cliId);
         elem.setValue(m_cliente);
-        abmGen.NewKeyPropFocus = CV.CLI_ID;
+        m_dialog.setNewPropertyKeyFocus(C.CLI_ID);
 
         elem = properties.add(null, CV.RV_NRODOC);
         elem.setType(Dialogs.PropertyType.text);
@@ -1849,7 +1849,7 @@
         elem.setKey(K_NRODOC);
         elem.setValue(m_nroDoc);
         elem.setTextMask(m_taMascara);
-        elem.setTextAlign(vbRightJustify);
+        elem.setTextAlign(Dialogs.TextAlign.right);
 
         elem = properties.add(null, CV.CPG_ID);
         elem.setType(T.select);
@@ -1935,12 +1935,12 @@
 
         elem = properties.add(null, CV.CLIS_ID);
         elem.setType(T.select);
-        elem.setSelectTable(Cairo.Tables.SUCURSALCLIENTE);
+        elem.setSelectTable(Cairo.Tables.SUCURSALES_DE_CLIENTES);
         elem.setName(getText(1576, "")); // Sucursal del Cliente
         elem.setKey(K_CLIS_ID);
         elem.setValue(m_clienteSucursal);
         elem.setSelectId(m_clisId);
-        elem.setSelectFilter(GetHelpFilterCliSuc(m_cliId));
+        elem.setSelectFilter(D.getSelectFilterSucursalCliente(m_cliId));
         elem.setTabIndex(1);
 
         elem = properties.add(null, CV.PRO_ID_ORIGEN);
@@ -1963,7 +1963,7 @@
 
         elem = properties.add(null, CV.CCOS_ID);
         elem.setType(T.select);
-        elem.setSelectTable(Cairo.Tables.CENTROCOSTO);
+        elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
         elem.setName(getText(1057, "")); // Centro de Costo
         elem.setKey(K_CCOS_ID);
         elem.setSelectId(m_ccosId);
@@ -1979,7 +1979,7 @@
 
         elem = properties.add(null, CV.LGJ_ID);
         elem.setType(T.select);
-        elem.setTable(csLegajo);
+        elem.setTable(Cairo.Tables.LEGAJOS);
         elem.setName(getText(1575, "")); // Legajo
         elem.setKey(K_LGJ_ID);
         elem.setSelectId(m_lgjId);
@@ -2004,9 +2004,9 @@
 
         elem = properties.add(null, CV.LD_ID);
         elem.setType(T.select);
-        elem.setSelectTable(Cairo.Tables.LISTADESCUENTO);
+        elem.setSelectTable(Cairo.Tables.LISTAS_DE_DESCUENTOS);
         elem.setName(getText(1398, "")); // Lista de Descuentos
-        elem.setSelectFilter(GetListaDescGetXCliente(m_docId, m_cliId));
+        elem.setSelectFilter(D.getListaDescuentoForCliente(m_docId, m_cliId));
         elem.setKey(K_LD_ID);
         elem.setSelectId(m_ldId);
         elem.setValue(m_listaDescuento);
@@ -2028,7 +2028,7 @@
         elem.setKey(K_CHOF_ID);
         elem.setValue(m_chofer);
         elem.setSelectId(m_chofId);
-        elem.setSelectFilter(mPublicTransporte.self.getHelpTransporte(m_transId));
+        elem.setSelectFilter(D.getSelectFilterChofer(m_transId));
         elem.setTabIndex(2);
 
         elem = properties.add(null, CV.CAM_ID);
@@ -2038,19 +2038,17 @@
         elem.setKey(K_CAM_ID);
         elem.setValue(m_camion);
         elem.setSelectId(m_camId);
-        elem.setSelectFilter(mPublicTransporte.self.getHelpTransporte(m_transId));
-        elem.setTopFromProperty(CV.TRANS_ID);
-        elem.setLeft(6000);
+        elem.setSelectFilter(D.getSelectFilterCamion(m_transId));
         elem.setTabIndex(2);
 
         elem = properties.add(null, CV.CAM_ID_SEMI);
         elem.setType(T.select);
-        elem.setSelectTable(Cairo.Tables.CAMIONSEMI);
+        elem.setSelectTable(Cairo.Tables.CAMIONES_SEMI);
         elem.setName(getText(3493, "")); // Semi
         elem.setKey(K_CAM_ID_SEMI);
         elem.setValue(m_semi);
         elem.setSelectId(m_camIdSemi);
-        elem.setSelectFilter(mPublicTransporte.self.getHelpTransporte(m_transId));
+        elem.setSelectFilter(D.getSelectFilterCamion(m_transId));
         elem.setTabIndex(2);
 
         elem = properties.add(null, CV.RV_DESTINATARIO);
@@ -2063,90 +2061,55 @@
 
         if(Cairo.UserConfig.getShowDataAddInVentas()) {
 
-          elem = properties.add(null, c_ClienteDataAdd);
-          elem.setType(Dialogs.PropertyType.text);
-          elem.setSubType(Dialogs.PropertySubType.memo);
+          elem = properties.add(null, CV.CLIENTE_DATA_ADD);
+          elem.setType(T.text);
+          elem.setSubType(ST.memo);
 
         }
 
-        // HIDECOLS
-        //
-        elem = properties.add(null);
-        elem.setType(Dialogs.PropertyType.label);
-        elem.setBackColor(vbButtonShadow);
-
-        // DATADD
-        // Aca van las preferencias del usuario
-        //
-        if(Cairo.UserConfig.getShowDataAddInVentas()) {
-          elem.setTop(4000);
-        }
-        else {
-          elem.setTop(3460);
-        }
-
-        elem = properties.add(null);
-        elem.setType(Dialogs.PropertyType.label);
-        elem.setBackColor(vbWindowBackground);
-
-        iProp = properties.add(null, c_HideCols);
-        oProp = iProp;
-        iProp.setType(Dialogs.PropertyType.check);
-        iProp.setName(getText(3901, "")); // Ocultar Columnas
-        iProp.setKey(K_HIDE_COLS);
-        iProp.setValue(Cairo.Util.boolToInt(CSKernelClient2.GetRegistry(csSeccionSetting.cSINTERFACE, C_HIDECOLSRV, 1)));
-        iProp.setTopNotChange(true);
-        iProp.setLeftNotChange(true);
-
-        oProp.setIsEditProperty(false);
-        //
-        // HIDECOLS - fin
+        elem = properties.add(null, Cairo.Constants.HIDE_COLUMNS);
+        elem.setType(T.check);
+        elem.setName(getText(3901, "")); // Ocultar Columnas
+        elem.setKey(K_HIDE_COLS);
+        elem.setValue(true);
+        elem.setIsEditProperty(false);
 
         if(!m_dialog.show(self)) { return false; }
 
-        pSetShowStockData(true);
+        /////////////////////////////////////////////////////////////////////
+        // ITEMS
+        /////////////////////////////////////////////////////////////////////
 
-        var w_tabs = m_items.getTabs();
+        tabs = m_items.getTabs();
+        tabs.clear();
 
-        w_tabs.clear();
+        tabs.add(null).setIndex(0).setName(getText(1371, "")); // Items
 
-        var tab = w_tabs.add(null);
-        tab.setIndex(0);
-        tab.setName(getText(1371, "")); // Items
-
-        abmGen = m_items;
-        abmGen.ResetLayoutMembers;
-
-        // DATADD
-        if(Cairo.UserConfig.getShowDataAddInVentas()) {
-          abmGen.SetHeightToDocWithDescrip;
-        }
-
-        var properties = m_items.getProperties();
+        var properties = m_itemsProps;
 
         properties.clear();
 
-        c = properties.add(null, C_ITEMS);
-        c.setType(Dialogs.PropertyType.grid);
-        c.hideLabel();;
-        setGridItems(c);
-        if(!pLoadItems(c)) { return false; }
-        c.setName(C_ITEMS);
-        c.setKey(K_ITEMS);
-        c.setTabIndex(0);
-        c.setGridAddEnabled(true);
-        c.setGridEditEnabled(true);
-        c.setGridRemoveEnabled(true);
+        elem = properties.add(null, C_ITEMS);
+        elem.setType(T.grid);
+        elem.hideLabel();
+        setGridItems(elem);
+        loadGridItems(elem);
+        elem.setName(C_ITEMS);
+        elem.setKey(K_ITEMS);
+        elem.setTabIndex(0);
+        elem.setGridAddEnabled(true);
+        elem.setGridEditEnabled(true);
+        elem.setGridRemoveEnabled(true);
 
         m_itemsDeleted = "";
 
         if(!m_items.show(self)) { return false; }
 
-        abmGen = m_footer;
-        abmGen.ResetLayoutMembers;
+        /////////////////////////////////////////////////////////////////////
+        // FOOTER
+        /////////////////////////////////////////////////////////////////////
 
-        var properties = m_footer.getProperties();
-
+        var properties = m_footerProps;
         properties.clear();
 
         elem = properties.add(null, CV.RV_SUBTOTAL);
@@ -2212,26 +2175,20 @@
         elem.setValue(m_total);
         elem.setEnabled(false);
 
-        pSetEnabled();
+        setEnabled();
 
         if(!m_footer.show(self)) { return false; }
 
-        // Preferencias del Usuario
-        //
         if(validateDocDefault) {
           self.propertyChange(K_DOC_ID);
         }
 
         showCotizacion();
 
-        // DATADD
-        mPublicVentas.self.showDataAddCliente(Cairo.UserConfig.getShowDataAddInVentas(), m_dialog);
+        D.showDataAddCliente(Cairo.UserConfig.getShowDataAddInVentas(), m_dialog);
 
-        abmGen.SetIconFormDoc(3);
-
-        //c8f6c1
         if(Cairo.UserConfig.getUseColorsInDocuments()) {
-          abmGen.SetBakcColorTagMain(RGB(&HC8, &HF6, &HC1));
+          m_dialog.setBackColorTabMain("#c8f6c1");
         }
 
         return true;
@@ -3478,7 +3435,7 @@
         }
       };
 
-      var pSetEnabled = function() {
+      var setEnabled = function() {
         var bState = null;
 
         // Si se genera desde un pedido y es nuevo
@@ -3813,7 +3770,7 @@
         c = properties.item(CV.RV_NRODOC);
         c.setValue(m_nroDoc);
         c.setTextMask(m_taMascara);
-        c.setTextAlign(vbRightJustify);
+        c.setTextAlign(Dialogs.TextAlign.right);
 
         c = properties.item(CV.RV_DESCUENTO1);
         c.setValue(m_descuento1);
@@ -3901,17 +3858,17 @@
         c = properties.item(CV.CHOF_ID);
         c.setSelectId(m_chofId);
         c.setValue(m_chofer);
-        c.setSelectFilter(mPublicTransporte.self.getHelpTransporte(m_transId));
+        c.setSelectFilter(D.getTransporteFilter(m_transId));
 
         c = properties.item(CV.CAM_ID);
         c.setSelectId(m_camId);
         c.setValue(m_camion);
-        c.setSelectFilter(mPublicTransporte.self.getHelpTransporte(m_transId));
+        c.setSelectFilter(D.getTransporteFilter(m_transId));
 
         c = properties.item(CV.CAM_ID_SEMI);
         c.setSelectId(m_camIdSemi);
         c.setValue(m_semi);
-        c.setSelectFilter(mPublicTransporte.self.getHelpTransporte(m_transId));
+        c.setSelectFilter(D.getTransporteFilter(m_transId));
 
         abmGen = m_dialog;
         abmGen.ShowValues(m_dialog.getProperties());
@@ -3952,7 +3909,7 @@
         abmGen = m_footer;
         abmGen.ShowValues(m_footer.getProperties());
 
-        pSetEnabled();
+        setEnabled();
 
         showCotizacion();
 
@@ -4187,29 +4144,6 @@
         // **TODO:** on error resume next found !!!
       };
 
-      var pSetShowStockData = function(bInLoadCollection) {
-        var docId = null;
-        var docIdRto = null;
-        var doc = null;
-
-        doc = new cDocumento();
-
-        m_showStockData = false;
-
-        docId = m_properties.item(CV.DOC_ID).getSelectId();
-
-        // Si el remito mueve stock
-        //
-        if(CBool(doc.GetData(docId, CV.DOC_MUEVE_STOCK, Types.boolean))) {
-          m_showStockData = true;
-        }
-
-        // HIDECOLS
-        //
-        if(!bInLoadCollection) { showHideCols(true); }
-
-      };
-
       var pSetNrosSerieInRow = function(currGroup, nroSerie) {
         var row = null;
 
@@ -4326,7 +4260,7 @@
         }
         m_lastTrans = property.getSelectId();
 
-        filter = mPublicTransporte.self.getHelpTransporte(m_lastTrans);
+        filter = D.getTransporteFilter(m_lastTrans);
 
         if(!mPublicTransporte.self.getTransporteData(m_lastTrans, chof_id, chofer, cam_id, camion)) { return; }
 
