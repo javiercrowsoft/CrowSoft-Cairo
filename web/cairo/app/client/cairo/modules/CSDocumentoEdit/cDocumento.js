@@ -2419,14 +2419,11 @@
       };
 
       var setGridFirmas = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setName("docfr_id");
         elem.setVisible(false);
         elem.setKey(KI_DOCFR_ID);
@@ -2465,14 +2462,11 @@
       };
 
       var setGridReportes = function(property) {
-
-        var elem;
         var grid = property.getGrid();
         var columns = grid.getColumns();
-
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_RPTF_ID);
 

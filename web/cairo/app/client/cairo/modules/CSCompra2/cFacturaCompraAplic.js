@@ -674,13 +674,11 @@
       };
 
       var setGridItems = function(property) {
-
-        var elem;
         var grid = property.getGrid();
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KII_FCI_ID);
 
@@ -751,13 +749,11 @@
       };
 
       var setGridAplicOrdenRemito = function(property) {
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
         
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIPR_IDX1);
 
@@ -1436,15 +1432,11 @@
       };
 
       var setGridVencimientos = function(property) {
-
-        var elem;
-
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIV_FCD_ID);
 
@@ -1538,13 +1530,11 @@
       };
 
       var setGridAplicOrdenPago = function(property) {
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
         
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIC_IDX1);
 

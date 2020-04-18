@@ -2541,7 +2541,6 @@
       };
 
       var showCotizacion = function() {
-
         var p = null;
         var monId;
 
@@ -2615,8 +2614,6 @@
       };
 
       var setGridItems = function(property) {
-
-        var elem;
         var hideColumns = m_properties.item(Cairo.Constants.HIDE_COLUMNS).getValue();
         var bColVisible = val(hideColumns) === 0;
 
@@ -2625,7 +2622,7 @@
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_FCI_ID);
 
@@ -3002,12 +2999,9 @@
       };
 
       var setGridPercepciones = function(property) {
-
         var grid = property.getGrid();
         grid.getColumns().clear();
-
         Percepciones.setGridPercepciones(grid, Cairo.Settings);
-
         grid.getRows().clear();
       };
 
@@ -3055,14 +3049,11 @@
       };
 
       var setGridLegajos = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIL_FCLGJ_ID);
 
@@ -3119,14 +3110,11 @@
       };
 
       var setGridOtros = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_FCOT_ID);
 

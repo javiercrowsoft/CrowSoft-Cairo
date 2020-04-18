@@ -1576,14 +1576,11 @@
       };
 
       var setGridOtros = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
         
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIO_COBZI_ID);
 
@@ -1737,14 +1734,11 @@
       };
 
       var setGridCheques = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-        
         var columns = grid.getColumns();
         columns.clear();
         
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KICH_COBZI_ID);
 
@@ -1903,14 +1897,11 @@
       };
 
       var setGridEfectivo = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIE_COBZI_ID);
 
@@ -1994,14 +1985,11 @@
       };
 
       var setGridTarjetas = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIT_COBZI_ID);
 
@@ -2171,14 +2159,11 @@
       };
 
       var setGridCtaCte = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();                        
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KICC_COBZI_ID);
 

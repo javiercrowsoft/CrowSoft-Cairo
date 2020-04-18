@@ -44,11 +44,13 @@ Cairo.FacturaVenta = {};
 Cairo.FacturaVentaListDoc = {};
 Cairo.FacturaVentaRemitoWiz = {};
 Cairo.FacturaVentaWiz = {};
+Cairo.FacturaVentaAplic = {};
 
 Cairo.PedidoVenta = {};
 Cairo.PedidoVentaListDoc = {};
 
 Cairo.RemitoVenta = {};
+Cairo.RemitoVentaAplic = {};
 
 Cairo.PackingList = {};
 

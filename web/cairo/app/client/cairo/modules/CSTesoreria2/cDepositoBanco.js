@@ -1575,7 +1575,6 @@
       };
 
       var showCotizacion = function() {
-
         var p = null;
         var cueChange = false;
         var cuenta = getCuenta();
@@ -1623,14 +1622,11 @@
       };
 
       var setGridEfectivo = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_DBCOI_ID);
 
@@ -1692,14 +1688,11 @@
       };
 
       var setGridCheques = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_DBCOI_ID);
 
@@ -1848,14 +1841,11 @@
       };
 
       var setGridChequesT = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_DBCOI_ID);
 

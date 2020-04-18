@@ -102,8 +102,8 @@
       var KI_PR_ID = 13;
       var KI_LPI_ID = 14;
       var KI_LDI_ID = 15;
-      var KI_IVARIPERCENT = 16;
-      var KI_IVARNIPERCENT = 17;
+      var KI_IVA_RI_PERCENT = 16;
+      var KI_IVA_RNI_PERCENT = 17;
       var KI_DESCUENTO = 18;
       var KI_UNIDAD = 19;
       var KI_PRECIO_LP = 20;
@@ -231,7 +231,6 @@
       var m_copy;
 
       var m_generalConfig;
-      var m_stockConfig;
 
       var m_docEditable;
       var m_docEditMsg = "";
@@ -1145,23 +1144,6 @@
         else {
           m_listController.refreshBranch(m_id, m_branchId);
         }
-      };
-
-      self.terminate = function() {
-
-        m_editing = false;
-
-        try {
-          if(m_listController !== null) {
-            updateList();
-            m_listController.removeEditor(self);
-          }
-        }
-        catch (ignored) {
-          Cairo.logError('Error in terminate', ignored);
-        }
-
-        destroy();
       };
 
       self.getPath = function() {
@@ -2194,160 +2176,11 @@
         return true;
       };
 
-      var refreshCollection = function() {
-
-        m_dialog.setTitle(m_name);
-
-        var properties = m_dialog.getProperties();
-
-        var elem = properties.item(CV.DOC_ID);
-        elem.setSelectId(m_docId);
-        elem.setValue(m_documento);
-        elem.setSelectId(Cairo.UserConfig.getDocRvId());
-        elem.setValue(Cairo.UserConfig.getDocRvNombre());
-
-        var elem = properties.item(Cairo.Constants.NUMBER_ID);
-        elem.setValue(m_numero);
-
-        var elem = properties.item(Cairo.Constants.STATUS_ID);
-        elem.setValue(m_estado);
-
-        var elem = properties.item(CV.RV_FECHA);
-        elem.setValue(m_fecha);
-
-        var elem = properties.item(CV.RV_FECHAENTREGA);
-        elem.setValue(m_fechaentrega);
-
-        var elem = properties.item(CV.CLI_ID);
-        elem.setSelectId(m_cliId);
-        elem.setValue(m_cliente);
-
-        var elem = properties.item(CV.RV_NRODOC);
-        elem.setValue(m_nroDoc);
-
-        var elem = properties.item(CV.CPG_ID);
-        elem.setSelectId(m_cpgId);
-        elem.setValue(m_condicionPago);
-
-        var elem = properties.item(CV.RV_COTIZACION);
-        elem.setValue(m_cotizacion);
-
-        var elem = properties.item(CV.RV_DESCUENTO1);
-        elem.setValue(m_descuento1);
-
-        var elem = properties.item(CV.RV_DESCUENTO2);
-        elem.setValue(m_descuento2);
-
-        var elem = properties.item(CV.DEPL_ID_ORIGEN);
-        elem.setSelectId(m_deplId);
-        elem.setValue(m_deposito);
-        elem.setSelectId(Cairo.UserConfig.getDeplId());
-        elem.setValue(Cairo.UserConfig.getDeplNombre());
-
-        var elem = properties.item(CV.LP_ID);
-        elem.setSelectId(m_lpId);
-        elem.setValue(m_listaPrecio);
-
-        var elem = properties.item(CV.VEN_ID);
-        elem.setSelectId(m_venId);
-        elem.setValue(m_vendedor);
-
-        var elem = properties.item(CV.SUC_ID);
-        elem.setSelectId(m_sucId);
-        elem.setValue(m_sucursal);
-
-        var elem = properties.item(CV.RV_DESCRIP);
-        elem.setValue(m_descrip);
-
-        var elem = properties.item(CV.CLIS_ID);
-        elem.setValue(m_clienteSucursal);
-        elem.setSelectId(m_clisId);
-
-        var elem = properties.item(CV.PRO_ID_ORIGEN);
-        elem.setSelectId(m_proIdOrigen);
-        elem.setValue(m_proOrigen);
-
-        var elem = properties.item(CV.PRO_ID_DESTINO);
-        elem.setSelectId(m_proIdDestino);
-        elem.setValue(m_proDestino);
-
-        var elem = properties.item(CV.CCOS_ID);
-        elem.setSelectId(m_ccosId);
-        elem.setValue(m_centroCosto);
-
-        var elem = properties.item(CV.RV_ORDEN_COMPRA);
-        elem.setValue(m_ordenCompra);
-
-        var elem = properties.item(CV.LGJ_ID);
-        elem.setSelectId(m_lgjId);
-        elem.setValue(m_legajo);
-
-        var elem = properties.item(CV.RV_RETIRO);
-        elem.setValue(m_retiro);
-
-        var elem = properties.item(CV.RV_GUIA);
-        elem.setValue(m_guia);
-
-        var elem = properties.item(CV.LD_ID);
-        elem.setSelectId(m_ldId);
-        elem.setValue(m_listaDescuento);
-
-        var elem = properties.item(CV.TRANS_ID);
-        elem.setValue(m_transporte);
-        elem.setSelectId(m_transId);
-
-        var elem = properties.item(CV.CHOF_ID);
-        elem.setValue(m_chofer);
-        elem.setSelectId(m_chofId);
-
-        var elem = properties.item(CV.CAM_ID);
-        elem.setValue(m_camion);
-        elem.setSelectId(m_camId);
-
-        var elem = properties.item(CV.CAM_ID_SEMI);
-        elem.setValue(m_semi);
-        elem.setSelectId(m_camIdSemi);
-
-        var elem = properties.item(CV.RV_DESTINATARIO);
-        elem.setValue(m_destinatario);
-
-        var elem = properties.item(c_ClienteDataAdd);
-
-        elem = properties.add(null);
-
-        elem = properties.add(null);
-
-        var elem = properties.item(CV.RV_SUBTOTAL);
-        elem.setValue(m_subTotal);
-
-        var elem = properties.item(CV.RV_IMPORTEDESC1);
-        elem.setValue(m_importeDesc1);
-
-        var elem = properties.item(CV.RV_IMPORTEDESC2);
-        elem.setValue(m_importeDesc2);
-
-        var elem = properties.item(CV.RV_NETO);
-        elem.setValue(m_neto);
-
-        var elem = properties.item(CV.RV_IVARI);
-        elem.setValue(m_ivari);
-
-        var elem = properties.item(CV.RV_IVARNI);
-        elem.setValue(m_ivarni);
-
-        var elem = properties.item(CV.RV_TOTAL);
-        elem.setValue(m_total);
-
-        return m_dialog.showValues(properties);
-      };
-
-      // Cotizacion
       var getCotizacion = function() {
         return m_properties.item(CV.RV_COTIZACION);
       };
 
       var showCotizacion = function() {
-
         var p = null;
         var monId;
 
@@ -2534,11 +2367,11 @@
 
         elem = columns.add(null);
         elem.setVisible(false);
-        elem.setKey(KI_IVARIPERCENT);
+        elem.setKey(KI_IVA_RI_PERCENT);
 
         elem = columns.add(null);
         elem.setVisible(false);
-        elem.setKey(KI_IVARNIPERCENT);
+        elem.setKey(KI_IVA_RNI_PERCENT);
 
         elem = columns.add(null);
         elem.setName(getText(1057, "")); // Centro de Costo
@@ -2648,7 +2481,7 @@
           else {
             elem.Value = 0;
           }
-          elem.setKey(KI_IVARIPERCENT);
+          elem.setKey(KI_IVA_RI_PERCENT);
 
           var elem = elem.add(null);
           if(m_bIvaRni) {
@@ -2657,7 +2490,7 @@
           else {
             elem.Value = 0;
           }
-          elem.setKey(KI_IVARNIPERCENT);
+          elem.setKey(KI_IVA_RNI_PERCENT);
 
           var elem = elem.add(null);
           elem.Value = Cairo.Database.valField(m_data.items[_i], CV.CCOS_NAME);
@@ -2708,7 +2541,7 @@
           // Si cambie de grupo
           if(curGroup !== Cairo.Database.valField(m_data.items[_i], CV.RVI_ID)) {
 
-            pSetNrosSerieInRow(curGroup, nrosSerie);
+            setSerialNumberInRow(curGroup, nrosSerie);
             nrosSerie = "";
 
             curGroup = Cairo.Database.valField(m_data.items[_i], CV.RVI_ID);
@@ -2732,7 +2565,7 @@
 
         }
 
-        pSetNrosSerieInRow(curGroup, nrosSerie);
+        setSerialNumberInRow(curGroup, nrosSerie);
         nrosSerie = "";
 
         ////////////////////////////////////////////////////
@@ -3094,11 +2927,11 @@
                 }
                 break;
 
-              case KI_IVARIPERCENT:
+              case KI_IVA_RI_PERCENT:
                 w_fields.add(CV.RVI_IVARIPORC, cell.getValue(), Types.double);
                 break;
 
-              case KI_IVARNIPERCENT:
+              case KI_IVA_RNI_PERCENT:
                 w_fields.add(CV.RVI_IVARNIPORC, cell.getValue(), Types.double);
                 break;
 
@@ -3238,10 +3071,10 @@
 
         neto = Cairo.Util.val(Dialogs.cell(row, KI_CANTIDAD).getValue()) * Cairo.Util.val(Dialogs.cell(row, KI_PRECIO).getValue());
         if(m_bIva) {
-          ivaRi = (neto * Cairo.Util.val(Dialogs.cell(row, KI_IVARIPERCENT).getValue())) / 100;
+          ivaRi = (neto * Cairo.Util.val(Dialogs.cell(row, KI_IVA_RI_PERCENT).getValue())) / 100;
         }
         if(m_bIvaRni) {
-          ivaRni = (neto * Cairo.Util.val(Dialogs.cell(row, KI_IVARNIPERCENT).getValue())) / 100;
+          ivaRni = (neto * Cairo.Util.val(Dialogs.cell(row, KI_IVA_RNI_PERCENT).getValue())) / 100;
         }
         importe = neto + ivaRi + ivaRni;
 
@@ -3301,55 +3134,43 @@
         m_footer.refreshControls();
       };
 
-      var pSetTasasImpositivas = function(row, pr_id, pr_nombre) { // TODO: Use of ByRef founded Private Sub pSetTasasImpositivas(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal pr_id As Long, ByVal pr_nombre As String)
-        var ti_ri = null;
-        var ti_rni = null;
+      var setTasasImpositivas = function(row, prId, prName) {
+        var p = null;
 
-        if(pr_id === 0) { return; }
+        if(prId !== 0) {
 
-        if(!GetTasaFromProducto(pr_id, ti_ri, ti_rni, false)) { return; }
+          p = D.getTasaFromProducto(prId).whenSuccessWithResult(function(data) {
 
-        if(ti_ri === 0) {
-          MsgWarning(getText(1597, "", pr_nombre));
-          //El producto [" & pr_nombre & "] no tiene definida su tasa impositiva de ventas para el iva responsable inscripto
-          return;
+            if(data.ti_ri_venta === 0) {
+              return M.showWarningWithFalse(getText(1597, "", prName));
+              // El producto [" & prName & "] no tiene definida su tasa impositiva de ventas para el iva responsable inscripto
+            }
+
+            if(data.ti_rni_venta === 0) {
+              return M.showWarningWithFalse(getText(1598, "", prName));
+              // El producto [" & prName & "] no tiene definida su tasa impositiva de ventas para el iva responsable no inscripto
+            }
+
+            if(m_bIva) {
+              getCell(row, KI_IVA_RI_PERCENT).setValue(data.ri_percent_venta);
+            }
+            else {
+              getCell(row, KI_IVA_RI_PERCENT).setValue(0);
+            }
+
+            if(m_bIvaRni) {
+              getCell(row, KI_IVA_RNI_PERCENT).setValue(data.rni_percent_venta);
+            }
+            else {
+              getCell(row, KI_IVA_RNI_PERCENT).setValue(0);
+            }
+
+            return true;
+          });
         }
-
-        if(ti_rni === 0) {
-          MsgWarning(getText(1598, "", pr_nombre));
-          //El producto [" & pr_nombre & "] no tiene definida su tasa impositiva de ventas para el iva responsable no inscripto
-          return;
-        }
-
-        var sqlstmt = null;
-        var rs = null;
-
-        if(m_bIva) {
-          sqlstmt = "select ti_porcentaje,cue_id from tasaimpositiva where ti_id = "+ ti_ri.toString();
-          if(!Cairo.Database.openRs(sqlstmt, rs)) { return; }
-
-          if(!rs.isEOF()) {
-            Dialogs.cell(row, KI_IVARIPERCENT).getValue() === Cairo.Database.valField(rs.getFields(), CV.TI_PORCENTAJE);
-          }
-        }
-        else {
-          Dialogs.cell(row, KI_IVARIPERCENT).getValue() === 0;
-        }
-
-        if(m_bIvaRni) {
-          sqlstmt = "select ti_porcentaje,cue_id from tasaimpositiva where ti_id = "+ ti_rni.toString();
-          if(!Cairo.Database.openRs(sqlstmt, rs)) { return; }
-
-          if(!rs.isEOF()) {
-            Dialogs.cell(row, KI_IVARNIPERCENT).getValue() === Cairo.Database.valField(rs.getFields(), CV.TI_PORCENTAJE);
-          }
-        }
-        else {
-          Dialogs.cell(row, KI_IVARNIPERCENT).getValue() === 0;
-        }
+        return p || P.resolvedPromise(false);
       };
 
-      // Reglas del Objeto de Negocios
       var pSetDataProducto = function(row, pr_id) { // TODO: Use of ByRef founded Private Sub pSetDataProducto(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal pr_id As Long)
         var sqlstmt = null;
         var rs = null;
@@ -3359,7 +3180,7 @@
 
         bChanged = pr_id !== Dialogs.cell(row, KI_PR_ID).getID();
 
-        sqlstmt = "sp_StockProductoGetData "+ pr_id.toString()+ ","+ pGetCliId().toString()+ ",Null";
+        sqlstmt = "sp_StockProductoGetData "+ pr_id.toString()+ ","+ getCliId().toString()+ ",Null";
 
         if(!Cairo.Database.openRs(sqlstmt, rs)) { return; }
 
@@ -3504,97 +3325,142 @@
         abmGen.RefreshEnabledState(m_dialog.getProperties());
       };
 
-      var pSetDatosCliente = function() {
-        var lp_id = null;
-        var ld_id = null;
-        var cpg_id = null;
-        var cpg_nombre = null;
+      var setDataCliente = function() {
+        var p;
+        var property = m_properties.item(C.CLI_ID);
 
-        var trans_id = null;
-        var pro_id = null;
-        var ven_id = null;
+        if(m_lastCliId !== property.getSelectId()) {
 
-        var trans_nombre = null;
-        var pro_nombre = null;
-        var ven_nombre = null;
+          m_lastCliId = property.getSelectId();
 
-        var lP = null;
-        var lD = null;
-        var iProp = null;
-        var filter = null;
+          p = DB.getData(
+            "load[" + m_apiPath + "general/cliente/" + m_lastCliId.toString() + "/info]", m_lastDocId);
 
-        var property = m_properties.item(CV.CLI_ID);
-        if(m_lastCliId === property.getSelectId()) {
-          return;
+          p = p.whenSuccessWithResult(function(response) {
+
+            var lpId = valField(response.data, C.LP_ID);
+            var ldId = valField(response.data, C.LD_ID);
+            var venId = valField(response.data, C.VEN_ID);
+            var transId = valField(response.data, C.TRANS_ID);
+            var proId = valField(response.data, C.PRO_ID);
+            var cpgId = valField(response.data, C.CPG_ID);
+            var lpFilter = D.getListaPrecioForCliente(m_docId, m_cliId);
+            var ldFilter = D.getListaDescuentoForCliente(m_docId, m_cliId);
+            var clisFilter = D.getListaDescuentoForCliente(m_docId, m_cliId);
+
+            if(cpgId !== NO_ID) {
+
+              var cpgName = valField(response.data, C.CPG_NAME);
+
+              var prop = m_properties
+                .item(C.CPG_ID)
+                .setValue(cpgName)
+                .setSelectId(cpgId);
+
+              m_dialog.showValue(prop);
+            }
+
+            var prop = m_properties.item(C.LP_ID)
+              .setSelectFilter(lpFilter);
+
+            if(lpId !== NO_ID) {
+              var lpName = valField(response.data, C.LP_NAME);
+              prop.setValue(lpName);
+              prop.setSelectId(lpId);
+            }
+
+            m_dialog.showValue(prop);
+
+            prop = m_properties.item(C.LD_ID);
+            prop.setSelectFilter(ldFilter);
+
+            if(ldId !== NO_ID) {
+              var ldName = valField(response.data, C.LD_NAME);
+              prop.setValue(ldName);
+              prop.setSelectId(ldId);
+            }
+
+            m_dialog.showValue(prop);
+
+            if(venId !== NO_ID) {
+
+              var venName = valField(response.data, C.VEN_NAME);
+
+              var prop = m_properties
+                .item(C.VEN_ID)
+                .setValue(venName)
+                .setSelectId(venId);
+
+              m_dialog.showValue(prop);
+            }
+
+            if(transId !== NO_ID) {
+
+              var transName = valField(response.data, C.TRANS_NAME);
+
+              var prop = m_properties
+                .item(C.TRANS_ID)
+                .setValue(transName)
+                .setSelectId(transId);
+
+              m_dialog.showValue(prop);
+              pSetDatosTransporte();
+            }
+
+            if(proId !== NO_ID) {
+
+              var proName = valField(response.data, C.PRO_NAME);
+
+              var prop = m_properties
+                .item(C.PRO_ID_DESTINO)
+                .setValue(proName)
+                .setSelectId(proId);
+
+              m_dialog.showValue(prop);
+            }
+
+            prop = m_properties.item(C.CLIS_ID);
+            prop.setSelectFilter(clisFilter);
+            m_dialog.showValue(prop);
+
+            var bLastIva = m_bIva;
+            var ivaChanged = false;
+            m_bIva = valField(response.data, C.HAS_IVA_RI);
+            if(bLastIva !== m_bIva) { ivaChanged = true; }
+
+            bLastIva = m_bIvaRni;
+            m_bIvaRni = valField(response.data, C.HAS_IVA_RNI);
+            if(bLastIva !== m_bIvaRni) { ivaChanged = true; }
+
+            var p;
+
+            if(ivaChanged) {
+              p = updateIva();
+              updateTotals();
+            }
+
+            return p || P.resolvedPromise(true);
+          });
         }
-        m_lastCliId = property.getSelectId();
+        return p || P.resolvedPromise(false);
+      };
 
-        if(!GetClienteDataEx2(m_lastCliId, lp_id, ld_id, cpg_id, trans_id, pro_id, ven_id, trans_nombre, pro_nombre, ven_nombre, m_lastDocId)) { return; }
+      var updateIva = function() {
+        var p = P.resolvedPromise(true);
+        var rows = getItems().getGrid().getRows();
 
-        // Condicion de pago
-        if(cpg_id !== NO_ID) {
-
-          if(!Cairo.Database.getData(CV.CONDICIONPAGO, CV.CPG_ID, cpg_id, CV.CPG_NAME, cpg_nombre)) { return; }
-
-          iProp = m_properties.item(CV.CPG_ID);
-          iProp.setValue(cpg_nombre);
-          iProp.setSelectId(cpg_id);
-          m_dialog.showValue(iProp);
+        for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
+          var row = rows.item(_i);
+          var cell = getCell(row, KI_PR_ID);
+          p = p
+            .then(call(setTasasImpositivas, row, cell.getId(), cell.getValue()))
+          ;
+          showImporteAndIva(row);
         }
 
-        // Lista de precios
-        iProp = m_properties.item(CV.LP_ID);
-        iProp.setSelectFilter(GetListaPrecioGetXCliente(m_lastDocId, m_lastCliId));
+        m_dialog.showValue(getItems(), true);
 
-        if(lp_id !== NO_ID) {
-          lP = new cListaPrecio();
-          iProp.setValue(lP.GetData(lp_id, CV.LP_NAME, Types.text));
-          iProp.setSelectId(lp_id);
-        }
-
-        m_dialog.showValue(iProp);
-
-        // Lista de descuentos
-        iProp = m_properties.item(CV.LD_ID);
-        iProp.setSelectFilter(GetListaDescGetXCliente(m_lastDocId, m_lastCliId));
-
-        if(ld_id !== NO_ID) {
-          lD = new cListaDescuento();
-          iProp.setValue(lD.GetData(ld_id, CV.LD_NAME, Types.text));
-          iProp.setSelectId(ld_id);
-        }
-
-        //////////////////////////////////////////////////////////////
-        if(ven_id !== NO_ID) {
-          iProp = m_properties.item(CV.VEN_ID);
-          iProp.setValue(ven_nombre);
-          iProp.setSelectId(ven_id);
-          m_dialog.showValue(iProp);
-        }
-        if(trans_id !== NO_ID) {
-          iProp = m_properties.item(CV.TRANS_ID);
-          iProp.setValue(trans_nombre);
-          iProp.setSelectId(trans_id);
-          m_dialog.showValue(iProp);
-          pSetDatosTransporte();
-        }
-        if(pro_id !== NO_ID) {
-          iProp = m_properties.item(CV.PRO_ID_DESTINO);
-          iProp.setValue(pro_nombre);
-          iProp.setSelectId(pro_id);
-          m_dialog.showValue(iProp);
-        }
-
-        iProp = m_properties.item(CV.CLIS_ID);
-        iProp.setSelectFilter(GetHelpFilterCliSuc(m_lastCliId));
-
-        m_dialog.showValue(iProp);
-        //////////////////////////////////////////////////////////////
-
-        // Talonario y Categoria fiscal
-        pGetIvaFromCliente(m_lastCliId);
-
-        m_dialog.showValue(iProp);
+        return p;
       };
 
       var pGetIvaFromCliente = function(cli_id) {
@@ -3737,512 +3603,393 @@
       };
 
       var refreshProperties = function() {
-        var c = null;
-      #If PREPROC_SFS Then;
-        var abmGen = null;
-      #Else;
-        var abmGen = null;
-      #End If;
-        var filter = null;
 
-        var properties = m_dialog.getProperties();
+        m_properties.item(CV.DOC_ID)
+          .setSelectId(m_docId)
+          .setValue(m_documento);
 
-        c = properties.item(CV.DOC_ID);
-        c.setSelectId(m_docId);
-        c.setValue(m_documento);
+        m_properties.item(CV.RV_FECHA)
+          .setValue(m_fecha);
 
-        c = properties.item(CV.RV_FECHA);
-        c.setValue(m_fecha);
+        m_properties.item(CV.RV_FECHAENTREGA)
+          .setValue(m_fechaentrega);
 
-        c = properties.item(CV.RV_FECHAENTREGA);
-        c.setValue(m_fechaentrega);
+        m_properties.item(CV.CLI_ID)
+          .setSelectId(m_cliId)
+          .setValue(m_cliente);
 
-        c = properties.item(CV.CLI_ID);
-        c.setSelectId(m_cliId);
-        c.setValue(m_cliente);
+        m_properties.item(Cairo.Constants.NUMBER_ID)
+          .setValue(m_numero);
 
-        c = properties.item(Cairo.Constants.NUMBER_ID);
-        c.setValue(m_numero);
+        m_properties.item(Cairo.Constants.STATUS_ID)
+          .setValue(m_estado);
 
-        c = properties.item(Cairo.Constants.STATUS_ID);
-        c.setValue(m_estado);
+        m_properties.item(CV.RV_NRODOC)
+          .setValue(m_nroDoc)
+          .setTextMask(m_taMascara)
+          .setTextAlign(Dialogs.TextAlign.right);
 
-        c = properties.item(CV.RV_NRODOC);
-        c.setValue(m_nroDoc);
-        c.setTextMask(m_taMascara);
-        c.setTextAlign(Dialogs.TextAlign.right);
+        m_properties.item(CV.RV_DESCUENTO1)
+          .setValue(m_descuento1);
 
-        c = properties.item(CV.RV_DESCUENTO1);
-        c.setValue(m_descuento1);
+        m_properties.item(CV.RV_DESCUENTO2)
+          .setValue(m_descuento2);
 
-        c = properties.item(CV.RV_DESCUENTO2);
-        c.setValue(m_descuento2);
-
-        c = properties.item(CV.DEPL_ID_ORIGEN);
         if(m_deplId !== NO_ID || !m_showStockData) {
-          c.setSelectId(m_deplId);
-          c.setValue(m_deposito);
+          m_properties.item(C.DEPL_ID_ORIGEN)
+            .setSelectId(m_deplId)
+            .setValue(m_deposito);
         }
         else {
-          // Preferencias del usuario
-          //
-          c.setSelectId(Cairo.UserConfig.getDeplId());
-          c.setValue(Cairo.UserConfig.getDeplNombre());
-          pSetStock();
+          m_properties.item(C.DEPL_ID_ORIGEN)
+            .setSelectId(Cairo.UserConfig.getDeplId())
+            .setValue(Cairo.UserConfig.getDeplName());
+          setStock();
         }
 
-        c = properties.item(CV.CPG_ID);
-        c.setSelectId(m_cpgId);
-        c.setValue(m_condicionPago);
+        m_properties.item(CV.CPG_ID)
+          .setSelectId(m_cpgId)
+          .setValue(m_condicionPago);
 
-        c = properties.item(CV.RV_COTIZACION);
-        c.setValue(m_cotizacion);
+        m_properties.item(CV.RV_COTIZACION)
+          .setValue(m_cotizacion);
 
-        c = properties.item(CV.LP_ID);
-        c.setSelectFilter(GetListaPrecioGetXCliente(m_docId, m_cliId));
-        c.setSelectId(m_lpId);
-        c.setValue(m_listaPrecio);
+        m_properties.item(CV.LP_ID)
+          .setSelectFilter(D.getListaPrecioForCliente(m_docId, m_cliId))
+          .setSelectId(m_lpId)
+          .setValue(m_listaPrecio);
 
-        c = properties.item(CV.LD_ID);
-        c.setSelectFilter(GetListaDescGetXCliente(m_docId, m_cliId));
-        c.setSelectId(m_ldId);
-        c.setValue(m_listaDescuento);
+        m_properties.item(CV.LD_ID)
+          .setSelectFilter(D.getListaDescuentoForCliente(m_docId, m_cliId))
+          .setSelectId(m_ldId)
+          .setValue(m_listaDescuento);
 
-        c = properties.item(CV.CCOS_ID);
-        c.setSelectId(m_ccosId);
-        c.setValue(m_centroCosto);
+        m_properties.item(CV.CCOS_ID)
+          .setSelectId(m_ccosId)
+          .setValue(m_centroCosto);
 
-        c = properties.item(CV.SUC_ID);
-        c.setSelectId(m_sucId);
-        c.setValue(m_sucursal);
+        m_properties.item(CV.SUC_ID)
+          .setSelectId(m_sucId)
+          .setValue(m_sucursal);
 
-        c = properties.item(CV.VEN_ID);
-        c.setSelectId(m_venId);
-        c.setValue(m_vendedor);
+        m_properties.item(CV.VEN_ID)
+          .setSelectId(m_venId)
+          .setValue(m_vendedor);
 
-        c = properties.item(CV.RV_DESCRIP);
-        c.setValue(m_descrip);
+        m_properties.item(CV.RV_DESCRIP)
+          .setValue(m_descrip);
 
-        c = properties.item(CV.LGJ_ID);
-        c.setSelectId(m_lgjId);
-        c.setValue(m_legajo);
+        m_properties.item(CV.LGJ_ID)
+          .setSelectId(m_lgjId)
+          .setValue(m_legajo);
 
-        c = properties.item(CV.PRO_ID_ORIGEN);
-        c.setSelectId(m_proIdOrigen);
-        c.setValue(m_proOrigen);
+        m_properties.item(CV.PRO_ID_ORIGEN)
+          .setSelectId(m_proIdOrigen)
+          .setValue(m_proOrigen);
 
-        c = properties.item(CV.PRO_ID_DESTINO);
-        c.setSelectId(m_proIdDestino);
-        c.setValue(m_proDestino);
+        m_properties.item(CV.PRO_ID_DESTINO)
+          .setSelectId(m_proIdDestino)
+          .setValue(m_proDestino);
 
-        c = properties.item(CV.TRANS_ID);
-        c.setSelectId(m_transId);
-        c.setValue(m_transporte);
+        m_properties.item(CV.TRANS_ID)
+          .setSelectId(m_transId)
+          .setValue(m_transporte);
 
-        c = properties.item(CV.RV_RETIRO);
-        c.setValue(m_retiro);
+        m_properties.item(CV.RV_RETIRO)
+          .setValue(m_retiro);
 
-        c = properties.item(CV.RV_GUIA);
-        c.setValue(m_guia);
+        m_properties.item(CV.RV_GUIA)
+          .setValue(m_guia);
 
-        c = properties.item(CV.RV_DESTINATARIO);
-        c.setValue(m_destinatario);
+        m_properties.item(CV.RV_DESTINATARIO)
+          .setValue(m_destinatario);
 
-        c = properties.item(CV.RV_ORDEN_COMPRA);
-        c.setValue(m_ordenCompra);
+        m_properties.item(CV.RV_ORDEN_COMPRA)
+          .setValue(m_ordenCompra);
 
-        c = properties.item(CV.CLIS_ID);
-        c.setSelectId(m_clisId);
-        c.setValue(m_clienteSucursal);
+        m_properties.item(CV.CLIS_ID)
+          .setSelectId(m_clisId)
+          .setValue(m_clienteSucursal);
 
-        c = properties.item(CV.CHOF_ID);
-        c.setSelectId(m_chofId);
-        c.setValue(m_chofer);
-        c.setSelectFilter(D.getTransporteFilter(m_transId));
+        m_properties.item(CV.CHOF_ID)
+          .setSelectId(m_chofId)
+          .setValue(m_chofer)
+          .setSelectFilter(D.getSelectFilterChofer(m_transId));
 
-        c = properties.item(CV.CAM_ID);
-        c.setSelectId(m_camId);
-        c.setValue(m_camion);
-        c.setSelectFilter(D.getTransporteFilter(m_transId));
+        m_properties.item(CV.CAM_ID)
+          .setSelectId(m_camId)
+          .setValue(m_camion)
+          .setSelectFilter(D.getSelectFilterCamion(m_transId));
 
-        c = properties.item(CV.CAM_ID_SEMI);
-        c.setSelectId(m_camIdSemi);
-        c.setValue(m_semi);
-        c.setSelectFilter(D.getTransporteFilter(m_transId));
-
-        abmGen = m_dialog;
-        abmGen.ShowValues(m_dialog.getProperties());
-
-        abmGen.ResetChanged;
-
-        c = m_items.getProperties().item(C_ITEMS);
-        if(!pLoadItems(c)) { return; }
+        m_properties.item(CV.CAM_ID_SEMI)
+          .setSelectId(m_camIdSemi)
+          .setValue(m_semi)
+          .setSelectFilter(D.getSelectFilterCamion(m_transId));
 
         m_itemsDeleted = "";
+        loadItems(getProperty(m_items, C_ITEMS));
 
-        abmGen = m_items;
-        abmGen.ShowValues(m_items.getProperties());
+        m_items.showValues(m_itemsProps);
 
-        var properties = m_footer.getProperties();
+        m_footerProps.item(CV.RV_SUBTOTAL)
+          .setValue(m_subTotal);
 
-        c = properties.item(CV.RV_SUBTOTAL);
-        c.setValue(m_subTotal);
+        m_footerProps.item(CV.RV_IMPORTEDESC1)
+          .setValue(m_importeDesc1);
 
-        c = properties.item(CV.RV_IMPORTEDESC1);
-        c.setValue(m_importeDesc1);
+        m_footerProps.item(CV.RV_IMPORTEDESC2)
+          .setValue(m_importeDesc2);
 
-        c = properties.item(CV.RV_IMPORTEDESC2);
-        c.setValue(m_importeDesc2);
+        m_footerProps.item(CV.RV_NETO)
+          .setValue(m_neto);
 
-        c = properties.item(CV.RV_NETO);
-        c.setValue(m_neto);
+        m_footerProps.item(CV.RV_IVARI)
+          .setValue(m_ivari);
 
-        c = properties.item(CV.RV_IVARI);
-        c.setValue(m_ivari);
+        m_footerProps.item(CV.RV_IVARNI)
+          .setValue(m_ivarni);
 
-        c = properties.item(CV.RV_IVARNI);
-        c.setValue(m_ivarni);
-
-        c = properties.item(CV.RV_TOTAL);
-        c.setValue(m_total);
-
-        abmGen = m_footer;
-        abmGen.ShowValues(m_footer.getProperties());
+        m_footerProps.item(CV.RV_TOTAL)
+          .setValue(m_total);
 
         setEnabled();
-
         showCotizacion();
 
-        // DATADD
-        mPublicVentas.self.showDataAddCliente(Cairo.UserConfig.getShowDataAddInVentas(), m_dialog);
-
+        return D.showDataAddCliente(Cairo.UserConfig.getShowDataAddInVentas(), m_dialog);
       };
 
-      var pShowApply = function() {
+      var showApply = function() {
 
-        if(!DoCairo.Security.anAccess(csPreVtaModifyAplic, m_docId, csE_DocTypePrestacion.cSEDOCTPREAPLICAR)) { return; }
+        if(!Cairo.Security.docHasPermissionTo(
+          CS.MODIFY_APLIC,
+          m_docId,
+          Cairo.Security.ActionTypes.apply)) {
+          return false;
+        }
 
         if(m_applyEditor === null) {
-          m_applyEditor = new cRemitoVentaAplic();
-
-          // Edit Apply
-          //
+          m_applyEditor = Cairo.RemitoVentaAplic.Edit.Controller.getEditor();
         }
         else {
-          if(m_applyEditor.id !== m_id) {
-            m_applyEditor.self.setObjectClient(null);
-            m_applyEditor = new cRemitoVentaAplic();
+          if(m_applyEditor.getId() !== m_id) {
+            m_applyEditor.setClient(null);
+            m_applyEditor = Cairo.RemitoVentaAplic.Edit.Controller.getEditor();
           }
         }
 
-        // Edit Apply
-        //
-        m_applyEditor.self.setObjectClient(self);
+        m_applyEditor.setClient(self);
 
-        if(!m_applyEditor.self.show(m_id, m_total, m_nroDoc, m_cliId, m_cliente, m_sucId, m_docId, m_doctId === csEDocumentoTipo.cSEDT_DEVOLUCIONREMITOVTA)) {
-          m_applyEditor = null;
-        }
+        m_applyEditor.show(
+          m_id,
+          m_total,
+          m_nroDoc,
+          m_cliId,
+          m_cliente,
+          m_sucId,
+          m_docId,
+          m_doctId === D.Types.DEVOLUCION_REMITO_VTA).then(function(result) {
+          if(result !== true) {
+            m_applyEditor = null;
+          }
+        });
+      };
+
+      var startWizard = function(wizard, wizardConstructor) {
+        wizard.setCliId(m_cliId);
+        wizard.setCliente(m_cliente);
+        wizard.setDocId(m_lastDocId);
+        wizard.setMonId(m_lastMonId);
+        wizard.setIva(m_bIva, m_bIvaRni);
+        wizard.setShowStockData(m_showStockData);
+        wizard.setDocumento(m_lastDocName);
+        wizard.setObjClient(self);
+        wizard.setPushVirtualNext(m_bPushVirtualNext);
+
+        var wizardDialog = Cairo.Dialogs.WizardViews.Controller.newWizard();
+        wizardDialog.setClient(wizard);
+        wizardDialog.show(wizardConstructor);
       };
 
       var showStartWizardPedido = function() {
         try {
-
-          var oWizard = null;
-          oWizard = new cRemitoVentaWizard();
-
-          var mouse = null;
-          mouse = new cMouseWait();
-
-          if(!oWizard.self.load()) { return; }
-
-          oWizard.self.setCli_id(m_cliId);
-          oWizard.self.setCliente() = m_cliente;
-          oWizard.self.setPvIds() = m_pvIds;
-          oWizard.self.setDoc_id() = m_lastDocId;
-          oWizard.self.setDocumento() = m_lastDocName;
-          oWizard.self.setObjClient(self);
-
-          //Dim iEditGeneric As cIEditGeneric
-          //Set iEditGeneric = oWizard
-          //Set iEditGeneric.ObjTree = m_ObjTree
-
-          var iObjWizard = null;
-          var oObjWizard = null;
-
-          iObjWizard = CSKernelClient2.CreateObject("CSABMInterface2.cWizardGeneric");
-          oObjWizard = iObjWizard;
-          oObjWizard.setObjClient(oWizard);
-          oObjWizard.setPushVirtualNext(m_bPushVirtualNext);
-
-          iObjWizard.show("CSVenta2.cRemitoVentaWizard");
-
-          oObjWizard.getObjAbm().getObjForm().ZOrder;
-
-          // **TODO:** goto found: GoTo ExitProc;
+          var wizConstructor = Cairo.RemitoVentaPedidoWiz.Edit.Controller.getEditor;
+          var wizard = wizConstructor();
+          wizard.setPvIds(m_pvIds);
+          wizard.loadWizard().whenSuccess(call(startWizard, wizard, wizConstructor));
         }
-        catch (ex) {
-          Cairo.manageErrorEx(ex.message, ex, "pShowStartWizard", C_MODULE, "");
-          // **TODO:** label found: ExitProc:;
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, ex, "showStartWizardPedido", C_MODULE, "");
         }
-        // **TODO:** on error resume next found !!!
       };
 
       var showStartWizardOrden = function() {
         try {
-
-          var oWizard = null;
-          oWizard = new cRemitoVentaOrdenWiz();
-
-          var mouse = null;
-          mouse = new cMouseWait();
-
-          if(!oWizard.self.load()) { return; }
-
-          oWizard.self.setCli_id(m_cliId);
-          oWizard.self.setCliente() = m_cliente;
-          oWizard.self.setOsIds() = m_osIds;
-          oWizard.self.setOsiIds() = m_prnsIds;
-          oWizard.self.setDoc_id() = m_lastDocId;
-          oWizard.self.setDocumento() = m_lastDocName;
-          oWizard.self.setAutoFactura(m_bAutoFactura);
-          oWizard.self.setAutoPago(m_bAutoPago);
-          oWizard.self.setCue_id_autoPago(m_cueIdAutoPago);
-          oWizard.self.setModoVentaCtaCte(m_modoVentaCtaCte);
-          oWizard.self.setObjClient(self);
-
-          //Dim iEditGeneric As cIEditGeneric
-          //Set iEditGeneric = oWizard
-          //Set iEditGeneric.ObjTree = m_ObjTree
-
-          var iObjWizard = null;
-          var oObjWizard = null;
-
-          iObjWizard = CSKernelClient2.CreateObject("CSABMInterface2.cWizardGeneric");
-          oObjWizard = iObjWizard;
-          oObjWizard.setObjClient(oWizard);
-          oObjWizard.setPushVirtualNext(m_bPushVirtualNext);
-
-          iObjWizard.show("CSVenta2.cRemitoVentaOrdenWiz");
-
-          if(!oObjWizard.getObjAbm() === null) {
-            oObjWizard.getObjAbm().getObjForm().ZOrder;
-          }
-
-          // **TODO:** goto found: GoTo ExitProc;
+          var wizConstructor = Cairo.RemitoVentaPedidoWiz.Edit.Controller.getEditor;
+          var wizard = wizConstructor();
+          wizard.setOsIds(m_osIds);
+          wizard.setOsiIds(m_prnsIds);
+          wizard.setAutoFactura(m_bAutoFactura);
+          wizard.setAutoPago(m_bAutoPago);
+          wizard.setCueIdAutoPago(m_cueIdAutoPago);
+          wizard.setModoVentaCtaCte(m_modoVentaCtaCte);
+          wizard.loadWizard().whenSuccess(call(startWizard, wizard, wizConstructor));
         }
-        catch (ex) {
-          Cairo.manageErrorEx(ex.message, ex, "pShowStartWizardOrden", C_MODULE, "");
-          // **TODO:** label found: ExitProc:;
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, ex, "showStartWizardOrden", C_MODULE, "");
         }
-        // **TODO:** on error resume next found !!!
       };
 
       var showStartWizardBOM = function() {
         try {
-
-          var oWizard = null;
-          oWizard = new cRemitoVentaBOMWizard();
-
-          var mouse = null;
-          mouse = new cMouseWait();
-
-          if(!oWizard.self.load()) { return; }
-
-          oWizard.self.setCli_id(m_cliId);
-          oWizard.self.setCliente() = m_cliente;
-          oWizard.self.setPvIds() = m_pvIds;
-          oWizard.self.setDoc_id() = m_lastDocId;
-          oWizard.self.setDocumento() = m_lastDocName;
-          oWizard.self.setObjClient(self);
-
-          //Dim iEditGeneric As cIEditGeneric
-          //Set iEditGeneric = oWizard
-          //Set iEditGeneric.ObjTree = m_ObjTree
-
-          var iObjWizard = null;
-          var oObjWizard = null;
-
-          iObjWizard = CSKernelClient2.CreateObject("CSABMInterface2.cWizardGeneric");
-          oObjWizard = iObjWizard;
-          oObjWizard.setObjClient(oWizard);
-          oObjWizard.setPushVirtualNext(m_bPushVirtualNext);
-
-          iObjWizard.show("CSVenta2.cRemitoVentaBOMWizard");
-
-          oObjWizard.getObjAbm().getObjForm().ZOrder;
-
-          // **TODO:** goto found: GoTo ExitProc;
+          var wizConstructor = Cairo.RemitoVentaBOMWiz.Edit.Controller.getEditor;
+          var wizard = wizConstructor();
+          wizard.setPvIds(m_pvIds);
+          wizard.loadWizard().whenSuccess(call(startWizard, wizard, wizConstructor));
         }
-        catch (ex) {
-          Cairo.manageErrorEx(ex.message, ex, "pShowStartWizardBOM", C_MODULE, "");
-          // **TODO:** label found: ExitProc:;
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, ex, "showStartWizardBOM", C_MODULE, "");
         }
-        // **TODO:** on error resume next found !!!
       };
 
-      // Construccion - Destruccion
-      self.initialize = function() {
+      var initialize = function() {
         try {
 
-            c_ErrorSave = getText(2222, ""); // Error al grabar el Remito de Venta
+          m_serialNumbers = Cairo.Collections.createCollection(null);
+          m_kitDefinitions = Cairo.Collections.createCollection(Cairo.KitDefinition.create);
+          m_pvIds = [];
+          m_osIds = [];
+          m_prnsIds = [];
 
-          m_serialNumbers = new Collection();
-          m_generalConfig = new cGeneralConfig();
-          m_generalConfig.Load;
-
-          // Lote
-          //
-          m_stockConfig = new cStockConfig();
-          m_stockConfig.load();
-
-          // Preferencias del Usuario
-          //
-          m_userCfg = new cUsuarioConfig();
-          Cairo.UserConfig.Load;
-          Cairo.UserConfig.ValidateRV;
-
-          G.redim(m_pvIds, 0);
-          G.redim(m_osIds, 0);
-          G.redim(m_prnsIds, 0);
-
-          // **TODO:** goto found: GoTo ExitProc;
+          Cairo.UserConfig.validateRV();
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, ex, "Class_Initialize", C_MODULE, "");
-          // **TODO:** label found: ExitProc:;
+          Cairo.manageErrorEx(ex.message, ex, "initialize", C_MODULE, "");
         }
-        // **TODO:** on error resume next found !!!
       };
 
-      self.destroy = function() {
-        try {
+      self.terminate = function() {
 
+        m_editing = false;
+
+        try {
+          if(m_listController !== null) {
+            updateList();
+            m_listController.removeEditor(self);
+          }
+        }
+        catch (ignored) {
+          Cairo.logError('Error in terminate', ignored);
+        }
+
+        destroy();
+      };
+
+      var destroy = function() {
+        try {
           m_dialog = null;
           m_listController = null;
           m_footer = null;
+          m_footerProps = null;
           m_items = null;
-          G.redim(m_pvIds, 0);
-          G.redim(m_osIds, 0);
-          mCollection.collClear(m_serialNumbers);
+          m_itemsProps = null;
+          m_pvIds = [];
+          m_osIds = [];
           m_serialNumbers = null;
           m_generalConfig = null;
-
-          // Lote
-          //
-          m_stockConfig = null;
-
-          // Preferencias del Usuario
-          //
-          m_userCfg = null;
-
-          // **TODO:** goto found: GoTo ExitProc;
         }
         catch (ex) {
-          Cairo.manageErrorEx(ex.message, ex, "Class_Terminate", C_MODULE, "");
-          // **TODO:** label found: ExitProc:;
+          Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
         }
-        // **TODO:** on error resume next found !!!
       };
 
-      var pSetNrosSerieInRow = function(currGroup, nroSerie) {
-        var row = null;
+      var setSerialNumberInRow = function(curGroup, nroSerie) {
 
-        if(currGroup === 0) { return; }
+        if(curGroup === 0) { return; }
 
-        var _count = m_items.getProperties().item(C_ITEMS).getGrid().getRows().size();
-        for (var _i = 0; _i < _count; _i++) {
-          row = m_items.getProperties().item(C_ITEMS).getGrid().getRows().item(_i);
-          if(Dialogs.cell(row, KI_GRUPO).getID() === currGroup) {
-            Dialogs.cell(row, KI_NRO_SERIE).getValue() === RemoveLastColon(nroSerie);
+        var rows = getGrid(m_items, C_ITEMS).getRows();
+
+        var _count = rows.size();
+        for(var _i = 0; _i < _count; _i++) {
+
+          var row = rows.item(_i);
+          if(cellId(row, KI_GRUPO) === curGroup) {
+            getCell(row, KI_NRO_SERIE).setValue(Cairo.Util.removeLastColon(nroSerie));
             return;
           }
         }
       };
 
-      /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      var pSaveItemNroSerie = function(row, iOrden, prId, rvTMPId, rviTMPId, grupo) { // TODO: Use of ByRef founded Private Function pSaveItemNroSerie(ByRef Row As CSInterfacesABM.cIABMGridRow, ByRef iOrden As Long, ByVal PrId As Long, ByVal RvTMPId As Long, ByVal RviTMPId As Long, ByVal Grupo As Long) As Boolean
+      var saveItemNroSerie = function(mainRegister, row, order, prId, grupo) {
 
-        var pt = null;
-        var register = null;
+        if(cellId(row, KI_PR_LLEVA_NRO_SERIE) !== 0 && m_showStockData) {
 
-        // Si lleva numero de serie
-        //
-        if(Dialogs.cell(row, KI_PR_LLEVA_NRO_SERIE).getID() && m_showStockData) {
+          var transaction = DB.createTransaction();
+          var deleted = [];
 
-          // Obtengo los numeros de serie y guardo un Item por cada uno
-          //
-          var _count = m_serialNumbers.get(GetKey(grupo)).size();
-          for (var _i = 0; _i < _count; _i++) {
-            pt = m_serialNumbers.get(GetKey(grupo)).item(_i);
+          transaction.setTable(CV.REMITO_VENTA_ITEM_SERIE_TMP);
 
-            register = new cRegister();
-            register.setFieldId(CV.RVIS_TMPID);
-            register.setTable(CV.REMITOVENTAITEMSERIETMP);
+          var _count = m_serialNumbers.get(Cairo.Collections.getKey(grupo)).size();
+          for(var _i = 0; _i < _count; _i++) {
+
+            var pt = m_serialNumbers.get(Cairo.Collections.getKey(grupo)).item(_i);
+
+            var register = new DB.Register();
+            var fields = register.getFields();
+
+            register.setFieldId(C.FVIS_TMP_ID);
             register.setId(Cairo.Constants.NEW_ID);
 
-            var w_fields = register.getFields();
-            w_fields.add2(CV.PR_ID, prId, Types.id);
+            fields.add(C.PR_ID, prId, Types.id);
 
             if(m_copy) {
-              w_fields.add2(CV.PRNS_ID, Cairo.Constants.NEW_ID, Types.integer);
+              fields.add(C.PRNS_ID, Cairo.Constants.NEW_ID, Types.integer);
             }
             else {
-              w_fields.add2(CV.PRNS_ID, pt.getPrns_id(), Types.id);
+              fields.add(C.PRNS_ID, pt.getPrnsId(), Types.id);
             }
 
-            w_fields.add2(CV.PRNS_CODE, pt.getCodigo(), Types.text);
-            w_fields.add2(CV.PRNS_DESCRIP, pt.getDescrip(), Types.text);
-            w_fields.add2(CV.PRNS_FECHAVTO, pt.getFechaVto(), Types.date);
-            w_fields.add2(CV.PR_ID_ITEM, pt.getPr_id_item(), Types.id);
+            fields.add(C.PRNS_CODE, pt.getCode(), Types.text);
+            fields.add(C.PRNS_DESCRIP, pt.getDescrip(), Types.text);
+            fields.add(C.PRNS_FECHA_VTO, pt.getFechaVto(), Types.date);
 
-            w_fields.add2(CV.RV_TMPID, rvTMPId, Types.id);
-            w_fields.add2(CV.RVI_TMPID, rviTMPId, Types.id);
+            order.n += 1;
+            fields.add(CV.RVIS_ORDEN, order.n, Types.integer);
 
-            iOrden = iOrden + 1;
-            w_fields.add2(CV.RVIS_ORDEN, iOrden, Types.integer);
-
-            w_fields.setHaveLastUpdate(false);
-            w_fields.setHaveWhoModify(false);
-
-            if(!Cairo.Database.save(register, , "pSaveItemNroSerie", C_MODULE, c_ErrorSave)) { return false; }
+            transaction.addRegister(register);
           }
-        }
 
-        return true;
+          transaction.setDeletedList(deleted.toString());
+
+          mainRegister.addTransaction(transaction);
+        }
       };
 
-      //////////////////////////////////////////////////////////////////////////////////////////////////
-      // nrs devolucion
       var getDeplId = function() {
-        var _rtn = 0;
-        if(m_lastDoctId === csEDocumentoTipo.cSEDT_DEVOLUCIONREMITOVTA) {
-          _rtn = csE_DepositosInternos.cSEDEPLIDTERCERO;
+        var deplId = 0;
+
+        if(m_lastDoctId !== D.Types.DEVOLUCION_REMITO_VTA) {
+          deplId = C.DepositosInternos.deplIdTercero;
         }
         else {
-          _rtn = m_properties.item(CV.DEPL_ID_ORIGEN).getSelectId();
+          deplId = m_properties.item(C.DEPL_ID_ORIGEN).getSelectId();
         }
 
-        return _rtn;
+        return deplId;
       };
 
-      var pGetCliId = function() {
-        return m_properties.item(CV.CLI_ID).getSelectId();
+      var getCliId = function() {
+        return m_properties.item(C.CLI_ID).getSelectId();
       };
 
       var getFecha = function() {
-        return m_properties.item(CV.RV_FECHA).getValue();
+        return m_properties.item(C.RV_FECHA).getValue();
       };
 
-      var pSetStock = function() {
-
-        if(m_stockConfig.getStockXFisico() || m_stockConfig.getNoControlaStock()) {
-
+      var setStock = function() {
+        if(Cairo.getStockConfig().getStockXFisico()
+          || Cairo.getStockConfig().getNoControlaStock()) {
           m_depfId = NO_ID;
-
-          if(!Cairo.Database.getData(CV.DEPOSITOLOGICO, CV.DEPL_ID, getDeplId(), CV.DEPF_ID, m_depfId)) {
-          }
         }
-
       };
 
       var pSetDatosTransporte = function() {
@@ -4450,6 +4197,7 @@
 
       };
 
+      initialize();
 
       return self;
     };

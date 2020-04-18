@@ -1581,15 +1581,11 @@
       };
 
       var setGridFacturas = function(grid) {
-
         var columns = grid.getColumns();
         columns.clear();
-
         columns.add(null).setVisible(false);
 
-        var elem;
-
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_FVD_ID);
 
@@ -1973,15 +1969,11 @@
       };
 
       var setGridOtros = function(grid) {
-
         var columns = grid.getColumns();
         columns.clear();
-
         columns.add(null).setVisible(false);
 
-        var elem;
-
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setName(getText(1267, "")); // Cuenta
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
@@ -2054,15 +2046,11 @@
       };
 
       var setGridCheques = function(grid) {
-
         var columns = grid.getColumns();
         columns.clear();
-
         columns.add(null).setVisible(false);
 
-        var elem;
-
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setName(getText(1267, "")); // Cuenta
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
@@ -2133,15 +2121,11 @@
       };
 
       var setGridEfectivo = function(grid) {
-
         var columns = grid.getColumns();
         columns.clear();
-
         columns.add(null).setVisible(false);
 
-        var elem;
-
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setName(getText(1267, "")); // Cuenta
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
@@ -2176,15 +2160,11 @@
       };
 
       var setGridTarjetas = function(grid) {
-
         var columns = grid.getColumns();
         columns.clear();
-
         columns.add(null).setVisible(false);
 
-        var elem;
-
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setName(getText(2105, "")); // Cupon
         elem.setType(Dialogs.PropertyType.text);
         elem.setKey(KIT_CUPON);
@@ -2269,15 +2249,11 @@
       };
 
       var setGridCtaCte = function(grid) {
-
         var columns = grid.getColumns();
         columns.clear();
-
         columns.add(null).setVisible(false);
 
-        var elem;
-
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setName(getText(1267, "")); // Cuenta
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);

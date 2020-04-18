@@ -2662,7 +2662,6 @@
       };
 
       var showCotizacion = function() {
-
         var p = null;
         var monId;
 
@@ -2736,17 +2735,14 @@
       };
 
       var setGridItems = function(property) {
-
-        var elem;
         var hideColumns = m_properties.item(Cairo.Constants.HIDE_COLUMNS).getValue();
         var bColVisible = val(hideColumns) === 0;
 
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_FVI_ID);
 
@@ -3740,9 +3736,7 @@
             getCell(row, KI_INTERNOS_PORC).setValue(data.porc_internos_venta);
 
             return true;
-
           });
-
         }
         return p || P.resolvedPromise(false);
       };
@@ -3883,9 +3877,7 @@
           p = p.whenSuccessWithResult(function(response) {
 
             var lpId = valField(response.data, C.LP_ID);
-            var lpName = valField(response.data, C.LP_NAME);
             var ldId = valField(response.data, C.LD_ID);
-            var ldName = valField(response.data, C.LD_NAME);
             var venId = valField(response.data, C.VEN_ID);
             var transId = valField(response.data, C.TRANS_ID);
             var proId = valField(response.data, C.PRO_ID);
@@ -3910,6 +3902,7 @@
               .setSelectFilter(lpFilter);
 
             if(lpId !== NO_ID) {
+              var lpName = valField(response.data, C.LP_NAME);
               prop.setValue(lpName);
               prop.setSelectId(lpId);
             }
@@ -3920,6 +3913,7 @@
             prop.setSelectFilter(ldFilter);
 
             if(ldId !== NO_ID) {
+              var ldName = valField(response.data, C.LD_NAME);
               prop.setValue(ldName);
               prop.setSelectId(ldId);
             }
@@ -4329,7 +4323,7 @@
 
       var showStartWizardPackingList = function() {
         try {
-          var wizConstructor = Cairo.FacturaCompraPackingWiz.Edit.Controller.getEditor;
+          var wizConstructor = Cairo.FacturaVentaPackingWiz.Edit.Controller.getEditor;
           var wizard = wizConstructor();
           wizard.setPklstIds(m_pklstIds);
           wizard.loadWizard().whenSuccess(call(startWizard, wizard, wizConstructor));
@@ -4356,7 +4350,7 @@
 
       var showStartWizardPedido = function() {
         try {
-          var wizConstructor = Cairo.FacturaCompraRemitoWiz.Edit.Controller.getEditor;
+          var wizConstructor = Cairo.FacturaVentaPedidoWiz.Edit.Controller.getEditor;
           var wizard = wizConstructor();
           wizard.setPvIds(m_pvIds);
           wizard.setPviIds(m_pviIds);
@@ -4491,12 +4485,9 @@
       };
 
       var setGridPercepciones = function(property) {
-
         var grid = property.getGrid();
         grid.getColumns().clear();
-
         Percepciones.setGridPercepciones(grid, Cairo.Settings);
-
         grid.getRows().clear();
       };
 
@@ -4900,9 +4891,6 @@
        iOrden = iOrden + 1;
        fields.add(CV.PRVI_ORDEN, iOrden, Types.integer);
        fields.add(CV.PRV_TMPID, id, Types.id);
-
-
-
 
        transaction.addRegister(register);
        }

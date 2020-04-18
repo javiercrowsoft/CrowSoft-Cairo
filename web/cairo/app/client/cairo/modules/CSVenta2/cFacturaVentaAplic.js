@@ -718,13 +718,11 @@
       };
 
       var setGridItems = function(property) {
-
-        var elem;
         var grid = property.getGrid();
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KII_FVI_ID);
 
@@ -795,13 +793,11 @@
       };
 
       var setGridAplicPedidoRemito = function(property) {
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIPR_IDX1);
 
@@ -1481,15 +1477,11 @@
       };
 
       var setGridVencimientos = function(property) {
-
-        var elem;
-
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIV_FVD_ID);
 
@@ -1592,13 +1584,11 @@
       };
 
       var setGridAplicCobranza = function(property) {
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIC_IDX1);
 

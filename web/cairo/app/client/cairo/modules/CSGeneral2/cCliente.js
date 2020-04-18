@@ -2107,9 +2107,7 @@
       };
 
       var setGridPercepcion = function(property) {
-
         var grid = property.getGrid();
-        
         var columns = grid.getColumns();
         columns.clear();
 
@@ -2179,9 +2177,7 @@
       };
 
       var setGridDpto = function(property) {
-
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
@@ -2222,9 +2218,7 @@
       };
 
       var setGridInformes = function(property) {
-
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
@@ -2284,9 +2278,7 @@
       };
 
       var setGridEmpresas = function(property) {
-
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
@@ -2338,9 +2330,7 @@
       };
 
       var setGridCuentaGrupo = function(property) {
-
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
@@ -2395,9 +2385,7 @@
       };
 
       var setGridContactos = function(property) {
-
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
@@ -2499,9 +2487,7 @@
       };
 
       var setGridSucursales = function(property) {
-
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 

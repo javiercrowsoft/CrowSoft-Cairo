@@ -420,13 +420,11 @@
       };
 
       var setGridAplic = function(property) {
-
-        var elem;
         var grid = property.getGrid();
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_FCOPG_ID);
 

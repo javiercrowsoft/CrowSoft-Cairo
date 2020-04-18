@@ -478,7 +478,7 @@
 
           case Dialogs.Message.MSG_DOC_APPLY:
             
-            showApplication();
+            showApply();
             break;
 
           case Dialogs.Message.MSG_DOC_INVALIDATE:
@@ -1927,17 +1927,14 @@
       };
 
       var setGridItems = function(property) {
-
-        var elem;
         var hideColumns = m.properties.item(Cairo.Constants.HIDE_COLUMNS).getValue();
         var bColVisible = val(hideColumns) === 0;
 
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI.PVI_ID);
 
@@ -3022,11 +3019,10 @@
 
         setEnabled();
 
-        return D.showDataAddCliente(Cairo.UserConfig.getShowDataAddInVentas(), m.dialog)
-
+        return D.showDataAddCliente(Cairo.UserConfig.getShowDataAddInVentas(), m.dialog);
       };
 
-      var showApplication = function() {
+      var showApply = function() {
 
         if(!Cairo.Security.docHasPermissionTo(
           CS.MODIFY_APLIC,

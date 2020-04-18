@@ -4692,14 +4692,11 @@
       };
 
       var setGridProveedor = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIK_PRPROV_ID);
 
@@ -4840,14 +4837,11 @@
       };
 
       var setGridCliente = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIK_PRCLI_ID);
 
@@ -4912,14 +4906,11 @@
       };
 
       var setGridCMI = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setKey(KICMI_ID);
         elem.setVisible(false);
 
@@ -5004,14 +4995,11 @@
       };
 
       var setGridLeyendas = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setKey(KIPRL_ID);
         elem.setVisible(false);
 
@@ -5075,14 +5063,11 @@
       };
 
       var setGridBOM = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setName(getText(1304, "")); // B.O.M.
         elem.setKey(KIK_PBM_ID);
 
@@ -5110,14 +5095,11 @@
       };
 
       var setGridTags = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIT_PRT_ID);
 
@@ -5199,14 +5181,11 @@
       };
 
       var setGridCategoriasWeb = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KICWCI_ID);
 
@@ -5262,14 +5241,11 @@
       };
 
       var setGridCatalogosWeb = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KICWI_ID);
 
@@ -5315,14 +5291,11 @@
       };
 
       var setGridWebImages = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIWI_PRWI_ID);
 
@@ -5398,14 +5371,11 @@
       };
 
       var setGridKit = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setName(getText(1354, "")); // Fórmula
         elem.setKey(KIK_PRFK_ID);
 

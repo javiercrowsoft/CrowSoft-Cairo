@@ -1718,14 +1718,11 @@
       };
 
       var setGridDepartamentos = function(property) {
-
-        var elem ;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_DPTOPROV_ID);
 
@@ -1763,14 +1760,11 @@
       };
 
       var setGridCentrosCosto = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_PROVCCOS_ID);
 
@@ -1819,14 +1813,11 @@
       };
 
       var setGridEmpresas = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
 
         elem = columns.add(null);
@@ -1875,14 +1866,11 @@
       };
 
       var setGridRetenciones = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_PROVRET_ID);
 
@@ -1949,14 +1937,11 @@
       };
 
       var setGridCuentasGrupo = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_PROVCUEG_ID);
 
@@ -2008,14 +1993,11 @@
       };
 
       var setGridCAIs = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_PROVC_ID);
 

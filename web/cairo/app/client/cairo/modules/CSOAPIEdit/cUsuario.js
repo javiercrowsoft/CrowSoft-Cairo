@@ -1051,16 +1051,12 @@
       };
 
       var setGridCliProv = function(property) {
-
-        var elem;
-        var grid = property.getGrid();
-
         m_vRowCliProvUpdated = [];
-
+        var grid = property.getGrid();
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KI_USEMP_ID);
 
@@ -1110,15 +1106,12 @@
       };
 
       var setGridRoles = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
         // aux column
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
 
         elem = columns.add(null);
@@ -1155,14 +1148,11 @@
       };
 
       var setGridEmpresas = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
 
         elem = columns.add(null);

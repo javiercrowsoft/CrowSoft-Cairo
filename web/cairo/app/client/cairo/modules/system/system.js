@@ -676,26 +676,28 @@
   };
 
   Cairo.Documents.showDataAddCliente = function(showData, dialog) {
+    var p = null;
     if(showData) {
       var cliId = dialog.getProperties().item(C.CLI_ID).getSelectId();
 
       if(cliId !== NO_ID) {
-        DB.getData("load[" + m_apiPath + "general/cliente/" + cliId.toString() + "/data_add]").then(
-          function(response) {
-            if(response.success === true) {
-              try {
-                var info = valField(response.data, 'info');
-                var property = dialog.getProperties().item(CV.CLIENTE_DATA_ADD);
-                property.setValue(info);
-                dialog.showValue(property);
+        p = DB.getData("load[" + m_apiPath + "general/cliente/" + cliId.toString() + "/data_add]")
+          .then(
+            function(response) {
+              if(response.success === true) {
+                try {
+                  var info = valField(response.data, 'info');
+                  var property = dialog.getProperties().item(CV.CLIENTE_DATA_ADD);
+                  property.setValue(info);
+                  dialog.showValue(property);
+                }
+                catch(ignore) {}
               }
-              catch(ignore) {}
-            }
-          }
-        );
+              return true;
+            });
       }
     }
-    return true;
+    return p || P.resolvedPromise(true);
   };
 
   Cairo.Documents.getDepositoFisicoForLogico = function(deplId) {

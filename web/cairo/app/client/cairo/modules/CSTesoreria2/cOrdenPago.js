@@ -1468,14 +1468,11 @@
       };      
 
       var setGridOtros = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIO_OPGI_ID);
 
@@ -1629,14 +1626,11 @@
       };
 
       var setGridTCheques = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KICHT_OPGI_ID);
 
@@ -1787,14 +1781,11 @@
       };
 
       var setGridCheques = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KICH_OPGI_ID);
 
@@ -1942,14 +1933,11 @@
       };
 
       var setGridEfectivo = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KIE_OPGI_ID);
 
@@ -2034,14 +2022,11 @@
       };
 
       var setGridCtaCte = function(property) {
-
-        var elem;
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
         elem.setKey(KICC_OPGI_ID);
 

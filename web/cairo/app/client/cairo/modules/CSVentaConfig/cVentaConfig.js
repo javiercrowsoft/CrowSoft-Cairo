@@ -1168,13 +1168,10 @@
 
       var setGridPercepcion = function(property) {
         var grid = property.getGrid();
-
         var columns = grid.getColumns();
         columns.clear();
 
-        var elem;
-
-        elem = columns.add(null);
+        var elem = columns.add(null);
         elem.setVisible(false);
 
         elem = columns.add(null);
