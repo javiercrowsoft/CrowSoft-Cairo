@@ -44,7 +44,7 @@
       var C_CAJA_MSG = "CajaMsg";
 
       var K_NUMERO = 1;
-      var K_NRODOC = 2;
+      var K_NRO_DOC = 2;
       var K_DESCRIP = 3;
       var K_FECHA = 4;
       var K_FECHA_ENTREGA = 5;
@@ -137,8 +137,8 @@
       var m_fechaVto = null;
       var m_fechaIva = null;
       var m_neto = 0;
-      var m_ivari = 0;
-      var m_ivarni = 0;
+      var m_ivaRi = 0;
+      var m_ivaRni = 0;
       var m_internos = 0;
       var m_total = 0;
       var m_totalPercepciones = 0;
@@ -1079,7 +1079,7 @@
                   fields.add(CV.FV_NUMERO, property.getValue(), Types.long);
                   break;
 
-                case K_NRODOC:
+                case K_NRO_DOC:
                   fields.add(CV.FV_NRODOC, property.getValue(), Types.text);
                   break;
 
@@ -2275,7 +2275,7 @@
         elem.setType(T.text);
         elem.setName(getText(1065, "")); // Número
         elem.setSize(50);
-        elem.setKey(K_NRODOC);
+        elem.setKey(K_NRO_DOC);
         elem.setValue(m_nroDoc);
         elem.setTextMask(m_taMascara);
         elem.setTextAlign(Dialogs.TextAlign.right);
@@ -2596,7 +2596,7 @@
         elem.setName(getText(1582, "")); // IVA RI
         elem.setSubType(ST.money);
         elem.setKey(K_IVA_RI);
-        elem.setValue(m_ivari);
+        elem.setValue(m_ivaRi);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setEnabled(false);
 
@@ -2614,7 +2614,7 @@
         elem.setName(getText(1583, "")); // IVA RNI
         elem.setSubType(ST.money);
         elem.setKey(K_IVA_RNI);
-        elem.setValue(m_ivarni);
+        elem.setValue(m_ivaRni);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setEnabled(false);
 
@@ -2654,7 +2654,7 @@
       };
 
       var getDocId = function() {
-        return m_dialog.getProperties().item(C.DOC_ID);
+        return m_properties.item(C.DOC_ID).getSelectId();
       };
 
       var getCotizacion = function() {
@@ -3176,11 +3176,11 @@
         return Cairo.Database.getData("load[" + m_apiPath + "ventas/facturaventa]", id).then(
           function(response) {
 
-            var p = null;
-
             m_lastCpgId = -1;
 
             if(response.success !== true) { return false; }
+
+            var p = null;
 
             if(response.data.id !== NO_ID) {
 
@@ -3200,8 +3200,8 @@
               m_fechaVto = valField(data, CV.FV_FECHA_VTO);
               m_fechaIva = valField(data, CV.FV_FECHA_IVA);
               m_neto = valField(data, CV.FV_NETO) / cotizacion;
-              m_ivari = valField(data, CV.FV_IVA_RI) / cotizacion;
-              m_ivarni = valField(data, CV.FV_IVA_RNI) / cotizacion;
+              m_ivaRi = valField(data, CV.FV_IVA_RI) / cotizacion;
+              m_ivaRni = valField(data, CV.FV_IVA_RNI) / cotizacion;
               m_internos = valField(data, CV.FV_INTERNOS) / cotizacion;
               m_total = valField(data, CV.FV_TOTAL) / cotizacion;
               m_totalPercepciones = valField(data, CV.FV_TOTAL_PERCEPCIONES) / cotizacion;
@@ -3265,14 +3265,14 @@
               m_taMascara = valField(data, C.TA_MASCARA);
               m_rvTaPropuesto = valField(data, CV.RV_TA_PROPUESTO);
 
-              m_lastDocId = m_docId;
-              m_lastMonId = m_monId;
-              m_lastDoctId = m_doctId;
               m_lastDocTipoFactura = valField(data, C.DOC_TIPO_FACTURA);
-              m_lastCliId = m_cliId;
-              m_lastDocName = m_documento;
-              m_lastCliName = m_cliente;
 
+              m_lastDocId = m_docId;
+              m_lastDocName = m_documento;
+              m_lastDoctId = m_doctId;
+              m_lastMonId = m_monId;
+              m_lastCliId = m_cliId;
+              m_lastCliName = m_cliente;
               m_lastMonIdCotizacion = m_monId;
               m_lastFecha = m_fecha;
 
@@ -3292,8 +3292,8 @@
               m_fechaVto = Cairo.Constants.NO_DATE;
               m_fechaIva = m_fecha;
               m_neto = 0;
-              m_ivari = 0;
-              m_ivarni = 0;
+              m_ivaRi = 0;
+              m_ivaRni = 0;
               m_internos = 0;
               m_total = 0;
               m_totalPercepciones = 0;
@@ -3578,7 +3578,7 @@
 
           if(grupo === 0) { grupo = orden * -1; }
 
-          saveItemNroSerie(mainRegister, row, order, prId, grupo)
+          saveItemNroSerie(mainRegister, row, order, prId, grupo);
         }
 
         if(m_itemsDeleted !== "" && m_id !== NO_ID && !m_copy) {
@@ -3837,7 +3837,7 @@
             && prop.getKey() !== K_HIDE_COLS) {
 
             if(bState) {
-              if(prop.getKey() !== K_NRODOC) {
+              if(prop.getKey() !== K_NRO_DOC) {
                 prop.setEnabled(true);
               }
               else {
@@ -4229,10 +4229,10 @@
           .setValue(m_neto);
 
         m_footerProps.item(CV.FV_IVA_RI)
-          .setValue(m_ivari);
+          .setValue(m_ivaRi);
 
         m_footerProps.item(CV.FV_IVA_RNI)
-          .setValue(m_ivarni);
+          .setValue(m_ivaRni);
 
         m_footerProps.item(CV.FV_INTERNOS)
           .setValue(m_internos);
@@ -4634,7 +4634,7 @@
        }
 
        var register = new DB.Register();
-       register.setFieldId(CV.PRV_TMPID);
+       register.setFieldId(CV.PRV_TMP_ID);
        register.setTable(CV.PRESUPUESTOVENTATMP);
 
        register.setId(Cairo.Constants.NEW_ID);
@@ -4649,7 +4649,7 @@
        fields.add(CV.PRV_NUMERO, property.getValue(), Types.long);
        break;
 
-       case K_NRODOC:
+       case K_NRO_DOC:
        fields.add(CV.PRV_NRODOC, property.getValue(), Types.text);
        break;
 
@@ -4809,8 +4809,8 @@
        row = m_items.getProperties().item(C_ITEMS).getGrid().getRows().item(_i);
 
        var register = new Cairo.Database.Register();
-       register.setFieldId(CV.PRVI_TMPID);
-       register.setTable(CV.PRESUPUESTOVENTAITEMTMP);
+       register.setFieldId(CV.PRVI_TMP_ID);
+       register.setTable(CV.PRESUPUESTOVENTA_ITEM_TMP);
        register.setId(Cairo.Constants.NEW_ID);
 
        var _countj = row.size();
@@ -4890,7 +4890,7 @@
 
        iOrden = iOrden + 1;
        fields.add(CV.PRVI_ORDEN, iOrden, Types.integer);
-       fields.add(CV.PRV_TMPID, id, Types.id);
+       fields.add(CV.PRV_TMP_ID, id, Types.id);
 
        transaction.addRegister(register);
        }
@@ -5292,11 +5292,11 @@
 
       self.setSearchParam = function(id, name) {
 
-        var property = m_dialog.getProperties().item(C.CLI_ID);
+        var property = m_properties.item(C.CLI_ID);
         property.setValue(name);
         property.setSelectId(id);
         property.setSelectIntValue(id);
-        m_dialog.showValue(m_dialog.getProperties().item(C.CLI_ID));
+        m_dialog.showValue(m_properties.item(C.CLI_ID));
       };
 
       self.processMenu = function(index) {
@@ -5517,11 +5517,13 @@
               m_documento = valField(response.data, C.DOC_NAME);
               m_condicionPago = valField(response.data, C.CPG_NAME);
               m_empresa = valField(response.data, C.EMP_NAME);
-
             }
             return true;
-          }
-        );
+          });
+      };
+
+      self.getApplication = function() {
+        return Cairo.Application.getName();
       };
 
       self.getProperties = function() {
@@ -5572,49 +5574,49 @@
             break;
 
           case K_EST_ID:
-            var property = properties.item(C.EST_ID);
+            property = properties.item(C.EST_ID);
             m_estado = property.getValue();
             m_estId = property.getSelectIntValue();
             break;
 
           case K_CLI_ID:
-            var property = properties.item(C.CLI_ID);
+            property = properties.item(C.CLI_ID);
             m_cliente = property.getValue();
             m_cliId = property.getSelectIntValue();
             break;
 
           case K_CCOS_ID:
-            var property = properties.item(C.CCOS_ID);
+            property = properties.item(C.CCOS_ID);
             m_centroCosto = property.getValue();
             m_ccosId = property.getSelectIntValue();
             break;
 
           case K_SUC_ID:
-            var property = properties.item(C.SUC_ID);
+            property = properties.item(C.SUC_ID);
             m_sucursal = property.getValue();
             m_sucId = property.getSelectIntValue();
             break;
 
           case K_VEN_ID:
-            var property = properties.item(C.VEN_ID);
+            property = properties.item(C.VEN_ID);
             m_vendedor = property.getValue();
             m_venId = property.getSelectIntValue();
             break;
 
           case K_DOC_ID:
-            var property = properties.item(C.DOC_ID);
+            property = properties.item(C.DOC_ID);
             m_documento = property.getValue();
             m_docId = property.getSelectIntValue();
             break;
 
           case K_CPG_ID:
-            var property = properties.item(C.CPG_ID);
+            property = properties.item(C.CPG_ID);
             m_condicionPago = property.getValue();
             m_cpgId = property.getSelectIntValue();
             break;
 
           case K_EMP_ID:
-            var property = properties.item(C.EMP_ID);
+            property = properties.item(C.EMP_ID);
             m_empresa = property.getValue();
             m_empId = property.getSelectIntValue();
             break;
@@ -5674,10 +5676,10 @@
 
         register.setId(Cairo.Constants.NEW_ID);
 
-        var _count = m_dialog.getProperties().size();
+        var _count = m_properties.size();
         for(var _i = 0; _i < _count; _i++) {
 
-          var property = m_dialog.getProperties().item(_i);
+          var property = m_properties.item(_i);
 
           switch (property.getKey()) {
 
@@ -5829,7 +5831,6 @@
       };
 
       var signDocument = function() {
-
         var fvId = m_dialog.getId();
 
         if(fvId === NO_ID) {
@@ -5852,13 +5853,11 @@
           return p || P.resolvedPromise(true);
         };
 
-        var p = D.getDocumentSignStatus(D.Types.FACTURA_VENTA, fvId)
+        return D.getDocumentSignStatus(D.Types.FACTURA_VENTA, fvId)
             .whenSuccessWithResult(getAction)
             .whenSuccess(D.signDocument(D.Types.FACTURA_VENTA, fvId))
             .whenSuccessWithResult(refreshRow)
           ;
-
-        return p;
       };
 
       var getCAE = function() {
@@ -5949,7 +5948,7 @@
       var showCobranza = function() {
         try {
           var cobranza = Cairo.Cobranza.Edit.Controller.getEditor();
-          cobranza.showCobranza(NO_ID, getFvIds());
+          cobranza.showCobranza(getCliId(), getFvIds());
         }
         catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, "showCobranza", C_MODULE, "");
@@ -5958,6 +5957,11 @@
 
       var getFvIds = function() {
         return m_dialog.getIds();
+      };
+
+      var getCliId = function() {
+        // TODO: implement it.
+        Cairo.raiseError("FacturaVenta", "getCliId not implemented");
       };
 
       var initialize = function() {
@@ -5981,14 +5985,6 @@
         catch (ex) {
           Cairo.manageErrorEx(ex.message, ex, "destroy", C_MODULE, "");
         }
-      };
-
-      self.validate = function() {
-        return P.resolvedPromise(true);
-      };
-
-      var getCliId = function() {
-        // TODO: implement it.
       };
 
       return self;

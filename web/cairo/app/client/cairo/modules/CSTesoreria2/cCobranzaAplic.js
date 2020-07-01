@@ -810,7 +810,7 @@
                 for(i = 1; i <= vCtaCte[].Length; i++) {
 
                     register = new cRegister();
-                    register.setFieldId(CT.COBZI_TMPID);
+                    register.setFieldId(CT.COBZI_TMP_ID);
                     register.setTable(CT.COBRANZAITEMTMP);
                     register.setId(Cairo.Constants.NEW_ID);
 

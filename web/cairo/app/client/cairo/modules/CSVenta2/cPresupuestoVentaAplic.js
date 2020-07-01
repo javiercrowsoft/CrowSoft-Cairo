@@ -574,7 +574,7 @@
                 var register = null;
 
                 register = new cRegister();
-                register.setFieldId(mVentaConstantes.PRV_TMPID);
+                register.setFieldId(mVentaConstantes.PRV_TMP_ID);
                 register.setTable(mVentaConstantes.PRESUPUESTOVENTATMP);
 
                 register.setId(Cairo.Constants.NEW_ID);
@@ -1370,7 +1370,7 @@
 
                                     // Si estoy vinculando contra un pedido
                                     if(vAplic(i).pvi_id !== 0) {
-                                        register.setFieldId(mVentaConstantes.PRV_PV_TMPID);
+                                        register.setFieldId(mVentaConstantes.PRV_PV_TMP_ID);
                                         register.setTable(mVentaConstantes.PRESUPUESTOPEDIDO_VENTATMP);
                                         register.getFields().add2(mVentaConstantes.PVI_ID, vAplic(i).pvi_id, Cairo.Constants.Types.id);
                                         register.getFields().add2(mVentaConstantes.PRVI_ID, vAplic.prvi_id, Cairo.Constants.Types.id);
@@ -1381,7 +1381,7 @@
                                         // Si vinculo contra un Presupuesto (Presupuesto - Devolucion)
                                     }
                                     else {
-                                        register.setFieldId(mVentaConstantes.PRV_DV_TMPID);
+                                        register.setFieldId(mVentaConstantes.PRV_DV_TMP_ID);
                                         register.setTable(mVentaConstantes.PRESUPUESTODEVOLUCIONVENTATMP);
 
                                         if(m_isDevolucion) {
@@ -1399,7 +1399,7 @@
                                     }
 
                                     register.setId(Cairo.Constants.NEW_ID);
-                                    register.getFields().add2(mVentaConstantes.PRV_TMPID, prvTMPId, Cairo.Constants.Types.id);
+                                    register.getFields().add2(mVentaConstantes.PRV_TMP_ID, prvTMPId, Cairo.Constants.Types.id);
 
                                     register.getFields().setHaveLastUpdate(false);
                                     register.getFields().setHaveWhoModify(false);

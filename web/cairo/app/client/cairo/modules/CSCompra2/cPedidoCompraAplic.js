@@ -603,7 +603,7 @@
                 var register = null;
 
                 register = new cRegister();
-                register.setFieldId(mComprasConstantes.PC_TMPID);
+                register.setFieldId(mComprasConstantes.PC_TMP_ID);
                 register.setTable(mComprasConstantes.PEDIDOCOMPRATMP);
 
                 register.setId(Cairo.Constants.NEW_ID);
@@ -1429,7 +1429,7 @@
 
                                     // Si estoy vinculando contra una orden de compra
                                     if(vAplic(i).oci_id !== 0) {
-                                        register.setFieldId(mComprasConstantes.PC_OC_TMPID);
+                                        register.setFieldId(mComprasConstantes.PC_OC_TMP_ID);
                                         register.setTable(mComprasConstantes.PEDIDOORDENCOMPRATMP);
                                         register.getFields().add2(mComprasConstantes.OCI_ID, vAplic(i).oci_id, Cairo.Constants.Types.id);
                                         register.getFields().add2(mComprasConstantes.PCI_ID, vAplic.pci_id, Cairo.Constants.Types.id);
@@ -1440,7 +1440,7 @@
                                     }
                                     else if(vAplic(i).coti_id !== 0) {
 
-                                        register.setFieldId(mComprasConstantes.PCCOT_TMPID);
+                                        register.setFieldId(mComprasConstantes.PCCOT_TMP_ID);
                                         register.setTable(mComprasConstantes.PEDIDOCOTIZACIONCOMPRATMP);
                                         register.getFields().add2(mComprasConstantes.COTI_ID, vAplic(i).coti_id, Cairo.Constants.Types.id);
                                         register.getFields().add2(mComprasConstantes.PCI_ID, vAplic.pci_id, Cairo.Constants.Types.id);
@@ -1451,7 +1451,7 @@
                                         // Si vinculo contra un pedido (Pedido - Devolucion)
                                     }
                                     else {
-                                        register.setFieldId(mComprasConstantes.PC_DC_TMPID);
+                                        register.setFieldId(mComprasConstantes.PC_DC_TMP_ID);
                                         register.setTable(mComprasConstantes.PEDIDODEVOLUCIONCOMPRATMP);
 
                                         if(m_isDevolucion) {
@@ -1469,7 +1469,7 @@
                                     }
 
                                     register.setId(Cairo.Constants.NEW_ID);
-                                    register.getFields().add2(mComprasConstantes.PC_TMPID, pcTMPId, Cairo.Constants.Types.id);
+                                    register.getFields().add2(mComprasConstantes.PC_TMP_ID, pcTMPId, Cairo.Constants.Types.id);
 
                                     register.getFields().setHaveLastUpdate(false);
                                     register.getFields().setHaveWhoModify(false);

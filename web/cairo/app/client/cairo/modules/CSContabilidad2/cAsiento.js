@@ -109,7 +109,7 @@
       var C_AS_TOTAL_HABER = "as_totalhaber";
 
       var K_NUMERO = 1;
-      var K_NRODOC = 2;
+      var K_NRO_DOC = 2;
       var K_DESCRIP = 3;
       var K_FECHA = 4;
       var K_DOC_ID = 11;
@@ -500,7 +500,7 @@
                   fields.add(CC.AS_NUMERO, property.getValue(), Types.long);
                   break;
 
-                case K_NRODOC:
+                case K_NRO_DOC:
                   fields.add(CC.AS_NRODOC, property.getValue(), Types.text);
                   break;
 
@@ -1096,7 +1096,7 @@
         elem.setType(T.text);
         elem.setName(getText(1065, "")); // Número
         elem.setSize(50);
-        elem.setKey(K_NRODOC);
+        elem.setKey(K_NRO_DOC);
         elem.setValue(m_nroDoc);
         elem.setTextMask(m_taMascara);
         elem.setTextAlign(Dialogs.TextAlign.right);
@@ -1297,12 +1297,14 @@
 
       var load = function(id) {
 
+        m_data = emptyData;
+
         return DB.getData("load[" + m_apiPath + "contabilidad/asiento]", id).then(
           function(response) {
 
-            var p = null;
-
             if(response.success !== true) { return false; }
+
+            var p = null;
 
             if(response.data.id !== NO_ID) {
 
@@ -1497,7 +1499,7 @@
             && prop.getKey() !== K_ID_CLIENTE) {
 
             if(bState) {
-              if(prop.getKey() !== K_NRODOC) {
+              if(prop.getKey() !== K_NRO_DOC) {
                 prop.setEnabled(true);
               }
               else {

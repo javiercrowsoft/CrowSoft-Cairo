@@ -45,7 +45,7 @@
       var C_LEGAJOS = "LEGAJOS";
 
       var K_NUMERO = 1;
-      var K_NRODOC = 2;
+      var K_NRO_DOC = 2;
       var K_DESCRIP = 3;
       var K_FECHA = 4;
       var K_FECHA_ENTREGA = 5;
@@ -143,8 +143,8 @@
       var m_fechaVto = null;
       var m_fechaIva = null;
       var m_neto = 0;
-      var m_ivari = 0;
-      var m_ivarni = 0;
+      var m_ivaRi = 0;
+      var m_ivaRni = 0;
       var m_internos = 0;
       var m_total = 0;
       var m_totalOtros = 0;
@@ -824,7 +824,7 @@
                   fields.add(CC.FC_NUMERO, property.getValue(), Types.long);
                   break;
 
-                case K_NRODOC:
+                case K_NRO_DOC:
                   fields.add(CC.FC_NRODOC, property.getValue(), Types.text);
                   break;
 
@@ -2128,7 +2128,7 @@
         elem.setType(T.text);
         elem.setName(getText(1065, "")); // Número
         elem.setSize(50);
-        elem.setKey(K_NRODOC);
+        elem.setKey(K_NRO_DOC);
         elem.setValue(m_nroDoc);
         elem.setTextMask(m_taMascara);
         elem.setTextAlign(Dialogs.TextAlign.right);
@@ -2465,7 +2465,7 @@
         elem.setName(getText(1582, "")); // IVA RI
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(K_IVA_RI);
-        elem.setValue(m_ivari);
+        elem.setValue(m_ivaRi);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setEnabled(false);
 
@@ -2510,7 +2510,7 @@
         elem.setName(getText(1583, "")); // IVA RNI
         elem.setSubType(Dialogs.PropertySubType.money);
         elem.setKey(K_IVA_RNI);
-        elem.setValue(m_ivarni);
+        elem.setValue(m_ivaRni);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setEnabled(false);
         elem.setVisible(false);
@@ -3231,11 +3231,11 @@
         return DB.getData("load[" + m_apiPath + "compras/facturacompra]", id).then(
           function(response) {
 
-            var p = null;
-
             m_lastCpgId = -1;
 
             if(response.success !== true) { return false; }
+
+            var p = null;
 
             if(response.data.id !== NO_ID) {
 
@@ -3255,8 +3255,8 @@
               m_fechaVto = valField(data, CC.FC_FECHA_VTO);
               m_fechaIva = valField(data, CC.FC_FECHA_IVA);
               m_neto = valField(data, CC.FC_NETO) / cotizacion;
-              m_ivari = valField(data, CC.FC_IVA_RI) / cotizacion;
-              m_ivarni = valField(data, CC.FC_IVA_RNI) / cotizacion;
+              m_ivaRi = valField(data, CC.FC_IVA_RI) / cotizacion;
+              m_ivaRni = valField(data, CC.FC_IVA_RNI) / cotizacion;
               m_internos = valField(data, CC.FC_INTERNOS) / cotizacion;
               m_total = valField(data, CC.FC_TOTAL) / cotizacion;
               m_totalOtros = valField(data, CC.FC_TOTAL_OTROS) / cotizacion;
@@ -3335,8 +3335,8 @@
               m_fechaVto = Cairo.Constants.NO_DATE;
               m_fechaIva = m_fecha;
               m_neto = 0;
-              m_ivari = 0;
-              m_ivarni = 0;
+              m_ivaRi = 0;
+              m_ivaRni = 0;
               m_internos = 0;
               m_total = 0;
               m_totalOtros = 0;
@@ -4041,7 +4041,7 @@
             && prop.getKey() !== K_HIDECOLS) {
 
             if(bState) {
-              if(prop.getKey() !== K_NRODOC) {
+              if(prop.getKey() !== K_NRO_DOC) {
                 prop.setEnabled(true);
               }
               else {
@@ -4342,10 +4342,10 @@
           .setValue(m_neto);
 
         m_footerProps.item(CC.FC_IVA_RI)
-          .setValue(m_ivari);
+          .setValue(m_ivaRi);
 
         m_footerProps.item(CC.FC_IVA_RNI)
-          .setValue(m_ivarni);
+          .setValue(m_ivaRni);
 
         m_footerProps.item(CC.FC_INTERNOS)
           .setValue(m_internos);
@@ -5304,7 +5304,6 @@
       };
 
       var signDocument = function() {
-
         var fcId = m_dialog.getId();
 
         if(fcId === NO_ID) {
@@ -5327,13 +5326,11 @@
           return p || P.resolvedPromise(true);
         };
 
-        var p = D.getDocumentSignStatus(D.Types.FACTURA_COMPRA, fcId)
+        return D.getDocumentSignStatus(D.Types.FACTURA_COMPRA, fcId)
           .whenSuccessWithResult(getAction)
           .whenSuccess(D.signDocument(D.Types.FACTURA_COMPRA, fcId))
           .whenSuccessWithResult(refreshRow)
         ;
-
-        return p;
       };
 
       var showAsiento = function() {

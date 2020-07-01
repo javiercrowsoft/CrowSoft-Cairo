@@ -121,7 +121,13 @@
       return this.saveEx(register, isNew, codeField, functionName, module, title);
     },
 
-    execute: function() { /* TODO: implement this. */ },
+    execute: function(path, id, functionName, module, title) {
+      var register = new DB.Register();
+      register.setId(id);
+      register.setTable("execute");
+      register.setPath(path);
+      return this.save(register, false, functionName, module, title);
+    },
 
     destroy: function(path, id, module, functionName) {
       var p = null;

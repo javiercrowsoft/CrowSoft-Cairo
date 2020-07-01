@@ -1923,7 +1923,7 @@
       };
 
       var getDocId = function() {
-        return m.dialog.getProperties().item(C.DOC_ID).getSelectId();
+        return m.properties.item(C.DOC_ID).getSelectId();
       };
 
       var setGridItems = function(property) {
@@ -2196,9 +2196,9 @@
         return DB.getData("load[" + m.apiPath + "ventas/pedidoventa]", id).then(
           function(response) {
 
-            var p = null;
-
             if(response.success !== true) { return false; }
+
+            var p = null;
 
             if(response.data.id !== NO_ID) {
 
@@ -3250,10 +3250,6 @@
         }
       };
 
-      var getDocId = function() {
-        return m.properties.item(C.DOC_ID).getSelectId();
-      };
-
       var initialize = function() {
         try {
 
@@ -4045,10 +4041,9 @@
       };
 
       var signDocument = function() {
+        var pvId = m.dialog.getId();
 
-        var fcId = m.dialog.getId();
-
-        if(fcId === NO_ID) {
+        if(pvId === NO_ID) {
           return P.resolvedPromise();
         }
 
@@ -4068,13 +4063,11 @@
           return p || P.resolvedPromise(true);
         };
 
-        var p = D.getDocumentSignStatus(D.Types.PEDIDO_VENTA, fcId)
+        return D.getDocumentSignStatus(D.Types.PEDIDO_VENTA, pvId)
             .whenSuccessWithResult(getAction)
-            .whenSuccess(D.signDocument(D.Types.PEDIDO_VENTA, fcId))
+            .whenSuccess(D.signDocument(D.Types.PEDIDO_VENTA, pvId))
             .whenSuccessWithResult(refreshRow)
           ;
-
-        return p;
       };
 
       var showApply = function() {

@@ -708,7 +708,7 @@
         var register = null;
 
         register = new cRegister();
-        register.setFieldId(mComprasConstantes.OC_TMPID);
+        register.setFieldId(mComprasConstantes.OC_TMP_ID);
         register.setTable(mComprasConstantes.ORDENCOMPRATMP);
 
         register.setId(Cairo.Constants.NEW_ID);
@@ -1652,11 +1652,11 @@
                 if(vAplic.Aplicado > 0) {
 
                   register = new cRegister();
-                  register.setFieldId(mComprasConstantes.PC_OC_TMPID);
+                  register.setFieldId(mComprasConstantes.PC_OC_TMP_ID);
                   register.setTable(mComprasConstantes.PEDIDOORDENCOMPRATMP);
                   register.setId(Cairo.Constants.NEW_ID);
 
-                  register.getFields().add2(mComprasConstantes.OC_TMPID, ocTMPId, Cairo.Constants.Types.id);
+                  register.getFields().add2(mComprasConstantes.OC_TMP_ID, ocTMPId, Cairo.Constants.Types.id);
                   register.getFields().add2(mComprasConstantes.PCI_ID, vAplic(i).pci_id, Cairo.Constants.Types.id);
                   register.getFields().add2(mComprasConstantes.OCI_ID, vAplic.oci_id, Cairo.Constants.Types.id);
                   register.getFields().add2(mComprasConstantes.PC_OC_CANTIDAD, vAplic.Aplicado, Cairo.Constants.Types.double);
@@ -1695,7 +1695,7 @@
 
                   // Si estoy vinculando contra una factura
                   if(vAplic(i).fci_id !== 0) {
-                    register.setFieldId(mComprasConstantes.OC_FC_TMPID);
+                    register.setFieldId(mComprasConstantes.OC_FC_TMP_ID);
                     register.setTable(mComprasConstantes.ORDENFACTURA_COMPRATMP);
                     register.getFields().add2(mComprasConstantes.FCI_ID, vAplic(i).fci_id, Cairo.Constants.Types.id);
                     register.getFields().add2(mComprasConstantes.OCI_ID, vAplic.oci_id, Cairo.Constants.Types.id);
@@ -1706,7 +1706,7 @@
                   }
                   else if(vAplic(i).rci_id !== 0) {
 
-                    register.setFieldId(mComprasConstantes.OC_RC_TMPID);
+                    register.setFieldId(mComprasConstantes.OC_RC_TMP_ID);
                     register.setTable(mComprasConstantes.ORDENREMITO_COMPRATMP);
                     register.getFields().add2(mComprasConstantes.RCI_ID, vAplic(i).rci_id, Cairo.Constants.Types.id);
                     register.getFields().add2(mComprasConstantes.OCI_ID, vAplic.oci_id, Cairo.Constants.Types.id);
@@ -1717,7 +1717,7 @@
                     // Si vinculo contra un Orden (Orden - Devolucion)
                   }
                   else {
-                    register.setFieldId(mComprasConstantes.OC_DC_TMPID);
+                    register.setFieldId(mComprasConstantes.OC_DC_TMP_ID);
                     register.setTable(mComprasConstantes.ORDENDEVOLUCIONCOMPRATMP);
 
                     if(m_isDevolucion) {
@@ -1735,7 +1735,7 @@
                   }
 
                   register.setId(Cairo.Constants.NEW_ID);
-                  register.getFields().add2(mComprasConstantes.OC_TMPID, ocTMPId, Cairo.Constants.Types.id);
+                  register.getFields().add2(mComprasConstantes.OC_TMP_ID, ocTMPId, Cairo.Constants.Types.id);
 
                   register.getFields().setHaveLastUpdate(false);
                   register.getFields().setHaveWhoModify(false);

@@ -37,7 +37,7 @@
 
       var K_FECHADESDE = 1;
       var K_FECHAHASTA = 2;
-      var K_NRODOC = 3;
+      var K_NRO_DOC = 3;
       var K_CLI_ID = 4;
       var K_VEN_ID = 5;
       var K_ZON_ID = 6;
@@ -188,7 +188,7 @@
 
             break;
 
-          case K_NRODOC:
+          case K_NRO_DOC:
             m_nroDoc = m_dialog.getProperties().item(CV.PKL_NRODOC).getValue();
 
             break;
@@ -428,10 +428,10 @@
 
               break;
 
-            case K_NRODOC:
+            case K_NRO_DOC:
               fields.add(Cairo.Constants.LDP_VALOR, property.getValue(), Cairo.Constants.Types.text);
               fields.add(Cairo.Constants.LDP_ORDEN, 30, Cairo.Constants.Types.integer);
-              fields.add(Cairo.Constants.LDP_ID, K_NRODOC, Cairo.Constants.Types.integer);
+              fields.add(Cairo.Constants.LDP_ID, K_NRO_DOC, Cairo.Constants.Types.integer);
 
               break;
 
@@ -601,7 +601,7 @@
         // Numero
         c.setName(getText(1065, ""));
         c.setSize(255);
-        c.setKey(K_NRODOC);
+        c.setKey(K_NRO_DOC);
         c.setValue(m_nroDoc);
 
         c = m_dialog.getProperties().add(null, C.CLI_ID);

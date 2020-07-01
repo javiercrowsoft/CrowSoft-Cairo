@@ -26,8 +26,8 @@
       RV_FIRMADO: "rv_firmado",
       RV_DESCUENTO1: "rv_descuento1",
       RV_DESCUENTO2: "rv_descuento2",
-      RV_IMPORTEDESC1: "rv_importedesc1",
-      RV_IMPORTEDESC2: "rv_importedesc2",
+      RV_IMPORTE_DESC_1: "rv_importedesc1",
+      RV_IMPORTE_DESC_2: "rv_importedesc2",
       RV_COTIZACION: "rv_cotizacion",
       RV_RETIRO: "rv_retiro",
       RV_GUIA: "rv_guia",
@@ -54,12 +54,12 @@
       RVI_NETO: "rvi_neto",
       RVI_IVARI: "rvi_ivari",
       RVI_IVARNI: "rvi_ivarni",
-      RVI_IVARIPORC: "rvi_ivariporc",
-      RVI_IVARNIPORC: "rvi_ivarniporc",
+      RVI_IVA_RI_PORC: "rvi_ivariporc",
+      RVI_IVA_RNI_PORC: "rvi_ivarniporc",
       RVI_IMPORTE: "rvi_importe",
 
       // RemitoVentaTMP
-      REMITO_VENTA_ITEM_TMP: "RemitoVentaItemTMP",
+      REMITO_VENTA_ITEM_TMP: "REMITO_VENTA_ITEM_TMP",
       RVI_TMP_ID: "rviTMP_id",
 
       // Items Borrados de Remito de venta
@@ -123,8 +123,8 @@
       FVI_IMPORTE: "fvi_importe",
       FVI_NO_STOCK: "fvi_nostock",
 
-      // FacturaVentaItemTMP
-      FACTURA_VENTA_ITEM_TMP: "FacturaVentaItemTMP",
+      // FacturaVENTA_ITEM_TMP
+      FACTURA_VENTA_ITEM_TMP: "FacturaVENTA_ITEM_TMP",
       FVI_TMP_ID: "fviTMP_id",
 
       // FacturaVentaItemBarradoTMP
@@ -225,7 +225,7 @@
       PRV_IMPORTE_DESC2: "prv_importedesc2",
 
       // PresupuestoVentaItem
-      PRESUPUESTO_VENTA_ITEM_TMP: "PresupuestoVentaItemTMP",
+      PRESUPUESTO_VENTA_ITEM_TMP: "PresupuestoVENTA_ITEM_TMP",
       PRVI_TMP_ID: "prvitmp_id",
 
       PRESUPUESTO_VENTA_ITEM: "PresupuestoVentaItem",
@@ -269,7 +269,7 @@
       PRVI_ID_PRESUPUESTO: "prvi_id_presupuesto",
 
       PEDIDO_VENTA_TMP: "PedidoVentaTMP",
-      PV_TMPID: "pvtmp_id",
+      PV_TMP_ID: "pvtmp_id",
 
       PEDIDO_VENTA: "PedidoVenta",
       PV_ID: "pv_id",
@@ -296,7 +296,7 @@
       RAMA_STOCK: "ramastock",
 
       // Items de Pedidos de Venta
-      PEDIDO_VENTA_ITEM_TMP: "PedidoVentaItemTMP",
+      PEDIDO_VENTA_ITEM_TMP: "PedidoVENTA_ITEM_TMP",
       PVI_TMP_ID: "pvitmp_id",
 
       PEDIDO_VENTA_ITEM: "PedidoVentaItem",

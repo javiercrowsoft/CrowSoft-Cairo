@@ -18,6 +18,9 @@
 
         // Stock
         ST_ID: "st_id",
+        ST_ID_CONSUMO: "st_id_consumo",
+        ST_ID_CONSUMO_TEMP: "st_id_consumotemp",
+        ST_ID_PRODUCIDO: "st_id_producido",
       //---------------------------------------------------------
 
       ID_CLIENTE: "id_cliente",

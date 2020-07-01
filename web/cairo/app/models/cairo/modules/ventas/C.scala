@@ -79,12 +79,12 @@ object C {
   val RVI_NETO = "rvi_neto"
   val RVI_IVARI = "rvi_ivari"
   val RVI_IVARNI = "rvi_ivarni"
-  val RVI_IVARIPORC = "rvi_ivariporc"
-  val RVI_IVARNIPORC = "rvi_ivarniporc"
+  val RVI_IVA_RI_PORC = "rvi_ivariporc"
+  val RVI_IVA_RNI_PORC = "rvi_ivarniporc"
   val RVI_IMPORTE = "rvi_importe"
 
   // RemitoVentaTMP
-  val REMITO_VENTA_ITEM_TMP = "RemitoVentaItemTMP"
+  val REMITO_VENTA_ITEM_TMP = "REMITO_VENTA_ITEM_TMP"
   val RVI_TMP_ID = "rviTMP_id"
 
   // Items Borrados de Remito de venta
@@ -150,8 +150,8 @@ object C {
   val CUE_ID_IVA_RNI = "cue_id_IvaRNI"
   val FVI_NO_STOCK = "fvi_nostock"
 
-  // FacturaVentaItemTMP
-  val FACTURA_VENTA_ITEM_TMP = "FacturaVentaItemTMP"
+  // FacturaVENTA_ITEM_TMP
+  val FACTURA_VENTA_ITEM_TMP = "FacturaVENTA_ITEM_TMP"
   val FVI_TMP_ID = "fviTMP_id"
 
   // FacturaVentaItemBarradoTMP
@@ -256,7 +256,7 @@ object C {
   val PRV_IMPORTE_DESC2 = "prv_importedesc2"
 
   // PresupuestoVentaItem
-  val PRESUPUESTOVENTAITEMTMP = "PresupuestoVentaItemTMP"
+  val PRESUPUESTOVENTA_ITEM_TMP = "PresupuestoVENTA_ITEM_TMP"
   val PRVI_TMP_ID = "prvitmp_id"
   val PRESUPUESTOVENTAITEM = "PresupuestoVentaItem"
   val PRVI_ID = "prvi_id"
@@ -326,7 +326,7 @@ object C {
   val RAMA_STOCK = "RamaStock"
 
   // Items de Pedidos de Venta
-  val PEDIDO_VENTA_ITEM_TMP = "PedidoVentaItemTMP"
+  val PEDIDO_VENTA_ITEM_TMP = "PedidoVENTA_ITEM_TMP"
   val PVI_TMP_ID = "pvitmp_id"
 
   val PEDIDO_VENTA_ITEM = "PedidoVentaItem"

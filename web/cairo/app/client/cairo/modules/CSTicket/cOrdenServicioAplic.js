@@ -563,7 +563,7 @@
                 var register = null;
 
                 register = new cRegister();
-                register.setFieldId(mTicketConstantes.OS_TMPID);
+                register.setFieldId(mTicketConstantes.OS_TMP_ID);
                 register.setTable(mTicketConstantes.ORDEN_SERVICIOTMP);
 
                 register.setId(Cairo.Constants.NEW_ID);
@@ -1348,7 +1348,7 @@
 
                                     register = new cRegister();
 
-                                    register.setFieldId(mTicketConstantes.OS_RV_TMPID);
+                                    register.setFieldId(mTicketConstantes.OS_RV_TMP_ID);
                                     register.setTable(mTicketConstantes.ORDENREMITO_VENTATMP);
                                     register.getFields().add2(mTicketConstantes.RVI_ID, vAplic(i).rvi_id, Cairo.Constants.Types.id);
                                     register.getFields().add2(mTicketConstantes.OSI_ID, vAplic.osi_id, Cairo.Constants.Types.id);
@@ -1357,7 +1357,7 @@
                                     register.getFields().add2(mTicketConstantes.OS_RV_ID, vAplic.vinc_id, Cairo.Constants.Types.long);
 
                                     register.setId(Cairo.Constants.NEW_ID);
-                                    register.getFields().add2(mTicketConstantes.OS_TMPID, osTMPId, Cairo.Constants.Types.id);
+                                    register.getFields().add2(mTicketConstantes.OS_TMP_ID, osTMPId, Cairo.Constants.Types.id);
 
                                     register.getFields().setHaveLastUpdate(false);
                                     register.getFields().setHaveWhoModify(false);

@@ -703,7 +703,7 @@
                 var register = null;
 
                 register = new cRegister();
-                register.setFieldId(mVentaConstantes.RV_TMPID);
+                register.setFieldId(mVentaConstantes.RV_TMP_ID);
                 register.setTable(mVentaConstantes.REMITO_VENTATMP);
 
                 register.setId(Cairo.Constants.NEW_ID);
@@ -1643,11 +1643,11 @@
                                 if(vAplic.Aplicado > 0) {
 
                                     register = new cRegister();
-                                    register.setFieldId(mVentaConstantes.PV_RV_TMPID);
+                                    register.setFieldId(mVentaConstantes.PV_RV_TMP_ID);
                                     register.setTable(mVentaConstantes.PEDIDOREMITO_VENTATMP);
                                     register.setId(Cairo.Constants.NEW_ID);
 
-                                    register.getFields().add2(mVentaConstantes.RV_TMPID, rvTMPId, Cairo.Constants.Types.id);
+                                    register.getFields().add2(mVentaConstantes.RV_TMP_ID, rvTMPId, Cairo.Constants.Types.id);
                                     register.getFields().add2(mVentaConstantes.PVI_ID, vAplic(i).pvi_id, Cairo.Constants.Types.id);
                                     register.getFields().add2(mVentaConstantes.RVI_ID, vAplic.rvi_id, Cairo.Constants.Types.id);
                                     register.getFields().add2(mVentaConstantes.PV_RV_CANTIDAD, vAplic.Aplicado, Cairo.Constants.Types.double);
@@ -1683,11 +1683,11 @@
                                 if(vAplic.Aplicado > 0) {
 
                                     register = new cRegister();
-                                    register.setFieldId(mVentaConstantes.OS_RV_TMPID);
+                                    register.setFieldId(mVentaConstantes.OS_RV_TMP_ID);
                                     register.setTable(mVentaConstantes.ORDENREMITO_VENTATMP);
                                     register.setId(Cairo.Constants.NEW_ID);
 
-                                    register.getFields().add2(mVentaConstantes.RV_TMPID, rvTMPId, Cairo.Constants.Types.id);
+                                    register.getFields().add2(mVentaConstantes.RV_TMP_ID, rvTMPId, Cairo.Constants.Types.id);
                                     register.getFields().add2(mVentaConstantes.OSI_ID, vAplic(i).osi_id, Cairo.Constants.Types.id);
                                     register.getFields().add2(mVentaConstantes.RVI_ID, vAplic.rvi_id, Cairo.Constants.Types.id);
                                     register.getFields().add2(mVentaConstantes.OS_RV_CANTIDAD, vAplic.Aplicado, Cairo.Constants.Types.double);
@@ -1799,7 +1799,7 @@
 
                                     // Si estoy vinculando contra una factura
                                     if(vAplic(i).fvi_id !== 0) {
-                                        register.setFieldId(mVentaConstantes.RV_FV_TMPID);
+                                        register.setFieldId(mVentaConstantes.RV_FV_TMP_ID);
                                         register.setTable(mVentaConstantes.REMITOFACTURAVENTATMP);
                                         register.getFields().add2(mVentaConstantes.FVI_ID, vAplic(i).fvi_id, Cairo.Constants.Types.id);
                                         register.getFields().add2(mVentaConstantes.RVI_ID, vAplic.rvi_id, Cairo.Constants.Types.id);
@@ -1810,7 +1810,7 @@
                                         // Si vinculo contra un remito (Remito - Devolucion)
                                     }
                                     else {
-                                        register.setFieldId(mVentaConstantes.RV_DV_TMPID);
+                                        register.setFieldId(mVentaConstantes.RV_DV_TMP_ID);
                                         register.setTable(mVentaConstantes.REMITODEVOLUCIONVENTATMP);
 
                                         if(m_isDevolucion) {
@@ -1828,7 +1828,7 @@
                                     }
 
                                     register.setId(Cairo.Constants.NEW_ID);
-                                    register.getFields().add2(mVentaConstantes.RV_TMPID, rvTMPId, Cairo.Constants.Types.id);
+                                    register.getFields().add2(mVentaConstantes.RV_TMP_ID, rvTMPId, Cairo.Constants.Types.id);
 
                                     register.getFields().setHaveLastUpdate(false);
                                     register.getFields().setHaveWhoModify(false);

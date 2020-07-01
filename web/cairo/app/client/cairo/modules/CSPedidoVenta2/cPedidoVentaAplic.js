@@ -801,7 +801,7 @@
                 var register = null;
 
                 register = new cRegister();
-                register.setFieldId(mPedidoConstantes.PV_TMPID);
+                register.setFieldId(mPedidoConstantes.PV_TMP_ID);
                 register.setTable(mPedidoConstantes.PEDIDO_VENTATMP);
 
                 register.setId(Cairo.Constants.NEW_ID);
@@ -1852,11 +1852,11 @@
                                 if(vAplic.Aplicado > 0) {
 
                                     register = new cRegister();
-                                    register.setFieldId(mPedidoConstantes.PV_PKLST_TMPID);
+                                    register.setFieldId(mPedidoConstantes.PV_PKLST_TMP_ID);
                                     register.setTable(mPedidoConstantes.PEDIDOPACKING_LISTTMP);
                                     register.setId(Cairo.Constants.NEW_ID);
 
-                                    register.getFields().add2(mPedidoConstantes.PV_TMPID, pvTMPId, Cairo.Constants.Types.id);
+                                    register.getFields().add2(mPedidoConstantes.PV_TMP_ID, pvTMPId, Cairo.Constants.Types.id);
                                     register.getFields().add2(mPedidoConstantes.PKLSTI_ID, vAplic(i).pki_id, Cairo.Constants.Types.id);
                                     register.getFields().add2(mPedidoConstantes.PVI_ID, vAplic.pvi_id, Cairo.Constants.Types.id);
                                     register.getFields().add2(mPedidoConstantes.PV_PKLST_CANTIDAD, vAplic.Aplicado, Cairo.Constants.Types.double);
@@ -1972,7 +1972,7 @@
 
                                     // Si estoy vinculando contra una factura
                                     if(vAplic(i).fvi_id !== 0) {
-                                        register.setFieldId(mPedidoConstantes.PV_FV_TMPID);
+                                        register.setFieldId(mPedidoConstantes.PV_FV_TMP_ID);
                                         register.setTable(mPedidoConstantes.PEDIDOFACTURAVENTATMP);
                                         register.getFields().add2(mPedidoConstantes.FVI_ID, vAplic(i).fvi_id, Cairo.Constants.Types.id);
                                         register.getFields().add2(mPedidoConstantes.PVI_ID, vAplic.pvi_id, Cairo.Constants.Types.id);
@@ -1983,7 +1983,7 @@
                                     }
                                     else if(vAplic(i).rvi_id !== 0) {
 
-                                        register.setFieldId(mPedidoConstantes.PV_RV_TMPID);
+                                        register.setFieldId(mPedidoConstantes.PV_RV_TMP_ID);
                                         register.setTable(mPedidoConstantes.PEDIDOREMITO_VENTATMP);
                                         register.getFields().add2(mPedidoConstantes.RVI_ID, vAplic(i).rvi_id, Cairo.Constants.Types.id);
                                         register.getFields().add2(mPedidoConstantes.PVI_ID, vAplic.pvi_id, Cairo.Constants.Types.id);
@@ -1994,7 +1994,7 @@
                                         // Si vinculo contra un pedido (Pedido - Devolucion)
                                     }
                                     else {
-                                        register.setFieldId(mPedidoConstantes.PV_DV_TMPID);
+                                        register.setFieldId(mPedidoConstantes.PV_DV_TMP_ID);
                                         register.setTable(mPedidoConstantes.PEDIDODEVOLUCIONVENTATMP);
 
                                         if(m_isDevolucion) {
@@ -2012,7 +2012,7 @@
                                     }
 
                                     register.setId(Cairo.Constants.NEW_ID);
-                                    register.getFields().add2(mPedidoConstantes.PV_TMPID, pvTMPId, Cairo.Constants.Types.id);
+                                    register.getFields().add2(mPedidoConstantes.PV_TMP_ID, pvTMPId, Cairo.Constants.Types.id);
 
                                     register.getFields().setHaveLastUpdate(false);
                                     register.getFields().setHaveWhoModify(false);
@@ -2051,11 +2051,11 @@
                                 if(vAplic.Aplicado > 0) {
 
                                     register = new cRegister();
-                                    register.setFieldId(mPedidoConstantes.PRV_PV_TMPID);
+                                    register.setFieldId(mPedidoConstantes.PRV_PV_TMP_ID);
                                     register.setTable(mPedidoConstantes.PRESUPUESTOPEDIDO_VENTATMP);
                                     register.setId(Cairo.Constants.NEW_ID);
 
-                                    register.getFields().add2(mPedidoConstantes.PV_TMPID, pvTMPId, Cairo.Constants.Types.id);
+                                    register.getFields().add2(mPedidoConstantes.PV_TMP_ID, pvTMPId, Cairo.Constants.Types.id);
                                     register.getFields().add2(mPedidoConstantes.PRVI_ID, vAplic(i).prvi_id, Cairo.Constants.Types.id);
                                     register.getFields().add2(mPedidoConstantes.PVI_ID, vAplic.pvi_id, Cairo.Constants.Types.id);
                                     register.getFields().add2(mPedidoConstantes.PRV_PV_CANTIDAD, vAplic.Aplicado, Cairo.Constants.Types.double);

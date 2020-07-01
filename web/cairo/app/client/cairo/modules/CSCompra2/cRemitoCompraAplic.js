@@ -696,7 +696,7 @@
                 var register = null;
 
                 register = new cRegister();
-                register.setFieldId(mComprasConstantes.RC_TMPID);
+                register.setFieldId(mComprasConstantes.RC_TMP_ID);
                 register.setTable(mComprasConstantes.REMITO_COMPRATMP);
 
                 register.setId(Cairo.Constants.NEW_ID);
@@ -1547,11 +1547,11 @@
                                 if(vAplic.Aplicado > 0) {
 
                                     register = new cRegister();
-                                    register.setFieldId(mComprasConstantes.OC_RC_TMPID);
+                                    register.setFieldId(mComprasConstantes.OC_RC_TMP_ID);
                                     register.setTable(mComprasConstantes.ORDENREMITO_COMPRATMP);
                                     register.setId(Cairo.Constants.NEW_ID);
 
-                                    register.getFields().add2(mComprasConstantes.RC_TMPID, rcTMPId, Cairo.Constants.Types.id);
+                                    register.getFields().add2(mComprasConstantes.RC_TMP_ID, rcTMPId, Cairo.Constants.Types.id);
                                     register.getFields().add2(mComprasConstantes.OCI_ID, vAplic(i).oci_id, Cairo.Constants.Types.id);
                                     register.getFields().add2(mComprasConstantes.RCI_ID, vAplic.rci_id, Cairo.Constants.Types.id);
                                     register.getFields().add2(mComprasConstantes.OC_RC_CANTIDAD, vAplic.Aplicado, Cairo.Constants.Types.double);
@@ -1663,7 +1663,7 @@
 
                                     // Si estoy vinculando contra una factura
                                     if(vAplic(i).fci_id !== 0) {
-                                        register.setFieldId(mComprasConstantes.RC_FC_TMPID);
+                                        register.setFieldId(mComprasConstantes.RC_FC_TMP_ID);
                                         register.setTable(mComprasConstantes.REMITOFACTURA_COMPRATMP);
                                         register.getFields().add2(mComprasConstantes.FCI_ID, vAplic(i).fci_id, Cairo.Constants.Types.id);
                                         register.getFields().add2(mComprasConstantes.RCI_ID, vAplic.rci_id, Cairo.Constants.Types.id);
@@ -1674,7 +1674,7 @@
                                         // Si vinculo contra un remito (Remito - Devolucion)
                                     }
                                     else {
-                                        register.setFieldId(mComprasConstantes.RC_DC_TMPID);
+                                        register.setFieldId(mComprasConstantes.RC_DC_TMP_ID);
                                         register.setTable(mComprasConstantes.REMITODEVOLUCIONCOMPRATMP);
 
                                         if(m_isDevolucion) {
@@ -1692,7 +1692,7 @@
                                     }
 
                                     register.setId(Cairo.Constants.NEW_ID);
-                                    register.getFields().add2(mComprasConstantes.RC_TMPID, rcTMPId, Cairo.Constants.Types.id);
+                                    register.getFields().add2(mComprasConstantes.RC_TMP_ID, rcTMPId, Cairo.Constants.Types.id);
 
                                     register.getFields().setHaveLastUpdate(false);
                                     register.getFields().setHaveWhoModify(false);
