@@ -911,8 +911,8 @@ object FacturaVenta {
     SqlParser.get[BigDecimal](C.FVI_IVA_RI) ~
     SqlParser.get[BigDecimal](C.FVI_IVA_RNI) ~
     SqlParser.get[BigDecimal](C.FVI_INTERNOS) ~
-    SqlParser.get[BigDecimal](C.FVI_IVA_RIPORC) ~
-    SqlParser.get[BigDecimal](C.FVI_IVA_RNIPORC) ~
+    SqlParser.get[BigDecimal](C.FVI_IVA_RI_PORC) ~
+    SqlParser.get[BigDecimal](C.FVI_IVA_RNI_PORC) ~
     SqlParser.get[BigDecimal](C.FVI_INTERNOS_PORC) ~
     SqlParser.get[Float](GC.PR_PORC_INTERNO_V) ~
     SqlParser.get[Int](GC.PR_ID) ~
@@ -1416,8 +1416,8 @@ object FacturaVenta {
         Field(C.FVI_IVA_RI, item.totals.ivaRi, FieldType.currency),
         Field(C.FVI_IVA_RNI, item.totals.ivaRni, FieldType.currency),
         Field(C.FVI_INTERNOS, item.totals.internos, FieldType.currency),
-        Field(C.FVI_IVA_RIPORC, item.totals.ivaRiPorc, FieldType.double),
-        Field(C.FVI_IVA_RNIPORC, item.totals.ivaRniPorc, FieldType.double),
+        Field(C.FVI_IVA_RI_PORC, item.totals.ivaRiPorc, FieldType.double),
+        Field(C.FVI_IVA_RNI_PORC, item.totals.ivaRniPorc, FieldType.double),
         Field(C.FVI_INTERNOS_PORC, item.totals.internosPorc, FieldType.double),
         Field(C.FVI_IMPORTE, item.totals.importe, FieldType.currency),
         Field(C.FVI_IMPORTE_ORIGEN, item.totals.importeOrigen, FieldType.currency)
@@ -1474,13 +1474,6 @@ object FacturaVenta {
         Field(GC.PRNS_CODE, item.code, FieldType.text),
         Field(GC.PRNS_DESCRIP, item.descrip, FieldType.text),
         Field(GC.PRNS_FECHA_VTO, item.fechaVto, FieldType.date)
-      )
-    }
-
-    def getSerieDeletedFields(prnsId: Int, fvTMPId: Int) = {
-      List(
-        Field(C.FV_TMP_ID, fvTMPId, FieldType.id),
-        Field(GC.PRNS_ID, prnsId, FieldType.id)
       )
     }
 

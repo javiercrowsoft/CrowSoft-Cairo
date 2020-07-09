@@ -207,7 +207,7 @@ object FacturaVentas extends Controller with ProvidesUser {
     GC.CUE_ID, C.CUE_ID_IVA_RI, C.CUE_ID_IVA_RNI, GC.STL_ID, C.FVI_ORDEN)
 
   val facturaItemTotals = List(C.FVI_CANTIDAD, C.FVI_PRECIO, C.FVI_PRECIO_LISTA, C.FVI_PRECIO_USR, C.FVI_NETO,
-    C.FVI_IVA_RI, C.FVI_IVA_RNI, C.FVI_INTERNOS, C.FVI_IVA_RIPORC, C.FVI_IVA_RNIPORC,
+    C.FVI_IVA_RI, C.FVI_IVA_RNI, C.FVI_INTERNOS, C.FVI_IVA_RI_PORC, C.FVI_IVA_RNI_PORC,
     C.FVI_INTERNOS_PORC, C.FVI_IMPORTE, C.FVI_IMPORTE_ORIGEN)
 
   val facturaPercepcion = List(C.FVPERC_ID, GC.PERC_ID, C.FVPERC_BASE, C.FVPERC_PORCENTAJE, C.FVPERC_IMPORTE,
@@ -362,8 +362,8 @@ object FacturaVentas extends Controller with ProvidesUser {
             C.FVI_IVA_RI -> of(doubleFormat),
             C.FVI_IVA_RNI -> optional(of(doubleFormat)),
             C.FVI_INTERNOS -> of(doubleFormat),
-            C.FVI_IVA_RIPORC -> of(doubleFormat),
-            C.FVI_IVA_RNIPORC -> of(doubleFormat),
+            C.FVI_IVA_RI_PORC -> of(doubleFormat),
+            C.FVI_IVA_RNI_PORC -> of(doubleFormat),
             C.FVI_INTERNOS_PORC -> of(doubleFormat),
             C.FVI_IMPORTE -> of(doubleFormat),
             C.FVI_IMPORTE_ORIGEN -> of(doubleFormat))
@@ -540,8 +540,8 @@ object FacturaVentas extends Controller with ProvidesUser {
       C.FVI_IVA_RI -> Json.toJson(i.totals.ivaRi),
       C.FVI_IVA_RNI -> Json.toJson(i.totals.ivaRni),
       C.FVI_INTERNOS -> Json.toJson(i.totals.internos),
-      C.FVI_IVA_RIPORC -> Json.toJson(i.totals.ivaRiPorc),
-      C.FVI_IVA_RNIPORC -> Json.toJson(i.totals.ivaRniPorc),
+      C.FVI_IVA_RI_PORC -> Json.toJson(i.totals.ivaRiPorc),
+      C.FVI_IVA_RNI_PORC -> Json.toJson(i.totals.ivaRniPorc),
       C.FVI_INTERNOS_PORC -> Json.toJson(i.totals.internosPorc),
       GC.PR_PORC_INTERNO_V -> Json.toJson(i.totals.prInternosPorc),
       C.FVI_IMPORTE -> Json.toJson(i.totals.importe),
