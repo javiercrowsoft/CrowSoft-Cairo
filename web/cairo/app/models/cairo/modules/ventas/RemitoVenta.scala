@@ -325,9 +325,6 @@ case class RemitoVentaItemBase(
                                  prName: String,
                                  ccosId: Int,
                                  ccosName: String,
-                                 cueId: Int,
-                                 cueIdIvaRi: Int,
-                                 cueIdIvaRni: Int,
                                  stlId: Int,
                                  stlCode: String,
                                  orden: Int,
@@ -342,9 +339,6 @@ object RemitoVentaItemBase {
             descuento: String,
             prId: Int,
             ccosId: Int,
-            cueId: Int,
-            cueIdIvaRi: Int,
-            cueIdIvaRni: Int,
             stlId: Int,
             orden: Int) = {
 
@@ -355,9 +349,6 @@ object RemitoVentaItemBase {
       "",
       ccosId,
       "",
-      cueId,
-      cueIdIvaRi,
-      cueIdIvaRni,
       stlId,
       "",
       orden,
@@ -381,34 +372,6 @@ case class RemitoVentaItemTotals(
                                    importe: Double
                                  )
 
-object RemitoVentaItemTotals {
-
-  def apply(cantidad: Double,
-            precio: Double,
-            precioLista: Double,
-            precioUser: Double,
-            neto: Double,
-            ivaRi: Double,
-            ivaRni: Double,
-            ivaRiPorc: Double,
-            ivaRniPorc: Double,
-            importe: Double) = {
-
-    new RemitoVentaItemTotals(
-      cantidad,
-      precio,
-      precioLista,
-      precioUser,
-      neto,
-      ivaRi,
-      ivaRni,
-      ivaRiPorc,
-      ivaRniPorc,
-      importe
-    )
-  }
-}
-
 case class RemitoVentaItemSerie(
                                   id: Int,
                                   code: String,
@@ -431,13 +394,21 @@ case class RemitoVentaItem(
                              series: List[RemitoVentaItemSerie] /* only used in save */
                            )
 
+case class RemitoVentaPedido(
+                               pviId: Int,
+                               cantidad: Double,
+                               rviId: Int
+                             )
+
 case class RemitoVentaItems(
                               items: List[RemitoVentaItem],
-                              series: List[RemitoVentaItemSerie], /* only used when loading an invoice to respond a get RemitoVenta */
-                              kits: List[RemitoVentaItemKit],  /* only used when loading an invoice to respond a get RemitoVenta */
+                              series: List[RemitoVentaItemSerie], /* only used when loading a delivery note to respond a get RemitoVenta */
+                              kits: List[RemitoVentaItemKit],  /* only used when loading a delivery note to respond a get RemitoVenta */
 
                               /* only used in save */
-                              itemDeleted: String
+                              itemDeleted: String,
+
+                              pedidos: List[RemitoVentaPedido]
                             )
 
 case class RemitoVenta(
@@ -609,7 +580,7 @@ object RemitoVentaParams {
 case class RemitoVentaPedidoVentaItem(
                                         pviId: Int,
                                         rviId: Int,
-                                        pvfvCantidad: Double,
+                                        pvrvCantidad: Double,
                                         pvrvId: Int
                                       )
 
@@ -624,7 +595,7 @@ object RemitoVenta {
   lazy val GC = models.cairo.modules.general.C
   lazy val TC = models.cairo.modules.tesoreria.C
 
-  lazy val emptyRemitoVentaItems = RemitoVentaItems(List(), List(), List(), "")
+  lazy val emptyRemitoVentaItems = RemitoVentaItems(List(), List(), List(), "", List())
 
   lazy val emptyRemitoVentaReferences = RemitoVentaReferences(
     DBHelper.NoId, DBHelper.NoId, "", false, false, false, DBHelper.NoId, false, false, false, "")
@@ -775,9 +746,6 @@ object RemitoVenta {
       SqlParser.get[String](GC.PR_NAME_VENTA) ~
       SqlParser.get[Option[Int]](GC.CCOS_ID) ~
       SqlParser.get[Option[String]](GC.CCOS_NAME) ~
-      SqlParser.get[Int](GC.CUE_ID) ~
-      SqlParser.get[Option[Int]](C.CUE_ID_IVA_RI) ~
-      SqlParser.get[Option[Int]](C.CUE_ID_IVA_RNI) ~
       SqlParser.get[Option[Int]](GC.STL_ID) ~
       SqlParser.get[Option[String]](GC.STL_CODE) ~
       SqlParser.get[BigDecimal](C.RVI_IMPORTE) ~
@@ -802,9 +770,6 @@ object RemitoVenta {
           prName ~
           ccosId ~
           ccosName ~
-          cueId ~
-          cueIdIvaRi ~
-          cueIdIvaRni ~
           stlId ~
           stlCode ~
           importe ~
@@ -821,9 +786,6 @@ object RemitoVenta {
             prName,
             ccosId.getOrElse(DBHelper.NoId),
             ccosName.getOrElse(""),
-            cueId,
-            cueIdIvaRi.getOrElse(DBHelper.NoId),
-            cueIdIvaRni.getOrElse(DBHelper.NoId),
             stlId.getOrElse(DBHelper.NoId),
             stlCode.getOrElse(""),
             orden,
@@ -1165,9 +1127,6 @@ object RemitoVenta {
         Field(C.RVI_DESCUENTO, item.base.descuento, FieldType.text),
         Field(GC.PR_ID, item.base.prId, FieldType.id),
         Field(GC.CCOS_ID, item.base.ccosId, FieldType.id),
-        Field(GC.CUE_ID, item.base.cueId, FieldType.id),
-        Field(C.CUE_ID_IVA_RI, item.base.cueIdIvaRi, FieldType.id),
-        Field(C.CUE_ID_IVA_RNI, item.base.cueIdIvaRni, FieldType.id),
         Field(GC.STL_ID, item.base.stlId, FieldType.id),
         Field(C.RVI_ORDEN, item.base.orden, FieldType.integer),
         Field(C.RVI_CANTIDAD, item.totals.cantidad, FieldType.currency),
@@ -1473,7 +1432,7 @@ object RemitoVenta {
       items._1,
       items._2,
       items._3,
-      ""
+      "", List()
     )
   }
 
@@ -1879,7 +1838,7 @@ object RemitoVenta {
         Field(C.RV_TMP_ID, rvTMPId, FieldType.id),
         Field(C.PVI_ID, item.pviId, FieldType.id),
         Field(C.RVI_ID, item.rviId, FieldType.id),
-        Field(C.PV_RV_CANTIDAD, item.pvfvCantidad, FieldType.currency),
+        Field(C.PV_RV_CANTIDAD, item.pvrvCantidad, FieldType.currency),
         Field(C.PV_RV_ID, item.pvrvId, FieldType.id)
       )
     }

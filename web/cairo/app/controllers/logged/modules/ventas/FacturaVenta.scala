@@ -148,9 +148,9 @@ case class FacturaVentaData(
                               )
 
 case class FacturaVentaRemitoData(
-                                    rciId: Int,
-                                    cantidad: Double,
-                                    fviId: Int
+                                   rviId: Int,
+                                   cantidad: Double,
+                                   fviId: Int
                                     )
 
 case class FacturaVentaParamsData(
@@ -283,7 +283,7 @@ object FacturaVentas extends Controller with ProvidesUser {
       )
     )(FacturaVentaAplic.apply)(FacturaVentaAplic.unapply)
   )
-  
+
   val facturaVentaForm: Form[FacturaVentaData] = Form(
     mapping(
       "id" -> optional(number),
@@ -879,7 +879,7 @@ object FacturaVentas extends Controller with ProvidesUser {
   //
   //
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  
+
   def getItems(items: List[FacturaVentaItemData]): List[FacturaVentaItem] = {
     items.map(item => {
       FacturaVentaItem(
@@ -943,7 +943,7 @@ object FacturaVentas extends Controller with ProvidesUser {
   def getRemitos(remitos: List[FacturaVentaRemitoData]): List[FacturaVentaRemito] = {
     remitos.map(remito => {
       FacturaVentaRemito(
-        remito.rciId,
+        remito.rviId,
         remito.cantidad,
         remito.fviId
       )

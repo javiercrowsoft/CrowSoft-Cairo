@@ -34,6 +34,19 @@ object C {
   val FACTURA_ITEM_DELETED = "deletedItems"
   val FACTURA_PERCEPCION_DELETED = "deletedPercepciones"
 
+  val REMITO_ID = "ids"
+  val REMITO_BASE = "base"
+  val REMITO_DATES = "dates"
+  val REMITO_PRECIOS = "precios"
+  val REMITO_COTIZACION = "cotizacion"
+  val REMITO_STOCK = "stock"
+  val REMITO_TOTALS = "totals"
+
+  val REMITO_ITEM_BASE = "base"
+  val REMITO_ITEM_TOTALS = "totals"
+
+  val REMITO_ITEM_DELETED = "deletedItems"
+
   // RemitoVenta
   val REMITO_VENTA = "RemitoVenta"
   val RV_ID = "rv_id"

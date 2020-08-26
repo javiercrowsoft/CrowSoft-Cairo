@@ -32,9 +32,7 @@ case class RemitoVentaBaseData(
                                  venId: Int,
                                  clisId: Int,
                                  ordenCompra: String,
-                                 cai: String,
-                                 descrip: String,
-                                 grabarAsiento: Boolean
+                                 descrip: String
                                )
 
 case class RemitoVentaCotizacionData(
@@ -50,9 +48,7 @@ case class RemitoVentaPreciosData(
 
 case class RemitoVentaDatesData(
                                   fecha: String,
-                                  fechaEntrega: String,
-                                  fechaIva: String,
-                                  fechaVto: String
+                                  fechaEntrega: String
                                 )
 
 case class RemitoVentaStockData(
@@ -66,23 +62,16 @@ case class RemitoVentaTotalsData(
                                    neto: Double,
                                    ivaRi: Double,
                                    ivaRni: Double,
-                                   internos: Double,
                                    subTotal: Double,
                                    importeDesc1: Double,
                                    importeDesc2: Double,
-                                   totalPercepciones: Double,
-                                   total: Double,
-                                   totalOrigen: Double
+                                   total: Double
                                  )
 
 case class RemitoVentaItemDataBase(
                                      descrip: String,
                                      prId: Int,
                                      ccosId: Int,
-                                     toId: Int,
-                                     cueId: Int,
-                                     cueIdIvaRi: Int,
-                                     cueIdIvaRni: Int,
                                      stlId: Int,
                                      orden: Int
                                    )
@@ -95,12 +84,9 @@ case class RemitoVentaItemDataTotals(
                                        neto: Double,
                                        ivaRi: Double,
                                        ivaRni: Option[Double],
-                                       internos: Double,
                                        ivaRiPorc: Double,
                                        ivaRniPorc: Double,
-                                       internosPorc: Double,
-                                       importe: Double,
-                                       importeOrigen: Double
+                                       importe: Double
                                      )
 
 case class RemitoVentaItemDataSerie(
@@ -118,26 +104,26 @@ case class RemitoVentaItemData(
                                )
 
 case class RemitoVentaData(
-                             id: Option[Int],
-                             ids: RemitoVentaIdData,
-                             base: RemitoVentaBaseData,
-                             dates: RemitoVentaDatesData,
-                             precios: RemitoVentaPreciosData,
-                             cotizacion: RemitoVentaCotizacionData,
-                             stock: RemitoVentaStockData,
-                             totals: RemitoVentaTotalsData,
-                             items: List[RemitoVentaItemData],
+                            id: Option[Int],
+                            ids: RemitoVentaIdData,
+                            base: RemitoVentaBaseData,
+                            dates: RemitoVentaDatesData,
+                            precios: RemitoVentaPreciosData,
+                            cotizacion: RemitoVentaCotizacionData,
+                            stock: RemitoVentaStockData,
+                            totals: RemitoVentaTotalsData,
+                            items: List[RemitoVentaItemData],
 
-                             itemDeleted: String,
+                            itemDeleted: String,
 
-                             /* applications */
-                             remitos: List[RemitoVentaRemitoData]
+                            /* applications */
+                            pedidos: List[RemitoVentaPedidoData]
                            )
 
-case class RemitoVentaRemitoData(
-                                   rciId: Int,
-                                   cantidad: Double,
-                                   rviId: Int
+case class RemitoVentaPedidoData(
+                                  pviId: Int,
+                                  cantidad: Double,
+                                  rviId: Int
                                  )
 
 case class RemitoVentaParamsData(
@@ -189,14 +175,13 @@ object RemitoVentas extends Controller with ProvidesUser {
   val remitoTotalsFields = List(C.RV_NETO, C.RV_IVA_RI, C.RV_IVA_RNI, C.RV_SUBTOTAL,
     C.RV_IMPORTE_DESC_1, C.RV_IMPORTE_DESC_2, C.RV_TOTAL)
 
-  val remitoItemBase = List(C.RVI_DESCRIP, GC.PR_ID, GC.CCOS_ID, GC.TO_ID,
+  val remitoItemBase = List(C.RVI_DESCRIP, GC.PR_ID, GC.CCOS_ID,
     GC.CUE_ID, C.CUE_ID_IVA_RI, C.CUE_ID_IVA_RNI, GC.STL_ID, C.RVI_ORDEN)
 
   val remitoItemTotals = List(C.RVI_CANTIDAD, C.RVI_PRECIO, C.RVI_PRECIO_LISTA, C.RVI_PRECIO_USR, C.RVI_NETO,
     C.RVI_IVA_RI, C.RVI_IVA_RNI, C.RVI_IVA_RI_PORC, C.RVI_IVA_RNI_PORC, C.RVI_IMPORTE)
 
-  val remitoPercepcion = List(C.FVPERC_ID, GC.PERC_ID, C.FVPERC_BASE, C.FVPERC_PORCENTAJE, C.FVPERC_IMPORTE,
-    GC.CCOS_ID, C.FVPERC_DESCRIP, C.FVPERC_ORIGEN, C.FVPERC_ORDEN)
+  val remitoPedido = List(C.PVI_ID, C.PV_RV_CANTIDAD, C.PVI_ID)
 
   val pedidoVenta = List(C.PVI_ID, C.RVI_ID, C.PV_RV_CANTIDAD, C.PV_RV_ID)
 
@@ -204,45 +189,6 @@ object RemitoVentas extends Controller with ProvidesUser {
     mapping(
       C.RV_ID -> number,
       GC.DOC_ID -> number,
-      TC.REMITO_VENTA_NOTA_CREDITO_TMP -> Forms.list[RemitoVentaNotaCreditoItem](
-        mapping(
-          TC.RV_ID_NOTA_CREDITO -> number,
-          TC.RV_ID_REMITO -> number,
-          TC.FVD_ID_NOTA_CREDITO -> number,
-          TC.FVD_ID_REMITO -> number,
-          TC.FVP_ID_NOTA_CREDITO -> number,
-          TC.FVP_ID_REMITO -> number,
-          TC.RV_NC_IMPORTE -> of(doubleFormat),
-          TC.RV_NC_ID-> number
-        )(RemitoVentaNotaCreditoItem.apply)(RemitoVentaNotaCreditoItem.unapply)
-      ),
-      TC.COBRANZA_TMP -> Forms.list[RemitoVentaCobranzaItem](
-        mapping(
-          TC.COBZ_ID -> number,
-          TC.REMITO_VENTA_COBRANZA_TMP -> Forms.list[CobranzaItem](
-            mapping(
-              TC.COBZ_ID -> number,
-              C.RV_ID -> number,
-              TC.FVD_ID -> number,
-              TC.FVP_ID -> number,
-              TC.RV_COBZ_ID -> number,
-              TC.RV_COBZ_COTIZACION -> of(doubleFormat),
-              TC.RV_COBZ_IMPORTE -> of(doubleFormat),
-              TC.RV_COBZ_IMPORTE_ORIGEN -> of(doubleFormat)
-            )(CobranzaItem.apply)(CobranzaItem.unapply)
-          ),
-          TC.COBRANZA_ITEM_CUENTA_CORRIENTE_TMP -> Forms.list[CobranzaCtaCte](
-            mapping(
-              GC.CUE_ID -> number,
-              TC.COBZI_IMPORTE_ORIGEN -> of(doubleFormat),
-              TC.COBZI_IMPORTE -> of(doubleFormat),
-              TC.COBZI_ORDEN -> number,
-              TC.COBZI_TIPO -> number,
-              TC.COBZI_OTRO_TIPO -> number
-            )(CobranzaCtaCte.apply)(CobranzaCtaCte.unapply)
-          )
-        )(RemitoVentaCobranzaItem.apply)(RemitoVentaCobranzaItem.unapply)
-      ),
       C.PEDIDO_REMITO_VENTA_TMP -> Forms.list[RemitoVentaPedidoVentaItem](
         mapping(
           C.PVI_ID -> number,
@@ -250,14 +196,6 @@ object RemitoVentas extends Controller with ProvidesUser {
           C.PV_RV_CANTIDAD -> of(doubleFormat),
           C.PV_RV_ID -> number
         )(RemitoVentaPedidoVentaItem.apply)(RemitoVentaPedidoVentaItem.unapply)
-      ),
-      C.REMITO_REMITO_VENTA_TMP -> Forms.list[RemitoVentaRemitoVentaItem](
-        mapping(
-          C.RVI_ID -> number,
-          C.RVI_ID -> number,
-          C.RV_RV_CANTIDAD -> of(doubleFormat),
-          C.RV_RV_ID -> number
-        )(RemitoVentaRemitoVentaItem.apply)(RemitoVentaRemitoVentaItem.unapply)
       )
     )(RemitoVentaAplic.apply)(RemitoVentaAplic.unapply)
   )
@@ -280,15 +218,11 @@ object RemitoVentas extends Controller with ProvidesUser {
         GC.VEN_ID -> number,
         GC.CLIS_ID -> number,
         C.RV_ORDEN_COMPRA -> text,
-        C.RV_CAI -> text,
-        C.RV_DESCRIP -> text,
-        C.RV_GRABAR_ASIENTO -> boolean)
+        C.RV_DESCRIP -> text)
       (RemitoVentaBaseData.apply)(RemitoVentaBaseData.unapply),
       C.REMITO_DATES -> mapping (
         C.RV_FECHA -> text,
-        C.RV_FECHA_ENTREGA -> text,
-        C.RV_FECHA_IVA -> text,
-        C.RV_FECHA_VTO -> text)
+        C.RV_FECHA_ENTREGA -> text)
       (RemitoVentaDatesData.apply)(RemitoVentaDatesData.unapply),
       C.REMITO_PRECIOS -> mapping (
         C.RV_DESCUENTO1 -> of(doubleFormat),
@@ -309,13 +243,10 @@ object RemitoVentas extends Controller with ProvidesUser {
         C.RV_NETO -> of(doubleFormat),
         C.RV_IVA_RI -> of(doubleFormat),
         C.RV_IVA_RNI -> of(doubleFormat),
-        C.RV_INTERNOS -> of(doubleFormat),
         C.RV_SUBTOTAL -> of(doubleFormat),
         C.RV_IMPORTE_DESC_1 -> of(doubleFormat),
         C.RV_IMPORTE_DESC_2 -> of(doubleFormat),
-        C.RV_TOTAL_PERCEPCIONES -> of(doubleFormat),
-        C.RV_TOTAL -> of(doubleFormat),
-        C.RV_TOTAL_ORIGEN -> of(doubleFormat)
+        C.RV_TOTAL -> of(doubleFormat)
       )(RemitoVentaTotalsData.apply)(RemitoVentaTotalsData.unapply),
       C.REMITO_VENTA_ITEM_TMP -> Forms.list[RemitoVentaItemData](
         mapping(
@@ -324,10 +255,6 @@ object RemitoVentas extends Controller with ProvidesUser {
             C.RVI_DESCRIP -> text,
             GC.PR_ID -> number,
             GC.CCOS_ID -> number,
-            GC.TO_ID -> number,
-            GC.CUE_ID -> number,
-            C.CUE_ID_IVA_RI -> number,
-            C.CUE_ID_IVA_RNI -> number,
             GC.STL_ID -> number,
             C.RVI_ORDEN -> number)
           (RemitoVentaItemDataBase.apply)(RemitoVentaItemDataBase.unapply),
@@ -354,12 +281,12 @@ object RemitoVentas extends Controller with ProvidesUser {
         (RemitoVentaItemData.apply)(RemitoVentaItemData.unapply)
       ),
       C.REMITO_ITEM_DELETED -> text,
-      C.REMITO_REMITO_VENTA_TMP -> Forms.list[RemitoVentaRemitoData](
+      C.PEDIDO_REMITO_VENTA_TMP -> Forms.list[RemitoVentaPedidoData](
         mapping (
           C.RVI_ID -> number,
-          C.RV_RV_CANTIDAD -> of(doubleFormat),
+          C.PV_RV_CANTIDAD -> of(doubleFormat),
           C.RVI_ID -> number)
-        (RemitoVentaRemitoData.apply)(RemitoVentaRemitoData.unapply)
+        (RemitoVentaPedidoData.apply)(RemitoVentaPedidoData.unapply)
       )
     )(RemitoVentaData.apply)(RemitoVentaData.unapply)
   )
@@ -428,7 +355,6 @@ object RemitoVentas extends Controller with ProvidesUser {
       C.RV_FIRMADO -> Json.toJson(remitoVenta.references.firmado),
       GC.DOC_MUEVE_STOCK -> Json.toJson(remitoVenta.references.docMueveStock),
       C.ST_ID -> Json.toJson(remitoVenta.references.stId),
-      C.AS_ID -> Json.toJson(remitoVenta.references.asId),
       GC.HAS_IVA_RI -> Json.toJson(remitoVenta.references.hasIvaRi),
       GC.HAS_IVA_RNI -> Json.toJson(remitoVenta.references.hasIvaRni),
       GC.EDITABLE -> Json.toJson(remitoVenta.references.editable),
@@ -473,11 +399,6 @@ object RemitoVentas extends Controller with ProvidesUser {
       GC.PR_NAME_VENTA -> Json.toJson(i.base.prName),
       GC.CCOS_ID -> Json.toJson(i.base.ccosId),
       GC.CCOS_NAME -> Json.toJson(i.base.ccosName),
-      GC.TO_ID -> Json.toJson(i.base.toId),
-      GC.TO_NAME -> Json.toJson(i.base.toName),
-      GC.CUE_ID -> Json.toJson(i.base.cueId),
-      C.CUE_ID_IVA_RI -> Json.toJson(i.base.cueIdIvaRi),
-      C.CUE_ID_IVA_RNI -> Json.toJson(i.base.cueIdIvaRni),
       GC.STL_ID -> Json.toJson(i.base.stlId),
       GC.STL_CODE -> Json.toJson(i.base.stlCode),
       C.RVI_ORDEN -> Json.toJson(i.base.orden),
@@ -493,7 +414,6 @@ object RemitoVentas extends Controller with ProvidesUser {
       C.RVI_IVA_RNI -> Json.toJson(i.totals.ivaRni),
       C.RVI_IVA_RI_PORC -> Json.toJson(i.totals.ivaRiPorc),
       C.RVI_IVA_RNI_PORC -> Json.toJson(i.totals.ivaRniPorc),
-      GC.PR_PORC_INTERNO_V -> Json.toJson(i.totals.prInternosPorc),
       C.RVI_IMPORTE -> Json.toJson(i.totals.importe)
     )
     def remitoVentaItemSerieWrites(i: RemitoVentaItemSerie) = Json.obj(
@@ -587,14 +507,9 @@ object RemitoVentas extends Controller with ProvidesUser {
       item
     }
 
-    def preprocessPercepcionParam(field: JsValue) = {
+    def preprocessPedidoParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
-      JsObject(preprocessFormParams(remitoPercepcion, "", params).toSeq)
-    }
-
-    def preprocessRemitoParam(field: JsValue) = {
-      val params = field.as[Map[String, JsValue]]
-      JsObject(preprocessFormParams(remitoRemito, "", params).toSeq)
+      JsObject(preprocessFormParams(remitoPedido, "", params).toSeq)
     }
 
     def preprocessItemsParam(items: JsValue, group: String): Map[String, JsValue] = items match {
@@ -602,13 +517,8 @@ object RemitoVentas extends Controller with ProvidesUser {
       case _ => Map.empty
     }
 
-    def preprocessPercepcionesParam(items: JsValue, group: String): Map[String, JsValue] = items match {
-      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessPercepcionParam(_))))
-      case _ => Map.empty
-    }
-
-    def preprocessRemitosParam(items: JsValue, group: String): Map[String, JsValue] = items match {
-      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessRemitoParam(_))))
+    def preprocessPedidosParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessPedidoParam(_))))
       case _ => Map.empty
     }
 
@@ -635,19 +545,19 @@ object RemitoVentas extends Controller with ProvidesUser {
     }
     val remitoItems = preprocessItemsParam(itemRows.head._2, C.REMITO_VENTA_ITEM_TMP)
 
-    // remitos
+    // pedidos
     //
-    val remitosInfo = getJsValueAsMap(getParamsJsonRequestFor(C.REMITO_REMITO_VENTA_TMP, params))
-    val remitoRows = getParamsJsonRequestFor(GC.ITEMS, remitosInfo)
-    val remitoRemitos = remitoRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessRemitosParam(item, C.REMITO_REMITO_VENTA_TMP)
-      case _ => Map(C.REMITO_REMITO_VENTA_TMP -> JsArray(List()))
+    val pedidosInfo = getJsValueAsMap(getParamsJsonRequestFor(C.PEDIDO_REMITO_VENTA_TMP, params))
+    val pedidoRows = getParamsJsonRequestFor(GC.ITEMS, pedidosInfo)
+    val remitoPedidos = pedidoRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessPedidosParam(item, C.PEDIDO_REMITO_VENTA_TMP)
+      case _ => Map(C.PEDIDO_REMITO_VENTA_TMP -> JsArray(List()))
     }
 
     JsObject(
       (remitoId ++ remitoIdGroup ++ remitoBaseGroup ++ remitoDatesGroup ++ remitoPreciosGroup
         ++ remitoCotizacionGroup ++ remitoStockGroup ++ remitoTotalGroup
-        ++ remitoItems ++ itemDeleted ++ remitoRemitos).toSeq)
+        ++ remitoItems ++ itemDeleted ++ remitoPedidos).toSeq)
   }
   //
   //
@@ -706,10 +616,6 @@ object RemitoVentas extends Controller with ProvidesUser {
           "",
           item.base.prId,
           item.base.ccosId,
-          item.base.toId,
-          item.base.cueId,
-          item.base.cueIdIvaRi,
-          item.base.cueIdIvaRni,
           item.base.stlId,
           item.base.orden
         ),
@@ -721,12 +627,9 @@ object RemitoVentas extends Controller with ProvidesUser {
           item.totals.neto,
           item.totals.ivaRi,
           item.totals.ivaRni.getOrElse(0.0),
-          item.totals.internos,
           item.totals.ivaRiPorc,
           item.totals.ivaRniPorc,
-          item.totals.internosPorc,
-          item.totals.importe,
-          item.totals.importeOrigen
+          item.totals.importe
         ),
         item.series.map(serie => {
           RemitoVentaItemSerie(
@@ -741,12 +644,12 @@ object RemitoVentas extends Controller with ProvidesUser {
     })
   }
 
-  def getRemitos(remitos: List[RemitoVentaRemitoData]): List[RemitoVentaRemito] = {
-    remitos.map(remito => {
-      RemitoVentaRemito(
-        remito.rciId,
-        remito.cantidad,
-        remito.rviId
+  def getPedidos(pedidos: List[RemitoVentaPedidoData]): List[RemitoVentaPedido] = {
+    pedidos.map(pedido => {
+      RemitoVentaPedido(
+        pedido.pviId,
+        pedido.cantidad,
+        pedido.rviId
       )
     })
   }
@@ -755,16 +658,13 @@ object RemitoVentas extends Controller with ProvidesUser {
     RemitoVentaItems(
       getItems(remitoVenta.items),
 
-      List(), /* only used when loading an invoice to respond a get RemitoVenta */
+      List(), /* only used when loading a delivery note to respond a get RemitoVenta */
 
-      List(), /* only used when loading an invoice to respond a get RemitoVenta */
-
-      getPercepciones(remitoVenta.percepciones),
+      List(), /* only used when loading a delivery note to respond a get RemitoVenta */
 
       remitoVenta.itemDeleted,
-      remitoVenta.percepcionDeleted,
 
-      getRemitos(remitoVenta.remitos)
+      getPedidos(remitoVenta.pedidos)
     )
   }
 
@@ -785,15 +685,11 @@ object RemitoVentas extends Controller with ProvidesUser {
         remitoVenta.base.venId,
         remitoVenta.base.clisId,
         remitoVenta.base.ordenCompra,
-        remitoVenta.base.cai,
-        remitoVenta.base.descrip,
-        remitoVenta.base.grabarAsiento),
+        remitoVenta.base.descrip),
       RemitoVenta.emptyRemitoVentaReferences,
       RemitoVentaDates(
         DateFormatter.parse(remitoVenta.dates.fecha),
-        DateFormatter.parse(remitoVenta.dates.fechaEntrega),
-        DateFormatter.parse(remitoVenta.dates.fechaIva),
-        DateFormatter.parse(remitoVenta.dates.fechaVto)),
+        DateFormatter.parse(remitoVenta.dates.fechaEntrega)),
       RemitoVentaPrecios(
         remitoVenta.precios.desc1,
         remitoVenta.precios.desc2,
@@ -810,13 +706,10 @@ object RemitoVentas extends Controller with ProvidesUser {
         remitoVenta.totals.neto,
         remitoVenta.totals.ivaRi,
         remitoVenta.totals.ivaRni,
-        remitoVenta.totals.internos,
         remitoVenta.totals.subTotal,
         remitoVenta.totals.importeDesc1,
         remitoVenta.totals.importeDesc2,
-        remitoVenta.totals.totalPercepciones,
-        remitoVenta.totals.total,
-        remitoVenta.totals.totalOrigen),
+        remitoVenta.totals.total),
       getRemitoVentaItems(remitoVenta)
     )
   }
@@ -1016,7 +909,6 @@ object RemitoVentas extends Controller with ProvidesUser {
 
   def getAplic(id: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.MODIFY_APLIC_VENTA), { user =>
-      val (cueId, monId) = RemitoVenta.getCtaCteCuenta(user, id)
       Ok(Json.obj(
         "items" -> Recordset.getAsJson(RemitoVenta.getAplic(user, id, 4)),
         "itemsAplicados" -> Recordset.getAsJson(RemitoVenta.getAplic(user, id, 5)),

@@ -248,8 +248,8 @@ object StockItem {
 
 case class StockItems(
                          items: List[StockItem],
-                         series: List[StockItemSerie], /* only used when loading an invoice to respond a get FacturaVenta */
-                         kits: List[StockItemKit]  /* only used when loading an invoice to respond a get FacturaVenta */
+                         series: List[StockItemSerie], /* only used when loading a inventory document to respond a get FacturaVenta */
+                         kits: List[StockItemKit]  /* only used when loading an inventory document to respond a get FacturaVenta */
                        )
 
 case class Stock(
