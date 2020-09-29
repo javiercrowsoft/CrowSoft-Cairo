@@ -540,7 +540,7 @@
                 nextStep = WCS.SELECT_PROVEEDOR;
                 p = M.showWarningWithFalse(getText(1562, ""), getText(1607, "")); // Debe indicar un documento, Facturas
               }
-              else if(getProveedor() === NO_ID) {
+              else if(getProvId() === NO_ID) {
                 nextStep = WCS.SELECT_PROVEEDOR;
                 p = M.showWarningWithFalse(getText(1860, ""), getText(1607, "")); // Debe indicar un Proveedor, Facturas
               }
@@ -1247,7 +1247,7 @@
         return D.getWizProperty(m_objWizard, WCS.SELECT_PROVEEDOR, DWC.PROVEEDOR);
       };
 
-      var getProveedor = function() {
+      var getProvId = function() {
         return D.getWizProperty(m_objWizard, WCS.SELECT_PROVEEDOR, DWC.PROVEEDOR).getSelectId();
       };
 
@@ -1536,7 +1536,7 @@
 
         return DB.getData(
             "load[" + m_apiPath + "compras/facturacompras/proveedor/"
-                    + getProveedor().toString()
+                    + getProvId().toString()
                     + "/remitos/"
                     + m_monId.toString()
               + "]"
@@ -1656,7 +1656,7 @@
           p = P.resolvedPromise(true);
         }
         else {
-          p = D.getDocNumberForProveedor(getProveedor(), getDoc()).then(
+          p = D.getDocNumberForProveedor(getProvId(), getDoc()).then(
             function(response) {
 
               if(response.success === true) {
@@ -1679,7 +1679,7 @@
 
       var setDatosGenerales = function() {
         var property = getProveedor2();
-        property.setSelectId(getProveedor());
+        property.setSelectId(getProvId());
         property.setValue(getProveedorName());
         m_objWizard.showValue(getProveedor2());
 
@@ -1733,7 +1733,7 @@
         fields.add(CC.FC_FECHA, getFecha().getValue(), Types.date);
         fields.add(CC.FC_FECHA_IVA, getFechaIva().getValue(), Types.date);
         fields.add(CC.FC_FECHA_VTO, getFechaVto().getValue(), Types.date);
-        fields.add(C.PROV_ID, getProveedor(), Types.id);
+        fields.add(C.PROV_ID, getProvId(), Types.id);
         fields.add(C.CCOS_ID, getCentroCosto().getSelectId(), Types.id);
         fields.add(C.SUC_ID, getSucursal().getSelectId(), Types.id);
         fields.add(C.CPG_ID, getCondicionPago().getSelectId(), Types.id);

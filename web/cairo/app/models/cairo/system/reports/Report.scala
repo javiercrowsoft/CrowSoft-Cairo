@@ -349,6 +349,15 @@ object Report {
     }
   }
 
+  def getActionForForm(id: Int)(user: CompanyUser): Int = {
+    DB.withConnection(user.database.database) { implicit connection =>
+      SQL(s"SELECT t1.${C.PRE_ID_PRINT} FROM ${models.cairo.modules.general.C.DOCUMENTO} t1 INNER JOIN ${C.REPORTE_FORMULARIO} t2 ON t1.doc_id = t2.doc_id WHERE ${C.RPTF_ID} = {id}")
+        .on('id -> id)
+        .as(scalar[Option[Int]].single)
+        .getOrElse(DBHelper.NoId)
+    }
+  }
+
   def getActionForCreate(infId: Int)(user: CompanyUser): Int = {
     DB.withConnection(user.database.database) { implicit connection =>
       SQL(s"SELECT t2.${C.PRE_ID} FROM ${C.INFORME} WHERE ${C.INF_ID} = {id}")

@@ -4,6 +4,7 @@ object C {
 
   val TBL_ID = "tbl_id"
   val PRE_ID = "pre_id"
+  val PRE_ID_PRINT = "pre_id_print"
   val ITEMS = "items"
 
   val REPORTE = "Reporte"

@@ -974,7 +974,7 @@
                 nextStep = WCS.SELECT_PROVEEDOR;
                 p = M.showWarningWithFalse(getText(1562, ""), getText(2202, "")); // Debe indicar un documento, Ordenes de pago
               }
-              else if(getProveedor() === NO_ID) {
+              else if(getProvId() === NO_ID) {
                 nextStep = WCS.SELECT_PROVEEDOR;
                 p = M.showWarningWithFalse(getText(1860, ""), getText(2202, "")); // Debe indicar un proveedor, Ordenes de pago               
               }
@@ -2032,7 +2032,7 @@
 
         return DB.getData(
             "load[" + m_apiPath + "tesoreria/ordenespago/proveedor/"
-              + getProveedor().toString()
+              + getProvId().toString()
               + "/facturas]"
           )
           .then(function(response) {
@@ -2432,7 +2432,7 @@
         };
         return DB.getData(
           "load[" + m_apiPath
-            + "general/proveedor/" + getProveedor().toString()
+            + "general/proveedor/" + getProvId().toString()
             + "/retenciones]", null, params);
 
       };
@@ -2819,7 +2819,7 @@
           p = P.resolvedPromise(true);
         }
         else {
-          p = D.getDocNumberForProveedor(getProveedor(), getDoc()).then(
+          p = D.getDocNumberForProveedor(getProvId(), getDoc()).then(
             function(response) {
 
               if(response.success === true) {
@@ -2842,7 +2842,7 @@
 
       var setDatosGenerales = function() {
         var property = getProveedor2();
-        property.setSelectId(getProveedor());
+        property.setSelectId(getProvId());
         property.setValue(getProveedorName());
         m_objWizard.showValue(getProveedor2());
 
@@ -2924,7 +2924,7 @@
             //
             //m_lastNroDoc = SetMask(w_getComprobante.getValue(), w_getComprobante.getTextMask());
             m_lastNroDoc = getComprobante().getValue();;
-            m_lastProvId = getProveedor();
+            m_lastProvId = getProvId();
 
             //
             // the orden is share between the five types of items (cheques, chequesT, efectivo, otros and cta cte)
@@ -3583,7 +3583,7 @@
 
       var setFilterColFactura = function() {
 
-        var filter = D.getFacturaVentaFilter(getProveedor());
+        var filter = D.getFacturaVentaFilter(getProvId());
         D.getCol(getOtros().getColumns(), KIO_FC_ID_RET).setSelectFilter(filter);
         m_objWizard.getDialog().refreshColumnProperties(getOtrosProperty(), CT.FC_ID_RET);
 
@@ -3593,7 +3593,7 @@
         // TODO: implement this api
         return DB.getData(
             "load[" + m_apiPath + "tesoreria/ordenespago/proveedor/"
-              + getProveedor().toString()
+              + getProvId().toString()
               + "/messages]"
           )
           .whenSuccessWithResult(function(response) {
@@ -3649,7 +3649,7 @@
         return D.getWizProperty(m_objWizard, WCS.DATOS_GENERALES, DWC.PROVEEDOR2);
       };
 
-      var getProveedor = function() {
+      var getProvId = function() {
         return D.getWizProperty(m_objWizard, WCS.SELECT_PROVEEDOR, DWC.PROVEEDOR).getSelectId();
       };
 
