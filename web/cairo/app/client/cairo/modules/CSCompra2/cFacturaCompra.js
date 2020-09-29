@@ -3632,7 +3632,7 @@
         var orden = 0;
         var origen = 0;
         var property = m_itemsProps.item(C_OTROS);
-        var rows = property.getGrid().grid.getRows();
+        var rows = property.getGrid().getRows();
 
         transaction.setTable(CC.FACTURA_COMPRA_OTRO_TMP);
 
