@@ -428,11 +428,11 @@ object Report {
     }
   }
 
-  private def loadFormData(user: CompanyUser, id: Int, paramId: Int, dataSource: String) = DB.withTransaction(user.database.database) { implicit connection =>
+  private def loadFormData(user: CompanyUser, paramId: Int, dataSource: String) = DB.withTransaction(user.database.database) { implicit connection =>
     val sql = s"{call ${dataSource} (?, ?)}"
     val cs = connection.prepareCall(sql)
 
-    cs.setInt(1, id)
+    cs.setInt(1, paramId)
     cs.registerOutParameter(2, Types.OTHER)
 
     try {
@@ -467,7 +467,7 @@ object Report {
         emptyData
       }
       else
-        loadFormData(user, id, paramId, dataSource)
+        loadFormData(user, paramId, dataSource)
     }
   }
 
