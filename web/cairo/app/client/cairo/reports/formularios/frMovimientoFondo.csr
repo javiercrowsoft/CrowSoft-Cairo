@@ -343,7 +343,7 @@
   </RptHeaders>
   <RptDetails>
     <RD Name="Detalle" Key="RD" Indice="1" TypeSection="101" HasFormulaHide="0">
-      <Aspect Align="3" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="2145" Format="" Left="0" nZOrder="0" SelectColor="0" Top="3885" Width="12240" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+      <Aspect Align="3" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="1830" Format="" Left="0" nZOrder="0" SelectColor="0" Top="3885" Width="12240" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
       </Aspect>
       <H Name="H" Text="" idxGroup="0" WhenEval="0" />
@@ -833,35 +833,11 @@
           </RptControls>
         </K330241>
         <K330767 Key="K330767" Indice="4" IdField="" HasFormulaHide="0">
-          <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="510" Format="" Left="0" nZOrder="0" SelectColor="0" Top="5520" Width="12240" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+          <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="195" Format="" Left="0" nZOrder="0" SelectColor="0" Top="5520" Width="12240" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
             <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
           </Aspect>
           <H Name="H" Text="" idxGroup="0" WhenEval="0" />
-          <RptControls>
-            <K330768 Key="K330768" Name="Control112" KeyPaint="P124" HasFormulaHide="0" HasFormulaValue="0" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
-              <Field Index="0" Name="" FieldType="0" />
-              <Image Data="">
-                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="0" Format="" Left="0" nZOrder="0" SelectColor="0" Top="0" Width="0" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
-                  <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
-                </Aspect>
-              </Image>
-              <Label Text="" CanGrow="0">
-                <Aspect Align="0" BackColor="12632256" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="15" Format="" Left="135" nZOrder="32" SelectColor="0" Top="5745" Width="11730" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
-                  <Font ForeColor="0" Bold="-1" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
-                </Aspect>
-              </Label>
-              <Line>
-                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="0" Format="" Left="0" nZOrder="0" SelectColor="0" Top="0" Width="0" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
-                  <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
-                </Aspect>
-              </Line>
-              <H Name="H" Text="" idxGroup="0" WhenEval="0" />
-              <V Name="V" Text="" idxGroup="0" WhenEval="0" />
-              <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0" ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
-                <Series />
-              </Chart>
-            </K330768>
-          </RptControls>
+          <RptControls />
         </K330767>
       </RptSectionLines>
     </RD>
@@ -1310,7 +1286,7 @@
   <RptGroups>
     <G_0 Key="K314839" Name="G_0" Indice="0" ComparisonType="1" FieldName="{frMovimientoFondo}.tipo" OderType="1" PrintInNewPage="0" RePrintInNewPage="0" GrandTotalGroup="0">
       <H>
-        <K330800 Name="G_0" Key="K330800" Indice="1" TypeSection="3" HasFormulaHide="0">
+        <K330809 Name="G_0" Key="K330809" Indice="1" TypeSection="3" HasFormulaHide="0">
           <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="915" Format="" Left="0" nZOrder="0" SelectColor="0" Top="2970" Width="12240" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
             <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
           </Aspect>
@@ -1540,24 +1516,48 @@
               </RptControls>
             </K314860>
           </RptSectionLines>
-        </K330800>
+        </K330809>
       </H>
       <F>
-        <K330802 Name="G_0" Key="K330802" Indice="1" TypeSection="4" HasFormulaHide="0">
-          <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="345" Format="" Left="0" nZOrder="0" SelectColor="0" Top="6030" Width="12240" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+        <K330811 Name="G_0" Key="K330811" Indice="1" TypeSection="4" HasFormulaHide="0">
+          <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="345" Format="" Left="0" nZOrder="0" SelectColor="0" Top="5715" Width="12240" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
             <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
           </Aspect>
           <H Name="H" Text="" idxGroup="0" WhenEval="0" />
           <RptSectionLines>
             <K314842 Key="K314842" Indice="1" IdField="" HasFormulaHide="0">
-              <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="345" Format="" Left="0" nZOrder="0" SelectColor="0" Top="6030" Width="0" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+              <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="345" Format="" Left="0" nZOrder="0" SelectColor="0" Top="5715" Width="0" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
               </Aspect>
               <H Name="H" Text="" idxGroup="0" WhenEval="0" />
-              <RptControls />
+              <RptControls>
+                <K330768 Key="K330768" Name="Control112" KeyPaint="P124" HasFormulaHide="0" HasFormulaValue="0" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
+                  <Field Index="0" Name="" FieldType="0" />
+                  <Image Data="">
+                    <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="0" Format="" Left="0" nZOrder="0" SelectColor="0" Top="0" Width="0" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                      <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
+                    </Aspect>
+                  </Image>
+                  <Label Text="" CanGrow="0">
+                    <Aspect Align="0" BackColor="12632256" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="15" Format="" Left="270" nZOrder="32" SelectColor="0" Top="5820" Width="11730" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                      <Font ForeColor="0" Bold="-1" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
+                    </Aspect>
+                  </Label>
+                  <Line>
+                    <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="0" Format="" Left="0" nZOrder="0" SelectColor="0" Top="0" Width="0" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                      <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
+                    </Aspect>
+                  </Line>
+                  <H Name="H" Text="" idxGroup="0" WhenEval="0" />
+                  <V Name="V" Text="" idxGroup="0" WhenEval="0" />
+                  <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0" ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
+                    <Series />
+                  </Chart>
+                </K330768>
+              </RptControls>
             </K314842>
           </RptSectionLines>
-        </K330802>
+        </K330811>
       </F>
     </G_0>
   </RptGroups>
