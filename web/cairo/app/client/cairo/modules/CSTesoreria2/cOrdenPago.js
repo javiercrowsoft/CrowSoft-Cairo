@@ -326,7 +326,7 @@
             }
           }
 
-          return p || P.resolvedPromise();
+          return p || P.resolvedPromise(true);
 
         }).then(function() {
 
@@ -338,7 +338,7 @@
               p = M.showInfo(getText(1562, ""));
             }
 
-            return p || P.resolvedPromise();
+            return p || P.resolvedPromise(true);
 
           }).then(function() {
 
@@ -543,7 +543,7 @@
             break;
         }
 
-        return p || P.resolvedPromise();
+        return p || P.resolvedPromise(true);
       };
 
       self.discardChanges = function() {
@@ -600,7 +600,7 @@
                 });
             }
 
-            p = p || P.resolvedPromise();
+            p = p || P.resolvedPromise(true);
 
             p = p.then(function() {
               setEnabled();
@@ -2182,7 +2182,7 @@
               m_proveedor = m_lastProvName;
               m_documento = m_lastDocName;
 
-              p = p || P.resolvedPromise();
+              p = p || P.resolvedPromise(true);
 
               p = p
                 .then(P.call(D.editableStatus, m_docId, CS.NEW_ORDEN_PAGO))
@@ -4337,7 +4337,7 @@
         var opgId = m_dialog.getId();
 
         if(opgId === NO_ID) {
-          return P.resolvedPromise();
+          return P.resolvedPromise(true);
         }
 
         var refreshRow = function(response) {

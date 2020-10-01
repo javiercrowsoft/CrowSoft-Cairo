@@ -22,6 +22,10 @@
     return !!(object && object.constructor && object.call && object.apply);
   };
 
+  Cairo.isPresent = function(value) {
+    return value !== null && value !== undefined;
+  }
+
   Cairo.addRegions({
     headerRegion: "#header-region",
     mainRegion: "#main-region",
@@ -1840,7 +1844,7 @@
         if(closeHandler) {
           p = closeHandler(args);
         }
-        p = p || Cairo.Promises.resolvedPromise();
+        p = p || Cairo.Promises.resolvedPromise(true);
         p.then(function() {
           defer.resolve(false);
         })

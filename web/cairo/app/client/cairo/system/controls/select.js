@@ -384,7 +384,7 @@
             }
           }
 
-          return (defer !== null ? defer.promise : Cairo.Promises.resolvedPromise());
+          return (defer !== null ? defer.promise : Cairo.Promises.resolvedPromise(true));
         };
 
         var listIsOpen = function() {
@@ -879,7 +879,7 @@
         if(element) {
           p = element.validate();
         }
-        return p || Cairo.Promises.resolvedPromise();
+        return p || Cairo.Promises.resolvedPromise(true);
       };
 
       that.listIsOpen = function() {

@@ -809,7 +809,7 @@
             break;
         }
 
-        return p || P.resolvedPromise();
+        return p || P.resolvedPromise(true);
       };
 
       var destroy = function() {
@@ -2292,7 +2292,7 @@
             }
           );
         }
-        return p || P.resolvedPromise();
+        return p || P.resolvedPromise(true);
       };
 
       var setFechaVto = function(cpgId, response) {

@@ -962,7 +962,7 @@
         var fcId = m_dialog.getId();
 
         if(fcId === NO_ID) {
-          return P.resolvedPromise();
+          return P.resolvedPromise(true);
         }
 
         var refreshRow = function(response) {

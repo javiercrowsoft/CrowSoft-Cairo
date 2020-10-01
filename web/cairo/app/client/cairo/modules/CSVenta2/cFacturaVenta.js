@@ -533,7 +533,7 @@
             }
           }
 
-          return p || P.resolvedPromise();
+          return p || P.resolvedPromise(true);
 
         }).then(function() {
 
@@ -545,7 +545,7 @@
               p = M.showInfo(getText(1562, ""));
             }
 
-            return p || P.resolvedPromise();
+            return p || P.resolvedPromise(true);
 
           }).then(function() {
 
@@ -830,7 +830,7 @@
             break;
         }
 
-        return p || P.resolvedPromise();
+        return p || P.resolvedPromise(true);
       };
 
       var showSearchZona = function() {
@@ -940,7 +940,7 @@
                 });
             }
 
-            p = p || P.resolvedPromise();
+            p = p || P.resolvedPromise(true);
 
             p = p.then(function() {
               setEnabled();
@@ -1013,7 +1013,7 @@
             break;
         }
 
-        return p || P.resolvedPromise();
+        return p || P.resolvedPromise(true);
       };
 
       self.save = function() {
@@ -1315,7 +1315,7 @@
                               p = m_dialog.printDocument();
                             }
                             else {
-                              p = P.resolvedPromise();
+                              p = P.resolvedPromise(true);
                             }
 
                             p = p.then(function() {
@@ -1332,7 +1332,7 @@
                                     });
                                 }
 
-                                p = p || P.resolvedPromise();
+                                p = p || P.resolvedPromise(true);
 
                                 p = p.then(function() {
                                   return D.saveFacturaVentaCajero(m_id, m_cjId, ctaCte);
@@ -1352,7 +1352,7 @@
                             });
                           }
                           else {
-                            p = P.resolvedPromise();
+                            p = P.resolvedPromise(true);
                           }
 
                           p = p.then(function() {
@@ -1366,7 +1366,7 @@
                           });
                         }
                         else {
-                          p = P.resolvedPromise();
+                          p = P.resolvedPromise(true);
                         }
 
                         return p.then(function() {
@@ -2667,7 +2667,7 @@
 
         if(m_id === NO_ID) {
           if(m_lastDocId === NO_ID) {
-            return P.resolvedPromise();
+            return P.resolvedPromise(true);
           }
           monId = m_lastMonId;
         }
@@ -2719,7 +2719,7 @@
             }
           );
         }
-        return p || P.resolvedPromise();
+        return p || P.resolvedPromise(true);
       };
 
       var setFechaVto = function(cpgId, response) {
@@ -3375,7 +3375,7 @@
 
               m_data = emptyData;
 
-              p = p || P.resolvedPromise();
+              p = p || P.resolvedPromise(true);
 
               p = p
                 .then(P.call(D.editableStatus, m_docId, CS.NEW_FACTURA))
@@ -5834,7 +5834,7 @@
         var fvId = m_dialog.getId();
 
         if(fvId === NO_ID) {
-          return P.resolvedPromise();
+          return P.resolvedPromise(true);
         }
 
         var refreshRow = function(response) {

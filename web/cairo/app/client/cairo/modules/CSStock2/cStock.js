@@ -265,7 +265,7 @@
             }
           }
 
-          return p || P.resolvedPromise();
+          return p || P.resolvedPromise(true);
 
         }).then(function() {
 
@@ -277,7 +277,7 @@
             p = M.showInfo(getText(1562, ""));
           }
 
-          return p || P.resolvedPromise();
+          return p || P.resolvedPromise(true);
 
         }).then(function() {
 
@@ -414,7 +414,7 @@
             break;
         }
 
-        return p || P.resolvedPromise();
+        return p || P.resolvedPromise(true);
       };
 
       self.discardChanges = function() {
@@ -472,7 +472,7 @@
                 });
             }
 
-            p = p || P.resolvedPromise();
+            p = p || P.resolvedPromise(true);
 
             p = p.then(function() {
               setEnabled();
@@ -499,7 +499,7 @@
             break;
         }
 
-        return p || P.resolvedPromise();
+        return p || P.resolvedPromise(true);
       };
 
       self.save = function() {
@@ -1622,7 +1622,7 @@
 
               m_docIsConsumo = false;
 
-              p = P.resolvedPromise()
+              p = P.resolvedPromise(true)
                 .then(P.call(D.editableStatus, m_docId, CS.NEW_STOCK))
                 .then(function(status) {
                   m_docEditable = status.editableStatus;

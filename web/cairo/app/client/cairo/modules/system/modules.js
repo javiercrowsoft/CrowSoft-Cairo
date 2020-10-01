@@ -8,7 +8,7 @@
       var that = {};
 
       that.init = function() {
-        return Cairo.Promises.resolvedPromise();
+        return Cairo.Promises.resolvedPromise(true);
       };
 
       return that;

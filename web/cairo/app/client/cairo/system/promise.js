@@ -100,7 +100,7 @@
 
     whenSuccessWithResult: function(successCallback, falseReturnValue, errorCallback) {
       return this.then(function(result) {
-        if(result.success) {
+        if(Cairo.isPresent(result) && result.success) {
           try {
             return successCallback(result);
           }

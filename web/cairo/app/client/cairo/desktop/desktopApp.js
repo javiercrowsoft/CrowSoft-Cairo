@@ -33,7 +33,7 @@
         var modulesView = Cairo.Views.createModulesView(modules);
         var tasksView = Cairo.Views.createTasksView(tasks);
 
-        P.resolvedPromise()
+        P.resolvedPromise(true)
             .then(call(reports.init))
             .then(call(modules.init))
             .then(call(tasks.init))

@@ -385,7 +385,7 @@
             }
           }
 
-          return p || P.resolvedPromise();
+          return p || P.resolvedPromise(true);
 
         }).then(function() {
 
@@ -397,7 +397,7 @@
               p = M.showInfo(getText(1562, ""));
             }
 
-            return p || P.resolvedPromise();
+            return p || P.resolvedPromise(true);
 
           }).then(function() {
 
@@ -603,7 +603,7 @@
             break;
         }
 
-        return p || P.resolvedPromise();
+        return p || P.resolvedPromise(true);
       };
 
       self.discardChanges = function() {
@@ -660,7 +660,7 @@
                 });
             }
 
-            p = p || P.resolvedPromise();
+            p = p || P.resolvedPromise(true);
 
             p = p.then(function() {
               setEnabled();
@@ -674,7 +674,7 @@
             break;
         }
 
-        return p || P.resolvedPromise();
+        return p || P.resolvedPromise(true);
       };
 
       self.save = function() {
@@ -2326,7 +2326,7 @@
 
               m_data = emptyData;
 
-              p = p || P.resolvedPromise();
+              p = p || P.resolvedPromise(true);
 
               p = p
                 .then(P.call(D.editableStatus, m_docId, CS.NEW_COBRANZA))
@@ -4511,7 +4511,7 @@
         var cobzId = m_dialog.getId();
 
         if(cobzId === NO_ID) {
-          return P.resolvedPromise();
+          return P.resolvedPromise(true);
         }
 
         var refreshRow = function(response) {

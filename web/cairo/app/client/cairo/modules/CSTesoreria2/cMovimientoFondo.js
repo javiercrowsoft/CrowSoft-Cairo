@@ -242,7 +242,7 @@
             }
           }
 
-          return p || P.resolvedPromise();
+          return p || P.resolvedPromise(true);
 
         }).then(function() {
 
@@ -254,7 +254,7 @@
               p = M.showInfo(getText(1562, ""));
             }
 
-            return p || P.resolvedPromise();
+            return p || P.resolvedPromise(true);
 
           }).then(function() {
 
@@ -435,7 +435,7 @@
             break;
         }
 
-        return p || P.resolvedPromise();
+        return p || P.resolvedPromise(true);
       };
 
       self.discardChanges = function() {
@@ -494,7 +494,7 @@
                 .then(showCotizacion);
             }
 
-            p = p || P.resolvedPromise();
+            p = p || P.resolvedPromise(true);
 
             p = p.then(function() {
               setEnabled();
@@ -512,7 +512,7 @@
             }
         }
 
-        return p || P.resolvedPromise();
+        return p || P.resolvedPromise(true);
       };
 
       self.save = function() {
@@ -1478,7 +1478,7 @@
           p = self.propertyChange(K_DOC_ID);
         }
 
-        p = p || P.resolvedPromise();
+        p = p || P.resolvedPromise(true);
         return p.then(showCotizacion);
       };
 
@@ -1488,7 +1488,7 @@
 
         if(m_id === NO_ID) {
           if(m_lastDocId === NO_ID) {
-            return P.resolvedPromise();
+            return P.resolvedPromise(true);
           }
           monId = m_lastMonId;
         }
@@ -1864,7 +1864,7 @@
 
               m_data = emptyData;
 
-              p = p || P.resolvedPromise();
+              p = p || P.resolvedPromise(true);
 
               p = p
                 .then(P.call(D.editableStatus, m_docId, CS.NEW_MOVIMIENTO_FONDO))
@@ -4213,7 +4213,7 @@
         var mfId = m_dialog.getId();
 
         if(mfId === NO_ID) {
-          return P.resolvedPromise();
+          return P.resolvedPromise(true);
         }
 
         var refreshRow = function(response) {

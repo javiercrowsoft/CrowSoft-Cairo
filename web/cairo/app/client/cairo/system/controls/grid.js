@@ -586,7 +586,7 @@
                   newValue = ctrl.getValue();
                   break;
               }
-              p = p || P.resolvedPromise();
+              p = p || P.resolvedPromise(true);
               p = p.then(
                 function() {
                   var args = {

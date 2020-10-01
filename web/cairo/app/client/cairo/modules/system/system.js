@@ -1467,7 +1467,7 @@
       });
     }
 
-    p = p || P.resolvedPromise();
+    p = p || P.resolvedPromise(true);
 
     return p.then(function() {
       getCell(row, KI_PRECIO_LP).setValue(price);

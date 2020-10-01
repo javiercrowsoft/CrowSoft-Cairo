@@ -374,7 +374,7 @@
             }
           }
 
-          return p || P.resolvedPromise();
+          return p || P.resolvedPromise(true);
 
         }).then(function() {
 
@@ -386,7 +386,7 @@
               p = M.showInfo(getText(1562, ""));
             }
 
-            return p || P.resolvedPromise();
+            return p || P.resolvedPromise(true);
 
           }).then(function() {
 
@@ -614,7 +614,7 @@
             break;
         }
 
-        return p || P.resolvedPromise();
+        return p || P.resolvedPromise(true);
       };
 
       // TODO: implement this
@@ -684,7 +684,7 @@
                 });
             }
 
-            p = p || P.resolvedPromise();
+            p = p || P.resolvedPromise(true);
 
             p = p.then(function() {
               setEnabled();
@@ -730,7 +730,7 @@
             break;
         }
 
-        return p || P.resolvedPromise();
+        return p || P.resolvedPromise(true);
       };
 
       self.save = function() {
@@ -4044,7 +4044,7 @@
         var pvId = m.dialog.getId();
 
         if(pvId === NO_ID) {
-          return P.resolvedPromise();
+          return P.resolvedPromise(true);
         }
 
         var refreshRow = function(response) {

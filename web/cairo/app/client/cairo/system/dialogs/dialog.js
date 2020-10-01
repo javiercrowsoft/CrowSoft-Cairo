@@ -2689,7 +2689,7 @@
                 p = discardChanges(true);
               }
 
-              p = p || P.resolvedPromise();
+              p = p || P.resolvedPromise(true);
 
               return p
                 .then(m_client.editNew)
@@ -2710,7 +2710,7 @@
                     );
                   }
 
-                  return p || P.resolvedPromise();
+                  return p || P.resolvedPromise(true);
                 })
                 .then(function() {
                   var p = null;
@@ -3998,7 +3998,7 @@
                 var colAmount = getColIndexFromKey(property, virtualRow.getColAmount());
                 var q = 0;
 
-                var p = P.resolvedPromise();
+                var p = P.resolvedPromise(true);
 
                 //
                 // for every new row we need to serialize
@@ -4069,13 +4069,13 @@
                                     }
                                   );
                                 }
-                                return p || P.resolvedPromise();
+                                return p || P.resolvedPromise(true);
                               }
                             );
                           }
                         );
                       }
-                      p = p || P.resolvedPromise();
+                      p = p || P.resolvedPromise(true);
                       return p.then(function() {
                         //
                         // finally we update the grid control
@@ -4502,7 +4502,7 @@
               }
             );
           }
-          return p || P.resolvedPromise();
+          return p || P.resolvedPromise(true);
         };
 
         var toolBarButtonClick = function(button) {
@@ -5419,7 +5419,7 @@
                     p = m_client.messageEx(Dialogs.Message.MSG_DOC_EX_PRE_VALIDATE, null);
                   }
 
-                  return p || P.resolvedPromise();
+                  return p || P.resolvedPromise(true);
                 },
                 false
               ).then(

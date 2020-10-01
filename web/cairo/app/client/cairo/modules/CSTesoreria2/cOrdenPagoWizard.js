@@ -1205,7 +1205,7 @@
             break;
         }
 
-        return p || P.resolvedPromise();
+        return p || P.resolvedPromise(true);
       };
 
       self.terminate = function() {
@@ -2381,7 +2381,7 @@
               });
             }
 
-            p = p || P.resolvedPromise();
+            p = p || P.resolvedPromise(true);
 
             return p.then(function() {
 
