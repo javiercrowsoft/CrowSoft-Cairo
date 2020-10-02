@@ -37,43 +37,43 @@
     
     self.setGridPercepciones = function(grid, grlCfg) {
 
-      var w_columns = grid.getColumns();
-      var elem = w_columns.add(null);
+      var columns = grid.getColumns();
+      var elem = columns.add(null);
       elem.setVisible(false);
       elem.setKey(KIP_FCPERC_ID);
 
-      var elem = w_columns.add(null);
+      elem = columns.add(null);
       elem.setName(getText(1252, "")); // Percepcion
       elem.setType(Dialogs.PropertyType.select);
       elem.setSelectTable(Cairo.Tables.PERCEPCION);
       elem.setKey(KIP_PERC_ID);
 
-      var elem = w_columns.add(null);
+      elem = columns.add(null);
       elem.setName(getText(2546, "")); // Base Imponible
       elem.setType(Dialogs.PropertyType.numeric);
       elem.setSubType(Dialogs.PropertySubType.money);
       elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
       elem.setKey(KIP_BASE);
 
-      var elem = w_columns.add(null);
+      elem = columns.add(null);
       elem.setName(getText(1105, "")); // Porcentaje
       elem.setType(Dialogs.PropertyType.numeric);
       elem.setSubType(Dialogs.PropertySubType.percentage);
       elem.setKey(KIP_PORCENTAJE);
 
-      var elem = w_columns.add(null);
+      elem = columns.add(null);
       elem.setName(getText(1228, "")); // Importe
       elem.setType(Dialogs.PropertyType.numeric);
       elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
       elem.setSubType(Dialogs.PropertySubType.money);
       elem.setKey(KIP_IMPORTE);
 
-      var elem = w_columns.add(null);
+      elem = columns.add(null);
       elem.setName(getText(1861, "")); // Observaciones
       elem.setType(Dialogs.PropertyType.text);
       elem.setKey(KIP_DESCRIP);
 
-      var elem = w_columns.add(null);
+      elem = columns.add(null);
       elem.setName(getText(1057, "")); // Centro de Costo
       elem.setType(Dialogs.PropertyType.select);
       elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);

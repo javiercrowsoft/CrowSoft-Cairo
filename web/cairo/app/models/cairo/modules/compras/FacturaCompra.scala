@@ -1537,7 +1537,7 @@ object FacturaCompra {
         Field(C.FCPERC_BASE, item.base, FieldType.currency),
         Field(C.FCPERC_PORCENTAJE, item.porcentaje, FieldType.currency),
         Field(C.FCPERC_IMPORTE, item.importe, FieldType.currency),
-        Field(GC.CCOS_ID, item.percId, FieldType.id),
+        Field(GC.CCOS_ID, item.ccosId, FieldType.id),
         Field(C.FCPERC_DESCRIP, item.descrip, FieldType.text),
         Field(C.FCPERC_ORIGEN, item.origen, FieldType.currency),
         Field(C.FCPERC_ORDEN, item.orden, FieldType.integer)

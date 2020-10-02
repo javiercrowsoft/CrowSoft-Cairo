@@ -1,4 +1,4 @@
-/*
+﻿/*
 CrowSoft-Cairo
 ==============
 
@@ -41,7 +41,7 @@ fetch all from rtn;
 */
 create or replace function frMovimientoFondo
 (
-  in p_opg_id integer,
+  in p_mf_id integer,
   out rtn refcursor
 )
   returns refcursor as
