@@ -2491,13 +2491,12 @@
         elem.setValue(true);
         elem.setIsEditProperty(false);
 
+        elem = properties.add(null, C_CAJA_MSG);
+        elem.setType(T.label);
+        elem.setTextAlign(Dialogs.TextAlign.center);
+
         if(m_cajaMsg !== "") {
-
-          elem = properties.add(null, C_CAJA_MSG);
-          elem.setType(T.label);
-          elem.setValue(m_cajaMsg);
           elem.setTextAlign(Dialogs.TextAlign.center);
-
           if(m_bCajaError) {
             elem.setForeColor("red");
           }
