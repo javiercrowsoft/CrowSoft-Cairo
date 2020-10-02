@@ -97,7 +97,7 @@ object C {
   val RVI_IMPORTE = "rvi_importe"
 
   // RemitoVentaTMP
-  val REMITO_VENTA_ITEM_TMP = "REMITO_VENTA_ITEM_TMP"
+  val REMITO_VENTA_ITEM_TMP = "RemitoVentaItemTMP"
   val RVI_TMP_ID = "rviTMP_id"
 
   // Items Borrados de Remito de venta
@@ -269,7 +269,7 @@ object C {
   val PRV_IMPORTE_DESC2 = "prv_importedesc2"
 
   // PresupuestoVentaItem
-  val PRESUPUESTOVENTA_ITEM_TMP = "PresupuestoVENTA_ITEM_TMP"
+  val PRESUPUESTOVENTA_ITEM_TMP = "PresupuestoVentaItemTMP"
   val PRVI_TMP_ID = "prvitmp_id"
   val PRESUPUESTOVENTAITEM = "PresupuestoVentaItem"
   val PRVI_ID = "prvi_id"
@@ -339,7 +339,7 @@ object C {
   val RAMA_STOCK = "RamaStock"
 
   // Items de Pedidos de Venta
-  val PEDIDO_VENTA_ITEM_TMP = "PedidoVENTA_ITEM_TMP"
+  val PEDIDO_VENTA_ITEM_TMP = "PedidoVentaItemTMP"
   val PVI_TMP_ID = "pvitmp_id"
 
   val PEDIDO_VENTA_ITEM = "PedidoVentaItem"

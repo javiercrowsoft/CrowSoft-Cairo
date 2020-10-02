@@ -59,7 +59,7 @@
       RVI_IMPORTE: "rvi_importe",
 
       // RemitoVentaTMP
-      REMITO_VENTA_ITEM_TMP: "REMITO_VENTA_ITEM_TMP",
+      REMITO_VENTA_ITEM_TMP: "RemitoVentaItemTMP",
       RVI_TMP_ID: "rviTMP_id",
 
       // Items Borrados de Remito de venta
@@ -124,7 +124,7 @@
       FVI_NO_STOCK: "fvi_nostock",
 
       // FacturaVENTA_ITEM_TMP
-      FACTURA_VENTA_ITEM_TMP: "FacturaVENTA_ITEM_TMP",
+      FACTURA_VENTA_ITEM_TMP: "FacturaVentaItemTMP",
       FVI_TMP_ID: "fviTMP_id",
 
       // FacturaVentaItemBarradoTMP
@@ -225,7 +225,7 @@
       PRV_IMPORTE_DESC2: "prv_importedesc2",
 
       // PresupuestoVentaItem
-      PRESUPUESTO_VENTA_ITEM_TMP: "PresupuestoVENTA_ITEM_TMP",
+      PRESUPUESTO_VENTA_ITEM_TMP: "PresupuestoVentaItemTMP",
       PRVI_TMP_ID: "prvitmp_id",
 
       PRESUPUESTO_VENTA_ITEM: "PresupuestoVentaItem",
@@ -296,7 +296,7 @@
       RAMA_STOCK: "ramastock",
 
       // Items de Pedidos de Venta
-      PEDIDO_VENTA_ITEM_TMP: "PedidoVENTA_ITEM_TMP",
+      PEDIDO_VENTA_ITEM_TMP: "PedidoVentaItemTMP",
       PVI_TMP_ID: "pvitmp_id",
 
       PEDIDO_VENTA_ITEM: "PedidoVentaItem",
