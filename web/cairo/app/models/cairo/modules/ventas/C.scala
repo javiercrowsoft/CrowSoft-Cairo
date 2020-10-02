@@ -164,7 +164,7 @@ object C {
   val FVI_NO_STOCK = "fvi_nostock"
 
   // FacturaVENTA_ITEM_TMP
-  val FACTURA_VENTA_ITEM_TMP = "FacturaVENTA_ITEM_TMP"
+  val FACTURA_VENTA_ITEM_TMP = "FacturaVentaItemTMP"
   val FVI_TMP_ID = "fviTMP_id"
 
   // FacturaVentaItemBarradoTMP
