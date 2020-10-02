@@ -3523,15 +3523,21 @@
               case KI_IVA_RI:
                 if(m_bIva) {
                   ivaRi = val(cell.getValue());
-                  fields.add(CC.FCI_IVA_RI, ivaRi * cotizacion, Types.currency);
                 }
+                else {
+                  ivaRi = 0;
+                }
+                fields.add(CC.FCI_IVA_RI, ivaRi * cotizacion, Types.currency);
                 break;
 
               case KI_IVA_RNI:
                 if(m_bIvaRni) {
                   ivaRni = val(cell.getValue());
-                  fields.add(CC.FCI_IVA_RNI, ivaRni * cotizacion, Types.currency);
                 }
+                else {
+                  ivaRni = 0;
+                }
+                fields.add(CC.FCI_IVA_RNI, ivaRni * cotizacion, Types.currency);
                 break;
 
               case KI_INTERNOS:
