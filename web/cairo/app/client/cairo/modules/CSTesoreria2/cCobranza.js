@@ -4279,7 +4279,6 @@
             var property = m_properties.item(C.CLI_ID);
             m_cliente = property.getValue();
             m_cliId = property.getSelectIntValue();
-            console.log("Cobranza propertyChange " + m_cliente + " " + m_cliId);
             break;
 
           case K_CCOS_ID:
