@@ -27,7 +27,7 @@
   }
 
   Cairo.execLater = function(f, milliseconds) {
-    milliseconds = milliseconds || 350;
+    milliseconds = milliseconds || 500;
     setTimeout(function() { f(); }, milliseconds);
   };
 
