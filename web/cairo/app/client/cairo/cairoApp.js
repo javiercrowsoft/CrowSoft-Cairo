@@ -26,6 +26,11 @@
     return value !== null && value !== undefined;
   }
 
+  Cairo.execLater = function(f, milliseconds) {
+    milliseconds = milliseconds || 100;
+    setTimeout(function() { f(); }, milliseconds);
+  };
+
   Cairo.addRegions({
     headerRegion: "#header-region",
     mainRegion: "#main-region",

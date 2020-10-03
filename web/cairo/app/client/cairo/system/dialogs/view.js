@@ -730,6 +730,7 @@
         for(var i = 0, count = self.grids.size(); i < count; i +=1) {
           self.grids.item(i).endEdit();
         }
+        $(':focus').blur();
       };
 
       var onSaveClick = function() {
@@ -758,6 +759,15 @@
        *  This function will call all listeners
        * */
       that.raiseEvent = function(eventName, eventData) {
+        if(eventName.endsWith("Click")) {
+          Cairo.execLater(function(){ raiseEventAux(eventName, eventData); });
+        }
+        else {
+          raiseEventAux(eventName, eventData);
+        }
+      };
+
+      var raiseEventAux = function(eventName, eventData) {
         for(var i = 0; i < self.listeners.length; i += 1) {
           var listener = self.listeners[i];
           if(listener[eventName] !== undefined) {
@@ -1306,7 +1316,12 @@
         that.raiseEvent("newClick");
       };
 
+      var completePendingEdits = function() {
+        $(':focus').blur();
+      };
+
       var onRefreshClick = function() {
+        completePendingEdits();
         that.raiseEvent("refreshClick");
       };
 
