@@ -4351,6 +4351,9 @@
           empId: m_empId
         };
 
+        console.log("refresh params:");
+        console.log(params);
+
         return DB.getData("load[" + m_apiPath + "tesoreria/cobranzas]", null, params);
       };
 

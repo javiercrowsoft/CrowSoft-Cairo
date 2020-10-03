@@ -759,7 +759,7 @@
        *  This function will call all listeners
        * */
       that.raiseEvent = function(eventName, eventData) {
-        console.log("raiseEvent");
+        console.log("raiseEvent " + eventName);
         if(eventName.endsWith("Click")) {
           Cairo.execLater(function(){ raiseEventAux(eventName, eventData); });
         }
@@ -769,7 +769,7 @@
       };
 
       var raiseEventAux = function(eventName, eventData) {
-        console.log("raiseEventAux");
+        console.log("raiseEventAux " + eventName);
         for(var i = 0; i < self.listeners.length; i += 1) {
           var listener = self.listeners[i];
           if(listener[eventName] !== undefined) {
