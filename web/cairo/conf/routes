@@ -457,6 +457,7 @@ GET     /api/v1/ventas/facturaventa/notes/:id                                   
 #
 
 GET     /api/v1/tesoreria/chequera/:chqId/next_number                                        controllers.logged.modules.general.Chequeras.nextNumber(chqId: Int)
+GET     /api/v1/tesoreria/cheque/:cheqId/info                                                controllers.logged.modules.general.Cheques.info(cheqId: Int)
 
 GET     /api/v1/tesoreria/ordenespago                                                        controllers.logged.modules.tesoreria.OrdenesPago.list(from: Option[String], to: Option[String], provId: Option[String], estId: Option[String], ccosId: Option[String], sucId: Option[String], docId: Option[String], empId: Option[String])
 GET     /api/v1/tesoreria/ordenespago/parameters                                             controllers.logged.modules.tesoreria.OrdenesPago.parameters()

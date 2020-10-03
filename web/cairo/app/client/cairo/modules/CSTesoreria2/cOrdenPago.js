@@ -3018,10 +3018,10 @@
                 else {
 
                   Dialogs.cell(row, KICHT_BCO_ID).setValue("");
-                  Dialogs.cell(row, KICHT_CLI_ID).setValue(0);
+                  Dialogs.cell(row, KICHT_CLI_ID).setValue("");
                   Dialogs.cell(row, KICHT_FECHAVTO).setValue("");
                   Dialogs.cell(row, KICHT_FECHACOBRO).setValue("");
-                  Dialogs.cell(row, KICHT_CLE_ID).setValue(0);
+                  Dialogs.cell(row, KICHT_CLE_ID).setValue("");
                   Dialogs.cell(row, KICHT_IMPORTE).setValue(0);
                   Dialogs.cell(row, KICHT_IMPORTEORIGEN).setValue(0);
 

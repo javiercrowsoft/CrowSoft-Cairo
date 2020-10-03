@@ -3205,10 +3205,10 @@
                   else {
 
                     Dialogs.cell(row, KICHT_BCO_ID).setValue("");
-                    Dialogs.cell(row, KICHT_CLI_ID).setValue(0);
+                    Dialogs.cell(row, KICHT_CLI_ID).setValue("");
                     Dialogs.cell(row, KICHT_FECHAVTO).setValue("");
                     Dialogs.cell(row, KICHT_FECHACOBRO).setValue("");
-                    Dialogs.cell(row, KICHT_CLE_ID).setValue(0);
+                    Dialogs.cell(row, KICHT_CLE_ID).setValue("");
                     Dialogs.cell(row, KICHT_IMPORTE).setValue(0);
                     Dialogs.cell(row, KICHT_IMPORTEORIGEN).setValue(0);
 
@@ -3283,7 +3283,7 @@
         return p || P.resolvedPromise(true);
       };
 
-      var validateRowICheques = function(row, rowIndex) { // TODO: Use of ByRef founded Private Function validateRowICheques(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
+      var validateRowICheques = function(row, rowIndex) {
         var bOrigen = false;
         var monId = NO_ID;
         var strRow = " (Row: " + rowIndex.toString() + ")";
@@ -3364,7 +3364,7 @@
         return P.resolvedPromise(true);
       };
 
-      var validateRowTCheques = function(row, rowIndex) { // TODO: Use of ByRef founded Private Function validateRowTCheques(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
+      var validateRowTCheques = function(row, rowIndex) {
 
         var strRow = " (Row: " + rowIndex.toString() + ")";
 
@@ -3393,7 +3393,7 @@
         return P.resolvedPromise(true);
       };
 
-      var validateRowCheques = function(row, rowIndex) { // TODO: Use of ByRef founded Private Function validateRowCheques(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
+      var validateRowCheques = function(row, rowIndex) {
 
         var bOrigen = false;
         var monId = NO_ID;
@@ -3484,7 +3484,6 @@
           switch (cell.getKey()) {
             case KI_CUE_ID_HABER:
             case KICHT_MON_ID:
-            case KICHT_CLE_ID:
             case KI_CUE_ID_DEBE:
             case KICHT_BCO_ID:
             case KICHT_CLE_ID:

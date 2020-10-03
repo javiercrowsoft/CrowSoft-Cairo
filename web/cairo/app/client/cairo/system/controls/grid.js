@@ -1809,6 +1809,8 @@
         if(self.table !== null) self.table.attr('disabled', !enabled);
       };
 
+      that.endEdit = endEdit;
+
       return that;
     };
 

@@ -726,7 +726,14 @@
         self.listeners.push(listenerDefinition);
       };
 
+      var completePendingEdits = function() {
+        for(var i = 0, count = self.grids.size(); i < count; i +=1) {
+          self.grids.item(i).endEdit();
+        }
+      };
+
       var onSaveClick = function() {
+        completePendingEdits();
         that.raiseEvent("saveClick");
       };
 
@@ -848,6 +855,7 @@
 
       that.onButtonClick = function(control) {
         return function() {
+          debugger;
           that.raiseEvent("buttonClick", control.getIndex());
         };
       };
