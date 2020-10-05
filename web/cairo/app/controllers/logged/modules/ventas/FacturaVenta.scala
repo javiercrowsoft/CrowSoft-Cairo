@@ -84,7 +84,8 @@ case class FacturaVentaItemDataBase(
                                       cueIdIvaRi: Int,
                                       cueIdIvaRni: Int,
                                       stlId: Int,
-                                      orden: Int
+                                      orden: Int,
+                                      noStock: Boolean
                                       )
 
 case class FacturaVentaItemDataTotals(
@@ -204,7 +205,7 @@ object FacturaVentas extends Controller with ProvidesUser {
     C.FV_TOTAL_PERCEPCIONES, C.FV_TOTAL, C.FV_TOTAL_ORIGEN)
 
   val facturaItemBase = List(C.FVI_DESCRIP, GC.PR_ID, GC.CCOS_ID, GC.TO_ID,
-    GC.CUE_ID, C.CUE_ID_IVA_RI, C.CUE_ID_IVA_RNI, GC.STL_ID, C.FVI_ORDEN)
+    GC.CUE_ID, C.CUE_ID_IVA_RI, C.CUE_ID_IVA_RNI, GC.STL_ID, C.FVI_ORDEN, C.FVI_NO_STOCK)
 
   val facturaItemTotals = List(C.FVI_CANTIDAD, C.FVI_PRECIO, C.FVI_PRECIO_LISTA, C.FVI_PRECIO_USR, C.FVI_NETO,
     C.FVI_IVA_RI, C.FVI_IVA_RNI, C.FVI_INTERNOS, C.FVI_IVA_RI_PORC, C.FVI_IVA_RNI_PORC,
@@ -351,7 +352,8 @@ object FacturaVentas extends Controller with ProvidesUser {
             C.CUE_ID_IVA_RI -> number,
             C.CUE_ID_IVA_RNI -> number,
             GC.STL_ID -> number,
-            C.FVI_ORDEN -> number)
+            C.FVI_ORDEN -> number,
+            C.FVI_NO_STOCK -> boolean)
             (FacturaVentaItemDataBase.apply)(FacturaVentaItemDataBase.unapply),
           C.FACTURA_ITEM_TOTALS -> mapping (
             C.FVI_CANTIDAD -> of(doubleFormat),
@@ -545,7 +547,8 @@ object FacturaVentas extends Controller with ProvidesUser {
       C.FVI_INTERNOS_PORC -> Json.toJson(i.totals.internosPorc),
       GC.PR_PORC_INTERNO_V -> Json.toJson(i.totals.prInternosPorc),
       C.FVI_IMPORTE -> Json.toJson(i.totals.importe),
-      C.FVI_IMPORTE_ORIGEN -> Json.toJson(i.totals.importeOrigen)
+      C.FVI_IMPORTE_ORIGEN -> Json.toJson(i.totals.importeOrigen),
+      C.FVI_NO_STOCK -> Json.toJson(i.base.noStock)
     )
     def facturaVentaItemSerieWrites(i: FacturaVentaItemSerie) = Json.obj(
       C.FVI_ID -> Json.toJson(i.fviId),
@@ -894,7 +897,8 @@ object FacturaVentas extends Controller with ProvidesUser {
           item.base.cueIdIvaRi,
           item.base.cueIdIvaRni,
           item.base.stlId,
-          item.base.orden
+          item.base.orden,
+          item.base.noStock
         ),
         FacturaVentaItemTotals(
           item.totals.cantidad,

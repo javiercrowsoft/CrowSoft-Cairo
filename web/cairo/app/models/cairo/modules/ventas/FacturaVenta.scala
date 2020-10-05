@@ -360,7 +360,8 @@ case class FacturaVentaItemBase(
                                    orden: Int,
                                    llevaNroSerie: Boolean,
                                    llevaNroLote: Boolean,
-                                   unName: String
+                                   unName: String,
+                                   noStock: Boolean
                                    )
 
 object FacturaVentaItemBase {
@@ -374,7 +375,9 @@ object FacturaVentaItemBase {
             cueIdIvaRi: Int,
             cueIdIvaRni: Int,
             stlId: Int,
-            orden: Int) = {
+            orden: Int,
+            noStock: Boolean
+           ) = {
 
     new FacturaVentaItemBase(
       descrip,
@@ -393,7 +396,8 @@ object FacturaVentaItemBase {
       orden,
       false,
       false,
-      ""
+      "",
+      noStock
     )
   }
 }
@@ -931,7 +935,8 @@ object FacturaVenta {
     SqlParser.get[Int](C.FVI_ORDEN) ~
     SqlParser.get[Int](GC.PR_LLEVA_NRO_SERIE) ~
     SqlParser.get[Int](GC.PR_LLEVA_NRO_LOTE) ~
-    SqlParser.get[String](GC.UN_NAME) map {
+    SqlParser.get[String](GC.UN_NAME) ~
+    SqlParser.get[Int](C.FVI_NO_STOCK) map {
     case
         id ~
         cantidad ~
@@ -964,7 +969,8 @@ object FacturaVenta {
         orden ~
         llevaNroSerie ~
         llevaNroLote ~
-        unName =>
+        unName ~
+        noStock =>
       FacturaVentaItem(
         id,
         FacturaVentaItemBase(
@@ -982,9 +988,10 @@ object FacturaVenta {
           stlId.getOrElse(DBHelper.NoId),
           stlCode.getOrElse(""),
           orden,
-          (llevaNroSerie != 0),
-          (llevaNroLote != 0),
-          unName
+          llevaNroSerie != 0,
+          llevaNroLote != 0,
+          unName,
+          noStock != 0
         ),
         FacturaVentaItemTotals(
           cantidad.doubleValue(),
