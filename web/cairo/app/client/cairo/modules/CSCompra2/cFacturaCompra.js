@@ -628,8 +628,7 @@
 
           case Dialogs.Message.MSG_EXPORT_GET_EMAIL:
 
-            var property = m_properties.item(C.PROV_ID);
-            p = D.getEmailFromProveedor(property.getSelectId());
+            p = D.getEmailFromProveedor(getProvId());
             break;
 
           case Dialogs.Message.MSG_GRID_VIRTUAL_ROW:

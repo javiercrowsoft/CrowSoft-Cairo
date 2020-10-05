@@ -1830,6 +1830,10 @@
     return "factura_venta_for_cli_id|cliId:" + cliId;
   };
 
+  Cairo.Documents.getFacturaCompraFilter = function(provId) {
+    return "factura_compra_for_prov_id|provId:" + provId;
+  };
+
   // TODO: remove this comment after all code is translated getCtaGrupoFilter
   Cairo.Documents.getCuentaGrupoFilter = function(cuentaGrupoType) {
     var filter = "";

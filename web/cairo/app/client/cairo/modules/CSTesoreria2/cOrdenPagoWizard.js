@@ -3583,7 +3583,7 @@
 
       var setFilterColFactura = function() {
 
-        var filter = D.getFacturaVentaFilter(getProvId());
+        var filter = D.getFacturaCompraFilter(getProvId());
         D.getCol(getOtros().getColumns(), KIO_FC_ID_RET).setSelectFilter(filter);
         m_objWizard.getDialog().refreshColumnProperties(getOtrosProperty(), CT.FC_ID_RET);
 

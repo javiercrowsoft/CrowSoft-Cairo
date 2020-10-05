@@ -594,7 +594,7 @@
 
           case Dialogs.Message.MSG_EXPORT_GET_EMAIL:
 
-            p = D.getEmailFromCliente(getCliente().getSelectId());
+            p = D.getEmailFromCliente(getCliId());
             break;
 
           case Dialogs.Message.MSG_EXPORT_GET_FILE_NAME_POSTFIX:
@@ -3861,13 +3861,13 @@
 
       var setFilterColFactura = function() {
 
-        var filter = D.getFacturaVentaFilter(getCliente());
+        var filter = D.getFacturaVentaFilter(getCliId());
         D.getCol(getOtros().getColumns(), KIO_FV_ID_RET).setSelectFilter(filter);
         m_dialog.refreshColumnProperties(getOtrosProperty(), CT.FV_ID_RET);
 
       };
 
-      var getCliente = function() {
+      var getCliId = function() {
         return m_properties.item(C.CLI_ID).getSelectId();
       };
 

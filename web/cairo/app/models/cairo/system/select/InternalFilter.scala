@@ -34,7 +34,9 @@ object InternalFilter {
     "rubro_tabla_item" -> "f:rubroTablaItem",
     "serial_number" -> "f:serialNumber",
     "generic_filter" -> "f:genericFilter",
-    "stock_lote" -> "f:stockLote"
+    "stock_lote" -> "f:stockLote",
+    "factura_venta_for_cli_id" -> "f:facturaVentaForCliId",
+    "factura_compra_for_prov_id" -> "f:facturaCompraForProvId"
   )
 
   val emptyFilter = InternalFilter("", List())
@@ -74,6 +76,8 @@ object InternalFilter {
             case "f:serialNumber" => serialNumber(user, parameters)
             case "f:genericFilter" => genericFilter(user, parameters)
             case "f:stockLote" => throw new NotImplementedError("stock_lote internal filter is not implemented yet")
+            case "f:facturaVentaForCliId" => cliIdFilter(user, parameters)
+            case "f:facturaCompraForProvId" => provIdFilter(user, parameters)
             case _ => emptyFilter
           }
         }
@@ -228,14 +232,7 @@ object InternalFilter {
   }
 
   private def rubroTablaItem(user: CompanyUser, parameters: List[String]): InternalFilter = {
-    val params = parseParameters(parameters)
-    val rubtId = {
-      if(params.contains("rubtId")) {
-        G.getIntOrZero(params("rubtId"))
-      }
-      else 0
-    }
-    InternalFilter(s"(rubt_id = ${rubtId})", List())
+    idFilter(parameters, "rubt_id", "rubtId")
   }
 
   private def serialNumber(user: CompanyUser, parameters: List[String]): InternalFilter = {
@@ -348,6 +345,25 @@ object InternalFilter {
         conditionTerm(s"${a(0)} ${a(1)} ?", getValue(a(2)))
     })
     InternalFilter(params.map(_.operator).mkString("and"), params.map(p => QueryParameter(p.value)))
+  }
+
+  private def cliIdFilter(user: CompanyUser, parameters: List[String]): InternalFilter = {
+    idFilter(parameters, "fv.cli_id", "cliId")
+  }
+
+  private def provIdFilter(user: CompanyUser, parameters: List[String]): InternalFilter = {
+    idFilter(parameters, "fc.prov_id", "provId")
+  }
+
+  private def idFilter(parameters: List[String], param: String, column: String): InternalFilter = {
+    val params = parseParameters(parameters)
+    val id = {
+      if(params.contains(param)) {
+        params(param).toInt
+      }
+      else throw new IllegalArgumentException("idFilter: param ($param) was not contained in parameters")
+    }
+    InternalFilter(s"($column = $id)", List())
   }
 
 }
