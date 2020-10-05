@@ -1594,7 +1594,7 @@
 
             var row = grid.getRows().item(lRow);
             if(row !== null) {
-              rtn = cellId(row, KI_PR_LLEVA_NRO_SERIE) !== 0;
+              rtn = cellId(row, KI_PR_LLEVA_NRO_SERIE) === true;
             }
             break;
 
@@ -1698,7 +1698,7 @@
 
             var row = grid.getRows().item(lRow);
 
-            if(cellId(row, KI_PR_LLEVA_NRO_SERIE) !== 0) {
+            if(cellId(row, KI_PR_LLEVA_NRO_SERIE) === true) {
 
               var prId = cellId(row, KI_PR_ID);
 
@@ -1728,7 +1728,7 @@
 
                 var row = grid.getRows().item(lRow);
 
-                if(cellId(row, KI_PR_LLEVA_NRO_SERIE) !== 0) {
+                if(cellId(row, KI_PR_LLEVA_NRO_SERIE) === true) {
 
                   var prId = cellId(row, KI_PR_ID);
 
@@ -2012,7 +2012,7 @@
               break;
 
             case KI_NRO_SERIE:
-              llevaNroSerie = cellId(row, KI_PR_LLEVA_NRO_SERIE) !== 0;
+              llevaNroSerie = cellId(row, KI_PR_LLEVA_NRO_SERIE) === true;
               if(valEmpty(cell.getValue(), Types.text) && llevaNroSerie) {
                 return M.showInfoWithFalse(getText(1630, "", strRow)); // Debe indicar un numero de serie (1)
               }
@@ -3999,13 +3999,13 @@
             getCell(row, KI_PR_LLEVA_LOTE).setId(valField(response.data, C.PR_LLEVA_NRO_LOTE));
           }
           else {
-            getCell(row, KI_PR_LLEVA_NRO_SERIE).setId(0);
-            getCell(row, KI_PR_LLEVA_LOTE).setId(0);
+            getCell(row, KI_PR_LLEVA_NRO_SERIE).setId(false);
+            getCell(row, KI_PR_LLEVA_LOTE).setId(false);
           }
 
           // if the product has changed we remove all serial numbers
           // 
-          if(bChanged || cellId(row, KI_PR_LLEVA_NRO_SERIE) === 0) {
+          if(bChanged || cellId(row, KI_PR_LLEVA_NRO_SERIE) === false) {
             getCell(row, KI_NRO_SERIE).setValue("");
             var key = Cairo.Collections.getKey(cellId(row, KI_GRUPO));
             if(m_serialNumbers.contains(key)) {
@@ -4484,7 +4484,7 @@
 
       var saveItemNroSerie = function(mainRegister, row, order, prId, grupo) {
 
-        if(cellId(row, KI_PR_LLEVA_NRO_SERIE) !== 0 && m_showStockData) {
+        if(cellId(row, KI_PR_LLEVA_NRO_SERIE) === true && m_showStockData) {
 
           var transaction = DB.createTransaction();
           var deleted = [];

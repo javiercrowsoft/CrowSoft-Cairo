@@ -14,7 +14,7 @@
     var C_MODULE = "Dialogs.Views.view";
 
     var Controls = Cairo.Controls;
-    
+
     var createControls = function(view, viewManager, existingForm) {
       var tabsCount = view.tabs.count();
       var count = view.controls.count();
@@ -352,6 +352,10 @@
       }
 
     });
+
+    var completePendingEdits = function() {
+      $(':focus').blur();
+    };
 
     Views.createView = function(viewType) {
 
@@ -1082,6 +1086,7 @@
       };
 
       var onNextClick = function() {
+        completePendingEdits();
         that.raiseEvent("nextClick");
       };
 
@@ -1314,10 +1319,6 @@
 
       var onNewClick = function() {
         that.raiseEvent("newClick");
-      };
-
-      var completePendingEdits = function() {
-        $(':focus').blur();
       };
 
       var onRefreshClick = function() {

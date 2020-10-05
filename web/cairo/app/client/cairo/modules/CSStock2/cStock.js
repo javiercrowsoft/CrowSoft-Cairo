@@ -943,7 +943,7 @@
 
             var row = grid.getRows().item(lRow);
             if(row !== null) {
-              rtn = cellId(row, KI_PR_LLEVA_NRO_SERIE) !== 0;
+              rtn = cellId(row, KI_PR_LLEVA_NRO_SERIE) === true;
             }
             break;
 
@@ -953,8 +953,8 @@
 
             if(row !== null) {
 
-              if(cellId(row, KI_PR_LLEVA_LOTE) !== 0
-                && cellId(row, KI_PR_LLEVA_NRO_SERIE) === 0) {
+              if(cellId(row, KI_PR_LLEVA_LOTE) === true
+                && cellId(row, KI_PR_LLEVA_NRO_SERIE) === false) {
 
                 var prIdKit = null;
                 if(cellId(row, KI_ES_KIT)) {
@@ -1023,14 +1023,14 @@
 
                 var row = grid.getRows().item(lRow);
 
-                if(cellId(row, KI_PR_LLEVA_NRO_SERIE) !== 0) {
+                if(cellId(row, KI_PR_LLEVA_NRO_SERIE) === true) {
 
                   var prId = cellId(row, KI_PR_ID);
 
                   p = Cairo.SerialNumber.edit(
                     cellId(row, KI_GRUPO), cellFloat(row, KI_CANTIDAD),
                     row, m_serialNumbers, KI_GRUPO, KI_NRO_SERIE, lRow, prId, getDeplIdOrigen(),
-                    false, cellId(row, KI_ES_KIT) != 0, false,
+                    false, cellId(row, KI_ES_KIT) === true, false,
                     Cairo.Kit.getKitInfo(prId, m_kitDefinitions), NO_ID, NO_ID)
                   //
                   // this promise must return false to tell Dialog the button
@@ -1140,7 +1140,7 @@
               break;
 
             case KI_NRO_SERIE:
-              hasSerial = cellId(row, KI_PR_LLEVA_NRO_SERIE) !== 0;
+              hasSerial = cellId(row, KI_PR_LLEVA_NRO_SERIE) === true;
               if(valEmpty(cell.getValue(), Types.text) && hasSerial) {
                 return M.showInfoWithFalse(getText(1630, "", strRow)); // Debe indicar un numero de serie (1)
               }
@@ -1150,7 +1150,7 @@
 
               if(valEmpty(cell.getId(), Types.id)
                 && cellId(row, KI_PR_LLEVA_LOTE)
-                && cellId(row, KI_PR_LLEVA_NRO_SERIE) === 0) {
+                && cellId(row, KI_PR_LLEVA_NRO_SERIE) === false) {
                 return M.showInfoWithFalse(getText(1632, "", strRow)); // Debe indicar un lote (1)
               }
               break;
@@ -1973,7 +1973,7 @@
 
           // if the product has changed we remove all serial numbers
           //
-          if(bChanged || cellId(row, KI_PR_LLEVA_NRO_SERIE) === 0) {
+          if(bChanged || cellId(row, KI_PR_LLEVA_NRO_SERIE) === false) {
             getCell(row, KI_NRO_SERIE).setValue("");
             var key = Cairo.Collections.getKey(cellId(row, KI_GRUPO));
             if(m_serialNumbers.contains(key)) {
