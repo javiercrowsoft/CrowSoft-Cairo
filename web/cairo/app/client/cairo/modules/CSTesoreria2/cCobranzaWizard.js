@@ -2035,7 +2035,7 @@
         elem = columns.add(null);
         elem.setName(getText(1057, "")); // Centro de Costo
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.CENTRO_COSTO);
+        elem.setSelectTable(Cairo.Tables.CENTROS_DE_COSTO);
         elem.setKey(KIO_CCOS_ID);
 
         elem = columns.add(null, CT.FV_ID_RET);
