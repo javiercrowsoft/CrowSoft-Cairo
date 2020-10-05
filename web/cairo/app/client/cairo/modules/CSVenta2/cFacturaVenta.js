@@ -1321,11 +1321,11 @@
                             p = p.then(function() {
                               var p = null;
 
-                              if(Cairo.getVentasConfig().isCobranzaPorCajero()) {
+                              if(Cairo.getVentasConfig().getCobranzaPorCajero()) {
 
                                 var ctaCte = false;
 
-                                if(Cairo.getVentasConfig().ventasPorHojadeRuta()) {
+                                if(Cairo.getVentasConfig().getVentasPorHojaDeRuta()) {
                                   p = M.confirmViewNoDefault("", getText(5112, "")) // Envia la factura a una Hoja de Ruta
                                     .then(function(answer) {
                                       ctaCte = answer;

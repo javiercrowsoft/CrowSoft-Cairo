@@ -344,6 +344,7 @@
 
       self.messageEx = function(messageId, info) {
         var _rtn = null;
+        var p = null;
 
         switch (messageId) {
         
@@ -374,9 +375,15 @@
 
             _rtn = true;
             break;
+
+          case Dialogs.Message.MSG_GRID_VIRTUAL_ROW:
+
+            p = P.resolvedPromise(info);
+            break;
+
         }
-      
-        return P.resolvedPromise(_rtn);
+
+        return p || P.resolvedPromise(_rtn);
       };
 
       self.discardChanges = function() {
