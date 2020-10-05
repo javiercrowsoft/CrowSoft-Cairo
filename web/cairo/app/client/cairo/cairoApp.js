@@ -1918,4 +1918,16 @@
     }
   };
 
+  var createFileEx = function() {
+    var that = {};
+
+    that.fileGetName = function(fullFileName) {
+      return fullFileName.replace(/^.*[\\\/]/, '');
+    };
+
+    return that;
+  };
+
+  Cairo.FileEx = createFileEx();
+
 }());

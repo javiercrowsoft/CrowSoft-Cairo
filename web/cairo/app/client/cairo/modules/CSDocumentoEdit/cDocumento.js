@@ -1919,10 +1919,10 @@
           case K_REPORTES:
             var property = m_dialog.getProperties().item(C_REPORTES).getGrid();
 
-            if(property.getColumns().items(lCol).getKey() === KI_CSRFILE) {
+            if(property.getColumns().item(lCol).getKey() === KI_CSRFILE) {
 
-              var fileEx = new cFileEx();
-              var row = property.getRows().items(lRow);
+              var fileEx = Cairo.FileEx;
+              var row = property.getRows().item(lRow);
 
               Dialogs.cell(row, KI_CSRFILE).setValue(fileEx.fileGetName(Dialogs.cell(row, KI_CSRFILE).getValue()));
             }
