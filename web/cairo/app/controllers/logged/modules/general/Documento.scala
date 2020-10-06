@@ -55,7 +55,7 @@ case class DocumentoReferencesData(
                                     empId: Int,
                                     doctId: Int,
                                     fcaId: Int,
-                                    monId: Int,
+                                    monId: Option[Int],
                                     taId: Option[Int],
                                     taIdFinal: Option[Int],
                                     taIdInscripto: Option[Int],
@@ -187,7 +187,7 @@ object Documentos extends Controller with ProvidesUser {
         C.EMP_ID -> number,
         C.DOCT_ID -> number,
         C.FCA_ID -> number,
-        C.MON_ID -> number,
+        C.MON_ID -> optional(number),
         C.TA_ID -> optional(number),
         C.TA_ID_FINAL -> optional(number),
         C.TA_ID_INSCRIPTO -> optional(number),
@@ -504,7 +504,7 @@ object Documentos extends Controller with ProvidesUser {
         documento.references.empId,
         documento.references.doctId,
         documento.references.fcaId,
-        documento.references.monId,
+        documento.references.monId.getOrElse(0),
         documento.references.cuegId.getOrElse(0)
       ),
 
