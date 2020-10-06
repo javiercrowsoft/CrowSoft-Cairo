@@ -650,7 +650,7 @@
 
         var elem = properties.add(null, C.CUEC_ID);
         elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.CUENTACATEGORIA);
+        elem.setSelectTable(Cairo.Tables.CATEGORIA_CONTABLE);
         // Categoría
         elem.setName(getText(1120, ""));
         elem.setKey(K_CATEGORIA);
