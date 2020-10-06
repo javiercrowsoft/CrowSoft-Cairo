@@ -725,16 +725,16 @@ object Documento {
   }
 
   def create(user: CompanyUser, documento: Documento,
-             docIdPermissions: Int // when a document is copied we can apply the same permissions as the source document
+             docIdPermissions: Option[Int] // when a document is copied we can apply the same permissions as the source document
              ): Documento = {
     save(user, documento, true, docIdPermissions)
   }
 
   def update(user: CompanyUser, documento: Documento): Documento = {
-    save(user, documento, false, DBHelper.NoId)
+    save(user, documento, false, None)
   }
 
-  private def save(user: CompanyUser, documento: Documento, isNew: Boolean, docIdPermissions: Int): Documento = {
+  private def save(user: CompanyUser, documento: Documento, isNew: Boolean, docIdPermissions: Option[Int]): Documento = {
     def getFields = {
       List(
         Field(DBHelper.ACTIVE, Register.boolToInt(documento.active), FieldType.boolean),
@@ -892,11 +892,11 @@ object Documento {
     }
   }
 
-  def savePermissions(docIdPermissions: Int) = {
-    if(docIdPermissions != DBHelper.NoId) {
+  def savePermissions(docIdPermissions: Option[Int]) = docIdPermissions.foreach(docId => {
+    if(docId != DBHelper.NoId) {
 
     }
-  }
+  })
 
   def load(user: CompanyUser, id: Int): Option[Documento] = {
 

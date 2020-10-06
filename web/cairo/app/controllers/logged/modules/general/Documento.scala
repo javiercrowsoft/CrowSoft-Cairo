@@ -27,7 +27,7 @@ case class DocumentoBaseData(
                               esCobCaidaSGR: Option[Boolean],
                               stConsumo: Option[Boolean],
                               descrip: String,
-                              docIdPermissions: Int
+                              docIdPermissions: Option[Int]
                             )
 
 case class DocumentoFacturaVentaData(
@@ -163,7 +163,7 @@ object Documentos extends Controller with ProvidesUser {
         C.DOC_ES_COB_CHEQUE_SGR -> optional(boolean),
         C.DOC_ST_CONSUMO -> optional(boolean),
         C.DOC_DESCRIP -> text,
-        C.DOC_ID_PERMISSIONS -> number)(DocumentoBaseData.apply)(DocumentoBaseData.unapply),
+        C.DOC_ID_PERMISSIONS -> optional(number))(DocumentoBaseData.apply)(DocumentoBaseData.unapply),
       C.DOCUMENTO_TIPO_ASISTENTE -> mapping(
         C.DOC_TIPO_FACTURA -> optional(number),
         C.DOC_TIPO_PACKING_LIST -> optional(number),
