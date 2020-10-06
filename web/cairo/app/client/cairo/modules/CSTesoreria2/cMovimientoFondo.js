@@ -3324,7 +3324,6 @@
               if(valEmpty(cell.getId(), Types.id)) {
                 return M.showInfoWithFalse(getText(2115, "", strRow)); // Debe indicar un clearing (1)
               }
-
               break;
 
             case KICH_IMPORTEORIGEN:

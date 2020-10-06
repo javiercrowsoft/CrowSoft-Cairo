@@ -321,7 +321,7 @@ object Cuenta {
 
   def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection(user.database.database) { implicit connection =>
-      SQL(s"SELECT t1.*, t2.${C.MON_NAME}, t2.${C.CUEC_NAME}, t2.${C.BCO_NAME}" +
+      SQL(s"SELECT t1.*, t2.${C.MON_NAME}, t3.${C.CUEC_NAME}, t4.${C.BCO_NAME}" +
         s" FROM ${C.CUENTA} t1" +
         s" LEFT JOIN ${C.MONEDA} t2 ON t1.${C.MON_ID} = t2.${C.MON_ID}" +
         s" LEFT JOIN ${C.CUENTA_CATEGORIA} t3 ON t1.${C.CUEC_ID} = t3.${C.CUEC_ID}" +
