@@ -209,10 +209,10 @@ object Cuenta {
       SqlParser.get[Int](DBHelper.ACTIVE) ~
       SqlParser.get[Int](C.MON_ID) ~
       SqlParser.get[String](C.MON_NAME) ~
-      SqlParser.get[Boolean](C.CUE_LLEVA_CENTRO_COSTO) ~
-      SqlParser.get[Boolean](C.CUE_PRODUCTO) ~
-      SqlParser.get[Boolean](C.CUE_ES_EFECTIVO) ~
-      SqlParser.get[Boolean](C.CUE_ES_TICKET) ~
+      SqlParser.get[Int](C.CUE_LLEVA_CENTRO_COSTO) ~
+      SqlParser.get[Int](C.CUE_PRODUCTO) ~
+      SqlParser.get[Int](C.CUE_ES_EFECTIVO) ~
+      SqlParser.get[Int](C.CUE_ES_TICKET) ~
       SqlParser.get[Int](C.CUEC_ID) ~
       SqlParser.get[String](C.CUEC_NAME) ~
       SqlParser.get[Int](C.BCO_ID) ~
@@ -251,10 +251,10 @@ object Cuenta {
               active != 0,
               monId,
               monName,
-              llevaCentroCosto,
-              producto,
-              esEfectivo,
-              esTicket,
+              llevaCentroCosto != 0,
+              producto != 0,
+              esEfectivo != 0,
+              esTicket != 0,
               cuecId,
               cuecName,
               bcoId,
