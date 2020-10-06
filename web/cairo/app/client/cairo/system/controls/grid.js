@@ -513,6 +513,7 @@
               ctrl.setType(D.getCtrlType(col.getSubType()));
               break;
 
+            case T.file:
             case T.text:
               ctrl = getInputCtrl();
               ctrl.setType(CT.text);
@@ -577,6 +578,7 @@
                   newValue = ctrl.getValue();
                   break;
 
+                case T.file:
                 case T.text:
                   newValue = ctrl.getText();
                   break;
@@ -654,6 +656,7 @@
             ctrl.setValue(newValue);
             break;
 
+          case T.file:
           case T.text:
             ctrl.setText(newValue);
             break;
@@ -766,6 +769,7 @@
                 $(td).text(info.newValue);
                 break;
 
+              case T.file:
               case T.text:
               case T.date:
               case T.time:
@@ -891,6 +895,7 @@
         switch(type) {
           case T.numeric:
             return 'grid-td-editing-number';
+          case T.file:
           case T.text:
             return 'grid-td-editing-text';
           case T.date:
@@ -1462,6 +1467,7 @@
               case T.numeric:
                 clazz = 'grid-column-number';
                 break;
+              case T.file:
               case T.text:
                 clazz = 'grid-column-text';
                 break;
@@ -1480,6 +1486,7 @@
           switch(col.getType()) {
             case T.numeric:
               return "cell-number-value";
+            case T.file:
             case T.text:
             case T.select:
               return "cell-text-value";
