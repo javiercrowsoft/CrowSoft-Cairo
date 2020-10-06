@@ -447,30 +447,7 @@
                 <Series />
               </Chart>
             </K313210>
-            <K313211 Key="K313211" Name="Control47" KeyPaint="P105" HasFormulaHide="0" HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
-              <Field Index="11" Name="{frRecibo2}.Nro. comp." FieldType="200" />
-              <Image Data="">
-                <Aspect Align="3" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="0" Format="" Left="0" nZOrder="0" SelectColor="0" Top="0" Width="0" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
-                  <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
-                </Aspect>
-              </Image>
-              <Label Text="{frRecibo2}.Nro. comp." CanGrow="0">
-                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="4515" nZOrder="48" SelectColor="0" Top="4905" Width="1905" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
-                  <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
-                </Aspect>
-              </Label>
-              <Line>
-                <Aspect Align="3" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="0" Format="" Left="0" nZOrder="0" SelectColor="0" Top="0" Width="0" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
-                  <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
-                </Aspect>
-              </Line>
-              <H Name="H" Text="" idxGroup="0" WhenEval="0" />
-              <V Name="V" Text="" idxGroup="0" WhenEval="0" />
-              <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0" ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
-                <Series />
-              </Chart>
-            </K313211>
-            <K313212 Key="K313212" Name="Control48" KeyPaint="P106" HasFormulaHide="0" HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
+            <K313212 Key="K313212" Name="Control48" KeyPaint="P105" HasFormulaHide="0" HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
               <Field Index="10" Name="{frRecibo2}.Tipo comp." FieldType="200" />
               <Image Data="">
                 <Aspect Align="3" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="0" Format="" Left="0" nZOrder="0" SelectColor="0" Top="0" Width="0" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
@@ -493,7 +470,7 @@
                 <Series />
               </Chart>
             </K313212>
-            <K313217 Key="K313217" Name="Control53" KeyPaint="P107" HasFormulaHide="0" HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
+            <K313217 Key="K313217" Name="Control53" KeyPaint="P106" HasFormulaHide="0" HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
               <Field Index="21" Name="{frRecibo2}.Detalle" FieldType="200" />
               <Image Data="">
                 <Aspect Align="3" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="0" Format="" Left="0" nZOrder="0" SelectColor="0" Top="0" Width="0" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
@@ -516,7 +493,7 @@
                 <Series />
               </Chart>
             </K313217>
-            <K313428 Key="K313428" Name="Control58" KeyPaint="P108" HasFormulaHide="-1" HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
+            <K313428 Key="K313428" Name="Control58" KeyPaint="P107" HasFormulaHide="-1" HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
               <Field Index="2" Name="{frRecibo2}.tipo" FieldType="3" />
               <Image Data="">
                 <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="0" Format="" Left="0" nZOrder="0" SelectColor="0" Top="0" Width="0" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
@@ -539,7 +516,7 @@
                 <Series />
               </Chart>
             </K313428>
-            <K313749 Key="K313749" Name="Control59" KeyPaint="P109" HasFormulaHide="0" HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
+            <K313749 Key="K313749" Name="Control59" KeyPaint="P108" HasFormulaHide="0" HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
               <Field Index="14" Name="{frRecibo2}.Aplicacion" FieldType="131" />
               <Image Data="">
                 <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="0" Format="" Left="0" nZOrder="0" SelectColor="0" Top="0" Width="0" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
@@ -562,6 +539,29 @@
                 <Series />
               </Chart>
             </K313749>
+            <K313211 Key="K313211" Name="Control47" KeyPaint="P109" HasFormulaHide="0" HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
+              <Field Index="11" Name="{frRecibo2}.Nro. comp." FieldType="200" />
+              <Image Data="">
+                <Aspect Align="3" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="0" Format="" Left="0" nZOrder="0" SelectColor="0" Top="0" Width="0" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                  <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
+                </Aspect>
+              </Image>
+              <Label Text="{frRecibo2}.Nro. comp." CanGrow="0">
+                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="4515" nZOrder="20" SelectColor="0" Top="4905" Width="1905" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                  <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
+                </Aspect>
+              </Label>
+              <Line>
+                <Aspect Align="3" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="0" Format="" Left="0" nZOrder="0" SelectColor="0" Top="0" Width="0" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                  <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
+                </Aspect>
+              </Line>
+              <H Name="H" Text="" idxGroup="0" WhenEval="0" />
+              <V Name="V" Text="" idxGroup="0" WhenEval="0" />
+              <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0" ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
+                <Series />
+              </Chart>
+            </K313211>
           </RptControls>
         </K12576>
         <K313399 Key="K313399" Indice="3" IdField="" HasFormulaHide="-1">
@@ -578,7 +578,7 @@
                 </Aspect>
               </Image>
               <Label Text="{frRecibo2}.Cuenta" CanGrow="0">
-                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="270" nZOrder="20" SelectColor="0" Top="5265" Width="2985" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="270" nZOrder="21" SelectColor="0" Top="5265" Width="2985" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                   <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
                 </Aspect>
               </Label>
@@ -601,7 +601,7 @@
                 </Aspect>
               </Image>
               <Label Text="{frRecibo2}.Banco" CanGrow="0">
-                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="3285" nZOrder="21" SelectColor="0" Top="5265" Width="2745" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="3285" nZOrder="22" SelectColor="0" Top="5265" Width="2745" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                   <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
                 </Aspect>
               </Label>
@@ -624,7 +624,7 @@
                 </Aspect>
               </Image>
               <Label Text="{frRecibo2}.Nro. cheque" CanGrow="0">
-                <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="6060" nZOrder="22" SelectColor="0" Top="5265" Width="1110" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="6060" nZOrder="23" SelectColor="0" Top="5265" Width="1110" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                   <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
                 </Aspect>
               </Label>
@@ -647,7 +647,7 @@
                 </Aspect>
               </Image>
               <Label Text="{frRecibo2}.Cobro" CanGrow="0">
-                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="dd/MM/yyyy" Left="7185" nZOrder="23" SelectColor="0" Top="5265" Width="1995" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="dd/MM/yyyy" Left="7185" nZOrder="24" SelectColor="0" Top="5265" Width="1995" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                   <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
                 </Aspect>
               </Label>
@@ -670,7 +670,7 @@
                 </Aspect>
               </Image>
               <Label Text="{frRecibo2}.Importe" CanGrow="0">
-                <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="###,###,###,###,##0.00;-###,###,###,###,##0.00" Left="9255" nZOrder="24" SelectColor="0" Top="5265" Width="2595" Transparent="0" Symbol="$" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="###,###,###,###,##0.00;-###,###,###,###,##0.00" Left="9255" nZOrder="25" SelectColor="0" Top="5265" Width="2595" Transparent="0" Symbol="$" IsAccounting="0" WordWrap="0" BorderRounded="0">
                   <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
                 </Aspect>
               </Label>
@@ -711,7 +711,7 @@
                 </Aspect>
               </Image>
               <Label Text="CONFORME A LA LIQUIDACION PRECEDENTE." CanGrow="0">
-                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="285" nZOrder="25" SelectColor="0" Top="12045" Width="5010" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="285" nZOrder="26" SelectColor="0" Top="12045" Width="5010" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                   <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="10" UnderLine="0" Strike="0" />
                 </Aspect>
               </Label>
@@ -734,7 +734,7 @@
                 </Aspect>
               </Image>
               <Label Text="Lugar y fecha" CanGrow="0">
-                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="360" nZOrder="26" SelectColor="0" Top="14715" Width="1425" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="360" nZOrder="27" SelectColor="0" Top="14715" Width="1425" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                   <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="9" UnderLine="0" Strike="0" />
                 </Aspect>
               </Label>
@@ -757,7 +757,7 @@
                 </Aspect>
               </Image>
               <Label Text="Firma" CanGrow="0">
-                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="8220" nZOrder="27" SelectColor="0" Top="14775" Width="720" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="8220" nZOrder="28" SelectColor="0" Top="14775" Width="720" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                   <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
                 </Aspect>
               </Label>
@@ -780,7 +780,7 @@
                 </Aspect>
               </Image>
               <Label Text="Aclaracion y DNI" CanGrow="0">
-                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="10275" nZOrder="28" SelectColor="0" Top="14760" Width="1620" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="10275" nZOrder="29" SelectColor="0" Top="14760" Width="1620" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                   <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
                 </Aspect>
               </Label>
@@ -803,7 +803,7 @@
                 </Aspect>
               </Image>
               <Label Text="" CanGrow="0">
-                <Aspect Align="0" BackColor="4194368" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="1" BorderWidth="0" CanGrow="0" Height="15" Format="" Left="7320" nZOrder="29" SelectColor="0" Top="14655" Width="2265" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                <Aspect Align="0" BackColor="4194368" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="1" BorderWidth="0" CanGrow="0" Height="15" Format="" Left="7320" nZOrder="30" SelectColor="0" Top="14655" Width="2265" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                   <Font ForeColor="0" Bold="-1" Italic="0" Name="Tahoma" Size="10" UnderLine="0" Strike="0" />
                 </Aspect>
               </Label>
@@ -826,7 +826,7 @@
                 </Aspect>
               </Image>
               <Label Text="" CanGrow="0">
-                <Aspect Align="0" BackColor="4194368" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="1" BorderWidth="0" CanGrow="0" Height="15" Format="" Left="9945" nZOrder="30" SelectColor="0" Top="14655" Width="2145" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                <Aspect Align="0" BackColor="4194368" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="1" BorderWidth="0" CanGrow="0" Height="15" Format="" Left="9945" nZOrder="31" SelectColor="0" Top="14655" Width="2145" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                   <Font ForeColor="0" Bold="-1" Italic="0" Name="Tahoma" Size="10" UnderLine="0" Strike="0" />
                 </Aspect>
               </Label>
@@ -849,7 +849,7 @@
                 </Aspect>
               </Image>
               <Label Text="{frRecibo2}.Total" CanGrow="0">
-                <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="###,###,###,###,##0.00;-###,###,###,###,##0.00" Left="9270" nZOrder="31" SelectColor="0" Top="12045" Width="2565" Transparent="0" Symbol="$" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="###,###,###,###,##0.00;-###,###,###,###,##0.00" Left="9270" nZOrder="32" SelectColor="0" Top="12045" Width="2565" Transparent="0" Symbol="$" IsAccounting="0" WordWrap="0" BorderRounded="0">
                   <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
                 </Aspect>
               </Label>
@@ -872,7 +872,7 @@
                 </Aspect>
               </Image>
               <Label Text="Total" CanGrow="0">
-                <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="7575" nZOrder="32" SelectColor="0" Top="12045" Width="1635" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="7575" nZOrder="33" SelectColor="0" Top="12045" Width="1635" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                   <Font ForeColor="0" Bold="-1" Italic="0" Name="Tahoma" Size="9" UnderLine="0" Strike="0" />
                 </Aspect>
               </Label>
@@ -895,7 +895,7 @@
                 </Aspect>
               </Image>
               <Label Text="" CanGrow="0">
-                <Aspect Align="0" BackColor="4194368" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="1" BorderWidth="0" CanGrow="0" Height="15" Format="" Left="330" nZOrder="33" SelectColor="0" Top="14655" Width="6525" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                <Aspect Align="0" BackColor="4194368" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="1" BorderWidth="0" CanGrow="0" Height="15" Format="" Left="330" nZOrder="34" SelectColor="0" Top="14655" Width="6525" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                   <Font ForeColor="0" Bold="-1" Italic="0" Name="Tahoma" Size="10" UnderLine="0" Strike="0" />
                 </Aspect>
               </Label>
@@ -918,7 +918,7 @@
                 </Aspect>
               </Image>
               <Label Text="" CanGrow="0">
-                <Aspect Align="0" BackColor="4194368" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="1" BorderWidth="0" CanGrow="0" Height="15" Format="" Left="240" nZOrder="34" SelectColor="0" Top="13515" Width="11745" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                <Aspect Align="0" BackColor="4194368" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="1" BorderWidth="0" CanGrow="0" Height="15" Format="" Left="240" nZOrder="35" SelectColor="0" Top="13515" Width="11745" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                   <Font ForeColor="0" Bold="-1" Italic="0" Name="Tahoma" Size="10" UnderLine="0" Strike="0" />
                 </Aspect>
               </Label>
@@ -941,7 +941,7 @@
                 </Aspect>
               </Image>
               <Label Text="" CanGrow="0">
-                <Aspect Align="0" BackColor="4194368" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="1" BorderWidth="0" CanGrow="0" Height="15" Format="" Left="225" nZOrder="35" SelectColor="0" Top="11970" Width="11745" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                <Aspect Align="0" BackColor="4194368" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="1" BorderWidth="0" CanGrow="0" Height="15" Format="" Left="225" nZOrder="36" SelectColor="0" Top="11970" Width="11745" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                   <Font ForeColor="0" Bold="-1" Italic="0" Name="Tahoma" Size="10" UnderLine="0" Strike="0" />
                 </Aspect>
               </Label>
@@ -964,7 +964,7 @@
                 </Aspect>
               </Image>
               <Label Text="{frRecibo2}.Recibi de" CanGrow="0">
-                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="390" Format="" Left="270" nZOrder="36" SelectColor="0" Top="12480" Width="7815" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="390" Format="" Left="270" nZOrder="37" SelectColor="0" Top="12480" Width="11595" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                   <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="10" UnderLine="0" Strike="0" />
                 </Aspect>
               </Label>
@@ -987,7 +987,7 @@
                 </Aspect>
               </Image>
               <Label Text="SON:" CanGrow="0">
-                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="270" nZOrder="37" SelectColor="0" Top="13020" Width="2295" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="270" nZOrder="38" SelectColor="0" Top="13020" Width="2295" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                   <Font ForeColor="0" Bold="-1" Italic="0" Name="Tahoma" Size="10" UnderLine="0" Strike="0" />
                 </Aspect>
               </Label>
@@ -1010,7 +1010,7 @@
                 </Aspect>
               </Image>
               <Label Text="" CanGrow="0">
-                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="990" nZOrder="38" SelectColor="0" Top="13020" Width="5790" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="990" nZOrder="39" SelectColor="0" Top="13020" Width="10890" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                   <Font ForeColor="0" Bold="-1" Italic="0" Name="Tahoma" Size="10" UnderLine="0" Strike="0" />
                 </Aspect>
               </Label>
@@ -1049,7 +1049,7 @@
                 </Aspect>
               </Image>
               <Label Text="{SP_RptGetLogosChico}.dd_file" CanGrow="0">
-                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="120" nZOrder="39" SelectColor="0" Top="15435" Width="465" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="120" nZOrder="40" SelectColor="0" Top="15435" Width="465" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                   <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
                 </Aspect>
               </Label>
@@ -1072,7 +1072,7 @@
                 </Aspect>
               </Image>
               <Label Text="Impreso por CrowSoft" CanGrow="0">
-                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="570" nZOrder="40" SelectColor="0" Top="15450" Width="5175" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="570" nZOrder="41" SelectColor="0" Top="15450" Width="5175" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                   <Font ForeColor="0" Bold="-1" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
                 </Aspect>
               </Label>
@@ -1095,7 +1095,7 @@
   <RptGroups>
     <G_0 Key="K314839" Name="G_0" Indice="0" ComparisonType="1" FieldName="{frRecibo2}.tipo" OderType="1" PrintInNewPage="0" RePrintInNewPage="0" GrandTotalGroup="0">
       <H>
-        <K315264 Name="G_0" Key="K315264" Indice="1" TypeSection="3" HasFormulaHide="0">
+        <K315458 Name="G_0" Key="K315458" Indice="1" TypeSection="3" HasFormulaHide="0">
           <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="1245" Format="" Left="0" nZOrder="0" SelectColor="0" Top="3660" Width="12240" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
             <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
           </Aspect>
@@ -1115,7 +1115,7 @@
                     </Aspect>
                   </Image>
                   <Label Text="DETALLE DE APLICACIONES" CanGrow="0">
-                    <Aspect Align="0" BackColor="14671839" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="135" nZOrder="41" SelectColor="0" Top="3720" Width="11640" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                    <Aspect Align="0" BackColor="14671839" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="135" nZOrder="42" SelectColor="0" Top="3720" Width="11640" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                       <Font ForeColor="0" Bold="-1" Italic="0" Name="Tahoma" Size="10" UnderLine="0" Strike="0" />
                     </Aspect>
                   </Label>
@@ -1138,7 +1138,7 @@
                     </Aspect>
                   </Image>
                   <Label Text="IMPORTE" CanGrow="0">
-                    <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="9225" nZOrder="42" SelectColor="0" Top="3720" Width="2490" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                    <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="9225" nZOrder="43" SelectColor="0" Top="3720" Width="2490" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                       <Font ForeColor="0" Bold="-1" Italic="0" Name="Tahoma" Size="10" UnderLine="0" Strike="0" />
                     </Aspect>
                   </Label>
@@ -1169,7 +1169,7 @@
                     </Aspect>
                   </Image>
                   <Label Text="MEDIOS DE PAGO" CanGrow="0">
-                    <Aspect Align="0" BackColor="14671839" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="150" nZOrder="43" SelectColor="0" Top="4230" Width="11655" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                    <Aspect Align="0" BackColor="14671839" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="150" nZOrder="44" SelectColor="0" Top="4230" Width="11655" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                       <Font ForeColor="0" Bold="-1" Italic="0" Name="Tahoma" Size="10" UnderLine="0" Strike="0" />
                     </Aspect>
                   </Label>
@@ -1192,7 +1192,7 @@
                     </Aspect>
                   </Image>
                   <Label Text="Cuenta" CanGrow="0">
-                    <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="225" nZOrder="44" SelectColor="0" Top="4515" Width="1995" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                    <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="225" nZOrder="45" SelectColor="0" Top="4515" Width="1995" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                       <Font ForeColor="0" Bold="-1" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
                     </Aspect>
                   </Label>
@@ -1215,7 +1215,7 @@
                     </Aspect>
                   </Image>
                   <Label Text="Banco" CanGrow="0">
-                    <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="3270" nZOrder="45" SelectColor="0" Top="4515" Width="1995" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                    <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="3270" nZOrder="46" SelectColor="0" Top="4515" Width="1995" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                       <Font ForeColor="0" Bold="-1" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
                     </Aspect>
                   </Label>
@@ -1238,7 +1238,7 @@
                     </Aspect>
                   </Image>
                   <Label Text="Nro. cheque" CanGrow="0">
-                    <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="5970" nZOrder="46" SelectColor="0" Top="4515" Width="1140" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                    <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="5970" nZOrder="47" SelectColor="0" Top="4515" Width="1140" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                       <Font ForeColor="0" Bold="-1" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
                     </Aspect>
                   </Label>
@@ -1261,7 +1261,7 @@
                     </Aspect>
                   </Image>
                   <Label Text="Fecha de Cobro" CanGrow="0">
-                    <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="7155" nZOrder="47" SelectColor="0" Top="4515" Width="1995" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                    <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="7155" nZOrder="48" SelectColor="0" Top="4515" Width="1995" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                       <Font ForeColor="0" Bold="-1" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
                     </Aspect>
                   </Label>
@@ -1279,10 +1279,10 @@
               </RptControls>
             </K314860>
           </RptSectionLines>
-        </K315264>
+        </K315458>
       </H>
       <F>
-        <K315266 Name="G_0" Key="K315266" Indice="1" TypeSection="4" HasFormulaHide="0">
+        <K315460 Name="G_0" Key="K315460" Indice="1" TypeSection="4" HasFormulaHide="0">
           <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="345" Format="" Left="0" nZOrder="0" SelectColor="0" Top="5640" Width="12240" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
             <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
           </Aspect>
@@ -1296,7 +1296,7 @@
               <RptControls />
             </K314842>
           </RptSectionLines>
-        </K315266>
+        </K315460>
       </F>
     </G_0>
   </RptGroups>
