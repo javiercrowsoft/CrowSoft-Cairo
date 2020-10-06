@@ -216,7 +216,7 @@ object Cuenta {
       SqlParser.get[Int](C.CUEC_ID) ~
       SqlParser.get[String](C.CUEC_NAME) ~
       SqlParser.get[Option[Int]](C.BCO_ID) ~
-      SqlParser.get[String](C.BCO_NAME) ~
+      SqlParser.get[Option[String]](C.BCO_NAME) ~
       SqlParser.get[String](C.CUE_CODIGO_RPT) ~
       SqlParser.get[String](C.CUE_DESCRIP) ~
       SqlParser.get[Date](DBHelper.CREATED_AT) ~
@@ -258,7 +258,7 @@ object Cuenta {
               cuecId,
               cuecName,
               bcoId.getOrElse(DBHelper.NoId),
-              bcoName,
+              bcoName.getOrElse(""),
               codigoRpt,
               descrip,
               createdAt,
