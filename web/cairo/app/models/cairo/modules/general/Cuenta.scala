@@ -215,7 +215,7 @@ object Cuenta {
       SqlParser.get[Int](C.CUE_ES_TICKET) ~
       SqlParser.get[Int](C.CUEC_ID) ~
       SqlParser.get[String](C.CUEC_NAME) ~
-      SqlParser.get[Int](C.BCO_ID) ~
+      SqlParser.get[Option[Int]](C.BCO_ID) ~
       SqlParser.get[String](C.BCO_NAME) ~
       SqlParser.get[String](C.CUE_CODIGO_RPT) ~
       SqlParser.get[String](C.CUE_DESCRIP) ~
@@ -257,7 +257,7 @@ object Cuenta {
               esTicket != 0,
               cuecId,
               cuecName,
-              bcoId,
+              bcoId.getOrElse(DBHelper.NoId),
               bcoName,
               codigoRpt,
               descrip,
