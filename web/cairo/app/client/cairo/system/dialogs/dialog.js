@@ -1440,6 +1440,7 @@
               c.setFilter(property.getSelectFilter());
               c.setTable(property.getSelectTable());
               c.setEnabled(property.getEnabled());
+              c.updateDefinition();
 
               break;
 

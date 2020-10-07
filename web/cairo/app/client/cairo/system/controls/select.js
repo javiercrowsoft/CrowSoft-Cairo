@@ -528,7 +528,7 @@
         };
 
         //
-        // the select controls used in dialogs gird needs to be able to
+        // the select controls used in dialogs grid needs to be able to
         // redefine the table, active and filter parameters for this select
         //
         var updateDefinition = function() {

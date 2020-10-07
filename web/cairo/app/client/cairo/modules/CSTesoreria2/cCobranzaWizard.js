@@ -2352,12 +2352,17 @@
 
       var loadFacturasXCliente = function() {
 
-        var onlySelected = getOnlySelected().getValue();
+        var onlySelected = getOnlySelected();
+        var onlyExpired = getVencidos();
+        var grouped = getAgrupados();
 
         return DB.getData(
             "load[" + m_apiPath + "tesoreria/cobranzas/cliente/"
               + getCliente().toString()
-              + "/facturas]"
+              + "/facturas"
+              + "/" + onlyExpired.toString().toLocaleLowerCase()
+              + "/" + grouped.toString().toLocaleLowerCase()
+              + "]"
           )
           .then(function(response) {
             try {
@@ -2368,7 +2373,7 @@
 
                 var facturas = getFacturas();
 
-                if(getAgrupados()) {
+                if(grouped) {
                   facturas.getColumns().item(DWC.IMPORTE).setVisible(false);
                   facturas.getColumns().item(DWC.PENDIENTE).setVisible(true);
                 }
@@ -4349,7 +4354,7 @@
       };
 
       var getOnlySelected = function() {
-        return D.getWizProperty(m_objWizard, WCS.SELECT_CLIENTE, DWC.ONLY_SELECTED);
+        return U.bool(val(D.getWizProperty(m_objWizard, WCS.SELECT_CLIENTE, DWC.ONLY_SELECTED).getValue()));
       };
 
       var getCheques = function() {
@@ -4442,6 +4447,10 @@
 
       var getDoc = function() {
         return D.getWizProperty(m_objWizard, WCS.SELECT_CLIENTE, DWC.DOC).getSelectId();
+      };
+
+      var getVencidos = function() {
+        return U.bool(val(D.getWizProperty(m_objWizard, WCS.SELECT_FACTURA, DWC.VENCIDOS).getValue()));
       };
 
       var getTodos = function() {

@@ -327,6 +327,7 @@ object InternalFilter {
     case v if v.startsWith("'") => value
     case "true" => true
     case "false" => false
+    case v if ! v.contains(".") => v.toInt
     case v => v.toDouble
   }
 
@@ -338,10 +339,10 @@ object InternalFilter {
       case a if ! a(0).matches("^[a-zA-Z][a-zA-Z0-9_]*") =>
         throw new IllegalArgumentException("genericFilter columns name must start with a letter and only contain letters a-z A-Z _ and 0-9")
 
-      case a if validOperators.contains(a(1)) =>
+      case a if ! validOperators.contains(a(1)) =>
         throw new IllegalArgumentException(s"genericFilter invalid operator ${a(1)} must be ${validOperators.mkString(",")}")
 
-      case a if validOperators.contains(a(0)) =>
+      case a =>
         conditionTerm(s"${a(0)} ${a(1)} ?", getValue(a(2)))
     })
     InternalFilter(params.map(_.operator).mkString("and"), params.map(p => QueryParameter(p.value)))

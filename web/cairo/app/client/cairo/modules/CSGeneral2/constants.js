@@ -1578,11 +1578,18 @@
         rut: 2
       },
 
+      CuentaCategoriaTipo: {
+        patrimonial: 1,
+        resultado: 2,
+        otro: 3,
+        libroIva: 4
+      },
+
       CuentaCategoria: {
         docEnCartera: 1,
         bancos: 2,
         patrimoniales: 3,
-        deudPorVentas: 4,
+        deudorPorVentas: 4,
         bienesDeUso: 5,
         bienesDeCambio: 6,
         cuentasFiscales: 7,

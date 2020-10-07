@@ -9,6 +9,7 @@
 
       var getText = Cairo.Language.getText;
 
+      var P = Cairo.Promises;
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
       var C = Cairo.General.Constants;
@@ -182,8 +183,7 @@
       };
 
       self.propertyChange = function(key) {
-        var _rtn = null;
-        _rtn = true;
+        var p = null;
 
         var properties = m_dialog.getProperties();
 
@@ -193,11 +193,11 @@
 
             if(Cairo.Util.val(properties.item("OTROS").getValue())) {
 
-              properties.item(C.CUEC_ID).setSelectFilter("generic_filter|cuec_tipo:=:" + csECuentaCategoriaTipo.cSETCUECOTRO.toString());
+              properties.item(C.CUEC_ID).setSelectFilter("generic_filter|cuec_tipo:=:" + C.CuentaCategoriaTipo.otro.toString());
 
               switch (properties.item(C.CUEC_ID).getSelectId()) {
-                case csECuentaCategoria.cSECUECOTROS:
-                  // Todo bien
+                case C.CuentaCategoria.otros:
+                  // all right
                   break;
 
                 default:
@@ -212,20 +212,20 @@
 
             if(Cairo.Util.val(properties.item("PATRIMONIAL").getValue())) {
 
-              properties.item(C.CUEC_ID).setSelectFilter("generic_filter|cuec_tipo:=:" + csECuentaCategoriaTipo.cSETCUECPATRIMONIAL.toString());
+              properties.item(C.CUEC_ID).setSelectFilter("generic_filter|cuec_tipo:=:" + C.CuentaCategoriaTipo.patrimonial.toString());
 
               switch (properties.item(C.CUEC_ID).getSelectId()) {
-                case csECuentaCategoria.cSECUECDOCENCARTERA:
-                case csECuentaCategoria.cSECUECBANCOS:
-                case csECuentaCategoria.cSECUECPATRIMONIALES:
-                case csECuentaCategoria.cSECUECDEUDPORVENTAS:
-                case csECuentaCategoria.cSECUECBIENESDEUSO:
-                case csECuentaCategoria.cSECUECBIENESDECAMBIO:
-                case csECuentaCategoria.cSECUECCUENTASFISCALES:
-                case csECuentaCategoria.cSECUECACREEDORES:
-                case csECuentaCategoria.cSECUECCAJA:
-                case csECuentaCategoria.cSECUECDEPOSITO_CUPONES:
-                  // Todo bien
+                case C.CuentaCategoria.docEnCartera:
+                case C.CuentaCategoria.bancos:
+                case C.CuentaCategoria.patrimoniales:
+                case C.CuentaCategoria.deudorPorVentas:
+                case C.CuentaCategoria.bienesDeUso:
+                case C.CuentaCategoria.bienesDeCambio:
+                case C.CuentaCategoria.cuentasFiscales:
+                case C.CuentaCategoria.acreedores:
+                case C.CuentaCategoria.caja:
+                case C.CuentaCategoria.depositoCupones:
+                  // all right
                   break;
 
                 default:
@@ -240,13 +240,13 @@
 
             if(Cairo.Util.val(properties.item("RESULTADO").getValue())) {
 
-              properties.item(C.CUEC_ID).setSelectFilter("generic_filter|cuec_tipo:=:" + csECuentaCategoriaTipo.cSETCUECRESULTADO.toString());
+              properties.item(C.CUEC_ID).setSelectFilter("generic_filter|cuec_tipo:=:" + C.CuentaCategoriaTipo.resultado.toString());
 
               switch (properties.item(C.CUEC_ID).getSelectId()) {
-                case csECuentaCategoria.cSECUECCOSTOMERCVEND:
-                case csECuentaCategoria.cSECUECEGRESOS:
-                case csECuentaCategoria.cSECUECINGRESOS:
-                  // Todo bien
+                case C.CuentaCategoria.costoMercVend:
+                case C.CuentaCategoria.egresos:
+                case C.CuentaCategoria.ingresos:
+                  // all right
                   break;
 
                 default:
@@ -257,10 +257,9 @@
             break;
         }
 
-        properties.item(C.BCO_ID).setEnabled(properties.item(C.CUEC_ID).getSelectId() === csECuentaCategoria.cSECUECBANCOS);
+        properties.item(C.BCO_ID).setEnabled(properties.item(C.CUEC_ID).getSelectId() === C.CuentaCategoria.bancos);
 
-      
-        return _rtn;
+        return p || P.resolvedPromise(true);
       };
 
       var limpiarCategorias = function() {
@@ -285,7 +284,7 @@
 
         if(m_copy) {
           register.setId(Cairo.Constants.NEW_ID);
-        } 
+        }
         else {
           register.setId(m_id);
         }
@@ -448,7 +447,7 @@
                 // Debe indicar una categoría
                 Cairo.Modal.showInfo(getText(1109, ""));
               }
-              bHaveBco = property.getSelectId() === csECuentaCategoria.cSECUECBANCOS;
+              bHaveBco = property.getSelectId() === C.CuentaCategoria.bancos;
               break;
           }
         }
@@ -492,7 +491,7 @@
           if(id === NO_ID) {
             m_isNew = true;
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_CUENTA)) { return p; }
-          } 
+          }
           else {
             m_isNew = false;
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_CUENTA)) { return p; }
@@ -511,7 +510,7 @@
 
                 if(inModalWindow) {
                   success = m_id !== NO_ID;
-                } 
+                }
                 else {
                   success = true;
                 }
@@ -523,7 +522,7 @@
         catch(ex) {
           Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.EDIT_FUNCTION, C_MODULE, "");
       }
-      
+
         return p;
       };
 
@@ -554,27 +553,27 @@
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, C.CUE_CODE);
+        elem = properties.add(null, C.CUE_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(15);
         elem.setValue(m_code);
         elem.setKey(K_CODE);
 
-        var elem = properties.add(null, C.CUE_IDENTIFICACION_EXTERNA);
+        elem = properties.add(null, C.CUE_IDENTIFICACION_EXTERNA);
         elem.setType(Dialogs.PropertyType.text);
         // Identificación Externa
         elem.setName(getText(1112, ""));
         elem.setKey(K_IDENTIFICACIONEXTERNA);
         elem.setValue(m_identificacionExterna);
 
-        var elem = properties.add(null, Cairo.Constants.ACTIVE);
+        elem = properties.add(null, Cairo.Constants.ACTIVE);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
         elem.setKey(K_ACTIVE);
         elem.setValue(Cairo.Util.boolToInt(m_active));
 
-        var elem = properties.add(null, C.MON_ID);
+        elem = properties.add(null, C.MON_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
         // Moneda
@@ -583,7 +582,7 @@
         elem.setSelectId(m_monId);
         elem.setValue(m_moneda);
 
-        var elem = properties.add(null, C.EMP_ID);
+        elem = properties.add(null, C.EMP_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.EMPRESA);
         // Empresa
@@ -592,21 +591,21 @@
         elem.setSelectId(m_empId);
         elem.setValue(m_empresa);
 
-        var elem = properties.add(null, C.CUE_LLEVA_CENTRO_COSTO);
+        elem = properties.add(null, C.CUE_LLEVA_CENTRO_COSTO);
         elem.setType(Dialogs.PropertyType.check);
         // Exije centro de costo
         elem.setName(getText(1115, ""));
         elem.setKey(K_LLEVA_CENTRO_COSTO);
         elem.setValue(Cairo.Util.boolToInt(m_llevaCentroCosto));
 
-        var elem = properties.add(null, C.CUE_PRODUCTO);
+        elem = properties.add(null, C.CUE_PRODUCTO);
         elem.setType(Dialogs.PropertyType.check);
         // Elegible para producto
         elem.setName(getText(1116, ""));
         elem.setKey(K_PRODUCTO);
         elem.setValue(Cairo.Util.boolToInt(m_producto));
 
-        var elem = properties.add(null, C.CUE_ES_EFECTIVO);
+        elem = properties.add(null, C.CUE_ES_EFECTIVO);
         elem.setType(Dialogs.PropertyType.check);
         // Es Efectivo
         elem.setName(getText(4918, ""));
@@ -615,7 +614,7 @@
         elem.setKey(K_ES_EFECTIVO);
 
 
-        var elem = properties.add(null, C.CUE_ES_TICKET);
+        elem = properties.add(null, C.CUE_ES_TICKET);
         elem.setType(Dialogs.PropertyType.check);
         // Es Ticket
         elem.setName(getText(4919, ""));
@@ -624,7 +623,7 @@
         elem.setKey(K_ES_TICKET);
 
 
-        var elem = properties.add(null, "PATRIMONIAL");
+        elem = properties.add(null, "PATRIMONIAL");
         elem.setType(Dialogs.PropertyType.option);
         elem.setOptionGroup(0);
         // Patrimonial
@@ -632,7 +631,7 @@
         elem.setKey(K_PATRIMONIAL);
         elem.setValue(0);
 
-        var elem = properties.add(null, "RESULTADO");
+        elem = properties.add(null, "RESULTADO");
         elem.setType(Dialogs.PropertyType.option);
         elem.setOptionGroup(0);
         // Resultado
@@ -640,7 +639,7 @@
         elem.setKey(K_RESULTADO);
         elem.setValue(0);
 
-        var elem = properties.add(null, "OTROS");
+        elem = properties.add(null, "OTROS");
         elem.setType(Dialogs.PropertyType.option);
         elem.setOptionGroup(0);
         // Otros
@@ -648,7 +647,7 @@
         elem.setKey(K_OTRO);
         elem.setValue(0);
 
-        var elem = properties.add(null, C.CUEC_ID);
+        elem = properties.add(null, C.CUEC_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CATEGORIA_CONTABLE);
         // Categoría
@@ -659,32 +658,28 @@
 
         switch (m_categoriaTipo) {
 
-          case csECuentaCategoriaTipo.cSETCUECOTRO:
+          case C.CuentaCategoriaTipo.otro:
             properties.item("OTROS").setValue(1);
-            properties.item(C.CUEC_ID).setSelectFilter("generic_filter|cuec_tipo:=:" + csECuentaCategoriaTipo.cSETCUECOTRO.toString());
-
+            properties.item(C.CUEC_ID).setSelectFilter("generic_filter|cuec_tipo:=:" + C.CuentaCategoriaTipo.otro.toString());
             break;
 
-          case csECuentaCategoriaTipo.cSETCUECPATRIMONIAL:
+          case C.CuentaCategoriaTipo.patrimonial:
             properties.item("PATRIMONIAL").setValue(1);
-            properties.item(C.CUEC_ID).setSelectFilter("generic_filter|cuec_tipo:=:" + csECuentaCategoriaTipo.cSETCUECPATRIMONIAL.toString());
-
+            properties.item(C.CUEC_ID).setSelectFilter("generic_filter|cuec_tipo:=:" + C.CuentaCategoriaTipo.patrimonial.toString());
             break;
 
-          case csECuentaCategoriaTipo.cSETCUECRESULTADO:
+          case C.CuentaCategoriaTipo.resultado:
             properties.item("RESULTADO").setValue(1);
-            properties.item(C.CUEC_ID).setSelectFilter("generic_filter|cuec_tipo:=:" + csECuentaCategoriaTipo.cSETCUECRESULTADO.toString());
-
+            properties.item(C.CUEC_ID).setSelectFilter("generic_filter|cuec_tipo:=:" + C.CuentaCategoriaTipo.resultado.toString());
             break;
 
           default:
             properties.item("PATRIMONIAL").setValue(1);
-            properties.item(C.CUEC_ID).setSelectFilter("generic_filter|cuec_tipo:=:" + csECuentaCategoriaTipo.cSETCUECPATRIMONIAL.toString());
-
+            properties.item(C.CUEC_ID).setSelectFilter("generic_filter|cuec_tipo:=:" + C.CuentaCategoriaTipo.patrimonial.toString());
             break;
         }
 
-        var elem = properties.add(null, C.BCO_ID);
+        elem = properties.add(null, C.BCO_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.BANCO);
         // Banco
@@ -692,9 +687,9 @@
         elem.setKey(K_BCO_ID);
         elem.setSelectId(m_bco_id);
         elem.setValue(m_banco);
-        elem.setEnabled(m_categoriaId === csECuentaCategoria.cSECUECBANCOS);
+        elem.setEnabled(m_categoriaId === C.CuentaCategoria.bancos);
 
-        var elem = properties.add(null, C.CUE_CODIGO_RPT);
+        elem = properties.add(null, C.CUE_CODIGO_RPT);
         elem.setType(Dialogs.PropertyType.text);
         // Codigo RPT
         elem.setName(getText(4839, ""));
@@ -702,7 +697,7 @@
         elem.setValue(m_codigoRPT);
         elem.setKey(K_CODIGO_RPT);
 
-        var elem = properties.add(null, C.CUEC_DESCRIP);
+        elem = properties.add(null, C.CUEC_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
@@ -723,56 +718,56 @@
         var elem = properties.item(C.CUE_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(C.CUE_CODE);
+        elem = properties.item(C.CUE_CODE);
         elem.setValue(m_code);
 
-        var elem = properties.item(C.CUE_IDENTIFICACION_EXTERNA);
+        elem = properties.item(C.CUE_IDENTIFICACION_EXTERNA);
         elem.setValue(m_identificacionExterna);
 
-        var elem = properties.item(Cairo.Constants.ACTIVE);
+        elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(Cairo.Util.boolToInt(m_active));
 
-        var elem = properties.item(C.MON_ID);
+        elem = properties.item(C.MON_ID);
         elem.setSelectId(m_monId);
         elem.setValue(m_moneda);
 
-        var elem = properties.item(C.EMP_ID);
+        elem = properties.item(C.EMP_ID);
         elem.setSelectId(m_empId);
         elem.setValue(m_empresa);
 
-        var elem = properties.item(C.CUE_LLEVA_CENTRO_COSTO);
+        elem = properties.item(C.CUE_LLEVA_CENTRO_COSTO);
         elem.setValue(Cairo.Util.boolToInt(m_llevaCentroCosto));
 
-        var elem = properties.item(C.CUE_PRODUCTO);
+        elem = properties.item(C.CUE_PRODUCTO);
         elem.setValue(Cairo.Util.boolToInt(m_producto));
 
-        var elem = properties.item(C.CUE_ES_EFECTIVO);
+        elem = properties.item(C.CUE_ES_EFECTIVO);
         elem.setValue(Cairo.Util.boolToInt(m_esEfectivo));
 
-        var elem = properties.item(C.CUE_ES_TICKET);
+        elem = properties.item(C.CUE_ES_TICKET);
         elem.setValue(Cairo.Util.boolToInt(m_esTicket));
 
-        var elem = properties.item("PATRIMONIAL");
+        elem = properties.item("PATRIMONIAL");
         elem.setValue(0);
 
-        var elem = properties.item("RESULTADO");
+        elem = properties.item("RESULTADO");
         elem.setValue(0);
 
-        var elem = properties.item("OTROS");
+        elem = properties.item("OTROS");
         elem.setValue(0);
 
-        var elem = properties.item(C.CUEC_ID);
+        elem = properties.item(C.CUEC_ID);
         elem.setValue(m_categoria);
         elem.setSelectId(m_categoriaId);
 
-        var elem = properties.item(C.BCO_ID);
+        elem = properties.item(C.BCO_ID);
         elem.setSelectId(m_bco_id);
         elem.setValue(m_banco);
 
-        var elem = properties.item(C.CUE_CODIGO_RPT);
+        elem = properties.item(C.CUE_CODIGO_RPT);
         elem.setValue(m_codigoRPT);
 
-        var elem = properties.item(C.CUEC_DESCRIP);
+        elem = properties.item(C.CUEC_DESCRIP);
         elem.setValue(m_descripcion);
 
         return m_dialog.showValues(properties);
@@ -800,7 +795,7 @@
               m_banco = "";
               m_empId = NO_ID;
               m_empresa = "";
-              m_categoriaTipo = csECuentaCategoriaTipo.cSETCUECPATRIMONIAL;
+              m_categoriaTipo = C.CuentaCategoriaTipo.patrimonial;
               m_llevaCentroCosto = false;
               m_producto = false;
               m_codigoRPT = "";
@@ -837,13 +832,16 @@
       };
 
       var bancoEnabled = function() {
-        return csECuentaCategoria.cSECUECDOCENCARTERA === m_categoriaId || csECuentaCategoria.cSECUECDEPOSITO_CUPONES === m_categoriaId;
+        return C.CuentaCategoria.docEnCartera === m_categoriaId || C.CuentaCategoria.depositoCupones === m_categoriaId;
       };
       var libroIvaEnabled = function() {
-        return (csECuentaCategoria.cSECUECBIENESDECAMBIO === m_categoriaId) || (csECuentaCategoria.cSECUECBIENESDEUSO === m_categoriaId) || (csECuentaCategoria.cSECUECINGRESOS === m_categoriaId) || (csECuentaCategoria.cSECUECEGRESOS === m_categoriaId);
+        return (C.CuentaCategoria.bienesDeCambio === m_categoriaId) || 
+          (C.CuentaCategoria.bienesDeUso === m_categoriaId) || 
+          (C.CuentaCategoria.ingresos === m_categoriaId) || 
+          (C.CuentaCategoria.egresos === m_categoriaId);
       };
       var proveedorEnabled = function() {
-        return csECuentaCategoria.cSECUECBANCOS === m_categoriaId;
+        return C.CuentaCategoria.bancos === m_categoriaId;
       };
 
       var destroy = function() {

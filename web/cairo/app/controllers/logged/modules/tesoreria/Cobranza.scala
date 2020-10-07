@@ -1065,9 +1065,9 @@ object Cobranzas extends Controller with ProvidesUser {
     })
   }
 
-  def listFacturas(cliId: Int) = GetAction { implicit request =>
+  def listFacturas(cliId: Int, onlyExpired: Boolean, grouped: Boolean) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_COBRANZA), { user =>
-      val response = Cobranza.listFacturas(user, cliId) match {
+      val response = Cobranza.listFacturas(user, cliId, onlyExpired, grouped) match {
         case (facturas, rates) =>
                   Json.toJson(
                     Json.obj(

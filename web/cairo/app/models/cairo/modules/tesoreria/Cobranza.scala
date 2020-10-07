@@ -1888,23 +1888,25 @@ object Cobranza {
     }
   }
 
-  def listFacturas(user: CompanyUser, cliId: Int): (Recordset, Recordset) = {
+  def listFacturas(user: CompanyUser, cliId: Int, onlyExpired: Boolean, grouped: Boolean): (Recordset, Recordset) = {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_doc_cobranza_get_facturas(?, ?, ?, ?)}"
+      val sql = "{call sp_doc_cobranza_get_facturas(?, ?, ?, ?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, user.cairoCompanyId)
       cs.setInt(2, cliId)
-      cs.registerOutParameter(3, Types.OTHER)
-      cs.registerOutParameter(4, Types.OTHER)
+      cs.setInt(3, if(onlyExpired) 1 else 0)
+      cs.setInt(4, if(grouped) 1 else 0)
+      cs.registerOutParameter(5, Types.OTHER)
+      cs.registerOutParameter(6, Types.OTHER)
 
       try {
         cs.execute()
 
-        val rsFacturas = cs.getObject(3).asInstanceOf[java.sql.ResultSet]
-        val rsRates = cs.getObject(4).asInstanceOf[java.sql.ResultSet]
+        val rsFacturas = cs.getObject(5).asInstanceOf[java.sql.ResultSet]
+        val rsRates = cs.getObject(6).asInstanceOf[java.sql.ResultSet]
         (Recordset.load(rsFacturas), Recordset.load(rsRates))
 
       } catch {

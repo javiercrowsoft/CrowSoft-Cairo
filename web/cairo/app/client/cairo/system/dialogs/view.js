@@ -869,7 +869,6 @@
 
       that.onButtonClick = function(control) {
         return function() {
-          debugger;
           that.raiseEvent("buttonClick", control.getIndex());
         };
       };

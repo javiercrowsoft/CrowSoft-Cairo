@@ -463,7 +463,7 @@ GET     /api/v1/tesoreria/ordenespago                                           
 GET     /api/v1/tesoreria/ordenespago/parameters                                             controllers.logged.modules.tesoreria.OrdenesPago.parameters()
 POST    /api/v1/tesoreria/ordenespago                                                        controllers.logged.modules.tesoreria.OrdenesPago.saveParameters
 
-GET     /api/v1/tesoreria/ordenespago/proveedor/:provId/facturas                             controllers.logged.modules.tesoreria.OrdenesPago.listFacturas(provId: Int)
+GET     /api/v1/tesoreria/ordenespago/proveedor/:provId/facturas/:onlyExpired/:grouped       controllers.logged.modules.tesoreria.OrdenesPago.listFacturas(provId: Int, onlyExpired: Boolean, grouped: Boolean)
 
 GET     /api/v1/tesoreria/ordenespago/proveedor/:provId/messages                             controllers.logged.modules.tesoreria.OrdenesPago.messages(provId: Int)
 
@@ -485,7 +485,7 @@ GET     /api/v1/tesoreria/cobranzas                                             
 GET     /api/v1/tesoreria/cobranzas/parameters                                               controllers.logged.modules.tesoreria.Cobranzas.parameters()
 POST    /api/v1/tesoreria/cobranzas                                                          controllers.logged.modules.tesoreria.Cobranzas.saveParameters
 
-GET     /api/v1/tesoreria/cobranzas/cliente/:cliId/facturas                                  controllers.logged.modules.tesoreria.Cobranzas.listFacturas(cliId: Int)
+GET     /api/v1/tesoreria/cobranzas/cliente/:cliId/facturas/:onlyExpired/:grouped            controllers.logged.modules.tesoreria.Cobranzas.listFacturas(cliId: Int, onlyExpired: Boolean, grouped: Boolean)
 
 GET     /api/v1/tesoreria/cobranza/notes/:id                                                 controllers.logged.modules.tesoreria.Cobranzas.notes(id: Int)
 GET     /api/v1/tesoreria/cobranza/cuentas                                                   controllers.logged.modules.tesoreria.Cobranzas.cuentas(ids: Option[String])

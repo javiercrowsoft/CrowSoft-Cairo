@@ -630,7 +630,7 @@ object Select {
 
       // internalFilter must be the last input parameter
       //
-      if(!internalFilter.isEmpty) DBHelper.applyParameters(ps, paramCount, internalFilter.filters)
+      if(!internalFilter.isEmpty) DBHelper.applyParameters(ps, paramCount+1, internalFilter.filters)
 
       try {
 
