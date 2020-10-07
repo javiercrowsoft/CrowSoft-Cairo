@@ -232,7 +232,7 @@ object InternalFilter {
   }
 
   private def rubroTablaItem(user: CompanyUser, parameters: List[String]): InternalFilter = {
-    idFilter(parameters, "rubt_id", "rubtId")
+    idFilter(parameters, "rubtId", "rubt_id")
   }
 
   private def serialNumber(user: CompanyUser, parameters: List[String]): InternalFilter = {
@@ -349,11 +349,11 @@ object InternalFilter {
   }
 
   private def cliIdFilter(user: CompanyUser, parameters: List[String]): InternalFilter = {
-    idFilter(parameters, "fv.cli_id", "cliId")
+    idFilter(parameters, "cliId", "fv.cli_id")
   }
 
   private def provIdFilter(user: CompanyUser, parameters: List[String]): InternalFilter = {
-    idFilter(parameters, "fc.prov_id", "provId")
+    idFilter(parameters, "provId", "fc.prov_id")
   }
 
   private def idFilter(parameters: List[String], param: String, column: String): InternalFilter = {
@@ -362,7 +362,7 @@ object InternalFilter {
       if(params.contains(param)) {
         params(param).toInt
       }
-      else throw new IllegalArgumentException("idFilter: param ($param) was not contained in parameters")
+      else throw new IllegalArgumentException(s"idFilter: param ($param) was not contained in parameters")
     }
     InternalFilter(s"($column = $id)", List())
   }
