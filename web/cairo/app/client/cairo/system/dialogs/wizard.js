@@ -180,11 +180,11 @@
         };
 
         self.columnClick = function(key, lRow, lCol) {
-          m_client.columnClick(key, lRow, lCol);
+          return m_client.columnClick(key, lRow, lCol);
         };
 
         self.dblClick = function(key, lRow, lCol) {
-          m_client.dblClick(key, lRow, lCol);
+          return m_client.dblClick(key, lRow, lCol);
         };
 
         self.deleteRow = function(key, row, lRow) {
@@ -196,7 +196,7 @@
         };
 
         self.newRow = function(key, rows) {
-          m_client.newRow(key, rows);
+          return m_client.newRow(key, rows);
         };
 
         self.validateRow = function(key, row, rowIndex) {
