@@ -131,6 +131,7 @@ begin
 
    rtn := 'rtn';
 
+   drop table if exists tt_nuevoPago;
    create temporary table tt_nuevoPago
    (
      fc_numero integer  not null,

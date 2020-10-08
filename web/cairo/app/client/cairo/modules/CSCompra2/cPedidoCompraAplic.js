@@ -447,7 +447,7 @@
 
             };
 
-            var newRow = function(key,  rows) {
+            self.newRow = function(key, rows) {
 
             };
 

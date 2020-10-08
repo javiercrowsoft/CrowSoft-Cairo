@@ -355,7 +355,7 @@
         return P.resolvedPromise(rtn);
       };
 
-      var newRow = function(key, rows) {
+      self.newRow = function(key, rows) {
         return P.resolvedPromise(false);
       };
 

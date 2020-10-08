@@ -61,11 +61,13 @@ begin
    v_fdesde := dateadd('DAY', -extract('day' from p_fecha)::int+1, p_fecha);
    v_fhasta := dateadd('DAY', -1, dateadd('MONTH', 1, v_fdesde));
 
+   drop table if exists tt_tmp_retencion_info;
    create temporary table tt_tmp_retencion
     (
      ret_id integer
     ) on commit drop;
 
+   drop table if exists tt_tmp_retencion_info;
    create temporary table tt_tmp_retencion_info
     (
      ret_id integer,
