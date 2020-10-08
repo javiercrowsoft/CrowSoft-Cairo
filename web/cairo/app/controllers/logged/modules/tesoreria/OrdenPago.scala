@@ -55,7 +55,6 @@ case class OrdenPagoItemChequeData(
                                     base: OrdenPagoItemBaseData,
                                     monId: Int,
                                     totals: OrdenPagoItemTotalsData,
-                                    bcoId: Int,
                                     chqId: Int,
                                     cheqId: Option[Int],
                                     numeroDoc: String,
@@ -248,7 +247,6 @@ object OrdenesPago extends Controller with ProvidesUser {
             C.OPGI_IMPORTE -> of(doubleFormat),
             C.OPGI_IMPORTE_ORIGEN -> of(doubleFormat))
           (OrdenPagoItemTotalsData.apply)(OrdenPagoItemTotalsData.unapply),
-          GC.BCO_ID -> number,
           GC.CHQ_ID -> number,
           C.CHEQ_ID -> optional(number),
           C.OPGI_TMP_CHEQUE -> text,
@@ -542,7 +540,7 @@ object OrdenesPago extends Controller with ProvidesUser {
       // groups for OrdenPagoChequeData
       //
       val ordenPagoCheque = preprocessFormParams(
-        List(C.OPGI_ID, GC.MON_ID, GC.BCO_ID, GC.CHQ_ID, C.CHEQ_ID, C.OPGI_TMP_CHEQUE, C.OPGI_TMP_FECHA_COBRO,
+        List(C.OPGI_ID, GC.MON_ID, GC.CHQ_ID, C.CHEQ_ID, C.OPGI_TMP_CHEQUE, C.OPGI_TMP_FECHA_COBRO,
           C.OPGI_TMP_FECHA_VTO, GC.CLE_ID), "", params)
       val ordenPagoChequeBaseGroup = preprocessFormParams(ordenPagoItemBase, C.ORDEN_PAGO_ITEM_BASE, params)
       val ordenPagoChequeTotalsGroup = preprocessFormParams(ordenPagoItemTotals, C.ORDEN_PAGO_ITEM_TOTALS, params)
@@ -803,7 +801,6 @@ object OrdenesPago extends Controller with ProvidesUser {
           cheque.totals.importe,
           cheque.totals.importeOrigen
         ),
-        cheque.bcoId,
         cheque.chqId,
         cheque.cheqId.getOrElse(DBHelper.NoId),
         cheque.numeroDoc,
