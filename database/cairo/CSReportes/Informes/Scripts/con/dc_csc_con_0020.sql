@@ -28,9 +28,9 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: alr_dc_csc_stk_0010_m()
+-- Function: dc_csc_con_0020()
 
--- drop function alr_dc_csc_stk_0010_m();
+-- drop function dc_csc_con_0020();
 
 create or replace function dc_csc_con_0020
 (

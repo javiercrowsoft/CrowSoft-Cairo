@@ -530,7 +530,7 @@
             var row = grid.getRows().item(lRow);
 
             return D.getChequeNumber(getCell(row, KICH_CHEQUERA).getId()).whenSuccessWithResult(function(response) {
-              getCell(row, KICH_CHEQUE).setValue(valField(response.data, C.CHEQ_NUMERO_DOC));
+              getCell(row, KICH_CHEQUE).setValue(valField(response.data, CT.CHEQ_NUMERO_DOC));
               return true;
             });
             break;
