@@ -1175,13 +1175,18 @@ object OrdenPago {
         Field(C.OPGI_ID, item.id, FieldType.number),
         Field(C.OPGI_TIPO, C.ORDEN_PAGO_ITEM_TIPO_CHEQUES, FieldType.number),
         Field(C.OPGI_DESCRIP, item.base.descrip, FieldType.text),
-        Field(GC.CUE_ID, item.base.cueId, FieldType.id),
-        Field(GC.CCOS_ID, item.base.ccosId, FieldType.id),
+        Field(GC.CHQ_ID, item.chqId, FieldType.id),
+        Field(C.CHEQ_ID, item.cheqId, FieldType.id),
+        Field(C.OPGI_TMP_CHEQUE, item.numeroDoc, FieldType.text),
+        Field(C.OPGI_TMP_FECHA_COBRO, item.fechaCobro, FieldType.date),
+        Field(C.OPGI_TMP_FECHA_VTO, item.fechaVto, FieldType.date),
+        Field(C.OPGI_IMPORTE, item.totals.importe, FieldType.currency),
+        Field(C.OPGI_IMPORTE_ORIGEN, item.totals.importeOrigen, FieldType.currency),
+        Field(C.OPGI_ORDEN, item.base.orden, FieldType.integer),
         Field(GC.CLE_ID, item.cleId, FieldType.id),
         Field(GC.MON_ID, item.moneda.monId, FieldType.id),
-        Field(C.OPGI_ORDEN, item.base.orden, FieldType.integer),
-        Field(C.OPGI_IMPORTE, item.totals.importe, FieldType.currency),
-        Field(C.OPGI_IMPORTE_ORIGEN, item.totals.importeOrigen, FieldType.currency)
+        Field(GC.CUE_ID, item.base.cueId, FieldType.id),
+        Field(GC.CCOS_ID, item.base.ccosId, FieldType.id)
       )
     }
 
@@ -1191,11 +1196,17 @@ object OrdenPago {
         Field(C.OPGI_ID, item.id, FieldType.number),
         Field(C.OPGI_TIPO, C.ORDEN_PAGO_ITEM_TIPO_CHEQUEST, FieldType.number),
         Field(C.OPGI_DESCRIP, item.base.descrip, FieldType.text),
-        Field(GC.CUE_ID, item.base.cueId, FieldType.id),
-        Field(GC.CCOS_ID, item.base.ccosId, FieldType.id),
-        Field(C.OPGI_ORDEN, item.base.orden, FieldType.integer),
+        Field(C.CHEQ_ID, item.cheqId, FieldType.id),
+        Field(C.OPGI_TMP_CHEQUE, item.numeroDoc, FieldType.text),
+        Field(C.OPGI_TMP_FECHA_COBRO, item.fechaCobro, FieldType.date),
+        Field(C.OPGI_TMP_FECHA_VTO, item.fechaVto, FieldType.date),
         Field(C.OPGI_IMPORTE, item.totals.importe, FieldType.currency),
-        Field(C.OPGI_IMPORTE_ORIGEN, item.totals.importeOrigen, FieldType.currency)
+        Field(C.OPGI_IMPORTE_ORIGEN, item.totals.importeOrigen, FieldType.currency),
+        Field(C.OPGI_ORDEN, item.base.orden, FieldType.integer),
+        Field(GC.CLE_ID, item.cleId, FieldType.id),
+        Field(GC.MON_ID, item.moneda.monId, FieldType.id),
+        Field(GC.CUE_ID, item.base.cueId, FieldType.id),
+        Field(GC.CCOS_ID, item.base.ccosId, FieldType.id)
       )
     }
 
