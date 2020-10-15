@@ -317,13 +317,22 @@
           catch (ignore) {}
         };
 
+        var DB = Cairo.Database;
+
         var refreshClick = function() {
           var p;
           try {
             Cairo.LoadingMessage.show(m_client.getTitle(), "Loading data from CrowSoft Cairo server.");
             refreshAux();
             p = m_client.refresh().whenSuccessWithResult(function(response) {
-              m_view.getListGrid().load(Cairo.Database.valField(response.data, "recordset"));
+              /*
+              * m_client.refresh could return an object like
+              *    { columns:[], rows:[] }
+              * or like
+              *    { data_source: "data source name", recordset: { columns:[], rows:[] } }
+              * */
+              var recordset = DB.fieldInFields(response.data, "recordset") ? DB.valField(response.data, "recordset") : response.data;
+              m_view.getListGrid().load(recordset);
               if(m_bIsParam) {
                 m_view.showGridTab();
               }

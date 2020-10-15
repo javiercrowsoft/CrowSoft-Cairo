@@ -30,6 +30,14 @@
     return errors;
   };
 
+  var fieldInFields_ = function(fields, fieldName) {
+    if(fieldName === undefined) {
+      Cairo.raiseError("Missing fieldName", "the fieldName can't be undefined when calling to valField");
+    }
+    var value = typeof(fieldName) !== "number" ? fields.get(fieldName) : fields.values[fieldName];
+    return value !== undefined;
+  };
+
   var valField_ = function(fields, fieldName) {
     if(fieldName === undefined) {
       Cairo.raiseError("Missing fieldName", "the fieldName can't be undefined when calling to valField");
@@ -262,6 +270,8 @@
 
       return p;
     },
+
+    fieldInFields: fieldInFields_,
 
     valField: valField_,
 

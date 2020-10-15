@@ -384,36 +384,38 @@ begin
    --------------------------------------------------------------------------------------------------
    -- TRATAMIENTO DE PERIODOS SIN MOVIMIENTOS
    --------------------------------------------------------------------------------------------------
-   if exists ( select fv.fv_id
-               from FacturaVenta fv
-               join Documento d
-                 on fv.doc_id = d.doc_id
-                and fv.fv_fechaiva >= p_Fini
-                and fv.fv_fechaiva <= p_Ffin
-               where ( exists ( select *
-                                from EmpresaUsuario
-                                where emp_id = d.emp_id
-                                  and us_id = p_us_id )
-                       or ( p_us_id = 1 ) )
+   if not exists ( select fv.fv_id
+                   from FacturaVenta fv
+                   join Documento d
+                     on fv.doc_id = d.doc_id
+                    and fv.fv_fechaiva >= p_Fini
+                    and fv.fv_fechaiva <= p_Ffin
+                   where ( exists ( select *
+                                    from EmpresaUsuario
+                                    where emp_id = d.emp_id
+                                      and us_id = p_us_id )
+                           or ( p_us_id = 1 ) )
 
-                 and ( d.cico_id = v_cico_id or v_cico_id = 0 )
-                 and ( d.emp_id = v_emp_id or v_emp_id = 0 )
-                 and ( ( exists ( select rptarb_hojaid
-                                  from rptArbolRamaHoja
-                                  where rptarb_cliente = v_clienteID
-                                    and tbl_id = 1016
-                                    and rptarb_hojaid = d.cico_id ) )
-                     or ( v_ram_id_CircuitoContable = 0 ) )
-                 and ( ( exists ( select rptarb_hojaid
-                                  from rptArbolRamaHoja
-                                  where rptarb_cliente = v_clienteID
-                                    and tbl_id = 1018
-                                    and rptarb_hojaid = d.emp_id ) )
-                         or ( v_ram_id_Empresa = 0 ) ) ) then
+                     and ( d.cico_id = v_cico_id or v_cico_id = 0 )
+                     and ( d.emp_id = v_emp_id or v_emp_id = 0 )
+                     and ( ( exists ( select rptarb_hojaid
+                                      from rptArbolRamaHoja
+                                      where rptarb_cliente = v_clienteID
+                                        and tbl_id = 1016
+                                        and rptarb_hojaid = d.cico_id ) )
+                             or ( v_ram_id_CircuitoContable = 0 ) )
+                     and ( ( exists ( select rptarb_hojaid
+                                      from rptArbolRamaHoja
+                                      where rptarb_cliente = v_clienteID
+                                        and tbl_id = 1018
+                                        and rptarb_hojaid = d.emp_id ) )
+                             or ( v_ram_id_Empresa = 0 ) ) ) then
 
       insert into tt_t_dc_csc_con_0020( col_dummy ) values ( 1 );
 
    end if;
+
+   rtn := 'rtn';
 
    open rtn for
       select 0 comp_id,
