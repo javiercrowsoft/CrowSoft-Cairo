@@ -323,12 +323,12 @@
             Cairo.LoadingMessage.show(m_client.getTitle(), "Loading data from CrowSoft Cairo server.");
             refreshAux();
             p = m_client.refresh().whenSuccessWithResult(function(response) {
-              m_view.getListGrid().load(response.data);
+              m_view.getListGrid().load(Cairo.Database.valField(response.data, "recordset"));
               if(m_bIsParam) {
                 m_view.showGridTab();
               }
             }).then(Cairo.LoadingMessage.close);
-            return;
+            return p;
           }
           catch (ex) {
             Cairo.manageErrorEx(ex.message, ex, "refreshList", C_MODULE, "");
