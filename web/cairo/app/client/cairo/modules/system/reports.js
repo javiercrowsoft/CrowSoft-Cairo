@@ -97,7 +97,7 @@
     };
 
     that.checkCSReportsExtension = function() {
-      sendMessage({action: "debugger", data: ""}).then(function(response) {
+      sendMessage({action: "debugger", data: {}}).then(function(response) {
         console.log(JSON.stringify(response.request));
         console.log(JSON.stringify(response.response));
       });
