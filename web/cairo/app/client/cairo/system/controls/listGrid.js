@@ -332,8 +332,8 @@
 
         createListGrid();
 
-        self.columns = data.get('columns');
-        self.rows = data.get('rows');
+        self.columns = data.get !== undefined ? data.get('columns') : data.columns;
+        self.rows = data.get !== undefined ? data.get('rows') : data.rows;
 
         gridManager.head = getTableSection(that.getElement(), 'list-dialog-grid-head', 'thead');
         gridManager.body = getTableSection(that.getElement(), 'list-dialog-grid-body', 'tbody');
