@@ -199,7 +199,7 @@ object Reports extends Controller with ProvidesUser {
       val (dataSourceName, recordset) = Report.show(user, id, getParams(request))
       Ok(
         Json.obj(
-          "data_source " -> dataSourceName,
+          "data_source" -> dataSourceName,
           "recordset" -> Recordset.getAsJson(recordset)
         ))
     })
