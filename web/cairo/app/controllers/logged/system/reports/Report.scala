@@ -196,10 +196,12 @@ object Reports extends Controller with ProvidesUser {
 
   def show(id: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(Report.getAction(id) _), { user =>
+      val (dataSourceName, recordset) = Report.show(user, id, getParams(request))
       Ok(
-        Json.toJson(
-          Recordset.getAsJson(
-            Report.show(user, id, getParams(request)))))
+        Json.obj(
+          "data_source " -> dataSourceName,
+          "recordset" -> Recordset.getAsJson(recordset)
+        ))
     })
   }
 

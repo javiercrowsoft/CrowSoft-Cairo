@@ -827,7 +827,10 @@
 
           var params = m_params.map(getReportParam);
 
-          var data = [Cairo.CSReportConnection.createReportDataSource(m_code, createRecordset(response.data))];
+          var dataSourceName = valField(response.data, "data_source");
+          var recordset = valField(response.data, "recordset");
+
+          var data = [Cairo.CSReportConnection.createReportDataSource(dataSourceName, recordset)];
 
           return getLogos().whenSuccessWithResult(function(response) {
 

@@ -471,7 +471,7 @@ object Report {
     }
   }
 
-  def show(user: CompanyUser, id: Int, params: Map[String, String]): Recordset = {
+  def show(user: CompanyUser, id: Int, params: Map[String, String]): (String, Recordset) = {
 
     def throwErrorReportNotFound(id: Int) = {
       throwException(s"Error report $id not found")
@@ -544,7 +544,7 @@ object Report {
         cs.execute()
 
         val rs = cs.getObject(index).asInstanceOf[java.sql.ResultSet]
-        Recordset.load(rs)
+        (report.storedProcedure, Recordset.load(rs))
 
       } catch {
         case NonFatal(e) => {
