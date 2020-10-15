@@ -1217,6 +1217,12 @@ object FacturaVentas extends Controller with ProvidesUser {
     })
   }
 
+  def isPaymentInCash(id: Int) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_FACTURA_VENTA), { user =>
+      Ok(Json.obj("paymen_in_cash" -> Json.toJson(FacturaVenta.isPaymentInCash(user, id))))
+    })
+  }
+
   def getAplic(id: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.MODIFY_APLIC_VENTA), { user =>
       val (cueId, monId) = FacturaVenta.getCtaCteCuenta(user, id)

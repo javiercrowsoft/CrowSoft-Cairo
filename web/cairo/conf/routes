@@ -440,6 +440,7 @@ POST    /api/v1/ventas/facturaventas                                            
 
 GET     /api/v1/ventas/facturaventas/cliente/:cliId/remitos/:currencyId                      controllers.logged.modules.ventas.FacturaVentas.listRemitos(cliId: Int, currencyId: Int)
 GET     /api/v1/ventas/facturaventas/remitos/items                                           controllers.logged.modules.ventas.FacturaVentas.listRemitosItems(ids: Option[String])
+GET     /api/v1/ventas/facturaventa/:id/incash                                               controllers.logged.modules.ventas.FacturaVentas.isPaymentInCash(id: Int)
 
 GET     /api/v1/ventas/facturaventa/:id                                                      controllers.logged.modules.ventas.FacturaVentas.get(id: Int)
 POST    /api/v1/ventas/facturaventa                                                          controllers.logged.modules.ventas.FacturaVentas.create

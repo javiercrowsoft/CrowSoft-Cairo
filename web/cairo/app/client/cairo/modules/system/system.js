@@ -2092,6 +2092,12 @@
 
   Cairo.Documents.Tesoreria = createTesoreria();
 
+  Cairo.Documents.isCobranzaContado = function(fvId) {
+    return DB.getData(
+      "load[" + m_apiPath + "ventas/facturaventa/" + fvId.toString() + "/incash]");
+  };
+
+
   /*
   *
   *

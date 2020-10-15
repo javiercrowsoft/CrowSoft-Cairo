@@ -2241,6 +2241,30 @@ object FacturaVenta {
     }
   }
 
+  def isPaymentInCash(user: CompanyUser, id: Int): Boolean = {
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_doc_es_cobranza_cdo(?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, id)
+      cs.registerOutParameter(2, Types.INTEGER)
+
+      try {
+        cs.execute()
+        cs.getInt(2) != 0
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get if payment is in cash for id [$id] and user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
   def getCtaCteCuenta(user: CompanyUser, id: Int): (Int, Int) = {
 
     DB.withTransaction(user.database.database) { implicit connection =>
@@ -2248,7 +2272,7 @@ object FacturaVenta {
       val sql = "{call sp_doc_factura_venta_get_cuenta_deudor(?, ?, ?)}"
       val cs = connection.prepareCall(sql)
 
-      cs.setInt(1, user.cairoCompanyId)
+      cs.setInt(1, id)
       cs.registerOutParameter(2, Types.INTEGER)
       cs.registerOutParameter(3, Types.INTEGER)
 
