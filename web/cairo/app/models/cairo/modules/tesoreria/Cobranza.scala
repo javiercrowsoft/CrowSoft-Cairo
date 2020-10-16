@@ -1170,14 +1170,18 @@ object Cobranza {
         Field(C.COBZI_ID, item.id, FieldType.number),
         Field(C.COBZI_TIPO, C.COBRANZA_ITEM_TIPO_CHEQUES, FieldType.number),
         Field(C.COBZI_DESCRIP, item.base.descrip, FieldType.text),
-        Field(GC.CUE_ID, item.base.cueId, FieldType.id),
-        Field(GC.CCOS_ID, item.base.ccosId, FieldType.id),
-        Field(GC.BCO_ID, item.bcoId, FieldType.id),
+        Field(C.CHEQ_ID, item.cheqId, FieldType.id),
+        Field(C.COBZI_TMP_CHEQUE, item.numeroDoc, FieldType.text),
+        Field(C.COBZI_TMP_FECHA_COBRO, item.fechaCobro, FieldType.date),
+        Field(C.COBZI_TMP_FECHA_VTO, item.fechaVto, FieldType.date),
+        Field(C.COBZI_IMPORTE, item.totals.importe, FieldType.currency),
+        Field(C.COBZI_IMPORTE_ORIGEN, item.totals.importeOrigen, FieldType.currency),
+        Field(C.COBZI_ORDEN, item.base.orden, FieldType.integer),
         Field(GC.CLE_ID, item.cleId, FieldType.id),
         Field(GC.MON_ID, item.moneda.monId, FieldType.id),
-        Field(C.COBZI_ORDEN, item.base.orden, FieldType.integer),
-        Field(C.COBZI_IMPORTE, item.totals.importe, FieldType.currency),
-        Field(C.COBZI_IMPORTE_ORIGEN, item.totals.importeOrigen, FieldType.currency)
+        Field(GC.CUE_ID, item.base.cueId, FieldType.id),
+        Field(GC.CCOS_ID, item.base.ccosId, FieldType.id),
+        Field(GC.BCO_ID, item.bcoId, FieldType.id)
       )
     }
 
