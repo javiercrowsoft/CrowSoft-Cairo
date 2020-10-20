@@ -4258,38 +4258,51 @@
 
       var showApply = function() {
 
-        if(!Cairo.Security.docHasPermissionTo(
-          CS.MODIFY_APLIC,
-          m_docId,
-          Cairo.Security.ActionTypes.apply)) {
-          return false;
-        }
+        var showEditor = function(info) {
+          if(!Cairo.Security.docHasPermissionTo(
+            CS.MODIFY_APLIC,
+            m_docId,
+            Cairo.Security.ActionTypes.apply)) {
+            return false;
+          }
 
-        if(m_applyEditor === null) {
-          m_applyEditor = Cairo.FacturaVentaAplic.Edit.Controller.getEditor();
-        }
-        else {
-          if(m_applyEditor.getId() !== m_id) {
-            m_applyEditor.setClient(null);
+          if(m_applyEditor === null) {
             m_applyEditor = Cairo.FacturaVentaAplic.Edit.Controller.getEditor();
           }
+          else {
+            if(m_applyEditor.getId() !== m_id) {
+              m_applyEditor.setClient(null);
+              m_applyEditor = Cairo.FacturaVentaAplic.Edit.Controller.getEditor();
+            }
+          }
+
+          m_applyEditor.setClient(self);
+
+          m_applyEditor.show(
+              inf.id,
+              inf.total * ((inf.cotizacion !== 0) ? inf.cotizacion : 1),
+              inf.nrodoc,
+              inf.cli_id,
+              inf.cliente,
+              inf.suc_id,
+              inf.doc_id,
+              inf.doct_id === D.Types.NOTA_CREDITO_VENTA,
+              inf.emp_id,
+              inf.empresa
+            ).then(function(result) {
+              if(result !== true) {
+                m_applyEditor = null;
+              }
+            });
+        };
+
+        // TODO: if the document is not saved it should show a message
+        //       if the document has unsaved changes it should suggest
+        //       the user to save changes
+        if(m_id !== NO_ID) {
+          D.getDocumentInfo(D.Types.FACTURA_VENTA, m_id).whenSuccessWithResult(showEditor);
         }
 
-        m_applyEditor.setClient(self);
-
-        m_applyEditor.show(
-            m_id,
-            m_total * ((m_cotizacion !== 0) ? m_cotizacion : 1),
-            m_nroDoc,
-            m_cliId,
-            m_cliente,
-            m_sucId,
-            m_docId,
-            m_doctId === D.Types.NOTA_CREDITO_VENTA).then(function(result) {
-            if(result !== true) {
-              m_applyEditor = null;
-            }
-          });
       };
 
       var startWizard = function(wizard, wizardConstructor) {

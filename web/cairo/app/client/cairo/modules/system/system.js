@@ -474,6 +474,8 @@
         info.nrodoc = valField(response.data, C.NRO_DOC);
         info.prov_id = valField(response.data, C.PROV_ID);
         info.proveedor = valField(response.data, C.PROV_NAME);
+        info.cli_id = valField(response.data, C.CLI_ID);
+        info.cliente = valField(response.data, C.CLI_NAME);
         info.suc_id = valField(response.data, C.SUC_ID);
         info.doc_id = valField(response.data, C.DOC_ID);
         info.doct_id = valField(response.data, C.DOCT_ID);
