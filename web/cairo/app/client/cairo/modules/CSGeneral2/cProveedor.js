@@ -1179,9 +1179,7 @@
 
         m_genericEdit.loadCollection(m_dialog);
 
-        if(!m_dialog.show(self)) { return false; }
-
-        return true;
+        return m_dialog.show(self);
       };
       
       //

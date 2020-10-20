@@ -490,9 +490,7 @@
         // Compras
         elem.setValue(getText(1489, ""));
 
-        if(!m_dialog.show(self)) { return false; }
-
-        return true;
+        return m_dialog.show(self);
       };
 
       var refreshCollection = function() {

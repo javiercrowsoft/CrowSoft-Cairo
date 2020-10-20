@@ -32,6 +32,11 @@ javier at crowsoft.com.ar
 
 -- drop function dc_csc_con_0020();
 
+/*
+select * from dc_csc_con_0020(1,'2020-09-01','2020-09-30','0','0',1);
+fetch all from rtn;
+*/
+
 create or replace function dc_csc_con_0020
 (
   in p_us_id integer,
@@ -105,6 +110,8 @@ begin
      col_dummy integer
    ) on commit drop;
 
+   p_Ffin := p_Ffin + '1 day'::interval;
+
    select * from sp_ArbConvertId(p_cico_id) into v_cico_id, v_ram_id_CircuitoContable;
    select * from sp_ArbConvertId(p_emp_id) into v_emp_id, v_ram_id_Empresa;
 
@@ -156,7 +163,7 @@ begin
           join Documento d
             on fv.doc_id = d.doc_id
           where fv.fv_fechaiva >= p_Fini
-            and fv.fv_fechaiva <= p_Ffin
+            and fv.fv_fechaiva < p_Ffin
             and ( exists ( select *
                            from EmpresaUsuario
                            where emp_id = fv.emp_id
@@ -230,7 +237,7 @@ begin
                           and substr(fv_nrodoc, 3, 4) = v_sucursal
                           and fv_fecha > v_fv_fecha
                           and fv_fechaiva >= p_Fini
-                          and fv_fechaiva <= p_Ffin
+                          and fv_fechaiva < p_Ffin
                           and doct_id = v_doct_id;
 
                         -- Si existe una factura
@@ -245,7 +252,7 @@ begin
                            where emp_id = v_emp_id_check
                              and fv_nrodoc = v_fv_nrodoc_next
                              and fv_fechaiva >= p_Fini
-                             and fv_fechaiva <= p_Ffin
+                             and fv_fechaiva < p_Ffin
                              and doct_id = v_doct_id;
 
                            -- Si la proxima es un numero
@@ -379,7 +386,7 @@ begin
    end if;
 
    insert into tt_t_dc_csc_con_0020_fv
-   ( select fv_id from FacturaVenta where fv_fechaiva between p_Fini and p_Ffin );
+   ( select fv_id from FacturaVenta where fv_fechaiva >= p_Fini and fv_fechaiva < p_Ffin );
 
    --------------------------------------------------------------------------------------------------
    -- TRATAMIENTO DE PERIODOS SIN MOVIMIENTOS
@@ -389,7 +396,7 @@ begin
                    join Documento d
                      on fv.doc_id = d.doc_id
                     and fv.fv_fechaiva >= p_Fini
-                    and fv.fv_fechaiva <= p_Ffin
+                    and fv.fv_fechaiva < p_Ffin
                    where ( exists ( select *
                                     from EmpresaUsuario
                                     where emp_id = d.emp_id

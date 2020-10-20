@@ -1161,9 +1161,7 @@
         elem.setSelectId(m_cueIdTickets);
         elem.setTabIndex(tab_hojaRuta);
 
-        if(!m_dialog.show(self)) { return false; }
-
-        return true;
+        return m_dialog.show(self);
       };
 
       var setGridPercepcion = function(property) {

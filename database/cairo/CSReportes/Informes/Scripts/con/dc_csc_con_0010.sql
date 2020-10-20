@@ -32,6 +32,11 @@ javier at crowsoft.com.ar
 
 -- drop function dc_csc_con_0010();
 
+/*
+select * from dc_csc_con_0010(1,'2020-09-30','2020-09-30','0','0');
+fetch all from rtn;
+*/
+
 create or replace function dc_csc_con_0010
 (
   in p_us_id integer,
@@ -60,6 +65,8 @@ begin
    (
      col_dummy integer
    );
+
+   p_Ffin := p_Ffin + '1 day'::interval;  
 
    select * from sp_ArbConvertId(p_cico_id) into v_cico_id, v_ram_id_CircuitoContable;
    select * from sp_ArbConvertId(p_emp_id) into v_emp_id, v_ram_id_Empresa;
@@ -117,7 +124,7 @@ begin
                    join Documento d
                      on fc.doc_id = d.doc_id
                    where fc.fc_fechaiva >= p_Fini
-                     and fc.fc_fechaiva <= p_Ffin
+                     and fc.fc_fechaiva < p_Ffin
                      and ( exists ( select *
                                     from EmpresaUsuario
                                     where emp_id = d.emp_id
@@ -269,7 +276,7 @@ begin
       join FacturaCompraItem fci
         on fc.fc_id = fci.fc_id
       where fc_fechaiva >= p_Fini
-        and fc_fechaiva <= p_Ffin
+        and fc_fechaiva < p_Ffin
         and fc.est_id <> 7-- Anuladas
         and ( exists ( select *
                        from EmpresaUsuario
@@ -369,7 +376,7 @@ begin
       join Percepcion perc
         on fcp.perc_id = perc.perc_id
       where fc_fechaiva >= p_Fini
-        and fc_fechaiva <= p_Ffin
+        and fc_fechaiva < p_Ffin
         and fc.est_id <> 7-- Anuladas
         and ( exists ( select *
                        from EmpresaUsuario
@@ -462,7 +469,7 @@ begin
       join Cuenta cue
         on fcot.cue_id = cue.cue_id
       where fc_fechaiva >= p_Fini
-        and fc_fechaiva <= p_Ffin
+        and fc_fechaiva < p_Ffin
         and fc.est_id <> 7-- Anuladas
         and ( exists ( select *
                        from EmpresaUsuario
@@ -520,7 +527,7 @@ begin
       join Empresa
         on d.emp_id = Empresa.emp_id
       where fc_fechaiva >= p_Fini
-        and fc_fechaiva <= p_Ffin
+        and fc_fechaiva < p_Ffin
         and fc.est_id = 7-- Anuladas
         and ( exists ( select *
                        from EmpresaUsuario
@@ -600,7 +607,7 @@ begin
       join TasaImpositiva ti
         on pr.ti_id_ivaricompra = ti.ti_id
       where fc_fechaiva >= p_Fini
-        and fc_fechaiva <= p_Ffin
+        and fc_fechaiva < p_Ffin
         and fc.est_id <> 7-- Anuladas
         and ( exists ( select *
                        from EmpresaUsuario
@@ -674,7 +681,7 @@ begin
       join Percepcion perc
         on fcp.perc_id = perc.perc_id
       where fc_fechaiva >= p_Fini
-        and fc_fechaiva <= p_Ffin
+        and fc_fechaiva < p_Ffin
         and fc.est_id <> 7-- Anuladas
         and ( exists ( select *
                        from EmpresaUsuario
@@ -738,7 +745,7 @@ begin
       join Cuenta cue
         on fcot.cue_id = cue.cue_id
       where fc_fechaiva >= p_Fini
-        and fc_fechaiva <= p_Ffin
+        and fc_fechaiva < p_Ffin
         and fc.est_id <> 7-- Anuladas
         and ( exists ( select *
                        from EmpresaUsuario

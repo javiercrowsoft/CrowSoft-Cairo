@@ -334,9 +334,7 @@
         elem.setKey(K_FACTURA_ELECTRONICA);
         elem.setValue(Cairo.Util.boolToInt(m_facturaElectronica));
 
-        if(!m_dialog.show(self)) { return false; }
-
-        return true;
+        return m_dialog.show(self);
       };
 
       var refreshCollection = function() {

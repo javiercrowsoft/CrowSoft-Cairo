@@ -370,9 +370,7 @@
         elem.setKey(K_ACTIVE);
         elem.setValue(Cairo.Util.boolToInt(m_active));
 
-        if(!m_dialog.show(self)) { return false; }
-
-        return true;
+        return m_dialog.show(self);
       };
 
       var refreshCollection = function() {

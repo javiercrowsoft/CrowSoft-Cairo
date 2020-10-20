@@ -1148,7 +1148,10 @@
 
           case WC.KW_PRINT_DOC:
 
-            D.wizPrintDocEx(m_id, m_lastDoc, D.getEmailFromProveedor(m_lastProvId));
+            D.wizPrintDocEx(m_id, m_lastDoc,
+              D.getEmailFromProveedor(m_lastProvId),
+              getProveedorName().substr(0, 50) + "-" + m_lastNroDoc
+            );
             break;
 
           case WC.KW_NEW_DOC:

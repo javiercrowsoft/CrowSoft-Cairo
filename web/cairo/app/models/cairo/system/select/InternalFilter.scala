@@ -213,7 +213,13 @@ object InternalFilter {
     val params = parseParameters(parameters)
     val cuecIds = {
       if(params.contains("cuecId")) {
-        params("cuecId").split("[*]").map(cuecId => s"cuec_id = ${G.getIntOrZero(cuecId)}").mkString(" or ")
+        // special case for bank accounts
+        if(params("cuecId") == "2") {
+          "cuec_id = 2 and emp_id is not null"
+        }
+        else {
+          params("cuecId").split("[*]").map(cuecId => s"cuec_id = ${G.getIntOrZero(cuecId)}").mkString(" or ")
+        }
       }
       else ""
     }

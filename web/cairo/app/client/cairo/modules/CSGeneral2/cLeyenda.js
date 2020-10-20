@@ -420,9 +420,7 @@
         elem.setKey(K_TEXTO);
         elem.setValue(m_texto);
 
-        if(!m_dialog.show(self)) { return false; }
-
-        return true;
+        return m_dialog.show(self);
       };
 
       var refreshCollection = function() {

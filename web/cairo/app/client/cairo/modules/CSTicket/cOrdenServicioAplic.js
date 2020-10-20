@@ -498,9 +498,7 @@
                 //
                 abmObj.MinWidth = 10050;
 
-                if(!m_dialog.show(self)) { return false; }
-
-                return true;
+                return m_dialog.show(self);
             };
 
             var pSave = function() {

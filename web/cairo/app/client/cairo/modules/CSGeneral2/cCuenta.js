@@ -704,9 +704,7 @@
         elem.setKey(K_DESCRIPCION);
         elem.setValue(m_descripcion);
 
-        if(!m_dialog.show(self)) { return false; }
-
-        return true;
+        return m_dialog.show(self);
       };
 
       var refreshCollection = function() {

@@ -21,6 +21,7 @@
       var K_ACTIVE = 3;
       var K_DESCIP = 4;
       var K_PA_ID = 5;
+
       var m_id = 0;
       var m_name = "";
       var m_code = "";
@@ -41,7 +42,7 @@
 
       var m_copy;
 
-      var m_apiPath = Cairo.Database.getAPIVersion();
+      var m_apiPath = DB.getAPIVersion();
 
       self.getId = function() {
         return m_id;
@@ -156,7 +157,7 @@
 
       self.save = function() {
 
-        var register = new Cairo.Database.Register();
+        var register = new DB.Register();
         var fields = register.getFields();
 
         register.setFieldId(C.PRO_ID);
@@ -197,7 +198,7 @@
           }
         }
 
-        return Cairo.Database.saveEx(
+        return DB.saveEx(
           register,
           false,
           C.PRO_CODE,
@@ -378,20 +379,20 @@
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, C.PRO_CODE);
+        elem = properties.add(null, C.PRO_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(15);
         elem.setValue(m_code);
         elem.setKey(K_CODE);
 
-        var elem = properties.add(null, Cairo.Constants.ACTIVE);
+        elem = properties.add(null, Cairo.Constants.ACTIVE);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
         elem.setKey(K_ACTIVE);
         elem.setValue(Cairo.Util.boolToInt(m_active));
 
-        var elem = properties.add(null, C.PA_ID);
+        elem = properties.add(null, C.PA_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.PAIS);
         elem.setName(getText(1212, "")); // País
@@ -399,7 +400,7 @@
         elem.setValue(m_pais);
         elem.setSelectId(m_pa_Id);
 
-        var elem = properties.add(null, C.PRO_DESCRIP);
+        elem = properties.add(null, C.PRO_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSize(255);
@@ -407,9 +408,7 @@
         elem.setValue(m_descrip);
         elem.setKey(K_DESCIP);
 
-        if(!m_dialog.show(self)) { return false; }
-
-        return true;
+        return m_dialog.show(self);
       };
 
       var refreshCollection = function() {
@@ -421,17 +420,17 @@
         var elem = properties.item(C.PRO_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(C.PRO_CODE);
+        elem = properties.item(C.PRO_CODE);
         elem.setValue(m_code);
 
-        var elem = properties.item(Cairo.Constants.ACTIVE);
+        elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(Cairo.Util.boolToInt(m_active));
 
-        var elem = properties.item(C.PA_ID);
+        elem = properties.item(C.PA_ID);
         elem.setValue(m_pais);
         elem.setSelectId(m_pa_Id);
 
-        var elem = properties.item(C.PRO_DESCRIP);
+        elem = properties.item(C.PRO_DESCRIP);
         elem.setValue(m_descrip);
 
         return m_dialog.showValues(properties);
@@ -454,13 +453,13 @@
               m_pais = "";
             }
             else {
-              m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
-              m_name = Cairo.Database.valField(response.data, C.PRO_NAME);
-              m_code = Cairo.Database.valField(response.data, C.PRO_CODE);
-              m_descrip = Cairo.Database.valField(response.data, C.PRO_DESCRIP);
-              m_id = Cairo.Database.valField(response.data, C.PRO_ID);
-              m_pa_Id = Cairo.Database.valField(response.data, C.PA_ID);
-              m_pais = Cairo.Database.valField(response.data, C.PA_NAME);
+              m_active = DB.valField(response.data, Cairo.Constants.ACTIVE);
+              m_name = DB.valField(response.data, C.PRO_NAME);
+              m_code = DB.valField(response.data, C.PRO_CODE);
+              m_descrip = DB.valField(response.data, C.PRO_DESCRIP);
+              m_id = DB.valField(response.data, C.PRO_ID);
+              m_pa_Id = DB.valField(response.data, C.PA_ID);
+              m_pais = DB.valField(response.data, C.PA_NAME);
             }
 
             return true;
@@ -511,13 +510,14 @@
 
   Cairo.module("Provincia.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
+    var DB = Cairo.Database;
     var NO_ID = Cairo.Constants.NO_ID;
 
     List.Controller = {
       list: function() {
 
         var self = this;
-        var m_apiPath = Cairo.Database.getAPIVersion();
+        var m_apiPath = DB.getAPIVersion();
 
         /*
          this function will be called by the tab manager every time the
@@ -619,7 +619,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_PROVINCIA)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            return Cairo.Database.destroy(m_apiPath + "general/provincia", id, Cairo.Constants.DELETE_FUNCTION, "Provincia").whenSuccess(
+            return DB.destroy(m_apiPath + "general/provincia", id, Cairo.Constants.DELETE_FUNCTION, "Provincia").whenSuccess(
               function() {
                 try {
                   var key = getKey(id);

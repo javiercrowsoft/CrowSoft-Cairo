@@ -1,4 +1,4 @@
-/*
+﻿/*
 CrowSoft-Cairo
 ==============
 
@@ -38,8 +38,8 @@ select * from FacturaCompra
 
 select * from sp_lsdoc_facturas_compra(
 1,
-'20000101'::date,
-'20150101'::date,
+'2020-09-30'::date,
+'2020-09-30'::date,
 '0',
 '0',
 '0',

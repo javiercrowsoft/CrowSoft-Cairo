@@ -1,183 +1,6 @@
 (function() {
   "use strict";
 
-  Cairo.module("Rubro.Load", function(Load, Cairo, Backbone, Marionette, $, _) {
-
-    Load.createRubro = function() {
-
-      var init = function() {
-        return {
-          rubId: 0,
-          rubName: "",
-          rubtId1: 0,
-          rubtName1: "",
-          rubtId2: 0,
-          rubtName2: "",
-          rubtId3: 0,
-          rubtName3: "",
-          rubtId4: 0,
-          rubtName4: "",
-          rubtId5: 0,
-          rubtName5: "",
-          rubtId6: 0,
-          rubtName6: "",
-          rubtId7: 0,
-          rubtName7: "",
-          rubtId8: 0,
-          rubtName8: "",
-          rubtId9: 0,
-          rubtName9: "",
-          rubtId10: 0,
-          rubtName10: "",
-          rubtiId1: 0,
-          rubtiName1: "",
-          rubtiId2: 0,
-          rubtiName2: "",
-          rubtiId3: 0,
-          rubtiName3: "",
-          rubtiId4: 0,
-          rubtiName4: "",
-          rubtiId5: 0,
-          rubtiName5: "",
-          rubtiId6: 0,
-          rubtiName6: "",
-          rubtiId7: 0,
-          rubtiName7: "",
-          rubtiId8: 0,
-          rubtiName8: "",
-          rubtiId9: 0,
-          rubtiName9: "",
-          rubtiId10: 0,
-          rubtiName10: ""
-        };
-      };
-
-      var self = init();
-
-      var DB = Cairo.Database;
-      var C = Cairo.General.Constants;
-      var NO_ID = Cairo.Constants.NO_ID;
-
-      var m_apiPath = DB.getAPIVersion();
-
-      var that = {};
-
-      that.load = function(rubId) {
-        return DB.getData("load[" + m_apiPath + "general/rubro]", rubId).then(
-          function(response) {
-
-            if(response.success !== true) { return false; }
-
-            that.loadFromData(response.data);
-
-            return true;
-          });
-      };
-
-      that.loadFromData = function(data) {
-
-        if(data.id === NO_ID) {
-          self = init;
-        }
-        else {
-          self.rubId = DB.valField(data, C.RUB_ID);
-          self.rubName = DB.valField(data, C.RUB_NAME);
-          
-          self.rubtId1 = DB.valField(data, C.RUBT_ID_1);
-          self.rubtName1 = DB.valField(data, C.RUBT_NAME_1);
-          self.rubtId2 = DB.valField(data, C.RUBT_ID_2);
-          self.rubtName2 = DB.valField(data, C.RUBT_NAME_2);
-          self.rubtId3 = DB.valField(data, C.RUBT_ID_3);
-          self.rubtName3 = DB.valField(data, C.RUBT_NAME_3);
-          self.rubtId4 = DB.valField(data, C.RUBT_ID_4);
-          self.rubtName4 = DB.valField(data, C.RUBT_NAME_4);
-          self.rubtId5 = DB.valField(data, C.RUBT_ID_5);
-          self.rubtName5 = DB.valField(data, C.RUBT_NAME_5);
-          self.rubtId6 = DB.valField(data, C.RUBT_ID_6);
-          self.rubtName6 = DB.valField(data, C.RUBT_NAME_6);
-          self.rubtId7 = DB.valField(data, C.RUBT_ID_7);
-          self.rubtName7 = DB.valField(data, C.RUBT_NAME_7);
-          self.rubtId8 = DB.valField(data, C.RUBT_ID_8);
-          self.rubtName8 = DB.valField(data, C.RUBT_NAME_8);
-          self.rubtId9 = DB.valField(data, C.RUBT_ID_9);
-          self.rubtName9 = DB.valField(data, C.RUBT_NAME_9);
-          self.rubtId10 = DB.valField(data, C.RUBT_ID_10);
-          self.rubtName10 = DB.valField(data, C.RUBT_NAME_10);
-
-          self.rubtiId1 = DB.valField(data, C.RUBTI_ID_1);
-          self.rubtiName1 = DB.valField(data, C.RUBTI_NAME_1);
-          self.rubtiId2 = DB.valField(data, C.RUBTI_ID_2);
-          self.rubtiName2 = DB.valField(data, C.RUBTI_NAME_2);
-          self.rubtiId3 = DB.valField(data, C.RUBTI_ID_3);
-          self.rubtiName3 = DB.valField(data, C.RUBTI_NAME_3);
-          self.rubtiId4 = DB.valField(data, C.RUBTI_ID_4);
-          self.rubtiName4 = DB.valField(data, C.RUBTI_NAME_4);
-          self.rubtiId5 = DB.valField(data, C.RUBTI_ID_5);
-          self.rubtiName5 = DB.valField(data, C.RUBTI_NAME_5);
-          self.rubtiId6 = DB.valField(data, C.RUBTI_ID_6);
-          self.rubtiName6 = DB.valField(data, C.RUBTI_NAME_6);
-          self.rubtiId7 = DB.valField(data, C.RUBTI_ID_7);
-          self.rubtiName7 = DB.valField(data, C.RUBTI_NAME_7);
-          self.rubtiId8 = DB.valField(data, C.RUBTI_ID_8);
-          self.rubtiName8 = DB.valField(data, C.RUBTI_NAME_8);
-          self.rubtiId9 = DB.valField(data, C.RUBTI_ID_9);
-          self.rubtiName9 = DB.valField(data, C.RUBTI_NAME_9);
-          self.rubtiId10 = DB.valField(data, C.RUBTI_ID_10);
-          self.rubtiName10 = DB.valField(data, C.RUBTI_NAME_10);
-          
-        }
-
-      };
-
-      that.getRubtId1 = function() { return self.rubtId1; };
-      that.getRubtId2 = function() { return self.rubtId2; };
-      that.getRubtId3 = function() { return self.rubtId3; };
-      that.getRubtId4 = function() { return self.rubtId4; };
-      that.getRubtId5 = function() { return self.rubtId5; };
-      that.getRubtId6 = function() { return self.rubtId6; };
-      that.getRubtId7 = function() { return self.rubtId7; };
-      that.getRubtId8 = function() { return self.rubtId8; };
-      that.getRubtId9 = function() { return self.rubtId9; };
-      that.getRubtId10 = function() { return self.rubtId10; };
-
-      that.getRubtName1 = function() { return self.rubtName1; };
-      that.getRubtName2 = function() { return self.rubtName2; };
-      that.getRubtName3 = function() { return self.rubtName3; };
-      that.getRubtName4 = function() { return self.rubtName4; };
-      that.getRubtName5 = function() { return self.rubtName5; };
-      that.getRubtName6 = function() { return self.rubtName6; };
-      that.getRubtName7 = function() { return self.rubtName7; };
-      that.getRubtName8 = function() { return self.rubtName8; };
-      that.getRubtName9 = function() { return self.rubtName9; };
-      that.getRubtName10 = function() { return self.rubtName10; };
-
-      that.getRubtiId1 = function() { return self.rubtiId1; };
-      that.getRubtiId2 = function() { return self.rubtiId2; };
-      that.getRubtiId3 = function() { return self.rubtiId3; };
-      that.getRubtiId4 = function() { return self.rubtiId4; };
-      that.getRubtiId5 = function() { return self.rubtiId5; };
-      that.getRubtiId6 = function() { return self.rubtiId6; };
-      that.getRubtiId7 = function() { return self.rubtiId7; };
-      that.getRubtiId8 = function() { return self.rubtiId8; };
-      that.getRubtiId9 = function() { return self.rubtiId9; };
-      that.getRubtiId10 = function() { return self.rubtiId10; };
-
-      that.getRubtiName1 = function() { return self.rubtiName1; };
-      that.getRubtiName2 = function() { return self.rubtiName2; };
-      that.getRubtiName3 = function() { return self.rubtiName3; };
-      that.getRubtiName4 = function() { return self.rubtiName4; };
-      that.getRubtiName5 = function() { return self.rubtiName5; };
-      that.getRubtiName6 = function() { return self.rubtiName6; };
-      that.getRubtiName7 = function() { return self.rubtiName7; };
-      that.getRubtiName8 = function() { return self.rubtiName8; };
-      that.getRubtiName9 = function() { return self.rubtiName9; };
-      that.getRubtiName10 = function() { return self.rubtiName10; };      
-      
-      return that;
-    };
-
-  });
-
   Cairo.module("Rubro.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
 
     var createObject = function() {
@@ -733,7 +556,7 @@
         var tab = w_tabs.add(null);
         tab.setName(Cairo.Constants.TAB_GENERAL);
 
-        var tab = w_tabs.add(null);
+        tab = w_tabs.add(null);
         tab.setIndex(1);
         tab.setName(getText(1430, "")); // Tablas
 
@@ -750,26 +573,26 @@
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, C.RUB_CODE);
+        elem = properties.add(null, C.RUB_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(15);
         elem.setValue(m_code);
         elem.setKey(K_CODE);
 
-        var elem = properties.add(null, Cairo.Constants.ACTIVE);
+        elem = properties.add(null, Cairo.Constants.ACTIVE);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
         elem.setKey(K_ACTIVE);
         elem.setValue(Cairo.Util.boolToInt(m_active));
 
-        var elem = properties.add(null, C.RUB_ES_CRITERIO);
+        elem = properties.add(null, C.RUB_ES_CRITERIO);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(getText(4736, "")); // Es un criterio de busqueda
         elem.setKey(K_ESCRITERIO);
         elem.setValue(Cairo.Util.boolToInt(m_esCriterio));
 
-        var elem = properties.add(null, C.RUB_DESCRIP);
+        elem = properties.add(null, C.RUB_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSize(255);
@@ -777,7 +600,7 @@
         elem.setValue(m_descrip);
         elem.setSubType(Dialogs.PropertySubType.memo);
 
-        var elem = properties.add(null, C.RUBT_ID_1);
+        elem = properties.add(null, C.RUBT_ID_1);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setName(getText(1431, "")); // Tabla 1
@@ -786,7 +609,7 @@
         elem.setSelectId(m_rubtId1);
         elem.setTabIndex(1);
 
-        var elem = properties.add(null, C.RUBTI_ID_1);
+        elem = properties.add(null, C.RUBTI_ID_1);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setSelectFilter(D.getRubroTablaItemFilter(m_rubtId1));
@@ -796,7 +619,7 @@
         elem.setSelectId(m_rubtiId1);
         elem.setTabIndex(1);
 
-        var elem = properties.add(null, C.RUBT_ID_2);
+        elem = properties.add(null, C.RUBT_ID_2);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setName(getText(1433, "")); // Tabla 2
@@ -805,7 +628,7 @@
         elem.setSelectId(m_rubtId2);
         elem.setTabIndex(1);
 
-        var elem = properties.add(null, C.RUBTI_ID_2);
+        elem = properties.add(null, C.RUBTI_ID_2);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setSelectFilter(D.getRubroTablaItemFilter(m_rubtId2));
@@ -815,7 +638,7 @@
         elem.setSelectId(m_rubtiId2);
         elem.setTabIndex(1);
 
-        var elem = properties.add(null, C.RUBT_ID_3);
+        elem = properties.add(null, C.RUBT_ID_3);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setName(getText(1435, "")); // Tabla 3
@@ -824,7 +647,7 @@
         elem.setSelectId(m_rubtId3);
         elem.setTabIndex(1);
 
-        var elem = properties.add(null, C.RUBTI_ID_3);
+        elem = properties.add(null, C.RUBTI_ID_3);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setSelectFilter(D.getRubroTablaItemFilter(m_rubtId3));
@@ -834,7 +657,7 @@
         elem.setSelectId(m_rubtiId3);
         elem.setTabIndex(1);
 
-        var elem = properties.add(null, C.RUBT_ID_4);
+        elem = properties.add(null, C.RUBT_ID_4);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setName(getText(1437, "")); // Tabla 4
@@ -843,7 +666,7 @@
         elem.setSelectId(m_rubtId4);
         elem.setTabIndex(1);
 
-        var elem = properties.add(null, C.RUBTI_ID_4);
+        elem = properties.add(null, C.RUBTI_ID_4);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setSelectFilter(D.getRubroTablaItemFilter(m_rubtId4));
@@ -853,7 +676,7 @@
         elem.setSelectId(m_rubtiId4);
         elem.setTabIndex(1);
 
-        var elem = properties.add(null, C.RUBT_ID_5);
+        elem = properties.add(null, C.RUBT_ID_5);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setName(getText(1439, "")); // Tabla 5
@@ -862,7 +685,7 @@
         elem.setSelectId(m_rubtId5);
         elem.setTabIndex(1);
 
-        var elem = properties.add(null, C.RUBTI_ID_5);
+        elem = properties.add(null, C.RUBTI_ID_5);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setSelectFilter(D.getRubroTablaItemFilter(m_rubtId5));
@@ -872,7 +695,7 @@
         elem.setSelectId(m_rubtiId5);
         elem.setTabIndex(1);
 
-        var elem = properties.add(null, C.RUBT_ID_6);
+        elem = properties.add(null, C.RUBT_ID_6);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setName(getText(1441, "")); // Tabla 6
@@ -881,7 +704,7 @@
         elem.setSelectId(m_rubtId6);
         elem.setTabIndex(1);
 
-        var elem = properties.add(null, C.RUBTI_ID_6);
+        elem = properties.add(null, C.RUBTI_ID_6);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setSelectFilter(D.getRubroTablaItemFilter(m_rubtId6));
@@ -891,7 +714,7 @@
         elem.setSelectId(m_rubtiId6);
         elem.setTabIndex(1);
 
-        var elem = properties.add(null, C.RUBT_ID_7);
+        elem = properties.add(null, C.RUBT_ID_7);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setName(getText(1443, "")); // Tabla 7
@@ -900,7 +723,7 @@
         elem.setSelectId(m_rubtId7);
         elem.setTabIndex(1);
 
-        var elem = properties.add(null, C.RUBTI_ID_7);
+        elem = properties.add(null, C.RUBTI_ID_7);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setSelectFilter(D.getRubroTablaItemFilter(m_rubtId7));
@@ -910,7 +733,7 @@
         elem.setSelectId(m_rubtiId7);
         elem.setTabIndex(1);
 
-        var elem = properties.add(null, C.RUBT_ID_8);
+        elem = properties.add(null, C.RUBT_ID_8);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setName(getText(1445, "")); // Tabla 8
@@ -919,7 +742,7 @@
         elem.setSelectId(m_rubtId8);
         elem.setTabIndex(1);
 
-        var elem = properties.add(null, C.RUBTI_ID_8);
+        elem = properties.add(null, C.RUBTI_ID_8);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setSelectFilter(D.getRubroTablaItemFilter(m_rubtId8));
@@ -929,7 +752,7 @@
         elem.setSelectId(m_rubtiId8);
         elem.setTabIndex(1);
 
-        var elem = properties.add(null, C.RUBT_ID_9);
+        elem = properties.add(null, C.RUBT_ID_9);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setName(getText(1447, "")); // Tabla 9
@@ -938,7 +761,7 @@
         elem.setSelectId(m_rubtId9);
         elem.setTabIndex(1);
 
-        var elem = properties.add(null, C.RUBTI_ID_9);
+        elem = properties.add(null, C.RUBTI_ID_9);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setSelectFilter(D.getRubroTablaItemFilter(m_rubtId9));
@@ -948,7 +771,7 @@
         elem.setSelectId(m_rubtiId9);
         elem.setTabIndex(1);
 
-        var elem = properties.add(null, C.RUBT_ID_10);
+        elem = properties.add(null, C.RUBT_ID_10);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setName(getText(1449, "")); // Tabla 10
@@ -957,7 +780,7 @@
         elem.setSelectId(m_rubtId10);
         elem.setTabIndex(1);
 
-        var elem = properties.add(null, C.RUBTI_ID_10);
+        elem = properties.add(null, C.RUBTI_ID_10);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.TABLAS_DE_RUBROS);
         elem.setSelectFilter(D.getRubroTablaItemFilter(m_rubtId10));
@@ -967,9 +790,7 @@
         elem.setSelectId(m_rubtiId10);
         elem.setTabIndex(1);
 
-        if(!m_dialog.show(self)) { return false; }
-
-        return true;
+        return m_dialog.show(self);
       };
 
       var refreshCollection = function() {
@@ -981,95 +802,95 @@
         var elem = properties.item(C.RUB_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(C.RUB_CODE);
+        elem = properties.item(C.RUB_CODE);
         elem.setValue(m_code);
 
-        var elem = properties.item(Cairo.Constants.ACTIVE);
+        elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(Cairo.Util.boolToInt(m_active));
 
-        var elem = properties.item(C.RUB_ES_CRITERIO);
+        elem = properties.item(C.RUB_ES_CRITERIO);
         elem.setValue(Cairo.Util.boolToInt(m_esCriterio));
 
-        var elem = properties.item(C.RUB_DESCRIP);
+        elem = properties.item(C.RUB_DESCRIP);
         elem.setValue(m_descrip);
 
-        var elem = properties.item(C.RUBT_ID_1);
+        elem = properties.item(C.RUBT_ID_1);
         elem.setValue(m_tabla1);
         elem.setSelectId(m_rubtId1);
 
-        var elem = properties.item(C.RUBTI_ID_1);
+        elem = properties.item(C.RUBTI_ID_1);
         elem.setValue(m_tablaItem1);
         elem.setSelectId(m_rubtiId1);
 
-        var elem = properties.item(C.RUBT_ID_2);
+        elem = properties.item(C.RUBT_ID_2);
         elem.setValue(m_tabla2);
         elem.setSelectId(m_rubtId2);
 
-        var elem = properties.item(C.RUBTI_ID_2);
+        elem = properties.item(C.RUBTI_ID_2);
         elem.setValue(m_tablaItem2);
         elem.setSelectId(m_rubtiId2);
 
-        var elem = properties.item(C.RUBT_ID_3);
+        elem = properties.item(C.RUBT_ID_3);
         elem.setValue(m_tabla3);
         elem.setSelectId(m_rubtId3);
 
-        var elem = properties.item(C.RUBTI_ID_3);
+        elem = properties.item(C.RUBTI_ID_3);
         elem.setValue(m_tablaItem3);
         elem.setSelectId(m_rubtiId3);
 
-        var elem = properties.item(C.RUBT_ID_4);
+        elem = properties.item(C.RUBT_ID_4);
         elem.setValue(m_tabla4);
         elem.setSelectId(m_rubtId4);
 
-        var elem = properties.item(C.RUBTI_ID_4);
+        elem = properties.item(C.RUBTI_ID_4);
         elem.setValue(m_tablaItem4);
         elem.setSelectId(m_rubtiId4);
 
-        var elem = properties.item(C.RUBT_ID_5);
+        elem = properties.item(C.RUBT_ID_5);
         elem.setValue(m_tabla5);
         elem.setSelectId(m_rubtId5);
 
-        var elem = properties.item(C.RUBTI_ID_5);
+        elem = properties.item(C.RUBTI_ID_5);
         elem.setValue(m_tablaItem5);
         elem.setSelectId(m_rubtiId5);
 
-        var elem = properties.item(C.RUBT_ID_6);
+        elem = properties.item(C.RUBT_ID_6);
         elem.setValue(m_tabla6);
         elem.setSelectId(m_rubtId6);
 
-        var elem = properties.item(C.RUBTI_ID_6);
+        elem = properties.item(C.RUBTI_ID_6);
         elem.setValue(m_tablaItem6);
         elem.setSelectId(m_rubtiId6);
 
-        var elem = properties.item(C.RUBT_ID_7);
+        elem = properties.item(C.RUBT_ID_7);
         elem.setValue(m_tabla7);
         elem.setSelectId(m_rubtId7);
 
-        var elem = properties.item(C.RUBTI_ID_7);
+        elem = properties.item(C.RUBTI_ID_7);
         elem.setValue(m_tablaItem7);
         elem.setSelectId(m_rubtiId7);
 
-        var elem = properties.item(C.RUBT_ID_8);
+        elem = properties.item(C.RUBT_ID_8);
         elem.setValue(m_tabla8);
         elem.setSelectId(m_rubtId8);
 
-        var elem = properties.item(C.RUBTI_ID_8);
+        elem = properties.item(C.RUBTI_ID_8);
         elem.setValue(m_tablaItem8);
         elem.setSelectId(m_rubtiId8);
 
-        var elem = properties.item(C.RUBT_ID_9);
+        elem = properties.item(C.RUBT_ID_9);
         elem.setValue(m_tabla9);
         elem.setSelectId(m_rubtId9);
 
-        var elem = properties.item(C.RUBTI_ID_9);
+        elem = properties.item(C.RUBTI_ID_9);
         elem.setValue(m_tablaItem9);
         elem.setSelectId(m_rubtiId9);
 
-        var elem = properties.item(C.RUBT_ID_10);
+        elem = properties.item(C.RUBT_ID_10);
         elem.setValue(m_tabla10);
         elem.setSelectId(m_rubtId10);
 
-        var elem = properties.item(C.RUBTI_ID_10);
+        elem = properties.item(C.RUBTI_ID_10);
         elem.setValue(m_tablaItem10);
         elem.setSelectId(m_rubtiId10);
 

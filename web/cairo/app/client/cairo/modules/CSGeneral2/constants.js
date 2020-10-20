@@ -1545,7 +1545,9 @@
         acreedor: 3,
         deudor: 4,
         debitoAutomatico: 5,
-        fondoFijo: 6
+        fondoFijo: 6,
+        banco: 7,
+        caja: 8
       },
 
       ProductoWebImageType: {

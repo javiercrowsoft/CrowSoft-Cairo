@@ -19,7 +19,8 @@ case class ChequeraData(
               lastNumber: Int,
               maxNumber: Int,
               minNumber: Int,
-              default: Boolean
+              default: Boolean,
+              cueId: Int
               )
 
 object Chequeras extends Controller with ProvidesUser {
@@ -34,7 +35,8 @@ object Chequeras extends Controller with ProvidesUser {
       C.CHQ_ULTIMO_NUMERO -> number,
       C.CHQ_NUMERO_DESDE -> number,
       C.CHQ_NUMERO_HASTA -> number,
-      C.CHQ_DEFAULT -> boolean
+      C.CHQ_DEFAULT -> boolean,
+      C.CUE_ID -> number
   )(ChequeraData.apply)(ChequeraData.unapply))
 
   implicit val chequeraWrites = new Writes[Chequera] {
@@ -46,6 +48,8 @@ object Chequeras extends Controller with ProvidesUser {
       C.CHQ_NUMERO_DESDE -> Json.toJson(chequera.minNumber),
       C.CHQ_NUMERO_HASTA -> Json.toJson(chequera.maxNumber),
       C.CHQ_DEFAULT -> Json.toJson(chequera.default),
+      C.CUE_ID ->  Json.toJson(chequera.cueId),
+      C.CUE_NAME ->  Json.toJson(chequera.cueName),
       DBHelper.ACTIVE -> Json.toJson(chequera.active)
     )
   }
@@ -76,7 +80,8 @@ object Chequeras extends Controller with ProvidesUser {
                        chequera.lastNumber,
                        chequera.minNumber,
                        chequera.maxNumber,
-                       chequera.default
+                       chequera.default,
+                       chequera.cueId
                 ))))
         })
       }
@@ -102,7 +107,8 @@ object Chequeras extends Controller with ProvidesUser {
                        chequera.lastNumber,
                        chequera.minNumber,
                        chequera.maxNumber,
-                       chequera.default
+                       chequera.default,
+                       chequera.cueId
                 ))))
         })
       }

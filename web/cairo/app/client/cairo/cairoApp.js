@@ -1006,7 +1006,7 @@
     },
     toInt: function(value) { return ~~value; },
     boolToInt: function(value) {
-      return value === true ? 1 : 0;
+      return value === true ? 1 : ( val(value) !== 0 ? 1 : 0 );
     },
     removeLastColon: function(str) {
       if(str.length > 0 && str.slice(-1) === ",") {

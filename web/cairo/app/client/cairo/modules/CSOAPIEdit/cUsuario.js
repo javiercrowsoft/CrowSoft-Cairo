@@ -603,9 +603,7 @@
 
         m_itemsDeletedRoles = "";
 
-        if(!m_dialog.show(self)) { return false; }
-
-        return true;
+        return m_dialog.show(self);
       };
 
       var refreshCollection = function() {

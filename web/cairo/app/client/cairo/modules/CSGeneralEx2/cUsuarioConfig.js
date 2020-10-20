@@ -2641,9 +2641,7 @@
         elem.setValue(m_docRvNameC);
         elem.setTabIndex(TAB_CANCELACION);
 
-        if(!m_dialog.show(self)) { return false; }
-
-        return true;
+        return m_dialog.show(self);
       };
 
       var refreshCollection = function() {

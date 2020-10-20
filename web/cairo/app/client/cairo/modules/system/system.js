@@ -1525,6 +1525,79 @@
     wiz.doNextStep(iStep);
   };
 
+  Cairo.Documents.wizPrintDocEx = function(id, lastDoc, emailPromise) {
+    var p = null;
+
+    try {
+
+      id = id || NO_ID;
+
+      if(id === NO_ID) {
+        Cairo.infoViewShow("Printing", "The document must be saved before printing");
+      }
+
+      var config = Cairo.Settings;
+      var reportConfig = config.Reports;
+      var printManager = Cairo.Entities.Printing.createManager();
+
+      printManager.setIsForEmail(false);
+
+      printManager.setPath(
+        Cairo.Util.File.getValidPath(
+          config.get(
+            reportConfig.reportSection,
+            reportConfig.reportPath,
+            config.appPath())));
+
+      printManager.setCommandTimeout(
+        Cairo.Util.val(
+          config.get(
+            reportConfig.reportSection,
+            reportConfig.commandTimeOut,
+            0)));
+
+      printManager.setConnectionTimeout(
+        Cairo.Util.val(
+          config.get(
+            reportConfig.reportSection,
+            reportConfig.connectionTimeOut,
+            0)));
+
+      return emailPromise
+        .whenSuccessWithResult(
+          function(result) {
+            printManager.setEmailAddress(result.email.trim());
+            return getUserDescription();
+          }
+        ).whenSuccess(
+          function(description) {
+            printManager.setUserDescription(description);
+          }
+        ).then(
+          function() {
+            printManager.setAutoPrint(m_autoPrint);
+            return printManager.showPrint(id, NO_ID, m_client.docId(), false, m_client.nroDoc());
+          }
+        ).then(
+          function(result) {
+            if(printManager.getDocumentIsPrinted()) {
+              reloadDocument();
+            }
+            return result;
+          }
+        );
+    }
+    catch(e) {
+      Cairo.manageError(
+        "Printing",
+        "An error has occurred when printing.",
+        e.message,
+        e);
+    }
+
+    return (p || P.resolvedPromise(false));
+  };
+
   //-----------------------------------------------------------------------
   // IdEx is used for sale delivery notices to indicate
   // the document is based in bom documents and by sale
@@ -1851,10 +1924,10 @@
       case C.CuentaGrupoTipo.productoVenta:
         filter = "9*10"; // Ingresos y Egresos (para descuentos cedidos)
         break;
-      case C.CuentaGrupoTipo:
+      case C.CuentaGrupoTipo.banco:
         filter = "2"; // Bancos
         break;
-      case C.CuentaGrupoTipo:
+      case C.CuentaGrupoTipo.caja:
         filter = "14"; // Caja
         break;
       default:

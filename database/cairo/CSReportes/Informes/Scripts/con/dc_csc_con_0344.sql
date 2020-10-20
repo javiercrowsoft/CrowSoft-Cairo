@@ -28,56 +28,39 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_cliente_get_cuit_info()
+-- Function: dc_csc_con_0344()
 
--- drop function sp_cliente_get_cuit_info(varchar);
+-- drop function dc_csc_con_0344();
 
-create or replace function sp_cliente_get_cuit_info
+/*
+select * from dc_csc_con_0344(1,'2020-09-30','2020-09-30','0','0');
+fetch all from rtn;
+*/
+
+create or replace function dc_csc_con_0344
 (
-  in p_Cuit varchar,
-  
-  out p_cli_id integer,
-  out p_cli_code varchar,
-  out p_cli_razonsocial varchar
+  in p_us_id        integer,
+  in p_Fini         date,
+  in p_Ffin         date,
+
+  in p_cico_id      varchar,
+  in p_emp_id       varchar,
+  in p_debug        smallint,
+  out rtn refcursor
 )
-  returns record as
+  returns refcursor as
 $BODY$
+declare
+
 begin
 
-   if   substr(p_cuit, 1, 2) = '55'
-     or substr(p_cuit, 1, 2) = '50'
-     or p_cuit = '00-00000000-0'
-     or p_cuit = 'cuit' then
+    perform DC_CSC_CON_0340 (p_us_id, p_Fini, p_Ffin, p_cico_id, p_emp_id, p_debug)
 
-      select cli_razonsocial,
-             cli_codigo,
-             cli_id
-        into p_cli_id,
-             p_cli_code,
-             p_cli_razonsocial                
-      from Cliente
-      where 1 = 2;
-
-
-   else
-      select cli_razonsocial,
-             cli_codigo,
-             cli_id
-        into p_cli_id,
-             p_cli_code,
-             p_cli_razonsocial                
-      from Cliente
-      where cli_cuit = p_Cuit;
-
-   end if;
-   
-   p_cli_id := coalesce(p_cli_id, 0);
-   p_cli_code := coalesce(p_cli_code, '');
-   p_cli_razonsocial := coalesce(p_cli_razonsocial, '');   
+    peform DC_CSC_CON_0342 (p_us_id, p_Fini, p_Ffin, p_cico_id, p_emp_id, p_debug)
 
 end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_cliente_get_cuit_info(varchar)
+alter function dc_csc_con_0344(integer, date, date, varchar, varchar, smallint)
   owner to postgres;

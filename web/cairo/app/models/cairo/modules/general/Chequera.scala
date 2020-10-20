@@ -14,16 +14,18 @@ import play.api.libs.json._
 import scala.util.control.NonFatal
 
 case class Chequera(
-              id: Int,
-              code: String,
-              active: Boolean,
-              lastNumber: Int,
-              maxNumber: Int,
-              minNumber: Int,
-              default: Boolean,
-              createdAt: Date,
-              updatedAt: Date,
-              updatedBy: Int) {
+                     id: Int,
+                     code: String,
+                     active: Boolean,
+                     lastNumber: Int,
+                     maxNumber: Int,
+                     minNumber: Int,
+                     default: Boolean,
+                     cueId: Int,
+                     cueName: String,
+                     createdAt: Date,
+                     updatedAt: Date,
+                     updatedBy: Int) {
 
   def this(
       id: Int,
@@ -32,7 +34,8 @@ case class Chequera(
       lastNumber: Int,
       maxNumber: Int,
       minNumber: Int,
-      default: Boolean) = {
+      default: Boolean,
+      cueId: Int) = {
 
     this(
       id,
@@ -42,6 +45,8 @@ case class Chequera(
       maxNumber,
       minNumber,
       default,
+      cueId,
+      "",
       DateUtil.currentTime,
       DateUtil.currentTime,
       DBHelper.NoId)
@@ -53,7 +58,8 @@ case class Chequera(
       lastNumber: Int,
       maxNumber: Int,
       minNumber: Int,
-      default: Boolean) = {
+      default: Boolean,
+      cueId: Int) = {
 
     this(
       DBHelper.NoId,
@@ -62,7 +68,8 @@ case class Chequera(
       lastNumber,
       maxNumber,
       minNumber,
-      default)
+      default,
+      cueId)
 
   }
 
@@ -70,7 +77,7 @@ case class Chequera(
 
 object Chequera {
 
-  lazy val emptyChequera = Chequera("", false, 0, 0, 0, false)
+  lazy val emptyChequera = Chequera("", false, 0, 0, 0, false, DBHelper.NoId)
 
   def apply(
       id: Int,
@@ -79,7 +86,8 @@ object Chequera {
       lastNumber: Int,
       maxNumber: Int,
       minNumber: Int,
-      default: Boolean) = {
+      default: Boolean,
+      cueId: Int) = {
 
     new Chequera(
       id,
@@ -88,7 +96,8 @@ object Chequera {
       lastNumber,
       maxNumber,
       minNumber,
-      default)
+      default,
+      cueId)
   }
 
   def apply(
@@ -97,7 +106,8 @@ object Chequera {
       lastNumber: Int,
       maxNumber: Int,
       minNumber: Int,
-      default: Boolean) = {
+      default: Boolean,
+      cueId: Int) = {
 
     new Chequera(
       code,
@@ -105,7 +115,8 @@ object Chequera {
       lastNumber,
       maxNumber,
       minNumber,
-      default)
+      default,
+      cueId)
   }
 
   private val chequeraParser: RowParser[Chequera] = {
@@ -116,6 +127,8 @@ object Chequera {
       SqlParser.get[Int](C.CHQ_NUMERO_HASTA) ~
       SqlParser.get[Int](C.CHQ_ULTIMO_NUMERO) ~
       SqlParser.get[Int](C.CHQ_DEFAULT) ~
+      SqlParser.get[Int](C.CUE_ID) ~
+      SqlParser.get[String](C.CUE_NAME) ~
       SqlParser.get[Date](DBHelper.CREATED_AT) ~
       SqlParser.get[Date](DBHelper.UPDATED_AT) ~
       SqlParser.get[Int](DBHelper.UPDATED_BY) map {
@@ -127,6 +140,8 @@ object Chequera {
               maxNumber ~
               lastNumber ~
               default ~
+              cueId ~
+              cueName ~
               createdAt ~
               updatedAt ~
               updatedBy =>
@@ -138,6 +153,8 @@ object Chequera {
               maxNumber,
               lastNumber,
               default != 0,
+              cueId,
+              cueName,
               createdAt,
               updatedAt,
               updatedBy)
@@ -160,11 +177,22 @@ object Chequera {
         Field(C.CHQ_NUMERO_DESDE, chequera.minNumber, FieldType.number),
         Field(C.CHQ_NUMERO_HASTA, chequera.maxNumber, FieldType.number),
         Field(C.CHQ_DEFAULT, Register.boolToInt(chequera.default), FieldType.boolean),
+        Field(C.CUE_ID, chequera.cueId, FieldType.id),
         Field(DBHelper.ACTIVE, Register.boolToInt(chequera.active), FieldType.boolean)
       )
     }
     def throwException = {
       throw new RuntimeException(s"Error when saving ${C.CHEQUERA}")
+    }
+
+    def saveDefault() = {
+      if(chequera.default) {
+        DB.withTransaction(user.database.database) { implicit connection =>
+          SQL("UPDATE Chequera SET chq_default = 0 where chq_id <> {id} and cue_id = {cueId}")
+            .on('id -> chequera.id, 'cueId -> chequera.cueId)
+            .executeUpdate
+        }
+      }
     }
 
     DBHelper.saveEx(
@@ -180,7 +208,10 @@ object Chequera {
       isNew,
       C.CHQ_CODE
     ) match {
-      case SaveResult(true, id) => load(user, id).getOrElse(throwException)
+      case SaveResult(true, id) => {
+        saveDefault
+        load(user, id).getOrElse(throwException)
+      }
       case SaveResult(false, _) => throwException
     }
   }
@@ -191,7 +222,8 @@ object Chequera {
 
   def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {
     DB.withConnection(user.database.database) { implicit connection =>
-      SQL(s"SELECT t1.* FROM ${C.CHEQUERA} t1 WHERE $where")
+      SQL(s"SELECT t1.*,t2.${C.CUE_NAME} FROM ${C.CHEQUERA} t1 INNER JOIN ${C.CUENTA} t2" +
+        s" ON t1.${C.CUE_ID} = t2.${C.CUE_ID} WHERE $where")
         .on(args: _*)
         .as(chequeraParser.singleOpt)
     }

@@ -416,9 +416,7 @@
         elem.setValue(m_descrip);
         elem.setKey(K_DESCRIP);
 
-        if(!m_dialog.show(self)) { return false; }
-
-        return true;
+        return m_dialog.show(self);
       };
 
       var refreshCollection = function() {

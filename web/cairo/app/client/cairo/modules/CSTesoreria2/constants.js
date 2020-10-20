@@ -106,6 +106,11 @@
       CHEQUERA: "Chequera",
       CHQ_ID: "chq_id",
       CHQ_CODE: "chq_codigo",
+      CHQ_DESCRIP: 'chq_descrip',
+      CHQ_NUMERO_DESDE: 'chq_numerodesde',
+      CHQ_NUMERO_HASTA: 'chq_numerohasta',
+      CHQ_ULTIMO_NUMERO: 'chq_ultimonumero',
+      CHQ_DEFAULT: 'chq_default',
 
       // Cheque
       CHEQUE: "Cheque",
