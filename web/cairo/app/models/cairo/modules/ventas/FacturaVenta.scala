@@ -2053,7 +2053,7 @@ object FacturaVenta {
     else {
       val cli = DocumentListParam.getParamValue(
         user, K_CLI_ID, params, emptyFacturaVentaParams.cliId,
-        GC.PROVEEDOR, GC.CLI_ID, GC.CLI_NAME
+        GC.CLIENTE, GC.CLI_ID, GC.CLI_NAME
       )
       val est = DocumentListParam.getParamValue(
         user, K_EST_ID, params, emptyFacturaVentaParams.estId,
@@ -2299,7 +2299,7 @@ object FacturaVenta {
         Field(GC.DOC_ID, facturaVentaAplic.docId, FieldType.id),
         Field(GC.EST_ID, DocumentEditStatus.PENDING, FieldType.id),
         Field(GC.SUC_ID, DBHelper.NoId, FieldType.number),
-        Field(GC.PROV_ID, DBHelper.NoId, FieldType.number),
+        Field(GC.CLI_ID, DBHelper.NoId, FieldType.number),
         Field(GC.CPG_ID, CondicionPago.FECHA_DOCUMENTO, FieldType.id)
       )
     }
@@ -2323,7 +2323,7 @@ object FacturaVenta {
         Field(C.FV_TMP_ID, fvTMPId, FieldType.id),
         Field(TC.COBZ_ID, item.cobzId, FieldType.number),
         Field(TC.COBZ_NUMERO, 0, FieldType.number),
-        Field(GC.PROV_ID, DBHelper.NoId, FieldType.number),
+        Field(GC.CLI_ID, DBHelper.NoId, FieldType.number),
         Field(GC.SUC_ID, DBHelper.NoId, FieldType.number),
         Field(GC.DOC_ID, DBHelper.NoId, FieldType.number),
         Field(GC.EST_ID, DBHelper.NoId, FieldType.number)
