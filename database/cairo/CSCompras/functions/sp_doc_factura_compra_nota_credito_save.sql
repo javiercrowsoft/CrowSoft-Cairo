@@ -163,158 +163,158 @@ begin
          if v_fcd_id_factura is not null then
 
             update FacturaCompraDeuda
-            set fcd_pendiente = fcd_pendiente + v_fcnc_importe
+               set fcd_pendiente = fcd_pendiente + v_fcnc_importe
             where fcd_id = v_fcd_id_factura;
 
          end if;
 
-            -- actualizo la deuda de la nota de credito
-            --
-            if v_fcd_id_notacredito is not null then
+         -- actualizo la deuda de la nota de credito
+         --
+         if v_fcd_id_notacredito is not null then
 
-               update FacturaCompraDeuda
-               set fcd_pendiente = fcd_pendiente + v_fcnc_importe
-               where fcd_id = v_fcd_id_notacredito;
+            update FacturaCompraDeuda
+            set fcd_pendiente = fcd_pendiente + v_fcnc_importe
+            where fcd_id = v_fcd_id_notacredito;
 
-            end if;
+         end if;
 
-            -- si hay un pago
-            --
-            if v_fcp_id_factura is not null then
+         -- si hay un pago
+         --
+         if v_fcp_id_factura is not null then
 
-               if exists ( select fcp_id
-                           from FacturaCompraPago
-                           where fcp_id = v_fcp_id_factura ) then
+            if exists ( select fcp_id
+                        from FacturaCompraPago
+                        where fcp_id = v_fcp_id_factura ) then
 
-                  select fc_id,
-                         fcp_importe,
-                         fcp_fecha
-                    into v_fc_id_factura,
-                         v_fcd_importe,
-                         v_fcp_fecha
-                  from FacturaCompraPago
-                  where fcp_id = v_fcp_id_factura;
+               select fc_id,
+                      fcp_importe,
+                      fcp_fecha
+                 into v_fc_id_factura,
+                      v_fcd_importe,
+                      v_fcp_fecha
+               from FacturaCompraPago
+               where fcp_id = v_fcp_id_factura;
 
-                  select coalesce(sum(fcnc_importe), 0)
-                    into v_fcd_pendiente
-                  from FacturaCompraNotaCredito fcnc
-                  where fcp_id_factura = v_fcp_id_factura
-                  and exists ( select *
-                               from FacturaCompraNotaCreditoTMP fcnctmp
-                               where fcTMP_id = p_fcTMP_id
-                                 and ( fcnctmp.fcd_id_notacredito = fcnc.fcd_id_notacredito
-                                       or fcnctmp.fcp_id_notacredito = fcnc.fcp_id_notacredito ) );
+               select coalesce(sum(fcnc_importe), 0)
+                 into v_fcd_pendiente
+               from FacturaCompraNotaCredito fcnc
+               where fcp_id_factura = v_fcp_id_factura
+               and exists ( select *
+                            from FacturaCompraNotaCreditoTMP fcnctmp
+                            where fcTMP_id = p_fcTMP_id
+                              and ( fcnctmp.fcd_id_notacredito = fcnc.fcd_id_notacredito
+                                    or fcnctmp.fcp_id_notacredito = fcnc.fcp_id_notacredito ) );
 
-                  -- creo una deuda
-                  --
-                  select sp_dbGetNewId('FacturaCompraDeuda', 'fcd_id') into v_fcd_id;
+               -- creo una deuda
+               --
+               select sp_dbGetNewId('FacturaCompraDeuda', 'fcd_id') into v_fcd_id;
 
-                  select sp_doc_get_fecha2(v_fcp_fecha, 0, null) into v_fcd_fecha2;
+               select sp_doc_get_fecha2(v_fcp_fecha, 0, null) into v_fcd_fecha2;
 
-                  insert into FacturaCompraDeuda
-                         ( fcd_id, fcd_fecha, fcd_fecha2, fcd_importe, fcd_pendiente, fc_id )
-                  values ( v_fcd_id, v_fcp_fecha, v_fcd_fecha2, v_fcd_importe, v_fcd_pendiente, v_fc_id_factura );
+               insert into FacturaCompraDeuda
+                      ( fcd_id, fcd_fecha, fcd_fecha2, fcd_importe, fcd_pendiente, fc_id )
+               values ( v_fcd_id, v_fcp_fecha, v_fcd_fecha2, v_fcd_importe, v_fcd_pendiente, v_fc_id_factura );
 
-                  -- actualizo la tabla de vinculacion para que apunte a la deuda
-                  --
-                  update FacturaCompraOrdenPago
-                     set fcd_id = v_fcd_id,
-                         fcp_id = null
-                  where fcp_id = v_fcp_id_factura;
+               -- actualizo la tabla de vinculacion para que apunte a la deuda
+               --
+               update FacturaCompraOrdenPago
+                  set fcd_id = v_fcd_id,
+                      fcp_id = null
+               where fcp_id = v_fcp_id_factura;
 
-                  -- actualizo la tabla de vinculacion para que apunte a la deuda
-                  --
-                  update FacturaCompraNotaCredito
-                     set fcd_id_factura = v_fcd_id,
-                         fcp_id_factura = null
-                  where fcp_id_factura = v_fcp_id_factura;
+               -- actualizo la tabla de vinculacion para que apunte a la deuda
+               --
+               update FacturaCompraNotaCredito
+                  set fcd_id_factura = v_fcd_id,
+                      fcp_id_factura = null
+               where fcp_id_factura = v_fcp_id_factura;
 
-                  -- actualizo la temporal para que apunte a la deuda
-                  --
-                  update FacturaCompraNotaCreditoTMP
-                     set fcd_id_factura = v_fcd_id
-                  where fcp_id_factura = v_fcp_id_factura;
+               -- actualizo la temporal para que apunte a la deuda
+               --
+               update FacturaCompraNotaCreditoTMP
+                  set fcd_id_factura = v_fcd_id
+               where fcp_id_factura = v_fcp_id_factura;
 
-                  -- actualizo la temporal para que apunte a la deuda
-                  --
-                  update FacturaCompraOrdenPagoTMP
-                     set fcp_id = null,
-                         fcd_id = v_fcd_id
-                  where fcp_id = v_fcp_id_factura;
+               -- actualizo la temporal para que apunte a la deuda
+               --
+               update FacturaCompraOrdenPagoTMP
+                  set fcp_id = null,
+                      fcd_id = v_fcd_id
+               where fcp_id = v_fcp_id_factura;
 
-                  -- borro el pago
-                  --
-                  delete from FacturaCompraPago where fcp_id = v_fcp_id_factura;
-
-               end if;
+               -- borro el pago
+               --
+               delete from FacturaCompraPago where fcp_id = v_fcp_id_factura;
 
             end if;
 
-            if v_fcp_id_notacredito is not null then
+         end if;
 
-               if exists ( select fcp_id
-                           from FacturaCompraPago
-                           where fcp_id = v_fcp_id_notacredito ) then
+         if v_fcp_id_notacredito is not null then
 
-                  select fc_id,
-                         fcp_importe,
-                         fcp_fecha
-                    into v_fc_id_notacredito,
-                         v_fcd_importe,
-                         v_fcp_fecha
-                  from FacturaCompraPago
-                  where fcp_id = v_fcp_id_notacredito;
+            if exists ( select fcp_id
+                        from FacturaCompraPago
+                        where fcp_id = v_fcp_id_notacredito ) then
+
+               select fc_id,
+                      fcp_importe,
+                      fcp_fecha
+                 into v_fc_id_notacredito,
+                      v_fcd_importe,
+                      v_fcp_fecha
+               from FacturaCompraPago
+               where fcp_id = v_fcp_id_notacredito;
 
 
-                  select coalesce(sum(fcnc_importe), 0)
-                    into v_fcd_pendiente
-                  from FacturaCompraNotaCredito fcnc
-                  where fcp_id_notacredito = v_fcp_id_notacredito
-                    and exists ( select *
-                                 from FacturaCompraNotaCreditoTMP fcnctmp
-                                 where fcTMP_id = p_fcTMP_id
-                                   and ( fcnctmp.fcd_id_factura = fcnc.fcd_id_factura
-                                        or fcnctmp.fcp_id_factura = fcnc.fcp_id_factura ) );
+               select coalesce(sum(fcnc_importe), 0)
+                 into v_fcd_pendiente
+               from FacturaCompraNotaCredito fcnc
+               where fcp_id_notacredito = v_fcp_id_notacredito
+                 and exists ( select *
+                              from FacturaCompraNotaCreditoTMP fcnctmp
+                              where fcTMP_id = p_fcTMP_id
+                                and ( fcnctmp.fcd_id_factura = fcnc.fcd_id_factura
+                                     or fcnctmp.fcp_id_factura = fcnc.fcp_id_factura ) );
 
-                  -- creo una deuda
-                  --
-                  select sp_dbGetNewId('FacturaCompraDeuda', 'fcd_id') into v_fcd_id;
+               -- creo una deuda
+               --
+               select sp_dbGetNewId('FacturaCompraDeuda', 'fcd_id') into v_fcd_id;
 
-                  select sp_doc_get_fecha2(v_fcp_fecha, 0, null) into v_fcd_fecha2;
+               select sp_doc_get_fecha2(v_fcp_fecha, 0, null) into v_fcd_fecha2;
 
-                  insert into FacturaCompraDeuda
-                         ( fcd_id, fcd_fecha, fcd_fecha2, fcd_importe, fcd_pendiente, fc_id )
-                  values ( v_fcd_id, v_fcp_fecha, v_fcd_fecha2, v_fcd_importe, v_fcd_pendiente, v_fc_id_notacredito );
+               insert into FacturaCompraDeuda
+                      ( fcd_id, fcd_fecha, fcd_fecha2, fcd_importe, fcd_pendiente, fc_id )
+               values ( v_fcd_id, v_fcp_fecha, v_fcd_fecha2, v_fcd_importe, v_fcd_pendiente, v_fc_id_notacredito );
 
-                  -- actualizo la tabla de vinculacion para que apunte a la deuda
-                  --
-                  update FacturaCompraOrdenPago
-                     set fcd_id = v_fcd_id,
-                         fcp_id = null
-                  where fcp_id = v_fcp_id_notacredito;
+               -- actualizo la tabla de vinculacion para que apunte a la deuda
+               --
+               update FacturaCompraOrdenPago
+                  set fcd_id = v_fcd_id,
+                      fcp_id = null
+               where fcp_id = v_fcp_id_notacredito;
 
-                  -- a ctualizo la tabla de vinculacion para que apunte a la deuda
-                  --
-                  update FacturaCompraNotaCredito
-                     set fcd_id_notacredito = v_fcd_id,
-                         fcp_id_notacredito = null
-                  where fcp_id_notacredito = v_fcp_id_notacredito;
+               -- a ctualizo la tabla de vinculacion para que apunte a la deuda
+               --
+               update FacturaCompraNotaCredito
+                  set fcd_id_notacredito = v_fcd_id,
+                      fcp_id_notacredito = null
+               where fcp_id_notacredito = v_fcp_id_notacredito;
 
-                  -- actualizo la temporal para que apunte a la deuda
-                  --
-                  update FacturaCompraNotaCreditoTMP
-                     set fcd_id_notacredito = v_fcd_id
-                  where fcp_id_notacredito = v_fcp_id_notacredito;
+               -- actualizo la temporal para que apunte a la deuda
+               --
+               update FacturaCompraNotaCreditoTMP
+                  set fcd_id_notacredito = v_fcd_id
+               where fcp_id_notacredito = v_fcp_id_notacredito;
 
-                  -- borro el pago
-                  --
-                  delete from FacturaCompraPago where fcp_id = v_fcp_id_notacredito;
-
-               end if;
+               -- borro el pago
+               --
+               delete from FacturaCompraPago where fcp_id = v_fcp_id_notacredito;
 
             end if;
 
-            delete from FacturaCompraNotaCredito where fcnc_id = v_fcnc_id;
+         end if;
+
+         delete from FacturaCompraNotaCredito where fcnc_id = v_fcnc_id;
 
       end loop;
 
