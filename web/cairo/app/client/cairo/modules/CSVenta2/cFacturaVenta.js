@@ -4279,16 +4279,16 @@
           m_applyEditor.setClient(self);
 
           m_applyEditor.show(
-              inf.id,
-              inf.total * ((inf.cotizacion !== 0) ? inf.cotizacion : 1),
-              inf.nrodoc,
-              inf.cli_id,
-              inf.cliente,
-              inf.suc_id,
-              inf.doc_id,
-              inf.doct_id === D.Types.NOTA_CREDITO_VENTA,
-              inf.emp_id,
-              inf.empresa
+              info.id,
+              info.total * ((info.cotizacion !== 0) ? info.cotizacion : 1),
+              info.nrodoc,
+              info.cli_id,
+              info.cliente,
+              info.suc_id,
+              info.doc_id,
+              info.doct_id === D.Types.NOTA_CREDITO_VENTA,
+              info.emp_id,
+              info.empresa
             ).then(function(result) {
               if(result !== true) {
                 m_applyEditor = null;
