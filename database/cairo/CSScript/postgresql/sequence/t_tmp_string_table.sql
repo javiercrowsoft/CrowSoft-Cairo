@@ -1,0 +1,1 @@
+CREATE SEQUENCE t_tmp_string_table_seq;

@@ -1,4 +1,4 @@
-/*
+﻿/*
 CrowSoft-Cairo
 ==============
 
@@ -30,7 +30,7 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_str_string_to_table()
 
--- drop function sp_str_string_to_table(date, varchar, varchar);
+-- drop function sp_str_string_to_table(timestamp with time zone, varchar, varchar);
 /*
 
   select sp_str_string_to_table(CURRENT_TIMESTAMP,'',',');
@@ -40,7 +40,7 @@ javier at crowsoft.com.ar
 create or replace
 function sp_str_string_to_table
 (
-  in p_codigo timestamp with time zone,
+  in p_codigo bigint,
   in p_toSearch varchar,
   in p_separator varchar default ' '
 )
@@ -102,5 +102,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_str_string_to_table(timestamp with time zone, varchar, varchar)
+alter function sp_str_string_to_table(bigint, varchar, varchar)
   owner to postgres;

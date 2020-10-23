@@ -1554,7 +1554,7 @@ create table rptArbolRamaHoja(
 ;
 create table TmpStringToTable(
 	tmpstr2tbl_campo varchar(5000) null,
-	tmpstr2tbl_id timestamptz not null
+	tmpstr2tbl_id bigint not null
 ) 
 ;
 

@@ -1,4 +1,4 @@
-/*
+﻿/*
 CrowSoft-Cairo
 ==============
 
@@ -32,9 +32,12 @@ javier at crowsoft.com.ar
 
 -- drop function sp_proveedor_get_retenciones(integer, integer, integer, date, decimal, varchar);
 /*
-          select * from ProveedorRetencion;
-          select * from sp_proveedor_get_retenciones(1,1,1,'20160501', 105770, '91*92*93');
-          fetch all from rtn;
+	select * from ProveedorRetencion;
+	select * from sp_proveedor_get_retenciones(1,1,1,'20160501', 105770, '91*92*93');
+	fetch all from rtn;
+
+        select * from sp_proveedor_get_retenciones(78, 1, 2533, '2020-10-22', 200000, '29638');
+	fetch all from rtn;          
 */
 
 create or replace function sp_proveedor_get_retenciones
@@ -61,7 +64,7 @@ begin
    v_fdesde := dateadd('DAY', -extract('day' from p_fecha)::int+1, p_fecha);
    v_fhasta := dateadd('DAY', -1, dateadd('MONTH', 1, v_fdesde));
 
-   drop table if exists tt_tmp_retencion_info;
+   drop table if exists tt_tmp_retencion;
    create temporary table tt_tmp_retencion
     (
      ret_id integer
@@ -111,7 +114,7 @@ begin
    end if;
 
    for v_ret_id, v_cue_id in
-       select ret.rett_id, rett.cue_id
+       select ret.ret_id, rett.cue_id
        from tt_tmp_retencion tt
        inner join retencion ret on tt.ret_id = ret.ret_id
        inner join RetencionTipo rett on ret.rett_id = rett.rett_id

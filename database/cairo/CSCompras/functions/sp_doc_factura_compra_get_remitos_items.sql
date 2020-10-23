@@ -47,12 +47,12 @@ function sp_doc_factura_compra_get_remitos_items
   returns refcursor as
 $BODY$
 declare
-   v_timeCode timestamp with time zone;
+   v_code bigint;
 begin
 
-   v_timeCode := CURRENT_TIMESTAMP;
+   select nextval('t_tmp_string_table_seq') into v_code;
 
-   perform sp_str_string_to_table(v_timeCode, p_strIds, ',');
+   perform sp_str_string_to_table(v_code, p_strIds, ',');
 
    rtn := 'rtn';
 
@@ -156,7 +156,7 @@ begin
           on p.ti_id_internosc = tiint.ti_id
 
         where rci.rci_pendientefac > 0
-          and tmpstr2tbl_id = v_timeCode
+          and tmpstr2tbl_id = v_code
 
         order by rc.rc_nrodoc,
                  rc.rc_fecha;

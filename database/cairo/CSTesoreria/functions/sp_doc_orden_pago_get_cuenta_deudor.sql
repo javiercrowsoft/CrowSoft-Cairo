@@ -46,12 +46,12 @@ create or replace function sp_doc_orden_pago_get_cuenta_deudor
 $BODY$
 declare
    v_cue_acreedoresXcpra integer := 8;
-   v_timeCode timestamp with time zone;
+   v_code bigint;
 begin
 
-   v_timeCode := CURRENT_TIMESTAMP;
+   select nextval('t_tmp_string_table_seq') into v_code;
 
-   perform sp_str_string_to_table(v_timeCode, p_strIds, ',');
+   perform sp_str_string_to_table(v_code, p_strIds, ',');
 
    rtn := 'rtn';
 
@@ -67,7 +67,7 @@ begin
       join Cuenta c
         on AsientoItem.cue_id = c.cue_id
       where asi_haber <> 0
-        and tmpstr2tbl_id = v_timeCode
+        and tmpstr2tbl_id = v_code
         and c.cuec_id = v_cue_acreedoresXcpra
       group by fc_id,c.cue_id,c.cue_nombre;
 

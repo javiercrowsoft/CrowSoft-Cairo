@@ -1,4 +1,4 @@
-/*
+﻿/*
 CrowSoft-Cairo
 ==============
 
@@ -90,7 +90,7 @@ declare
    v_catf_id integer;
    v_tipoBase smallint;
 
-   v_codigo timestamp with time zone;
+   v_codigo bigint;
    v_pagoParcial decimal(18,6);
    v_txt varchar(5000);
    v_fc_numero integer;
@@ -142,6 +142,8 @@ begin
      percepcion decimal(18,6) default (0) not null,
      base decimal(18,6) default (0) not null
    ) on commit drop;
+
+   delete from tt_nuevoPago;
 
    -- solo convierto los ids
    --
@@ -397,7 +399,7 @@ begin
 
       -- pasamos las facturas de string a temporal
       --
-      v_codigo := CURRENT_TIMESTAMP;
+      select nextval('t_tmp_string_table_seq') into v_codigo;
 
       perform sp_str_string_to_table(v_codigo, p_facturas, '*');
 

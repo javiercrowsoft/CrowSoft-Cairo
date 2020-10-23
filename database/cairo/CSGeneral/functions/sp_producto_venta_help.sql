@@ -56,7 +56,7 @@ declare
    v_filter varchar(255);
    v_prhc_atributo smallint;
    v_prhc_codigo varchar(255);
-   v_timeCode timestamp with time zone;
+   v_code bigint;
 begin
 
    rtn := 'rtn';
@@ -90,9 +90,9 @@ begin
          from ProductoHelpConfig
          where prhc_id = p_prhc_id;
 
-         v_timeCode := CURRENT_TIMESTAMP;
+         select nextval('t_tmp_string_table_seq') into v_code;
 
-         perform sp_str_string_to_table(v_timeCode, v_prhc_codigo, ',');
+         perform sp_str_string_to_table(v_code, v_prhc_codigo, ',');
 
          if v_prhc_atributo = 1 then
             insert into tt_t_help_rubro
@@ -102,7 +102,7 @@ begin
                   on rubti.rubt_id = rub.rubt_id1
                 join TmpStringToTable
                   on rubti.rubti_codigo = TmpStringToTable.tmpstr2tbl_campo
-                where tmpstr2tbl_id = v_timeCode );
+                where tmpstr2tbl_id = v_code );
 
          else
             if v_prhc_atributo = 2 then
@@ -113,7 +113,7 @@ begin
                      on rubti.rubt_id = rub.rubt_id2
                    join TmpStringToTable
                      on rubti.rubti_codigo = TmpStringToTable.tmpstr2tbl_campo
-                   where tmpstr2tbl_id = v_timeCode );
+                   where tmpstr2tbl_id = v_code );
 
             else
                if v_prhc_atributo = 3 then
@@ -124,7 +124,7 @@ begin
                         on rubti.rubt_id = rub.rubt_id3
                       join TmpStringToTable
                         on rubti.rubti_codigo = TmpStringToTable.tmpstr2tbl_campo
-                      where tmpstr2tbl_id = v_timeCode );
+                      where tmpstr2tbl_id = v_code );
 
                else
                   if v_prhc_atributo = 4 then
@@ -135,7 +135,7 @@ begin
                            on rubti.rubt_id = rub.rubt_id4
                          join TmpStringToTable
                            on rubti.rubti_codigo = TmpStringToTable.tmpstr2tbl_campo
-                         where tmpstr2tbl_id = v_timeCode );
+                         where tmpstr2tbl_id = v_code );
 
                   else
                      if v_prhc_atributo = 5 then
@@ -146,7 +146,7 @@ begin
                               on rubti.rubt_id = rub.rubt_id5
                             join TmpStringToTable
                               on rubti.rubti_codigo = TmpStringToTable.tmpstr2tbl_campo
-                            where tmpstr2tbl_id = v_timeCode );
+                            where tmpstr2tbl_id = v_code );
 
                      else
                         if v_prhc_atributo = 6 then
@@ -157,7 +157,7 @@ begin
                                  on rubti.rubt_id = rub.rubt_id6
                                join TmpStringToTable
                                  on rubti.rubti_codigo = TmpStringToTable.tmpstr2tbl_campo
-                               where tmpstr2tbl_id = v_timeCode );
+                               where tmpstr2tbl_id = v_code );
 
                         else
                            if v_prhc_atributo = 7 then
@@ -168,7 +168,7 @@ begin
                                     on rubti.rubt_id = rub.rubt_id7
                                   join TmpStringToTable
                                     on rubti.rubti_codigo = TmpStringToTable.tmpstr2tbl_campo
-                                  where tmpstr2tbl_id = v_timeCode );
+                                  where tmpstr2tbl_id = v_code );
 
                            else
                               if v_prhc_atributo = 8 then
@@ -179,7 +179,7 @@ begin
                                        on rubti.rubt_id = rub.rubt_id8
                                      join TmpStringToTable
                                        on rubti.rubti_codigo = TmpStringToTable.tmpstr2tbl_campo
-                                     where tmpstr2tbl_id = v_timeCode );
+                                     where tmpstr2tbl_id = v_code );
 
                               else
                                  if v_prhc_atributo = 9 then
@@ -190,7 +190,7 @@ begin
                                           on rubti.rubt_id = rub.rubt_id9
                                         join TmpStringToTable
                                           on rubti.rubti_codigo = TmpStringToTable.tmpstr2tbl_campo
-                                        where tmpstr2tbl_id = v_timeCode );
+                                        where tmpstr2tbl_id = v_code );
 
                                  else
                                     if v_prhc_atributo = 10 then
@@ -201,7 +201,7 @@ begin
                                              on rubti.rubt_id = rub.rubt_id10
                                            join TmpStringToTable
                                              on rubti.rubti_codigo = TmpStringToTable.tmpstr2tbl_campo
-                                           where tmpstr2tbl_id = v_timeCode );
+                                           where tmpstr2tbl_id = v_code );
 
                                     end if;
 

@@ -46,12 +46,12 @@ create or replace function sp_doc_orden_pago_get_data_from_aplic
   returns refcursor as
 $BODY$
 declare
-   v_timeCode timestamp with time zone;
+   v_code bigint;
 begin
 
-   v_timeCode := CURRENT_TIMESTAMP;
+   select nextval('t_tmp_string_table_seq') into v_code;
 
-   perform sp_str_string_to_table(v_timeCode, p_strIds, ',');
+   perform sp_str_string_to_table(v_code, p_strIds, ',');
 
    rtn := 'rtn';
 
@@ -70,7 +70,7 @@ begin
          from ( FacturaCompra fc
                 join TmpStringToTable
                  on fc.fc_id = cast(TmpStringToTable.tmpstr2tbl_campo as integer)
-                and tmpstr2tbl_id = v_timeCode
+                and tmpstr2tbl_id = v_code
                  )
          left join Sucursal suc
                 on suc.suc_id = fc.suc_id
@@ -81,7 +81,7 @@ begin
          left join Legajo lgj
                 on lgj.lgj_id = fc.lgj_id
 
-         where tmpstr2tbl_id = v_timeCode;
+         where tmpstr2tbl_id = v_code;
 
    else
 
