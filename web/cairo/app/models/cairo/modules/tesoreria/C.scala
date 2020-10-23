@@ -286,7 +286,7 @@ object C {
 
   // FacturaCompraNotaCreditoTMP
   val FACTURA_COMPRA_NOTA_CREDITO_TMP = "FacturaCompraNotaCreditoTMP"
-  val FC_NC_TMP_ID = "fvncTMP_id"
+  val FC_NC_TMP_ID = "fcncTMP_id"
 
 
   // MovimientoFondo
