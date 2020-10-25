@@ -17,8 +17,8 @@ case class CentroCostoData(
               name: String,
               code: String,
               active: Boolean,
-              compra: Int,
-              venta: Int,
+              compra: Boolean,
+              venta: Boolean,
               idPadre: Int,
               descrip: String
               )
@@ -31,8 +31,8 @@ object CentrosCosto extends Controller with ProvidesUser {
       C.CCOS_NAME -> nonEmptyText,
       C.CCOS_CODE -> text,
       DBHelper.ACTIVE -> boolean,
-      C.CCOS_COMPRA -> number,
-      C.CCOS_VENTA -> number,
+      C.CCOS_COMPRA -> boolean,
+      C.CCOS_VENTA -> boolean,
       C.CCOS_ID_PADRE -> number,
       C.CCOS_DESCRIP -> text
   )(CentroCostoData.apply)(CentroCostoData.unapply))

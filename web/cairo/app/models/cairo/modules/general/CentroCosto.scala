@@ -18,8 +18,8 @@ case class CentroCosto(
               name: String,
               code: String,
               active: Boolean,
-              compra: Int,
-              venta: Int,
+              compra: Boolean,
+              venta: Boolean,
               idPadre: Int,
               padreName: String,
               descrip: String,
@@ -32,8 +32,8 @@ case class CentroCosto(
       name: String,
       code: String,
       active: Boolean,
-      compra: Int,
-      venta: Int,
+      compra: Boolean,
+      venta: Boolean,
       idPadre: Int,
       descrip: String) = {
 
@@ -56,8 +56,8 @@ case class CentroCosto(
       name: String,
       code: String,
       active: Boolean,
-      compra: Int,
-      venta: Int,
+      compra: Boolean,
+      venta: Boolean,
       idPadre: Int,
       descrip: String) = {
 
@@ -81,8 +81,8 @@ object CentroCosto {
     "",
     "",
     false,
-    0,
-    0,
+    false,
+    false,
     DBHelper.NoId,
     "")
 
@@ -91,8 +91,8 @@ object CentroCosto {
       name: String,
       code: String,
       active: Boolean,
-      compra: Int,
-      venta: Int,
+      compra: Boolean,
+      venta: Boolean,
       idPadre: Int,
       descrip: String) = {
 
@@ -111,8 +111,8 @@ object CentroCosto {
       name: String,
       code: String,
       active: Boolean,
-      compra: Int,
-      venta: Int,
+      compra: Boolean,
+      venta: Boolean,
       idPadre: Int,
       descrip: String) = {
 
@@ -133,8 +133,8 @@ object CentroCosto {
       SqlParser.get[Int](DBHelper.ACTIVE) ~
       SqlParser.get[Int](C.CCOS_COMPRA) ~
       SqlParser.get[Int](C.CCOS_VENTA) ~
-      SqlParser.get[Int](C.CCOS_ID_PADRE) ~
-      SqlParser.get[String](C.CCOS_PADRE_NAME) ~
+      SqlParser.get[Option[Int]](C.CCOS_ID_PADRE) ~
+      SqlParser.get[Option[String]](C.CCOS_PADRE_NAME) ~
       SqlParser.get[String](C.CCOS_DESCRIP) ~
       SqlParser.get[Date](DBHelper.CREATED_AT) ~
       SqlParser.get[Date](DBHelper.UPDATED_AT) ~
@@ -157,10 +157,10 @@ object CentroCosto {
               name,
               code,
               active != 0,
-              compra,
-              venta,
-              idPadre,
-              padreName,
+              compra != 0,
+              venta != 0,
+              idPadre.getOrElse(DBHelper.NoId),
+              padreName.getOrElse(""),
               descrip,
               createdAt,
               updatedAt,
@@ -182,8 +182,8 @@ object CentroCosto {
         Field(C.CCOS_NAME, centroCosto.name, FieldType.text),
         Field(C.CCOS_CODE, centroCosto.code, FieldType.text),
         Field(DBHelper.ACTIVE, Register.boolToInt(centroCosto.active), FieldType.boolean),
-        Field(C.CCOS_COMPRA, centroCosto.compra, FieldType.number),
-        Field(C.CCOS_VENTA, centroCosto.venta, FieldType.number),
+        Field(C.CCOS_COMPRA, Register.boolToInt(centroCosto.compra), FieldType.boolean),
+        Field(C.CCOS_VENTA, Register.boolToInt(centroCosto.venta), FieldType.boolean),
         Field(C.CCOS_ID_PADRE, centroCosto.idPadre, FieldType.id),
         Field(C.CCOS_DESCRIP, centroCosto.descrip, FieldType.text)
       )
@@ -211,7 +211,7 @@ object CentroCosto {
   }
 
   def load(user: CompanyUser, id: Int): Option[CentroCosto] = {
-    loadWhere(user, s"${C.CCOS_ID} = {id}", 'id -> id)
+    loadWhere(user, s"t1.${C.CCOS_ID} = {id}", 'id -> id)
   }
 
   def loadWhere(user: CompanyUser, where: String, args : scala.Tuple2[scala.Any, anorm.ParameterValue[_]]*) = {

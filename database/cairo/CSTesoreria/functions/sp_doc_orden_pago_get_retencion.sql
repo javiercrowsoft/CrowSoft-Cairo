@@ -64,7 +64,6 @@ create or replace function sp_doc_orden_pago_get_retencion
   returns refcursor as
 $BODY$
 declare
-   v_sys_error varchar := '';
    v_error_msg_aux varchar(5000);
 
    v_prov_id integer;
@@ -391,6 +390,8 @@ begin
          v_anticipo := coalesce(v_anticipo, 0);
          v_opg_total := v_aplicado + v_anticipo - v_percepcion;
          v_opg_total := coalesce(v_opg_total, 0);
+
+          raise notice 'v_anticitpo %, v_opg_total %', v_anticipo, v_opg_total;
 
       end if;
 

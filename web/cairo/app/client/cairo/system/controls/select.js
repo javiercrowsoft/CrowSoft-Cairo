@@ -130,6 +130,8 @@
           listIsOpen: false
         };
 
+        var firstRow = null;
+
         /*
             SELECT
 
@@ -143,6 +145,7 @@
         var throttledRequest = _.debounce(function(request, responseCallBack) {
           var url = source.replace("{{filter}}", encodeURIComponent(request.term));
           Cairo.log("Selecting: " + url);
+          firstRow = null;
           $.ajax({
             url: url
             ,cache: false
@@ -162,6 +165,9 @@
                 columns: data.columns,
                 rows: data.rows
               }];
+              if(data.rows.length > 0) {
+                firstRow = data.rows[0];
+              }
               responseCallBack(items);
             }
             ,error: function(request, status, error) {
@@ -353,6 +359,15 @@
                     $(self).data("validated-data", data.rows[0]);
                   }
                   else {
+                    //
+                    // if backend returns no rows we can try with first row if there was any
+                    //
+                    if(firstRow !== null) {
+                      var p = setSelectedDataAndValidate(firstRow.id, firstRow.values[0], firstRow.values[1]);
+                      firstRow = null;
+                      return p;
+                    }
+
                     invalidateData(true);
                   }
                   $(self).data("validating-data", null);
@@ -470,7 +485,7 @@
           selectController.control.data("selected-data", data);
           var self = $(selector)[0];
           self.value = data.values[0];
-          validate.apply(self);
+          return validate.apply(self);
         };
 
         var setData = function(id, text, code) {
