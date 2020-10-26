@@ -595,7 +595,12 @@
         return -1;
       }
       else {
-        value = parseFloat(value);
+        if(typeof value === "string") {
+          value = parseFloat(Cairo.accounting.unformat(value));
+        }
+        else {
+          value = parseFloat(value);
+        }
         return isNaN(value) ? 0 : value;
       }
     }

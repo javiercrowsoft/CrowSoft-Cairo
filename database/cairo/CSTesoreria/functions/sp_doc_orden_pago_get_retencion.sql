@@ -504,7 +504,7 @@ begin
                if instr(v_txt, '-') <> 0 then
 
                   v_fc_numero := to_number(substr(v_txt, 1, instr(v_txt, '-') - 1));
-                  v_pagoParcial := cast(substr(v_txt, instr(v_txt, '-') || 1, length(v_txt)) as decimal(18,6));
+                  v_pagoParcial := cast(substr(v_txt, instr(v_txt, '-') + 1, length(v_txt)) as decimal(18,6));
 
                   select fc_id
                     into v_fc_id
