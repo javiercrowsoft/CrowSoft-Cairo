@@ -17,9 +17,9 @@ case class Chequera(
                      id: Int,
                      code: String,
                      active: Boolean,
-                     lastNumber: Int,
-                     maxNumber: Int,
                      minNumber: Int,
+                     maxNumber: Int,
+                     lastNumber: Int,
                      default: Boolean,
                      cueId: Int,
                      cueName: String,
@@ -31,9 +31,9 @@ case class Chequera(
       id: Int,
       code: String,
       active: Boolean,
-      lastNumber: Int,
-      maxNumber: Int,
       minNumber: Int,
+      maxNumber: Int,
+      lastNumber: Int,
       default: Boolean,
       cueId: Int) = {
 
@@ -41,9 +41,9 @@ case class Chequera(
       id,
       code,
       active,
-      lastNumber,
-      maxNumber,
       minNumber,
+      maxNumber,
+      lastNumber,
       default,
       cueId,
       "",
@@ -55,9 +55,9 @@ case class Chequera(
   def this(
       code: String,
       active: Boolean,
-      lastNumber: Int,
-      maxNumber: Int,
       minNumber: Int,
+      maxNumber: Int,
+      lastNumber: Int,
       default: Boolean,
       cueId: Int) = {
 
@@ -65,9 +65,9 @@ case class Chequera(
       DBHelper.NoId,
       code,
       active,
-      lastNumber,
-      maxNumber,
       minNumber,
+      maxNumber,
+      lastNumber,
       default,
       cueId)
 
@@ -83,9 +83,9 @@ object Chequera {
       id: Int,
       code: String,
       active: Boolean,
-      lastNumber: Int,
-      maxNumber: Int,
       minNumber: Int,
+      maxNumber: Int,
+      lastNumber: Int,
       default: Boolean,
       cueId: Int) = {
 
@@ -93,9 +93,9 @@ object Chequera {
       id,
       code,
       active,
-      lastNumber,
-      maxNumber,
       minNumber,
+      maxNumber,
+      lastNumber,
       default,
       cueId)
   }
@@ -103,18 +103,18 @@ object Chequera {
   def apply(
       code: String,
       active: Boolean,
-      lastNumber: Int,
-      maxNumber: Int,
       minNumber: Int,
+      maxNumber: Int,
+      lastNumber: Int,
       default: Boolean,
       cueId: Int) = {
 
     new Chequera(
       code,
       active,
-      lastNumber,
-      maxNumber,
       minNumber,
+      maxNumber,
+      lastNumber,
       default,
       cueId)
   }
@@ -173,9 +173,9 @@ object Chequera {
     def getFields = {
       List(
         Field(C.CHQ_CODE, chequera.code, FieldType.text),
-        Field(C.CHQ_ULTIMO_NUMERO, chequera.lastNumber, FieldType.number),
         Field(C.CHQ_NUMERO_DESDE, chequera.minNumber, FieldType.number),
         Field(C.CHQ_NUMERO_HASTA, chequera.maxNumber, FieldType.number),
+        Field(C.CHQ_ULTIMO_NUMERO, chequera.lastNumber, FieldType.number),
         Field(C.CHQ_DEFAULT, Register.boolToInt(chequera.default), FieldType.boolean),
         Field(C.CUE_ID, chequera.cueId, FieldType.id),
         Field(DBHelper.ACTIVE, Register.boolToInt(chequera.active), FieldType.boolean)

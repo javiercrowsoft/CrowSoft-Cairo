@@ -16,9 +16,9 @@ case class ChequeraData(
               id: Option[Int],
               code: String,
               active: Boolean,
-              lastNumber: Int,
-              maxNumber: Int,
               minNumber: Int,
+              maxNumber: Int,
+              lastNumber: Int,
               default: Boolean,
               cueId: Int
               )
@@ -32,9 +32,9 @@ object Chequeras extends Controller with ProvidesUser {
       "id" -> optional(number),
       C.CHQ_CODE -> text,
       DBHelper.ACTIVE -> boolean,
-      C.CHQ_ULTIMO_NUMERO -> number,
       C.CHQ_NUMERO_DESDE -> number,
       C.CHQ_NUMERO_HASTA -> number,
+      C.CHQ_ULTIMO_NUMERO -> number,
       C.CHQ_DEFAULT -> boolean,
       C.CUE_ID -> number
   )(ChequeraData.apply)(ChequeraData.unapply))
@@ -44,9 +44,9 @@ object Chequeras extends Controller with ProvidesUser {
       "id" -> Json.toJson(chequera.id),
       C.CHQ_ID -> Json.toJson(chequera.id),
       C.CHQ_CODE -> Json.toJson(chequera.code),
-      C.CHQ_ULTIMO_NUMERO -> Json.toJson(chequera.lastNumber),
       C.CHQ_NUMERO_DESDE -> Json.toJson(chequera.minNumber),
       C.CHQ_NUMERO_HASTA -> Json.toJson(chequera.maxNumber),
+      C.CHQ_ULTIMO_NUMERO -> Json.toJson(chequera.lastNumber),
       C.CHQ_DEFAULT -> Json.toJson(chequera.default),
       C.CUE_ID ->  Json.toJson(chequera.cueId),
       C.CUE_NAME ->  Json.toJson(chequera.cueName),
@@ -74,14 +74,14 @@ object Chequeras extends Controller with ProvidesUser {
             Json.toJson(
               Chequera.update(user,
                 Chequera(
-                       id,
-                       chequera.code,
-                       chequera.active,
-                       chequera.lastNumber,
-                       chequera.minNumber,
-                       chequera.maxNumber,
-                       chequera.default,
-                       chequera.cueId
+                  id,
+                  chequera.code,
+                  chequera.active,
+                  chequera.minNumber,
+                  chequera.maxNumber,
+                  chequera.lastNumber,
+                  chequera.default,
+                  chequera.cueId
                 ))))
         })
       }
@@ -102,13 +102,13 @@ object Chequeras extends Controller with ProvidesUser {
             Json.toJson(
               Chequera.create(user,
                 Chequera(
-                       chequera.code,
-                       chequera.active,
-                       chequera.lastNumber,
-                       chequera.minNumber,
-                       chequera.maxNumber,
-                       chequera.default,
-                       chequera.cueId
+                  chequera.code,
+                  chequera.active,
+                  chequera.minNumber,
+                  chequera.maxNumber,
+                  chequera.lastNumber,
+                  chequera.default,
+                  chequera.cueId
                 ))))
         })
       }
