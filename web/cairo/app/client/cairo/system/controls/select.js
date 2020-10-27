@@ -365,7 +365,7 @@
                     if(firstRow !== null) {
                       var p = setSelectedDataAndValidate(firstRow.id, firstRow.values[0], firstRow.values[1]);
                       firstRow = null;
-                      return p;
+                      return p.then(function() { defer.resolve(); });
                     }
 
                     invalidateData(true);
