@@ -293,7 +293,7 @@
       };
 
       self.getEditorName = function() {
-        var id = m_id ? m_id.toString() : "N" + (new Date).getTime().toString();
+        var id = m_id ? m_id.toString() : "N" + (new Date()).getTime().toString();
         return "listapreciomarcado" + id;
       };
 
@@ -756,7 +756,7 @@
 
           var getKey = function(id) {
             if(id === NO_ID) {
-              return "new-id:" + (new Date).getTime().toString()
+              return "new-id:" + (new Date()).getTime().toString()
             }
             else {
               return "k:" + id.toString();

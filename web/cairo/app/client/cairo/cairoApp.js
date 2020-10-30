@@ -636,6 +636,230 @@
     return string.replace(new RegExp(escapeRegExp(find), 'g'), replace);
   };
 
+
+  var getLocaleDateString = function() {
+
+    var formats = {
+      "ar-sa" : "dd/MM/yy",
+      "bg-bg" : "dd.M.yyyy",
+      "ca-es" : "DD/MM/YYYY",
+      "zh-tw" : "yyyy/M/d",
+      "cs-cz" : "d.M.yyyy",
+      "da-dk" : "dd-MM-yyyy",
+      "de-de" : "dd.MM.yyyy",
+      "el-gr" : "d/M/yyyy",
+      "en-us" : "M/d/yyyy",
+      "fi-fi" : "d.M.yyyy",
+      "fr-fr" : "DD/MM/YYYY",
+      "he-il" : "DD/MM/YYYY",
+      "hu-hu" : "yyyy. MM. dd.",
+      "is-is" : "d.M.yyyy",
+      "it-it" : "DD/MM/YYYY",
+      "ja-jp" : "yyyy/MM/dd",
+      "ko-kr" : "yyyy-MM-dd",
+      "nl-nl" : "d-M-yyyy",
+      "nb-no" : "dd.MM.yyyy",
+      "pl-pl" : "yyyy-MM-dd",
+      "pt-br" : "d/M/yyyy",
+      "ro-ro" : "dd.MM.yyyy",
+      "ru-ru" : "dd.MM.yyyy",
+      "hr-hr" : "d.M.yyyy",
+      "sk-sk" : "d. M. yyyy",
+      "sq-al" : "yyyy-MM-dd",
+      "sv-se" : "yyyy-MM-dd",
+      "th-th" : "d/M/yyyy",
+      "tr-tr" : "dd.MM.yyyy",
+      "ur-pk" : "DD/MM/YYYY",
+      "id-id" : "DD/MM/YYYY",
+      "uk-ua" : "dd.MM.yyyy",
+      "be-by" : "dd.MM.yyyy",
+      "sl-si" : "d.M.yyyy",
+      "et-ee" : "d.MM.yyyy",
+      "lv-lv" : "yyyy.MM.dd.",
+      "lt-lt" : "yyyy.MM.dd",
+      "fa-ir" : "MM/dd/yyyy",
+      "vi-vn" : "DD/MM/YYYY",
+      "hy-am" : "dd.MM.yyyy",
+      "az-latn-az" : "dd.MM.yyyy",
+      "eu-es" : "yyyy/MM/dd",
+      "mk-mk" : "dd.MM.yyyy",
+      "af-za" : "yyyy/MM/dd",
+      "ka-ge" : "dd.MM.yyyy",
+      "fo-fo" : "dd-MM-yyyy",
+      "hi-in" : "dd-MM-yyyy",
+      "ms-my" : "DD/MM/YYYY",
+      "kk-kz" : "dd.MM.yyyy",
+      "ky-kg" : "dd.MM.yy",
+      "sw-ke" : "M/d/yyyy",
+      "uz-latn-uz" : "dd/MM yyyy",
+      "tt-ru" : "dd.MM.yyyy",
+      "pa-in" : "dd-MM-yy",
+      "gu-in" : "dd-MM-yy",
+      "ta-in" : "dd-MM-yyyy",
+      "te-in" : "dd-MM-yy",
+      "kn-in" : "dd-MM-yy",
+      "mr-in" : "dd-MM-yyyy",
+      "sa-in" : "dd-MM-yyyy",
+      "mn-mn" : "yy.MM.dd",
+      "gl-es" : "dd/MM/yy",
+      "kok-in" : "dd-MM-yyyy",
+      "syr-sy" : "DD/MM/YYYY",
+      "dv-mv" : "dd/MM/yy",
+      "ar-iq" : "DD/MM/YYYY",
+      "zh-cn" : "yyyy/M/d",
+      "de-ch" : "dd.MM.yyyy",
+      "en-gb" : "DD/MM/YYYY",
+      "es-mx" : "DD/MM/YYYY",
+      "fr-be" : "d/MM/yyyy",
+      "it-ch" : "dd.MM.yyyy",
+      "nl-be" : "d/MM/yyyy",
+      "nn-no" : "dd.MM.yyyy",
+      "pt-pt" : "dd-MM-yyyy",
+      "sr-latn-cs" : "d.M.yyyy",
+      "sv-fi" : "d.M.yyyy",
+      "az-cyrl-az" : "dd.MM.yyyy",
+      "ms-bn" : "DD/MM/YYYY",
+      "uz-cyrl-uz" : "dd.MM.yyyy",
+      "ar-eg" : "DD/MM/YYYY",
+      "zh-hk" : "d/M/yyyy",
+      "de-at" : "dd.MM.yyyy",
+      "en-au" : "d/MM/yyyy",
+      "es-es" : "DD/MM/YYYY",
+      "fr-ca" : "yyyy-MM-dd",
+      "sr-cyrl-cs" : "d.M.yyyy",
+      "ar-ly" : "DD/MM/YYYY",
+      "zh-sg" : "d/M/yyyy",
+      "de-lu" : "dd.MM.yyyy",
+      "en-ca" : "DD/MM/YYYY",
+      "es-gt" : "DD/MM/YYYY",
+      "fr-ch" : "dd.MM.yyyy",
+      "ar-dz" : "dd-MM-yyyy",
+      "zh-mo" : "d/M/yyyy",
+      "de-li" : "dd.MM.yyyy",
+      "en-nz" : "d/MM/yyyy",
+      "es-cr" : "DD/MM/YYYY",
+      "fr-lu" : "DD/MM/YYYY",
+      "ar-ma" : "dd-MM-yyyy",
+      "en-ie" : "DD/MM/YYYY",
+      "es-pa" : "MM/dd/yyyy",
+      "fr-mc" : "DD/MM/YYYY",
+      "ar-tn" : "dd-MM-yyyy",
+      "en-za" : "yyyy/MM/dd",
+      "es-do" : "DD/MM/YYYY",
+      "ar-om" : "DD/MM/YYYY",
+      "en-jm" : "DD/MM/YYYY",
+      "es-ve" : "DD/MM/YYYY",
+      "ar-ye" : "DD/MM/YYYY",
+      "en-029" : "MM/dd/yyyy",
+      "es-co" : "DD/MM/YYYY",
+      "ar-sy" : "DD/MM/YYYY",
+      "en-bz" : "DD/MM/YYYY",
+      "es-pe" : "DD/MM/YYYY",
+      "ar-jo" : "DD/MM/YYYY",
+      "en-tt" : "DD/MM/YYYY",
+      "es-ar" : "DD/MM/YYYY",
+      "ar-lb" : "DD/MM/YYYY",
+      "en-zw" : "M/d/yyyy",
+      "es-ec" : "DD/MM/YYYY",
+      "ar-kw" : "DD/MM/YYYY",
+      "en-ph" : "M/d/yyyy",
+      "es-cl" : "dd-MM-yyyy",
+      "ar-ae" : "DD/MM/YYYY",
+      "es-uy" : "DD/MM/YYYY",
+      "ar-bh" : "DD/MM/YYYY",
+      "es-py" : "DD/MM/YYYY",
+      "ar-qa" : "DD/MM/YYYY",
+      "es-bo" : "DD/MM/YYYY",
+      "es-sv" : "DD/MM/YYYY",
+      "es-hn" : "DD/MM/YYYY",
+      "es-ni" : "DD/MM/YYYY",
+      "es-pr" : "DD/MM/YYYY",
+      "am-et" : "d/M/yyyy",
+      "tzm-latn-dz" : "dd-MM-yyyy",
+      "iu-latn-ca" : "d/MM/yyyy",
+      "sma-no" : "dd.MM.yyyy",
+      "mn-mong-cn" : "yyyy/M/d",
+      "gd-gb" : "DD/MM/YYYY",
+      "en-my" : "d/M/yyyy",
+      "prs-af" : "dd/MM/yy",
+      "bn-bd" : "dd-MM-yy",
+      "wo-sn" : "DD/MM/YYYY",
+      "rw-rw" : "M/d/yyyy",
+      "qut-gt" : "DD/MM/YYYY",
+      "sah-ru" : "MM.dd.yyyy",
+      "gsw-fr" : "DD/MM/YYYY",
+      "co-fr" : "DD/MM/YYYY",
+      "oc-fr" : "DD/MM/YYYY",
+      "mi-nz" : "DD/MM/YYYY",
+      "ga-ie" : "DD/MM/YYYY",
+      "se-se" : "yyyy-MM-dd",
+      "br-fr" : "DD/MM/YYYY",
+      "smn-fi" : "d.M.yyyy",
+      "moh-ca" : "M/d/yyyy",
+      "arn-cl" : "dd-MM-yyyy",
+      "ii-cn" : "yyyy/M/d",
+      "dsb-de" : "d. M. yyyy",
+      "ig-ng" : "d/M/yyyy",
+      "kl-gl" : "dd-MM-yyyy",
+      "lb-lu" : "DD/MM/YYYY",
+      "ba-ru" : "dd.MM.yy",
+      "nso-za" : "yyyy/MM/dd",
+      "quz-bo" : "DD/MM/YYYY",
+      "yo-ng" : "d/M/yyyy",
+      "ha-latn-ng" : "d/M/yyyy",
+      "fil-ph" : "M/d/yyyy",
+      "ps-af" : "dd/MM/yy",
+      "fy-nl" : "d-M-yyyy",
+      "ne-np" : "M/d/yyyy",
+      "se-no" : "dd.MM.yyyy",
+      "iu-cans-ca" : "d/M/yyyy",
+      "sr-latn-rs" : "d.M.yyyy",
+      "si-lk" : "yyyy-MM-dd",
+      "sr-cyrl-rs" : "d.M.yyyy",
+      "lo-la" : "DD/MM/YYYY",
+      "km-kh" : "yyyy-MM-dd",
+      "cy-gb" : "DD/MM/YYYY",
+      "bo-cn" : "yyyy/M/d",
+      "sms-fi" : "d.M.yyyy",
+      "as-in" : "dd-MM-yyyy",
+      "ml-in" : "dd-MM-yy",
+      "en-in" : "dd-MM-yyyy",
+      "or-in" : "dd-MM-yy",
+      "bn-in" : "dd-MM-yy",
+      "tk-tm" : "dd.MM.yy",
+      "bs-latn-ba" : "d.M.yyyy",
+      "mt-mt" : "DD/MM/YYYY",
+      "sr-cyrl-me" : "d.M.yyyy",
+      "se-fi" : "d.M.yyyy",
+      "zu-za" : "yyyy/MM/dd",
+      "xh-za" : "yyyy/MM/dd",
+      "tn-za" : "yyyy/MM/dd",
+      "hsb-de" : "d. M. yyyy",
+      "bs-cyrl-ba" : "d.M.yyyy",
+      "tg-cyrl-tj" : "dd.MM.yy",
+      "sr-latn-ba" : "d.M.yyyy",
+      "smj-no" : "dd.MM.yyyy",
+      "rm-ch" : "DD/MM/YYYY",
+      "smj-se" : "yyyy-MM-dd",
+      "quz-ec" : "DD/MM/YYYY",
+      "quz-pe" : "DD/MM/YYYY",
+      "hr-ba" : "d.M.yyyy.",
+      "sr-latnme" : "d.M.yyyy",
+      "sma-se" : "yyyy-MM-dd",
+      "en-sg" : "d/M/yyyy",
+      "ug-cn" : "yyyy-M-d",
+      "sr-cyrl-BA" : "d.M.yyyy",
+      "es-us" : "M/d/yyyy"
+    };
+
+    return formats[navigator.language] || 'DD/MM/YYYY';
+  };
+
+  var localeLongDateFormat = getLocaleDateString();
+  var parseDate = function(dateString) {
+    return moment(dateString, localeLongDateFormat).toDate();
+  };
+
   /*
   *
   * some times simple things get very complicated
@@ -652,11 +876,16 @@
   * */
 
   var isDate = function(date) {
-    if(date.length < 3) {
-      return false;
+    try {
+      if(typeof date === "string") {
+        return (! isNaN(parseDate(date).valueOf()));
+      }
+      else {
+        return (! isNaN((new Date(date)).valueOf()));
+      }
     }
-    else {
-      return (! isNaN(new Date(date).valueOf()));
+    catch(ignore) {
+      return false;
     }
   };
 
@@ -665,167 +894,179 @@
   //
 
   var getLocaleMonthIndex = function() {
-    var d = new Date("11/12/10");
-    return d.getMonth() === 11 /* January is 0 :P */ ? 1 /* ?M? */ : 0 /* M?? */;
+    // month starts in zero
+    var d = new Date(2012,11 /* December */,31,0,0,0,0);
+    return d.toLocaleDateString(navigator.language).split("/")[1] === "12" ? 1 /* ?M? */ : 0 /* M?? */;
   };
   var localeMonthIndex = getLocaleMonthIndex();
 
   var getLocaleYearIndex = function() {
-    var d = new Date("03/02/01");
-    var year = d.getFullYear();
-    return (year === 2003 || year === 1903)
+    var d = new Date(2012,11 /* December */,31,0,0,0,0);
+    var arrayDate = d.toLocaleDateString(navigator.language).split("/");
+    return (arrayDate[0] === "2012")
               ? /* YMD */ 0
-              : (year === 2001 || year === 1901)
+              : (arrayDate[2] === "2012")
                   ? /* DMY or MDY */ 2 : /* WAT ?Y? */ 1;
   };
   var localeYearIndex = getLocaleYearIndex();
 
   var DATE_FORMAT = localeMonthIndex === 0 ? "mm/dd/yy" : localeYearIndex === 0 ? "yy/mm/dd" : "dd/mm/yy";
 
-  var validateStringDate = function(date) {
+  var leapYear = function(year) {
+    return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+  };
 
-    var _date = function(year, month, day) {
-      var d;
-      switch(localeYearIndex) {
-        case 0: /* YMD */
-          d = year.toString() + "/" + month.toString() + "/" + day.toString();
-          break;
+  var newDate = function (year, month, day) {
+    var d;
+    switch (localeYearIndex) {
+      case 0: /* YMD */
+        d = year.toString() + "/" + month.toString() + "/" + day.toString();
+        break;
 
-        case 2: /* ??Y */
-          if(localeMonthIndex === 0) {
-            d = month.toString() + "/" + day.toString() + "/" + year.toString();
-          }
-          else {
-            d = day.toString() + "/" + month.toString() + "/" + year.toString();
-          }
-          break;
+      case 2: /* ??Y */
+        if (localeMonthIndex === 0) {
+          d = month.toString() + "/" + day.toString() + "/" + year.toString();
+        } else {
+          d = day.toString() + "/" + month.toString() + "/" + year.toString();
+        }
+        break;
 
-        default:
-          d = "";
-          break;
-      }
-      return d;
-    };
-
-    date = replaceAll(date, ".", "-");
-
-    if(date.length === 4 && date.indexOf('-') < 0 && date.indexOf('/') < 0 && /^[0-9]+$/.test(date)) {
-      date = date.substr(0,2) + "/" + date.substr(2,2);
+      default:
+        d = "";
+        break;
     }
-    else if(date.length === 6 && date.indexOf('-') < 0 && date.indexOf('/') < 0 && /^[0-9]+$/.test(date)) {
-      date = date.substr(0,2) + "/" + date.substr(2,2) + "/" + date.substr(4,2);
-    }
-    else if(date.length === 8 && date.indexOf('-') < 0 && date.indexOf('/') < 0 && /^[0-9]+$/.test(date)) {
-      date = date.substr(0,2) + "/" + date.substr(2,2) + "/" + date.substr(4,4);
-    }
+    return d;
+  };
 
-    //
-    // regular expressions are to smart for me
-    //
-    if(date.indexOf('-') > -1 || date.indexOf('/') > -1) {
-      date = replaceAll(date, "-", "/");
-      date = date.split("/");
-      if(date.length < 2) {
-        date = "";
-      }
-      else if(date.length < 3) {
-        if(date[0].length > 2) {
-          date = _date(val(date[0]), val(date[1]), 1);
-        }
-        else if(date[1].length > 2) {
-          date = _date(val(date[1]), val(date[0]), 1);
-        }
-        else {
-          var m = localeMonthIndex === 0 ? 0 : 1;
-          var d = m === 0 ? 1 : 0;
-          var month = val(date[m]);
-          var day = val(date[d]);
-          if(isNaN(month) || isNaN(day)) {
-            return "";
-          }
-          else if(month > 12) {
-            date = _date((new Date()).getFullYear(), day, month /* month is day */);
-          }
-          else {
-            date = _date((new Date()).getFullYear(), month, day);
-          }
-        }
-      }
-      else if(date.length > 3) {
-        date = "";
-      }
-      else {
-        var year = 0;
-        var yearIndex = -1;
-        if(date[0].length > 2) {
-          year = date[0];
-          yearIndex = 0;
-        }
-        else if(date[1].length > 2) {
-          year = date[1];
-          yearIndex = 1;
-        }
-        else if(date[2].length > 2) {
-          year = date[2];
-          yearIndex = 2;
-        }
-        else {
-          year = date[localeYearIndex];
-        }
-        var pos = localeMonthIndex;
-        var month = yearIndex !== pos ? val(date[pos]) : 0;
-        var monthIndex = -1;
-        if(month > 0 && month < 13) {
-          monthIndex = pos;
-        }
-        else {
-          pos = pos === 0 ? 1 : 0;
-          month = yearIndex !== pos ? val(date[pos]) : pos;
-          if(month > 0 && month < 13) {
-            monthIndex = pos;
-          }
-          else {
-            month = yearIndex !== 2 ? val(date[2]) : 0;
-            if(month > 0 && month < 13) {
-              monthIndex = 2;
-            }
-          }
-        }
-        var day = yearIndex !== 0 && monthIndex !== 0 ? val(date[0]) : 0;
-        if(day > 31 || day < 1) {
-          day = yearIndex !== 1 && monthIndex !== 1 ? val(date[1]) : 0;
-          if(day > 31 || day < 1) {
-            day = yearIndex !== 2 && monthIndex !== 2 ? val(date[2]) : 0;
-            if(day > 31 || day < 1) {
-              day = 0;
-            }
-          }
-        }
+  var validateStringDate = function(maybeDate) {
 
-        if(isNaN(month) || isNaN(day) || isNaN(year)) {
-          return "";
-        }
-        else {
-          if(month === 0) {
-            date = "";
-          }
-          else {
-            if(year === 0) {
-              year = (new Date()).getFullYear();
-            }
-            if(day === 0) {
-              day = 1;
-            }
-
-            date = _date(year, month, day);
-          }
-        }
-      }
+    if(typeof maybeDate === "string" && "-+".indexOf(maybeDate.trim().charAt(0)) > -1) {
+      var days = val(maybeDate);
+      var date = new Date();
+      maybeDate = date.setDate(date.getDate() + days);
     }
     else {
-      date = "";
+
+      maybeDate = replaceAll(maybeDate, ".", "-");
+
+      if (maybeDate.length === 4 && maybeDate.indexOf('-') < 0 && maybeDate.indexOf('/') < 0 && /^[0-9]+$/.test(maybeDate)) {
+        maybeDate = maybeDate.substr(0, 2) + "/" + maybeDate.substr(2, 2);
+      } else if (maybeDate.length === 6 && maybeDate.indexOf('-') < 0 && maybeDate.indexOf('/') < 0 && /^[0-9]+$/.test(maybeDate)) {
+        maybeDate = maybeDate.substr(0, 2) + "/" + maybeDate.substr(2, 2) + "/" + maybeDate.substr(4, 2);
+      } else if (maybeDate.length === 8 && maybeDate.indexOf('-') < 0 && maybeDate.indexOf('/') < 0 && /^[0-9]+$/.test(maybeDate)) {
+        maybeDate = maybeDate.substr(0, 2) + "/" + maybeDate.substr(2, 2) + "/" + maybeDate.substr(4, 4);
+      }
+
+      //
+      // regular expressions are to smart for me
+      //
+      if (maybeDate.indexOf('-') > -1 || maybeDate.indexOf('/') > -1) {
+        maybeDate = replaceAll(maybeDate, "-", "/");
+        maybeDate = maybeDate.split("/");
+        if (maybeDate.length < 2) {
+          maybeDate = "";
+        } else if (maybeDate.length < 3) {
+          if (maybeDate[0].length > 2) {
+            maybeDate = newDate(val(maybeDate[0]), val(maybeDate[1]), 1);
+          } else if (maybeDate[1].length > 2) {
+            maybeDate = newDate(val(maybeDate[1]), val(maybeDate[0]), 1);
+          } else {
+            var m = localeMonthIndex === 0 ? 0 : 1;
+            var d = m === 0 ? 1 : 0;
+            var month = val(maybeDate[m]);
+            var day = val(maybeDate[d]);
+            if (isNaN(month) || isNaN(day)) {
+              return "";
+            } else if (month > 12) {
+              maybeDate = newDate((new Date()).getFullYear(), day, month /* month is day */);
+            } else {
+              maybeDate = newDate((new Date()).getFullYear(), month, day);
+            }
+          }
+        } else if (maybeDate.length > 3) {
+          maybeDate = "";
+        } else {
+          var year = 0;
+          var yearIndex = -1;
+          if (maybeDate[0].length > 2) {
+            year = maybeDate[0];
+            yearIndex = 0;
+          } else if (maybeDate[1].length > 2) {
+            year = maybeDate[1];
+            yearIndex = 1;
+          } else if (maybeDate[2].length > 2) {
+            year = maybeDate[2];
+            yearIndex = 2;
+          } else {
+            year = maybeDate[localeYearIndex];
+          }
+          var pos = localeMonthIndex;
+          var month = yearIndex !== pos ? val(maybeDate[pos]) : 0;
+          var monthIndex = -1;
+          if (month > 0 && month < 13) {
+            monthIndex = pos;
+          } else {
+            pos = pos === 0 ? 1 : 0;
+            month = yearIndex !== pos ? val(maybeDate[pos]) : pos;
+            if (month > 0 && month < 13) {
+              monthIndex = pos;
+            } else {
+              month = yearIndex !== 2 ? val(maybeDate[2]) : 0;
+              if (month > 0 && month < 13) {
+                monthIndex = 2;
+              }
+            }
+          }
+          var day = yearIndex !== 0 && monthIndex !== 0 ? val(maybeDate[0]) : 0;
+          if (day > 31 || day < 1) {
+            day = yearIndex !== 1 && monthIndex !== 1 ? val(maybeDate[1]) : 0;
+            if (day > 31 || day < 1) {
+              day = yearIndex !== 2 && monthIndex !== 2 ? val(maybeDate[2]) : 0;
+              if (day > 31 || day < 1) {
+                day = 0;
+              }
+            }
+          }
+
+          if (isNaN(month) || isNaN(day) || isNaN(year)) {
+            return "";
+          } else {
+            if (month === 0) {
+              maybeDate = "";
+            } else {
+              if (year === 0) {
+                year = (new Date()).getFullYear();
+              }
+              if (day === 0) {
+                day = 1;
+              }
+              maybeDate = newDate(year, month, day);
+            }
+          }
+        }
+      } else {
+        if (isNaN(maybeDate)) {
+          maybeDate = Cairo.Dates.getVirtualDateOrElse(maybeDate, "");
+        } else {
+          var today = new Date();
+          var month = today.getMonth() + 1;
+          var year = today.getFullYear();
+          var day = val(maybeDate);
+          if (day > 0
+            && (day < 29
+              || (day === 29 && leapYear(year))
+              || (day === 30 && month !== 2)
+              || (day === 31 && (month !== 2 || month !== 4 || month !== 6 || month !== 9 || month !== 11))
+            )
+          ) {
+            maybeDate = newDate(year, month, day)
+          } else {
+            maybeDate = "";
+          }
+        }
+      }
     }
-    return date;
+    return maybeDate;
   };
 
   /* TODO: use a test suit
@@ -915,7 +1156,7 @@
       if(typeof maybeDate === "string") {
         maybeDate = validateStringDate(maybeDate);
       }
-      maybeDate = new Date(maybeDate);
+      maybeDate = parseDate(maybeDate);
       if(isNaN(maybeDate.getTime())) {
         maybeDate = NO_DATE;
       }
@@ -928,7 +1169,10 @@
       return "";
     }
     else {
-      maybeDate = new Date(maybeDate);
+      if(typeof maybeDate === "string") {
+        maybeDate = validateStringDate(maybeDate);
+      }
+      maybeDate = parseDate(maybeDate);
       return maybeDate.getTime() === NO_DATE.getTime() || !isDate(maybeDate) ? "" : $.datepicker.formatDate(DATE_FORMAT, maybeDate);
     }
   };

@@ -222,6 +222,18 @@
         self.cssClass = cssClass;
       };
 
+      that.show = function() {
+        $(self.element).show();
+      };
+
+      that.hide = function() {
+        $(self.element).hide();
+      };
+
+      that.detach = function() {
+        $(self.element).detach();
+      };
+
       that.focus = function() {
         self.element.focus();
       };

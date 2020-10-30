@@ -3877,14 +3877,11 @@
         var setDefaults = function(property, rowIndex) {
 
           var row = createRow(property.getIndex(), property, rowIndex);
-
-          var colIndex = 0;
-          var columnsCount = property.getGrid().getColumns().count();
-          for(var _i = 0; _i < columnsCount; _i++) {
-            var col = property.getGrid().getColumns().get(_i);
-            colIndex = colIndex + 1;
+          var columns = property.getGrid().getColumns();
+          for(var i = 0, _count = columns.count(); i < _count; i++) {
+            var col = columns.get(i);
             if(col.getDefaultValue() !== null) {
-              var cell = row.get(colIndex);
+              var cell = row.get(i);
               cell.setId(col.getDefaultValue().getId());
               cell.setValue(col.getDefaultValue().getValue());
             }
@@ -3892,7 +3889,7 @@
 
           if(row !== null) {
             var grid = getView().getGrids().get(property.getIndex());
-            m_gridManager.loadFromRow(grid, row, rowIndex, property.getGrid().getColumns());
+            m_gridManager.loadFromRow(grid, row, rowIndex, columns);
           }
         };
 

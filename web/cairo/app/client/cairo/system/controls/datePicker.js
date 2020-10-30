@@ -10,8 +10,6 @@
 
     var createDatePicker = function() {
 
-      var NO_DATE = Cairo.Constants.NO_DATE;
-
       var self = {
         value: Cairo.Constants.NO_DATE,
         type: Controls.DatePickerType.date,
@@ -23,6 +21,9 @@
       that.htmlTag = '<input class="datepicker">';
 
       var superSetElement = that.setElement;
+
+      var hasChanged = false;
+      var onChange = null;
 
       that.setElement = function(element, view) {
         superSetElement(element);
@@ -36,8 +37,13 @@
           numberOfMonths: 2,
           yearRange: "c-20:c+5"
         });
-        var onChange = view.onDateChange(that);
-          element.change(function() {
+        var viewOnChange = view.onDateChange(that);
+        onChange = function() {
+          console.log("onChange:hasChanged: " + hasChanged);
+          hasChanged = false;
+          viewOnChange();
+        };
+        element.change(function() {
           setValue(element.val());
           onChange();
         });
@@ -46,18 +52,48 @@
       var getDateFormatted = Cairo.Util.getDateFormatted;
       var getDateValue = Cairo.Util.getDateValue;
 
-      var setValue = function(value) {
+      var setValue = function(value, noFormat) {
+        noFormat = noFormat || false;
         if(typeof value === "string") {
           if(value.length > 1) {
             value = getDateValue(value);
           }
         }
-        value = getDateFormatted(value);
+        if(! noFormat || typeof value === "object") {
+          value = getDateFormatted(value);
+        }
+        hasChanged = self.value !== value;
+        console.log("setValue:hasChanged: " + hasChanged);
         self.value = value;
         var element = that.getElement();
         if(element) {
           element.val(value);
+          if(element.is(':focus')) {
+            element.select();
+          }
         }
+      };
+
+      that.onKeyUp = function(e) {
+        if(e.which === 13) {
+          console.log("onKeyUp:hasChanged: " + hasChanged + " onChange:" + (onChange !== null));
+          $.tabNext();
+          if(hasChanged && onChange !== null) {
+            onChange();
+          }
+        }
+      };
+
+      var superShow = that.show;
+      that.show = function() {
+        superShow();
+        $("#ui-datepicker-div").show();
+      };
+
+      var superHide = that.hide;
+      that.hide = function() {
+        superHide();
+        $("#ui-datepicker-div").hide();
       };
 
       that.getValue = function() {

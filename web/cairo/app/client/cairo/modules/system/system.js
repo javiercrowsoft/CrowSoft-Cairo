@@ -3208,7 +3208,7 @@
 
         case Cairo.Dates.VirtualDates.YEAR_LAST_DAY:
           iniDate = addToDate("yyyy", 1, iniDate);
-          iniDate = addToDate("m", -iniDate.getMonth(), iniDate);
+          iniDate = addToDate("m", -(iniDate.getMonth()+1), iniDate);
           dateIndex = Cairo.Dates.VirtualDates.MONTH_LAST_DAY;
           break;
       }
@@ -3394,12 +3394,12 @@
     return Cairo.Dates.DateNames.getDateById(Cairo.Dates.VirtualDates.TOMORROW);
   };
 
-  Cairo.Dates.getVirtualDateOrDate = function(virtualDate, date) {
+  Cairo.Dates.getVirtualDateOrElse = function(virtualDate, elseValue) {
     if(Cairo.Dates.DateNames.getDateNames().contains(virtualDate)) {
       return Cairo.Dates.DateNames.getDateByName(virtualDate);
     }
     else {
-      return date;
+      return elseValue;
     }
   };
 

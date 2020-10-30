@@ -405,7 +405,8 @@
 
       eventHandler.onDateChange = function(control) {
         return function() {
-
+          console.log("grid.onDateChange" + (new Date()).getMilliseconds());
+          endEdit();
         };
       };
 
@@ -663,7 +664,7 @@
 
           case T.date:
           case T.time:
-            ctrl.setValue(newValue);
+            ctrl.setValue(newValue, true);
             break;
         }
       };
@@ -721,7 +722,8 @@
       var hideControlForCol = function(col, td) {
         var ctrl = getControl(col);
         if(ctrl !== null) {
-          $(ctrl.getElement()).detach();
+          ctrl.detach();
+          ctrl.hide();
         }
         $(td).removeClass('grid-td-editing grid-td-editing-number grid-td-editing-text grid-td-editing-date');
       };
@@ -869,6 +871,7 @@
               td$.addClass('grid-td-editing');
               td$.addClass(getClassForColType(type));
               td$.html(ctrl.getElement());
+              ctrl.show();
               ctrl.focus();
               if(info.key === "") {
                 ctrl.select();
@@ -1093,7 +1096,7 @@
         var noKeyCodes = [13];
 
         //
-        // only clicks in TD elements
+        // only key pressed in TD elements
         //
         if(td.tagName === "TD" && noKeyCodes.indexOf(e.keyCode) === -1) {
 

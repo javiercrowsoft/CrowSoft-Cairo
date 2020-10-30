@@ -885,12 +885,11 @@ div::after {
 .grid-td-editing-text {
   width: 150px;
 }
-
 .grid-column-number {
-  width: 100px;
+  width: 100px !important;
 }
 .grid-td-editing-number {
-  width: 100px;
+  width: 120px;
 }
 
 .grid-column-date {
@@ -899,15 +898,12 @@ div::after {
 .grid-td-editing-date {
   width: 120px;
 }
-
 .grid-column-select {
   width: 180px;
 }
-
 .grid-column-item {
   width: 20px;
 }
-
 .cell-text-value {
   max-width: 300px;
   white-space:nowrap;
