@@ -3221,8 +3221,8 @@
           break;
 
         case Cairo.Dates.VirtualDates.WEECK_LAST_DAY:
-          dayNumber = iniDate.getDay() + 2;
-          date = addToDate("d", -dayNumber, iniDate);
+          dayNumber = (iniDate.getDay() + 1) % 7;
+          date = addToDate("d", 7 -dayNumber, iniDate);
           break;
 
         case Cairo.Dates.VirtualDates.MONTH_FIRST_DAY:

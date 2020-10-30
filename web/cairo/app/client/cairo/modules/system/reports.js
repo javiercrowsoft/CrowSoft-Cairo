@@ -181,8 +181,8 @@
 
     that.printReport = function(reportDefinition) {
       return sendMessage(reportDefinition).then(function(response) {
-        console.log(JSON.stringify(response.request));
-        console.log(JSON.stringify(response.response));
+        //console.log(JSON.stringify(response.request));
+        //console.log(JSON.stringify(response.response));
         response.success = true;
         return response;
       });
@@ -210,8 +210,8 @@
         webReportId
       );
       return sendMessage(rd).then(function(response) {
-        console.log(JSON.stringify(response.request));
-        console.log(JSON.stringify(response.response));
+        //console.log(JSON.stringify(response.request));
+        //console.log(JSON.stringify(response.response));
         response.success = true;
         return response;
       });

@@ -405,7 +405,6 @@
 
       eventHandler.onDateChange = function(control) {
         return function() {
-          console.log("grid.onDateChange" + (new Date()).getMilliseconds());
           endEdit();
         };
       };

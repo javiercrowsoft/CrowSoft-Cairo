@@ -856,6 +856,7 @@
   };
 
   var localeLongDateFormat = getLocaleDateString();
+
   var parseDate = function(maybeDate) {
     if(typeof maybeDate === "string") {
       return moment(maybeDate, localeLongDateFormat).toDate();
@@ -1224,6 +1225,8 @@
     getDateFormatted: getDateFormatted,
     getDateValue: getDateValue,
     isDate: isDate,
+    parseDate: parseDate,
+    localeLongDateFormat: localeLongDateFormat,
     val: val,
     valEmpty: function(value, type) {
       if(value === null || value === undefined) {

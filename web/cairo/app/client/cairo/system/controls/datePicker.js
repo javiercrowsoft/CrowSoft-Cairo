@@ -35,17 +35,21 @@
           changeMonth: true,
           changeYear: true,
           numberOfMonths: 2,
-          yearRange: "c-20:c+5"
+          yearRange: "c-20:c+5",
+          dateFormat: Cairo.Util.localeLongDateFormat.toLowerCase()
         });
         var viewOnChange = view.onDateChange(that);
         onChange = function() {
-          console.log("onChange:hasChanged: " + hasChanged);
           hasChanged = false;
           viewOnChange();
         };
         element.change(function() {
           setValue(element.val());
           onChange();
+        });
+        element.focus(function() {
+          $(element).datepicker("setDate", Cairo.Util.parseDate(self.value));
+          $(element).val(self.value);
         });
       };
 
@@ -63,7 +67,6 @@
           value = getDateFormatted(value);
         }
         hasChanged = self.value !== value;
-        console.log("setValue:hasChanged: " + hasChanged);
         self.value = value;
         var element = that.getElement();
         if(element) {
@@ -76,7 +79,6 @@
 
       that.onKeyUp = function(e) {
         if(e.which === 13) {
-          console.log("onKeyUp:hasChanged: " + hasChanged + " onChange:" + (onChange !== null));
           $.tabNext();
           if(hasChanged && onChange !== null) {
             onChange();
