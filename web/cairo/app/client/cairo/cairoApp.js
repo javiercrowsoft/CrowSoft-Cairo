@@ -856,8 +856,13 @@
   };
 
   var localeLongDateFormat = getLocaleDateString();
-  var parseDate = function(dateString) {
-    return moment(dateString, localeLongDateFormat).toDate();
+  var parseDate = function(maybeDate) {
+    if(typeof maybeDate === "string") {
+      return moment(maybeDate, localeLongDateFormat).toDate();
+    }
+    else {
+      return new Date(maybeDate);
+    }
   };
 
   /*
@@ -943,7 +948,7 @@
     if(typeof maybeDate === "string" && "-+".indexOf(maybeDate.trim().charAt(0)) > -1) {
       var days = val(maybeDate);
       var date = new Date();
-      maybeDate = date.setDate(date.getDate() + days);
+      maybeDate = new Date(date.setDate(date.getDate() + days));
     }
     else {
 
