@@ -219,10 +219,11 @@
           element.children().val(self.text);
         }
       };
+
       that.getText = function() {
         var element = that.getElement();
         if(element) {
-          self.text = element.children().val();
+          self.text = getValue(element.children().val(), true);;
         }
         return self.text;
       };

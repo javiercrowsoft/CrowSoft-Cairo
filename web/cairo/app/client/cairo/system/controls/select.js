@@ -67,7 +67,7 @@
               //
               $.each(this.options.columns, function(index, column) {
                   t += '<span style="padding:0 4px;float:left;width:' + width + 'px;">' +
-                        item.values[column.valueField ? column.valueField : index] + '</span>';
+                        item.values[column.valueField ? column.valueField : index] + "&nbsp;" + '</span>';
               });
 
               result = $('<li></li>').data('ui-autocomplete-item', { value: item.values[0], data: item }).append(
