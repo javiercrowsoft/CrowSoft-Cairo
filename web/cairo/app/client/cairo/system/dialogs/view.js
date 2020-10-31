@@ -215,7 +215,7 @@
             clazz = "col-lg-3 col-md-4 col-sm-5";
             break;
           case 1:
-            clazz = "col-lg-1 col-md-2 col-sm-2";
+            clazz = "col-lg-2 col-md-2 col-sm-2";
             break;
           case 2:
             clazz = "col-lg-3 col-md-4 col-sm-5";
