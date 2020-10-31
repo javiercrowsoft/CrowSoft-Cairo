@@ -946,12 +946,17 @@
 
   var validateStringDate = function(maybeDate) {
 
-    if(typeof maybeDate === "string" && "-+".indexOf(maybeDate.trim().charAt(0)) > -1) {
+    if(typeof maybeDate === "string" && maybeDate.length > 8 && maybeDate.slice(-1) === 'Z') {
+
+      maybeDate = new Date(maybeDate)
+
+    } else if(typeof maybeDate === "string" && "-+".indexOf(maybeDate.trim().charAt(0)) > -1) {
+
       var days = val(maybeDate);
       var date = new Date();
       maybeDate = new Date(date.setDate(date.getDate() + days));
-    }
-    else {
+
+    } else {
 
       maybeDate = replaceAll(maybeDate, ".", "-");
 
