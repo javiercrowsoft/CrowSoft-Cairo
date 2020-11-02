@@ -1231,7 +1231,7 @@
         return "";
       }
       else {
-        getDateValue(maybeDate);
+        return getDateValue(maybeDate);
       }
     },
     getDateFormatted: getDateFormatted,
