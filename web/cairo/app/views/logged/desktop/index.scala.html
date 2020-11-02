@@ -1,4 +1,4 @@
-@(menus: List[models.cairo.system.MenuItem], router: List[models.cairo.system.RouterEntry], language: List[models.cairo.system.LanguageEntry], csrfToken: String)(implicit flash:Flash, token: play.filters.csrf.CSRF.Token, companyUser: models.domain.CompanyUser, loggedUser: models.master.LoggedUser, requestOrigin: services.RequestOrigin)
+@(menus: List[models.cairo.system.MenuItem], router: List[models.cairo.system.RouterEntry], language: List[models.cairo.system.LanguageEntry], csrfToken: String, version: Int)(implicit flash:Flash, token: play.filters.csrf.CSRF.Token, companyUser: models.domain.CompanyUser, loggedUser: models.master.LoggedUser, requestOrigin: services.RequestOrigin)
 
 @import helper._
 
@@ -167,12 +167,12 @@ Backbone templates
 <script src="@routes.Assets.at("javascripts/vendor/jquery.tabbable.js")" type="text/javascript"></script>
 <script src="@routes.Assets.at("javascripts/vendor/moment.min.js")" type="text/javascript"></script>
 
-<script src="./client/cairo/config/marionette/regions/dialog.js"></script>
+<script src="./client/cairo/config/marionette/regions/dialog.js?version=@{version}"></script>
 <script>
   var Cairo = new Marionette.Application();
 </script>
-<script src="./client/cairo/common/views.js"></script>
-<script src="./client/cairo/cairoApp.js"></script>
+<script src="./client/cairo/common/views.js?version=@{version}"></script>
+<script src="./client/cairo/cairoApp.js?version=@{version}"></script>
 <script>
 
   //
@@ -211,19 +211,19 @@ Backbone templates
   Cairo.Company.setDefaultCurrency(2, '$', 'Peso');
 
 </script>
-<script src="./client/cairo/session.js"></script>
-<script src="./client/cairo/config/storage/localstorage.js"></script>
-<script src="./client/cairo/system/browser.js"></script>
-<script src="./client/cairo/system/promise.js"></script>
-<script src="./client/cairo/system/modal.js"></script>
+<script src="./client/cairo/session.js?version=@{version}"></script>
+<script src="./client/cairo/config/storage/localstorage.js?version=@{version}"></script>
+<script src="./client/cairo/system/browser.js?version=@{version}"></script>
+<script src="./client/cairo/system/promise.js?version=@{version}"></script>
+<script src="./client/cairo/system/modal.js?version=@{version}"></script>
 
 <!-- system -->
 
-<script src="./client/cairo/system/database/database.js"></script>
-<script src="./client/cairo/system/database/docDigital.js"></script>
-<script src="./client/cairo/system/security/security.js"></script>
-<script src="./client/cairo/system/language/language.js"></script>
-<script src="./client/cairo/system/documentation/documentation.js"></script>
+<script src="./client/cairo/system/database/database.js?version=@{version}"></script>
+<script src="./client/cairo/system/database/docDigital.js?version=@{version}"></script>
+<script src="./client/cairo/system/security/security.js?version=@{version}"></script>
+<script src="./client/cairo/system/language/language.js?version=@{version}"></script>
+<script src="./client/cairo/system/documentation/documentation.js?version=@{version}"></script>
 
 <script>
   @languageGenerator(language)
@@ -231,73 +231,73 @@ Backbone templates
 
 <!-- formatters -->
 
-<script src="./client/cairo/system/formatters/accounting.js"></script>
+<script src="./client/cairo/system/formatters/accounting.js?version=@{version}"></script>
 
 <!-- controls -->
 
-<script src="./client/cairo/system/controls/control.js"></script>
+<script src="./client/cairo/system/controls/control.js?version=@{version}"></script>
 
-<script src="./client/cairo/system/controls/tree.js"></script>
-<script src="./client/cairo/system/controls/tab.js"></script>
-<script src="./client/cairo/system/controls/select.js"></script>
-<script src="./client/cairo/system/controls/treeSelect.js"></script>
+<script src="./client/cairo/system/controls/tree.js?version=@{version}"></script>
+<script src="./client/cairo/system/controls/tab.js?version=@{version}"></script>
+<script src="./client/cairo/system/controls/select.js?version=@{version}"></script>
+<script src="./client/cairo/system/controls/treeSelect.js?version=@{version}"></script>
 
-<script src="./client/cairo/system/controls/button.js"></script>
-<script src="./client/cairo/system/controls/label.js"></script>
-<script src="./client/cairo/system/controls/menu.js"></script>
-<script src="./client/cairo/system/controls/menuItem.js"></script>
-<script src="./client/cairo/system/controls/image.js"></script>
-<script src="./client/cairo/system/controls/input.js"></script>
-<script src="./client/cairo/system/controls/datePicker.js"></script>
-<script src="./client/cairo/system/controls/checkbox.js"></script>
-<script src="./client/cairo/system/controls/combo.js"></script>
-<script src="./client/cairo/system/controls/optionButton.js"></script>
-<script src="./client/cairo/system/controls/password.js"></script>
-<script src="./client/cairo/system/controls/progressBar.js"></script>
-<script src="./client/cairo/system/controls/textArea.js"></script>
-<script src="./client/cairo/system/controls/toolbar.js"></script>
-<script src="./client/cairo/system/controls/grid.js"></script>
-<script src="./client/cairo/system/controls/listGrid.js"></script>
+<script src="./client/cairo/system/controls/button.js?version=@{version}"></script>
+<script src="./client/cairo/system/controls/label.js?version=@{version}"></script>
+<script src="./client/cairo/system/controls/menu.js?version=@{version}"></script>
+<script src="./client/cairo/system/controls/menuItem.js?version=@{version}"></script>
+<script src="./client/cairo/system/controls/image.js?version=@{version}"></script>
+<script src="./client/cairo/system/controls/input.js?version=@{version}"></script>
+<script src="./client/cairo/system/controls/datePicker.js?version=@{version}"></script>
+<script src="./client/cairo/system/controls/checkbox.js?version=@{version}"></script>
+<script src="./client/cairo/system/controls/combo.js?version=@{version}"></script>
+<script src="./client/cairo/system/controls/optionButton.js?version=@{version}"></script>
+<script src="./client/cairo/system/controls/password.js?version=@{version}"></script>
+<script src="./client/cairo/system/controls/progressBar.js?version=@{version}"></script>
+<script src="./client/cairo/system/controls/textArea.js?version=@{version}"></script>
+<script src="./client/cairo/system/controls/toolbar.js?version=@{version}"></script>
+<script src="./client/cairo/system/controls/grid.js?version=@{version}"></script>
+<script src="./client/cairo/system/controls/listGrid.js?version=@{version}"></script>
 
 <!-- dialogs -->
 
-<script src="./client/cairo/system/collections/collection.js"></script>
-<script src="./client/cairo/system/dialogs/property.js"></script>
-<script src="./client/cairo/system/dialogs/menu.js"></script>
-<script src="./client/cairo/system/dialogs/tab.js"></script>
-<script src="./client/cairo/system/dialogs/grid.js"></script>
-<script src="./client/cairo/system/dialogs/view.js"></script>
-<script src="./client/cairo/system/dialogs/dialog.js"></script>
-<script src="./client/cairo/system/dialogs/dialogList.js"></script>
-<script src="./client/cairo/system/dialogs/wizardStep.js"></script>
-<script src="./client/cairo/system/dialogs/wizard.js"></script>
+<script src="./client/cairo/system/collections/collection.js?version=@{version}"></script>
+<script src="./client/cairo/system/dialogs/property.js?version=@{version}"></script>
+<script src="./client/cairo/system/dialogs/menu.js?version=@{version}"></script>
+<script src="./client/cairo/system/dialogs/tab.js?version=@{version}"></script>
+<script src="./client/cairo/system/dialogs/grid.js?version=@{version}"></script>
+<script src="./client/cairo/system/dialogs/view.js?version=@{version}"></script>
+<script src="./client/cairo/system/dialogs/dialog.js?version=@{version}"></script>
+<script src="./client/cairo/system/dialogs/dialogList.js?version=@{version}"></script>
+<script src="./client/cairo/system/dialogs/wizardStep.js?version=@{version}"></script>
+<script src="./client/cairo/system/dialogs/wizard.js?version=@{version}"></script>
 
 
-<script src="./client/cairo/system/printing/printing.js"></script>
+<script src="./client/cairo/system/printing/printing.js?version=@{version}"></script>
 
 <!-- modules -->
 
 <!-- TODO: this file is hardcoded for now but must be included in the router -->
-<script src="./client/cairo/modules/CSGeneral2/constants.js"></script>
-<script src="./client/cairo/modules/CSCompra2/constants.js"></script>
-<script src="./client/cairo/modules/CSVenta2/constants.js"></script>
-<script src="./client/cairo/modules/CSContabilidad2/constants.js"></script>
-<script src="./client/cairo/modules/CSTesoreria2/constants.js"></script>
-<script src="./client/cairo/modules/CSStock2/constants.js"></script>
-<script src="./client/cairo/modules/system/system.js"></script>
-<script src="./client/cairo/modules/system/modules.js"></script>
-<script src="./client/cairo/modules/system/reports.js"></script>
-<script src="./client/cairo/modules/system/reportForms.js"></script>
-<script src="./client/cairo/modules/system/tasks.js"></script>
-<script src="./client/cairo/modules/CSGeneralEx2/cGenericEdit.js"></script>
-<script src="./client/cairo/modules/CSCompra2/percepcion.js"></script>
-<script src="./client/cairo/modules/CSVenta2/percepcion.js"></script>
-<script src="./client/cairo/modules/CSGeneralEx2/cProductoSerieRange.js"></script>
-<script src="./client/cairo/modules/CSGeneralEx2/cProductoSerieType.js"></script>
-<script src="./client/cairo/modules/CSGeneralEx2/cProductoSerie.js"></script>
+<script src="./client/cairo/modules/CSGeneral2/constants.js?version=@{version}"></script>
+<script src="./client/cairo/modules/CSCompra2/constants.js?version=@{version}"></script>
+<script src="./client/cairo/modules/CSVenta2/constants.js?version=@{version}"></script>
+<script src="./client/cairo/modules/CSContabilidad2/constants.js?version=@{version}"></script>
+<script src="./client/cairo/modules/CSTesoreria2/constants.js?version=@{version}"></script>
+<script src="./client/cairo/modules/CSStock2/constants.js?version=@{version}"></script>
+<script src="./client/cairo/modules/system/system.js?version=@{version}"></script>
+<script src="./client/cairo/modules/system/modules.js?version=@{version}"></script>
+<script src="./client/cairo/modules/system/reports.js?version=@{version}"></script>
+<script src="./client/cairo/modules/system/reportForms.js?version=@{version}"></script>
+<script src="./client/cairo/modules/system/tasks.js?version=@{version}"></script>
+<script src="./client/cairo/modules/CSGeneralEx2/cGenericEdit.js?version=@{version}"></script>
+<script src="./client/cairo/modules/CSCompra2/percepcion.js?version=@{version}"></script>
+<script src="./client/cairo/modules/CSVenta2/percepcion.js?version=@{version}"></script>
+<script src="./client/cairo/modules/CSGeneralEx2/cProductoSerieRange.js?version=@{version}"></script>
+<script src="./client/cairo/modules/CSGeneralEx2/cProductoSerieType.js?version=@{version}"></script>
+<script src="./client/cairo/modules/CSGeneralEx2/cProductoSerie.js?version=@{version}"></script>
 
-@for(routerEntry <- router){<script src="./client/cairo/modules/@{routerEntry.fileHandler}.js"></script>
-@for(wizard <- routerEntry.wizards){<script src="./client/cairo/modules/@{wizard.fileHandler}.js"></script>}
+@for(routerEntry <- router){<script src="./client/cairo/modules/@{routerEntry.fileHandler}.js?version=@{version}"></script>
+@for(wizard <- routerEntry.wizards){<script src="./client/cairo/modules/@{wizard.fileHandler}.js?version=@{version}"></script>}
 }
 
 <script src="./client/cairo/about/aboutApp.js"></script>
