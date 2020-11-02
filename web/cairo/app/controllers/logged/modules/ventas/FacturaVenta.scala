@@ -1219,7 +1219,7 @@ object FacturaVentas extends Controller with ProvidesUser {
 
   def isPaymentInCash(id: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_FACTURA_VENTA), { user =>
-      Ok(Json.obj("paymen_in_cash" -> Json.toJson(FacturaVenta.isPaymentInCash(user, id))))
+      Ok(Json.obj("payment_in_cash" -> Json.toJson(FacturaVenta.isPaymentInCash(user, id))))
     })
   }
 

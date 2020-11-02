@@ -1341,7 +1341,7 @@
                               }
                               else {
                                 p = D.isCobranzaContado(m_id).then(function(result) {
-                                  if(result) {
+                                  if(result && DB.valField(result.data, "payment_in_cash") === true) {
                                     return D.showCobranzaContado(
                                       m_cliId, m_id, m_fecha, m_total * cotizacion,
                                       m_sucId, m_ccosId, m_lgjId, m_cjId);
@@ -2645,6 +2645,7 @@
         }
 
         showCotizacion();
+        showFechaVto();
 
         D.showDataAddCliente(Cairo.UserConfig.getShowDataAddInVentas(), m_dialog);
 

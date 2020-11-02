@@ -848,11 +848,11 @@
       "sma-se" : "yyyy-MM-dd",
       "en-sg" : "d/M/yyyy",
       "ug-cn" : "yyyy-M-d",
-      "sr-cyrl-BA" : "d.M.yyyy",
+      "sr-cyrl-ba" : "d.M.yyyy",
       "es-us" : "M/d/yyyy"
     };
 
-    return formats[navigator.language] || 'DD/MM/YYYY';
+    return formats[navigator.language.toLowerCase()] || 'DD/MM/YYYY';
   };
 
   var localeLongDateFormat = getLocaleDateString();

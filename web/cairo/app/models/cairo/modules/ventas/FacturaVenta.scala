@@ -2244,7 +2244,7 @@ object FacturaVenta {
   def isPaymentInCash(user: CompanyUser, id: Int): Boolean = {
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "{call sp_doc_es_cobranza_cdo(?, ?, ?)}"
+      val sql = "{call sp_doc_es_cobranza_cdo(?, ?)}"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, id)

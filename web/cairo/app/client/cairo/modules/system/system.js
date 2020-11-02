@@ -2172,6 +2172,9 @@
       "load[" + m_apiPath + "ventas/facturaventa/" + fvId.toString() + "/incash]");
   };
 
+  Cairo.Documents.showCobranzaContado = function() {
+    Cairo.raiseError("Cairo.Documents.showCobranzaContado", "not implemented");
+  };
 
   /*
   *

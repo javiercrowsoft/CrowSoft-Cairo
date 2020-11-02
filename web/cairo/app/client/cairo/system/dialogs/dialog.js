@@ -5467,9 +5467,7 @@
 
                   if(!unloading) {
                     var refreshAfterSave = function() {
-                      if(!m_isDocument) {
-                        self.refreshTitle();
-                      }
+                      self.refreshTitle();
                       getView().setFocusFirstControl();
                     };
 
