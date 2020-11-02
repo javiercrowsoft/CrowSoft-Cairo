@@ -859,7 +859,7 @@
 
   var parseDate = function(maybeDate) {
     if(typeof maybeDate === "string") {
-      return moment(maybeDate, localeLongDateFormat).toDate();
+      return moment(maybeDate, localeLongDateFormat.toUpperCase()).toDate();
     }
     else {
       return new Date(maybeDate);
