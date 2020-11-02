@@ -5,6 +5,7 @@ import java.util.Date
 
 import play.api.Logger
 import play.api.libs.json._
+import formatters.json.DateFormatter
 
 case class ColumnDef(name: String, columnType: String)
 
@@ -98,8 +99,8 @@ object Recordset {
           case l: Long => Json.toJson(l)
           case bg: BigDecimal => Json.toJson(bg)
           case dbl: Double => Json.toJson(dbl)
-          case d: java.sql.Date => Json.toJson(new Date(d.getTime))
-          case t: java.sql.Timestamp => Json.toJson(new Date(t.getTime))
+          case d: java.sql.Date => Json.toJson(DateFormatter.format(new Date(d.getTime)))
+          case t: java.sql.Timestamp => Json.toJson(DateFormatter.format(new Date(t.getTime)))
           case s: String => Json.toJson(s)
         }
       }

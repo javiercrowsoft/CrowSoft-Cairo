@@ -116,8 +116,8 @@ object DBHelper {
       case "float8" => doubleValue
       case "float4" => doubleValue
       case "real" => rs.getBigDecimal(i)
-      case "timestamp" => rs.getDate(i)
-      case "timestamptz" => rs.getDate(i)
+      case "timestamp" => rs.getTimestamp(i)
+      case "timestamptz" => rs.getTimestamp(i)
       case "date" => rs.getDate(i)
       case "time" => rs.getTime(i)
       case "character" => rs.getString(i)

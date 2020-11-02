@@ -1,0 +1,9 @@
+update ordenpago set opg_fecha = date_trunc('day', opg_fecha) + interval '1h' * 3;
+update cobranza set cobz_fecha = date_trunc('day', cobz_fecha) + interval '1h' * 3;
+update facturaventa set fv_fecha = date_trunc('day', fv_fecha) + interval '1h' * 3;
+update facturaventa set fv_fechaiva = date_trunc('day', fv_fechaiva) + interval '1h' * 3;
+update facturaventa set fv_fechaentrega = date_trunc('day', fv_fechaentrega) + interval '1h' * 3;
+update facturacompra set fc_fecha = date_trunc('day', fc_fecha) + interval '1h' * 3;
+update facturacompra set fc_fechaiva = date_trunc('day', fc_fechaiva) + interval '1h' * 3;
+update facturacompra set fc_fechaentrega = date_trunc('day', fc_fechaentrega) + interval '1h' * 3;
+update movimientofondo set mf_fecha = date_trunc('day', mf_fecha) + interval '1h' * 3;

@@ -75,5 +75,9 @@ read /database/postgresql.txt for details )
 /Library/PostgreSQL/9.0/bin/psql -p 5434 -U postgres -1 -v ON_ERROR_STOP -f /Users/javier/Documents/CrowSoft/Scripts/all_functions.sql sdi_com_ar_cairo
 ```
 
+#### update dates to Argentina timezone
+we need to update dates to argentime offset (03:00:00+)
+run script
+fix_date_columns.sql
 
 **Now you should read /database/postgresql.txt**

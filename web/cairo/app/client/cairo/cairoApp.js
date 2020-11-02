@@ -1226,7 +1226,14 @@
   Cairo.Util = {
     sendKeys: function(key) { /* TODO: implement this. */ },
     getDateValueForGrid: getDateFormatted,
-    getDateValueFromGrid: getDateValue,
+    getDateValueFromGrid: function(maybeDate) {
+      if(maybeDate === "") {
+        return "";
+      }
+      else {
+        getDateValue(maybeDate);
+      }
+    },
     getDateFormatted: getDateFormatted,
     getDateValue: getDateValue,
     isDate: isDate,
@@ -1253,7 +1260,7 @@
 
           case Cairo.Constants.Types.date:
           case Cairo.Constants.Types.dateOrNull:
-            return getDateValue(value).getTime() === Cairo.Constants.NO_DATE.getTime();
+            return value === "" || getDateValue(value).getTime() === Cairo.Constants.NO_DATE.getTime();
         }
         return false;
       }
