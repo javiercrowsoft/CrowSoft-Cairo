@@ -2523,6 +2523,7 @@
         }
 
         showCotizacion();
+        showFechaVto();
 
         D.showDataAddProveedor(Cairo.UserConfig.getShowDataAddInCompras(), m_dialog);
 
