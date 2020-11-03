@@ -1165,7 +1165,7 @@
         return P.resolvedPromise(true);
       };
 
-      var validateRow = function(key, row, rowIndex) {
+      self.validateRow = function(key, row, rowIndex) {
         var p = null;
 
         try {
