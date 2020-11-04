@@ -27,9 +27,18 @@ object Router {
   def createEntry(fileHandler: String, action: String, path: String, action2: String, path2: String): RouterEntry = {
     val wizards: List[Wizard] = {
       fileHandler match {
-        case "CSCompra2/cFacturaCompra" => List(Wizard("CSCompra2/cFacturaCompraRemitoWiz"), Wizard("CSCompra2/cFacturaCompraAplic"))
-        case "CSVenta2/cFacturaVenta" => List(Wizard("CSVenta2/cFacturaVentaRemitoWiz"), Wizard("CSVenta2/cFacturaVentaAplic"))
-        case "CSTesoreria2/cCobranza" => List(Wizard("CSTesoreria2/cCobranzaWizard"), Wizard("CSTesoreria2/cCobranzaPagoAplic"))
+        case "CSCompra2/cFacturaCompra" =>
+          List(
+            Wizard("CSCompra2/cFacturaCompraRemitoWiz"),
+            Wizard("CSCompra2/cFacturaCompraAplic", Some(RouterEntry("cFacturaCompra","edit","","editAplic","compra/facturacompraaplic/:id", List()))))
+        case "CSVenta2/cFacturaVenta" =>
+          List(
+            Wizard("CSVenta2/cFacturaVentaRemitoWiz"),
+            Wizard("CSVenta2/cFacturaVentaAplic", Some(RouterEntry("cFacturaVenta","edit","","editAplic","venta/facturaventaaplic/:id", List()))))
+        case "CSTesoreria2/cCobranza" =>
+          List(
+            Wizard("CSTesoreria2/cCobranzaWizard"),
+            Wizard("CSTesoreria2/cCobranzaPagoAplic", Some(RouterEntry("cCobranza","edit","","editAplic","tesoreria/cobranzaaplic/:id", List()))))
         case "CSTesoreria2/cOrdenPago" =>
           List(
             Wizard("CSTesoreria2/cOrdenPagoWizard"),

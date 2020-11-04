@@ -2337,7 +2337,7 @@ object FacturaVenta {
         Field(TC.FV_ID, item.fvId, FieldType.id),
         Field(TC.FVD_ID, item.fvdId, FieldType.id),
         Field(TC.FVP_ID, item.fvpId, FieldType.id),
-        Field(TC.FV_COBZ_ID, item.fvcobzId, FieldType.id),
+        Field(TC.FV_COBZ_ID, item.fvcobzId, FieldType.long),
         Field(TC.FV_COBZ_COTIZACION, item.fvcobzCotizacion, FieldType.currency),
         Field(TC.FV_COBZ_IMPORTE, item.fvcobzImporte, FieldType.currency),
         Field(TC.FV_COBZ_IMPORTE_ORIGEN, item.fvcobzImporteOrigen, FieldType.currency)

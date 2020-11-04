@@ -2586,7 +2586,7 @@ object FacturaCompra {
         Field(TC.FC_ID, item.fcId, FieldType.id),
         Field(TC.FCD_ID, item.fcdId, FieldType.id),
         Field(TC.FCP_ID, item.fcpId, FieldType.id),
-        Field(TC.FC_OPG_ID, item.fcopgId, FieldType.id),
+        Field(TC.FC_OPG_ID, item.fcopgId, FieldType.long),
         Field(TC.FC_OPG_COTIZACION, item.fcopgCotizacion, FieldType.currency),
         Field(TC.FC_OPG_IMPORTE, item.fcopgImporte, FieldType.currency),
         Field(TC.FC_OPG_IMPORTE_ORIGEN, item.fcopgImporteOrigen, FieldType.currency)

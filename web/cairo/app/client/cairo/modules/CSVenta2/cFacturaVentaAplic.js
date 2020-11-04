@@ -209,7 +209,7 @@
                 // save the amount for the installment we were editing
                 //
                 if(m_lastRowVto !== -1) {
-                  cobranzaRefreshVto(cobranzaUpdateteGrids());
+                  cobranzaRefreshVto(cobranzaUpdateGrids());
                 }
 
                 // show amounts applied for this installment
@@ -319,7 +319,7 @@
           return D.msgApplyDisabled(m_empName);
         }
 
-        cobranzaUpdateteGrids();
+        cobranzaUpdateGrids();
         itemUpdateGrids();
 
         var register = new DB.Register();
@@ -438,7 +438,7 @@
       };
 
       self.getPath = function() {
-        return "#general/facturaventaaplic/" + m_fvId.toString();
+        return "#venta/facturaventaaplic/" + m_fvId.toString();
       };
 
       self.getEditorName = function() {
@@ -978,15 +978,28 @@
 
       var createPedidoRemitoAplic = function() {
         return {
-          rvfv_id: null,
-          pvfv_id: null,
-          fvi_id: null,
+          rvfv_id: NO_ID,
+          pvfv_id: NO_ID,
+          fvi_id: NO_ID,
           aplicado: 0
         };
       };
 
       var itemUpdateGrids = function() {
         var aplicadoTotal = 0;
+
+        // remove new applications
+        //
+        for(var i = 0, count = m_vPedidoRemito.length; i < count; i+=1) {
+          var vAplicaciones = [];
+          for(var j = 0, countJ = m_vPedidoRemito[i].vAplicaciones.length; j < countJ; j+=1) {
+            if(m_vPedidoRemito[i].vAplicaciones[j].rvfv_id !== NO_ID
+              || m_vPedidoRemito[i].vAplicaciones[j].pvfv_id !== NO_ID) {
+              vAplicaciones.push(m_vPedidoRemito[i].vAplicaciones[j]);
+            }
+          }
+          m_vPedidoRemito[i].vAplicaciones = vAplicaciones;
+        }
 
         if(m_lastRowItem !== -1) {
           var properties = m_dialog.getProperties();
@@ -1236,8 +1249,8 @@
         var totalAplicado = 0;
 
         if(idx === -1) {
-          G.redimPreserve(vAplicaciones, vAplicaciones.length + 1);
-          idx = vAplicaciones.length;
+          vAplicaciones.push(createPedidoRemitoAplic());
+          idx = vAplicaciones.length -1;
           vAplicaciones.fvi_id = m_fviId;
         }
 
@@ -2108,8 +2121,20 @@
         return m_dialog.getProperties().item(C_PENDIENTE_COBRANZA);
       };
 
-      var cobranzaUpdateteGrids = function() {
+      var cobranzaUpdateGrids = function() {
         var aplicado = 0;
+
+        // remove new applications
+        //
+        for(var i = 0, count = m_vCobzNC.length; i < count; i+=1) {
+          var vAplicaciones = [];
+          for(var j = 0, countJ = m_vCobzNC[i].vAplicaciones.length; j < countJ; j+=1) {
+            if(m_vCobzNC[i].vAplicaciones[j].fvcobz_id !== NO_ID) {
+              vAplicaciones.push(m_vCobzNC[i].vAplicaciones[j]);
+            }
+          }
+          m_vCobzNC[i].vAplicaciones = vAplicaciones;
+        }
 
         if(m_lastRowVto !== -1) {
           aplicado = cobranzaUpdateAplicVtos();

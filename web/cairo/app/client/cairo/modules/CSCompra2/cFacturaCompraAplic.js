@@ -109,7 +109,7 @@
       var m_lastRowVto = -1;
       var m_lastRowItem = -1;
 
-      var m_client;
+      var m_client = null;
       var m_empId = 0;
       var m_empName = "";
 
@@ -400,7 +400,7 @@
       };
 
       self.getPath = function() {
-        return "#general/facturacompraaplic/" + m_fcId.toString();
+        return "#compra/facturacompraaplic/" + m_fcId.toString();
       };
 
       self.getEditorName = function() {
@@ -934,15 +934,28 @@
 
       var createOrdenRemitoAplic = function() {
         return {
-          rcfc_id: null,
-          ocfc_id: null,
-          fci_id: null,
+          rcfc_id: NO_ID,
+          ocfc_id: NO_ID,
+          fci_id: NO_ID,
           aplicado: 0
         };
       };
 
       var itemUpdateGrids = function() {
         var aplicadoTotal = 0;
+
+        // remove new applications
+        //
+        for(var i = 0, count = m_vOrdenRemito.length; i < count; i+=1) {
+          var vAplicaciones = [];
+          for(var j = 0, countJ = m_vOrdenRemito[i].vAplicaciones.length; j < countJ; j+=1) {
+            if(m_vOrdenRemito[i].vAplicaciones[j].rcfc_id !== NO_ID
+              || m_vOrdenRemito[i].vAplicaciones[j].ocfc_id !== NO_ID) {
+              vAplicaciones.push(m_vOrdenRemito[i].vAplicaciones[j]);
+            }
+          }
+          m_vOrdenRemito[i].vAplicaciones = vAplicaciones;
+        }
 
         if(m_lastRowItem !== -1) {
           var properties = m_dialog.getProperties();
@@ -2054,6 +2067,18 @@
 
       var ordenPagoUpdateGrids = function() {
         var aplicado = 0;
+
+        // remove new applications
+        //
+        for(var i = 0, count = m_vOpgNC.length; i < count; i+=1) {
+          var vAplicaciones = [];
+          for(var j = 0, countJ = m_vOpgNC[i].vAplicaciones.length; j < countJ; j+=1) {
+            if(m_vOpgNC[i].vAplicaciones[j].fcopg_id !== NO_ID) {
+              vAplicaciones.push(m_vOpgNC[i].vAplicaciones[j]);
+            }
+          }
+          m_vOpgNC[i].vAplicaciones = vAplicaciones;
+        }
 
         if(m_lastRowVto !== -1) {
           aplicado = ordenPagoUpdateAplicVtos();

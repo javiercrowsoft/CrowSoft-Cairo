@@ -1289,11 +1289,12 @@
     isNumeric: isNumeric,
     zeroDiv: function(dividen, divisor) {
       try {
-        if(parseFloat(divisor) === 0) {
+        var v = parseFloat(divisor);
+        if(v === 0 || isNaN( v )) {
           return 0;
         }
         else {
-          return dividen / divisor;
+          return dividen / v;
         }
       }
       catch(ignore) {

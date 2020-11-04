@@ -4391,10 +4391,10 @@
             info.id,
             info.total,
             info.nrodoc,
-            info.prov_id,
             info.proveedor,
             info.emp_id,
-            info.empresa);
+            info.empresa,
+            info.is_auto_apply);
         };
 
         var opgId = m_dialog.getId();

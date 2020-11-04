@@ -3910,6 +3910,44 @@
       }
     };
 
+    Edit.Controller.editAplic = function(id) {
+
+      var NO_ID = Cairo.Constants.NO_ID;
+      var D = Cairo.Documents;
+      var CS = Cairo.Security.Actions.Tesoreria;
+
+      var showEditor = function(info) {
+        if(!Cairo.Security.docHasPermissionTo(
+          CS.MODIFY_APLIC,
+          info.doc_id,
+          Cairo.Security.ActionTypes.apply)) {
+          return false;
+        }
+
+        var editor = Cairo.CobranzaAplic.Edit.Controller.getEditor();
+
+        editor.show(
+          info.id,
+          info.total,
+          info.nrodoc,
+          info.cliente,
+          info.emp_id,
+          info.empresa)
+          .then(function (result) {
+            if (result !== true) {
+              editor = null;
+            }
+          });
+      };
+
+      // TODO: if the document is not saved it should show a message
+      //       if the document has unsaved changes it should suggest
+      //       the user to save changes
+      if(id !== NO_ID) {
+        D.getDocumentInfo(D.Types.COBRANZA, id).whenSuccessWithResult(showEditor);
+      }
+    };
+
   });
 
   Cairo.module("CobranzaListDoc.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
@@ -4565,7 +4603,6 @@
             info.id,
             info.total,
             info.nrodoc,
-            info.cli_id,
             info.cliente,
             info.emp_id,
             info.empresa);

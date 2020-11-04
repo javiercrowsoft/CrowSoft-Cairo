@@ -4718,6 +4718,48 @@
       }
     };
 
+    Edit.Controller.editAplic = function(id) {
+
+      var NO_ID = Cairo.Constants.NO_ID;
+      var D = Cairo.Documents;
+      var CS = Cairo.Security.Actions.Compras;
+
+      var showEditor = function(info) {
+        if (!Cairo.Security.docHasPermissionTo(
+          CS.MODIFY_APLIC,
+          info.docId,
+          Cairo.Security.ActionTypes.apply)) {
+          return false;
+        }
+
+        var editor = Cairo.FacturaCompraAplic.Edit.Controller.getEditor();
+
+        editor.show(
+          info.id,
+          info.total * ((info.cotizacion !== 0) ? info.cotizacion : 1),
+          info.nrodoc,
+          info.prov_id,
+          info.proveedor,
+          info.suc_id,
+          info.doc_id,
+          info.doct_id === D.Types.NOTA_CREDITO_COMPRA,
+          info.emp_id,
+          info.empresa)
+          .then(function (result) {
+            if (result !== true) {
+              editor = null;
+            }
+          });
+      };
+
+      // TODO: if the document is not saved it should show a message
+      //       if the document has unsaved changes it should suggest
+      //       the user to save changes
+      if(id !== NO_ID) {
+        D.getDocumentInfo(D.Types.FACTURA_COMPRA, id).whenSuccessWithResult(showEditor);
+      }
+    };
+
   });
 
   Cairo.module("FacturaCompraListDoc.Edit", function(Edit, Cairo, Backbone, Marionette, $, _) {
