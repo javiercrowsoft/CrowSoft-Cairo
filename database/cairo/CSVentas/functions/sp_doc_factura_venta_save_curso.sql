@@ -49,7 +49,7 @@ declare
    v_curi_id integer;
    v_alum_id integer;
    v_modifico integer;
-   v_fv_fecha date;
+   v_fv_fecha timestamp with time zone;
 
    v_prs_id integer;
    v_prs_apellido varchar(255);

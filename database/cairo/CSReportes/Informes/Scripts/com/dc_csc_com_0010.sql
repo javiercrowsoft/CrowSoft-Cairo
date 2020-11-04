@@ -28,11 +28,11 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: dc_csc_com_0010(integer, date, date, character varying, character varying, character varying, character varying, smallint, character varying, smallint, smallint, smallint)
+-- Function: dc_csc_com_0010(integer, timestamp with time zone, timestamp with time zone, character varying, character varying, character varying, character varying, smallint, character varying, smallint, smallint, smallint)
 
--- drop function dc_csc_com_0010(integer, date, date, character varying, character varying, character varying, character varying, smallint, character varying, smallint, smallint, smallint);
+-- drop function dc_csc_com_0010(integer, timestamp with time zone, timestamp with time zone, character varying, character varying, character varying, character varying, smallint, character varying, smallint, smallint, smallint);
 
-create or replace function dc_csc_com_0010(in p_us_id integer, in p_fini date, in p_ffin date, in p_prov_id character varying, in p_suc_id character varying, in p_cue_id character varying, in p_cico_id character varying, in p_solodeudores smallint, in p_emp_id character varying, in p_ntipo smallint, in p_conremito smallint, in p_saldominimo smallint, out rtn refcursor)
+create or replace function dc_csc_com_0010(in p_us_id integer, in p_fini timestamp with time zone, in p_ffin timestamp with time zone, in p_prov_id character varying, in p_suc_id character varying, in p_cue_id character varying, in p_cico_id character varying, in p_solodeudores smallint, in p_emp_id character varying, in p_ntipo smallint, in p_conremito smallint, in p_saldominimo smallint, out rtn refcursor)
   returns refcursor as
 $BODY$
 declare
@@ -1235,5 +1235,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function dc_csc_com_0010(integer, date, date, character varying, character varying, character varying, character varying, smallint, character varying, smallint, smallint, smallint)
+alter function dc_csc_com_0010(integer, timestamp with time zone, timestamp with time zone, character varying, character varying, character varying, character varying, smallint, character varying, smallint, smallint, smallint)
   owner to postgres;

@@ -37,7 +37,7 @@ create or replace function alr_dc_csc_ven_0010_m(out rtn refcursor)
 $BODY$
 declare
    v_alm_id integer;
-   v_fecha date;
+   v_fecha timestamp with time zone;
    -- Obtengo la direccion de email
    --
    v_mail_emailTo varchar(1000);

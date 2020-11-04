@@ -30,14 +30,14 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_doc_factura_venta_save_deuda()
 
--- drop function sp_doc_factura_venta_save_deuda(integer, integer, date, date, decimal, integer);
+-- drop function sp_doc_factura_venta_save_deuda(integer, integer, timestamp with time zone, timestamp with time zone, decimal, integer);
 
 create or replace function sp_doc_factura_venta_save_deuda
 (
   in p_fv_id integer,
   in p_cpg_id integer,
-  in p_fv_fecha date,
-  in p_fv_fechaVto date,
+  in p_fv_fecha timestamp with time zone,
+  in p_fv_fechaVto timestamp with time zone,
   in p_fv_total decimal(18,6),
   in p_est_id integer
 )
@@ -47,20 +47,20 @@ declare
    v_sys_error varchar := '';
    v_fv_id integer;
    v_cpg_id integer;
-   v_fv_fecha date;
+   v_fv_fecha timestamp with time zone;
    v_fv_total decimal(18,6);
    v_fv_pendiente decimal(18,6);
    v_cpg_escontado smallint;
    v_cpg_eslibre smallint;
    
-   v_p_fv_fechaVto date;
+   v_p_fv_fechaVto timestamp with time zone;
    
    c_pago_item refcursor;
    v_cpgi_dias smallint;
    v_cpgi_porcentaje decimal(18,6);
    v_fvd_id integer;
-   v_fvd_fecha date;
-   v_fvd_fecha2 date;
+   v_fvd_fecha timestamp with time zone;
+   v_fvd_fecha2 timestamp with time zone;
    v_fvd_pendiente decimal(18,6);
    v_importe decimal(18,6);
    v_n smallint;
@@ -168,5 +168,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_doc_factura_venta_save_deuda(integer, integer, date, date, decimal, integer)
+alter function sp_doc_factura_venta_save_deuda(integer, integer, timestamp with time zone, timestamp with time zone, decimal, integer)
   owner to postgres;

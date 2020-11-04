@@ -51,9 +51,9 @@ declare
    v_fcp_id integer;
    v_doct_id integer;
    v_fc_id integer;
-   v_fcp_fecha date;
-   v_fcd_fecha date;
-   v_fcd_fecha2 date;
+   v_fcp_fecha timestamp with time zone;
+   v_fcd_fecha timestamp with time zone;
+   v_fcd_fecha2 timestamp with time zone;
    v_borrar_vinculacion smallint;
    v_fcd_id_factura integer;
    v_fcd_id_notacredito integer;

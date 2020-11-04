@@ -46,7 +46,7 @@ declare
    v_emp_id integer;
    v_cotizacion decimal(18,6);
    v_mon_id integer;
-   v_fecha date;
+   v_fecha timestamp with time zone;
    v_desc1 decimal(18,6);
    v_desc2 decimal(18,6);
 

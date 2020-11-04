@@ -30,14 +30,14 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_lista_precio_save_auto()
 
--- drop function sp_lista_precio_save_auto(integer, integer, integer, date);
+-- drop function sp_lista_precio_save_auto(integer, integer, integer, timestamp with time zone);
 
 create or replace function sp_lista_precio_save_auto
 (
   in p_doc_id integer,
   in p_doct_id integer,
   in p_is_new integer,
-  in p_fecha date
+  in p_fecha timestamp with time zone
 )
   returns void as
 $BODY$
@@ -48,7 +48,7 @@ declare
   v_pr_id integer;
   v_precio decimal(18,6);
   v_cotiz decimal(18,6);
-  v_doc_fecha date;
+  v_doc_fecha timestamp with time zone;
   v_mon_id_precio integer;
   v_mon_id_legal integer;
   v_mon_id_lista integer;
@@ -416,5 +416,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_lista_precio_save_auto(integer, integer, integer, date)
+alter function sp_lista_precio_save_auto(integer, integer, integer, timestamp with time zone)
   owner to postgres;

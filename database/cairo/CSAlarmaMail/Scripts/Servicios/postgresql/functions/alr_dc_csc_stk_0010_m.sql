@@ -37,7 +37,7 @@ create or replace function alr_dc_csc_stk_0010_m(out rtn refcursor)
 $BODY$
 declare
    v_alm_id integer;
-   v_ultimo_aviso date;
+   v_ultimo_aviso timestamp with time zone;
    v_offset_inicio integer;
    v_offset_inicio_e integer;
    --////////////////////////////////////////////////////////////////////////////////

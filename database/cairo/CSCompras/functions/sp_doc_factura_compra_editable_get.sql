@@ -49,7 +49,7 @@ create or replace function sp_doc_factura_compra_editable_get
 $BODY$
 declare
    v_doc_id integer;
-   v_fc_fecha date;
+   v_fc_fecha timestamp with time zone;
    v_estado integer;
    v_firmado integer;
    v_emp_id integer;
@@ -64,8 +64,8 @@ declare
    v_doc_nombre varchar(255);
    v_fca_id integer;
 
-   v_fca_fechaDesde date;
-   v_fca_fechaHasta date;
+   v_fca_fechaDesde timestamp with time zone;
+   v_fca_fechaHasta timestamp with time zone;
 
    v_doc_editarImpresos smallint;
 begin

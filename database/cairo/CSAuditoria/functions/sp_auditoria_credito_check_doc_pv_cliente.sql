@@ -58,7 +58,7 @@ declare
    v_cache decimal(18,6);
    v_cotizacion decimal(18,6);
    v_mon_id integer;
-   v_fecha date;
+   v_fecha timestamp with time zone;
 begin
 
    v_error := 0;

@@ -58,7 +58,7 @@ declare
    v_lpm_montominimo decimal(18,6);
    v_mon_id_marcado integer;
    v_lpm_activo smallint;
-   v_fecha date;
+   v_fecha timestamp with time zone;
 begin
 
    v_fecha := CURRENT_TIMESTAMP;

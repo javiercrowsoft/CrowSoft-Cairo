@@ -79,8 +79,8 @@ declare
    v_pv_nrodoc varchar(50);
    v_pv_numero integer;
    v_pv_descrip varchar(5000);
-   v_pv_fecha date;
-   v_pv_fechaentrega date;
+   v_pv_fecha timestamp with time zone;
+   v_pv_fechaentrega timestamp with time zone;
    v_pv_neto decimal(18,6);
    v_pv_ivari decimal(18,6);
    v_pv_ivarni decimal(18,6);
@@ -94,8 +94,8 @@ declare
    v_pv_ordencompra varchar(255);
    v_ram_id_stock varchar(50);
    
-   v_creado date;
-   v_modificado date;
+   v_creado timestamp with time zone;
+   v_modificado timestamp with time zone;
    v_modifico integer;
       
    v_pvi_orden smallint;

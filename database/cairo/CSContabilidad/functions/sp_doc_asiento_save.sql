@@ -53,7 +53,7 @@ declare
    v_as_numero integer;
    v_as_nrodoc varchar(50);
    v_as_descrip varchar(5000);
-   v_as_fecha date;
+   v_as_fecha timestamp with time zone;
 
    v_asi_id integer;
    v_asi_orden smallint;
@@ -69,8 +69,8 @@ declare
    v_cue_id integer;
    v_mon_id integer;
 
-   v_creado date;
-   v_modificado date;
+   v_creado timestamp with time zone;
+   v_modificado timestamp with time zone;
    v_modifico integer;
    
    v_cue_nombre varchar(255);

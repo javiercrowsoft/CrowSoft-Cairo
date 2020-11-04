@@ -53,7 +53,7 @@ $BODY$
 declare
 
    v_doc_id integer;
-   v_opg_fecha date;
+   v_opg_fecha timestamp with time zone;
    v_estado integer;
 
    v_firmado integer;
@@ -69,8 +69,8 @@ declare
    v_csPreTsrEditOrdenPago integer := 18015;
    v_csPreTsrDeleteOrdenPago integer := 18016;
 
-   v_fca_fechaDesde date;
-   v_fca_fechaHasta date;
+   v_fca_fechaDesde timestamp with time zone;
+   v_fca_fechaHasta timestamp with time zone;
 
    v_doc_editarImpresos smallint;
 

@@ -66,7 +66,7 @@ declare
    v_us_id integer;
    v_mon_id integer;
 
-   v_mf_fecha date;
+   v_mf_fecha timestamp with time zone;
    v_mf_nrodoc varchar(50);
    v_mf_numero integer;
    v_mf_descrip varchar(5000);
@@ -76,8 +76,8 @@ declare
    v_mf_grabarAsiento smallint;
    v_mf_total decimal(18,6);
    
-   v_creado date;
-   v_modificado date;
+   v_creado timestamp with time zone;
+   v_modificado timestamp with time zone;
    v_modifico integer;
    
    v_mfi_orden smallint;
@@ -92,9 +92,9 @@ declare
    v_chq_id integer;
    v_cheq_id integer;
    v_cheq_numerodoc varchar(100);
-   v_cheq_fechaCobro date;
-   v_cheq_fechaVto date;
-   v_cheq_fecha2 date;
+   v_cheq_fechaCobro timestamp with time zone;
+   v_cheq_fechaVto timestamp with time zone;
+   v_cheq_fecha2 timestamp with time zone;
    v_cle_id integer;
    v_bco_id integer;
 

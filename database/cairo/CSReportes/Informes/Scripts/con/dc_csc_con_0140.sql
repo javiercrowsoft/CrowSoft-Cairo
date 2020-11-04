@@ -30,7 +30,7 @@ javier at crowsoft.com.ar
 */
 -- Function: dc_csc_con_0140()
 
--- drop function dc_csc_con_0140(integer, date, date, varchar, varchar, varchar, varchar, varchar, varchar, integer, integer, integer, integer, varchar);
+-- drop function dc_csc_con_0140(integer, timestamp with time zone, timestamp with time zone, varchar, varchar, varchar, varchar, varchar, varchar, integer, integer, integer, integer, varchar);
 
 /*---------------------------------------------------------------------
 name: Listado de sumas y saldos
@@ -51,8 +51,8 @@ exec [dc_csc_con_0140] 1,'20010309 00:00:00','20100309 00:00:00','0','0','0','0'
 create or replace function dc_csc_con_0140
 (
   in p_us_id integer,
-  in p_Fini date,
-  in p_Ffin date,
+  in p_Fini timestamp with time zone,
+  in p_Ffin timestamp with time zone,
 
   in p_cue_id varchar,
   in p_cico_id varchar,
@@ -540,5 +540,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function dc_csc_con_0140(integer, date, date, varchar, varchar, varchar, varchar, varchar, varchar, integer, integer, integer, integer, varchar)
+alter function dc_csc_con_0140(integer, timestamp with time zone, timestamp with time zone, varchar, varchar, varchar, varchar, varchar, varchar, integer, integer, integer, integer, varchar)
   owner to postgres;

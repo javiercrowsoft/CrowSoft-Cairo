@@ -30,13 +30,13 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_moneda_get_cotizacion()
 
--- drop function sp_moneda_get_cotizacion(integer, date);
+-- drop function sp_moneda_get_cotizacion(integer, timestamp with time zone);
 -- select * from monedaitem
 -- select sp_moneda_get_cotizacion(3,'20041231', 0::smallint);
 create or replace function sp_moneda_get_cotizacion
 (
   in p_mon_id integer,
-  in p_fecha date,
+  in p_fecha timestamp with time zone,
   out p_cotiz decimal(18,6)
 )
   returns decimal as
@@ -76,5 +76,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_moneda_get_cotizacion(integer, date)
+alter function sp_moneda_get_cotizacion(integer, timestamp with time zone)
   owner to postgres;

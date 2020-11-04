@@ -37,7 +37,7 @@ create or replace function alr_dc_csc_srv_0010_m(out rtn refcursor)
 $BODY$
 declare
    v_alm_id integer;
-   v_fecha date;
+   v_fecha timestamp with time zone;
    v_offset_inicio integer;
    v_offset_alarma1 integer;
    v_offset_alarma2 integer;

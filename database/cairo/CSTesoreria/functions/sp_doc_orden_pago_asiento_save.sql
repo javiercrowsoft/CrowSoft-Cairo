@@ -49,7 +49,7 @@ declare
    v_as_id integer;
    v_as_numero integer;
    v_as_nrodoc varchar(50);
-   v_as_fecha date;
+   v_as_fecha timestamp with time zone;
    v_as_descrip varchar(5000);
    v_as_doc_cliente varchar(5000);
    v_as_id_factura integer;
@@ -70,7 +70,7 @@ declare
    v_doct_id_OrdenPago integer;
    v_doc_id_cliente integer;
    
-   v_opg_fecha date;
+   v_opg_fecha timestamp with time zone;
 
    v_ta_id integer;
 
@@ -87,8 +87,8 @@ declare
 
    v_cheq_id integer;
 
-   v_creado date;
-   v_modificado date;
+   v_creado timestamp with time zone;
+   v_modificado timestamp with time zone;
    v_modifico integer;
    
    v_fc_id integer;

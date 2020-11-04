@@ -36,8 +36,8 @@ drop function sp_doc_op_mf_cheque_save(
   varchar,
   decimal,
   decimal,
-  date,
-  date,
+  timestamp with time zone,
+  timestamp with time zone,
   varchar,
   integer,
   integer,
@@ -56,8 +56,8 @@ create or replace function sp_doc_op_mf_cheque_save
   in p_cheq_numerodoc varchar,
   in p_importe decimal(18,6),
   in p_importeOrigen decimal(18,6),
-  in p_cheq_fechaCobro date,
-  in p_cheq_fechaVto date,
+  in p_cheq_fechaCobro timestamp with time zone,
+  in p_cheq_fechaVto timestamp with time zone,
   in p_descrip varchar,
   in p_chq_id integer,
   in p_opg_id integer,
@@ -80,7 +80,7 @@ declare
    v_bco_id integer;
    v_cheq_numero integer;
    v_emp_id integer;
-   v_cheq_fecha2 date;
+   v_cheq_fecha2 timestamp with time zone;
 begin
 
    -- obtengo la empresa de este cheque
@@ -241,8 +241,8 @@ alter function sp_doc_op_mf_cheque_save(
   varchar,
   decimal,
   decimal,
-  date,
-  date,
+  timestamp with time zone,
+  timestamp with time zone,
   varchar,
   integer,
   integer,

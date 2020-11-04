@@ -57,9 +57,9 @@ declare
    v_fc_id integer;
    v_pago decimal(18,6);
    v_aplic decimal(18,6);
-   v_fcp_fecha date;
-   v_fcd_fecha date;
-   v_fcd_fecha2 date;
+   v_fcp_fecha timestamp with time zone;
+   v_fcd_fecha timestamp with time zone;
+   v_fcd_fecha2 timestamp with time zone;
    v_opg_id integer;
    v_modifico integer;
    v_bSuccess smallint;

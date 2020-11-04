@@ -78,8 +78,8 @@ declare
    v_emp_id integer;
 
    v_fv_total decimal(18,6);
-   v_fv_fecha date;
-   v_fv_fechaVto date;
+   v_fv_fecha timestamp with time zone;
+   v_fv_fechaVto timestamp with time zone;
    v_fv_descuento1 decimal(18,6);
    v_fv_descuento2 decimal(18,6);
    v_fv_totalpercepciones decimal(18,6);
@@ -87,8 +87,8 @@ declare
    v_rv_nrodoc varchar(50);
    v_fv_numero integer;
    v_fv_descrip varchar(5000);
-   v_fv_fechaentrega date;
-   v_fv_fechaIva date;
+   v_fv_fechaentrega timestamp with time zone;
+   v_fv_fechaIva timestamp with time zone;
    v_fv_neto decimal(18,6);
    v_fv_ivari decimal(18,6);
    v_fv_ivarni decimal(18,6);
@@ -102,8 +102,8 @@ declare
    v_fv_cai varchar(100);
    v_fv_ordencompra varchar(255);
 
-   v_creado date;
-   v_modificado date;
+   v_creado timestamp with time zone;
+   v_modificado timestamp with time zone;
    v_modifico integer;
 
    v_fviTMP_id integer;
@@ -158,7 +158,7 @@ declare
    dummyChar varchar(255) := '';
 
    v_cobz_nrodoc varchar(50);
-   v_cobz_fecha date;
+   v_cobz_fecha timestamp with time zone;
    v_cobz_pendiente decimal(18,2);
    v_pendiente varchar(8000);
 

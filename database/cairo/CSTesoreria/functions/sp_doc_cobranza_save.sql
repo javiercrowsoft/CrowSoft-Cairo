@@ -64,7 +64,7 @@ declare
    v_ccos_id integer;
    v_lgj_id integer;
    
-   v_cobz_fecha date;
+   v_cobz_fecha timestamp with time zone;
    v_cobz_nrodoc varchar(50);
    v_cobz_numero integer;
    v_cobz_descrip varchar(5000);
@@ -75,8 +75,8 @@ declare
    v_cobz_cotizacion decimal(18,6);
    v_cobz_grabarAsiento smallint;
 
-   v_creado date;
-   v_modificado date;
+   v_creado timestamp with time zone;
+   v_modificado timestamp with time zone;
    v_modifico integer;
 
    v_cobzi_orden smallint;
@@ -87,7 +87,7 @@ declare
    v_cobzi_importeorigen decimal(18,6);
    v_cobzi_otroTipo smallint;
    v_cobzi_porcRetencion decimal(18,6);
-   v_cobzi_fechaRetencion date;
+   v_cobzi_fechaRetencion timestamp with time zone;
    v_cobzi_nroRetencion varchar(100);
    v_cobzi_tipo smallint;
    v_cobzi_tarjetaTipo smallint;
@@ -108,14 +108,14 @@ declare
    v_cheq_propio smallint;
    v_cheq_sucursal varchar(255);
    v_cheq_numerodoc varchar(100);
-   v_cheq_fechaCobro date;
-   v_cheq_fechaVto date;
-   v_cheq_fecha2 date;
+   v_cheq_fechaCobro timestamp with time zone;
+   v_cheq_fechaVto timestamp with time zone;
+   v_cheq_fecha2 timestamp with time zone;
 
    v_tjcc_numero integer;
    v_tjcc_numerodoc varchar(100);
 
-   v_cobziTMP_fechaVto date;
+   v_cobziTMP_fechaVto timestamp with time zone;
    v_cobziTMP_nroTarjeta varchar(50);
    v_cobziTMP_nroAutorizacion varchar(50);
    v_cobziTMP_titular varchar(255);
@@ -142,7 +142,7 @@ declare
 
    v_fvcobz_importeOrigen decimal(18,6);
    v_fvcobz_cotizacion decimal(18,6);
-   v_fvd_fecha date;
+   v_fvd_fecha timestamp with time zone;
 
    v_ta_propuesto smallint;
    v_ta_tipo smallint;

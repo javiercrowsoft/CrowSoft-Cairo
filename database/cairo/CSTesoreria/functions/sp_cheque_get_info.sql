@@ -30,7 +30,7 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_cheque_get_info()
 
--- drop function sp_cheque_get_info(integer, integer);
+-- drop function sp_cheque_get_info(integer);
 
 create or replace function sp_cheque_get_info
 /*
@@ -46,8 +46,8 @@ create or replace function sp_cheque_get_info
   out p_cle_name varchar,
   out p_bco_id int,
   out p_cue_id int,
-  out p_fechavto date,
-  out p_fechacobro date,
+  out p_fechavto timestamp with time zone,
+  out p_fechacobro timestamp with time zone,
   out p_importe decimal(18,6),
   out p_importeorigen decimal(18,6)
 )

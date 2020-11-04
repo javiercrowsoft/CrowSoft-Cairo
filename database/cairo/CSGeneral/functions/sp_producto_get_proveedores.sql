@@ -56,7 +56,7 @@ begin
       lpi_id integer,
       lpi_precio decimal(18,6),
       lpi_top integer,
-      lpi_fecha date,
+      lpi_fecha timestamp with time zone,
       tran_id integer  not null
     ) on commit drop;
     

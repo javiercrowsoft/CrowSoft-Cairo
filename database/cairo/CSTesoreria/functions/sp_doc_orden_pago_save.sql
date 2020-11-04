@@ -49,7 +49,7 @@ declare
   v_opgi_id integer;
   v_is_new integer;
   v_orden smallint;
-  v_opg_fecha date;
+  v_opg_fecha timestamp with time zone;
   v_prov_id integer;
   v_doc_id integer;
   v_doct_id integer;
@@ -70,8 +70,8 @@ declare
   v_ta_id integer;
   v_ccos_id integer;
   v_lgj_id integer;
-  v_creado date;
-  v_modificado date;
+  v_creado timestamp with time zone;
+  v_modificado timestamp with time zone;
   v_modifico integer;
 
   v_opgi_orden smallint;
@@ -82,7 +82,7 @@ declare
   v_opgi_importeorigen decimal(18,6);
   v_opgi_otroTipo smallint;
   v_opgi_porcRetencion decimal(18,6);
-  v_opgi_fechaRetencion date;
+  v_opgi_fechaRetencion timestamp with time zone;
   v_opgi_nroRetencion varchar(100);
   v_opgi_tipo smallint;
 
@@ -96,12 +96,12 @@ declare
   v_fc_id_ret integer;
 
   v_cheq_numerodoc varchar(100);
-  v_cheq_fechaCobro date;
-  v_cheq_fechaVto date;
+  v_cheq_fechaCobro timestamp with time zone;
+  v_cheq_fechaVto timestamp with time zone;
   v_tjcc_numero integer;
   v_tjcc_numerodoc varchar(100);
 
-  v_opgiTMP_fechaVto date;
+  v_opgiTMP_fechaVto timestamp with time zone;
   v_opgiTMP_nroTarjeta varchar(50);
   v_opgiTMP_nroAutorizacion varchar(50);
   v_opgiTMP_titular varchar(255);
@@ -123,7 +123,7 @@ declare
   v_fcp_id integer;
   v_fcopg_importeOrigen decimal(18,6);
   v_fcopg_cotizacion decimal(18,6);
-  v_fcd_fecha date;
+  v_fcd_fecha timestamp with time zone;
 
   v_pago decimal(18,6);
   v_pagoOrigen decimal(18,6);

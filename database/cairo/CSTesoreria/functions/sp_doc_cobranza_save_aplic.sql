@@ -57,9 +57,9 @@ declare
    v_fv_id integer;
    v_pago decimal(18,6);
    v_aplic decimal(18,6);
-   v_fvp_fecha date;
-   v_fvd_fecha date;
-   v_fvd_fecha2 date;
+   v_fvp_fecha timestamp with time zone;
+   v_fvd_fecha timestamp with time zone;
+   v_fvd_fecha2 timestamp with time zone;
    v_cobz_id integer;
    v_modifico integer;
    v_orden smallint;

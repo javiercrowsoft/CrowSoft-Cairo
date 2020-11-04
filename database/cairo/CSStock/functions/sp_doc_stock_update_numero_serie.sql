@@ -45,8 +45,8 @@ declare
    v_doct_id_cliente integer;
    v_id_cliente integer;
 
-   v_modificado date;
-   v_creado date;
+   v_modificado timestamp with time zone;
+   v_creado timestamp with time zone;
 
    v_st_id_prns integer;
    v_depl_id_prns integer;

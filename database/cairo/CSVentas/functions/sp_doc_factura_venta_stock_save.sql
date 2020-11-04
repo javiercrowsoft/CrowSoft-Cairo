@@ -50,7 +50,7 @@ declare
    v_st_numero integer;
    v_st_nrodoc varchar(50);
    v_st_descrip varchar(5000);
-   v_st_fecha date;
+   v_st_fecha timestamp with time zone;
    v_st_doc_cliente varchar(5000);
 
    v_doct_id integer;
@@ -58,7 +58,7 @@ declare
    v_doct_id_factura integer;
    v_doc_id_factura integer;
 
-   v_fv_fecha date;
+   v_fv_fecha timestamp with time zone;
    v_suc_id integer;
    v_ta_id integer;
    v_cli_id integer;
@@ -80,8 +80,8 @@ declare
    v_pr_id integer;
    v_stl_id integer;
 
-   v_creado date;
-   v_modificado date;
+   v_creado timestamp with time zone;
+   v_modificado timestamp with time zone;
    v_modifico integer;
 
    v_error smallint;

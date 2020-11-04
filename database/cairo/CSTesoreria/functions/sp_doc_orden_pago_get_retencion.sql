@@ -33,8 +33,8 @@ javier at crowsoft.com.ar
 /*
 drop function sp_doc_orden_pago_get_retencion(
   integer,
-  date,
-  date,
+  timestamp with time zone,
+  timestamp with time zone,
   varchar,
   varchar,
   varchar,
@@ -51,8 +51,8 @@ drop function sp_doc_orden_pago_get_retencion(
 create or replace function sp_doc_orden_pago_get_retencion
 (
   in p_us_id integer,
-  in p_fdesde date,
-  in p_fhasta date,
+  in p_fdesde timestamp with time zone,
+  in p_fhasta timestamp with time zone,
   in p_prov_id varchar,
   in p_emp_id varchar,
   in p_ret_id varchar,
@@ -970,8 +970,8 @@ $BODY$
   cost 100;
 alter function sp_doc_orden_pago_get_retencion(
   integer,
-  date,
-  date,
+  timestamp with time zone,
+  timestamp with time zone,
   varchar,
   varchar,
   varchar,

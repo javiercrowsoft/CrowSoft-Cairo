@@ -42,7 +42,7 @@ select * from sp_doc_get_fecha2('20150709', 2, null)
 select @fecha
 */
 (
-  in p_fecha date,
+  in p_fecha timestamp with time zone,
   in p_is_banco integer,
   in p_cle_id integer,
   out p_fecha2 date
@@ -50,7 +50,7 @@ select @fecha
   returns date as
 $BODY$
 declare
-   v_fecha2 date;
+   v_fecha2 timestamp with time zone;
    v_oldDateFirst integer;
    v_dayweek smallint;
    v_dias smallint;

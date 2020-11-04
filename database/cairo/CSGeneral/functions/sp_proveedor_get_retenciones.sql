@@ -30,7 +30,7 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_proveedor_get_retenciones()
 
--- drop function sp_proveedor_get_retenciones(integer, integer, integer, date, decimal, varchar);
+-- drop function sp_proveedor_get_retenciones(integer, integer, integer, timestamp with time zone, decimal, varchar);
 /*
 	select * from ProveedorRetencion;
 	select * from sp_proveedor_get_retenciones(1,1,1,'20160501', 105770, '91*92*93');
@@ -45,7 +45,7 @@ create or replace function sp_proveedor_get_retenciones
   in p_us_id integer,
   in p_emp_id integer,
   in p_prov_id integer,
-  in p_fecha date,
+  in p_fecha timestamp with time zone,
   in p_pago decimal(18,6),
   in p_facturas varchar,
   out rtn refcursor
@@ -57,8 +57,8 @@ declare
    v_cue_id integer;
    v_retencion record;
    v_retenciones refcursor;
-   v_fdesde date;
-   v_fhasta date;
+   v_fdesde timestamp with time zone;
+   v_fhasta timestamp with time zone;
 begin   
 
    v_fdesde := dateadd('DAY', -extract('day' from p_fecha)::int+1, p_fecha);
@@ -174,5 +174,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_proveedor_get_retenciones(integer, integer, integer, date, decimal, varchar)
+alter function sp_proveedor_get_retenciones(integer, integer, integer, timestamp with time zone, decimal, varchar)
   owner to postgres;

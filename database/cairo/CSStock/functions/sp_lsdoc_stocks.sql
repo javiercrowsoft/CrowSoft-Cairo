@@ -30,7 +30,7 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_lsdoc_stocks()
 
--- drop function sp_lsdoc_stocks(integer, date, date, varchar, varchar, varchar, varchar);
+-- drop function sp_lsdoc_stocks(integer, timestamp with time zone, timestamp with time zone, varchar, varchar, varchar, varchar);
 
 create or replace function sp_lsdoc_stocks
 /*
@@ -48,8 +48,8 @@ fetch all from rtn;
 */
 (
   in p_us_id integer,
-  in p_Fini date,
-  in p_Ffin date,
+  in p_Fini timestamp with time zone,
+  in p_Ffin timestamp with time zone,
   in p_doc_id varchar,
   in p_suc_id varchar,
   in p_lgj_id varchar,
@@ -252,5 +252,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_lsdoc_stocks(integer, date, date, varchar, varchar, varchar, varchar)
+alter function sp_lsdoc_stocks(integer, timestamp with time zone, timestamp with time zone, varchar, varchar, varchar, varchar)
   owner to postgres;

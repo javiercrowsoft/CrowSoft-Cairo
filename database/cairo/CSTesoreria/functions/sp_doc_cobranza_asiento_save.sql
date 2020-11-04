@@ -51,7 +51,7 @@ declare
    v_as_nrodoc varchar(50);
    v_as_descrip varchar(5000);
    v_as_doc_cliente varchar(5000);
-   v_as_fecha date;
+   v_as_fecha timestamp with time zone;
 
    v_asi_orden smallint;
    v_asi_debe decimal(18,6);
@@ -67,7 +67,7 @@ declare
    v_doct_id_cobranza integer;
    v_doc_id_cliente integer;
 
-   v_cobz_fecha date;
+   v_cobz_fecha timestamp with time zone;
 
    v_ta_id integer;
 
@@ -84,8 +84,8 @@ declare
 
    v_cheq_id integer;
 
-   v_creado date;
-   v_modificado date;
+   v_creado timestamp with time zone;
+   v_modificado timestamp with time zone;
    v_modifico integer;
 
    v_error smallint;

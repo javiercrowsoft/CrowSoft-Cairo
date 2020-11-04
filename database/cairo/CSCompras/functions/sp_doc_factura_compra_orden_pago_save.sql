@@ -50,8 +50,8 @@ declare
    v_cpg_id integer;
    v_ccos_id integer;
    v_lgj_id integer;
-   v_fc_fechaVto date;
-   v_fc_fechaiva date;
+   v_fc_fechaVto timestamp with time zone;
+   v_fc_fechaiva timestamp with time zone;
    v_fc_nrodoc varchar(50);
    v_cpg_tipo smallint;
    v_cueg_id_cpg integer;
@@ -74,7 +74,7 @@ declare
    v_to_count integer;
 
    v_opgTMP_id integer;
-   v_opg_fecha date;
+   v_opg_fecha timestamp with time zone;
    v_opg_total decimal(18,6);
    v_opgiTMP_id integer;
    v_cue_id_acreedor integer;

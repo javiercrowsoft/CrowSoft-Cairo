@@ -71,9 +71,9 @@ declare
    v_pro_id_destino integer;
    
    v_fc_total decimal(18,6);
-   v_fc_fecha date;
-   v_fc_fechaVto date;
-   v_fc_fechaiva date;
+   v_fc_fecha timestamp with time zone;
+   v_fc_fechaVto timestamp with time zone;
+   v_fc_fechaiva timestamp with time zone;
    v_fc_descuento1 decimal(18,6);
    v_fc_descuento2 decimal(18,6);
    v_fc_totalotros decimal(18,6);
@@ -81,7 +81,7 @@ declare
    v_fc_nrodoc varchar(50);
    v_fc_numero integer;
    v_fc_descrip varchar(5000);
-   v_fc_fechaentrega date;
+   v_fc_fechaentrega timestamp with time zone;
    v_fc_neto decimal(18,6);
    v_fc_ivari decimal(18,6);
    v_fc_ivarni decimal(18,6);
@@ -97,8 +97,8 @@ declare
    v_fc_cai varchar(100);
    v_fc_tipoComprobante smallint;
 
-   v_creado date;
-   v_modificado date;
+   v_creado timestamp with time zone;
+   v_modificado timestamp with time zone;
    v_modifico integer;
 
    v_fciTMP_id integer;

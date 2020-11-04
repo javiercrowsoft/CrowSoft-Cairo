@@ -35,8 +35,8 @@ javier at crowsoft.com.ar
 create or replace function dc_csc_con_0080
 (
   in p_us_id integer,
-  in p_Fini date,
-  in p_Ffin date,
+  in p_Fini timestamp with time zone,
+  in p_Ffin timestamp with time zone,
 
   in p_perct_id varchar,
   in p_perc_id varchar,
@@ -670,7 +670,7 @@ $BODY$
   language plpgsql volatile
   cost 100;
 alter function dc_csc_con_0080(
-   integer, date, date,
+   integer, timestamp with time zone, timestamp with time zone,
    varchar,
    varchar,
    varchar,

@@ -48,7 +48,7 @@ declare
    v_as_id integer;
    v_as_numero integer;
    v_as_nrodoc varchar(50);
-   v_as_fecha date;
+   v_as_fecha timestamp with time zone;
    v_as_descrip varchar(5000);
    v_as_doc_cliente varchar(5000);
 
@@ -101,8 +101,8 @@ declare
    v_ta_ultimoNro integer;
    v_ta_mascara varchar(50);
 
-   v_creado date;
-   v_modificado date;
+   v_creado timestamp with time zone;
+   v_modificado timestamp with time zone;
    v_modifico integer;
 
    v_cfg_valor varchar(5000);

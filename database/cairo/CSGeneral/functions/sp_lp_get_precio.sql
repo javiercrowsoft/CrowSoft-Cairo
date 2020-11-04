@@ -84,7 +84,7 @@ declare
    v_lpm_id_precio integer; -- lpm_id mencionado en la solapa precios de la misma lista
 
    -- que estoy procesando
-   v_fecha date;
+   v_fecha timestamp with time zone;
 
    -- Si es la primera llamada a la lista
    -- analizo el uso de ListaPrecioConfig

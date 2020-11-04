@@ -30,7 +30,7 @@ javier at crowsoft.com.ar
 */
 -- Function: dc_csc_con_0341()
 
--- drop function dc_csc_con_0341(integer, date, date, varchar, varchar, varchar, smallint);
+-- drop function dc_csc_con_0341(integer, timestamp with time zone, timestamp with time zone, varchar, varchar, varchar, smallint);
 
 /*
 select * from dc_csc_con_0341(1,'2020-01-01','2020-01-31','0','0',0::smallint);
@@ -40,8 +40,8 @@ fetch all from rtn;
 create or replace function dc_csc_con_0341
 (
   in p_us_id        integer,
-  in p_Fini         date,
-  in p_Ffin         date,
+  in p_Fini         timestamp with time zone,
+  in p_Ffin         timestamp with time zone,
 
   in p_cico_id      varchar,
   in p_emp_id       varchar,
@@ -584,5 +584,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function dc_csc_con_0341(integer, date, date, varchar, varchar, smallint)
+alter function dc_csc_con_0341(integer, timestamp with time zone, timestamp with time zone, varchar, varchar, smallint)
   owner to postgres;

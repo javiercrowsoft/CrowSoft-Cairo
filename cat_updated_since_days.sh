@@ -1,19 +1,24 @@
 filter=${2-'sql$'}
+folder=${3-''}
 echo "using filter: $filter"
+echo "using folder: $folder"
+
 file="tmp/update.sql"
 if [ -f $file ] ; then
     rm $file
 fi
 
-find . -newermt $(date +%Y-%m-%d -d "$1 day ago") -type f -print | grep -E $filter | grep -v "cairo_script.sql" | grep -v target
+find ./$folder -newermt $(date +%Y-%m-%d -d "$1 day ago") -type f -print | grep -E $filter | grep -v "cairo_script.sql" | grep -v target
 
-find . -newermt $(date +%Y-%m-%d -d "$1 day ago") -type f -print | grep -E $filter | grep -v "cairo_script.sql" | grep -v target | while read line; do
+find ./$folder -newermt $(date +%Y-%m-%d -d "$1 day ago") -type f -print | grep -E $filter | grep -v "cairo_script.sql" | grep -v target | while read line; do
     cat "$line" >> $file
     printf "\n\n-- END SCRIPT\n\n" >> $file
 done
 
-#cat `find . -newermt $(date +%Y-%m-%d -d "$1 day ago") -type f -print | grep -E $filter | grep -v target` > $file
+#cat `find ./$folder -newermt $(date +%Y-%m-%d -d "$1 day ago") -type f -print | grep -E $filter | grep -v target` > $file
 
+echo "usually you should have run something like:"
+echo "./cat_updated_since_days.sh 2 sql database/cairo"
 echo "to run use:"
 echo "docker ps"
 echo "sudo docker cp tmp/update.sql {{container_id}}:tmp/"

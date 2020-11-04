@@ -64,10 +64,10 @@ declare
    v_st_nrodoc varchar(50);
    v_st_numero integer;
    v_st_descrip varchar(5000);
-   v_st_fecha date;
+   v_st_fecha timestamp with time zone;
 
-   v_creado date;
-   v_modificado date;
+   v_creado timestamp with time zone;
+   v_modificado timestamp with time zone;
    v_modifico integer;
 
    v_sti_orden smallint;
@@ -81,7 +81,7 @@ declare
    v_prns_id integer;
    v_pr_id_kit integer;
    v_prns_descrip varchar(255);
-   v_prns_fechavto date;
+   v_prns_fechavto timestamp with time zone;
    v_stl_id integer;
 
    -- Kits

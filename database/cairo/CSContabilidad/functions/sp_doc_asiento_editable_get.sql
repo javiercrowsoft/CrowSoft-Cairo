@@ -51,7 +51,7 @@ function sp_doc_asiento_editable_get
 $BODY$
 declare
    v_doc_id integer;
-   v_as_fecha date;
+   v_as_fecha timestamp with time zone;
    v_doct_id_cliente integer;
    v_emp_id integer;
    v_emp_nombre varchar(255);
@@ -64,8 +64,8 @@ declare
    v_doc_nombre varchar(255);
    v_fca_id integer;
 
-   v_fca_fechaDesde date;
-   v_fca_fechaHasta date;
+   v_fca_fechaDesde timestamp with time zone;
+   v_fca_fechaHasta timestamp with time zone;
 
    v_edit_AST_MF smallint;
 

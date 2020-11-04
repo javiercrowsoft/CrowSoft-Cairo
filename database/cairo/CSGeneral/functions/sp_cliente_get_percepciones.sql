@@ -30,7 +30,7 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_cliente_get_percepciones()
 
--- drop function sp_cliente_get_percepciones(integer, integer, date);
+-- drop function sp_cliente_get_percepciones(integer, integer, timestamp with time zone);
 
 /*
           select * from sp_cliente_get_percepciones(1,1,'2015-01-01');
@@ -41,7 +41,7 @@ create or replace function sp_cliente_get_percepciones
 (
   in p_cli_id integer,
   in p_emp_id integer,
-  in p_fecha date,
+  in p_fecha timestamp with time zone,
   out rtn refcursor
 )
   returns refcursor as
@@ -91,5 +91,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_cliente_get_percepciones(integer, integer, date)
+alter function sp_cliente_get_percepciones(integer, integer, timestamp with time zone)
   owner to postgres;

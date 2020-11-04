@@ -49,7 +49,7 @@ create or replace function sp_doc_factura_venta_save_nro_serie
 $BODY$
 declare
    v_prns_descrip varchar(255);
-   v_prns_fechavto date;
+   v_prns_fechavto timestamp with time zone;
    v_prns_id integer;
    v_stl_id integer;
    v_n integer;

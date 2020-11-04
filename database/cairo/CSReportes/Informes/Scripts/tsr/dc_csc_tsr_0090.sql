@@ -28,15 +28,15 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: dc_csc_tsr_0090(integer, date, date, character varying, character varying, character varying, character varying, smallint, character varying, smallint, smallint, smallint)
+-- Function: dc_csc_tsr_0090(integer, timestamp with time zone, timestamp with time zone, character varying, character varying, character varying, character varying, smallint, character varying, smallint, smallint, smallint)
 
--- drop function dc_csc_tsr_0090(integer, date, date, character varying, character varying, character varying, character varying, smallint, character varying, smallint, smallint, smallint);
+-- drop function dc_csc_tsr_0090(integer, timestamp with time zone, timestamp with time zone, character varying, character varying, character varying, character varying, smallint, character varying, smallint, smallint, smallint);
 
 create or replace function dc_csc_tsr_0090(
 
   in p_us_id integer,
-  in p_Fini date,
-  in p_Ffin date,
+  in p_Fini timestamp with time zone,
+  in p_Ffin timestamp with time zone,
 
   in p_cue_id varchar,
   in p_bco_id varchar,
@@ -242,5 +242,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function dc_csc_tsr_0090(integer, date, date, character varying, character varying, character varying, character varying)
+alter function dc_csc_tsr_0090(integer, timestamp with time zone, timestamp with time zone, character varying, character varying, character varying, character varying)
   owner to postgres;

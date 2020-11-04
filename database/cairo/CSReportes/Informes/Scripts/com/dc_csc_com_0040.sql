@@ -30,7 +30,7 @@ javier at crowsoft.com.ar
 */
 -- Function: dc_csc_com_0040()
 
--- drop function dc_csc_com_0040(integer, date, date, varchar, varchar, varchar, varchar);
+-- drop function dc_csc_com_0040(integer, timestamp with time zone, timestamp with time zone, varchar, varchar, varchar, varchar);
 
 /*---------------------------------------------------------------------
 Nombre: Compras por proveedor y articulo
@@ -46,8 +46,8 @@ fetch all from rtn;
 create or replace function dc_csc_com_0040(
 
   in p_us_id    integer,
-  in p_Fini     date,
-  in p_Ffin     date,
+  in p_Fini     timestamp with time zone,
+  in p_Ffin     timestamp with time zone,
 
   in p_cico_id  varchar,
   in p_pr_id    varchar,
@@ -449,5 +449,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function dc_csc_com_0040(integer, date, date, varchar, varchar, varchar, varchar)
+alter function dc_csc_com_0040(integer, timestamp with time zone, timestamp with time zone, varchar, varchar, varchar, varchar)
   owner to postgres;

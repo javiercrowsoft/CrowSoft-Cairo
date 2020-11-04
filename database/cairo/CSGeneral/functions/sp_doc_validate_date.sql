@@ -30,7 +30,7 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_doc_validate_date()
 
--- drop function sp_doc_validate_date(integer, date);
+-- drop function sp_doc_validate_date(integer, timestamp with time zone);
 
 create or replace function sp_doc_validate_date
 /*
@@ -39,7 +39,7 @@ create or replace function sp_doc_validate_date
 */
 (
   in p_doc_id integer,
-  in p_fecha date,
+  in p_fecha timestamp with time zone,
   out p_is_valid integer,
   out p_range varchar
 )
@@ -76,5 +76,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function sp_doc_validate_date(integer, date)
+alter function sp_doc_validate_date(integer, timestamp with time zone)
   owner to postgres;

@@ -32,8 +32,8 @@ javier at crowsoft.com.ar
 
 /*
 drop function sp_doc_orden_pago_get_retencion_rpt(
-  date,
-  date,
+  timestamp with time zone,
+  timestamp with time zone,
   integer,
   varchar,
   decimal,
@@ -55,8 +55,8 @@ create or replace function sp_doc_orden_pago_get_retencion_rpt
 
 */
 (
-  in p_fdesde date,
-  in p_fhasta date,
+  in p_fdesde timestamp with time zone,
+  in p_fhasta timestamp with time zone,
   in p_prov_id integer,
   in p_emp_id varchar,
   in p_pago decimal(18,6),
@@ -212,8 +212,8 @@ $BODY$
   language plpgsql volatile
   cost 100;
 alter function sp_doc_orden_pago_get_retencion_rpt(
-  date,
-  date,
+  timestamp with time zone,
+  timestamp with time zone,
   integer,
   varchar,
   decimal,

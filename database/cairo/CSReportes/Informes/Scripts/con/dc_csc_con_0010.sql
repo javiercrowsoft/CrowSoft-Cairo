@@ -40,8 +40,8 @@ fetch all from rtn;
 create or replace function dc_csc_con_0010
 (
   in p_us_id integer,
-  in p_Fini date,
-  in p_Ffin date,
+  in p_Fini timestamp with time zone,
+  in p_Ffin timestamp with time zone,
 
   in p_cico_id varchar,
   in p_emp_id varchar,
@@ -777,5 +777,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function dc_csc_con_0010(integer, date, date, varchar, varchar)
+alter function dc_csc_con_0010(integer, timestamp with time zone, timestamp with time zone, varchar, varchar)
   owner to postgres;
