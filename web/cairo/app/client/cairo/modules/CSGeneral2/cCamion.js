@@ -13,6 +13,7 @@
       var DB = Cairo.Database;
       var C = Cairo.General.Constants;
       var NO_ID = Cairo.Constants.NO_ID;
+      var Types = Cairo.Constants.Types;
 
       var C_MODULE = "cCamion";
 
@@ -194,39 +195,39 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_CODE:
-              fields.add(C.CAM_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CAM_CODE, property.getValue(), Types.text);
               break;
 
             case K_DESCRIP:
-              fields.add(C.CAM_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CAM_DESCRIP, property.getValue(), Types.text);
               break;
 
             case K_PATENTE:
-              fields.add(C.CAM_PATENTE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CAM_PATENTE, property.getValue(), Types.text);
               break;
 
             case K_PATENTESEMI:
-              fields.add(C.CAM_PATENTE_SEMI, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CAM_PATENTE_SEMI, property.getValue(), Types.text);
               break;
 
             case K_TARA:
-              fields.add(C.CAM_TARA, property.getValue(), Cairo.Constants.Types.long);
+              fields.add(C.CAM_TARA, property.getValue(), Types.long);
               break;
 
             case K_ACTIVE:
-              fields.add(Cairo.Constants.ACTIVE, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(Cairo.Constants.ACTIVE, property.getValue(), Types.boolean);
               break;
 
             case K_ESSEMI:
-              fields.add(C.CAM_ES_SEMI, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(C.CAM_ES_SEMI, Cairo.Util.val(property.getValue()), Types.boolean);
               break;
 
             case K_TRANS_ID:
-              fields.add(C.TRANS_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.TRANS_ID, property.getSelectId(), Types.id);
               break;
 
             case K_CHOF_ID:
-              fields.add(C.CHOF_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.CHOF_ID, property.getSelectId(), Types.id);
               break;
           }
         }
@@ -296,7 +297,7 @@
           iPropiedad = m_dialog.getProperties().item(_i);
           switch (iPropiedad.getKey()) {
             case K_CODE:
-              if(Cairo.Util.valEmpty(iPropiedad.getValue(), Cairo.Constants.Types.text)) {
+              if(Cairo.Util.valEmpty(iPropiedad.getValue(), Types.text)) {
                 iPropiedad.setValue(Cairo.Constants.GET_CODE_FROM_ID);
               }
               break;

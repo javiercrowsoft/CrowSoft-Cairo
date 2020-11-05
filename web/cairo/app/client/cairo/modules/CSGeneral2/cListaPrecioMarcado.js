@@ -13,6 +13,7 @@
       var DB = Cairo.Database;
       var C = Cairo.General.Constants;
       var NO_ID = Cairo.Constants.NO_ID;
+      var Types = Cairo.Constants.Types;
 
       var C_MODULE = "cListaPrecioMarcado";
 
@@ -194,51 +195,51 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(C.LPM_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.LPM_NAME, property.getValue(), Types.text);
               break;
 
             case K_CODE:
-              fields.add(C.LPM_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.LPM_CODE, property.getValue(), Types.text);
               break;
 
             case K_ACTIVE:
-              fields.add(Cairo.Constants.ACTIVE, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(Cairo.Constants.ACTIVE, property.getValue(), Types.boolean);
               break;
 
             case K_DESCRIP:
-              fields.add(C.LPM_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.LPM_DESCRIP, property.getValue(), Types.text);
               break;
 
             case K_BASE:
-              fields.add(C.LPM_BASE, property.getValue(), Cairo.Constants.Types.currency);
+              fields.add(C.LPM_BASE, property.getValue(), Types.currency);
               break;
 
             case K_PORCENTAJE:
-              fields.add(C.LPM_PORCENTAJE, property.getValue(), Cairo.Constants.Types.currency);
+              fields.add(C.LPM_PORCENTAJE, property.getValue(), Types.currency);
               break;
 
             case K_SALTO:
-              fields.add(C.LPM_SALTO, property.getValue(), Cairo.Constants.Types.currency);
+              fields.add(C.LPM_SALTO, property.getValue(), Types.currency);
               break;
 
             case K_DECREMENTO:
-              fields.add(C.LPM_DECREMENTO, property.getValue(), Cairo.Constants.Types.currency);
+              fields.add(C.LPM_DECREMENTO, property.getValue(), Types.currency);
               break;
 
             case K_PORCMINIMO:
-              fields.add(C.LPM_PORCMINIMO, property.getValue(), Cairo.Constants.Types.currency);
+              fields.add(C.LPM_PORCMINIMO, property.getValue(), Types.currency);
               break;
 
             case K_PORCMAXIMO:
-              fields.add(C.LPM_PORCMAXIMO, property.getValue(), Cairo.Constants.Types.currency);
+              fields.add(C.LPM_PORCMAXIMO, property.getValue(), Types.currency);
               break;
 
             case K_MONTOMINIMO:
-              fields.add(C.LPM_MONTOMINIMO, property.getValue(), Cairo.Constants.Types.currency);
+              fields.add(C.LPM_MONTOMINIMO, property.getValue(), Types.currency);
               break;
 
             case K_MON_ID:
-              fields.add(C.MON_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.MON_ID, property.getSelectId(), Types.id);
               break;
           }
         }
@@ -310,19 +311,19 @@
           property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.text)) {
                 return Cairo.Modal.showInfoWithFalse(Cairo.Constants.MUST_SET_A_NAME);
               }
               break;
 
             case K_CODE:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.text)) {
                 property.setValue(Cairo.Constants.GET_CODE_FROM_ID);
               }
               break;
 
             case K_MON_ID:
-              if(Cairo.Util.valEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
+              if(Cairo.Util.valEmpty(property.getSelectId(), Types.id)) {
                 // Debe indicar una moneda
                 Cairo.Modal.showInfo(getText(1108, ""));
               }

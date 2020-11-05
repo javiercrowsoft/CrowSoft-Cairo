@@ -243,6 +243,7 @@
 
       var getText = Cairo.Language.getText;
       var Dialogs = Cairo.Dialogs;
+      var Types = Cairo.Constants.Types;
 
       var C_MODULE = "cGenericEdit";
 
@@ -442,39 +443,39 @@
           switch (field.getType()) {
 
             case FieldType.check:
-              register.getFields().add(field.getRealName(), property.getValue(), Cairo.Constants.Types.boolean);
+              register.getFields().add(field.getRealName(), property.getValue(), Types.boolean);
               break;
 
             case FieldType.date:
-              register.getFields().add(field.getRealName(), property.getValue(), Cairo.Constants.Types.date);
+              register.getFields().add(field.getRealName(), property.getValue(), Types.date);
               break;
 
             case FieldType.select:
-              register.getFields().add(field.getRealName(), property.getSelectId(), Cairo.Constants.Types.id);
+              register.getFields().add(field.getRealName(), property.getSelectId(), Types.id);
               break;
 
             case FieldType.list:
-              register.getFields().add(field.getRealName(), property.getListItemData(), Cairo.Constants.Types.integer);
+              register.getFields().add(field.getRealName(), property.getListItemData(), Types.integer);
               break;
 
             case FieldType.numeric:
-              register.getFields().add(field.getRealName(), property.getValue(), Cairo.Constants.Types.double);
+              register.getFields().add(field.getRealName(), property.getValue(), Types.double);
               break;
 
             case FieldType.text:
-              register.getFields().add(field.getRealName(), property.getValue(), Cairo.Constants.Types.text);
+              register.getFields().add(field.getRealName(), property.getValue(), Types.text);
               break;
 
             case FieldType.listSql:
-              register.getFields().add(field.getRealName(), property.getListItemData(), Cairo.Constants.Types.integer);
+              register.getFields().add(field.getRealName(), property.getListItemData(), Types.integer);
               break;
 
             case FieldType.file:
-              register.getFields().add(field.getRealName(), property.getValue(), Cairo.Constants.Types.text);
+              register.getFields().add(field.getRealName(), property.getValue(), Types.text);
               break;
 
             case FieldType.folder:
-              register.getFields().add(field.getRealName(), property.getValue(), Cairo.Constants.Types.text);
+              register.getFields().add(field.getRealName(), property.getValue(), Types.text);
               break;
           }
         }

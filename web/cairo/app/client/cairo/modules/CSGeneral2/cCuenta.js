@@ -14,6 +14,7 @@
       var DB = Cairo.Database;
       var C = Cairo.General.Constants;
       var NO_ID = Cairo.Constants.NO_ID;
+      var Types = Cairo.Constants.Types;
 
       var C_MODULE = "cCuenta";
 
@@ -294,59 +295,59 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(C.CUE_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CUE_NAME, property.getValue(), Types.text);
               break;
 
             case K_CODE:
-              fields.add(C.CUE_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CUE_CODE, property.getValue(), Types.text);
               break;
 
             case K_ACTIVE:
-              fields.add(Cairo.Constants.ACTIVE, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(Cairo.Constants.ACTIVE, property.getValue(), Types.boolean);
               break;
 
             case K_DESCRIPCION:
-              fields.add(C.CUE_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CUE_DESCRIP, property.getValue(), Types.text);
               break;
 
             case K_MON_ID:
-              fields.add(C.MON_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.MON_ID, property.getSelectId(), Types.id);
               break;
 
             case K_EMP_ID:
-              fields.add(C.EMP_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.EMP_ID, property.getSelectId(), Types.id);
               break;
 
             case K_BCO_ID:
-              fields.add(C.BCO_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.BCO_ID, property.getSelectId(), Types.id);
               break;
 
             case K_PRODUCTO:
-              fields.add(C.CUE_PRODUCTO, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(C.CUE_PRODUCTO, Cairo.Util.val(property.getValue()), Types.boolean);
               break;
 
             case K_LLEVA_CENTRO_COSTO:
-              fields.add(C.CUE_LLEVA_CENTRO_COSTO, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(C.CUE_LLEVA_CENTRO_COSTO, Cairo.Util.val(property.getValue()), Types.boolean);
               break;
 
             case K_IDENTIFICACIONEXTERNA:
-              fields.add(C.CUE_IDENTIFICACION_EXTERNA, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CUE_IDENTIFICACION_EXTERNA, property.getValue(), Types.text);
               break;
 
             case K_CATEGORIA:
-              fields.add(C.CUEC_ID, Cairo.Util.val(property.getSelectId()), Cairo.Constants.Types.id);
+              fields.add(C.CUEC_ID, Cairo.Util.val(property.getSelectId()), Types.id);
               break;
 
             case K_CODIGO_RPT:
-              fields.add(C.CUE_CODIGO_RPT, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CUE_CODIGO_RPT, property.getValue(), Types.text);
               break;
 
             case K_ES_EFECTIVO:
-              fields.add(C.CUE_ES_EFECTIVO, property.getValue(), Cairo.Constants.Types.boolean);
+              fields.add(C.CUE_ES_EFECTIVO, property.getValue(), Types.boolean);
               break;
 
             case K_ES_TICKET:
-              fields.add(C.CUE_ES_TICKET, property.getValue(), Cairo.Constants.Types.boolean);
+              fields.add(C.CUE_ES_TICKET, property.getValue(), Types.boolean);
               break;
           }
         }
@@ -418,32 +419,32 @@
           property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.text)) {
                 return Cairo.Modal.showInfoWithFalse(Cairo.Constants.MUST_SET_A_NAME);
               }
               break;
 
             case K_CODE:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.text)) {
                 property.setValue(Cairo.Constants.GET_CODE_FROM_ID);
               }
               break;
 
             case K_MON_ID:
-              if(Cairo.Util.valEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
+              if(Cairo.Util.valEmpty(property.getSelectId(), Types.id)) {
                 // Debe indicar una moneda
                 Cairo.Modal.showInfo(getText(1108, ""));
               }
               break;
 
             case K_BCO_ID:
-              if(Cairo.Util.valEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
+              if(Cairo.Util.valEmpty(property.getSelectId(), Types.id)) {
                 bBcoEmpty = true;
               }
               break;
 
             case K_CATEGORIA:
-              if(Cairo.Util.valEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
+              if(Cairo.Util.valEmpty(property.getSelectId(), Types.id)) {
                 // Debe indicar una categoría
                 Cairo.Modal.showInfo(getText(1109, ""));
               }

@@ -565,17 +565,17 @@
                 register.setTable(mTicketConstantes.ORDEN_SERVICIOTMP);
 
                 register.setId(Cairo.Constants.NEW_ID);
-                register.getFields().add2(mTicketConstantes.OS_ID, m_osId, Cairo.Constants.Types.id);
+                register.getFields().add2(mTicketConstantes.OS_ID, m_osId, Types.id);
 
-                register.getFields().add2(mTicketConstantes.OS_NUMERO, 0, Cairo.Constants.Types.long);
-                register.getFields().add2(mTicketConstantes.OS_NRODOC, "", Cairo.Constants.Types.text);
+                register.getFields().add2(mTicketConstantes.OS_NUMERO, 0, Types.long);
+                register.getFields().add2(mTicketConstantes.OS_NRODOC, "", Types.text);
 
-                register.getFields().add2(mTicketConstantes.CLI_ID, 0, Cairo.Constants.Types.long);
-                register.getFields().add2(mTicketConstantes.SUC_ID, 0, Cairo.Constants.Types.long);
-                register.getFields().add2(mTicketConstantes.DOC_ID, docId, Cairo.Constants.Types.id);
-                register.getFields().add2(mTicketConstantes.CPG_ID, csECpgTipo.cSECPGT_FECHADOCUMENTO, Cairo.Constants.Types.id);
+                register.getFields().add2(mTicketConstantes.CLI_ID, 0, Types.long);
+                register.getFields().add2(mTicketConstantes.SUC_ID, 0, Types.long);
+                register.getFields().add2(mTicketConstantes.DOC_ID, docId, Types.id);
+                register.getFields().add2(mTicketConstantes.CPG_ID, csECpgTipo.cSECPGT_FECHADOCUMENTO, Types.id);
 
-                register.getFields().add2(C.EST_ID, CSGeneralEx2.csEEstado.cSEEST_PENDIENTE, Cairo.Constants.Types.id);
+                register.getFields().add2(C.EST_ID, CSGeneralEx2.csEEstado.cSEEST_PENDIENTE, Types.id);
 
                 register.getFields().setHaveLastUpdate(true);
                 register.getFields().setHaveWhoModify(true);
@@ -1348,14 +1348,14 @@
 
                                     register.setFieldId(mTicketConstantes.OS_RV_TMP_ID);
                                     register.setTable(mTicketConstantes.ORDENREMITO_VENTATMP);
-                                    register.getFields().add2(mTicketConstantes.RVI_ID, vAplic(i).rvi_id, Cairo.Constants.Types.id);
-                                    register.getFields().add2(mTicketConstantes.OSI_ID, vAplic.osi_id, Cairo.Constants.Types.id);
+                                    register.getFields().add2(mTicketConstantes.RVI_ID, vAplic(i).rvi_id, Types.id);
+                                    register.getFields().add2(mTicketConstantes.OSI_ID, vAplic.osi_id, Types.id);
 
-                                    register.getFields().add2(mTicketConstantes.OS_RV_CANTIDAD, vAplic.Aplicado, Cairo.Constants.Types.double);
-                                    register.getFields().add2(mTicketConstantes.OS_RV_ID, vAplic.vinc_id, Cairo.Constants.Types.long);
+                                    register.getFields().add2(mTicketConstantes.OS_RV_CANTIDAD, vAplic.Aplicado, Types.double);
+                                    register.getFields().add2(mTicketConstantes.OS_RV_ID, vAplic.vinc_id, Types.long);
 
                                     register.setId(Cairo.Constants.NEW_ID);
-                                    register.getFields().add2(mTicketConstantes.OS_TMP_ID, osTMPId, Cairo.Constants.Types.id);
+                                    register.getFields().add2(mTicketConstantes.OS_TMP_ID, osTMPId, Types.id);
 
                                     register.getFields().setHaveLastUpdate(false);
                                     register.getFields().setHaveWhoModify(false);

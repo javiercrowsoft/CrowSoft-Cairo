@@ -14,6 +14,7 @@
       var C = Cairo.General.Constants;
       var NO_ID = Cairo.Constants.NO_ID;
       var D = Cairo.Documents;
+      var Types = Cairo.Constants.Types;
 
       var C_MODULE = "cRubro";
 
@@ -288,103 +289,103 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(C.RUB_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.RUB_NAME, property.getValue(), Types.text);
               break;
 
             case K_CODE:
-              fields.add(C.RUB_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.RUB_CODE, property.getValue(), Types.text);
               break;
 
             case K_ACTIVE:
-              fields.add(Cairo.Constants.ACTIVE, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(Cairo.Constants.ACTIVE, property.getValue(), Types.boolean);
               break;
 
             case K_DESCRIP:
-              fields.add(C.RUB_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.RUB_DESCRIP, property.getValue(), Types.text);
               break;
 
             case K_ESCRITERIO:
-              fields.add(C.RUB_ES_CRITERIO, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(C.RUB_ES_CRITERIO, Cairo.Util.val(property.getValue()), Types.boolean);
               break;
 
             case K_RUBT_ID1:
-              fields.add(C.RUBT_ID_1, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.RUBT_ID_1, property.getSelectId(), Types.id);
               break;
 
             case K_RUBT_ID2:
-              fields.add(C.RUBT_ID_2, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.RUBT_ID_2, property.getSelectId(), Types.id);
               break;
 
             case K_RUBT_ID3:
-              fields.add(C.RUBT_ID_3, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.RUBT_ID_3, property.getSelectId(), Types.id);
               break;
 
             case K_RUBT_ID4:
-              fields.add(C.RUBT_ID_4, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.RUBT_ID_4, property.getSelectId(), Types.id);
               break;
 
             case K_RUBT_ID5:
-              fields.add(C.RUBT_ID_5, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.RUBT_ID_5, property.getSelectId(), Types.id);
               break;
 
             case K_RUBT_ID6:
-              fields.add(C.RUBT_ID_6, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.RUBT_ID_6, property.getSelectId(), Types.id);
               break;
 
             case K_RUBT_ID7:
-              fields.add(C.RUBT_ID_7, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.RUBT_ID_7, property.getSelectId(), Types.id);
               break;
 
             case K_RUBT_ID8:
-              fields.add(C.RUBT_ID_8, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.RUBT_ID_8, property.getSelectId(), Types.id);
               break;
 
             case K_RUBT_ID9:
-              fields.add(C.RUBT_ID_9, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.RUBT_ID_9, property.getSelectId(), Types.id);
               break;
 
             case K_RUBT_ID10:
-              fields.add(C.RUBT_ID_10, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.RUBT_ID_10, property.getSelectId(), Types.id);
               break;
 
             case K_RUBTI_ID1:
-              fields.add(C.RUBTI_ID_1, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.RUBTI_ID_1, property.getSelectId(), Types.id);
               break;
 
             case K_RUBTI_ID2:
-              fields.add(C.RUBTI_ID_2, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.RUBTI_ID_2, property.getSelectId(), Types.id);
               break;
 
             case K_RUBTI_ID3:
-              fields.add(C.RUBTI_ID_3, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.RUBTI_ID_3, property.getSelectId(), Types.id);
               break;
 
             case K_RUBTI_ID4:
-              fields.add(C.RUBTI_ID_4, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.RUBTI_ID_4, property.getSelectId(), Types.id);
               break;
 
             case K_RUBTI_ID5:
-              fields.add(C.RUBTI_ID_5, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.RUBTI_ID_5, property.getSelectId(), Types.id);
               break;
 
             case K_RUBTI_ID6:
-              fields.add(C.RUBTI_ID_6, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.RUBTI_ID_6, property.getSelectId(), Types.id);
               break;
 
             case K_RUBTI_ID7:
-              fields.add(C.RUBTI_ID_7, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.RUBTI_ID_7, property.getSelectId(), Types.id);
               break;
 
             case K_RUBTI_ID8:
-              fields.add(C.RUBTI_ID_8, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.RUBTI_ID_8, property.getSelectId(), Types.id);
               break;
 
             case K_RUBTI_ID9:
-              fields.add(C.RUBTI_ID_9, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.RUBTI_ID_9, property.getSelectId(), Types.id);
               break;
 
             case K_RUBTI_ID10:
-              fields.add(C.RUBTI_ID_10, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.RUBTI_ID_10, property.getSelectId(), Types.id);
               break;
           }
         }
@@ -453,13 +454,13 @@
           property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.text)) {
                 return Cairo.Modal.showInfoWithFalse(Cairo.Constants.MUST_SET_A_NAME);
               }
               break;
 
             case K_CODE:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.text)) {
                 property.setValue(Cairo.Constants.GET_CODE_FROM_ID);
               }
               break;

@@ -14,6 +14,7 @@
       var DB = Cairo.Database;
       var C = Cairo.General.Constants;
       var NO_ID = Cairo.Constants.NO_ID;
+      var Types = Cairo.Constants.Types;
 
       var C_MODULE = "cEmpresa";
 
@@ -224,87 +225,87 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(C.EMP_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_NAME, property.getValue(), Types.text);
               break;
 
             case K_CODE:
-              fields.add(C.EMP_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_CODE, property.getValue(), Types.text);
               break;
 
             case K_CODIGO_BARRA:
-              fields.add(C.EMP_CODIGO_BARRA, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_CODIGO_BARRA, property.getValue(), Types.text);
               break;
 
             case K_ES_SUCURSAL:
-              fields.add(C.EMP_ES_SUCURSAL, property.getValue(), Cairo.Constants.Types.boolean);
+              fields.add(C.EMP_ES_SUCURSAL, property.getValue(), Types.boolean);
               break;
 
             case K_DESCRIP:
-              fields.add(C.EMP_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_DESCRIP, property.getValue(), Types.text);
               break;
 
             case K_RAZONSOCIAL:
-              fields.add(C.EMP_RAZONSOCIAL, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_RAZONSOCIAL, property.getValue(), Types.text);
               break;
 
             case K_CUIT:
-              fields.add(C.EMP_CUIT, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_CUIT, property.getValue(), Types.text);
               break;
 
             case K_INGRESOSBRUTOS:
-              fields.add(C.EMP_INGRESOSBRUTOS, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_INGRESOSBRUTOS, property.getValue(), Types.text);
               break;
 
             case K_CATFISCAL:
-              fields.add(C.EMP_CATFISCAL, property.getListItemData(), Cairo.Constants.Types.integer);
+              fields.add(C.EMP_CATFISCAL, property.getListItemData(), Types.integer);
               break;
 
             case K_CHEQUEORDEN:
-              fields.add(C.EMP_CHEQUEORDEN, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_CHEQUEORDEN, property.getValue(), Types.text);
               break;
 
             case K_CODPOSTAL:
-              fields.add(C.EMP_CODPOSTAL, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_CODPOSTAL, property.getValue(), Types.text);
               break;
 
             case K_LOCALIDAD:
-              fields.add(C.EMP_LOCALIDAD, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_LOCALIDAD, property.getValue(), Types.text);
               break;
 
             case K_CALLE:
-              fields.add(C.EMP_CALLE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_CALLE, property.getValue(), Types.text);
               break;
 
             case K_CALLENUMERO:
-              fields.add(C.EMP_CALLENUMERO, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_CALLENUMERO, property.getValue(), Types.text);
               break;
 
             case K_PISO:
-              fields.add(C.EMP_PISO, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_PISO, property.getValue(), Types.text);
               break;
 
             case K_DEPTO:
-              fields.add(C.EMP_DEPTO, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_DEPTO, property.getValue(), Types.text);
               break;
 
             case K_TEL:
-              fields.add(C.EMP_TEL, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_TEL, property.getValue(), Types.text);
               break;
 
             case K_FAX:
-              fields.add(C.EMP_FAX, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_FAX, property.getValue(), Types.text);
               break;
 
             case K_EMAIL:
-              fields.add(C.EMP_EMAIL, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_EMAIL, property.getValue(), Types.text);
               break;
 
             case K_WEB:
-              fields.add(C.EMP_WEB, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.EMP_WEB, property.getValue(), Types.text);
               break;
 
             case K_ACTIVE:
-              fields.add(Cairo.Constants.ACTIVE, property.getValue(), Cairo.Constants.Types.boolean);
+              fields.add(Cairo.Constants.ACTIVE, property.getValue(), Types.boolean);
               break;
           }
         }
@@ -376,35 +377,35 @@
           property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.text)) {
                 // Debe indicar un nombre
                 Cairo.Modal.showInfo(getText(1007, ""));
               }
               break;
 
             case K_CODE:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.text)) {
                 // Debe indicar un código
                 Cairo.Modal.showInfo(getText(1008, ""));
               }
               break;
 
             case K_RAZONSOCIAL:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.text)) {
                 // Debe indicar una Razón social
                 Cairo.Modal.showInfo(getText(1172, ""));
               }
               break;
 
             case K_CUIT:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.text)) {
                 // Debe indicar un CUIT
                 Cairo.Modal.showInfo(getText(1173, ""));
               }
               break;
 
             case K_CATFISCAL:
-              if(Cairo.Util.valEmpty(property.getListItemData(), Cairo.Constants.Types.integer)) {
+              if(Cairo.Util.valEmpty(property.getListItemData(), Types.integer)) {
                 // Debe indicar un categor�a fiscal
                 Cairo.Modal.showInfo(getText(1174, ""));
               }

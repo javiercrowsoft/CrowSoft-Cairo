@@ -599,69 +599,69 @@
             case K_FECHA_INI:
 
               if(LenB(property.getSelectIntValue())) {
-                fields.add2(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
+                fields.add2(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Types.text);
               }
               else {
-                fields.add2(Cairo.Constants.LDP_VALOR, property.getValue(), Cairo.Constants.Types.text);
+                fields.add2(Cairo.Constants.LDP_VALOR, property.getValue(), Types.text);
               }
 
-              fields.add2(Cairo.Constants.LDP_ORDEN, 10, Cairo.Constants.Types.integer);
-              fields.add2(Cairo.Constants.LDP_ID, K_FECHA_INI, Cairo.Constants.Types.integer);
+              fields.add2(Cairo.Constants.LDP_ORDEN, 10, Types.integer);
+              fields.add2(Cairo.Constants.LDP_ID, K_FECHA_INI, Types.integer);
 
               break;
 
             case K_FECHA_FIN:
 
               if(LenB(property.getSelectIntValue())) {
-                fields.add2(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
+                fields.add2(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Types.text);
               }
               else {
-                fields.add2(Cairo.Constants.LDP_VALOR, property.getValue(), Cairo.Constants.Types.text);
+                fields.add2(Cairo.Constants.LDP_VALOR, property.getValue(), Types.text);
               }
 
-              fields.add2(Cairo.Constants.LDP_ORDEN, 20, Cairo.Constants.Types.integer);
-              fields.add2(Cairo.Constants.LDP_ID, K_FECHA_FIN, Cairo.Constants.Types.integer);
+              fields.add2(Cairo.Constants.LDP_ORDEN, 20, Types.integer);
+              fields.add2(Cairo.Constants.LDP_ID, K_FECHA_FIN, Types.integer);
 
               break;
 
             case K_RESPONDIO:
-              fields.add2(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
-              fields.add2(Cairo.Constants.LDP_ORDEN, 80, Cairo.Constants.Types.integer);
-              fields.add2(Cairo.Constants.LDP_ID, K_RESPONDIO, Cairo.Constants.Types.integer);
+              fields.add2(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Types.text);
+              fields.add2(Cairo.Constants.LDP_ORDEN, 80, Types.integer);
+              fields.add2(Cairo.Constants.LDP_ID, K_RESPONDIO, Types.integer);
 
               break;
 
             case K_CLI_ID:
-              fields.add2(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
-              fields.add2(Cairo.Constants.LDP_ORDEN, 110, Cairo.Constants.Types.integer);
-              fields.add2(Cairo.Constants.LDP_ID, K_CLI_ID, Cairo.Constants.Types.integer);
+              fields.add2(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Types.text);
+              fields.add2(Cairo.Constants.LDP_ORDEN, 110, Types.integer);
+              fields.add2(Cairo.Constants.LDP_ID, K_CLI_ID, Types.integer);
 
               break;
 
             case K_NICK:
-              fields.add2(Cairo.Constants.LDP_VALOR, property.getValue(), Cairo.Constants.Types.text);
-              fields.add2(Cairo.Constants.LDP_ORDEN, 130, Cairo.Constants.Types.integer);
-              fields.add2(Cairo.Constants.LDP_ID, K_NICK, Cairo.Constants.Types.integer);
+              fields.add2(Cairo.Constants.LDP_VALOR, property.getValue(), Types.text);
+              fields.add2(Cairo.Constants.LDP_ORDEN, 130, Types.integer);
+              fields.add2(Cairo.Constants.LDP_ID, K_NICK, Types.integer);
 
               break;
 
             case K_PREGUNTA:
-              fields.add2(Cairo.Constants.LDP_VALOR, property.getValue(), Cairo.Constants.Types.text);
-              fields.add2(Cairo.Constants.LDP_ORDEN, 140, Cairo.Constants.Types.integer);
-              fields.add2(Cairo.Constants.LDP_ID, K_PREGUNTA, Cairo.Constants.Types.integer);
+              fields.add2(Cairo.Constants.LDP_VALOR, property.getValue(), Types.text);
+              fields.add2(Cairo.Constants.LDP_ORDEN, 140, Types.integer);
+              fields.add2(Cairo.Constants.LDP_ID, K_PREGUNTA, Types.integer);
 
               break;
 
             case K_OBSERVADAS:
-              fields.add2(Cairo.Constants.LDP_VALOR, property.getValue(), Cairo.Constants.Types.text);
-              fields.add2(Cairo.Constants.LDP_ORDEN, 150, Cairo.Constants.Types.integer);
-              fields.add2(Cairo.Constants.LDP_ID, K_OBSERVADAS, Cairo.Constants.Types.integer);
+              fields.add2(Cairo.Constants.LDP_VALOR, property.getValue(), Types.text);
+              fields.add2(Cairo.Constants.LDP_ORDEN, 150, Types.integer);
+              fields.add2(Cairo.Constants.LDP_ID, K_OBSERVADAS, Types.integer);
 
               break;
           }
 
-          fields.add2(C.US_ID, m_us_id, Cairo.Constants.Types.id);
-          fields.add2(C.PRE_ID, csCVXIPrestacion.cSPRECVXILISTPREGUNTA, Cairo.Constants.Types.id);
+          fields.add2(C.US_ID, m_us_id, Types.id);
+          fields.add2(C.PRE_ID, csCVXIPrestacion.cSPRECVXILISTPREGUNTA, Types.id);
 
           if(!Cairo.Database.save(register, , "cIABMClient_Save", C_MODULE, strError)) { return false; }
         }

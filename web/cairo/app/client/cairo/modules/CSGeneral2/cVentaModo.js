@@ -13,6 +13,7 @@
       var DB = Cairo.Database;
       var C = Cairo.General.Constants;
       var NO_ID = Cairo.Constants.NO_ID;
+      var Types = Cairo.Constants.Types;
 
       var C_MODULE = "cVentaModo";
 
@@ -188,43 +189,43 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(C.VM_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.VM_NAME, property.getValue(), Types.text);
               break;
 
             case K_CODE:
-              fields.add(C.VM_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.VM_CODE, property.getValue(), Types.text);
               break;
 
             case K_ACTIVE:
-              fields.add(Cairo.Constants.ACTIVE, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(Cairo.Constants.ACTIVE, property.getValue(), Types.boolean);
               break;
 
             case K_DESCRIP:
-              fields.add(C.VM_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.VM_DESCRIP, property.getValue(), Types.text);
               break;
 
             case K_CTA_CTE:
-              fields.add(C.VM_CTA_CTE, property.getListItemData(), Cairo.Constants.Types.integer);
+              fields.add(C.VM_CTA_CTE, property.getListItemData(), Types.integer);
               break;
 
             case K_CUE_ID:
-              fields.add(C.CUE_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.CUE_ID, property.getSelectId(), Types.id);
               break;
 
             case K_OS:
-              fields.add(C.VM_OS, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(C.VM_OS, Cairo.Util.val(property.getValue()), Types.boolean);
               break;
 
             case K_PV:
-              fields.add(C.VM_PV, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(C.VM_PV, Cairo.Util.val(property.getValue()), Types.boolean);
               break;
 
             case K_COBZ:
-              fields.add(C.VM_COBZ, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(C.VM_COBZ, Cairo.Util.val(property.getValue()), Types.boolean);
               break;
 
             case K_CMVXI:
-              fields.add(C.VM_CMVXI, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(C.VM_CMVXI, Cairo.Util.val(property.getValue()), Types.boolean);
               break;
           }
         }
@@ -294,13 +295,13 @@
           property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.text)) {
                 return Cairo.Modal.showInfoWithFalse(Cairo.Constants.MUST_SET_A_NAME);
               }
               break;
 
             case K_CODE:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.text)) {
                 property.setValue(Cairo.Constants.GET_CODE_FROM_ID);
               }
               break;

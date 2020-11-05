@@ -676,12 +676,12 @@
 
                 register.setId(Cairo.Constants.NEW_ID);
 
-                register.getFields().add2(CT.COBZ_NUMERO, 0, Cairo.Constants.Types.long);
-                register.getFields().add2(CT.CLI_ID, Cairo.Constants.NO_ID, Cairo.Constants.Types.long);
-                register.getFields().add2(CT.SUC_ID, Cairo.Constants.NO_ID, Cairo.Constants.Types.long);
-                register.getFields().add2(CT.DOC_ID, Cairo.Constants.NO_ID, Cairo.Constants.Types.long);
-                register.getFields().add2(C.EST_ID, Cairo.Constants.NO_ID, Cairo.Constants.Types.long);
-                register.getFields().add2(CT.COBZ_ID, m_cobzId, Cairo.Constants.Types.id);
+                register.getFields().add2(CT.COBZ_NUMERO, 0, Types.long);
+                register.getFields().add2(CT.CLI_ID, Cairo.Constants.NO_ID, Types.long);
+                register.getFields().add2(CT.SUC_ID, Cairo.Constants.NO_ID, Types.long);
+                register.getFields().add2(CT.DOC_ID, Cairo.Constants.NO_ID, Types.long);
+                register.getFields().add2(C.EST_ID, Cairo.Constants.NO_ID, Types.long);
+                register.getFields().add2(CT.COBZ_ID, m_cobzId, Types.id);
 
                 register.getFields().setHaveLastUpdate(true);
                 register.getFields().setHaveWhoModify(true);
@@ -756,25 +756,25 @@
                             cell = row.item(_j);
                             switch (cell.getKey()) {
                                 case KI_FV_ID:
-                                    register.getFields().add2(CT.FV_ID, cell.getId(), Cairo.Constants.Types.id);
+                                    register.getFields().add2(CT.FV_ID, cell.getId(), Types.id);
                                     break;
 
                                 case KI_FVD_ID:
-                                    register.getFields().add2(CT.FVD_ID, Cairo.Util.val(cell.getValue()), Cairo.Constants.Types.id);
+                                    register.getFields().add2(CT.FVD_ID, Cairo.Util.val(cell.getValue()), Types.id);
                                     break;
 
                                 case KI_FVP_ID:
-                                    register.getFields().add2(CT.FVP_ID, Cairo.Util.val(cell.getValue()), Cairo.Constants.Types.id);
+                                    register.getFields().add2(CT.FVP_ID, Cairo.Util.val(cell.getValue()), Types.id);
                                     break;
 
                                 case KI_APLICADO:
                                     importe = Cairo.Util.val(cell.getValue());
-                                    register.getFields().add2(CT.FV_COBZ_IMPORTE, importe, Cairo.Constants.Types.double);
+                                    register.getFields().add2(CT.FV_COBZ_IMPORTE, importe, Types.double);
                                     break;
 
                                 case KI_COTIZACION:
                                     cotizacion = Cairo.Util.val(cell.getValue());
-                                    register.getFields().add2(CT.FV_COBZ_COTIZACION, cotizacion, Cairo.Constants.Types.double);
+                                    register.getFields().add2(CT.FV_COBZ_COTIZACION, cotizacion, Types.double);
                                     break;
                             }
                         }
@@ -782,10 +782,10 @@
 
                     if(bSave) {
 
-                        register.getFields().add2(CT.FV_COBZ_IMPORTE_ORIGEN, DivideByCero(importe, cotizacion), Cairo.Constants.Types.double);
-                        register.getFields().add2(CT.FV_COBZ_ID, 0, Cairo.Constants.Types.long);
-                        register.getFields().add2(CT.COBZ_ID, 0, Cairo.Constants.Types.long);
-                        register.getFields().add2(CT.COBZ_TMP_ID, id, Cairo.Constants.Types.id);
+                        register.getFields().add2(CT.FV_COBZ_IMPORTE_ORIGEN, DivideByCero(importe, cotizacion), Types.double);
+                        register.getFields().add2(CT.FV_COBZ_ID, 0, Types.long);
+                        register.getFields().add2(CT.COBZ_ID, 0, Types.long);
+                        register.getFields().add2(CT.COBZ_TMP_ID, id, Types.id);
 
                         register.getFields().setHaveLastUpdate(false);
                         register.getFields().setHaveWhoModify(false);
@@ -814,15 +814,15 @@
                     register.setTable(CT.COBRANZAITEMTMP);
                     register.setId(Cairo.Constants.NEW_ID);
 
-                    register.getFields().add2(CT.CUE_ID, vCtaCte[i].cue_id, Cairo.Constants.Types.id);
-                    register.getFields().add2(CT.COBZI_IMPORTE_ORIGEN, vCtaCte[i].importeOrigen, Cairo.Constants.Types.currency);
-                    register.getFields().add2(CT.COBZI_IMPORTE, vCtaCte[i].importe, Cairo.Constants.Types.currency);
+                    register.getFields().add2(CT.CUE_ID, vCtaCte[i].cue_id, Types.id);
+                    register.getFields().add2(CT.COBZI_IMPORTE_ORIGEN, vCtaCte[i].importeOrigen, Types.currency);
+                    register.getFields().add2(CT.COBZI_IMPORTE, vCtaCte[i].importe, Types.currency);
 
-                    register.getFields().add2(CT.COBZI_ORDEN, i, Cairo.Constants.Types.integer);
-                    register.getFields().add2(CT.COBZI_TIPO, csECobranzaItemTipo.cSECOBZITCTACTE, Cairo.Constants.Types.integer);
-                    register.getFields().add2(CT.COBZ_TMP_ID, id, Cairo.Constants.Types.id);
-                    register.getFields().add2(CT.COBZI_ID, id, Cairo.Constants.Types.long);
-                    register.getFields().add2(CT.COBZI_OTRO_TIPO, csEItemOtroTipo.cSEOTROHABER, Cairo.Constants.Types.integer);
+                    register.getFields().add2(CT.COBZI_ORDEN, i, Types.integer);
+                    register.getFields().add2(CT.COBZI_TIPO, csECobranzaItemTipo.cSECOBZITCTACTE, Types.integer);
+                    register.getFields().add2(CT.COBZ_TMP_ID, id, Types.id);
+                    register.getFields().add2(CT.COBZI_ID, id, Types.long);
+                    register.getFields().add2(CT.COBZI_OTRO_TIPO, csEItemOtroTipo.cSEOTROHABER, Types.integer);
 
                     register.getFields().setHaveLastUpdate(false);
                     register.getFields().setHaveWhoModify(false);

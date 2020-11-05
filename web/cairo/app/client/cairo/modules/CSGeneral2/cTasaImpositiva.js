@@ -13,6 +13,7 @@
       var DB = Cairo.Database;
       var C = Cairo.General.Constants;
       var NO_ID = Cairo.Constants.NO_ID;
+      var Types = Cairo.Constants.Types;
 
       var C_MODULE = "cTasaImpositiva";
 
@@ -197,35 +198,35 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(C.TI_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.TI_NAME, property.getValue(), Types.text);
               break;
 
             case K_CODE:
-              fields.add(C.TI_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.TI_CODE, property.getValue(), Types.text);
               break;
 
             case K_ACTIVE:
-              fields.add(Cairo.Constants.ACTIVE, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(Cairo.Constants.ACTIVE, property.getValue(), Types.boolean);
               break;
 
             case K_PORCENTAJE:
-              fields.add(C.TI_PORCENTAJE, property.getValue(), Cairo.Constants.Types.currency);
+              fields.add(C.TI_PORCENTAJE, property.getValue(), Types.currency);
               break;
 
             case K_CODIGODGI1:
-              fields.add(C.TI_CODIGO_DGI1, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.TI_CODIGO_DGI1, property.getValue(), Types.text);
               break;
 
             case K_CODIGODGI2:
-              fields.add(C.TI_CODIGO_DGI2, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.TI_CODIGO_DGI2, property.getValue(), Types.text);
               break;
 
             case K_CUE_ID:
-              fields.add(C.CUE_ID, property.getSelectId(), Cairo.Constants.Types.text);
+              fields.add(C.CUE_ID, property.getSelectId(), Types.text);
               break;
 
             case K_TIPO:
-              fields.add(C.TI_TIPO, property.getListItemData(), Cairo.Constants.Types.integer);
+              fields.add(C.TI_TIPO, property.getListItemData(), Types.integer);
               break;
           }
         }
@@ -295,19 +296,19 @@
           property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.text)) {
                 return Cairo.Modal.showInfoWithFalse(Cairo.Constants.MUST_SET_A_NAME);
               }
               break;
 
             case K_CODE:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.text)) {
                 property.setValue(Cairo.Constants.GET_CODE_FROM_ID);
               }
               break;
 
             case K_CUE_ID:
-              if(Cairo.Util.valEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
+              if(Cairo.Util.valEmpty(property.getSelectId(), Types.id)) {
                 return Cairo.Modal.showInfoWithFalse(getText(1261, ""));
                 // Debe indicar una cuenta
               }

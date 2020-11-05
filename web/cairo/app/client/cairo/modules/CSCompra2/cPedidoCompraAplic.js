@@ -607,16 +607,16 @@
                 register.setTable(mComprasConstantes.PEDIDOCOMPRATMP);
 
                 register.setId(Cairo.Constants.NEW_ID);
-                register.getFields().add2(mComprasConstantes.PC_ID, m_pcId, Cairo.Constants.Types.id);
+                register.getFields().add2(mComprasConstantes.PC_ID, m_pcId, Types.id);
 
-                register.getFields().add2(mComprasConstantes.PC_NUMERO, 0, Cairo.Constants.Types.long);
-                register.getFields().add2(mComprasConstantes.PC_NRODOC, "", Cairo.Constants.Types.text);
+                register.getFields().add2(mComprasConstantes.PC_NUMERO, 0, Types.long);
+                register.getFields().add2(mComprasConstantes.PC_NRODOC, "", Types.text);
 
-                register.getFields().add2(Cairo.Constants.US_ID, 0, Cairo.Constants.Types.long);
-                register.getFields().add2(mComprasConstantes.SUC_ID, 0, Cairo.Constants.Types.long);
-                register.getFields().add2(mComprasConstantes.DOC_ID, docId, Cairo.Constants.Types.id);
+                register.getFields().add2(Cairo.Constants.US_ID, 0, Types.long);
+                register.getFields().add2(mComprasConstantes.SUC_ID, 0, Types.long);
+                register.getFields().add2(mComprasConstantes.DOC_ID, docId, Types.id);
 
-                register.getFields().add2(C.EST_ID, CSGeneralEx2.csEEstado.cSEEST_PENDIENTE, Cairo.Constants.Types.id);
+                register.getFields().add2(C.EST_ID, CSGeneralEx2.csEEstado.cSEEST_PENDIENTE, Types.id);
 
                 register.getFields().setHaveLastUpdate(true);
                 register.getFields().setHaveWhoModify(true);
@@ -1431,22 +1431,22 @@
                                     if(vAplic(i).oci_id !== 0) {
                                         register.setFieldId(mComprasConstantes.PC_OC_TMP_ID);
                                         register.setTable(mComprasConstantes.PEDIDOORDENCOMPRATMP);
-                                        register.getFields().add2(mComprasConstantes.OCI_ID, vAplic(i).oci_id, Cairo.Constants.Types.id);
-                                        register.getFields().add2(mComprasConstantes.PCI_ID, vAplic.pci_id, Cairo.Constants.Types.id);
+                                        register.getFields().add2(mComprasConstantes.OCI_ID, vAplic(i).oci_id, Types.id);
+                                        register.getFields().add2(mComprasConstantes.PCI_ID, vAplic.pci_id, Types.id);
 
-                                        register.getFields().add2(mComprasConstantes.PC_OC_CANTIDAD, vAplic.Aplicado, Cairo.Constants.Types.double);
-                                        register.getFields().add2(mComprasConstantes.PC_OC_ID, vAplic.vinc_id, Cairo.Constants.Types.long);
+                                        register.getFields().add2(mComprasConstantes.PC_OC_CANTIDAD, vAplic.Aplicado, Types.double);
+                                        register.getFields().add2(mComprasConstantes.PC_OC_ID, vAplic.vinc_id, Types.long);
 
                                     }
                                     else if(vAplic(i).coti_id !== 0) {
 
                                         register.setFieldId(mComprasConstantes.PCCOT_TMP_ID);
                                         register.setTable(mComprasConstantes.PEDIDOCOTIZACIONCOMPRATMP);
-                                        register.getFields().add2(mComprasConstantes.COTI_ID, vAplic(i).coti_id, Cairo.Constants.Types.id);
-                                        register.getFields().add2(mComprasConstantes.PCI_ID, vAplic.pci_id, Cairo.Constants.Types.id);
+                                        register.getFields().add2(mComprasConstantes.COTI_ID, vAplic(i).coti_id, Types.id);
+                                        register.getFields().add2(mComprasConstantes.PCI_ID, vAplic.pci_id, Types.id);
 
-                                        register.getFields().add2(mComprasConstantes.PCCOT_CANTIDAD, vAplic.Aplicado, Cairo.Constants.Types.double);
-                                        register.getFields().add2(mComprasConstantes.PCCOT_ID, vAplic.vinc_id, Cairo.Constants.Types.long);
+                                        register.getFields().add2(mComprasConstantes.PCCOT_CANTIDAD, vAplic.Aplicado, Types.double);
+                                        register.getFields().add2(mComprasConstantes.PCCOT_ID, vAplic.vinc_id, Types.long);
 
                                         // Si vinculo contra un pedido (Pedido - Devolucion)
                                     }
@@ -1455,21 +1455,21 @@
                                         register.setTable(mComprasConstantes.PEDIDODEVOLUCIONCOMPRATMP);
 
                                         if(m_isDevolucion) {
-                                            register.getFields().add2(mComprasConstantes.PCI_ID_DEVOLUCION, vAplic.pci_id, Cairo.Constants.Types.id);
-                                            register.getFields().add2(mComprasConstantes.PCI_ID_PEDIDO, vAplic(i).pci_id, Cairo.Constants.Types.id);
+                                            register.getFields().add2(mComprasConstantes.PCI_ID_DEVOLUCION, vAplic.pci_id, Types.id);
+                                            register.getFields().add2(mComprasConstantes.PCI_ID_PEDIDO, vAplic(i).pci_id, Types.id);
                                         }
                                         else {
-                                            register.getFields().add2(mComprasConstantes.PCI_ID_PEDIDO, vAplic.pci_id, Cairo.Constants.Types.id);
-                                            register.getFields().add2(mComprasConstantes.PCI_ID_DEVOLUCION, vAplic(i).pci_id, Cairo.Constants.Types.id);
+                                            register.getFields().add2(mComprasConstantes.PCI_ID_PEDIDO, vAplic.pci_id, Types.id);
+                                            register.getFields().add2(mComprasConstantes.PCI_ID_DEVOLUCION, vAplic(i).pci_id, Types.id);
                                         }
 
-                                        register.getFields().add2(mComprasConstantes.PC_DC_CANTIDAD, vAplic.Aplicado, Cairo.Constants.Types.double);
-                                        register.getFields().add2(mComprasConstantes.PC_DC_ID, vAplic.vinc_id, Cairo.Constants.Types.long);
+                                        register.getFields().add2(mComprasConstantes.PC_DC_CANTIDAD, vAplic.Aplicado, Types.double);
+                                        register.getFields().add2(mComprasConstantes.PC_DC_ID, vAplic.vinc_id, Types.long);
 
                                     }
 
                                     register.setId(Cairo.Constants.NEW_ID);
-                                    register.getFields().add2(mComprasConstantes.PC_TMP_ID, pcTMPId, Cairo.Constants.Types.id);
+                                    register.getFields().add2(mComprasConstantes.PC_TMP_ID, pcTMPId, Types.id);
 
                                     register.getFields().setHaveLastUpdate(false);
                                     register.getFields().setHaveWhoModify(false);

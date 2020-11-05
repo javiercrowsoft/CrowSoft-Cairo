@@ -13,6 +13,7 @@
       var DB = Cairo.Database;
       var C = Cairo.General.Constants;
       var NO_ID = Cairo.Constants.NO_ID;
+      var Types = Cairo.Constants.Types;
 
       var C_MODULE = "cProductoHelpConfig";
 
@@ -174,43 +175,43 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(C.PRHC_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.PRHC_NAME, property.getValue(), Types.text);
               break;
 
             case K_TECLA:
-              fields.add(C.PRHC_TECLA, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.PRHC_TECLA, property.getValue(), Types.text);
               break;
 
             case K_ATRIBUTO_INDICE:
-              fields.add(C.PRHC_ATRIBUTO_INDICE, property.getValue(), Cairo.Constants.Types.integer);
+              fields.add(C.PRHC_ATRIBUTO_INDICE, property.getValue(), Types.integer);
               break;
 
             case K_VALOR_CODIGO:
-              fields.add(C.PRHC_VALOR_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.PRHC_VALOR_CODE, property.getValue(), Types.text);
               break;
 
             case K_ACTIVE:
-              fields.add(Cairo.Constants.ACTIVE, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(Cairo.Constants.ACTIVE, property.getValue(), Types.boolean);
               break;
 
             case K_DESCRIP:
-              fields.add(C.PRHC_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.PRHC_DESCRIP, property.getValue(), Types.text);
               break;
 
             case K_DEFAULT:
-              fields.add(C.PRHC_DEFAULT, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(C.PRHC_DEFAULT, Cairo.Util.val(property.getValue()), Types.boolean);
               break;
 
             case K_DEFAULT_SRV:
-              fields.add(C.PRHC_DEFAULT_SRV, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(C.PRHC_DEFAULT_SRV, Cairo.Util.val(property.getValue()), Types.boolean);
               break;
 
             case K_DEFAULT_PRP:
-              fields.add(C.PRHC_DEFAULT_PRP, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(C.PRHC_DEFAULT_PRP, Cairo.Util.val(property.getValue()), Types.boolean);
               break;
 
             case K_DEFAULT_PRNS:
-              fields.add(C.PRHC_DEFAULT_PRNS, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(C.PRHC_DEFAULT_PRNS, Cairo.Util.val(property.getValue()), Types.boolean);
               break;
           }
         }
@@ -281,20 +282,20 @@
           property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.text)) {
                 return Cairo.Modal.showInfoWithFalse(Cairo.Constants.MUST_SET_A_NAME);
               }
               break;
 
             case K_TECLA:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.text)) {
                 // Debe indicar una tecla
                 Cairo.Modal.showInfo(getText(3905, ""));
               }
               break;
 
             case K_VALOR_CODIGO:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.text)) {
                 // Debe indicar un valor para el código
                 Cairo.Modal.showInfo(getText(3906, ""));
               }

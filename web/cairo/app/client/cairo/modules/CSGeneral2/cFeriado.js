@@ -13,6 +13,7 @@
       var DB = Cairo.Database;
       var C = Cairo.General.Constants;
       var NO_ID = Cairo.Constants.NO_ID;
+      var Types = Cairo.Constants.Types;
 
       var C_MODULE = "cFeriado";
 
@@ -204,51 +205,51 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(C.FE_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.FE_NAME, property.getValue(), Types.text);
               break;
 
             case K_CODE:
-              fields.add(C.FE_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.FE_CODE, property.getValue(), Types.text);
               break;
 
             case K_DESCRIP:
-              fields.add(C.FE_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.FE_DESCRIP, property.getValue(), Types.text);
               break;
 
             case K_DIA:
-              fields.add(C.FE_DIA, property.getValue(), Cairo.Constants.Types.integer);
+              fields.add(C.FE_DIA, property.getValue(), Types.integer);
               break;
 
             case K_MES:
-              fields.add(C.FE_MES, property.getValue(), Cairo.Constants.Types.integer);
+              fields.add(C.FE_MES, property.getValue(), Types.integer);
               break;
 
             case K_ANIO:
-              fields.add(C.FE_ANIO, property.getValue(), Cairo.Constants.Types.integer);
+              fields.add(C.FE_ANIO, property.getValue(), Types.integer);
               break;
 
             case K_BANCO:
-              fields.add(C.FE_BANCO, property.getValue(), Cairo.Constants.Types.boolean);
+              fields.add(C.FE_BANCO, property.getValue(), Types.boolean);
               break;
 
             case K_LABORAL:
-              fields.add(C.FE_LABORAL, property.getValue(), Cairo.Constants.Types.boolean);
+              fields.add(C.FE_LABORAL, property.getValue(), Types.boolean);
               break;
 
             case K_LOCAL:
-              fields.add(C.FE_LOCAL, property.getValue(), Cairo.Constants.Types.boolean);
+              fields.add(C.FE_LOCAL, property.getValue(), Types.boolean);
               break;
 
             case K_PA_ID:
-              fields.add(C.PA_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.PA_ID, property.getSelectId(), Types.id);
               break;
 
             case K_PRO_ID:
-              fields.add(C.PRO_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.PRO_ID, property.getSelectId(), Types.id);
               break;
 
             case K_RECURRENTE:
-              fields.add(C.FE_RECURRENTE, property.getValue(), Cairo.Constants.Types.boolean);
+              fields.add(C.FE_RECURRENTE, property.getValue(), Types.boolean);
               break;
           }
         }
@@ -327,14 +328,14 @@
           property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.text)) {
                 return Cairo.Modal.showInfoWithFalse(getText(1007, ""));
                 // Debe indicar un Nombre
               }
               break;
 
             case K_CODE:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.text)) {
                 return Cairo.Modal.showInfoWithFalse(getText(1008, ""));
                 // Debe indicar un Código"
               }

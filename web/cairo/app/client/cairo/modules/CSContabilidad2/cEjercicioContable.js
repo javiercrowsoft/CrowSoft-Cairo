@@ -444,17 +444,17 @@
           switch (property.getKey()) {
 
             case K_EMP_ID:
-              fields.add(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
-              fields.add(Cairo.Constants.LDP_ORDEN, 100, Cairo.Constants.Types.integer);
-              fields.add(Cairo.Constants.LDP_ID, K_EMP_ID, Cairo.Constants.Types.integer);
+              fields.add(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Types.text);
+              fields.add(Cairo.Constants.LDP_ORDEN, 100, Types.integer);
+              fields.add(Cairo.Constants.LDP_ID, K_EMP_ID, Types.integer);
 
               break;
           }
 
-          fields.add(C.EMP_ID, cUtil.getEmpId(), Cairo.Constants.Types.id);
+          fields.add(C.EMP_ID, cUtil.getEmpId(), Types.id);
 
-          fields.add(C.US_ID, m_us_id, Cairo.Constants.Types.id);
-          fields.add(C.PRE_ID, csContabilidadPrestacion.cSPRECONLISTEJERCICIO, Cairo.Constants.Types.id);
+          fields.add(C.US_ID, m_us_id, Types.id);
+          fields.add(C.PRE_ID, csContabilidadPrestacion.cSPRECONLISTEJERCICIO, Types.id);
 
 
 

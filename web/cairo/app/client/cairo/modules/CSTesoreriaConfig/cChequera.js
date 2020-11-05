@@ -15,6 +15,7 @@
       var CT = Cairo.Tesoreria.Constants;
       var NO_ID = Cairo.Constants.NO_ID;
       var T = Dialogs.PropertyType;
+      var Types = Cairo.Constants.Types;
 
       var C_MODULE = "cChequeraEdit";
 
@@ -188,36 +189,36 @@
           switch (property.getKey()) {
             case K_CUE_ID:
               cueId = property.getSelectId();
-              fields.add(C.CUE_ID, cueId, Cairo.Constants.Types.id);
+              fields.add(C.CUE_ID, cueId, Types.id);
               break;
 
             case K_CODE:
-              fields.add(CT.CHQ_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(CT.CHQ_CODE, property.getValue(), Types.text);
               break;
 
             case K_DESCRIP:
-              fields.add(CT.CHQ_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(CT.CHQ_DESCRIP, property.getValue(), Types.text);
               break;
 
             case K_NUMERO_DESDE:
-              fields.add(CT.CHQ_NUMERO_DESDE, property.getValue(), Cairo.Constants.Types.long);
+              fields.add(CT.CHQ_NUMERO_DESDE, property.getValue(), Types.long);
               break;
 
             case K_NUMERO_HASTA:
-              fields.add(CT.CHQ_NUMERO_HASTA, property.getValue(), Cairo.Constants.Types.long);
+              fields.add(CT.CHQ_NUMERO_HASTA, property.getValue(), Types.long);
               break;
 
             case K_ULTIMO_NUMERO:
-              fields.add(CT.CHQ_ULTIMO_NUMERO, property.getValue(), Cairo.Constants.Types.long);
+              fields.add(CT.CHQ_ULTIMO_NUMERO, property.getValue(), Types.long);
               break;
 
             case K_DEFAULT:
               bDefault = Cairo.Util.val(property.getValue());
-              fields.add(CT.CHQ_DEFAULT, Cairo.Util.boolToInt(bDefault), Cairo.Constants.Types.boolean);
+              fields.add(CT.CHQ_DEFAULT, Cairo.Util.boolToInt(bDefault), Types.boolean);
               break;
 
             case K_ACTIVE:
-              fields.add(Cairo.Constants.ACTIVE, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(Cairo.Constants.ACTIVE, property.getValue(), Types.boolean);
               break;
           }
         }
@@ -286,20 +287,20 @@
           property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_CODE:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.text)) {
                 return Cairo.Modal.showInfoWithFalse(Cairo.Constants.MUST_SET_A_CODE);
               }
               break;
 
             case K_NUMERO_DESDE:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.long)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.long)) {
                 return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(3111, ""));
                 // Debe indicar un número Desde
               }
               break;
 
             case K_NUMERO_HASTA:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.long)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.long)) {
                 return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(3112, ""));
                 // Debe indicar un número Hasta
               }

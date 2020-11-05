@@ -14,6 +14,7 @@
       var C = Cairo.General.Constants;
       var NO_ID = Cairo.Constants.NO_ID;
       var T = Dialogs.PropertyType;
+      var Types = Cairo.Constants.Types;
 
       var C_MODULE = "cVentaConfigEdit";
 
@@ -138,8 +139,8 @@
 
       var CFG_GRUPO = C.CFG_GRUPO;
       var EMP_ID = C.EMP_ID;
-      var TEXT = Cairo.Constants.Types.text;
-      var ID = Cairo.Constants.Types.id;
+      var TEXT = Types.text;
+      var ID = Types.id;
 
       //
       // property getters

@@ -311,20 +311,20 @@
           switch (property.getKey()) {
 
             case K_PROYECTO:
-              fields.add(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
-              fields.add(Cairo.Constants.LDP_ORDEN, 30, Cairo.Constants.Types.integer);
-              fields.add(Cairo.Constants.LDP_ID, K_PROYECTO, Cairo.Constants.Types.integer);
+              fields.add(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Types.text);
+              fields.add(Cairo.Constants.LDP_ORDEN, 30, Types.integer);
+              fields.add(Cairo.Constants.LDP_ID, K_PROYECTO, Types.integer);
               break;
 
             case K_CLIENTE:
-              fields.add(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Cairo.Constants.Types.text);
-              fields.add(Cairo.Constants.LDP_ORDEN, 50, Cairo.Constants.Types.integer);
-              fields.add(Cairo.Constants.LDP_ID, K_CLIENTE, Cairo.Constants.Types.integer);
+              fields.add(Cairo.Constants.LDP_VALOR, property.getSelectIntValue(), Types.text);
+              fields.add(Cairo.Constants.LDP_ORDEN, 50, Types.integer);
+              fields.add(Cairo.Constants.LDP_ID, K_CLIENTE, Types.integer);
 
               break;
           }
-          fields.add(C.US_ID, m_us_id, Cairo.Constants.Types.id);
-          fields.add(C.PRE_ID, csPreTicketPrestacion.cSPRETICKLISTALARMA, Cairo.Constants.Types.id);
+          fields.add(C.US_ID, m_us_id, Types.id);
+          fields.add(C.PRE_ID, csPreTicketPrestacion.cSPRETICKLISTALARMA, Types.id);
 
 
 

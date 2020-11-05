@@ -13,6 +13,7 @@
       var DB = Cairo.Database;
       var C = Cairo.General.Constants;
       var NO_ID = Cairo.Constants.NO_ID;
+      var Types = Cairo.Constants.Types;
 
       var C_MODULE = "cCiudad";
 
@@ -180,23 +181,23 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(C.CIU_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CIU_NAME, property.getValue(), Types.text);
               break;
 
             case K_CODE:
-              fields.add(C.CIU_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CIU_CODE, property.getValue(), Types.text);
               break;
 
             case K_DESCRIP:
-              fields.add(C.CIU_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.CIU_DESCRIP, property.getValue(), Types.text);
               break;
 
             case K_PRO_ID:
-              fields.add(C.PRO_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.PRO_ID, property.getSelectId(), Types.id);
               break;
 
             case K_ACTIVE:
-              fields.add(Cairo.Constants.ACTIVE, property.getValue(), Cairo.Constants.Types.boolean);
+              fields.add(Cairo.Constants.ACTIVE, property.getValue(), Types.boolean);
               break;
           }
         }
@@ -267,19 +268,19 @@
           property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.text)) {
                 return Cairo.Modal.showInfoWithFalse(Cairo.Constants.MUST_SET_A_NAME);
               }
               break;
 
             case K_CODE:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.text)) {
                 property.setValue(Cairo.Constants.GET_CODE_FROM_ID);
               }
               break;
 
             case K_PRO_ID:
-              if(Cairo.Util.valEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
+              if(Cairo.Util.valEmpty(property.getSelectId(), Types.id)) {
                 // Debe indicar una provincia
                 Cairo.Modal.showInfo(getText(1077, ""));
               }

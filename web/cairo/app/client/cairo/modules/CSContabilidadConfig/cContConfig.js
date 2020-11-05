@@ -47,8 +47,8 @@
 
       var CFG_GRUPO = C.CFG_GRUPO;
       var EMP_ID = C.EMP_ID;
-      var TEXT = Cairo.Constants.Types.text;
-      var ID = Cairo.Constants.Types.id;
+      var TEXT = Types.text;
+      var ID = Types.id;
 
       self.getClaveFiscal = function() {
         return m_claveFiscal;

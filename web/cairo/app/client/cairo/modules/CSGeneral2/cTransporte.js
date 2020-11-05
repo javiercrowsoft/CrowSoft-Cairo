@@ -13,6 +13,7 @@
       var DB = Cairo.Database;
       var C = Cairo.General.Constants;
       var NO_ID = Cairo.Constants.NO_ID;
+      var Types = Cairo.Constants.Types;
 
       var C_MODULE = "cTransporte";
 
@@ -200,60 +201,60 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(C.TRANS_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.TRANS_NAME, property.getValue(), Types.text);
               break;
 
             case K_CODE:
-              fields.add(C.TRANS_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.TRANS_CODE, property.getValue(), Types.text);
               break;
 
             case K_TELEFONO:
-              fields.add(C.TRANS_TELEFONO, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.TRANS_TELEFONO, property.getValue(), Types.text);
               break;
 
             case K_DIRECCION:
-              fields.add(C.TRANS_DIRECCION, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.TRANS_DIRECCION, property.getValue(), Types.text);
               break;
 
             case K_ACTIVE:
-              fields.add(Cairo.Constants.ACTIVE, property.getValue(), Cairo.Constants.Types.boolean);
+              fields.add(Cairo.Constants.ACTIVE, property.getValue(), Types.boolean);
               break;
 
             case K_MAIL:
-              fields.add(C.TRANS_MAIL, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.TRANS_MAIL, property.getValue(), Types.text);
               break;
 
             case K_WEB:
-              fields.add(C.TRANS_WEB, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.TRANS_WEB, property.getValue(), Types.text);
               break;
 
             case K_DESCRIP:
-              fields.add(C.TRANS_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.TRANS_DESCRIP, property.getValue(), Types.text);
               break;
 
             case K_PROV_ID:
-              fields.add(C.PROV_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.PROV_ID, property.getSelectId(), Types.id);
               break;
 
             case K_PRO_ID:
-              fields.add(C.PRO_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.PRO_ID, property.getSelectId(), Types.id);
 
               break;
 
             case K_HORARIO_M_DESDE:
-              fields.add(C.TRANS_HORARIO_MDESDE, property.getValue(), Cairo.Constants.Types.date);
+              fields.add(C.TRANS_HORARIO_MDESDE, property.getValue(), Types.date);
               break;
 
             case K_HORARIO_M_HASTA:
-              fields.add(C.TRANS_HORARIO_MHASTA, property.getValue(), Cairo.Constants.Types.date);
+              fields.add(C.TRANS_HORARIO_MHASTA, property.getValue(), Types.date);
               break;
 
             case K_HORARIO_T_DESDE:
-              fields.add(C.TRANS_HORARIO_TDESDE, property.getValue(), Cairo.Constants.Types.date);
+              fields.add(C.TRANS_HORARIO_TDESDE, property.getValue(), Types.date);
               break;
 
             case K_HORARIO_T_HASTA:
-              fields.add(C.TRANS_HORARIO_THASTA, property.getValue(), Cairo.Constants.Types.date);
+              fields.add(C.TRANS_HORARIO_THASTA, property.getValue(), Types.date);
 
               break;
           }
@@ -324,13 +325,13 @@
           property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.text)) {
                 return Cairo.Modal.showInfoWithFalse(Cairo.Constants.MUST_SET_A_NAME);
               }
               break;
 
             case K_CODE:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.text)) {
                 property.setValue(Cairo.Constants.GET_CODE_FROM_ID);
               }
               break;

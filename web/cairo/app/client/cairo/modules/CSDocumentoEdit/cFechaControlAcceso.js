@@ -13,6 +13,7 @@
       var DB = Cairo.Database;
       var C = Cairo.General.Constants;
       var NO_ID = Cairo.Constants.NO_ID;
+      var Types = Cairo.Constants.Types;
 
       var C_MODULE = "cFechaControlAcceso";
 
@@ -176,23 +177,23 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(C.FCA_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.FCA_NAME, property.getValue(), Types.text);
               break;
 
             case K_CODE:
-              fields.add(C.FCA_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.FCA_CODE, property.getValue(), Types.text);
               break;
 
             case K_ACTIVE:
-              fields.add(Cairo.Constants.ACTIVE, Cairo.Util.val(property.getValue()), Cairo.Constants.Types.boolean);
+              fields.add(Cairo.Constants.ACTIVE, property.getValue(), Types.boolean);
               break;
 
             case K_FECHADESDE:
-              fields.add(C.FCA_FECHA_DESDE, property.getValue(), Cairo.Constants.Types.date);
+              fields.add(C.FCA_FECHA_DESDE, property.getValue(), Types.date);
               break;
 
             case K_FECHAHASTA:
-              fields.add(C.FCA_FECHA_HASTA, property.getValue(), Cairo.Constants.Types.date);
+              fields.add(C.FCA_FECHA_HASTA, property.getValue(), Types.date);
               break;
           }
         }
@@ -265,25 +266,25 @@
           property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.text)) {
                 return Cairo.Modal.showInfoWithFalse(Cairo.Constants.MUST_SET_A_NAME);
               }
               break;
 
             case K_CODE:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.text)) {
                 property.setValue(Cairo.Constants.GET_CODE_FROM_ID);
               }
               break;
 
             case K_FECHADESDE:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.date)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.date)) {
                 return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(2393, "")); // Debe indicar una fecha desde
               }
               break;
 
             case K_FECHAHASTA:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.date)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.date)) {
                 return Cairo.Modal.showInfoWithFalse(Cairo.Language.getText(2394, "")); // Debe indicar una fecha hasta
               }
               break;

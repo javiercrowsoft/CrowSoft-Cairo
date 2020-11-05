@@ -13,6 +13,7 @@
       var DB = Cairo.Database;
       var C = Cairo.General.Constants;
       var NO_ID = Cairo.Constants.NO_ID;
+      var Types = Cairo.Constants.Types;
 
       var C_MODULE = "cGasto";
 
@@ -175,47 +176,47 @@
           var property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              fields.add(C.GTO_NAME, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.GTO_NAME, property.getValue(), Types.text);
               break;
 
             case K_CODE:
-              fields.add(C.GTO_CODE, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.GTO_CODE, property.getValue(), Types.text);
               break;
 
             case K_DESCRIP:
-              fields.add(C.GTO_DESCRIP, property.getValue(), Cairo.Constants.Types.text);
+              fields.add(C.GTO_DESCRIP, property.getValue(), Types.text);
               break;
 
             case K_TIPO:
-              fields.add(C.GTO_TIPO, property.getListItemData(), Cairo.Constants.Types.integer);
+              fields.add(C.GTO_TIPO, property.getListItemData(), Types.integer);
               break;
 
             case K_FIJO:
-              fields.add(C.GTO_FIJO, property.getValue(), Cairo.Constants.Types.currency);
+              fields.add(C.GTO_FIJO, property.getValue(), Types.currency);
               break;
 
             case K_MINIMO:
-              fields.add(C.GTO_MINIMO, property.getValue(), Cairo.Constants.Types.currency);
+              fields.add(C.GTO_MINIMO, property.getValue(), Types.currency);
               break;
 
             case K_PORCENTAJE:
-              fields.add(C.GTO_PORCENTAJE, property.getValue(), Cairo.Constants.Types.currency);
+              fields.add(C.GTO_PORCENTAJE, property.getValue(), Types.currency);
               break;
 
             case K_IMPORTE:
-              fields.add(C.GTO_IMPORTE, property.getValue(), Cairo.Constants.Types.currency);
+              fields.add(C.GTO_IMPORTE, property.getValue(), Types.currency);
               break;
 
             case K_MON_ID:
-              fields.add(C.MON_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.MON_ID, property.getSelectId(), Types.id);
               break;
 
             case K_TI_ID:
-              fields.add(C.TI_ID, property.getSelectId(), Cairo.Constants.Types.id);
+              fields.add(C.TI_ID, property.getSelectId(), Types.id);
               break;
 
             case K_ACTIVE:
-              fields.add(Cairo.Constants.ACTIVE, property.getValue(), Cairo.Constants.Types.boolean);
+              fields.add(Cairo.Constants.ACTIVE, property.getValue(), Types.boolean);
 
               break;
           }
@@ -287,26 +288,26 @@
           property = m_dialog.getProperties().item(_i);
           switch (property.getKey()) {
             case K_NAME:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.text)) {
                 return Cairo.Modal.showInfoWithFalse(Cairo.Constants.MUST_SET_A_NAME);
               }
               break;
 
             case K_CODE:
-              if(Cairo.Util.valEmpty(property.getValue(), Cairo.Constants.Types.text)) {
+              if(Cairo.Util.valEmpty(property.getValue(), Types.text)) {
                 property.setValue(Cairo.Constants.GET_CODE_FROM_ID);
               }
               break;
 
             case K_TIPO:
-              if(Cairo.Util.valEmpty(property.getListItemData(), Cairo.Constants.Types.integer)) {
+              if(Cairo.Util.valEmpty(property.getListItemData(), Types.integer)) {
                 // Debe indicar un tipo
                 Cairo.Modal.showInfo(getText(1222, ""));
               }
               break;
 
             case K_MON_ID:
-              if(Cairo.Util.valEmpty(property.getSelectId(), Cairo.Constants.Types.id)) {
+              if(Cairo.Util.valEmpty(property.getSelectId(), Types.id)) {
                 // Debe indicar un moneda
                 Cairo.Modal.showInfo(getText(1108, ""));
               }

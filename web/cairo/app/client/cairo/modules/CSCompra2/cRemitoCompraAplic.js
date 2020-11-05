@@ -700,17 +700,17 @@
                 register.setTable(mComprasConstantes.REMITO_COMPRATMP);
 
                 register.setId(Cairo.Constants.NEW_ID);
-                register.getFields().add2(mComprasConstantes.RC_ID, m_rcId, Cairo.Constants.Types.id);
+                register.getFields().add2(mComprasConstantes.RC_ID, m_rcId, Types.id);
 
-                register.getFields().add2(mComprasConstantes.RC_NUMERO, 0, Cairo.Constants.Types.long);
-                register.getFields().add2(mComprasConstantes.RC_NRODOC, "", Cairo.Constants.Types.text);
+                register.getFields().add2(mComprasConstantes.RC_NUMERO, 0, Types.long);
+                register.getFields().add2(mComprasConstantes.RC_NRODOC, "", Types.text);
 
-                register.getFields().add2(mComprasConstantes.PROV_ID, 0, Cairo.Constants.Types.long);
-                register.getFields().add2(mComprasConstantes.SUC_ID, 0, Cairo.Constants.Types.long);
-                register.getFields().add2(mComprasConstantes.DOC_ID, docId, Cairo.Constants.Types.id);
-                register.getFields().add2(mComprasConstantes.CPG_ID, csECpgTipo.cSECPGT_FECHADOCUMENTO, Cairo.Constants.Types.id);
+                register.getFields().add2(mComprasConstantes.PROV_ID, 0, Types.long);
+                register.getFields().add2(mComprasConstantes.SUC_ID, 0, Types.long);
+                register.getFields().add2(mComprasConstantes.DOC_ID, docId, Types.id);
+                register.getFields().add2(mComprasConstantes.CPG_ID, csECpgTipo.cSECPGT_FECHADOCUMENTO, Types.id);
 
-                register.getFields().add2(C.EST_ID, CSGeneralEx2.csEEstado.cSEEST_PENDIENTE, Cairo.Constants.Types.id);
+                register.getFields().add2(C.EST_ID, CSGeneralEx2.csEEstado.cSEEST_PENDIENTE, Types.id);
 
                 register.getFields().setHaveLastUpdate(true);
                 register.getFields().setHaveWhoModify(true);
@@ -1551,12 +1551,12 @@
                                     register.setTable(mComprasConstantes.ORDENREMITO_COMPRATMP);
                                     register.setId(Cairo.Constants.NEW_ID);
 
-                                    register.getFields().add2(mComprasConstantes.RC_TMP_ID, rcTMPId, Cairo.Constants.Types.id);
-                                    register.getFields().add2(mComprasConstantes.OCI_ID, vAplic(i).oci_id, Cairo.Constants.Types.id);
-                                    register.getFields().add2(mComprasConstantes.RCI_ID, vAplic.rci_id, Cairo.Constants.Types.id);
-                                    register.getFields().add2(mComprasConstantes.OC_RC_CANTIDAD, vAplic.Aplicado, Cairo.Constants.Types.double);
+                                    register.getFields().add2(mComprasConstantes.RC_TMP_ID, rcTMPId, Types.id);
+                                    register.getFields().add2(mComprasConstantes.OCI_ID, vAplic(i).oci_id, Types.id);
+                                    register.getFields().add2(mComprasConstantes.RCI_ID, vAplic.rci_id, Types.id);
+                                    register.getFields().add2(mComprasConstantes.OC_RC_CANTIDAD, vAplic.Aplicado, Types.double);
 
-                                    register.getFields().add2(mComprasConstantes.OC_RC_ID, vAplic.vinc_id, Cairo.Constants.Types.long);
+                                    register.getFields().add2(mComprasConstantes.OC_RC_ID, vAplic.vinc_id, Types.long);
 
                                     register.getFields().setHaveLastUpdate(false);
                                     register.getFields().setHaveWhoModify(false);
@@ -1665,11 +1665,11 @@
                                     if(vAplic(i).fci_id !== 0) {
                                         register.setFieldId(mComprasConstantes.RC_FC_TMP_ID);
                                         register.setTable(mComprasConstantes.REMITOFACTURA_COMPRATMP);
-                                        register.getFields().add2(mComprasConstantes.FCI_ID, vAplic(i).fci_id, Cairo.Constants.Types.id);
-                                        register.getFields().add2(mComprasConstantes.RCI_ID, vAplic.rci_id, Cairo.Constants.Types.id);
+                                        register.getFields().add2(mComprasConstantes.FCI_ID, vAplic(i).fci_id, Types.id);
+                                        register.getFields().add2(mComprasConstantes.RCI_ID, vAplic.rci_id, Types.id);
 
-                                        register.getFields().add2(mComprasConstantes.RC_FC_CANTIDAD, vAplic.Aplicado, Cairo.Constants.Types.double);
-                                        register.getFields().add2(mComprasConstantes.RC_FC_ID, vAplic.vinc_id, Cairo.Constants.Types.long);
+                                        register.getFields().add2(mComprasConstantes.RC_FC_CANTIDAD, vAplic.Aplicado, Types.double);
+                                        register.getFields().add2(mComprasConstantes.RC_FC_ID, vAplic.vinc_id, Types.long);
 
                                         // Si vinculo contra un remito (Remito - Devolucion)
                                     }
@@ -1678,21 +1678,21 @@
                                         register.setTable(mComprasConstantes.REMITODEVOLUCIONCOMPRATMP);
 
                                         if(m_isDevolucion) {
-                                            register.getFields().add2(mComprasConstantes.RCI_ID_DEVOLUCION, vAplic.rci_id, Cairo.Constants.Types.id);
-                                            register.getFields().add2(mComprasConstantes.RCI_ID_REMITO, vAplic(i).rci_id, Cairo.Constants.Types.id);
+                                            register.getFields().add2(mComprasConstantes.RCI_ID_DEVOLUCION, vAplic.rci_id, Types.id);
+                                            register.getFields().add2(mComprasConstantes.RCI_ID_REMITO, vAplic(i).rci_id, Types.id);
                                         }
                                         else {
-                                            register.getFields().add2(mComprasConstantes.RCI_ID_REMITO, vAplic.rci_id, Cairo.Constants.Types.id);
-                                            register.getFields().add2(mComprasConstantes.RCI_ID_DEVOLUCION, vAplic(i).rci_id, Cairo.Constants.Types.id);
+                                            register.getFields().add2(mComprasConstantes.RCI_ID_REMITO, vAplic.rci_id, Types.id);
+                                            register.getFields().add2(mComprasConstantes.RCI_ID_DEVOLUCION, vAplic(i).rci_id, Types.id);
                                         }
 
-                                        register.getFields().add2(mComprasConstantes.RC_DC_CANTIDAD, vAplic.Aplicado, Cairo.Constants.Types.double);
-                                        register.getFields().add2(mComprasConstantes.RC_DC_ID, vAplic.vinc_id, Cairo.Constants.Types.long);
+                                        register.getFields().add2(mComprasConstantes.RC_DC_CANTIDAD, vAplic.Aplicado, Types.double);
+                                        register.getFields().add2(mComprasConstantes.RC_DC_ID, vAplic.vinc_id, Types.long);
 
                                     }
 
                                     register.setId(Cairo.Constants.NEW_ID);
-                                    register.getFields().add2(mComprasConstantes.RC_TMP_ID, rcTMPId, Cairo.Constants.Types.id);
+                                    register.getFields().add2(mComprasConstantes.RC_TMP_ID, rcTMPId, Types.id);
 
                                     register.getFields().setHaveLastUpdate(false);
                                     register.getFields().setHaveWhoModify(false);
