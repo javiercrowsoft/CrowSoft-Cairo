@@ -20,7 +20,7 @@
       var K_NAME = 1;
       var K_CODE = 2;
       var K_ACTIVE = 3;
-      var K_DESCRIPCION = 4;
+      var K_DESCRIP = 4;
       var K_DIAS = 5;
       var m_id = 0;
       var m_name = "";
@@ -186,7 +186,7 @@
               fields.add(Cairo.Constants.ACTIVE, property.getValue(), Types.boolean);
               break;
 
-            case K_DESCRIPCION:
+            case K_DESCRIP:
               fields.add(C.CLE_DESCRIP, property.getValue(), Types.text);
               break;
 
@@ -394,7 +394,7 @@
         var elem = properties.add(null, C.CLE_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
-        elem.setKey(K_DESCRIPCION);
+        elem.setKey(K_DESCRIP);
         elem.setValue(m_descripcion);
         elem.setSubType(Dialogs.PropertySubType.memo);
 

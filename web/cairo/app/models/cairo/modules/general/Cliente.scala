@@ -1099,7 +1099,7 @@ object Cliente {
         Field(C.CONT_EMAIL, contacto.email, FieldType.text),
         Field(C.CONT_CARGO, contacto.cargo, FieldType.text),
         Field(C.CONT_DIRECCION, contacto.address, FieldType.text),
-        Field(DBHelper.ACTIVE, Register.boolToInt(contacto.active), FieldType.text)
+        Field(DBHelper.ACTIVE, Register.boolToInt(contacto.active), FieldType.boolean)
       )
     }
 

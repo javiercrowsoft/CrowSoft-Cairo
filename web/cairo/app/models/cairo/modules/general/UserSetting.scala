@@ -33,7 +33,7 @@ object UserSetting {
           key,
           group,
           value,
-          empId.getOrElse(0)
+          empId.getOrElse(DBHelper.NoId)
         )
     }
   }

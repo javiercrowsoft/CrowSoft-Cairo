@@ -38,7 +38,7 @@
 
       var m_copy;
 
-      var m_apiPath = Cairo.Database.getAPIVersion();
+      var m_apiPath = DB.getAPIVersion();
 
       self.getId = function() {
         return m_id;
@@ -153,7 +153,7 @@
 
       self.save = function() {
 
-        var register = new Cairo.Database.Register();
+        var register = new DB.Register();
         var fields = register.getFields();
 
         register.setFieldId(C.UN_ID);
@@ -186,7 +186,7 @@
           }
         }
 
-        return Cairo.Database.saveEx(
+        return DB.saveEx(
           register,
           false,
           C.UN_CODE,
@@ -359,14 +359,14 @@
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, C.UN_CODE);
+        elem = properties.add(null, C.UN_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(15);
         elem.setValue(m_code);
         elem.setKey(K_CODE);
 
-        var elem = properties.add(null, Cairo.Constants.ACTIVE);
+        elem = properties.add(null, Cairo.Constants.ACTIVE);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
         elem.setKey(K_ACTIVE);
@@ -384,10 +384,10 @@
         var elem = properties.item(C.UN_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.item(C.UN_CODE);
+        elem = properties.item(C.UN_CODE);
         elem.setValue(m_code);
 
-        var elem = properties.item(Cairo.Constants.ACTIVE);
+        elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(Cairo.Util.boolToInt(m_active));
 
         return m_dialog.showValues(properties);
@@ -407,10 +407,10 @@
               m_id = NO_ID;
             }
             else {
-              m_active = Cairo.Database.valField(response.data, Cairo.Constants.ACTIVE);
-              m_name = Cairo.Database.valField(response.data, C.UN_NAME);
-              m_code = Cairo.Database.valField(response.data, C.UN_CODE);
-              m_id = Cairo.Database.valField(response.data, C.UN_ID);
+              m_active = DB.valField(response.data, Cairo.Constants.ACTIVE);
+              m_name = DB.valField(response.data, C.UN_NAME);
+              m_code = DB.valField(response.data, C.UN_CODE);
+              m_id = DB.valField(response.data, C.UN_ID);
             }
             return true;
           });
@@ -460,13 +460,14 @@
 
   Cairo.module("Unidad.List", function(List, Cairo, Backbone, Marionette, $, _) {
 
+    var DB = Cairo.Database;
     var NO_ID = Cairo.Constants.NO_ID;
 
     List.Controller = {
       list: function() {
 
         var self = this;
-        var m_apiPath = Cairo.Database.getAPIVersion();
+        var m_apiPath = DB.getAPIVersion();
 
         /*
          this function will be called by the tab manager every time the
@@ -568,7 +569,7 @@
             if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_UNIDAD)) {
               return Cairo.Promises.resolvedPromise(false);
             }
-            return Cairo.Database.destroy(m_apiPath + "general/unidad", id, Cairo.Constants.DELETE_FUNCTION, "Unidad").whenSuccess(
+            return DB.destroy(m_apiPath + "general/unidad", id, Cairo.Constants.DELETE_FUNCTION, "Unidad").whenSuccess(
               function() {
                 try {
                   var key = getKey(id);
@@ -617,6 +618,5 @@
       }
     };
   });
-
 
 }());

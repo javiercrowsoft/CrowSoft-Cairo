@@ -21,9 +21,9 @@
       var K_NAME = 1;
       var K_CODE = 2;
       var K_ACTIVE = 3;
-      var K_DESCRIPCION = 5;
+      var K_DESCRIP = 5;
       var K_LLEVA_CENTRO_COSTO = 6;
-      var K_IDENTIFICACIONEXTERNA = 8;
+      var K_IDENTIFICACION_EXTERNA = 8;
       var K_CATEGORIA = 9;
       var K_PATRIMONIAL = 11;
       var K_RESULTADO = 12;
@@ -42,7 +42,7 @@
       var m_active;
       var m_categoriaId = 0;
       var m_categoria = "";
-      var m_descripcion = "";
+      var m_descrip = "";
       var m_costoTipo = 0;
       var m_validaPago = 0;
       var m_saldoCashFlow;
@@ -306,7 +306,7 @@
               fields.add(Cairo.Constants.ACTIVE, property.getValue(), Types.boolean);
               break;
 
-            case K_DESCRIPCION:
+            case K_DESCRIP:
               fields.add(C.CUE_DESCRIP, property.getValue(), Types.text);
               break;
 
@@ -330,7 +330,7 @@
               fields.add(C.CUE_LLEVA_CENTRO_COSTO, Cairo.Util.val(property.getValue()), Types.boolean);
               break;
 
-            case K_IDENTIFICACIONEXTERNA:
+            case K_IDENTIFICACION_EXTERNA:
               fields.add(C.CUE_IDENTIFICACION_EXTERNA, property.getValue(), Types.text);
               break;
 
@@ -565,7 +565,7 @@
         elem.setType(Dialogs.PropertyType.text);
         // Identificación Externa
         elem.setName(getText(1112, ""));
-        elem.setKey(K_IDENTIFICACIONEXTERNA);
+        elem.setKey(K_IDENTIFICACION_EXTERNA);
         elem.setValue(m_identificacionExterna);
 
         elem = properties.add(null, Cairo.Constants.ACTIVE);
@@ -702,8 +702,8 @@
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
-        elem.setKey(K_DESCRIPCION);
-        elem.setValue(m_descripcion);
+        elem.setKey(K_DESCRIP);
+        elem.setValue(m_descrip);
 
         return m_dialog.show(self);
       };
@@ -767,7 +767,7 @@
         elem.setValue(m_codigoRPT);
 
         elem = properties.item(C.CUEC_DESCRIP);
-        elem.setValue(m_descripcion);
+        elem.setValue(m_descrip);
 
         return m_dialog.showValues(properties);
       };
@@ -784,7 +784,7 @@
               m_name = "";
               m_code = "";
               m_id = NO_ID;
-              m_descripcion = "";
+              m_descrip = "";
               m_identificacionExterna = "";
               m_categoria = "";
               m_categoriaId = NO_ID;
@@ -808,7 +808,7 @@
               m_name = Cairo.Database.valField(response.data, C.CUE_NAME);
               m_code = Cairo.Database.valField(response.data, C.CUE_CODE);
               m_id = Cairo.Database.valField(response.data, C.CUE_ID);
-              m_descripcion = Cairo.Database.valField(response.data, C.CUE_DESCRIP);
+              m_descrip = Cairo.Database.valField(response.data, C.CUE_DESCRIP);
               m_identificacionExterna = Cairo.Database.valField(response.data, C.CUE_IDENTIFICACION_EXTERNA);
               m_categoria = Cairo.Database.valField(response.data, C.CUEC_NAME);
               m_categoriaId = Cairo.Database.valField(response.data, C.CUEC_ID);

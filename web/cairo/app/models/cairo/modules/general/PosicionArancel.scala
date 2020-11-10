@@ -173,7 +173,7 @@ object PosicionArancel {
       List(
         Field(C.POAR_NAME, posicionArancel.name, FieldType.text),
         Field(C.POAR_CODE, posicionArancel.code, FieldType.text),
-        Field(DBHelper.ACTIVE, Register.boolToInt(posicionArancel.active), FieldType.id),
+        Field(DBHelper.ACTIVE, Register.boolToInt(posicionArancel.active), FieldType.boolean),
         Field(C.TI_ID_DERECHOS, posicionArancel.tiIdDerechos, FieldType.id),
         Field(C.TI_ID_ESTADISTICA, posicionArancel.tiIdEstadistica, FieldType.text),
         Field(C.POAR_DESCRIP, posicionArancel.descrip, FieldType.text)

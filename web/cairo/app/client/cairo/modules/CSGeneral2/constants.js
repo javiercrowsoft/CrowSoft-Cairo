@@ -1629,6 +1629,12 @@
       ReporteFormularioTipo: {
         maestro: 1,
         documento: 2
+      },
+
+      TipoTalonario: {
+        propuesto: 1,
+        impresionFiscal: 2,
+        autoImpresor: 3
       }
 
     }

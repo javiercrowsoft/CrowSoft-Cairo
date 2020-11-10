@@ -20,7 +20,7 @@
       var K_NAME = 1;
       var K_CODE = 2;
       var K_ACTIVE = 3;
-      var K_DESCRIPCION = 4;
+      var K_DESCRIP = 4;
       var K_TEXTO = 5;
       var K_IDM_ID = 6;
       var m_id = 0;
@@ -193,7 +193,7 @@
               fields.add(C.IDM_ID, property.getSelectId(), Types.id);
               break;
 
-            case K_DESCRIPCION:
+            case K_DESCRIP:
               fields.add(C.LEY_DESCRIP, property.getValue(), Types.text);
               break;
 
@@ -410,7 +410,7 @@
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
-        elem.setKey(K_DESCRIPCION);
+        elem.setKey(K_DESCRIP);
         elem.setValue(m_descripcion);
 
         var elem = properties.add(null, C.LEYTEXTO);

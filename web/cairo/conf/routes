@@ -378,6 +378,11 @@ POST    /api/v1/general/documento                                               
 PUT     /api/v1/general/documento/:id                                                        controllers.logged.modules.general.Documentos.update(id: Int)
 DELETE  /api/v1/general/documento/:id                                                        controllers.logged.modules.general.Documentos.delete(id: Int)
 
+GET     /api/v1/general/talonario/:id                                                        controllers.logged.modules.general.Talonarios.get(id: Int)
+POST    /api/v1/general/talonario                                                            controllers.logged.modules.general.Talonarios.create
+PUT     /api/v1/general/talonario/:id                                                        controllers.logged.modules.general.Talonarios.update(id: Int)
+DELETE  /api/v1/general/talonario/:id                                                        controllers.logged.modules.general.Talonarios.delete(id: Int)
+
 GET     /api/v1/general/depositologico/:id                                                   controllers.logged.modules.general.DepositosLogicos.get(id: Int)
 POST    /api/v1/general/depositologico                                                       controllers.logged.modules.general.DepositosLogicos.create
 PUT     /api/v1/general/depositologico/:id                                                   controllers.logged.modules.general.DepositosLogicos.update(id: Int)

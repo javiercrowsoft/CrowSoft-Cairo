@@ -281,7 +281,7 @@ object Cuenta {
         Field(C.CUE_NAME, cuenta.name, FieldType.text),
         Field(C.CUE_CODE, cuenta.code, FieldType.text),
         Field(C.CUE_IDENTIFICACION_EXTERNA, cuenta.identificacionExterna, FieldType.text),
-        Field(DBHelper.ACTIVE, Register.boolToInt(cuenta.active), FieldType.id),
+        Field(DBHelper.ACTIVE, Register.boolToInt(cuenta.active), FieldType.boolean),
         Field(C.MON_ID, cuenta.monId, FieldType.id),
         Field(C.CUE_LLEVA_CENTRO_COSTO, cuenta.llevaCentroCosto, FieldType.boolean),
         Field(C.CUE_PRODUCTO, cuenta.producto, FieldType.boolean),

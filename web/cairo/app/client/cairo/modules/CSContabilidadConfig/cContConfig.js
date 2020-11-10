@@ -14,6 +14,7 @@
       var C = Cairo.General.Constants;
       var NO_ID = Cairo.Constants.NO_ID;
       var T = Dialogs.PropertyType;
+      var Types = Cairo.Constants.Types;
 
       var C_MODULE = "cContabilidadConfigEdit";
 
