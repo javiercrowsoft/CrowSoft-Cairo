@@ -920,8 +920,8 @@ object OrdenPago {
       SqlParser.get[BigDecimal](C.OPGI_IMPORTE) ~
       SqlParser.get[BigDecimal](C.OPGI_IMPORTE_ORIGEN) ~
       SqlParser.get[Int](C.OPGI_OTRO_TIPO) ~
-      SqlParser.get[Int](GC.RET_ID) ~
-      SqlParser.get[String](GC.RET_NAME) ~
+      SqlParser.get[Option[Int]](GC.RET_ID) ~
+      SqlParser.get[Option[String]](GC.RET_NAME) ~
       SqlParser.get[String](C.OPGI_NRO_RETENCION) ~
       SqlParser.get[BigDecimal](C.OPGI_PORC_RETENCION) ~
       SqlParser.get[Date](C.OPGI_FECHA_RETENCION) ~
@@ -962,8 +962,8 @@ object OrdenPago {
           ),
           tipo,
           OrdenPagoItemRetencion(
-            retId,
-            retName,
+            retId.getOrElse(DBHelper.NoId),
+            retName.getOrElse(""),
             numero,
             porcentaje.doubleValue(),
             fecha,
