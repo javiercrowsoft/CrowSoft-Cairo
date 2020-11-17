@@ -672,6 +672,7 @@ object Proveedor {
         Field(C.PROV_RAZONSOCIAL, proveedor.base.razonSocial, FieldType.text),
         Field(C.PROV_IMPRIME_TICKET, Register.boolToInt(proveedor.base.imprimeTicket), FieldType.boolean),
         Field(C.PROV_CONTACTO, proveedor.base.contacto, FieldType.text),
+        Field(C.PROV_CATFISCAL, proveedor.base.catFiscal, FieldType.integer),
         Field(C.PROV_CUIT, proveedor.base.cuit, FieldType.text),
         Field(C.PROV_INGRESOSBRUTOS, proveedor.base.ingresosBrutos, FieldType.text),
         Field(C.PROV_CHEQUEORDEN, proveedor.base.chequeOrden, FieldType.text),
