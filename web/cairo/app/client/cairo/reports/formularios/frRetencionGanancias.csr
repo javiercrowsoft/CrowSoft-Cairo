@@ -174,7 +174,7 @@
                   <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
                 </Aspect>
               </Image>
-              <Label Text="                   Régimen: " CanGrow="0">
+              <Label Text="                   Regimen: " CanGrow="0">
                 <Aspect Align="0" BackColor="16777215" BorderColor="4194368" BorderColor3D="0" BorderColor3DShadow="0" BorderType="1" BorderWidth="1" CanGrow="0" Height="285" Format="" Left="225" nZOrder="5" SelectColor="0" Top="1035" Width="11490" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                   <Font ForeColor="0" Bold="-1" Italic="0" Name="Tahoma" Size="10" UnderLine="0" Strike="0" />
                 </Aspect>
@@ -1292,9 +1292,9 @@
     </RF>
   </RptFooters>
   <RptGroups>
-    <G_1 Key="K309683" Name="G_1" Indice="0" ComparisonType="1" FieldName="{frRetencionGanancias}.orden_id" OderType="1" PrintInNewPage="0" RePrintInNewPage="0" GrandTotalGroup="0">
+    <G_0 Key="K309683" Name="G_0" Indice="0" ComparisonType="1" FieldName="{frRetencionGanancias}.orden_id" OderType="1" PrintInNewPage="0" RePrintInNewPage="0" GrandTotalGroup="0">
       <H>
-        <K1431055 Name="G_1" Key="K1431055" Indice="1" TypeSection="3" HasFormulaHide="0">
+        <K1431068 Name="G_0" Key="K1431068" Indice="1" TypeSection="3" HasFormulaHide="0">
           <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="465" Format="" Left="0" nZOrder="0" SelectColor="0" Top="6945" Width="12240" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
             <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
           </Aspect>
@@ -1308,10 +1308,10 @@
               <RptControls />
             </K309684>
           </RptSectionLines>
-        </K1431055>
+        </K1431068>
       </H>
       <F>
-        <K1431057 Name="G_1" Key="K1431057" Indice="1" TypeSection="4" HasFormulaHide="0">
+        <K1431070 Name="G_0" Key="K1431070" Indice="1" TypeSection="4" HasFormulaHide="0">
           <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="555" Format="" Left="0" nZOrder="0" SelectColor="0" Top="7740" Width="12240" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
             <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
           </Aspect>
@@ -1418,9 +1418,9 @@
               </RptControls>
             </K309686>
           </RptSectionLines>
-        </K1431057>
+        </K1431070>
       </F>
-    </G_1>
+    </G_0>
   </RptGroups>
   <RptFormulas />
   <PaperInfo Height="15840" PaperSize="1" Width="12240" Orientation="1" CustomWidth="0" CustomHeight="0" />
