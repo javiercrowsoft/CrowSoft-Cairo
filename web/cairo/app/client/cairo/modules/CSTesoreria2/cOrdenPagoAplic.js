@@ -162,7 +162,7 @@
         if(m_empId !== Cairo.Company.getId()) {
           return D.msgApplyDisabled(m_empName);
         }
-        
+
         var register = new DB.Register();
 
         register.setFieldId(CT.OPG_ID);
@@ -338,8 +338,8 @@
 
         try {
           if(key == K_APLICACIONES) {
-              var rows = getItemsProperty().getRows();
-              p = D.showDocAux(getCell(rows.item(lRow), KI_FC_ID).getId(), "FacturaCompra");
+            var rows = getItemsProperty().getRows();
+            p = D.showDocAux(getCell(rows.item(lRow), KI_FC_ID).getId(), "FacturaCompra");
           }
         }
         catch (ex) {
@@ -372,13 +372,13 @@
       var loadCollection = function() {
 
         m_dialog.getProperties().clear();
-        
+
         var properties = m_dialog.getProperties();
         var elem;
 
         elem = properties.add(null, C_TOTAL);
         elem.setType(Dialogs.PropertyType.numeric);
-        elem.setSubType(Dialogs.PropertySubType.money);        
+        elem.setSubType(Dialogs.PropertySubType.money);
         elem.setName(getText(2199, "")); // Importe a Pagar
         elem.setEnabled(false);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
@@ -387,7 +387,7 @@
 
         elem = properties.add(null, C_PENDIENTE);
         elem.setType(Dialogs.PropertyType.numeric);
-        elem.setSubType(Dialogs.PropertySubType.money);        
+        elem.setSubType(Dialogs.PropertySubType.money);
         elem.setName(getText(1609, "")); // Pendiente
         elem.setEnabled(false);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
@@ -412,10 +412,8 @@
 
       var refreshCollection = function() {
         var properties = m_dialog.getProperties();
-
         var property = properties.item(C_APLICACIONES);
         loadItems(property);
-
         return m_dialog.showValues(properties);
       };
 
@@ -563,37 +561,37 @@
 
       var updateApply = function(property, lRow, lCol) {
         var grid = property.getGrid();
-        
+
         if(grid.getColumns().item(lCol).getKey() == KI_APLICADO) {
-            var row = grid.getRows().item(lRow);
+          var row = grid.getRows().item(lRow);
 
-            var cell = getCell(row, KI_APLICADO);
+          var cell = getCell(row, KI_APLICADO);
 
-            var pendiente = val(getPendiente().getValue()) + cellFloat(row, KI_APLICADO3);
-            var maxVal = cellFloat(row, KI_PENDIENTE2) + cellFloat(row, KI_APLICADO2);
+          var pendiente = val(getPendiente().getValue()) + cellFloat(row, KI_APLICADO3);
+          var maxVal = cellFloat(row, KI_PENDIENTE2) + cellFloat(row, KI_APLICADO2);
 
-            if(maxVal > pendiente) {
-              maxVal = pendiente;
-            }
+          if(maxVal > pendiente) {
+            maxVal = pendiente;
+          }
 
-            if(val(cell.getValue()) > maxVal) {
-              cell.setValue(maxVal);
-            }
-            else if(val(cell.getValue()) < 0) {
-              cell.setValue(0);
-            }
+          if(val(cell.getValue()) > maxVal) {
+            cell.setValue(maxVal);
+          }
+          else if(val(cell.getValue()) < 0) {
+            cell.setValue(0);
+          }
 
-            getCell(row, KI_APLICADO3).setValue(cell.getValue());
+          getCell(row, KI_APLICADO3).setValue(cell.getValue());
 
-            cell = getCell(row, KI_PENDIENTE);
-            cell.setValue(
-              cellFloat(row, KI_PENDIENTE2)
-              + (
-                  cellFloat(row, KI_APLICADO2) - cellFloat(row, KI_APLICADO)
-                )
-            );
+          cell = getCell(row, KI_PENDIENTE);
+          cell.setValue(
+            cellFloat(row, KI_PENDIENTE2)
+            + (
+              cellFloat(row, KI_APLICADO2) - cellFloat(row, KI_APLICADO)
+            )
+          );
 
-            showPendiente();
+          showPendiente();
         }
         return true;
       };

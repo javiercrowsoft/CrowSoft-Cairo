@@ -637,7 +637,7 @@
 
                 // Edit Apply
                 //
-                if(m_emp_id !== cUtil.getEmpId()) {
+                if(m_emp_id !== Cairo.Company.getId()) {
                     MsgApplyDisabled(m_emp_nombre);
                     return _rtn;
                 }
@@ -693,7 +693,7 @@
             // RemitoCompraTemporal
             //////////////////////////////////////////////////////////////////////////////////////
             var pSaveDocCpra = function(docId,  rcTMPId) { // TODO: Use of ByRef founded Private Function pSaveDocCpra(ByVal DocId As Long, ByRef RcTMPId As Long) As Boolean
-                var register = null;
+                var register = new DB.Register();
 
                 register = new cRegister();
                 register.setFieldId(mComprasConstantes.RC_TMP_ID);
@@ -763,7 +763,7 @@
                 var row = null;
                 var value = null;
 
-                sqlstmt = "sp_DocRemitoCompraGetAplic "+ cUtil.getEmpId().toString()+ ","+ m_rcId+ ",1";
+                sqlstmt = "sp_DocRemitoCompraGetAplic "+ Cairo.Company.getId().toString()+ ","+ m_rcId+ ",1";
                 if(!Cairo.Database.openRs(sqlstmt, rs, csTypeCursor.cSRSSTATIC, csTypeLock.cSLOCKREADONLY, csCommandType.cSCMDTEXT, "pItLoadItems", C_MODULE)) { return false; }
 
                 iProp.getGrid().getColumns().clear();
@@ -939,10 +939,10 @@
                 var idx = null;
 
                 if(isOrden) {
-                    sqlstmt = "sp_DocRemitoCompraGetAplic "+ cUtil.getEmpId().toString()+ ","+ m_rcId+ ",4";
+                    sqlstmt = "sp_DocRemitoCompraGetAplic "+ Cairo.Company.getId().toString()+ ","+ m_rcId+ ",4";
                 }
                 else {
-                    sqlstmt = "sp_DocRemitoCompraGetAplic "+ cUtil.getEmpId().toString()+ ","+ m_rcId+ ",2";
+                    sqlstmt = "sp_DocRemitoCompraGetAplic "+ Cairo.Company.getId().toString()+ ","+ m_rcId+ ",2";
                 }
 
                 if(!Cairo.Database.openRs(sqlstmt, rs, csTypeCursor.cSRSSTATIC, csTypeLock.cSLOCKREADONLY, csCommandType.cSCMDTEXT, "pLoadAplicAplicados", C_MODULE)) { return false; }
@@ -1018,10 +1018,10 @@
                 var i = null;
 
                 if(isOrden) {
-                    sqlstmt = "sp_DocRemitoCompraGetAplic "+ cUtil.getEmpId().toString()+ ","+ m_rcId+ ",5";
+                    sqlstmt = "sp_DocRemitoCompraGetAplic "+ Cairo.Company.getId().toString()+ ","+ m_rcId+ ",5";
                 }
                 else {
-                    sqlstmt = "sp_DocRemitoCompraGetAplic "+ cUtil.getEmpId().toString()+ ","+ m_rcId+ ",3";
+                    sqlstmt = "sp_DocRemitoCompraGetAplic "+ Cairo.Company.getId().toString()+ ","+ m_rcId+ ",3";
                 }
 
                 if(!Cairo.Database.openRs(sqlstmt, rs, csTypeCursor.cSRSSTATIC, csTypeLock.cSLOCKREADONLY, csCommandType.cSCMDTEXT, "pLoadAplicCreditos", C_MODULE)) { return false; }
@@ -1532,7 +1532,7 @@
             };
 
             var pItSaveOrdenes = function(rcTMPId,  vAplic) { // TODO: Use of ByRef founded Private Function pItSaveOrdenes(ByVal RcTMPId As Long, ByRef vAplic() As T_Aplic) As Boolean
-                var register = null;
+                var register = new DB.Register();
                 var i = null;
                 var j = null;
 
@@ -1645,7 +1645,7 @@
             };
 
             var pItSaveFacDev = function(rcTMPId,  vAplic) { // TODO: Use of ByRef founded Private Function pItSaveFacDev(ByVal RcTMPId As Long, ByRef vAplic() As T_Aplic) As Boolean
-                var register = null;
+                var register = new DB.Register();
                 var i = null;
                 var j = null;
 

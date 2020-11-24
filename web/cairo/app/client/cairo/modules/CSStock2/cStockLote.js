@@ -542,7 +542,7 @@
         // Error al grabar los parámetros de navegación de Lotes de Stock
         strError = getText(2265, "");
 
-        var register = null;
+        var register = new DB.Register();
         var register = new DB.Register();
 
         var sqlstmt = null;

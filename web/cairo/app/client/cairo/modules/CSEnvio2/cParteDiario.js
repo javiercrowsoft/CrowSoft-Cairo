@@ -659,7 +659,7 @@
         strError = getText(2371, "");
         //Error al grabar los párametros de navegación de Parte Diario
 
-        var register = null;
+        var register = new DB.Register();
         var fields = null;
         var register = new DB.Register();
 

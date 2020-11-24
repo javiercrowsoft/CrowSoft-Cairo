@@ -389,7 +389,7 @@
         strError = getText(2175, "");
         //Error al grabar los párametros de navegación de Cálculos de Coeficiente para Despachos de Importación
 
-        var register = null;
+        var register = new DB.Register();
         var register = new DB.Register();
 
         var sqlstmt = null;

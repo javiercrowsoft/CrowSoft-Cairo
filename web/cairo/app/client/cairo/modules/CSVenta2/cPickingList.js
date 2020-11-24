@@ -385,7 +385,7 @@
       };
 
       var cIABMListDocClient_Save = function() {
-        var register = null;
+        var register = new DB.Register();
         var register = new DB.Register();
 
         var sqlstmt = null;

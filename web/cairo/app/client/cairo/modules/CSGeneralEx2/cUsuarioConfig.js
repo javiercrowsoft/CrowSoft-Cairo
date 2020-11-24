@@ -799,7 +799,7 @@
 
       self.save = function() {
 
-        var register = null;
+        var register = new DB.Register();
         var fields = null;
 
         var mainRegister = new Cairo.Database.Register();

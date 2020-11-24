@@ -298,7 +298,7 @@
       };
 
       self.save = function() {
-        var register = null;
+        var register = new DB.Register();
 
         var mainRegister = new DB.Register();
         var transaction = DB.createTransaction();

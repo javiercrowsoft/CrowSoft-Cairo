@@ -736,7 +736,7 @@
 
                 // Edit Apply
                 //
-                if(m_emp_id !== cUtil.getEmpId()) {
+                if(m_emp_id !== Cairo.Company.getId()) {
                     MsgApplyDisabled(m_emp_nombre);
                     return _rtn;
                 }
@@ -796,7 +796,7 @@
             // PedidoVentaTemporal
             //////////////////////////////////////////////////////////////////////////////////////
             var pSaveDocVta = function(docId,  pvTMPId) { // TODO: Use of ByRef founded Private Function pSaveDocVta(ByVal DocId As Long, ByRef pvTMPId As Long) As Boolean
-                var register = null;
+                var register = new DB.Register();
 
                 register = new cRegister();
                 register.setFieldId(mPedidoConstantes.PV_TMP_ID);
@@ -869,7 +869,7 @@
                 var row = null;
                 var value = null;
 
-                sqlstmt = "sp_DocPedidoVentaGetAplic "+ cUtil.getEmpId().toString()+ ","+ m_pvId+ ",1";
+                sqlstmt = "sp_DocPedidoVentaGetAplic "+ Cairo.Company.getId().toString()+ ","+ m_pvId+ ",1";
                 if(!Cairo.Database.openRs(sqlstmt, rs, csTypeCursor.cSRSSTATIC, csTypeLock.cSLOCKREADONLY, csCommandType.cSCMDTEXT, "pItLoadItems", C_MODULE)) { return false; }
 
                 iProp.getGrid().getColumns().clear();
@@ -1065,15 +1065,15 @@
 
                 switch (typeApply) {
                     case c_TypeApply.cE_Presupuesto:
-                        sqlstmt = "sp_DocPedidoVentaGetAplic "+ cUtil.getEmpId().toString()+ ","+ m_pvId+ ",6";
+                        sqlstmt = "sp_DocPedidoVentaGetAplic "+ Cairo.Company.getId().toString()+ ","+ m_pvId+ ",6";
                         break;
 
                     case c_TypeApply.cE_Packing:
-                        sqlstmt = "sp_DocPedidoVentaGetAplic "+ cUtil.getEmpId().toString()+ ","+ m_pvId+ ",4";
+                        sqlstmt = "sp_DocPedidoVentaGetAplic "+ Cairo.Company.getId().toString()+ ","+ m_pvId+ ",4";
                         break;
 
                     case c_TypeApply.cE_FacDev:
-                        sqlstmt = "sp_DocPedidoVentaGetAplic "+ cUtil.getEmpId().toString()+ ","+ m_pvId+ ",2";
+                        sqlstmt = "sp_DocPedidoVentaGetAplic "+ Cairo.Company.getId().toString()+ ","+ m_pvId+ ",2";
                         break;
                 }
 
@@ -1174,17 +1174,17 @@
                 switch (typeApply) {
 
                     case c_TypeApply.cE_Presupuesto:
-                        sqlstmt = "sp_DocPedidoVentaGetAplic "+ cUtil.getEmpId().toString()+ ","+ m_pvId+ ",7";
+                        sqlstmt = "sp_DocPedidoVentaGetAplic "+ Cairo.Company.getId().toString()+ ","+ m_pvId+ ",7";
 
                         break;
 
                     case c_TypeApply.cE_Packing:
-                        sqlstmt = "sp_DocPedidoVentaGetAplic "+ cUtil.getEmpId().toString()+ ","+ m_pvId+ ",5";
+                        sqlstmt = "sp_DocPedidoVentaGetAplic "+ Cairo.Company.getId().toString()+ ","+ m_pvId+ ",5";
 
                         break;
 
                     case c_TypeApply.cE_FacDev:
-                        sqlstmt = "sp_DocPedidoVentaGetAplic "+ cUtil.getEmpId().toString()+ ","+ m_pvId+ ",3";
+                        sqlstmt = "sp_DocPedidoVentaGetAplic "+ Cairo.Company.getId().toString()+ ","+ m_pvId+ ",3";
 
                         break;
                 }
@@ -1835,7 +1835,7 @@
             };
 
             var pItSavePacking = function(pvTMPId,  vAplic) { // TODO: Use of ByRef founded Private Function pItSavePacking(ByVal pvTMPId As Long, ByRef vAplic() As T_Aplic) As Boolean
-                var register = null;
+                var register = new DB.Register();
                 var i = null;
                 var j = null;
 
@@ -1952,7 +1952,7 @@
             };
 
             var pItSaveFacDev = function(pvTMPId,  vAplic) { // TODO: Use of ByRef founded Private Function pItSaveFacDev(ByVal pvTMPId As Long, ByRef vAplic() As T_Aplic) As Boolean
-                var register = null;
+                var register = new DB.Register();
                 var i = null;
                 var j = null;
 
@@ -2034,7 +2034,7 @@
             };
 
             var pItSavePresupuesto = function(pvTMPId,  vAplic) { // TODO: Use of ByRef founded Private Function pItSavePresupuesto(ByVal pvTMPId As Long, ByRef vAplic() As T_Aplic) As Boolean
-                var register = null;
+                var register = new DB.Register();
                 var i = null;
                 var j = null;
 

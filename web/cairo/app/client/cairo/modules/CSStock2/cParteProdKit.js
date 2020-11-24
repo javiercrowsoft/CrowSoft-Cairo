@@ -632,12 +632,12 @@
         // Error al grabar los parámetros de navegación de Partes de Producción de Kit
         strError = getText(2257, "");
 
-        var register = null;
+        var register = new DB.Register();
         var register = new DB.Register();
 
         var sqlstmt = null;
 
-        sqlstmt = "delete ListaDocumentoParametro  where pre_id = "+ csStockPrestacion.cSPRESTLISTPARTEPRODKIT.toString()+ " and us_id = "+ m_us_id+ " and (emp_id is null or emp_id = "+ cUtil.getEmpId().toString()+ ")";
+        sqlstmt = "delete ListaDocumentoParametro  where pre_id = "+ csStockPrestacion.cSPRESTLISTPARTEPRODKIT.toString()+ " and us_id = "+ m_us_id+ " and (emp_id is null or emp_id = "+ Cairo.Company.getId().toString()+ ")";
 
         if(!Cairo.Database.execute(sqlstmt, "cIABMClient_Save", C_MODULE, strError)) { return false; }
 
@@ -710,7 +710,7 @@
           }
 
 
-          fields.add(C.EMP_ID, cUtil.getEmpId(), Types.id);
+          fields.add(C.EMP_ID, Cairo.Company.getId(), Types.id);
 
           fields.add(C.US_ID, m_us_id, Types.id);
           fields.add(C.PRE_ID, csStockPrestacion.cSPRESTLISTPARTEPRODKIT, Types.id);

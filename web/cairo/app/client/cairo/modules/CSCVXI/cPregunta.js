@@ -573,7 +573,7 @@
         strError = getText(5101, "");
         //Error al grabar los párametros de navegación de preguntas
 
-        var register = null;
+        var register = new DB.Register();
         var fields = null;
         var register = new DB.Register();
 

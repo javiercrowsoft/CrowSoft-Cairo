@@ -578,7 +578,7 @@
         strError = getText(2342, "");
         //Error al grabar los parámetros de navegación de Legajo
 
-        var register = null;
+        var register = new DB.Register();
         var register = new DB.Register();
 
         var sqlstmt = null;

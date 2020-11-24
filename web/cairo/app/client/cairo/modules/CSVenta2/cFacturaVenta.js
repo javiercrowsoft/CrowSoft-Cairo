@@ -4615,7 +4615,7 @@
       /*
        var saveAsPresupuesto = function() {
        var _rtn = null;
-       var register = null;
+       var register = new DB.Register();
 
        var docId = null;
 

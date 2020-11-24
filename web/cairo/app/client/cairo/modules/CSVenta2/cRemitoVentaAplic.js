@@ -642,7 +642,7 @@
 
                 // Edit Apply
                 //
-                if(m_emp_id !== cUtil.getEmpId()) {
+                if(m_emp_id !== Cairo.Company.getId()) {
                     MsgApplyDisabled(m_emp_nombre);
                     return _rtn;
                 }
@@ -698,7 +698,7 @@
             // RemitoVentaTemporal
             //////////////////////////////////////////////////////////////////////////////////////
             var pSaveDocVta = function(docId,  rvTMPId) { // TODO: Use of ByRef founded Private Function pSaveDocVta(ByVal DocId As Long, ByRef RvTMPId As Long) As Boolean
-                var register = null;
+                var register = new DB.Register();
 
                 register = new cRegister();
                 register.setFieldId(mVentaConstantes.RV_TMP_ID);
@@ -780,7 +780,7 @@
                     rv_desde_os = pGetRvDesdeOs();
                 }
 
-                sqlstmt = "sp_DocRemitoVentaGetAplic "+ cUtil.getEmpId().toString()+ ","+ m_rvId+ ",1";
+                sqlstmt = "sp_DocRemitoVentaGetAplic "+ Cairo.Company.getId().toString()+ ","+ m_rvId+ ",1";
                 if(!Cairo.Database.openRs(sqlstmt, rs, csTypeCursor.cSRSSTATIC, csTypeLock.cSLOCKREADONLY, csCommandType.cSCMDTEXT, "pItLoadItems", C_MODULE)) { return false; }
 
                 iProp.getGrid().getColumns().clear();
@@ -985,10 +985,10 @@
                 var idx = null;
 
                 if(isPedido) {
-                    sqlstmt = "sp_DocRemitoVentaGetAplic "+ cUtil.getEmpId().toString()+ ","+ m_rvId+ ",4";
+                    sqlstmt = "sp_DocRemitoVentaGetAplic "+ Cairo.Company.getId().toString()+ ","+ m_rvId+ ",4";
                 }
                 else {
-                    sqlstmt = "sp_DocRemitoVentaGetAplic "+ cUtil.getEmpId().toString()+ ","+ m_rvId+ ",2";
+                    sqlstmt = "sp_DocRemitoVentaGetAplic "+ Cairo.Company.getId().toString()+ ","+ m_rvId+ ",2";
                 }
 
                 if(!Cairo.Database.openRs(sqlstmt, rs, csTypeCursor.cSRSSTATIC, csTypeLock.cSLOCKREADONLY, csCommandType.cSCMDTEXT, "pLoadAplicAplicados", C_MODULE)) { return false; }
@@ -1071,10 +1071,10 @@
                 var i = null;
 
                 if(isPedido) {
-                    sqlstmt = "sp_DocRemitoVentaGetAplic "+ cUtil.getEmpId().toString()+ ","+ m_rvId+ ",5";
+                    sqlstmt = "sp_DocRemitoVentaGetAplic "+ Cairo.Company.getId().toString()+ ","+ m_rvId+ ",5";
                 }
                 else {
-                    sqlstmt = "sp_DocRemitoVentaGetAplic "+ cUtil.getEmpId().toString()+ ","+ m_rvId+ ",3";
+                    sqlstmt = "sp_DocRemitoVentaGetAplic "+ Cairo.Company.getId().toString()+ ","+ m_rvId+ ",3";
                 }
 
                 if(!Cairo.Database.openRs(sqlstmt, rs, csTypeCursor.cSRSSTATIC, csTypeLock.cSLOCKREADONLY, csCommandType.cSCMDTEXT, "pLoadAplicCreditos", C_MODULE)) { return false; }
@@ -1626,7 +1626,7 @@
             };
 
             var pItSavePedido = function(rvTMPId,  vAplic) { // TODO: Use of ByRef founded Private Function pItSavePedido(ByVal RvTMPId As Long, ByRef vAplic() As T_Aplic) As Boolean
-                var register = null;
+                var register = new DB.Register();
                 var i = null;
                 var j = null;
 
@@ -1666,7 +1666,7 @@
             };
 
             var pItSaveOrden = function(rvTMPId,  vAplic) { // TODO: Use of ByRef founded Private Function pItSaveOrden(ByVal RvTMPId As Long, ByRef vAplic() As T_Aplic) As Boolean
-                var register = null;
+                var register = new DB.Register();
                 var i = null;
                 var j = null;
 
@@ -1779,7 +1779,7 @@
             };
 
             var pItSaveFacDev = function(rvTMPId,  vAplic) { // TODO: Use of ByRef founded Private Function pItSaveFacDev(ByVal RvTMPId As Long, ByRef vAplic() As T_Aplic) As Boolean
-                var register = null;
+                var register = new DB.Register();
                 var i = null;
                 var j = null;
 

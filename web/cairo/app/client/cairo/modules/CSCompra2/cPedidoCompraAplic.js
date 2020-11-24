@@ -548,7 +548,7 @@
 
                 // Edit Apply
                 //
-                if(m_emp_id !== cUtil.getEmpId()) {
+                if(m_emp_id !== Cairo.Company.getId()) {
                     MsgApplyDisabled(m_emp_nombre);
                     return _rtn;
                 }
@@ -600,7 +600,7 @@
             // PedidoCompraTemporal
             //////////////////////////////////////////////////////////////////////////////////////
             var pSaveDocCpra = function(docId,  pcTMPId) { // TODO: Use of ByRef founded Private Function pSaveDocCpra(ByVal DocId As Long, ByRef pcTMPId As Long) As Boolean
-                var register = null;
+                var register = new DB.Register();
 
                 register = new cRegister();
                 register.setFieldId(mComprasConstantes.PC_TMP_ID);
@@ -662,7 +662,7 @@
                 var row = null;
                 var value = null;
 
-                sqlstmt = "sp_DocPedidoCompraGetAplic "+ cUtil.getEmpId().toString()+ ","+ m_pcId+ ",1";
+                sqlstmt = "sp_DocPedidoCompraGetAplic "+ Cairo.Company.getId().toString()+ ","+ m_pcId+ ",1";
                 if(!Cairo.Database.openRs(sqlstmt, rs, csTypeCursor.cSRSSTATIC, csTypeLock.cSLOCKREADONLY, csCommandType.cSCMDTEXT, "pItLoadItems", C_MODULE)) { return false; }
 
                 iProp.getGrid().getColumns().clear();
@@ -828,7 +828,7 @@
                 var i = null;
                 var idx = null;
 
-                sqlstmt = "sp_DocPedidoCompraGetAplic "+ cUtil.getEmpId().toString()+ ","+ m_pcId+ ",2";
+                sqlstmt = "sp_DocPedidoCompraGetAplic "+ Cairo.Company.getId().toString()+ ","+ m_pcId+ ",2";
                 if(!Cairo.Database.openRs(sqlstmt, rs, csTypeCursor.cSRSSTATIC, csTypeLock.cSLOCKREADONLY, csCommandType.cSCMDTEXT, "pLoadAplicAplicados", C_MODULE)) { return false; }
 
                 G.redim(vAplic, 0);
@@ -889,7 +889,7 @@
                 var rs = null;
                 var i = null;
 
-                sqlstmt = "sp_DocPedidoCompraGetAplic "+ cUtil.getEmpId().toString()+ ","+ m_pcId+ ",3";
+                sqlstmt = "sp_DocPedidoCompraGetAplic "+ Cairo.Company.getId().toString()+ ","+ m_pcId+ ",3";
                 if(!Cairo.Database.openRs(sqlstmt, rs, csTypeCursor.cSRSSTATIC, csTypeLock.cSLOCKREADONLY, csCommandType.cSCMDTEXT, "pLoadAplicCreditos", C_MODULE)) { return false; }
 
                 if(!rs.isEOF()) {
@@ -1411,7 +1411,7 @@
             };
 
             var pItSaveFacDev = function(pcTMPId,  vAplic) { // TODO: Use of ByRef founded Private Function pItSaveFacDev(ByVal pcTMPId As Long, ByRef vAplic() As T_Aplic) As Boolean
-                var register = null;
+                var register = new DB.Register();
                 var i = null;
                 var j = null;
 
