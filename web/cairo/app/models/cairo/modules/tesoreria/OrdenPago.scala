@@ -2138,7 +2138,7 @@ object OrdenPago {
           * );
           *
           *
-          * ex: CREATE OR REPLACE FUNCTION sp_doc_factura_compra_save( params )
+          * ex: CREATE OR REPLACE FUNCTION sp_doc_orden_pago_save( params )
           *     RETURNS SETOF row_result AS ...
           *
           * the field type is used to identify the value in the row. there are three

@@ -9,12 +9,12 @@ import play.api.Logger
 import play.api.libs.json._
 import models.cairo.modules.tesoreria._
 import models.cairo.system.security.CairoSecurity
-import models.cairo.system.database.{Recordset, DBHelper}
+import models.cairo.system.database.{DBHelper, Recordset}
 import formatters.json.DateFormatter
 import formatters.json.DateFormatter._
-import scala.util.control.NonFatal
 
-import Global.{getJsValueAsMap, getParamsJsonRequestFor, preprocessFormParams, doubleFormat, getParamsFromJsonRequest}
+import scala.util.control.NonFatal
+import Global.{doubleFormat, getJsValueAsMap, getParamsFromJsonRequest, getParamsJsonRequestFor, preprocessFormParams}
 
 case class CobranzaIdData(
                            docId: Int,
@@ -185,6 +185,35 @@ object Cobranzas extends Controller with ProvidesUser {
     C.COBZI_FECHA_RETENCION, C.FV_ID_RET)
 
   val facturaCobranza = List(C.FV_ID, C.FVD_ID, C.FV_COBZ_IMPORTE, C.FV_COBZ_IMPORTE_ORIGEN, C.FV_COBZ_COTIZACION)
+
+  val aplicCuentaCorriente = List(GC.CUE_ID, C.COBZI_IMPORTE_ORIGEN, C.COBZI_IMPORTE, C.COBZI_ORDEN, C.COBZI_TIPO, C.COBZI_OTRO_TIPO)
+  val aplicFacturaCobranza = List(C.FV_ID, C.FVD_ID, C.FVP_ID, C.FV_COBZ_IMPORTE, C.FV_COBZ_IMPORTE_ORIGEN, C.FV_COBZ_COTIZACION)
+
+  val cobranzaAplicForm: Form[CobranzaAplic] = Form(
+    mapping(
+      C.COBZ_ID -> number,
+      C.FACTURA_VENTA_COBRANZA_TMP -> Forms.list[CobranzaItem](
+        mapping(
+          C.FV_ID -> number,
+          C.FVD_ID -> number,
+          C.FVP_ID -> number,
+          C.FV_COBZ_COTIZACION -> of(doubleFormat),
+          C.FV_COBZ_IMPORTE -> of(doubleFormat),
+          C.FV_COBZ_IMPORTE_ORIGEN -> of(doubleFormat)
+        )(CobranzaItem.apply)(CobranzaItem.unapply)
+      ),
+      C.COBRANZA_ITEM_CUENTA_CORRIENTE_TMP -> Forms.list[CobranzaCtaCte](
+        mapping(
+          GC.CUE_ID -> number,
+          C.COBZI_IMPORTE_ORIGEN -> of(doubleFormat),
+          C.COBZI_IMPORTE -> of(doubleFormat),
+          C.COBZI_ORDEN -> number,
+          C.COBZI_TIPO -> number,
+          C.COBZI_OTRO_TIPO -> number
+        )(CobranzaCtaCte.apply)(CobranzaCtaCte.unapply)
+      )
+    )(CobranzaAplic.apply)(CobranzaAplic.unapply)
+  )
 
   val cobranzaForm: Form[CobranzaData] = Form(
     mapping(
@@ -711,6 +740,66 @@ object Cobranzas extends Controller with ProvidesUser {
   //
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //
+  // this functions convert the plain JSON received in CREATE and UPDATE into a CobranzaData structure
+  //
+  // because the limitation to 18 fields in case class used for FORM mapping we have grouped the fields
+  // in Cobranza/Data, CobranzaItem/Data, etc
+  //
+  // the below routines group a flat JSON and in some cases rename the name of the fields or move
+  // fields to the parent node in the JSON structure to match the case class
+  //
+
+  private def preprocessAplicParams(implicit request:Request[AnyContent]): JsObject = {
+
+    def preprocessCuentaCorrienteParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      JsObject(preprocessFormParams(aplicCuentaCorriente, "", params).toSeq)
+    }
+
+    def preprocessFacturaParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      JsObject(preprocessFormParams(aplicFacturaCobranza, "", params).toSeq)
+    }
+
+    def preprocessCtaCtesParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessCuentaCorrienteParam(_))))
+      case _ => Map.empty
+    }
+
+    def preprocessFacturasParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessFacturaParam(_))))
+      case _ => Map.empty
+    }
+
+    val params = getParamsFromJsonRequest
+
+    // groups for CobranzaData
+    //
+    val cobranzaId = preprocessFormParams(List(C.COBZ_ID), "", params)
+
+    // cta ctes
+    //
+    val ctaCtesInfo = getJsValueAsMap(getParamsJsonRequestFor(C.COBRANZA_ITEM_CUENTA_CORRIENTE_TMP, params))
+    val cuentaCorrienteRows = getParamsJsonRequestFor(GC.ITEMS, ctaCtesInfo)
+    val cobranzaCtaCtes = preprocessCtaCtesParam(cuentaCorrienteRows.head._2, C.COBRANZA_ITEM_CUENTA_CORRIENTE_TMP)
+
+    // facturas
+    //
+    val facturasInfo = getJsValueAsMap(getParamsJsonRequestFor(C.FACTURA_VENTA_COBRANZA_TMP, params))
+    val facturaRows = getParamsJsonRequestFor(GC.ITEMS, facturasInfo)
+    val facturaFacturas = facturaRows.toList match {
+      case (k: String, item: JsValue) :: t => preprocessFacturasParam(item, C.FACTURA_VENTA_COBRANZA_TMP)
+      case _ => Map(C.FACTURA_VENTA_COBRANZA_TMP -> JsArray(List()))
+    }
+
+    JsObject((cobranzaId ++ cobranzaCtaCtes ++ facturaFacturas).toSeq)
+  }
+  //
+  //
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   def getCheques(items: List[CobranzaItemChequeData]): List[CobranzaItemCheque] = {
     items.map(cheque => {
       CobranzaItemCheque(
@@ -1091,5 +1180,38 @@ object Cobranzas extends Controller with ProvidesUser {
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_COBRANZA), { user =>
       Ok(Json.toJson(Recordset.getAsJson(Cobranza.facturas(user, ids.getOrElse("")))))
     })
+  }
+
+  def getAplic(id: Int) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.MODIFY_APLIC), { user =>
+      Ok(Json.obj(
+        "items" -> Recordset.getAsJson(Cobranza.getAplic(user, id, 4))
+      ))
+    })
+  }
+
+  def saveAplic(id: Int) = GetAction { implicit request =>
+    cobranzaAplicForm.bind(preprocessAplicParams).fold(
+      formWithErrors => {
+        Logger.debug(s"invalid form: ${formWithErrors.toString}")
+        BadRequest
+      },
+      cobranzaAplic => {
+        Logger.debug(s"form: ${cobranzaAplic.toString}")
+        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.MODIFY_APLIC), { user =>
+          try {
+            Ok(
+              Json.toJson(
+                Cobranza.saveAplic(user, cobranzaAplic)
+              )
+            )
+          } catch {
+            case NonFatal(e) => {
+              responseError(e)
+            }
+          }
+        })
+      }
+    )
   }
 }

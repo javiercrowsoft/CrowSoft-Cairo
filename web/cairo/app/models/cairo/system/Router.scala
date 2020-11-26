@@ -38,7 +38,7 @@ object Router {
         case "CSTesoreria2/cCobranza" =>
           List(
             Wizard("CSTesoreria2/cCobranzaWizard"),
-            Wizard("CSTesoreria2/cCobranzaPagoAplic", Some(RouterEntry("cCobranza","edit","","editAplic","tesoreria/cobranzaaplic/:id", List()))))
+            Wizard("CSTesoreria2/cCobranzaAplic", Some(RouterEntry("cCobranza","edit","","editAplic","tesoreria/cobranzaaplic/:id", List()))))
         case "CSTesoreria2/cOrdenPago" =>
           List(
             Wizard("CSTesoreria2/cOrdenPagoWizard"),

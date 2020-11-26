@@ -1086,9 +1086,20 @@
         selectRow(td);
       };
 
+      var tdDblclickListener = function(e) {
+        Cairo.log("dblclick: " + e);
+        var td = e.target;
+        var tr = td.parentNode;
+        var args = {
+          row: tr.rowIndex - 1, /* first row contains headers */
+          col: td.cellIndex
+        };
+        raiseEvent('onDblClick', args);
+      };
+
       var tdKeyPressListener = function(e) {
-        Cairo.log("keypress: " + that.getKeyCode(e).toString());
-        Cairo.log("keypress: " + String.fromCharCode(that.getKeyCode(e)));
+        // Cairo.log("keypress: " + that.getKeyCode(e).toString());
+        // Cairo.log("keypress: " + String.fromCharCode(that.getKeyCode(e)));
 
         var td = e.target;
 
@@ -1614,6 +1625,7 @@
           $(selector, parent).on("click", tdClickListener);
           $(selector, parent).on("keydown", tdKeyDownListener);
           $(selector, parent).on("keypress", tdKeyPressListener);
+          $(selector, parent).on("dblclick", tdDblclickListener);
         };
 
         gridManager.setFormatInRow = function(tr) {

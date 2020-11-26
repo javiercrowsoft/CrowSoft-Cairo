@@ -584,6 +584,31 @@ object CobranzaParams {
   }
 }
 
+case class CobranzaItem(
+                     fvId: Int,
+                     fvdId: Int,
+                     fvpId: Int,
+                     fvcobzCotizacion: Double,
+                     fvcobzImporte: Double,
+                     fvcobzImporteOrigen: Double
+                   )
+
+case class CobranzaCtaCte(
+                       cueId: Int,
+                       cobziImporteOrigen: Double,
+                       cobziImporte: Double,
+                       cobziOrden: Int,
+                       cobziTipo: Int,
+                       cobziOtroTipo: Int
+                     )
+
+case class CobranzaAplic(
+                           cobzId: Int,
+                           items: List[CobranzaItem],
+                           ctaCte: List[CobranzaCtaCte]
+                         )
+
+
 object Cobranza {
 
   lazy val GC = models.cairo.modules.general.C
@@ -1993,5 +2018,258 @@ object Cobranza {
         cs.close
       }
     }
+  }
+
+  def getAplic(user: CompanyUser, id: Int, aplicType: Int): Recordset = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_doc_cobranza_get_aplic(?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, user.cairoCompanyId)
+      cs.setInt(2, id)
+      cs.registerOutParameter(3, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(3).asInstanceOf[java.sql.ResultSet]
+        Recordset.load(rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get aplic list for id [$id] and user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  def saveAplic(user: CompanyUser, cobranzaAplic: CobranzaAplic): Int = {
+    def getFields = {
+      List(
+        Field(C.COBZ_ID, cobranzaAplic.cobzId, FieldType.number),
+        Field(C.COBZ_NUMERO, cobranzaAplic.cobzId, FieldType.number),
+
+        // it is not a real document but the temp table mandate not null
+        //
+        Field(GC.DOC_ID, DBHelper.NoId, FieldType.number),
+        Field(GC.EST_ID, DBHelper.NoId, FieldType.number),
+        Field(GC.SUC_ID, DBHelper.NoId, FieldType.number),
+        Field(GC.CLI_ID, DBHelper.NoId, FieldType.number)
+      )
+    }
+
+    def getCobranzaItemFields(item: CobranzaItem, opgTMPId: Int) = {
+      List(
+        Field(C.COBZ_TMP_ID, opgTMPId, FieldType.id),
+        Field(C.FV_ID, item.fvId, FieldType.id),
+        Field(C.FVD_ID, item.fvdId, FieldType.id),
+        Field(C.FVP_ID, item.fvpId, FieldType.id),
+        Field(C.FV_COBZ_COTIZACION, item.fvcobzCotizacion, FieldType.currency),
+        Field(C.FV_COBZ_IMPORTE, item.fvcobzImporte, FieldType.currency),
+        Field(C.FV_COBZ_IMPORTE_ORIGEN, item.fvcobzImporteOrigen, FieldType.currency),
+        Field(C.FV_COBZ_ID, DBHelper.NoId, FieldType.number),
+        Field(C.COBZ_ID, DBHelper.NoId, FieldType.number)
+      )
+    }
+
+    def getCobranzaCtaCteFields(item: CobranzaCtaCte, opgTMPId: Int) = {
+      List(
+        Field(C.COBZ_TMP_ID, opgTMPId, FieldType.id),
+        Field(GC.CUE_ID, item.cueId, FieldType.number),
+        Field(C.COBZI_IMPORTE_ORIGEN, item.cobziImporteOrigen, FieldType.currency),
+        Field(C.COBZI_IMPORTE, item.cobziImporte, FieldType.currency),
+        Field(C.COBZI_ORDEN, item.cobziOrden, FieldType.number),
+        Field(C.COBZI_TIPO, item.cobziTipo, FieldType.number),
+        Field(C.COBZI_OTRO_TIPO, item.cobziOtroTipo, FieldType.number),
+        Field(C.COBZI_ID, DBHelper.NoId, FieldType.number)
+      )
+    }
+
+    def throwError = {
+      throwException(s"Error when saving application of ${C.COBRANZA}")
+    }
+
+    def throwException(message: String) = {
+      throw new RuntimeException(message)
+    }
+
+    case class CobranzaItemInfo(cobzTMPId: Int, item: CobranzaItem)
+
+    def saveCobranzaItem(itemInfo: CobranzaItemInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.FACTURA_VENTA_COBRANZA_TMP,
+          C.FV_COBZ_TMP_ID,
+          DBHelper.NoId,
+          false,
+          false,
+          false,
+          getCobranzaItemFields(itemInfo.item, itemInfo.cobzTMPId)),
+        true
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwError
+      }
+    }
+
+    def saveCobranzaItems(items: List[CobranzaItem], opgTMPId: Int) = {
+      items.map(item => saveCobranzaItem(CobranzaItemInfo(opgTMPId, item)))
+    }
+
+    case class CobranzaCtaCteInfo(cobzTMPId: Int, item: CobranzaCtaCte)
+
+    def saveCobranzaCtaCte(itemInfo: CobranzaCtaCteInfo) = {
+      DBHelper.save(
+        user,
+        Register(
+          C.COBRANZA_ITEM_TMP,
+          C.COBZI_TMP_ID,
+          DBHelper.NoId,
+          false,
+          false,
+          false,
+          getCobranzaCtaCteFields(itemInfo.item, itemInfo.cobzTMPId)),
+        true
+      ) match {
+        case SaveResult(true, id) => true
+        case SaveResult(false, id) => throwError
+      }
+    }
+
+    def saveCobranzaCtasCtes(items: List[CobranzaCtaCte], opgTMPId: Int) = {
+      items.map(item => saveCobranzaCtaCte(CobranzaCtaCteInfo(opgTMPId, item)))
+    }
+
+    case class RowResult(rowType: String, id: Int, message: String)
+
+    def executeSave(fcTMPId: Int): List[RowResult] = {
+
+      DB.withTransaction(user.database.database) { implicit connection =>
+        val sql = "select * from sp_doc_cobranza_save_aplic(?, ?)"
+        val cs = connection.prepareStatement(sql)
+
+        cs.setInt(1, user.masterUserId)
+        cs.setInt(2, fcTMPId)
+
+        try {
+          val rs = cs.executeQuery()
+
+          /*
+          *
+          * all sp_doc_SOME_DOCUMENT_save must return a setof row_result
+          *
+          * row_result is a composite type in postgresql defined as:
+          *
+          * CREATE TYPE row_result AS (
+          *    type    varchar,
+          *    id      integer,
+          *    message varchar,
+          *    r       refcursor
+          * );
+          *
+          *
+          * ex: CREATE OR REPLACE FUNCTION sp_doc_cobranza_save( params )
+          *     RETURNS SETOF row_result AS ...
+          *
+          * the field type is used to identify the value in the row. there are three
+          * kind of types: resultset, success, key
+          * for first two (resultset and success) the value of type is string with
+          * one of these two values ex: 'resultset' or 'success'
+          * when type == 'resultset' the field r must be not null and contain a ResultSet
+          * when type == 'success' the id field can contain 0 (False) or not 0 (-1,1 or any other number but NO 0) (True)
+          * the last kind of type is key. in this case the key must be the name of a column like fc_id, as_id, pr_id, etc
+          * it can be any column name. if the type is an integer like in fc_id, as_id or any other id column the field id
+          * is used to contain the returned value
+          * if the type is any other the column message is used
+          *
+          * there are two special types for key: 'INFO', 'ERROR'
+          * when type == 'ERROR' the system will raise an exception
+          * when type == 'INFO' the system will show an alert
+          * in both cases the field message contains the description
+          *
+          * this set must contain at least one row
+          *
+          * the field r (ResultSet) is not normally read in a save document operation.
+          *
+          * */
+
+          try {
+            def getIdOrMessage: RowResult = {
+              val rowType = rs.getString(1)
+
+              rowType match {
+                case "ERROR" => throwException(rs.getString(3))
+                case "INFO" => RowResult("INFO", 0, rs.getString(3))
+                case "cobz_id" => RowResult("cobz_id", rs.getInt(2), "")
+                case _ => RowResult("IGNORED", 0, "")
+              }
+            }
+
+            def getSaveResult: List[RowResult] = {
+              if(rs.next()) {
+                getIdOrMessage :: getSaveResult
+              }
+              else {
+                List()
+              }
+            }
+            getSaveResult
+
+          } finally {
+            rs.close
+          }
+
+        } catch {
+          case NonFatal(e) => {
+            Logger.error(s"can't save application of ${C.COBRANZA} with id ${cobranzaAplic.cobzId} for user ${user.toString}. Error ${e.toString}")
+            throw e
+          }
+        } finally {
+          cs.close
+        }
+      }
+    }
+
+    def getIdFromMessages(messages: List[RowResult]) = {
+      def findId(messages: List[RowResult], id: Int): Int = messages match {
+        case Nil => id
+        case h :: t => {
+          val _id = h match {
+            case RowResult("cobz_id", id, m) => id
+            case _ => id
+          }
+          findId(t, _id)
+        }
+      }
+      findId(messages, 0)
+    }
+
+    DBHelper.save(
+      user,
+      Register(
+        C.COBRANZA_TMP,
+        C.COBZ_TMP_ID,
+        DBHelper.NoId,
+        false,
+        true,
+        true,
+        getFields),
+      true
+    ) match {
+      case SaveResult(true, opgTMPId) => {
+        saveCobranzaItems(cobranzaAplic.items, opgTMPId)
+        saveCobranzaCtasCtes(cobranzaAplic.ctaCte, opgTMPId)
+        val messagesAndId = executeSave(opgTMPId)
+        getIdFromMessages(messagesAndId)
+      }
+      case SaveResult(false, id) => throwError
+    }
+
   }
 }

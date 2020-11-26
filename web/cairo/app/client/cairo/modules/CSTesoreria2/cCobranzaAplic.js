@@ -52,7 +52,7 @@
       var KI_APLICADO3 = 12;
 
       var m_editing;
-      var m_dialog;
+      var m_dialog = null;
       var m_total = 0;
       var m_cobzId = 0;
       var m_cobzNumero = "";
@@ -330,7 +330,7 @@
 
         try {
           if(key == K_APLICACIONES) {
-            var rows = getItemsProperty().getRows();
+            var rows = getItems().getRows();
             p = D.showDocAux(getCell(rows.item(lRow), KI_FV_ID).getId(), "FacturaVenta");
           }
         }
@@ -384,14 +384,10 @@
         elem.setEnabled(false);
         elem.setFormat(Cairo.Settings.getAmountDecimalsFormat());
         elem.setKey(K_PENDIENTE);
-        elem.setTopFromProperty(C_TOTAL);
-        elem.setLeft(6200);
-        elem.setWidth(1400);
-        elem.setLeftLabel(-1100);
 
         elem = properties.add(null, C_APLICACIONES);
         elem.setType(Dialogs.PropertyType.grid);
-        elem.hideLabel();;
+        elem.hideLabel();
         setGridAplic(elem);
         loadItems(elem);
         elem.setKey(K_APLICACIONES);
@@ -494,19 +490,19 @@
           var row = rows.add(null);
 
           elem = row.add(null);
-          elem.setValue(valField(m_data.items[_i], CV.FV_COBZ_ID));
+          elem.setValue(valField(m_data.items[_i], CT.FV_COBZ_ID));
           elem.setKey(KI_FVCOB_ID);
 
           elem = row.add(null);
-          elem.setValue(valField(m_data.items[_i], CV.FVD_ID));
+          elem.setValue(valField(m_data.items[_i], CT.FVD_ID));
           elem.setKey(KI_FVD_ID);
 
           elem = row.add(null);
-          elem.setValue(valField(m_data.items[_i], CV.FVP_ID));
+          elem.setValue(valField(m_data.items[_i], CT.FVP_ID));
           elem.setKey(KI_FVP_ID);
 
           elem = row.add(null);
-          elem.setValue(valField(m_data.items[_i], CT.DOC_NAME));
+          elem.setValue(valField(m_data.items[_i], C.DOC_NAME));
           elem.setKey(KI_DOC);
 
           elem = row.add(null);
@@ -515,11 +511,11 @@
           elem.setKey(KI_FV_ID);
 
           elem = row.add(null);
-          if(valField(m_data.items[_i], CV.FVD_FECHA) !== null) {
-            elem.setValue(valField(m_data.items[_i], CV.FVD_FECHA));
+          if(valField(m_data.items[_i], CT.FVD_FECHA) !== null) {
+            elem.setValue(valField(m_data.items[_i], CT.FVD_FECHA));
           }
-          else if(valField(m_data.items[_i], CV.FVP_FECHA) !== null) {
-            elem.setValue(valField(m_data.items[_i], CV.FVP_FECHA));
+          else if(valField(m_data.items[_i], CT.FVP_FECHA) !== null) {
+            elem.setValue(valField(m_data.items[_i], CT.FVP_FECHA));
           }
           else {
             elem.setValue("");
@@ -527,30 +523,30 @@
           elem.setKey(KI_FECHA);
 
           elem = row.add(null);
-          elem.setValue(valField(m_data.items[_i], CV.FVD_PENDIENTE));
+          elem.setValue(valField(m_data.items[_i], CT.FVD_PENDIENTE));
           elem.setKey(KI_PENDIENTE);
 
           elem = row.add(null);
-          elem.setValue(valField(m_data.items[_i], CV.FV_COBZ_IMPORTE));
+          elem.setValue(valField(m_data.items[_i], CT.FV_COBZ_IMPORTE));
           elem.setKey(KI_APLICADO);
 
           elem = row.add(null);
-          var cotizacion = valField(m_data.items[_i], CV.FV_COBZ_COTIZACION);
+          var cotizacion = valField(m_data.items[_i], CT.FV_COBZ_COTIZACION);
           if(cotizacion !== 0) {
             elem.setValue(cotizacion);
           }
           elem.setKey(KI_COTIZACION);
 
           elem = row.add(null);
-          elem.setValue(valField(m_data.items[_i], CV.FVD_PENDIENTE));
+          elem.setValue(valField(m_data.items[_i], CT.FVD_PENDIENTE));
           elem.setKey(KI_PENDIENTE2);
 
           elem = row.add(null);
-          elem.setValue(valField(m_data.items[_i], CV.FV_COBZ_IMPORTE));
+          elem.setValue(valField(m_data.items[_i], CT.FV_COBZ_IMPORTE));
           elem.setKey(KI_APLICADO2);
 
           elem = row.add(null);
-          elem.setValue(valField(m_data.items[_i], CV.FV_COBZ_IMPORTE));
+          elem.setValue(valField(m_data.items[_i], CT.FV_COBZ_IMPORTE));
           elem.setKey(KI_APLICADO3);
         }
       };
@@ -651,7 +647,7 @@
           var importe = 0;
 
           var register = new DB.Register();
-          register.setFieldId(CV.FV_COBZ_TMP_ID);
+          register.setFieldId(CT.FV_COBZ_TMP_ID);
           register.setId(Cairo.Constants.NEW_ID);
 
           var fields = register.getFields();
@@ -673,28 +669,28 @@
                   break;
 
                 case KI_FVD_ID:
-                  fields.add(CV.FVD_ID, val(cell.getValue()), Types.id);
+                  fields.add(CT.FVD_ID, val(cell.getValue()), Types.id);
                   break;
 
                 case KI_FVP_ID:
-                  fields.add(CV.FVP_ID, val(cell.getValue()), Types.id);
+                  fields.add(CT.FVP_ID, val(cell.getValue()), Types.id);
                   break;
 
                 case KI_APLICADO:
                   importe = val(cell.getValue());
-                  fields.add(CV.FV_COBZ_IMPORTE, importe, Types.double);
+                  fields.add(CT.FV_COBZ_IMPORTE, importe, Types.double);
                   break;
 
                 case KI_COTIZACION:
                   cotizacion = val(cell.getValue());
-                  fields.add(CV.FV_COBZ_COTIZACION, cotizacion, Types.double);
+                  fields.add(CT.FV_COBZ_COTIZACION, cotizacion, Types.double);
                   break;
               }
             }
           }
 
           if(bSave) {
-            fields.add(CV.FV_COBZ_IMPORTE_ORIGEN, Cairo.Util.zeroDiv(importe, cotizacion), Types.double);
+            fields.add(CT.FV_COBZ_IMPORTE_ORIGEN, Cairo.Util.zeroDiv(importe, cotizacion), Types.double);
             transaction.addRegister(register);
           }
         }

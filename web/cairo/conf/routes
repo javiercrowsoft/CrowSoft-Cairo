@@ -508,6 +508,9 @@ POST    /api/v1/tesoreria/cobranza/from_facturas                                
 PUT     /api/v1/tesoreria/cobranza/:id                                                       controllers.logged.modules.tesoreria.Cobranzas.update(id: Int)
 DELETE  /api/v1/tesoreria/cobranza/:id                                                       controllers.logged.modules.tesoreria.Cobranzas.delete(id: Int)
 
+GET     /api/v1/tesoreria/cobranza/aplic/:id                                                 controllers.logged.modules.tesoreria.Cobranzas.getAplic(id: Int)
+PUT     /api/v1/tesoreria/cobranza/aplic/:id                                                 controllers.logged.modules.tesoreria.Cobranzas.saveAplic(id: Int)
+
 
 GET     /api/v1/tesoreria/movimientosfondo                                                   controllers.logged.modules.tesoreria.MovimientosFondo.list(from: Option[String], to: Option[String], cliId: Option[String], estId: Option[String], ccosId: Option[String], sucId: Option[String], docId: Option[String], empId: Option[String])
 GET     /api/v1/tesoreria/movimientosfondo/parameters                                        controllers.logged.modules.tesoreria.MovimientosFondo.parameters()

@@ -338,7 +338,7 @@
 
         try {
           if(key == K_APLICACIONES) {
-            var rows = getItemsProperty().getRows();
+            var rows = getItems().getRows();
             p = D.showDocAux(getCell(rows.item(lRow), KI_FC_ID).getId(), "FacturaCompra");
           }
         }

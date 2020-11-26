@@ -94,6 +94,20 @@ begin
 
       p_cli_id := 0;
       p_cli_nombre := '';
+      
+   elsif p_doct_id = 13 /* cobranza */ then
+
+      select cobz_id, cobz_cotizacion, cobz_total, cobz_nrodoc, cobz.cli_id, cli_nombre, cobz.suc_id, cobz.doc_id, cobz.doct_id, cobz.emp_id, emp_nombre, 0
+        into p_id, p_cotizacion, p_total, p_nrodoc, p_cli_id, p_cli_nombre, p_suc_id, p_doc_id, p_doct_id_out, p_emp_id_out, p_emp_nombre, p_is_auto
+      from cobranza cobz
+      left join cliente cli
+       on cobz.cli_id = cli.cli_id
+      inner join empresa emp
+       on cobz.emp_id = emp.emp_id
+      where cobz_id = p_id;
+
+      p_prov_id := 0;
+      p_prov_nombre := '';
 
    else
 

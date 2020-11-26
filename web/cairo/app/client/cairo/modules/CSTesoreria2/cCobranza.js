@@ -3051,40 +3051,53 @@
         mainRegister.addTransaction(transaction);
       };
 
+      self.destroyAplicDialog = function() {
+        m_applyEditor = null;
+      };
+
       var showApply = function() {
 
-        if(!Cairo.Security.docHasPermissionTo(
-          CS.MODIFY_APLIC,
-          m_docId,
-          Cairo.Security.ActionTypes.apply)) {
-          return false;
-        }
-        
-        if(m_applyEditor === null) {
-          m_applyEditor = Cairo.CobranzaAplic.createObject();
-        }
-        else {
-          if(m_applyEditor.getId() !== m_id) {
-            m_applyEditor.setClient(null);
-            m_applyEditor = Cairo.CobranzaAplic.createObject();
+        var showEditor = function(info) {
+          if(!Cairo.Security.docHasPermissionTo(
+            CS.MODIFY_APLIC,
+            m_docId,
+            Cairo.Security.ActionTypes.apply)) {
+            return false;
           }
-        }
 
-        m_applyEditor.setClient(self);
-
-        if(!m_applyEditor.show(m_id, m_total, m_nroDoc, m_cliente)) {
-          m_applyEditor = null;
-        }
-        m_applyEditor.show(
-          m_id,
-          m_total,
-          m_nroDoc,
-          m_cliId,
-          m_cliente).then(function(result) {
-          if(result !== true) {
-            m_applyEditor = null;
+          if(m_applyEditor === null) {
+            m_applyEditor = Cairo.CobranzaAplic.Edit.Controller.getEditor();
           }
-        });
+          else {
+            if(m_applyEditor.getId() !== m_id) {
+              m_applyEditor.setClient(null);
+              m_applyEditor = Cairo.CobranzaAplic.Edit.Controller.getEditor();
+            }
+          }
+
+          m_applyEditor.setClient(self);
+
+          m_applyEditor.show(
+            info.id,
+            info.total,
+            info.nroDoc,
+            info.cliId,
+            info.cliente,
+            info.emp_id,
+            info.empresa)
+          .then(function(result) {
+            if(result !== true) {
+              m_applyEditor = null;
+            }
+          });
+        };
+
+        // TODO: if the document is not saved it should show a message
+        //       if the document has unsaved changes it should suggest
+        //       the user to save changes
+        if(m_id !== NO_ID) {
+          D.getDocumentInfo(D.Types.COBRANZA, m_id).whenSuccessWithResult(showEditor);
+        }
       };
 
       var getCheques = function() {

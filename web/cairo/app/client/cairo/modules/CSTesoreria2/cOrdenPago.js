@@ -2875,6 +2875,10 @@
         mainRegister.addTransaction(transaction);
       };
 
+      self.destroyAplicDialog = function() {
+        m_applyEditor = null;
+      };
+
       var showApply = function() {
 
         var showEditor = function(info) {

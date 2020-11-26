@@ -60,6 +60,7 @@ Cairo.AsientoListDoc = {};
 Cairo.Cobranza = {};
 Cairo.CobranzaWizard = {};
 Cairo.CobranzaListDoc = {};
+Cairo.CobranzaAplic = {};
 
 Cairo.OrdenPago = {};
 Cairo.OrdenPagoWizard = {};
