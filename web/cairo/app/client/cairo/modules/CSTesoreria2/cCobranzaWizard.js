@@ -1268,6 +1268,10 @@
         });
       };
 
+      var getUserDescription = function() {
+        return getClienteName().substr(0, 50) + "-" + getComprobante().getValue();
+      };
+
       self.propertyChange = function(key) {
         var p = null;
 
@@ -1284,12 +1288,12 @@
 
             // finish, now close wizard
             //
-            m_objWizard.closeWizard();
-            break;
+            return m_objWizard.closeWizard();
 
           case WC.KW_PRINT_DOC:
 
-            D.wizPrintDocEx(m_id, m_lastDocId, D.getEmailFromCliente(m_lastCliId));
+            D.wizPrintDocEx(m_id, m_lastDocId, D.getEmailFromCliente(m_lastCliId), getUserDescription,
+              false, getDoc(), getComprobante().getValue());
             break;
 
           case WC.KW_NEW_DOC:
@@ -1430,7 +1434,7 @@
           if(m_autoSelect) {
 
             if(m_objWizard.getCloseWizardAfterSave()) {
-              m_objWizard.closeWizard();
+              p = m_objWizard.closeWizard();
               m_wizWasClosed = true;
             }
           }

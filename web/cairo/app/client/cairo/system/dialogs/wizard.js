@@ -420,6 +420,7 @@
             m_dialog.closeWizard();
           }
           m_wizardClosed = true;
+          return P.resolvedPromise(true);
         };
 
         self.discardChanges = function() {

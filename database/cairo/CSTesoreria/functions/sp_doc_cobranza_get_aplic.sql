@@ -1,4 +1,4 @@
-/*
+﻿/*
 CrowSoft-Cairo
 ==============
 
@@ -34,7 +34,7 @@ javier at crowsoft.com.ar
 
 /*
 
-select * from sp_doc_cobranza_get_aplic(1,3);
+select * from sp_doc_cobranza_get_aplic(1,31);
 fetch all from rtn;
 
 */

@@ -7,7 +7,9 @@
 
     var createMenu = function() {
       var self = {
-        text: ""
+        text: "",
+        callback: null,
+        items: []
       };
 
       var that = Controls.createControl();
@@ -23,11 +25,51 @@
         return self.text;
       };
 
-      that.showPopupMenu = function() { /* TODO: implement this. */ };
-      that.clear = function() { /* TODO: implement this. */ };
-      that.addListener = function(callback) { /* TODO: implement this. */ };
-      that.add = function(id, text) { /* TODO: implement this. */ };
-      that.getItemData = function(id) { /* TODO: implement this. */ };
+      var onClick = function(id) {
+        if(self.callback !== null) {
+          self.callback(id);
+        }
+        var menuDiv = $('.context-menu.context-menu-theme-osx');
+        menuDiv.hide();
+      };
+
+      var createMenuItem = function(menu) {
+        var item = {};
+        item[menu.text] = {
+            onclick: function() { onClick(menu.id)},
+          };
+        return item;
+      };
+
+      var createMenuItems = function() {
+        return self.items.map(createMenuItem);
+      };
+
+      that.showPopupMenu = function() {
+        var element = that.getElement();
+        element.contextMenu(createMenuItems(), {theme:'osx'});
+        simulateRightClick(element[0]);
+      };
+
+      var simulateRightClick = function(element) {
+        var e = element.ownerDocument.createEvent('MouseEvents');
+        var o = offset(element);
+        e.initMouseEvent('contextmenu', true, true,
+          element.ownerDocument.defaultView, 1, o.left, o.top, o.left, o.top+35, false,
+          false, false, false,2, null);
+        element.dispatchEvent(e);
+      };
+
+      var offset = function offset(el) {
+        var rect = el.getBoundingClientRect(),
+          scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
+          scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        return { top: rect.top + scrollTop, left: rect.left + scrollLeft }
+      };
+
+      that.clear = function() { self.items = []; };
+      that.setListener = function(callback) { self.callback = callback; };
+      that.add = function(text, id) { self.items.push({text: text, id: id});  };
 
       return that;
     };

@@ -1127,6 +1127,10 @@
         });
       };
 
+      var getUserDescription = function() {
+        return getProveedorName().substr(0, 50) + "-" + getComprobante().getValue();
+      };
+
       self.propertyChange = function(key) {
         var p = null;
 
@@ -1143,15 +1147,12 @@
 
             // finish, now close wizard
             //
-            m_objWizard.closeWizard();
-            break;
+            return m_objWizard.closeWizard();
 
           case WC.KW_PRINT_DOC:
 
-            D.wizPrintDocEx(m_id, m_lastDoc,
-              D.getEmailFromProveedor(m_lastProvId),
-              getProveedorName().substr(0, 50) + "-" + m_lastNroDoc
-            );
+            D.wizPrintDocEx(m_id, m_lastDoc, D.getEmailFromProveedor(m_lastProvId), getUserDescription,
+              false, getDoc(), getComprobante().getValue());
             break;
 
           case WC.KW_NEW_DOC:

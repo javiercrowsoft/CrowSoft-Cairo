@@ -1527,7 +1527,7 @@
     wiz.doNextStep(iStep);
   };
 
-  Cairo.Documents.wizPrintDocEx = function(id, lastDoc, emailPromise) {
+  Cairo.Documents.wizPrintDocEx = function(id, lastDoc, emailPromise, getUserDescription, autoPrint, docId, nroDoc) {
     var p = null;
 
     try {
@@ -1577,14 +1577,11 @@
           }
         ).then(
           function() {
-            printManager.setAutoPrint(m_autoPrint);
-            return printManager.showPrint(id, NO_ID, m_client.docId(), false, m_client.nroDoc());
+            printManager.setAutoPrint(autoPrint);
+            return printManager.showPrint(id, NO_ID, docId, false, nroDoc);
           }
         ).then(
           function(result) {
-            if(printManager.getDocumentIsPrinted()) {
-              reloadDocument();
-            }
             return result;
           }
         );

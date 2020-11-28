@@ -262,6 +262,7 @@
     var NO_ID = Cairo.Constants.NO_ID;
     var P = Cairo.Promises;
     var call = P.call;
+    var val = Cairo.Util.val;
 
     Views.Controller = {
 
@@ -276,7 +277,6 @@
         var m_client;
 
         var m_properties = null;
-        var m_menu = null;
 
         var m_popMenuClient = "";
 
@@ -349,6 +349,10 @@
         // flag: to avoid processing changes in controls when we are refreshing the view
         //
         var m_refreshing = false;
+
+        // flag: to avoid processing changes in controls when we are closing the view
+        //
+        var m_closing = false;
 
         // first tab index
         //
@@ -550,6 +554,7 @@
             invalidateClick:            docToolbarClick(Dialogs.Constants.toolbarKeyInvalidate),
             deleteClick:                docToolbarClick(Dialogs.Constants.toolbarKeyDelete),
             applyClick:                 docToolbarClick(Dialogs.Constants.toolbarKeyApply),
+            docAuxClick:                docToolbarClick(Dialogs.Constants.toolbarKeyDocAux),
             statusClick:                docToolbarClick(Dialogs.Constants.toolbarKeyEditState),
             alarmsClick:                docToolbarClick(Dialogs.Constants.toolbarKeyDocAlert),
             historyClick:               docToolbarClick(Dialogs.Constants.toolbarKeyHistory),
@@ -920,14 +925,13 @@
 
         self.printMaster = function(id, tblId) {
           var R = Cairo.Settings.Reports;
-          var U = Cairo.Util;
           var C = Cairo.Settings;
 
           var printManager = new Cairo.Entities.Printing.Manager();
 
-          printManager.setPath(U.File.getValidPath(C.get(R.reportSection, R.reportPath, Cairo.Settings.appPath())));
-          printManager.setCommandTimeout(U.val(C.get(R.reportSection, R.commandTimeOut, 0)));
-          printManager.setConnectionTimeout(U.val(C.get(R.reportSection, R.connectionTimeOut, 0)));
+          printManager.setPath(Cairo.Util.File.getValidPath(C.get(R.reportSection, R.reportPath, C.appPath())));
+          printManager.setCommandTimeout(val(C.get(R.reportSection, R.commandTimeOut, 0)));
+          printManager.setConnectionTimeout(val(C.get(R.reportSection, R.connectionTimeOut, 0)));
 
           printManager.showPrint(id, tblId, NO_ID);
         };
@@ -1018,7 +1022,7 @@
               var group = grid.addGroup();
               group.setName(col.getName());
               group.setIndex(1);
-              group.setKey(Cairo.Util.val(col.getKey()) + 2);
+              group.setKey(val(col.getKey()) + 2);
               group.setSortType(Cairo.Constants.ShellSortOrder.ascending);
 
               // add sorting
@@ -1028,7 +1032,7 @@
               group = grid.addGroup();
               group.setName(col.getName());
               group.setIndex(2);
-              group.setKey(Cairo.Util.val(col.getKey()) + offSetColSort);
+              group.setKey(val(col.getKey()) + offSetColSort);
               group.setSortType(Cairo.Constants.ShellSortOrder.ascending);
               group.setIsSortCol(true);
 
@@ -1072,7 +1076,7 @@
 
               var count = grid.getRows().count();
               for(var j = 0; j < count; j++) {
-                var index = Cairo.Util.val(grid.cellText(j, 3));
+                var index = val(grid.cellText(j, 3));
                 if(grid.rowIsGroup(j)) {
                   sortedRows.add(rows(j));
                 }
@@ -1330,7 +1334,7 @@
                   gridCell.setText(Cairo.Util.getDateValueForGrid(cell.getValue()));
                 }
                 else if(col.getSubType() === Dialogs.PropertySubType.percentage) {
-                  gridCell.setText(Cairo.Util.val(cell.getValue()) / 100);
+                  gridCell.setText(val(cell.getValue()) / 100);
                 }
                 else {
                   gridCell.setText(cell.getValue());
@@ -1508,7 +1512,7 @@
             case Dialogs.PropertyType.check:
 
               var c = view.getCheckboxes().get(property.getIndex());
-              c.setValue(Cairo.Util.val(property.getValue()) !== 0);
+              c.setValue(val(property.getValue()) !== 0);
               c.setEnabled(property.getEnabled());
 
               break;
@@ -1536,7 +1540,7 @@
               var c = view.getImages().get(property.getIndex());
 
               if(m_isWizard) {
-                switch(Cairo.Util.val(property.getValue())) {
+                switch(val(property.getValue())) {
                   case 1:
                     c.setImage(m_wizardView.getImgWiz1());
                     break;
@@ -1590,8 +1594,8 @@
             case Dialogs.PropertyType.progressBar:
 
               var c = view.getProgressBars().get(property.getIndex());
-              var val = Cairo.Util.val(property.getValue());
-              c.setValue((val <= 100) ? val : 100);
+              var value = val(property.getValue());
+              c.setValue((value <= 100) ? value : 100);
 
               break;
           }
@@ -1620,10 +1624,10 @@
               inCurrentTag = (c.getTag().substring(0, lenStrTag) === strTag
                               && c.getTag() !== ""
                               && !Controls.isTab(c)
-                              && (Cairo.Util.val(c.getTag().substring(lenStrTag)) + m_tabOffset) === m_currentTab);
+                              && (val(c.getTag().substring(lenStrTag)) + m_tabOffset) === m_currentTab);
             }
             else {
-              var valTag = Cairo.Util.val(c.getTag());
+              var valTag = val(c.getTag());
               if(valTag < 0 && valTag > Dialogs.TabIndexType.TAB_ID_XT_ALL) {
                 inCurrentTag = ((valTag === m_currentInnerTab)
                                 || (valTag === Dialogs.TabIndexType.TAB_ID_XT_ALL
@@ -1641,7 +1645,7 @@
             if(inCurrentTag) {
               c.setVisible(property.getVisible());
               if(lbl !== null) {
-                if(Cairo.Util.val(lbl.getTag()) !== -1) {
+                if(val(lbl.getTag()) !== -1) {
                   lbl.setVisible(property.getVisible());
                 }
               }
@@ -1853,13 +1857,15 @@
         };
 
         self.closeWizard = function() {
+          m_closing = true;
           self.setChanged(false);
-          removeControl(m_wizardView);
+          m_wizardView.close();
         };
 
-        var controlIsButton = function(control) {
-          return control.getObjectType() === "cairo.controls.button";
-        };
+        // TODO: remove after testing
+        //var controlIsButton = function(control) {
+        //  return control.getObjectType() === "cairo.controls.button";
+        //};
         var controlIsLabel = function(control) {
           return control.getObjectType() === "cairo.controls.label";
         };
@@ -1897,7 +1903,7 @@
               //if(!(controlIsButton(c) && c.getName().indexOf("cbTab", 1))) {
               if(!Controls.isTab(c)) {
                 if(c.getTag().trim() !== "") {
-                  if(Cairo.Util.val(c.getTag()) !== fatherIndex) {
+                  if(val(c.getTag()) !== fatherIndex) {
                     if(getControlVisible(c, isControlVisibleInTab(c, childIndex))) {
                       if(!controlIsLabel(c) && !controlIsToolbar(c)) {
                         if(c.getTabIndex() < tabIndex) {
@@ -1949,7 +1955,7 @@
                 && c.getTag() !== ""
                 && !Controls.isTab(c)) {
 
-              var isVisible = Cairo.Util.val(c.getTag().substring(strTag.length)) + m_tabOffset === index;
+              var isVisible = val(c.getTag().substring(strTag.length)) + m_tabOffset === index;
 
               if(getControlVisible(c, isVisible)) {
                 if(!controlIsLabel(c) && !controlIsToolbar(c) && !controlIsImage(c)) {
@@ -2037,7 +2043,7 @@
                 && c.getTag() !== ""
                 && !Controls.isTab(c)) {
 
-              var isVisible = Cairo.Util.val(c.getTag().substring(strTag.length)) + m_tabOffset === index;
+              var isVisible = val(c.getTag().substring(strTag.length)) + m_tabOffset === index;
               c.setVisible(getControlVisible(c, isVisible));
 
               if(controlIsLabel(c)) {
@@ -2104,7 +2110,7 @@
               var c = controls.get(_i);
               if(!Controls.isTab(c)) {
                 if(c.getTag().trim() !== "") {
-                  if(Cairo.Util.val(c.getTag()) !== fatherIndex) {
+                  if(val(c.getTag()) !== fatherIndex) {
                     setVisible(c, childIndex);
                   }
                 }
@@ -2222,6 +2228,7 @@
 
         self.closeDialog = function() {
           try {
+            m_closing = true;
             getView().closeDialog();
           }
           catch(e) {
@@ -2259,15 +2266,17 @@
 
           var menus = strMenuDef.split(c_menu_sep);
 
-          m_menu.addListener(menuClick);
-          m_menu.clear();
+          var menu = m_documentView.getContextMenu();
+
+          menu.setListener(menuClick);
+          menu.clear();
           var count = menus.length;
           for(var i = 0; i < count; i++) {
-            var menu = menus[i].split(c_menu_sep2);
-            m_menu.add(menu[0], menu[1]);
+            var item = menus[i].split(c_menu_sep2);
+            menu.add(item[0], val(item[1]));
           }
 
-          m_menu.showPopupMenu();
+          menu.showPopupMenu();
         };
 
         var implementsGrid = function(obj) {
@@ -2574,7 +2583,7 @@
         //
         var menuClick = function(id) {
           try {
-            m_client.messageEx(Dialogs.Message.MSG_MENU_AUX, m_menu.getItemData(id));
+            m_client.messageEx(Dialogs.Message.MSG_MENU_AUX, id);
           }
           catch(e) {
             Cairo.manageError(
@@ -2769,7 +2778,7 @@
               null
             ).then(
               function(result) {
-                getView().getPrintButton().setVisible(Cairo.Util.val(result) === Dialogs.Message.MSG_ABM_CAN_PRINT);
+                getView().getPrintButton().setVisible(val(result) === Dialogs.Message.MSG_ABM_CAN_PRINT);
               },
               Cairo.manageErrorHandler("Printing")
             );
@@ -2806,7 +2815,7 @@
             ).then(
               function(result) {
                 getView().getPermissionsButton().setVisible(
-                  Cairo.Util.val(result) === Dialogs.Message.MSG_SHOW_EDIT_PERMISSIONS);
+                  val(result) === Dialogs.Message.MSG_SHOW_EDIT_PERMISSIONS);
               },
               Cairo.manageErrorHandler("Permissions")
             );
@@ -2820,7 +2829,7 @@
               null
             ).then(
               function(result) {
-                if(Cairo.Util.val(result) !== Dialogs.Message.MSG_DOC_INFO_HANDLED) {
+                if(val(result) !== Dialogs.Message.MSG_DOC_INFO_HANDLED) {
                   self.showHelpAux();
                 }
               },
@@ -3433,7 +3442,7 @@
                   wizEnableButtons();
                   if(result) {
                     self.setChanged(false);
-                    removeControl(m_wizardView);
+                    self.closeWizard();
                   }
                 }
               );
@@ -3612,7 +3621,7 @@
 
         var formDocClose = function() {
           if(m_documentView !== null) {
-            removeControl(m_documentView);
+            m_documentView.close();
           }
         };
 
@@ -4026,14 +4035,14 @@
                         //
                         // updte the property with the FK
                         //
-                        setColumnValueInProperty(property, index, i, colIndex, virtualRow.getNewValue(q), Cairo.Util.val(virtualRow.getNewId(q)));
+                        setColumnValueInProperty(property, index, i, colIndex, virtualRow.getNewValue(q), val(virtualRow.getNewId(q)));
 
                         p = m_client.columnAfterEdit(
                             propertyKey,
                             i,
                             colIndex,
                             virtualRow.getNewValue(q),
-                            Cairo.Util.val(virtualRow.getNewId(q))
+                            val(virtualRow.getNewId(q))
                         ).then(
                           function() {
                             //
@@ -4568,7 +4577,7 @@
               cell.setValue(Cairo.Util.getDateValueFromGrid(gridCell.getText()));
             }
             else if(col.getSubType() === Dialogs.PropertySubType.percentage) {
-              cell.setValue(Cairo.Util.val(gridCell.getText()) * 100);
+              cell.setValue(val(gridCell.getText()) * 100);
             }
             else {
               cell.setValue(gridCell.getText());
@@ -4603,7 +4612,7 @@
               gridCell.setText(Cairo.Util.getDateValueForGrid(cell.getValue()));
             }
             else if(col.getSubType() === Dialogs.PropertySubType.percentage) {
-              gridCell.setText(Cairo.Util.val(cell.getValue()) / 100);
+              gridCell.setText(val(cell.getValue()) / 100);
             }
             else {
               gridCell.setText(cell.getValue());
@@ -5190,7 +5199,7 @@
                   case Dialogs.PropertyType.select:
 
                     property.setValue(c.getValue());
-                    property.setSelectId(Cairo.Util.val(c.getId()));
+                    property.setSelectId(val(c.getId()));
                     property.setSelectIntValue(c.getId());
                     break;
 
@@ -5207,7 +5216,7 @@
 
                 p = m_client.propertyChange(property.getKey()).then(
                   function(success) {
-                    if(success && !bNoRefresh) {
+                    if(success && !bNoRefresh && !m_closing) {
                       m_refreshing = true;
                       for(var _i = 0; _i < propertyCount; _i++) {
                         property = m_properties.get(_i);
@@ -5704,7 +5713,7 @@
                   cell.setValue(Cairo.Util.getDateValueFromGrid(cellCtrl.getText()));
                 }
                 else if(col.getSubType() === Dialogs.PropertySubType.percentage) {
-                  cell.setValue(Cairo.Util.val(cellCtrl.getText()) * 100);
+                  cell.setValue(val(cellCtrl.getText()) * 100);
                 }
                 else {
                   cell.setValue(cellCtrl.getText());
@@ -6252,14 +6261,14 @@
                   config.appPath())));
 
             printManager.setCommandTimeout(
-              Cairo.Util.val(
+              val(
                 config.get(
                   reportConfig.reportSection,
                   reportConfig.commandTimeOut,
                   0)));
 
             printManager.setConnectionTimeout(
-              Cairo.Util.val(
+              val(
                 config.get(
                   reportConfig.reportSection,
                   reportConfig.connectionTimeOut,
@@ -6328,14 +6337,14 @@
                         config.appPath())));
 
                   printManager.setCommandTimeout(
-                    Cairo.Util.val(
+                    val(
                       config.get(
                         reportConfig.reportSection,
                         reportConfig.commandTimeOut,
                         0)));
 
                   printManager.setConnectionTimeout(
-                    Cairo.Util.val(
+                    val(
                       config.get(
                         reportConfig.reportSection,
                         reportConfig.connectionTimeOut,
@@ -6438,8 +6447,6 @@
         };
 
         var destroy = function() {
-
-          m_menu = null;
 
           m_properties  = null;
           m_client      = null;
@@ -6547,7 +6554,7 @@
         };
 
         var isControlVisibleInTab = function(c, index) {
-          var tabIndex = Cairo.Util.val(c.getTag());
+          var tabIndex = val(c.getTag());
           return (tabIndex === index
                   || (tabIndex === Dialogs.TabIndexType.TAB_ID_XT_ALL
                         && index !== m_tabHideControlsInAllTab)
@@ -6679,7 +6686,7 @@
           var index = 0;
           var i = tag.indexOf(Dialogs.Constants.innerTab, 0);
           if(i >= 0) {
-            var n = Cairo.Util.val(tag.substring(i + Dialogs.Constants.innerTab.length));
+            var n = val(tag.substring(i + Dialogs.Constants.innerTab.length));
             var q = Math.abs(Cairo.Math.truncate(n / 100));
             index = (n - q * 100) * -1;
           }
@@ -6690,7 +6697,7 @@
           var index = 0;
           var i = tag.indexOf(Dialogs.Constants.innerTab, 0);
           if(i >= 0) {
-            return Math.abs(Cairo.Math.truncate(Cairo.Util.val(tag.substring(i + Dialogs.Constants.innerTab.length)) / 100));
+            return Math.abs(Cairo.Math.truncate(val(tag.substring(i + Dialogs.Constants.innerTab.length)) / 100));
           }
           return index;
         };

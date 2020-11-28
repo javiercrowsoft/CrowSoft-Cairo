@@ -539,7 +539,7 @@
 
           case Dialogs.Message.MSG_EXPORT_GET_FILE_NAME_POSTFIX:
 
-            p = getFileNamePostFix();
+            p = P.resolvedPromise(getFileNamePostFix());
             break;
         }
 

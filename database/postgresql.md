@@ -1,4 +1,10 @@
-# To create a database:
+# Databases
+
+### Index
+- To create a database
+- To update a database
+
+## To create a database:
 
 #### 1- create the database using pgAdmin
 
@@ -58,3 +64,28 @@ http://stackoverflow.com/questions/6151084/which-timestamp-type-to-choose-in-a-p
 
 #### 5- run scripts from migration_from_sqlserver following the order set in their names.
 only run files which starts with numbers.
+
+## To update a database
+
+run script find_update_since_dyas.sh at root
+
+```
+   ./find_update_since_dyas.sh 2 sql database/cairo
+```
+
+you will see the list of files to be included
+
+then run script cat_update_since_days.sh
+
+```
+   ./cat_updated_since_days.sh 2 sql database/cairo
+```
+
+the command will print instructions to apply the patch to a database running in Docker.
+
+### Notice
+for unknown reason the command add in some places this character: ﻿
+
+you need to replace it with an empty string.
+
+Use IntelliJ for this.

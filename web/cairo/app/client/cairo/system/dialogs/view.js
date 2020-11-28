@@ -1125,6 +1125,7 @@
         menuStatus: Controls.createMenu(),
         menuAlarms: Controls.createMenu(),
         menuHistory: Controls.createMenu(),
+        contextMenu: Controls.createMenu(),
         saved: false
       };
 
@@ -1205,9 +1206,9 @@
         that.raiseEvent("applyClick");
       };
 
-      var onDocumentsClick = function(e) {
+      var onDocAuxClick = function(e) {
         e.preventDefault();
-        that.raiseEvent("documentsClick");
+        that.raiseEvent("docAuxClick");
       };
 
       var onStatusClick = function(e) {
@@ -1259,7 +1260,7 @@
         self.menuApply.getElement().click(onApplyClick);
 
         self.menuDocuments.setElement(view.$('.doc-menu-documents'));
-        self.menuDocuments.getElement().click(onDocumentsClick);
+        self.menuDocuments.getElement().click(onDocAuxClick);
 
         self.menuStatus.setElement(view.$('.doc-menu-status'));
         self.menuStatus.getElement().click(onStatusClick);
@@ -1269,6 +1270,13 @@
 
         self.menuHistory.setElement(view.$('.doc-menu-history'));
         self.menuHistory.getElement().click(onHistoryClick);
+
+        self.contextMenu.setElement(view.$('#doc-context-menu'));
+
+      };
+
+      that.getContextMenu = function() {
+        return self.contextMenu;
       };
 
       return that;
