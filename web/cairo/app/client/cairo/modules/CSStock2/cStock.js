@@ -9,7 +9,7 @@
 
     if(stId !== NO_ID) {
 
-      D.getDocCliente(D.Types.TRANSFERENCIA_STOCK, asId).whenSuccessWithResult(function(response) {
+      D.getDocumentInfo(D.Types.TRANSFERENCIA_STOCK, stId).whenSuccessWithResult(function(response) {
 
         if(response.id === NO_ID) {
           M.showInfo(getText(1693, "")); // Este comprobante no tiene un documento de stock asociado.
@@ -17,7 +17,7 @@
 
         var objEditName = "";
 
-        switch (response.doctId) {
+        switch (response.doct_id_cliente) {
           case 1:
           case 7:
           case 9:
@@ -65,7 +65,7 @@
           return;
         }
         else {
-          D.showDocAux(response.id, objEditName);
+          D.showDocAux(response.id_cliente, objEditName);
         }
       });
     }

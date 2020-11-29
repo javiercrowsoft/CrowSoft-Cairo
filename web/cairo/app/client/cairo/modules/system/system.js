@@ -481,6 +481,8 @@
         info.doct_id = valField(response.data, C.DOCT_ID);
         info.emp_id = valField(response.data, C.EMP_ID);
         info.empresa = valField(response.data, C.EMP_NAME);
+        info.doct_id_cliente = valField(response.data, C.DOCT_ID_CLIENTE);
+        info.id_cliente = valField(response.data, C.ID_CLIENTE);
         info.is_auto_apply = valField(response.data, C.IS_AUTO_APPLY)
       }
       return info;

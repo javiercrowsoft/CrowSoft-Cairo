@@ -670,6 +670,9 @@ object C {
   val DOCT_ID = "doct_id"
   val DOCT_NAME = "doct_nombre"
 
+  val ID_CLIENTE = "id_cliente"
+  val DOCT_ID_CLIENTE = "doct_id_cliente"
+
   // Documentos
   val DOCUMENTO = "Documento"
   val DOC_ID = "doc_id"
