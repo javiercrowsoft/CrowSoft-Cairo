@@ -106,6 +106,8 @@ Backbone.Model = {};
 Backbone.history = {};
 Backbone.history.fragment = {};
 
+FileSaver = {};
+
 /*
 *
 * compilation tools :P

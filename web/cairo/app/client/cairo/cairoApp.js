@@ -1154,6 +1154,10 @@
   testDates();
   */
 
+  var removeTime = function(date) {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  };
+
   var getDateValue = function(maybeDate) {
     //
     // we try to handle null and undefined in a way it allows as to continue working
@@ -1236,6 +1240,7 @@
     },
     getDateFormatted: getDateFormatted,
     getDateValue: getDateValue,
+    removeTime: removeTime,
     isDate: isDate,
     parseDate: parseDate,
     localeLongDateFormat: localeLongDateFormat,

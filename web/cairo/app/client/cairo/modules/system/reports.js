@@ -481,7 +481,6 @@
     PROPERTY_TYPE_FROM_PARAM_TYPE[RT.list] = T.list;
     PROPERTY_TYPE_FROM_PARAM_TYPE[RT.check] = T.check;
 
-    var NO_ID = Cairo.Constants.NO_ID;
     var C_MODULE = "Reports";
     var P = Cairo.Promises;
     var U = Cairo.Util;
@@ -582,18 +581,12 @@
 
       var getText = Cairo.Language.getText;
       var NO_ID = Cairo.Constants.NO_ID;
-      var D = Cairo.Documents;
-      var M = Cairo.Modal;
       var C = Cairo.General.Constants;
-      var Types = Cairo.Constants.Types;
       var Dialogs = Cairo.Dialogs;
       var val = Cairo.Util.val;
       var isDate = Cairo.Util.isDate;
-      var getDateValue = Cairo.Util.getDateValue;
-      var today = Cairo.Dates.today;
       var valField = DB.valField;
       var getValue = DB.getValue;
-      var call = P.call;
 
       var m_dialog;
       var m_properties;
@@ -817,6 +810,137 @@
         return print(Cairo.CSReportConnection.ACTIONS.PREVIEW);
       };
 
+      var simulateClick = function(element) {
+        var e = element.ownerDocument.createEvent('MouseEvents');
+        e.initMouseEvent('click', true, true);
+        element.dispatchEvent(e);
+      };
+
+      var chop = function(text) {
+        if(text.slice(-1) === ",") text = text.slice(0,-1);
+        return text;
+      };
+
+      var exportAFIP = function(recordset) {
+        var text = "";
+        var colCount = recordset.columns.length;
+        var rows = recordset.rows;
+        for(var i = 0, count = rows.length; i<count; i+=1) {
+          for(var j = 0; j<colCount; j+=1) {
+            text += rows[i].values[j];
+          }
+          text +="\n";
+        }
+        return text;
+      };
+
+      var toJSON = function(value) {
+        return toCSV(value);
+      };
+
+      var toCSV = function(value) {
+        if(typeof value === "number") {
+          return value;
+        } else {
+          return '"' + value + '"';
+        }
+      };
+
+      var exportJSON = function(recordset) {
+        var text = "{ \"items\": [";
+        var columns = recordset.columns;
+        var colCount = columns.length;
+        var rows = recordset.rows;
+
+        for(var i = 0, count = rows.length; i<count; i+=1) {
+          text += "{";
+          for(var j = 0; j<colCount; j+=1) {
+            text += '"' + columns[j].name + '": ' + toJSON(rows[i].values[j]) + ",";
+          }
+          text = chop(text) + "},";
+        }
+
+        return chop(text) + "]}";
+      };
+
+      var exportCSV = function(recordset) {
+        var text = "";
+        var columns = recordset.columns;
+        var colCount = columns.length;
+        var rows = recordset.rows;
+
+        for(var j = 0; j<colCount; j+=1) {
+          text += '"' + columns[j].name + '",';
+        }
+        text = chop(text) + "\n";
+
+        for(var i = 0, count = rows.length; i<count; i+=1) {
+          for(var j = 0; j<colCount; j+=1) {
+            text += toCSV(rows[i].values[j]) + ",";
+          }
+          text = chop(text) + "\n";
+        }
+        return text;
+      };
+
+      var exportTable = function(recordset) {
+        var text = "";
+        var columns = recordset.columns;
+        var colCount = columns.length;
+        var rows = recordset.rows;
+
+        for(var j = 0; j<colCount; j+=1) {
+          text += '"' + columns[j].name + '"';
+        }
+        text +="\n";
+
+        for(var i = 0, count = rows.length; i<count; i+=1) {
+          for(var j = 0; j<colCount; j+=1) {
+            text += toCSV(rows[i].values[j]);
+          }
+          text +="\n";
+        }
+        return text;
+      };
+
+      var getExportFileName = function() {
+        return m_name + "_" + m_params
+          .filter(function(p) { return p.getParamType() === RT.date; })
+          .map(function(p) { return p.getValue()}).join("-");
+      };
+
+      self.export = function(type) {
+        return self.refresh().whenSuccessWithResult(function(response) {
+          var recordset = DB.fieldInFields(response.data, "recordset") ? DB.valField(response.data, "recordset") : response.data;
+          var text = "No data";
+          var prefix = "";
+          var fileExt = "";
+          switch (type) {
+            case "afip":
+              text = exportAFIP(recordset);
+              prefix = "AFIP_";
+              fileExt = ".txt";
+              break;
+            case "csv":
+              text = exportCSV(recordset);
+              fileExt = ".csv";
+              break;
+            case "json":
+              text = exportJSON(recordset);
+              fileExt = ".json";
+              break;
+            case "table":
+              text = exportTable(recordset);
+              fileExt = ".txt";
+              break;
+          }
+
+          var data = new Blob([text], {type: 'text/plain'});
+          FileSaver.saveAs(data, prefix + getExportFileName() + fileExt);
+          return response;
+        });
+      };
+
       self.print = function() {
         return print(Cairo.CSReportConnection.ACTIONS.PRINT);
       };
@@ -1032,7 +1156,6 @@
 
       var self = {};
 
-      var getText = Cairo.Language.getText;
       var NO_ID = Cairo.Constants.NO_ID;
 
       var m_dialog;

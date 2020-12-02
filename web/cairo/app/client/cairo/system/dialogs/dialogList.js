@@ -319,25 +319,26 @@
 
         var DB = Cairo.Database;
 
+        var loadGrid = function(response) {
+          /*
+          * m_client.refresh could return an object like
+          *    { columns:[], rows:[] }
+          * or like
+          *    { data_source: "data source name", recordset: { columns:[], rows:[] } }
+          * */
+          var recordset = DB.fieldInFields(response.data, "recordset") ? DB.valField(response.data, "recordset") : response.data;
+          m_view.getListGrid().load(recordset);
+          if(m_bIsParam) {
+            m_view.showGridTab();
+          }
+        };
+
         var refreshClick = function() {
           var p;
           try {
             Cairo.LoadingMessage.show(m_client.getTitle(), "Loading data from CrowSoft Cairo server.");
             refreshAux();
-            p = m_client.refresh().whenSuccessWithResult(function(response) {
-              /*
-              * m_client.refresh could return an object like
-              *    { columns:[], rows:[] }
-              * or like
-              *    { data_source: "data source name", recordset: { columns:[], rows:[] } }
-              * */
-              var recordset = DB.fieldInFields(response.data, "recordset") ? DB.valField(response.data, "recordset") : response.data;
-              m_view.getListGrid().load(recordset);
-              if(m_bIsParam) {
-                m_view.showGridTab();
-              }
-            }).then(Cairo.LoadingMessage.close);
-            return p;
+            p = m_client.refresh().whenSuccessWithResult(loadGrid).then(Cairo.LoadingMessage.close);
           }
           catch (ex) {
             Cairo.manageErrorEx(ex.message, ex, "refreshList", C_MODULE, "");
@@ -357,7 +358,6 @@
             p = m_client.preview().whenSuccessWithResult(function() {
               m_view.showPreviewTab();
             }).then(Cairo.LoadingMessage.close);
-            return;
           }
           catch (ex) {
             Cairo.manageErrorEx(ex.message, ex, "previewClick", C_MODULE, "");
@@ -369,8 +369,17 @@
 
         };
 
-        var exportClick = function() {
-
+        var exportClick = function(type) {
+          var p;
+          try {
+            Cairo.LoadingMessage.show(m_client.getTitle(), "Loading data from CrowSoft Cairo server.");
+            refreshAux();
+            p = m_client.export(type).whenSuccessWithResult(loadGrid).then(Cairo.LoadingMessage.close);
+          }
+          catch (ex) {
+            Cairo.manageErrorEx(ex.message, ex, "refreshList", C_MODULE, "");
+          }
+          return p || Cairo.Promises.resolvedPromise(false);
         };
 
         var emailClick = function() {

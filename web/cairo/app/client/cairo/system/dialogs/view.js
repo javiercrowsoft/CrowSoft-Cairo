@@ -1375,7 +1375,10 @@
         btnGrid: Controls.createButton(),
         btnPDF: Controls.createButton(),
         btnEmail: Controls.createButton(),
-        btnExport: Controls.createButton(),
+        btnExportAFIP: Controls.createButton(),
+        btnExportCSV: Controls.createButton(),
+        btnExportJSON: Controls.createButton(),
+        btnExportTable: Controls.createButton(),
         btnInfo: Controls.createButton(),
         listGrid: Controls.createListGrid(),
         pageImage: Controls.createImage(),
@@ -1410,8 +1413,17 @@
       that.getEmailButton = function() {
         return self.btnEmail;
       };
-      that.getExportButton = function() {
-        return self.btnExport;
+      that.getExportButtonAFIP = function() {
+        return self.btnExportAFIP;
+      };
+      that.getExportButtonCSV = function() {
+        return self.btnExportCSV;
+      };
+      that.getExportButtonJSON = function() {
+        return self.btnExportJSON;
+      };
+      that.getExportButtonTable = function() {
+        return self.btnExportTable;
       };
       that.getInfoButton = function() {
         return self.btnInfo;
@@ -1443,6 +1455,13 @@
 
       var onEmailClick = function() {
         that.raiseEvent("emailClick");
+      };
+
+      var onExportClick = function(type) {
+        return function(event) {
+          event.preventDefault();
+          return that.raiseEvent("exportClick", type);
+        }
       };
 
       var onInfoClick = function() {
@@ -1486,6 +1505,18 @@
 
         self.btnEmail.setElement(view.$('.dialog-email-button'));
         self.btnEmail.getElement().click(onEmailClick);
+
+        self.btnExportAFIP.setElement(view.$('.dialog-export-afip-button'));
+        self.btnExportAFIP.getElement().click(onExportClick("afip"));
+
+        self.btnExportCSV.setElement(view.$('.dialog-export-csv-button'));
+        self.btnExportCSV.getElement().click(onExportClick("csv"));
+
+        self.btnExportJSON.setElement(view.$('.dialog-export-json-button'));
+        self.btnExportJSON.getElement().click(onExportClick("json"));
+
+        self.btnExportTable.setElement(view.$('.dialog-export-table-button'));
+        self.btnExportTable.getElement().click(onExportClick("table"));
 
         self.btnInfo.setElement(view.$('.dialog-info-button'));
         self.btnInfo.getElement().click(onInfoClick);

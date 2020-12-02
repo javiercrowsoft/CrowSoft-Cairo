@@ -469,7 +469,9 @@
 
     sqlDate: function(date) {
       // "yyyy-mm-dd'T'HH:mm:ss'Z'";
-      return Cairo.Util.getDateValue(date).toISOString();
+      date = Cairo.Util.getDateValue(date);
+      date = Cairo.Util.removeTime(date);
+      return date.toISOString();
     },
 
     sqlNumber: function(number) {

@@ -314,6 +314,18 @@
         that.each(printToLog);
       };
 
+      that.filter = function(f) {
+        var coll = Cairo.Collections.createCollection(null);
+        that.each(function(e) { if(f(e)) coll.add(e); });
+        return coll;
+      };
+
+      that.join = function(separator) {
+        var str = "";
+        that.each(function(e) { str += e + separator; });
+        return str.slice(0,-1);
+      };
+
       return that;
     },
 
