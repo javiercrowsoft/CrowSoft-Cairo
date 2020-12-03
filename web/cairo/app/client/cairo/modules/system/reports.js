@@ -744,49 +744,56 @@
       };
 
       var getParam = function(item, index, params) {
-        var p = item.getProperty();
         var paramName = "p" + item.getInfpId();
-        var value = p.getValue();
+        var value;
 
-        switch(item.getParamType()) {
+        if(item.getVisible()) {
 
-          case RT.date:
+          var p = item.getProperty();
+          value = p.getValue();
 
-            var date;
-            if((date = p.getSelectIntValue()) !== "") {
-              value = Cairo.Dates.DateNames.getDateByName(date);
-            }
-            else if(isDate((date = p.getValue()))) {
-              value = date;
-            }
-            else {
-              Cairo.raiseError("Reports", "Date is invalid"); // TODO: use language
-            }
-            value = DB.sqlDate(value);
-            break;
+          switch(item.getParamType()) {
 
-          case RT.select:
+            case RT.date:
 
-            value = p.getSelectIntValue();
-            break;
+              var date;
+              if((date = p.getSelectIntValue()) !== "") {
+                value = Cairo.Dates.DateNames.getDateByName(date);
+              }
+              else if(isDate((date = p.getValue()))) {
+                value = date;
+              }
+              else {
+                Cairo.raiseError("Reports", "Date is invalid"); // TODO: use language
+              }
+              value = DB.sqlDate(value);
+              break;
 
-          case RT.numeric:
+            case RT.select:
 
-            value = val(value);
-            break;
+              value = p.getSelectIntValue();
+              break;
 
-          case RT.check:
+            case RT.numeric:
 
-            value = bToI(value);
-            break;
+              value = val(value);
+              break;
 
-          case RT.sqlstmt:
-          case RT.list:
+            case RT.check:
 
-            // TODO:
-            break;
+              value = bToI(value);
+              break;
+
+            case RT.sqlstmt:
+            case RT.list:
+
+              // TODO:
+              break;
+          }
+
+        } else {
+          value = item.getValue();
         }
-
         params[paramName] = value;
       };
 
@@ -802,18 +809,17 @@
       };
 
       var getReportParam = function(item, index) {
-        var p = item.getProperty();
+        var p;
+        if(item.getVisible()) {
+          p = item.getProperty();
+        } else {
+          p = item;
+        }
         return Cairo.CSReportConnection.createReportParam(p.getName(), p.getValue());
       };
 
       self.preview = function() {
         return print(Cairo.CSReportConnection.ACTIONS.PREVIEW);
-      };
-
-      var simulateClick = function(element) {
-        var e = element.ownerDocument.createEvent('MouseEvents');
-        e.initMouseEvent('click', true, true);
-        element.dispatchEvent(e);
       };
 
       var chop = function(text) {
