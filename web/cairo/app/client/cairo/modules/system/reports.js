@@ -912,7 +912,7 @@
       var getExportFileName = function() {
         return m_name + "_" + m_params
           .filter(function(p) { return p.getParamType() === RT.date; })
-          .map(function(p) { return p.getValue()}).join("-");
+          .map(function(p) { return p.getVisible() === true ? p.getProperty().getValue() : p.getValue(); }).join("-");
       };
 
       self.export = function(type) {

@@ -45,7 +45,7 @@ create or replace function dc_csc_con_0342
 
   in p_cico_id      varchar,
   in p_emp_id       varchar,
-  in p_debug        smallint,
+  in p_debug        integer,
   out rtn refcursor
 )
   returns refcursor as
@@ -271,5 +271,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function dc_csc_con_0342(integer, timestamp with time zone, timestamp with time zone, varchar, varchar, smallint)
+alter function dc_csc_con_0342(integer, timestamp with time zone, timestamp with time zone, varchar, varchar, integer)
   owner to postgres;
