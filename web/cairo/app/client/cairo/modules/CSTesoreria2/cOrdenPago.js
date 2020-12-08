@@ -4433,6 +4433,10 @@
         // TODO: implement it.
       };
 
+      self.getSearchTable = function() {
+        return Cairo.Tables.ORDENES_DE_PAGO;
+      };
+
       return self;
     };
 

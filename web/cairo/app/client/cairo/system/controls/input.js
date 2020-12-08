@@ -133,6 +133,10 @@
 
         self.input = input;
 
+        self.input.click(function() {
+          this.setSelectionRange(0, this.value.length);
+        });
+
         that.setEnabled(that.getEnabled());
       };
 

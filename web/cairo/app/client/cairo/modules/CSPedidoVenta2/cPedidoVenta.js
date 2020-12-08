@@ -4168,6 +4168,10 @@
         }
       };
 
+      self.getSearchTable = function() {
+        return Cairo.Tables.PEDIDOS_DE_VENTA;
+      };
+
       return self;
     };
 

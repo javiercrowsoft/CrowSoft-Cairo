@@ -5481,6 +5481,10 @@
         return P.resolvedPromise(true);
       };
 
+      self.getSearchTable = function() {
+        return Cairo.Tables.FACTURAS_DE_COMPRA;
+      };
+
       return self;
     };
 

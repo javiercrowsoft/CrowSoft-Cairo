@@ -2076,6 +2076,10 @@
         return P.resolvedPromise(true);
       };
 
+      self.getSearchTable = function() {
+        return Cairo.Tables.ASIENTOS_CONTABLES;
+      };
+
       return self;
     };
 

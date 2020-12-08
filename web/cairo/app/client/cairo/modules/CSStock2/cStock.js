@@ -2741,6 +2741,10 @@
         return P.resolvedPromise(true);
       };
 
+      self.getSearchTable = function() {
+        return Cairo.Tables.TRANSFERENCIAS_DE_STOCK;
+      };
+
       return self;
     };
 

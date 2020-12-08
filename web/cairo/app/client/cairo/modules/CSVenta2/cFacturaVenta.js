@@ -6047,6 +6047,10 @@
         }
       };
 
+      self.getSearchTable = function() {
+        return Cairo.Tables.FACTURAS_DE_VENTA;
+      };
+
       return self;
     };
 

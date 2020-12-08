@@ -13,6 +13,8 @@
         var Controls = Cairo.Controls;
         var NO_ID = Cairo.Constants.NO_ID;
 
+        Cairo.Dialogs.Views.INPUT_SEARCH_INDEX = -10001;
+
         var C_MODULE = "DialogList";
 
         var m_client = null;
@@ -467,8 +469,16 @@
           m_client.showDocDigital();
         };
 
+        var searchClick = function() {
+          m_client.edit(m_view.getInputSearch().getId());
+        };
+
         var selectChange = function(index) {
-          changeProperty(Dialogs.PropertyType.select, index, getView().getSelects().item(index));
+          if(index === Cairo.Dialogs.Views.INPUT_SEARCH_INDEX) {
+            m_view.getInputSearch().validate().then(searchClick);
+          } else {
+            changeProperty(Dialogs.PropertyType.select, index, getView().getSelects().item(index));
+          }
         };
 
         var maskEditChange = function(index) {
@@ -518,6 +528,10 @@
           m_view.setPath(m_client.getPath());
           m_view.setName(m_client.getEditorName());
           m_view.getSubTitle().setText(m_client.getTitle());
+
+          if(m_view.getType() === 'ListDoc') {
+            m_view.getInputSearch().setTable(m_client.getSearchTable());
+          }
 
           m_view.getTabs().add();
 

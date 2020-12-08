@@ -1244,9 +1244,6 @@
         self.btnNew.setElement(view.$('.dialog-new-button'));
         self.btnNew.getElement().click(onNewClick);
 
-        self.btnNew.setElement(view.$('.dialog-new-button'));
-        self.btnNew.getElement().click(onNewClick);
-
         self.menuEdit.setElement(view.$('.doc-menu-edit'));
         self.menuEdit.getElement().click(onEditClick);
 
@@ -1289,6 +1286,7 @@
         btnNew: Controls.createButton(),
         btnPrint: Controls.createButton(),
         btnRefresh: Controls.createButton(),
+        inputSearch: Controls.createSelect(),
         listGrid: Controls.createListGrid(),
         saved: false
       };
@@ -1313,6 +1311,9 @@
       that.setSaved = function(saved) {
         self.saved = saved;
       };
+      that.getInputSearch = function() {
+        return self.inputSearch;
+      };
 
       var superBindView = that.bindView;
 
@@ -1333,6 +1334,12 @@
         that.raiseEvent("refreshClick");
       };
 
+      var onSearchSelect = function(control) {
+        return function() {
+          that.raiseEvent("selectChange", control.getIndex());
+        };
+      };
+
       that.bindView = function(view) {
         superBindView(view);
 
@@ -1344,6 +1351,10 @@
 
         self.btnNew.setElement(view.$('.dialog-new-button'));
         self.btnNew.getElement().click(onNewClick);
+
+        self.inputSearch.setIndex(Cairo.Dialogs.Views.INPUT_SEARCH_INDEX);
+        self.inputSearch.setElement(view.$('.dialog-list-doc-search-control'));
+        self.inputSearch.addListener('onSelect', onSearchSelect(self.inputSearch));
 
         self.btnRefresh.setElement(view.$('.dialog-refresh-button'));
         self.btnRefresh.getElement().click(onRefreshClick);

@@ -4649,6 +4649,10 @@
         }
       };
 
+      self.getSearchTable = function() {
+        return Cairo.Tables.COBRANZAS;
+      };
+
       return self;
     };
 

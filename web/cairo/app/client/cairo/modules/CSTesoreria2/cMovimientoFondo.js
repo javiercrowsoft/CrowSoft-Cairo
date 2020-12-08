@@ -4269,6 +4269,10 @@
         }
       };
 
+      self.getSearchTable = function() {
+        return Cairo.Tables.MOVIMIENTOS_DE_FONDO;
+      };
+
       return self;
     };
 

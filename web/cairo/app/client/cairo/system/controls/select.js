@@ -440,8 +440,8 @@
             if(ui.item) {
               this.value = ui.item.value;
               $(this).data("selected-data", ui.item.data);
-              raiseOnSelect( { data: ui.item.data } );
               updateData( { data: ui.item.data } );
+              raiseOnSelect( { data: ui.item.data } );
             }
             else {
               this.value = "";
@@ -600,18 +600,6 @@
         return ctrl;
       };
 
-      var createSearchControl = function(selector, tableId, active, internalFilter) {
-        var ctrl = createControl(
-          selector,
-          getSearchSource(tableId, active, internalFilter),
-          getValidateSource(tableId, active, internalFilter)
-        );
-        ctrl.setTable(tableId);
-        ctrl.setNoUseActive(active === false);
-        ctrl.setFilter(internalFilter);
-        return ctrl;
-      };
-
       var validate = function(tableId, nameOrCode, id, active, internalFilter) {
         var defer = new Cairo.Promises.Defer();
 
@@ -688,7 +676,6 @@
 
       return {
         createSelectControl: createSelectControl,
-        createSearchControl: createSearchControl,
         validate: validate
       };
 
@@ -759,7 +746,7 @@
         }
         select.setData(self.id, self.value);
 
-        var onChange = view.onSelectChange(that);
+        var onChange = view ? view.onSelectChange(that) : function() {};
         select.addListener('onValidate', function(e) {
           self.value = e.data.values[0];
           self.id = e.data.id;
@@ -769,6 +756,10 @@
         self.select = select;
         self.input = input;
         self.button = button;
+
+        self.input.click(function() {
+          this.setSelectionRange(0, this.value.length);
+        });
 
         that.setEnabled(that.getEnabled());
       };
@@ -915,6 +906,14 @@
           element.select();
         }
       };
+
+      that.addListener = function(eventName, functionHandler) {
+        if(self.select === null) {
+          Cairo.raiseError("addListener was called in a select control which is not bound to a DOM element");
+        } else {
+          self.select.addListener(eventName, functionHandler);
+        }
+      }
 
       return that;
     };

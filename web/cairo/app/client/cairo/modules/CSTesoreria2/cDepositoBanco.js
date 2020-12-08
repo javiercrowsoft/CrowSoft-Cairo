@@ -3272,6 +3272,10 @@
         }
       };
 
+      self.getSearchTable = function() {
+        return Cairo.Tables.DEPOSITOS_BANCARIOS;
+      };
+
       return self;
     };
 
