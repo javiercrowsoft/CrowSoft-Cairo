@@ -110,7 +110,7 @@
         self.count += 1;
 
         if(parentCollection !== undefined) {
-          parentCollection.add(value, key, index);
+          parentCollection.add(value, key);
         }
 
         return value;

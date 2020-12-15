@@ -30,7 +30,6 @@
       var getProperty = D.getProperty;
       var getGrid = D.getGrid;
       var getCell = Dialogs.cell;
-      var cellVal = Dialogs.cellVal;
       var cellId = Dialogs.cellId;
       var cellFloat = Dialogs.cellFloat;
       var val = Cairo.Util.val;
@@ -3826,7 +3825,7 @@
 
       var applyDescuentos = function(row) {
 
-        var desc = cellVal(row, KI_DESCUENTO);
+        var desc = cellFloat(row, KI_DESCUENTO);
         var precio = cellFloat(row, KI_PRECIO_USR);
 
         if(desc !== "") {
@@ -3845,7 +3844,7 @@
         applyDescuentos(row);
 
         var neto = cellFloat(row, KI_CANTIDAD) * cellFloat(row, KI_PRECIO);
-        var ivaRi = cellVal(row, KI_IVA_RI);
+        var ivaRi = cellFloat(row, KI_IVA_RI);
 
         var ivaRni = 0;
         if(m_bIvaRni) {
