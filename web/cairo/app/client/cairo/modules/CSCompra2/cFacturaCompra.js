@@ -32,6 +32,7 @@
       var getCell = Dialogs.cell;
       var cellId = Dialogs.cellId;
       var cellFloat = Dialogs.cellFloat;
+      var cellVal = Dialogs.cellVal;
       var val = Cairo.Util.val;
       var M = Cairo.Modal;
       var T = Dialogs.PropertyType;
@@ -3825,7 +3826,7 @@
 
       var applyDescuentos = function(row) {
 
-        var desc = cellFloat(row, KI_DESCUENTO);
+        var desc = cellVal(row, KI_DESCUENTO);
         var precio = cellFloat(row, KI_PRECIO_USR);
 
         if(desc !== "") {
