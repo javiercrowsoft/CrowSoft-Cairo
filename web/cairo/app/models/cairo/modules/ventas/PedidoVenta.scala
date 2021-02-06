@@ -1381,9 +1381,9 @@ object PedidoVenta {
   def delete(user: CompanyUser, id: Int) = {
     DB.withConnection(user.database.database) { implicit connection =>
       try {
-        SQL("sp_doc_pedido_venta_delete {id}, {empId}, {usId}")
+        SQL("select * from sp_doc_pedido_venta_delete({id}, {empId}, {usId})")
           .on('id -> id, 'empId -> user.cairoCompanyId, 'usId -> user.masterUserId)
-          .executeUpdate
+          .execute
       } catch {
         case NonFatal(e) => {
           Logger.error(s"can't delete a ${C.PEDIDO_VENTA}. ${C.PV_ID} id: $id. Error ${e.toString}")

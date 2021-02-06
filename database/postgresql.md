@@ -70,7 +70,7 @@ only run files which starts with numbers.
 run script find_update_since_dyas.sh at root
 
 ```
-   ./find_update_since_dyas.sh 2 sql database/cairo
+   ./find_updated_since_days.sh 2 sql database/cairo
 ```
 
 you will see the list of files to be included

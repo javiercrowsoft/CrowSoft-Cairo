@@ -2177,9 +2177,9 @@ object FacturaCompra {
   def delete(user: CompanyUser, id: Int) = {
     DB.withConnection(user.database.database) { implicit connection =>
       try {
-        SQL("sp_doc_factura_compra_delete {id}, {empId}, {usId}")
+        SQL("select * from sp_doc_factura_compra_delete({id}, {empId}, {usId})")
           .on('id -> id, 'empId -> user.cairoCompanyId, 'usId -> user.masterUserId)
-          .executeUpdate
+          .execute
       } catch {
         case NonFatal(e) => {
           Logger.error(s"can't delete a ${C.FACTURA_COMPRA}. ${C.FC_ID} id: $id. Error ${e.toString}")

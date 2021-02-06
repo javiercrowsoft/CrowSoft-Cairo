@@ -2996,9 +2996,9 @@ object Producto {
   def delete(user: CompanyUser, id: Int) = {
     DB.withConnection(user.database.database) { implicit connection =>
       try {
-        SQL("sp_producto_delete {id}")
+        SQL("select * from sp_producto_delete({id})")
           .on('id -> id)
-          .executeUpdate
+          .execute
       } catch {
         case NonFatal(e) => {
           Logger.error(s"can't delete a ${C.PRODUCTO}. ${C.PR_ID} id: $id. Error ${e.toString}")

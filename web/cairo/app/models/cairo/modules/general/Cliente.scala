@@ -1514,9 +1514,9 @@ object Cliente {
   def delete(user: CompanyUser, id: Int) = {
     DB.withConnection(user.database.database) { implicit connection =>
       try {
-        SQL("sp_cliente_delete {id}")
+        SQL("select * from sp_cliente_delete({id})")
           .on('id -> id)
-          .executeUpdate
+          .execute
       } catch {
         case NonFatal(e) => {
           Logger.error(s"can't delete a ${C.CLIENTE}. ${C.CLI_ID} id: $id. Error ${e.toString}")

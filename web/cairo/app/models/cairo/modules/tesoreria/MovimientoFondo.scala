@@ -1547,9 +1547,9 @@ object MovimientoFondo {
   def delete(user: CompanyUser, id: Int) = {
     DB.withConnection(user.database.database) { implicit connection =>
       try {
-        SQL("sp_doc_movimiento_fondo_delete {id}, {empId}, {usId}")
+        SQL("select * from sp_doc_movimiento_fondo_delete({id}, {empId}, {usId})")
           .on('id -> id, 'empId -> user.cairoCompanyId, 'usId -> user.masterUserId)
-          .executeUpdate
+          .execute
       } catch {
         case NonFatal(e) => {
           Logger.error(s"can't delete a ${C.MOVIMIENTO_FONDO}. ${C.MF_ID} id: $id. Error ${e.toString}")

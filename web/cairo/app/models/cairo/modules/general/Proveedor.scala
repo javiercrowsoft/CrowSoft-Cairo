@@ -1138,21 +1138,16 @@ object Proveedor {
   }
 
   def delete(user: CompanyUser, id: Int) = {
-    DB.withTransaction(user.database.database) { implicit connection =>
-      val sql = "select * from sp_proveedor_delete(?)"
-      val cs = connection.prepareStatement(sql)
-
-      cs.setInt(1, id)
-
+    DB.withConnection(user.database.database) { implicit connection =>
       try {
-        cs.executeQuery()
+        SQL("select * from sp_proveedor_delete({id})")
+          .on('id -> id)
+          .execute
       } catch {
         case NonFatal(e) => {
           Logger.error(s"can't delete a ${C.PROVEEDOR}. ${C.PROV_ID} id: $id. Error ${e.toString}")
           throw e
         }
-      } finally {
-        cs.close
       }
     }
   }

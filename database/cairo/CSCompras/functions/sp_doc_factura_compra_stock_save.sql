@@ -58,21 +58,17 @@ declare
    v_doct_id_factura integer;
    v_doc_id_factura integer;
 
-   v_fc_fecha timestamp with time zone;
    v_suc_id integer;
    v_ta_id integer;
    v_prov_id integer;
 
    v_sti_id integer;
    v_sti_orden smallint;
-   v_sti_ingreso decimal(18,6);
-   v_sti_salida decimal(18,6);
 
    v_depl_id_destino integer;
    v_depl_id_origen integer;
    v_depl_id_tercero integer;
 
-   v_fci_orden smallint;
    v_fci_cantidad decimal(18,6);
    v_fci_id integer;
    v_fci_descrip varchar(255);
@@ -90,11 +86,9 @@ declare
    v_stl_codigo varchar(50);
    v_stl_fecha timestamp with time zone;
 
-   v_creado timestamp with time zone;
    v_modificado timestamp with time zone;
    v_modifico integer;
 
-   v_error smallint;
    v_success smallint;
    v_message varchar(255);
 

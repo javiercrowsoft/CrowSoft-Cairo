@@ -989,9 +989,9 @@ object Documento {
   def delete(user: CompanyUser, id: Int) = {
     DB.withConnection(user.database.database) { implicit connection =>
       try {
-        SQL("sp_documento_delete {id}")
+        SQL("select * from sp_documento_delete({id})")
           .on('id -> id)
-          .executeUpdate
+          .execute
       } catch {
         case NonFatal(e) => {
           Logger.error(s"can't delete a ${C.DOCUMENTO}. ${C.DOC_ID} id: $id. Error ${e.toString}")

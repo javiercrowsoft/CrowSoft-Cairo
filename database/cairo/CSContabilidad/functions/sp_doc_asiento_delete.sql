@@ -32,8 +32,7 @@ javier at crowsoft.com.ar
 
 -- drop function sp_doc_asiento_delete(integer, integer, integer, integer);
 
-create or replace
-function sp_doc_asiento_delete
+create or replace function sp_doc_asiento_delete
 (
   in p_as_id integer,
   in p_emp_id integer,

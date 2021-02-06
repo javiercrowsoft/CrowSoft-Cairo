@@ -390,12 +390,13 @@ begin
 
       insert into tt_t_hoja
         ( hoja_id, ram_id, ram_estado )
-        ( select id,
-                 min(ram_id),
+        ( select hoja.id,
+                 min(hoja.ram_id),
                  1
-          from Hoja
-          where arb_id = p_arb_id
-          group by id );
+          from hoja inner join rama ram on hoja.ram_id = ram.ram_id
+          where hoja.arb_id = p_arb_id and ram.ram_id <> ram.ram_id_padre
+          group by hoja.id
+         );
 
    end if;
 

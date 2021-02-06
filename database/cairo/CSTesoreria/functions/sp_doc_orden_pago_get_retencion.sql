@@ -391,7 +391,7 @@ begin
          v_opg_total := v_aplicado + v_anticipo - v_percepcion;
          v_opg_total := coalesce(v_opg_total, 0);
 
-          raise notice 'v_anticitpo %, v_opg_total %', v_anticipo, v_opg_total;
+         -- raise notice 'v_anticitpo %, v_opg_total %', v_anticipo, v_opg_total;
 
       end if;
 
