@@ -1226,6 +1226,26 @@
         that.raiseEvent("historyClick");
       };
 
+      var onMoveFirstClick = function(e) {
+        e.preventDefault();
+        that.raiseEvent("moveFirstClick");
+      };
+
+      var onMovePreviousClick = function(e) {
+        e.preventDefault();
+        that.raiseEvent("movePreviousClick");
+      };
+
+      var onMoveNextClick = function(e) {
+        e.preventDefault();
+        that.raiseEvent("moveNextClick");
+      };
+
+      var onMoveLastClick = function(e) {
+        e.preventDefault();
+        that.raiseEvent("moveLastClick");
+      };
+
       that.bindView = function(view) {
         superBindView(view);
 
@@ -1269,6 +1289,15 @@
         self.menuHistory.getElement().click(onHistoryClick);
 
         self.contextMenu.setElement(view.$('#doc-context-menu'));
+
+        self.btnCopy.setElement(view.$('.dialog-move-first-button'));
+        self.btnCopy.getElement().click(onMoveFirstClick);
+        self.btnCopy.setElement(view.$('.dialog-move-previous-button'));
+        self.btnCopy.getElement().click(onMovePreviousClick);
+        self.btnCopy.setElement(view.$('.dialog-move-next-button'));
+        self.btnCopy.getElement().click(onMoveNextClick);
+        self.btnCopy.setElement(view.$('.dialog-move-last-button'));
+        self.btnCopy.getElement().click(onMoveLastClick);
 
       };
 

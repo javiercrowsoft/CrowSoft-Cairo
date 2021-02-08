@@ -162,9 +162,9 @@ object Documents extends Controller with ProvidesUser {
     })
   }
 
-  def move(doctId: Int, compId: Int, where: Int) = GetAction { implicit request =>
+  def move(doctId: Int, docId: Int, compId: Int, where: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, { user =>
-      val moveInfo = Document.move(user, doctId, compId, where)
+      val moveInfo = Document.move(user, doctId, docId, compId, where)
       Ok(
         Json.toJson(
           Json.obj(

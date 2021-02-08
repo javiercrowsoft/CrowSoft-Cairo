@@ -1,4 +1,4 @@
-/*
+﻿/*
 CrowSoft-Cairo
 ==============
 
@@ -30,11 +30,12 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_doc_factura_compra_move()
 
--- drop function sp_doc_factura_compra_move(integer, integer, integer);
+-- drop function sp_doc_factura_compra_move(integer, integer, integer, integer);
 
 create or replace function sp_doc_factura_compra_move
 (
  in p_doct_id integer,
+ in p_doc_id integer,
  in p_comp_id integer,
  in p_moveTo integer,
  out p_comp_id_to_move integer
@@ -53,20 +54,20 @@ begin
 
    if p_moveTo = v_MSG_DOC_FIRST then
       select fc_id into p_comp_id_to_move from FacturaCompra
-      where fc_numero = ( select min(fc_numero) from FacturaCompra where doc_id = p_DocId );
+      where fc_numero = ( select min(fc_numero) from FacturaCompra where doc_id = p_doc_id );
    else
       if p_moveTo = v_MSG_DOC_LAST then
-         select fc_id from FacturaCompra
-         where fc_numero = ( select max(fc_numero) from FacturaCompra where doc_id = p_DocId );
+         select fc_id into p_comp_id_to_move from FacturaCompra
+         where fc_numero = ( select max(fc_numero) from FacturaCompra where doc_id = p_doc_id );
       else
          select fc_numero into v_currNro from FacturaCompra where fc_id = p_comp_id;
          --
          -- when a document is deleted the current number is no more available, so we need to get the next or previous one
          --
          if v_currNro is null then
-            select min(fc_id) into v_fc_id from FacturaCompra where fc_id > p_comp_id and doct_id = p_doct_id;
+            select min(fc_id) into v_fc_id from FacturaCompra where fc_id > p_comp_id and doc_id = p_doc_id;
             if v_fc_id is null then
-               select max(fc_id) into v_fc_id from FacturaCompra where fc_id < p_comp_id and doct_id = p_doct_id;
+               select max(fc_id) into v_fc_id from FacturaCompra where fc_id < p_comp_id and doc_id = p_doc_id;
             end if;
 
             if v_fc_id is null then
@@ -78,12 +79,12 @@ begin
          end if;
 
          if p_moveTo = v_MSG_DOC_PREVIOUS then
-             select fc_id from FacturaCompra
-             where fc_numero = ( select max(fc_numero) from FacturaCompra where doc_id = p_DocId and fc_numero < v_currNro );
+             select fc_id into p_comp_id_to_move from FacturaCompra
+             where fc_numero = ( select max(fc_numero) from FacturaCompra where doc_id = p_doc_id and fc_numero < v_currNro );
          else
             if p_moveTo = v_MSG_DOC_NEXT then
-               select fc_id from FacturaCompra
-               where fc_numero = ( select min(fc_numero) from FacturaCompra where doc_id = p_DocId and fc_numero > v_currNro );
+               select fc_id into p_comp_id_to_move from FacturaCompra
+               where fc_numero = ( select min(fc_numero) from FacturaCompra where doc_id = p_doc_id and fc_numero > v_currNro );
            end if;
         end if;
       end if;
@@ -95,5 +96,5 @@ end;
 $BODY$
  language plpgsql volatile
                   cost 100;
-alter function sp_doc_factura_compra_move(integer, integer, integer)
+alter function sp_doc_factura_compra_move(integer, integer, integer, integer)
  owner to postgres;

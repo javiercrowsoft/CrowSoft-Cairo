@@ -559,6 +559,11 @@
             alarmsClick:                docToolbarClick(Dialogs.Constants.toolbarKeyDocAlert),
             historyClick:               docToolbarClick(Dialogs.Constants.toolbarKeyHistory),
 
+            moveFirstClick:             docToolbarClick(Dialogs.Constants.toolbarKeyFirst),
+            movePreviousClick:          docToolbarClick(Dialogs.Constants.toolbarKeyPrevious),
+            moveNextClick:              docToolbarClick(Dialogs.Constants.toolbarKeyNext),
+            moveLastClick:              docToolbarClick(Dialogs.Constants.toolbarKeyLast),
+
             selectKeyDown:              docHandlerSelectKeyDown,
 
             tabClick:                   docHandlerTabClick,

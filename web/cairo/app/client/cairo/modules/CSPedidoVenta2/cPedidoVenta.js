@@ -2853,7 +2853,7 @@
               .whenSuccess(refreshProperties);
           }
         };
-        return D.move(m.docId, moveTo)
+        return D.move(m.doctId, m.docId, m.id, moveTo)
           .whenSuccessWithResult(completeMove);
       };
 

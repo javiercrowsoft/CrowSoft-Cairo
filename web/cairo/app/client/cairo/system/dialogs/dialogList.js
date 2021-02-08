@@ -440,7 +440,21 @@
         };
 
         var deleteClick = function(event, args) {
-          return m_client.deleteItem(args.id);
+          askDelete("Confirm you want to delete this document ?").then(
+            function(answer) {
+              if(answer) {
+                return m_client.deleteItem(args.id);
+              }
+              return false;
+            }
+          );
+        };
+
+        var askDelete = function() {
+          return Cairo.Modal.confirmCancelViewYesDanger(
+            "Delete",
+            "Confirm you want to delete this item ?"
+          );
         };
 
         var printClick = function() {

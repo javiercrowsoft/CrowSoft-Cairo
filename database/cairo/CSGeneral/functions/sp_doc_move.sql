@@ -1,4 +1,4 @@
-/*
+﻿/*
 CrowSoft-Cairo
 ==============
 
@@ -30,13 +30,14 @@ javier at crowsoft.com.ar
 */
 -- Function: sp_doc_move()
 
--- drop function sp_doc_move(integer, integer, integer);
+-- drop function sp_doc_move(integer, integer, integer, integer, integer, integer);
 
 create or replace function sp_doc_move
 (
  in p_emp_id integer,
  in p_us_id integer,
  in p_doct_id integer,
+ in p_doc_id integer,
  in p_comp_id integer,
  in p_moveTo integer,
  out p_comp_id_to_move integer
@@ -50,7 +51,7 @@ begin
 
  if p_doct_id in (2,8,10) then
 
-  select * from sp_doc_factura_compra_move(p_doct_id, p_comp_id, p_moveTo) into p_comp_id_to_move;
+  select * from sp_doc_factura_compra_move(p_doct_id, p_doc_id, p_comp_id, p_moveTo) into p_comp_id_to_move;
 
  end if;
 
@@ -58,5 +59,5 @@ end;
 $BODY$
  language plpgsql volatile
                   cost 100;
-alter function sp_doc_move(integer, integer, integer, integer, integer)
+alter function sp_doc_move(integer, integer, integer, integer, integer, integer)
  owner to postgres;

@@ -150,22 +150,32 @@
           var q = new Cairo.Entities.DatabaseQuery({id: id});
           q.urlRoot = path;
           var defer = new Cairo.Promises.Defer();
+          var manageError = function(data, response) {
+            var responseText = response.responseText ? response.responseText : response.errors.message;
+            var message = response.errors ?
+              "Can't delete this record.<br><br>Server response:<br><br>" + response.errors.message
+              : "Can't delete this record. An error has occurred in the server.";
+            Cairo.log("Failed in destroy: " + module + "." + functionName + ".");
+            Cairo.log(response.responseText);
+            Cairo.manageError(
+              "Deleting",
+              message,
+              responseText).then(function() {
+              defer.resolve({success: false, data: data, response: response});
+            });
+          };
           q.destroy({
             wait: true,
-            success: function(data) {
-              Cairo.log("Successfully deleted!");
-              defer.resolve({success: true});
+            success: function(data, response) {
+              if(response.errors) {
+                manageError(data, response);
+              }
+              else {
+                Cairo.log("Successfully deleted!");
+                defer.resolve({success: true});
+              }
             },
-            error: function(data, response) {
-              Cairo.log("Failed in destroy: " + module + "." + functionName + ".");
-              Cairo.log(response.responseText);
-              Cairo.manageError(
-                "Deleting",
-                "Can't delete this record. An error has occurred in the server.",
-                response.responseText).then(function() {
-                  defer.resolve({success: false, data: data, response: response});
-                });
-            }
+            error: manageError
           });
           p = defer.promise;
         }
