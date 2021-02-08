@@ -440,7 +440,7 @@
         };
 
         var deleteClick = function(event, args) {
-          askDelete("Confirm you want to delete this document ?").then(
+          return askDelete("Confirm you want to delete this document ?").then(
             function(answer) {
               if(answer) {
                 return m_client.deleteItem(args.id);
