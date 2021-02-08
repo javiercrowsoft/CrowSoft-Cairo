@@ -3238,7 +3238,7 @@
                   showMsg("Deleting document ...");
                   askDelete("Confirm you want to delete this document ?").then(
                     function(answer) {
-                      if(answer) {
+                      if(answer === "yes") {
                         m_client.messageEx(Dialogs.Message.MSG_DOC_DELETE, null).then(
                           function(success) {
                             if(success) {

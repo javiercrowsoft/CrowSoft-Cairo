@@ -442,7 +442,7 @@
         var deleteClick = function(event, args) {
           return askDelete("Confirm you want to delete this document ?").then(
             function(answer) {
-              if(answer) {
+              if(answer === "yes") {
                 return m_client.deleteItem(args.id);
               }
               return false;
@@ -451,7 +451,7 @@
         };
 
         var askDelete = function() {
-          return Cairo.Modal.confirmCancelViewYesDanger(
+          return Cairo.Modal.confirmViewYesDanger(
             "Delete",
             "Confirm you want to delete this item ?"
           );
