@@ -161,4 +161,16 @@ object Documents extends Controller with ProvidesUser {
             Document.reports(user, id, forMail))))
     })
   }
+
+  def move(doctId: Int, compId: Int, where: Int) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, { user =>
+      val moveInfo = Document.move(user, doctId, compId, where)
+      Ok(
+        Json.toJson(
+          Json.obj(
+            "id" -> Json.toJson(moveInfo.id)
+          )))
+    })
+  }
+
 }

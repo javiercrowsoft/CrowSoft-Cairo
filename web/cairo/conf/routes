@@ -370,6 +370,7 @@ GET     /api/v1/documento/:id/supplier/:provId/account                          
 GET     /api/v1/documento/:id/customer/:cliId/next_number                                    controllers.logged.modules.documentos.Documents.customerNextNumber(id: Int, cliId: Int)
 GET     /api/v1/documento/:id/customer/:cliId/account                                        controllers.logged.modules.documentos.Documents.customerAccount(id: Int, cliId: Int)
 GET     /api/v1/documento/:id/reports/:forMail                                               controllers.logged.modules.documentos.Documents.reports(id: Int, forMail: Boolean)
+GET     /api/v1/documento/:doctId/:compId/move/:where                                        controllers.logged.modules.documentos.Documents.move(doctId: Int, compId: Int, where: Int)
 
 GET     /api/v1/documento/from_doct_id/:doctId/:doctIdApplic/:id/:idEx                       controllers.logged.modules.documentos.Documents.fromDoctId(doctId: Int, doctIdApplic: Int, id: Int, idEx: Int)
 

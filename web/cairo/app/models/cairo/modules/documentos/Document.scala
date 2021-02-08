@@ -39,6 +39,7 @@ case class TransInfo(
                       isAuto: Boolean)
 case class DocumentInfo(monId: Int, doctId: Int, docTipoFactura: Int, mueveStock: Boolean)
 case class DocInfo(id: Int, name: String, monId: Int)
+case class MoveInfo(id: Int)
 case class DocumentNumberInfo(number: Int, mask: String, enabled: Boolean)
 case class AccountInfo(cueId: Int, monId: Int)
 case class DateInfo(isValid: Boolean, range: String)
@@ -397,6 +398,36 @@ object Document {
         throw e
       }
     } finally res.close
+  }
+
+  def move(user: CompanyUser, doctId: Int, compId: Int, where: Int): MoveInfo = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_doc_move(?, ?, ?, ?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, user.cairoCompanyId)
+      cs.setInt(2, user.masterUserId)
+      cs.setInt(3, doctId)
+      cs.setInt(4, compId)
+      cs.setInt(5, where)
+      cs.registerOutParameter(6, Types.INTEGER)
+
+      try {
+        cs.execute()
+
+        MoveInfo(cs.getInt(6))
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get the moveInfo for document type with doctId $doctId, id $compId for user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
   }
 
 }

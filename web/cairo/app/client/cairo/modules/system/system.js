@@ -905,8 +905,9 @@
     });
   };
 
-  Cairo.Documents.move = function(docId, moveTo) {
-    var p = DB.getData("load[" + m_apiPath + "documento/" + docId.toString() + "/move]", moveTo);
+  Cairo.Documents.move = function(doctId, compId, moveTo) {
+    var p = DB.getData("load[" + m_apiPath + "documento/"
+      + doctId.toString() + "/" + compId.toString() + "/move]", moveTo);
 
     return p.then(function(response) {
 
