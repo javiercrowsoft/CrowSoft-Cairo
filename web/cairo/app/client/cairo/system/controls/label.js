@@ -8,7 +8,8 @@
     var createLabel = function() {
       var self = {
         text: "",
-        labelFor: ""
+        labelFor: "",
+        fixHeight: false
       };
 
       var that = Controls.createControl();
@@ -44,6 +45,13 @@
         return self.labelFor;
       };
 
+      that.setFixHeight = function(value) {
+        self.fixHeight = value;
+      };
+      that.getFixHeight = function() {
+        return self.fixHeight;
+      };
+
       var superSetVisible = that.setVisible;
 
       that.setVisible = function(visible) {
@@ -52,8 +60,15 @@
       };
 
       var applyVisible = function() {
-        if(that.getElement() && that.getVisible()) {
-          that.getElement().css('display', 'block');
+        if(that.getElement()) {
+          if(that.getVisible()) {
+            that.getElement().css('display', 'block');
+          }
+          else if(that.getFixHeight()) { // hack to get the div respect the height
+            that.getElement().css('display', 'block');
+            that.getElement().text(".");
+            that.getElement().css('color', 'white');
+          }
         }
       };
 

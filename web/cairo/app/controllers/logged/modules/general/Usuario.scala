@@ -7,11 +7,12 @@ import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
 import actions._
+import controllers.logged.modules.compras.FacturaCompras.Ok
 import play.api.Logger
 import play.api.libs.json._
 import models.cairo.modules.general._
 import models.cairo.system.security.CairoSecurity
-import models.cairo.system.database.DBHelper
+import models.cairo.system.database.{DBHelper, Recordset}
 
 
 case class UsuarioCliProvData(
@@ -367,6 +368,22 @@ object Usuarios extends Controller with ProvidesUser {
       // Backbonejs requires at least an empty json object in the response
       // if not it will call errorHandler even when we responded with 200 OK :P
       Ok(JsonUtil.emptyJson)
+    })
+  }
+
+  def getPermissions(id: Int,
+                     onlyGranted: Option[Boolean],
+                     onlyDirect: Option[Boolean],
+                     onlyInherited: Option[Boolean],
+                     filter: Option[String]) = GetAction { implicit request =>
+    LoggedIntoCompanyResponse.getAction(request, { user =>
+      val requestedUser = Usuario.get(user, id)
+      Ok(Json.obj(
+          C.US_ID -> requestedUser.id,
+          C.US_NAME -> requestedUser.name,
+          "permissions" -> Recordset.getAsJson(Usuario.getPermissions(user, id, onlyGranted, onlyDirect, onlyInherited, filter)),
+          "roles" -> Recordset.getAsJson(Usuario.getRoles(user, id))
+        ))
     })
   }
 

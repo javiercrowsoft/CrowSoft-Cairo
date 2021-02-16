@@ -5007,6 +5007,7 @@
             label.setTag(c.getTag());
             if(property.getType() === Dialogs.PropertyType.button) {
               label.setVisible(false);
+              label.setFixHeight(true);
             }
 
             // hide labels for grids, buttons and images
@@ -6198,7 +6199,7 @@
         };
 
         var askDelete = function(msg) {
-          return Cairo.Modal.confirmCancelViewYesDanger(
+          return Cairo.Modal.confirmViewYesDanger(
             "Delete",
             msg
           );

@@ -113,6 +113,7 @@ GET     /api/v1/general/usuario/:id                                             
 POST    /api/v1/general/usuario                                                              controllers.logged.modules.general.Usuarios.create
 PUT     /api/v1/general/usuario/:id                                                          controllers.logged.modules.general.Usuarios.update(id: Int)
 DELETE  /api/v1/general/usuario/:id                                                          controllers.logged.modules.general.Usuarios.delete(id: Int)
+GET     /api/v1/general/usuario/:id/permissions                                              controllers.logged.modules.general.Usuarios.getPermissions(id: Int, onlyGranted: Option[Boolean], onlyDirect: Option[Boolean], onlyInherited: Option[Boolean], filter: Option[String])
 
 GET     /api/v1/general/provincia/:id                                                        controllers.logged.modules.general.Provincias.get(id: Int)
 POST    /api/v1/general/provincia                                                            controllers.logged.modules.general.Provincias.create

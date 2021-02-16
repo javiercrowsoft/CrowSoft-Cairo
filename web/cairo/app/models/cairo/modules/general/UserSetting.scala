@@ -150,6 +150,7 @@ object UserSetting {
     // purchase documents
     //
     val DOC_PC = "Documento de Pedido"
+    val DOC_PREC = "Documento de Presupuesto"
     val DOC_OC = "Documento de Orden de Compra"
     val DOC_COT = "Documento de Cotizacion"
     val DOC_RC = "Documento de Remito"
@@ -274,6 +275,7 @@ object UserSetting {
     val keyNoAskInPrint = ck(NO_ASK_IN_PRINT, SALES)
     */
     val KEY_DOC_PC = ck(DOC_PC, PURCHASES)
+    val KEY_DOC_PREC = ck(DOC_PREC, PURCHASES)
     val KEY_DOC_COT = ck(DOC_COT, PURCHASES)
     val KEY_DOC_OC = ck(DOC_OC, PURCHASES)
     val KEY_DOC_RC = ck(DOC_RC, PURCHASES)
@@ -356,6 +358,10 @@ object UserSetting {
         case KEY_DOC_PC => {
           val doc_id_pc = getId(value)
           getSelect(doc_id_pc, KEY_DOC_PC)
+        }
+        case KEY_DOC_PREC => {
+          val doc_id_pc = getId(value)
+          getSelect(doc_id_pc, KEY_DOC_PREC)
         }
         case KEY_DOC_COT => {
           val doc_id_cot = getId(value)

@@ -28,6 +28,7 @@ Cairo.TesoreriaConfig = {};
 Cairo.SearchZona = {};
 
 Cairo.Usuario = {};
+Cairo.UsuarioPermiso = {};
 Cairo.Producto = {};
 Cairo.Proveedor = {};
 Cairo.Cliente = {};

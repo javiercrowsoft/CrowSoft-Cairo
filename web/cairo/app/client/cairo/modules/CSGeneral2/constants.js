@@ -76,7 +76,12 @@
       PRE_ID: "pre_id",
       PRE_NAME: "pre_nombre",
       PRE_GRUPO: "pre_grupo",
-      
+      PRE_GRUPO1: "pre_grupo1",
+      PRE_GRUPO2: "pre_grupo2",
+      PRE_GRUPO3: "pre_grupo3",
+      PRE_GRUPO4: "pre_grupo4",
+      PRE_GRUPO5: "pre_grupo5",
+
       // ListaDocumentoParametro
       LISTA_DOCUMENTO_PARAMETRO: "ListaDocumentoParametro",
       LDP_ID: "ldp_id",
@@ -128,6 +133,7 @@
       PERMISO: "Permiso",
       PER_ID: "per_id",
       PER_ID_PADRE: "per_id_padre",
+      PER_ROL: "rol",
       
       // Estado
       ESTADO: "Estado",
@@ -1642,10 +1648,19 @@
 
   Cairo.Security.Actions.General = {
 
+    NEW_PERMISO: 8,
+    DELETE_PERMISO: 9,
+    LIST_PERMISO: 18,
+
     LIST_USUARIO: 10,
     NEW_USUARIO: 11,
     EDIT_USUARIO: 12,
     DELETE_USUARIO: 13,
+
+    LIST_ROL: 14,
+    NEW_ROL: 15,
+    EDIT_ROL: 16,
+    DELETE_ROL: 17,
 
     NEW_DEPOSITO_LOGICO: 1016,
     EDIT_DEPOSITO_LOGICO: 1017,

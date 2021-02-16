@@ -1,17 +1,19 @@
 package models.cairo.modules.general
 
-import java.sql.{Connection, CallableStatement, ResultSet, Types, SQLException}
+import java.sql.{CallableStatement, Connection, ResultSet, SQLException, Types}
 import anorm.SqlParser._
 import anorm._
-import services.{PasswordHash, DateUtil}
+import services.{DateUtil, PasswordHash}
 import services.db.DB
-import models.cairo.system.database.{DBHelper, Register, Field, FieldType, SaveResult}
+import models.cairo.system.database.{DBHelper, Field, FieldType, Recordset, Register, SaveResult}
 import play.api.Play.current
-import models.domain.{ CompanyUser, Company }
+import models.domain.{Company, CompanyUser}
 import models.master.User
+
 import java.util.Date
 import play.api.Logger
 import play.api.libs.json._
+
 import scala.util.control.NonFatal
 
 case class UsuarioCliProv(
@@ -748,4 +750,65 @@ object Usuario {
       loadUsuarioItems(user, id)
     )
   }
+
+  def getPermissions(user: CompanyUser, id: Int,
+                     onlyGranted: Option[Boolean],
+                     onlyDirect: Option[Boolean],
+                     onlyInherited: Option[Boolean],
+                     filter: Option[String]): Recordset = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_user_get_permissions(?, ?, ?, ?, ?, ?, ?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, user.cairoCompanyId)
+      cs.setInt(2, id)
+      cs.setInt(3, if(onlyGranted.getOrElse(false)) 1 else 0)
+      cs.setInt(4, if(onlyDirect.getOrElse(false)) 1 else 0)
+      cs.setInt(5, if(onlyInherited.getOrElse(false)) 1 else 0)
+      cs.setString(6, filter.getOrElse(""))
+      cs.registerOutParameter(7, Types.OTHER)
+
+      try {
+        cs.execute()
+
+        val rs = cs.getObject(7).asInstanceOf[java.sql.ResultSet]
+        Recordset.load(rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get permissions for user id $id and current user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
+  def getRoles(user: CompanyUser, id: Int): Recordset = {
+
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "select r.rol_id, rol_nombre, case when u.us_id is not null then 1 else 0 end as granted from Rol r left join UsuarioRol u on r.rol_id = u.rol_id where u.us_id = ?"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, id)
+
+      try {
+        val rs = cs.executeQuery()
+        Recordset.load(rs)
+
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get roles for user id $id and current user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
 }
