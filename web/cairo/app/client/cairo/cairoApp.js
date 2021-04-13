@@ -1601,12 +1601,18 @@
       }
     };
 
-    var show = function(title_, message_) {
+    var show = function(title_, message_, timeout) {
+      timeout = timeout !== undefined ? timeout : 300;
       if(!view) {
         workDone = false;
         message = message_ || message;
         title = title_ || title;
-        setTimeout(showMessage, 300);
+        if(timeout === 0) {
+          showMessage();
+        }
+        else {
+          setTimeout(showMessage, 300);
+        }
       }
     };
 
@@ -1614,10 +1620,15 @@
       show("processing", "please wait");
     };
 
+    var showNow = function(title, message) {
+      show(title, message, 0);
+    }
+
     return {
       close: close,
       show: show,
-      showWait: showWait
+      showWait: showWait,
+      showNow: showNow
     };
 
   }());

@@ -42,7 +42,6 @@
       };
 
       that.loadFromRows = function(gridControl, grid, noChangeColumns, name) {
-
         //
         // during this function the grid's DOM shouldn't be modified
         //

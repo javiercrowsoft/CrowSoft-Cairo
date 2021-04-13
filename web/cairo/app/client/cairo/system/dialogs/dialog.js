@@ -1293,6 +1293,7 @@
               self.showValueEx(properties.get(_i), true, "");
             }
           }
+          return P.resolvedPromise(true);
         };
 
         // it is the fastest way to refresh a grid
@@ -2484,7 +2485,8 @@
           if(m_isDocument) {
             strTag = getTag(property);
           }
-          self.showValueEx(property, noChangeColumns, strTag);
+          var rslt = self.showValueEx(property, noChangeColumns, strTag);
+          return P.resolvedPromise(rslt);
         };
 
         var getTag = function(property) {

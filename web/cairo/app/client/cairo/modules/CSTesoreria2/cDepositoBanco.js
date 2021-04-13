@@ -2251,7 +2251,7 @@
                 break;
 
               case KI_IMPORTE:
-                origen = cell.getValue();
+                origen = val(cell.getValue());
                 break;
             }
           }
@@ -2324,7 +2324,7 @@
                 break;
 
               case KI_IMPORTE:
-                origen = cell.getValue();
+                origen = val(cell.getValue());
                 break;
             }
           }

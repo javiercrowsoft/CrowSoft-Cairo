@@ -134,6 +134,7 @@
       PER_ID: "per_id",
       PER_ID_PADRE: "per_id_padre",
       PER_ROL: "rol",
+      GRANTED: "granted",
       
       // Estado
       ESTADO: "Estado",

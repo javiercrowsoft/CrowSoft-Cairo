@@ -53,7 +53,7 @@ declare
 begin
 
    if p_filter != '' then
-      p_filter := '%' || lower(f_unaccent(p_filter)) || '%';
+      p_filter := '%' || lower(f_unaccent(replace(p_filter, ' ','%'))) || '%';
    end if;
 
    rtn := 'rtn';
@@ -74,8 +74,7 @@ begin
    join Prestacion on Permiso.pre_id = Prestacion.pre_id
    where Permiso.us_id = p_us_id_usuario
      and p_only_inherited = 0
-     and (p_filter = '' or lower(f_unaccent(pre_nombre)) like p_filter)
-
+     and (p_filter = '' or lower(f_unaccent(pre_grupo || ' ' || pre_grupo1 || ' ' || pre_grupo2 || ' ' || pre_grupo3 || ' ' || pre_grupo4 || ' ' || pre_grupo5 || ' ' || pre_nombre)) like p_filter)
    union ALL
 
    select
@@ -95,7 +94,7 @@ begin
    join UsuarioRol on Rol.rol_id = UsuarioRol.rol_id
    where UsuarioRol.us_id = p_us_id_usuario
      and p_only_direct = 0
-     and (p_filter = '' or lower(f_unaccent(pre_nombre)) like p_filter)
+     and (p_filter = '' or lower(f_unaccent(pre_grupo || ' ' || pre_grupo1 || ' ' || pre_grupo2 || ' ' || pre_grupo3 || ' ' || pre_grupo4 || ' ' || pre_grupo5 || ' ' || pre_nombre)) like p_filter)     
    group by
          Permiso.pre_id,
           rol_nombre,
@@ -134,7 +133,7 @@ begin
                join UsuarioRol on Rol.rol_id = UsuarioRol.rol_id
          where UsuarioRol.us_id = p_us_id_usuario
     )
-     and (p_filter = '' or lower(f_unaccent(pre_nombre)) like p_filter)
+     and (p_filter = '' or lower(f_unaccent(pre_grupo || ' ' || pre_grupo1 || ' ' || pre_grupo2 || ' ' || pre_grupo3 || ' ' || pre_grupo4 || ' ' || pre_grupo5 || ' ' || pre_nombre)) like p_filter)
 
    order by 
           pre_grupo,

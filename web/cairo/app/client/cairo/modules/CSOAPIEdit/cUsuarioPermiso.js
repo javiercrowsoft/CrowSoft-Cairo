@@ -17,19 +17,26 @@
       var C = Cairo.General.Constants;
       var NO_ID = Cairo.Constants.NO_ID;
       var T = Dialogs.PropertyType;
+      var getCell = Dialogs.cell;
 
       var C_MODULE = "cUsuarioPermiso";
 
       var C_PERMISO = "PERMISOS";
-      var C_SHOW_ONLY_GRANTED = "onlyGranted"
-      var C_SHOW_ONLY_DIRECT = "onlyDirect"
-      var C_SHOW_ONLY_INHERITED = "onlyInherited"
-      var C_FILTER = "filter"
-      var C_FILTER_CMD = "filterCmd"
+      var C_ROLES = "ROLES";
+      var C_SHOW_ONLY_GRANTED = "onlyGranted";
+      var C_SHOW_ONLY_DIRECT = "onlyDirect";
+      var C_SHOW_ONLY_INHERITED = "onlyInherited";
+      var C_FILTER = "filter";
+      var C_FILTER_CMD = "filterCmd";
+      var C_SELECT_ALL = "selectAll";
+      var C_UNSELECT_ALL = "unSelectAll";
 
       var K_PERMISO = 1;
-      var K_US_ID = 2;
-      var K_FILTER_CMD = 3;
+      var K_ROLES = 2;
+      var K_US_ID = 3;
+      var K_FILTER_CMD = 4;
+      var K_SELECT_ALL = 5;
+      var K_UN_SELECT_ALL = 6;
 
       var KIK_PER_ID = 1;
       var KIK_GRUPO = 3;
@@ -42,15 +49,21 @@
       var KIK_GRANTED = 10
       var KIK_ROLES = 11;
 
+      var KI_ROL_ID = 2;
+
       var m_userId = NO_ID;
       var m_userName = "";
+
+      var m_hasChanged = false;
 
       var m_editing;
 
       var m_dialog;
       var m_listController = null;
 
-      var m_apiPath = Cairo.Database.getAPIVersion();
+      var m_itemsDeletedRoles = "";
+
+      var m_apiPath = DB.getAPIVersion();
 
       var emptyData = {
         permissions: [],
@@ -92,7 +105,7 @@
       };
 
       self.messageEx = function(messageId, info) {
-        return true;
+        return P.resolvedPromise(messageId === Dialogs.Message.MSG_GRID_VIRTUAL_ROW ? info : true);
       };
 
       self.discardChanges = function() {
@@ -106,42 +119,64 @@
       self.propertyChange = function(key) {
         switch (key) {
           case K_FILTER_CMD:
-            load(getUserId()).then(
-              function (success) {
-                if(success) {
-                  refreshCollection();
+            var filter = function() {
+              return load(getUserId()).then(
+                function (success) {
+                  if (success) {
+                    refreshCollection();
+                  }
+                  return false; // to avoid refresh controls by property change, so grid don't load twice
                 }
-                return success;
-              }
-            );
-            break;
+              );
+            }
+            var p;
+            if(m_hasChanged) {
+              p = Cairo.Modal.confirmCancelViewNoDanger(
+                "Loading permissions",
+                "You have changes which aren't save yet. Press yes if you want to save the changes or press No to continue without saving. You can also cancel this action."
+              ).then(
+                function(answer) {
+                  /*
+                    if the user wants to save changes
+                    it returns a promise with the result
+                    of calling saveDialog()
+                    save is asynchronous (ajax call to server)
+                  */
+                  return (answer === "yes");
+                });
+            } else {
+              p = P.resolvedPromise(true);
+            }
+            return p.whenSuccess(filter);
+
+          case K_SELECT_ALL:
+            return selectAll(true);
+          case K_UN_SELECT_ALL:
+            return selectAll(false);
         }
         return P.resolvedPromise(false);
-        return Cairo.Promises.resolvedPromise(false);
       };
 
       self.save = function() {
 
         var register = new DB.Register();
-        var fields = null;
 
-        var mainRegister = new Cairo.Database.Register();
-        var transaction = Cairo.Database.createTransaction();
+        register.setFieldId(C.US_ID);
+        register.setTable(C.PERMISO);
 
-        var companyId = Cairo.Company.getId().toString();
+        register.setPath(m_apiPath + "general/usuario");
+        register.setTable(C.PERMISO)
 
-        transaction.setTable(C.PERMISO)
+        saveItemsPermisos(register);
+        saveItemsRoles(register);
 
-        mainRegister.addTransaction(transaction);
-
-        return Cairo.Database.saveTransaction(
+        return DB.saveEx(
           register,
           false,
           "",
           Cairo.Constants.CLIENT_SAVE_FUNCTION,
           C_MODULE,
           getText(2762, "") // Error al grabar los Permisos
-
         ).then(
 
           function(result) {
@@ -160,6 +195,53 @@
             }
           }
         );
+      };
+
+      var saveItemsPermisos = function(mainRegister) {
+        var transaction = new DB.createTransaction();
+        transaction.setTable(C.PERMISO);
+
+        var rows = m_dialog.getProperties().item(C_PERMISO).getGrid().getRows();
+        var _count = rows.size();
+        for(var _i = 0; _i < _count; _i++) {
+
+          var row = rows.item(_i);
+
+          var register = new DB.Register();
+
+          var fields = register.getFields();
+          fields.add(C.PRE_ID, Dialogs.cell(row, KIK_PRE_NAME).getId(), Types.id);
+          fields.add(C.PER_ID, Dialogs.cell(row, KIK_PER_ID).getId(), Types.id);
+          fields.add(C.GRANTED, Dialogs.cell(row, KIK_GRANTED).getId(), Types.boolean);
+
+          transaction.addRegister(register);
+        }
+
+        mainRegister.addTransaction(transaction);
+      };
+
+      var saveItemsRoles = function(mainRegister) {
+        var transaction = new DB.createTransaction();
+        transaction.setTable(C.USUARIO_ROL);
+
+        var rows = m_dialog.getProperties().item(C_ROLES).getGrid().getRows();
+        var _count = rows.size();
+        for(var _i = 0; _i < _count; _i++) {
+
+          var row = rows.item(_i);
+          var register = new DB.Register();
+          var fields = register.getFields();
+
+          fields.add(C.ROL_ID, Dialogs.cell(row, KI_ROL_ID).getId(), Types.id);
+
+          transaction.addRegister(register);
+        }
+
+        if(m_itemsDeletedRoles) {
+          transaction.setDeletedList(m_itemsDeletedRoles);
+        }
+
+        mainRegister.addTransaction(transaction);
       };
 
       self.getPath = function() {
@@ -221,6 +303,7 @@
       var load = function(id) {
 
         m_data = emptyData;
+        m_hasChanged = false;
 
         return DB.getData("load[" + m_apiPath + "general/usuario/" + id + "/permissions?" + getFilters() + "]").then(
           function (response) {
@@ -331,6 +414,18 @@
         elem.setKey(K_FILTER_CMD);
         elem.hideLabel();
 
+        elem = properties.add(null, C_SELECT_ALL);
+        elem.setName(getText(4870)); // Marcar todas
+        elem.setType(T.button);
+        elem.setKey(K_SELECT_ALL);
+        elem.hideLabel();
+
+        elem = properties.add(null, C_UNSELECT_ALL);
+        elem.setName(getText(4886)); // Desmarcar todas
+        elem.setType(T.button);
+        elem.setKey(K_UN_SELECT_ALL);
+        elem.hideLabel();
+
         elem = properties.add(null, C_PERMISO);
         elem.setType(T.grid);
         elem.hideLabel();
@@ -342,6 +437,19 @@
         elem.setGridAddEnabled(false);
         elem.setGridEditEnabled(true);
         elem.setGridRemoveEnabled(false);
+
+        elem = properties.add(null, C_ROLES);
+        elem.setType(Dialogs.PropertyType.grid);
+        setGridRoles(elem);
+        loadGridRoles(elem);
+        elem.setName("Roles");
+        elem.setKey(K_ROLES);
+        elem.setTabIndex(TAB_ROLES);
+        elem.setGridAddEnabled(true);
+        elem.setGridEditEnabled(true);
+        elem.setGridRemoveEnabled(true);
+
+        m_itemsDeletedRoles = "";
 
         return m_dialog.show(self);
       };
@@ -359,36 +467,43 @@
         elem.setName(getText(1404, "")); // Grupo
         elem.setType(T.text);
         elem.setKey(KIK_GRUPO);
+        elem.setEnabled(false);
 
         elem = columns.add(null);
         elem.setName(getText(1404, "")); // Grupo
         elem.setType(T.text);
         elem.setKey(KIK_GRUPO1);
+        elem.setEnabled(false);
 
         elem = columns.add(null);
         elem.setName(getText(1404, "")); // Grupo
         elem.setType(T.text);
         elem.setKey(KIK_GRUPO2);
+        elem.setEnabled(false);
 
         elem = columns.add(null);
         elem.setName(getText(1404, "")); // Grupo
         elem.setType(T.text);
         elem.setKey(KIK_GRUPO3);
+        elem.setEnabled(false);
 
         elem = columns.add(null);
         elem.setName(getText(1404, "")); // Grupo
         elem.setType(T.text);
         elem.setKey(KIK_GRUPO4);
+        elem.setEnabled(false);
 
         elem = columns.add(null);
         elem.setName(getText(1404, "")); // Grupo
         elem.setType(T.text);
         elem.setKey(KIK_GRUPO5);
+        elem.setEnabled(false);
 
         elem = columns.add(null);
         elem.setName(getText(4735, "")); // Accion
         elem.setType(T.text);
         elem.setKey(KIK_PRE_NAME);
+        elem.setEnabled(false);
 
         elem = columns.add(null);
         elem.setName("");
@@ -399,11 +514,34 @@
         elem.setName(getText(2613, "")); // Roles
         elem.setType(T.text);
         elem.setKey(KIK_ROLES);
+        elem.setEnabled(false);
 
         grid.getRows().clear();
       };
 
+      var loadGrid = function(loader) {
+        var defer = new Cairo.Promises.Defer();
+        var items = DB.getResultSetFromData(m_data.permissions);
+        if(items.length > 200) {
+          Cairo.LoadingMessage.showNow("Grid", "Loading rows.");
+          setTimeout(function() {
+            loader();
+            Cairo.LoadingMessage.close();
+            defer.resolve();
+          }, 10);
+        }
+        else {
+          loader();
+          defer.resolve();
+        }
+        return defer.promise;
+      };
+
       var loadGridPermisos = function(property) {
+        return loadGrid(P.call(loadGridPermisos_, property));
+      }
+
+      var loadGridPermisos_ = function(property) {
 
         var elem;
         var grid = property.getGrid();
@@ -460,14 +598,147 @@
         }
       };
 
+      var setGridRoles = function(property) {
+        var grid = property.getGrid();
+        var columns = grid.getColumns();
+        columns.clear();
+
+        // aux column
+        var elem = columns.add(null);
+        elem.setVisible(false);
+
+        elem = columns.add(null);
+        elem.setName(getText(2619, "")); // Rol
+        elem.setType(Dialogs.PropertyType.select);
+        elem.setSelectTable(Cairo.Tables.ROL);
+        elem.setKey(KI_ROL_ID);
+
+        grid.getRows().clear();
+      }
+
+      var loadGridRoles = function(property) {
+
+        var elem;
+        var grid = property.getGrid();
+        var rows = grid.getRows();
+
+        rows.clear();
+
+        for(var _i = 0, count = m_data.roles.length; _i < count; _i += 1) {
+
+          var row = rows.add(null, getValue(m_data.roles[_i], C.ROL_ID));
+
+          row.add(null); // aux column
+
+          elem = row.add(null);
+          elem.setValue(getValue(m_data.roles[_i], C.ROL_NAME));
+          elem.setId(getValue(m_data.roles[_i], C.ROL_ID));
+          elem.setKey(KI_ROL_ID);
+
+        }
+
+        return true;
+      };
+
       var refreshCollection = function() {
-
         var properties = m_dialog.getProperties();
+        var property = properties.item(C_ROLES);
+        loadGridRoles(property);
+        property = properties.item(C_PERMISO);
+        return loadGridPermisos(property).then(function() {
+          return m_dialog.showValues(properties);
+        });
+      };
 
+      var selectAll = function(select) {
+        var properties = m_dialog.getProperties();
         var property = properties.item(C_PERMISO);
-        loadGridPermisos(property)
+        if(property.getGrid().getRows()) {
+          m_hasChanged = true;
+        }
+        return loadGrid(P.call(selectAll_, select));
+      };
 
-        return m_dialog.showValues(properties);
+      var selectAll_ = function(select) {
+        var properties = m_dialog.getProperties();
+        var property = properties.item(C_PERMISO);
+
+        var rows = property.getGrid().getRows();
+        for(var _i = 0, count = rows.count(); _i < count; _i += 1) {
+          var row = rows.item(_i);
+          var cell = getCell(row, KIK_GRANTED);
+          cell.setId(boolToInt(select));
+        }
+
+        return m_dialog.showValue(property, true).then(function() {
+          return false; // to avoid refresh controls by property change, so grid don't load twice
+        });
+      };
+
+      self.columnAfterEdit = function(key, lRow, lCol, newValue, newValueId) {
+        return P.resolvedPromise(true);
+      };
+
+      self.columnBeforeEdit = function(key, lRow, lCol, iKeyAscii) {
+        return P.resolvedPromise(true);
+      };
+
+      self.columnButtonClick = function(key, lRow, lCol, iKeyAscii) {
+
+      };
+
+      self.deleteRow = function(key, row, lRow) {
+        var id = null;
+        var canDelete = true;
+
+        switch (key) {
+
+          case K_ROLES:
+            id = Dialogs.cell(row, KI_ROL_ID).getId();
+            if(id != NO_ID) { m_itemsDeletedRoles = m_itemsDeletedRoles+ id.toString()+ ","; }
+            break;
+
+          case K_PERMISO:
+            canDelete = false;
+            break;
+        }
+
+        return P.resolvedPromise(canDelete);
+      };
+
+      self.newRow = function(key, rows) {
+        return P.resolvedPromise(false);
+      };
+
+      self.validateRow = function(key, row, rowIndex) {
+        return P.resolvedPromise(false);
+      };
+
+      self.columnAfterUpdate = function(key, lRow, lCol) {
+        try {
+          switch (key) {
+            case K_PERMISO:
+              m_hasChanged = true;
+              break;
+          }
+        }
+        catch(ex) {
+          Cairo.manageErrorEx(ex.message, ex, "columnAfterUpdate", C_MODULE, "");
+        }
+
+        return P.resolvedPromise(true);
+      };
+
+      self.columnClick = function(key, lRow, lCol) {
+
+      };
+
+      self.gridDblClick = function(key, lRow, lCol) {
+        return P.resolvedPromise(false);
+      };
+
+      self.isEmptyRow = function(key, row, rowIndex) {
+        return P.resolvedPromise(false);
       };
 
       var destroy = function() {

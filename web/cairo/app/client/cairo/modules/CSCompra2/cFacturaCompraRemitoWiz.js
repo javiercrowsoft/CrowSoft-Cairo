@@ -1894,7 +1894,7 @@
               switch (cell.getKey()) {
 
                 case KII_APLICAR:
-                  cantidad = cell.getValue();
+                  cantidad = val(cell.getValue());
                   fields.add(CC.FCI_CANTIDAD, cell.getValue(), Types.double);
                   break;
 
@@ -1920,24 +1920,24 @@
                   break;
 
                 case KII_IVARIPERCENT:
-                  ivaRi = cell.getValue();
+                  ivaRi = val(cell.getValue());
                   fields.add(CC.FCI_IVA_RIPORC, ivaRi, Types.double);
                   break;
 
                 case KII_IVARNIPERCENT:
                   if(m_bIvaRni) {
-                    ivaRni = cell.getValue();
+                    ivaRni = val(cell.getValue());
                   }
                   fields.add(CC.FCI_IVA_RNIPORC, ivaRni, Types.double);
                   break;
 
                 case KII_INTERNOSPERCENT:
-                  internos = cell.getValue();
+                  internos = val(cell.getValue());
                   fields.add(CC.FCI_INTERNOS_PORC, internos, Types.double);
                   break;
 
                 case KII_INTERNOSPORC:
-                  internosPorc = cell.getValue();
+                  internosPorc = val(cell.getValue());
                   break;
 
                 case KII_ARTICULO:
@@ -2076,29 +2076,29 @@
               var cell = row.item(_j);
               switch (cell.getKey()) {
                 case KII_APLICAR:
-                  cantidad = cell.getValue();
+                  cantidad = val(cell.getValue());
                   break;
 
                 case KII_PRECIO_SIN_IVA:
-                  precio = cell.getValue();
+                  precio = val(cell.getValue());
                   break;
 
                 case KII_IVARIPERCENT:
-                  ivaRiPercent = cell.getValue();
+                  ivaRiPercent = val(cell.getValue());
                   break;
 
                 case KII_IVARNIPERCENT:
                   if(m_bIvaRni) {
-                    ivaRniPercent = cell.getValue();
+                    ivaRniPercent = val(cell.getValue());
                   }
                   break;
 
                 case KII_INTERNOSPERCENT:
-                  internosPercent = cell.getValue();
+                  internosPercent = val(cell.getValue());
                   break;
 
                 case KII_INTERNOSPORC:
-                  internosPorc = cell.getValue();
+                  internosPorc = val(cell.getValue());
                   break;
               }
             }

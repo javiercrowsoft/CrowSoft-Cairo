@@ -2260,7 +2260,7 @@
                 break;
 
               case KI_IMPORTE:
-                origen = cell.getValue();
+                origen = val(cell.getValue());
                 break;
 
               case KI_ORIGEN_DEBE:
