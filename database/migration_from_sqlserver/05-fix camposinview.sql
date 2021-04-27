@@ -47,3 +47,6 @@ Activo=Activo,
 Modifico=(select us_nombre from usuario where us_id =documento.modifico),
 Empresa=(select emp_nombre from empresa where emp_id =documento.emp_id)'
 where tbl_id = 4001;
+
+
+update tabla set tbl_sqlhelp = 'select pr_id, pr_nombrecompra as Nombre, pr_nombreventa as Venta, pr_codigo as Codigo, pr_descripcompra as Desc from Producto' where tbl_id = 30;

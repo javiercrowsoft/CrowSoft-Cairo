@@ -151,7 +151,7 @@ begin
    
    v_dia := extract(DAY from v_fhasta)::int;
 
-   v_fdesde := dateadd('DAY', -v_dia+1, v_fdesde);
+   v_fdesde := dateadd('DAY', -v_dia+1, v_fhasta);
 
    select sum(fcopg_importe
                - (fc_ivari  * (fcopg_importe / fc_total))
@@ -386,16 +386,17 @@ begin
        E'@@ERROR_SP:Error al generar el reporte.\n'
 
        || 'Se encontro una diferencia entre el reporte generado y la retencion que figura en al orden de pago\n'
-               || E'\ndif: '            || abs(round(v_retenido,2) - round(v_retenido_opg,2))::varchar
-               || E'\nOP: '             || v_retenido_opg::varchar
-               || E'\nRPT: '            || v_retenido::varchar
-               || E'\nbase: '           || v_base::varchar
-               || E'\nret_id: '         || v_ret_id::varchar
-               || E'\nret_id: '         || v_alicuota::varchar
-               || E'\npago anterior: '  || v_pago_anterior::varchar
-               || E'\n'                 || v_facturas;
+               || E'\ndif: '            || coalesce(abs(round(v_retenido,2) - round(v_retenido_opg,2))::varchar,'null')
+               || E'\nOP: '             || coalesce(v_retenido_opg::varchar,'null')
+               || E'\nRPT: '            || coalesce(v_retenido::varchar,'null')
+               || E'\nbase: '           || coalesce(v_base::varchar,'null')
+               || E'\naplicado: '       || coalesce(v_aplicado::varchar,'null')
+               || E'\nret_id: '         || coalesce(v_ret_id::varchar,'null')
+               || E'\nalicuota: '       || coalesce(v_alicuota::varchar,'null')
+               || E'\npago anterior: '  || coalesce(v_pago_anterior::varchar,'null')
+               || E'\nfacturas:'        || coalesce(v_facturas,'null');
 
-        raise exception '%', v_error_msg; -- :) sefini
+        raise exception '%', coalesce(v_error_msg,'null :P'); -- :) sefini
 
    end if;
    

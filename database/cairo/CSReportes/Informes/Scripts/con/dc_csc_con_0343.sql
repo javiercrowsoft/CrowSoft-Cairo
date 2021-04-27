@@ -300,7 +300,7 @@ begin
    if p_debug = 0 then
       v_pipe := '';
    else
-      v_pipe := 'v_';
+      v_pipe := ' | ';
    end if;
 
    if exists(select 1 from tt_final_register) then
