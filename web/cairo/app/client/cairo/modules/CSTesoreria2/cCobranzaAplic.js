@@ -163,13 +163,15 @@
         var fields = register.getFields();
 
         fields.add(CT.COBZ_NUMERO, 0, Types.long);
-        fields.add(CT.CLI_ID, NO_ID, Types.long);
-        fields.add(CT.SUC_ID, NO_ID, Types.long);
-        fields.add(CT.DOC_ID, NO_ID, Types.long);
+        fields.add(C.CLI_ID, NO_ID, Types.long);
+        fields.add(C.SUC_ID, NO_ID, Types.long);
+        fields.add(C.DOC_ID, NO_ID, Types.long);
         fields.add(C.EST_ID, NO_ID, Types.long);
         fields.add(CT.COBZ_ID, m_cobzId, Types.id);
 
         saveItems(register);
+        var p = saveCtaCte(register);
+
         return p.whenSuccess(function() {
           return DB.saveTransaction(
             register,
@@ -633,7 +635,7 @@
         return m_dialog.getProperties().item(C_PENDIENTE);
       };
 
-      var saveItems = function(id) {
+      var saveItems = function(mainRegister) {
         var transaction = DB.createTransaction();
 
         transaction.setTable(CT.FACTURA_VENTA_COBRANZA_TMP);
@@ -701,7 +703,7 @@
       var saveCtaCte = function(mainRegister) {
         var transaction = DB.createTransaction();
 
-        transaction.setTable(CT.ORDEN_PAGO_ITEM_CUENTA_CORRIENTE_TMP);
+        transaction.setTable(CT.COBRANZA_ITEM_CUENTA_CORRIENTE_TMP);
 
         return D.Tesoreria.getCuentasDeudor(
           getItems(), KI_FV_ID, KI_APLICADO, KI_COTIZACION,0, 0, 0, 0)
@@ -717,7 +719,7 @@
 
               var fields = register.getFields();
 
-              fields.add(CT.CUE_ID, cuentas[_i].cue_id, Types.id);
+              fields.add(C.CUE_ID, cuentas[_i].cueId, Types.id);
               fields.add(CT.COBZI_IMPORTE_ORIGEN, cuentas[_i].importeOrigen, Types.currency);
               fields.add(CT.COBZI_IMPORTE, cuentas[_i].importe, Types.currency);
 

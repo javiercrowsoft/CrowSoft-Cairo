@@ -692,6 +692,9 @@ begin
    end if;
 
    select * from sp_doc_orden_pago_asiento_save(v_opg_id, 0) into v_error, v_error_msg;
+   if coalesce(v_error, 0) <> 0 then
+    raise exception '%', v_error_msg;
+   end if;
 
 /*
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

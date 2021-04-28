@@ -47,10 +47,6 @@
           setValue(element.val());
           onChange();
         });
-        element.focus(function() {
-          $(element).datepicker("setDate", Cairo.Util.parseDate(self.value));
-          $(element).val(self.value);
-        });
       };
 
       var getDateFormatted = Cairo.Util.getDateFormatted;

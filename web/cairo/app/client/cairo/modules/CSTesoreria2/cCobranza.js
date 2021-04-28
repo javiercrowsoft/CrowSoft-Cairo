@@ -3081,7 +3081,6 @@
             info.id,
             info.total,
             info.nroDoc,
-            info.cliId,
             info.cliente,
             info.emp_id,
             info.empresa)

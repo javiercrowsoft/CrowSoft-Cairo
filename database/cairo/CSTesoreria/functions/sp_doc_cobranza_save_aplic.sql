@@ -190,8 +190,10 @@ begin
                          on fvc.fvp_id = fvp.fvp_id
                        join FacturaVentaCobranzaTMP fvct
                          on fvc.fvcobz_id = fvct.fvcobz_id
-                       where fvct.cobzTMP_id = p_cobzTMP_id
+                       where fvct.cobzTMP_id = $1
                        group by fvp.fv_id,fvp.fvp_id,fvp.fvp_fecha,fvp.fvp_importe';
+
+         v_id := p_cobzTMP_id;
 
       -- sumo todas las aplicaciones de esta
       -- cobranza sobre el pago para obtener
@@ -207,8 +209,10 @@ begin
                        from FacturaVentaCobranza fvc
                        join FacturaVentaPago fvp
                          on fvc.fvp_id = fvp.fvp_id
-                       where fvc.cobz_id = v_cobz_id
+                       where fvc.cobz_id = $1
                        group by fvp.fv_id,fvp.fvp_id,fvp.fvp_fecha,fvp.fvp_importe';
+
+         v_id := v_cobz_id;
       end if;
 
       -- sumo todas las aplicaciones de esta
@@ -216,7 +220,7 @@ begin
       -- el pendiente de la deuda
       --
       for v_fv_id,v_fvp_id,v_fvp_fecha,v_fvd_importe,v_fvd_pendiente in
-         execute v_c_pagos using p_cobzTMP_id
+         execute v_c_pagos using v_id
       loop
          -- creo la deuda
          --
@@ -530,7 +534,7 @@ begin
 
 
    for v_fv_id in
-      select disctinct fv_id from tt_FacturasVta
+      select distinct fv_id from tt_FacturasVta
    loop
 
       -- actualizo la deuda de la factura
@@ -683,7 +687,10 @@ begin
 
    end if;
 
-   select * from sp_doc_cobranzaAsientoSave(v_cobz_id, 0) into v_error, v_error_msg;
+   select * from sp_doc_cobranza_asiento_save(v_cobz_id, 0) into v_error, v_error_msg;
+   if coalesce(v_error, 0) <> 0 then
+    raise exception '%', v_error_msg;
+   end if;
 
 /*
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
