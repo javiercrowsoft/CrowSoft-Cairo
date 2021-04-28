@@ -2139,6 +2139,8 @@
             }
           }
         );
+      } else {
+        p = P.resolvedPromise({ success: true, cuentas: ctaCte });
       }
 
       return p || P.resolvedPromise(P.fail());
