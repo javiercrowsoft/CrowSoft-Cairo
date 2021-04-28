@@ -1036,7 +1036,7 @@
 
         switch (property.getGrid().getColumns().item(lCol).getKey()) {
           case KI_CHEQ_ID:
-            row = property.getGrid().getRows(lRow);
+            row = property.getGrid().getRows().item(lRow);
 
             var cheqId = newValueId;
 

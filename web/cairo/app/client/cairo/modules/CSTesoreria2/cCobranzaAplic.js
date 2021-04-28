@@ -555,7 +555,7 @@
         var grid = property.getGrid();
 
         if(grid.getColumns().item(lCol).getKey() == KI_APLICADO) {
-          var row = grid.getRows(lRow);
+          var row = grid.getRows().item(lRow);
 
           var cell = getCell(row, KI_APLICADO);
 
