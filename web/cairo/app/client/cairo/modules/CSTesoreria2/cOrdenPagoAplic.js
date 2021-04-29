@@ -666,8 +666,8 @@
 
             bSave = true;
 
-            var _count = row.size();
-            for(var _j = 0; _j < _count; _j++) {
+            var _countj = row.size();
+            for(var _j = 0; _j < _countj; _j++) {
 
               var cell = row.item(_j);
 
