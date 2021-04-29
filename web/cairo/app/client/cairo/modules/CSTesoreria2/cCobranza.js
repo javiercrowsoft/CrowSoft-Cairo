@@ -2657,7 +2657,7 @@
                 break;
 
               case KICH_CHEQ_ID:
-                fields.add(C.CHEQ_ID, cell.getId(), Types.id);
+                fields.add(CT.CHEQ_ID, cell.getId(), Types.id);
                 break;
 
               case KICH_CHEQUE:
