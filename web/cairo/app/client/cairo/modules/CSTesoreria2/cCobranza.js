@@ -3512,12 +3512,6 @@
                 return false;
               }
               break;
-
-            case KIT_FECHAVTO:
-              if(!valEmpty(cell.getValue(), Types.date)) {
-                return false;
-              }
-              break;
           }
         }
 
