@@ -723,7 +723,7 @@ object Cobranzas extends Controller with ProvidesUser {
     val facturasInfo = getJsValueAsMap(getParamsJsonRequestFor(C.FACTURA_VENTA_COBRANZA_TMP, params))
     val facturaRows = getParamsJsonRequestFor(GC.ITEMS, facturasInfo)
     val facturaFacturas = facturaRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessFacturasParam(item, C.FACTURA_VENTA_COBRANZA_TMP)
+      case (_: String, item: JsValue) :: _ => preprocessFacturasParam(item, C.FACTURA_VENTA_COBRANZA_TMP)
       case _ => Map(C.FACTURA_VENTA_COBRANZA_TMP -> JsArray(List()))
     }
 
@@ -790,7 +790,7 @@ object Cobranzas extends Controller with ProvidesUser {
     val facturasInfo = getJsValueAsMap(getParamsJsonRequestFor(C.FACTURA_VENTA_COBRANZA_TMP, params))
     val facturaRows = getParamsJsonRequestFor(GC.ITEMS, facturasInfo)
     val facturaFacturas = facturaRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessFacturasParam(item, C.FACTURA_VENTA_COBRANZA_TMP)
+      case (_: String, item: JsValue) :: _ => preprocessFacturasParam(item, C.FACTURA_VENTA_COBRANZA_TMP)
       case _ => Map(C.FACTURA_VENTA_COBRANZA_TMP -> JsArray(List()))
     }
 

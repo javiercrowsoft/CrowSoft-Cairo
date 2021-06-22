@@ -881,7 +881,7 @@ object Productos extends Controller with ProvidesUser {
       case deletedList :: t => Map(C.PRODUCTO_PROVEEDOR_DELETED -> Json.toJson(deletedList._2))
     }
     val productoProveedores = proveedorRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessProveedoresParam(item, C.PRODUCTO_PROVEEDOR)
+      case (_: String, item: JsValue) :: _ => preprocessProveedoresParam(item, C.PRODUCTO_PROVEEDOR)
       case _ => Map(C.PRODUCTO_PROVEEDOR -> JsArray(List()))
     }
 
@@ -894,7 +894,7 @@ object Productos extends Controller with ProvidesUser {
       case deletedList :: t => Map(C.PRODUCTO_CLIENTE_DELETED -> Json.toJson(deletedList._2))
     }
     val productoClientes = clienteRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessClientesParam(item, C.PRODUCTO_CLIENTE)
+      case (_: String, item: JsValue) :: _ => preprocessClientesParam(item, C.PRODUCTO_CLIENTE)
       case _ => Map(C.PRODUCTO_CLIENTE -> JsArray(List()))
     }
 
@@ -907,7 +907,7 @@ object Productos extends Controller with ProvidesUser {
       case deletedList :: t => Map(C.PRODUCTO_CMI_DELETED -> Json.toJson(deletedList._2))
     }
     val productoCMIs = cmiRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessCMIsParam(item, C.PRODUCTO_COMUNIDAD_INTERNET)
+      case (_: String, item: JsValue) :: _ => preprocessCMIsParam(item, C.PRODUCTO_COMUNIDAD_INTERNET)
       case _ => Map(C.PRODUCTO_COMUNIDAD_INTERNET -> JsArray(List()))
     }
 
@@ -920,7 +920,7 @@ object Productos extends Controller with ProvidesUser {
       case deletedList :: t => Map(C.PRODUCTO_LEYENDA_DELETED -> Json.toJson(deletedList._2))
     }
     val productoLeyendas = leyendaRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessLeyendasParam(item, C.PRODUCTO_LEYENDA)
+      case (_: String, item: JsValue) :: _ => preprocessLeyendasParam(item, C.PRODUCTO_LEYENDA)
       case _ => Map(C.PRODUCTO_LEYENDA -> JsArray(List()))
     }
 
@@ -933,7 +933,7 @@ object Productos extends Controller with ProvidesUser {
       case deletedList :: t => Map(C.PRODUCTO_TAG_DELETED -> Json.toJson(deletedList._2))
     }
     val productoTags = tagRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessTagsParam(item, C.PRODUCTO_TAG)
+      case (_: String, item: JsValue) :: _ => preprocessTagsParam(item, C.PRODUCTO_TAG)
       case _ => Map(C.PRODUCTO_TAG -> JsArray(List()))
     }
 
@@ -942,7 +942,7 @@ object Productos extends Controller with ProvidesUser {
     val categoriasWebInfo = getJsValueAsMap(getParamsJsonRequestFor(C.CATALOGO_WEB_CATEGORIA_ITEM, params))
     val categoriaWebRows = getParamsJsonRequestFor(C.ITEMS, categoriasWebInfo)
     val productoCategoriasWeb = categoriaWebRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessCategoriasWebParam(item, C.CATALOGO_WEB_CATEGORIA_ITEM)
+      case (_: String, item: JsValue) :: _ => preprocessCategoriasWebParam(item, C.CATALOGO_WEB_CATEGORIA_ITEM)
       case _ => Map(C.CATALOGO_WEB_CATEGORIA_ITEM -> JsArray(List()))
     }
 
@@ -951,7 +951,7 @@ object Productos extends Controller with ProvidesUser {
     val catalogosWebInfo = getJsValueAsMap(getParamsJsonRequestFor(C.CATALOGO_WEB_ITEM, params))
     val catalogoWebRows = getParamsJsonRequestFor(C.ITEMS, catalogosWebInfo)
     val productoCatalogosWeb = catalogoWebRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessCatalogosWebParam(item, C.CATALOGO_WEB_ITEM)
+      case (_: String, item: JsValue) :: _ => preprocessCatalogosWebParam(item, C.CATALOGO_WEB_ITEM)
       case _ => Map(C.CATALOGO_WEB_ITEM -> JsArray(List()))
     }
 
@@ -964,7 +964,7 @@ object Productos extends Controller with ProvidesUser {
       case deletedList :: t => Map(C.PRODUCTO_WEB_IMAGE_DELETED -> Json.toJson(deletedList._2))
     }
     val productoWebImages = webImageRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessWebImagesParam(item, C.PRODUCTO_WEB_IMAGE)
+      case (_: String, item: JsValue) :: _ => preprocessWebImagesParam(item, C.PRODUCTO_WEB_IMAGE)
       case _ => Map(C.PRODUCTO_WEB_IMAGE -> JsArray(List()))
     }
 

@@ -253,7 +253,7 @@ object Listapreciomarcado {
         Field(C.LPM_DECREMENTO, listaPrecioMarcado.decremento, FieldType.number),
         Field(C.LPM_PORCMINIMO, listaPrecioMarcado.porcminimo, FieldType.number),
         Field(C.LPM_PORCMAXIMO, listaPrecioMarcado.porcmaximo, FieldType.number),
-        Field(C.LPM_MONTOMINIMO, listaPrecioMarcado.montominimo, FieldType.id),
+        Field(C.LPM_MONTOMINIMO, listaPrecioMarcado.montominimo, FieldType.number),
         Field(C.MON_ID, listaPrecioMarcado.monId, FieldType.text),
         Field(C.LPM_DESCRIP, listaPrecioMarcado.descrip, FieldType.text)
       )

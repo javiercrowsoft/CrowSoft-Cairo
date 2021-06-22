@@ -295,7 +295,8 @@ begin
         /*impuesto liquidado*/
         coalesce(right(repeat('0', 15) || replace(to_char(impuestoliquidado),'.',''), 15), repeat('0', 15))
 
-   from tt_aux_register;
+   from tt_aux_register
+   order by doct_id, fc_id;
 
    if p_debug = 0 then
       v_pipe := '';
@@ -320,7 +321,7 @@ begin
               as registro
 
            from tt_final_register
-           order by codigodoproveedor,fc_ptovta,fc_nrodoc;
+           order by doct_id, fc_id;
 
    else
 

@@ -530,7 +530,8 @@ begin
        /*ivacomision*/
        repeat('0', 15)
 
-   from tt_aux_register;
+   from tt_aux_register
+   order by doct_id, fc_id;
 
    if p_debug = 0 then
       v_pipe := '';
@@ -572,7 +573,7 @@ begin
               as registro
 
           from tt_final_register
-          order by fc_fechaiva,proveedor_doc,fc_ptovta,fc_nrodoc;
+          order by doct_id, fc_id;
 
    else
 

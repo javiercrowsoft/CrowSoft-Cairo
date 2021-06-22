@@ -54,11 +54,19 @@ case class UsuarioData(
                         items: UsuarioItemsData
                       )
 
+case class PermisoData (
+                         id: Int,
+                         permisos: List[PermisoItem],
+                         roles: List[RolItem]
+                       )
+
 object Usuarios extends Controller with ProvidesUser {
 
   val usuarioCliProvFields = List(C.US_EMP_ID, C.CLI_ID, C.PROV_ID)
   val usuarioEmpresaFields = List(C.EMP_ID)
   val usuarioRolFields = List(C.ROL_ID)
+  val permisoFields = List(C.PRE_ID, C.PER_ID, C.GRANTED)
+  val rolFields = List(C.ROL_ID, C.GRANTED)
 
   val usuarioForm = Form(
     mapping(
@@ -138,6 +146,24 @@ object Usuarios extends Controller with ProvidesUser {
     def writeUsuarioRoles(items: List[UsuarioRol]) = items.map(item => usuarioRolWrites(item))
   }
 
+  val permisosForm = Form(
+    mapping(
+      "id" -> number,
+      C.PERMISO -> Forms.list[PermisoItem](
+        mapping(
+          C.PRE_ID -> number,
+          C.PER_ID -> number,
+          C.GRANTED -> boolean
+        )(PermisoItem.apply)(PermisoItem.unapply)
+      ),
+      C.ROL -> Forms.list[RolItem](
+        mapping(
+          C.ROL_ID -> number,
+          C.GRANTED -> boolean
+        )(RolItem.apply)(RolItem.unapply)
+      )
+    )(PermisoData.apply)(PermisoData.unapply))
+
   def get(id: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_USUARIO), { user =>
       Ok(Json.toJson(Usuario.get(user, id)))
@@ -155,12 +181,12 @@ object Usuarios extends Controller with ProvidesUser {
   // fields to the parent node in the JSON structure to match the case class
   //
 
-  private def preprocessParams(implicit request:Request[AnyContent]): JsObject = {
+  def getJsValueAsMap(list: Map[String, JsValue]): Map[String, JsValue] = list.toList match {
+    case (key: String, jsValue: JsValue) :: t => jsValue.as[Map[String, JsValue]]
+    case _ => Map.empty
+  }
 
-    def getJsValueAsMap(list: Map[String, JsValue]): Map[String, JsValue] = list.toList match {
-      case (key: String, jsValue: JsValue) :: t => jsValue.as[Map[String, JsValue]]
-      case _ => Map.empty
-    }
+  private def preprocessParams(implicit request:Request[AnyContent]): JsObject = {
 
     def preprocessCliProvParam(field: JsValue) = {
       val params = field.as[Map[String, JsValue]]
@@ -222,7 +248,7 @@ object Usuarios extends Controller with ProvidesUser {
       case deletedList :: t => Map(C.USUARIO_EMPRESA_DELETED -> Json.toJson(deletedList._2))
     }
     val usuarioCliProvs = cliProvRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessCliProvsParam(item, C.USUARIO_EMPRESA)
+      case (_: String, item: JsValue) :: _ => preprocessCliProvsParam(item, C.USUARIO_EMPRESA)
       case _ => Map(C.USUARIO_EMPRESA -> JsArray(List()))
     }
 
@@ -231,7 +257,7 @@ object Usuarios extends Controller with ProvidesUser {
     val empresasInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.EMPRESA_USUARIO, params))
     val empresaRows = Global.getParamsJsonRequestFor(C.ITEMS, empresasInfo)
     val usuarioEmpresas = empresaRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessEmpresasParam(item, C.EMPRESA_USUARIO)
+      case (_: String, item: JsValue) :: _ => preprocessEmpresasParam(item, C.EMPRESA_USUARIO)
       case _ => Map(C.EMPRESA_USUARIO -> JsArray(List()))
     }
 
@@ -244,7 +270,7 @@ object Usuarios extends Controller with ProvidesUser {
       case deletedList :: t => Map(C.USUARIO_ROL_DELETED -> Json.toJson(deletedList._2))
     }
     val usuarioRoles = rolRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessRolesParam(item, C.USUARIO_ROL)
+      case (_: String, item: JsValue) :: _ => preprocessRolesParam(item, C.USUARIO_ROL)
       case _ => Map(C.USUARIO_ROL -> JsArray(List()))
     }
 
@@ -386,5 +412,75 @@ object Usuarios extends Controller with ProvidesUser {
         ))
     })
   }
+
+  private def preprocessParamsPermissions(implicit request:Request[AnyContent]): JsObject = {
+
+    def preprocessPermisosParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessPermisoParam(_))))
+      case _ => Map.empty
+    }
+
+    def preprocessPermisoParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      JsObject(Global.preprocessFormParams(permisoFields, "", params).toSeq)
+    }
+
+    def preprocessRolesParam(items: JsValue, group: String): Map[String, JsValue] = items match {
+      case JsArray(arr) => Map(group -> JsArray(arr.map(preprocessRoleParam(_))))
+      case _ => Map.empty
+    }
+
+    def preprocessRoleParam(field: JsValue) = {
+      val params = field.as[Map[String, JsValue]]
+      JsObject(Global.preprocessFormParams(rolFields, "", params).toSeq)
+    }
+
+    val params = Global.getParamsFromJsonRequest
+
+    val permisoBase = Global.preprocessFormParams(List("id"), "", params)
+
+    // permissions
+    //
+    val permisosInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.PERMISO, params))
+    val permisoRows = Global.getParamsJsonRequestFor(C.ITEMS, permisosInfo)
+    val permisos = permisoRows.toList match {
+      case (_: String, item: JsValue) :: _ => preprocessPermisosParam(item, C.PERMISO)
+      case _ => Map(C.PERMISO -> JsArray(List()))
+    }
+
+    val rolesInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.USUARIO_ROL, params))
+    val rolRows = Global.getParamsJsonRequestFor(C.ITEMS, rolesInfo)
+    val roles = rolRows.toList match {
+      case (_: String, item: JsValue) :: _ => preprocessRolesParam(item, C.USUARIO_ROL)
+      case _ => Map(C.USUARIO_ROL -> JsArray(List()))
+    }
+
+    JsObject(
+      (permisoBase ++ permisos ++ roles).toSeq)
+  }
+  //
+  //
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+  def updatePermissions(id: Long) = PostAction { implicit request =>
+    Logger.debug("in Usuarios.updatePermissions")
+    permisosForm.bind(preprocessParamsPermissions).fold(
+      formWithErrors => {
+        Logger.debug(s"invalid form: ${formWithErrors.toString}")
+        BadRequest
+      },
+      permisoData => {
+        Logger.debug(s"form: ${permisoData.toString}")
+        LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_PERMISO), { user =>
+          Usuario.updatePermissions(user, permisoData.permisos, permisoData.roles, permisoData.id)
+          // Backbonejs requires at least an empty json object in the response
+          // if not it will call errorHandler even when we responded with 200 OK :P
+          Ok(JsonUtil.emptyJson)
+        })
+      }
+    )
+  }
+
 
 }

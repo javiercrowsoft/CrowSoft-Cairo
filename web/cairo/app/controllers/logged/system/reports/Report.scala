@@ -112,7 +112,7 @@ object Reports extends Controller with ProvidesUser {
     val paramsInfo = getJsValueAsMap(Global.getParamsJsonRequestFor(C.REPORTE_PARAMETRO, params))
     val paramRows = Global.getParamsJsonRequestFor(C.ITEMS, paramsInfo)
     val reportParams = paramRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessParametersParam(item, C.REPORTE_PARAMETRO)
+      case (_: String, item: JsValue) :: _ => preprocessParametersParam(item, C.REPORTE_PARAMETRO)
       case _ => Map(C.REPORTE_PARAMETRO -> JsArray(List()))
     }
 

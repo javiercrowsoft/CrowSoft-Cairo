@@ -439,7 +439,7 @@ object Proveedores extends Controller with ProvidesUser {
       case deletedList :: t => Map(C.PROVEEDOR_CAI_DELETED -> Json.toJson(deletedList._2))
     }
     val proveedorCais = caiRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessCaisParam(item, C.PROVEEDOR_CAI)
+      case (_: String, item: JsValue) :: _ => preprocessCaisParam(item, C.PROVEEDOR_CAI)
       case _ => Map(C.PROVEEDOR_CAI -> JsArray(List()))
     }
 
@@ -448,7 +448,7 @@ object Proveedores extends Controller with ProvidesUser {
     val empresasInfo = getJsValueAsMap(getParamsJsonRequestFor(C.EMPRESA_PROVEEDOR, params))
     val empresaRows = getParamsJsonRequestFor(C.ITEMS, empresasInfo)
     val proveedorEmpresas = empresaRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessEmpresasParam(item, C.EMPRESA_PROVEEDOR)
+      case (_: String, item: JsValue) :: _ => preprocessEmpresasParam(item, C.EMPRESA_PROVEEDOR)
       case _ => Map(C.EMPRESA_PROVEEDOR -> JsArray(List()))
     }
     
@@ -461,7 +461,7 @@ object Proveedores extends Controller with ProvidesUser {
       case deletedList :: t => Map(C.PROVEEDOR_CUENTA_GRUPO_DELETED -> Json.toJson(deletedList._2))
     }
     val proveedorCuentasGrupo = cuentaGrupoRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessCuentasGrupoParam(item, C.PROVEEDOR_CUENTA_GRUPO)
+      case (_: String, item: JsValue) :: _ => preprocessCuentasGrupoParam(item, C.PROVEEDOR_CUENTA_GRUPO)
       case _ => Map(C.PROVEEDOR_CUENTA_GRUPO -> JsArray(List()))
     }
 
@@ -474,7 +474,7 @@ object Proveedores extends Controller with ProvidesUser {
       case deletedList :: t => Map(C.PROVEEDOR_RETENCIONES_DELETED -> Json.toJson(deletedList._2))
     }
     val proveedorRetenciones = retencionRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessRetencionesParam(item, C.PROVEEDOR_RETENCION)
+      case (_: String, item: JsValue) :: _ => preprocessRetencionesParam(item, C.PROVEEDOR_RETENCION)
       case _ => Map(C.PROVEEDOR_RETENCION -> JsArray(List()))
     }
 
@@ -487,7 +487,7 @@ object Proveedores extends Controller with ProvidesUser {
       case deletedList :: t => Map(C.PROVEEDOR_DEPARTAMENTO_DELETED -> Json.toJson(deletedList._2))
     }
     val proveedorDepartamentos = departamentoRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessDepartamentosParam(item, C.DEPARTAMENTO_PROVEEDOR)
+      case (_: String, item: JsValue) :: _ => preprocessDepartamentosParam(item, C.DEPARTAMENTO_PROVEEDOR)
       case _ => Map(C.DEPARTAMENTO_PROVEEDOR -> JsArray(List()))
     }
 
@@ -500,7 +500,7 @@ object Proveedores extends Controller with ProvidesUser {
       case deletedList :: t => Map(C.PROVEEDOR_CENTRO_COSTO_DELETED -> Json.toJson(deletedList._2))
     }
     val proveedorCentrosCosto = centroCostoRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessCentrosCostoParam(item, C.PROVEEDOR_CENTRO_COSTO)
+      case (_: String, item: JsValue) :: _ => preprocessCentrosCostoParam(item, C.PROVEEDOR_CENTRO_COSTO)
       case _ => Map(C.PROVEEDOR_CENTRO_COSTO -> JsArray(List()))
     }    
     

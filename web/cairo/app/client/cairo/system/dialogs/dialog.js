@@ -270,6 +270,8 @@
 
         var K_W_CANCEL = -10;
 
+        var SAVING_MESSAGE = "saving record";
+
         var m_enabledState = [];
 
         var m_inProcess = false;
@@ -4389,6 +4391,7 @@
         };
 
         var putClientValuesIntoGrid = function(index, property, row, rowIndex, bAddRow, isValid) {
+          console.log(rowIndex)
           if(isValid) {
             //
             // put client's values into the grid
@@ -4433,6 +4436,8 @@
         //
         var gridValidateRow = function(index, rowIndex, bAddRow) {
           var p = null;
+
+          Cairo.LoadingMessage.setMessage(SAVING_MESSAGE + " validating row " + (rowIndex+1));
 
           if(m_clientManageGrid) {
 
@@ -5389,8 +5394,15 @@
         //
         var saveDialog = function(unloading, saveAs) {
           var defer = new P.Defer();
-          var success = function(success) { defer.resolve(success); };
-          var error = function() { defer.resolve(false); }
+          Cairo.LoadingMessage.showNow("Save", SAVING_MESSAGE);
+          var success = function(success) {
+            Cairo.LoadingMessage.close();
+            defer.resolve(success);
+          };
+          var error = function() {
+            Cairo.LoadingMessage.close();
+            defer.resolve(false);
+          }
           setTimeout(function(){ _saveDialog().then(success, error); }, 300);
           return defer.promise;
         };
@@ -5461,6 +5473,7 @@
                   // standard document, wizard or master save
                   //
                   if(!saveAs) {
+                    Cairo.LoadingMessage.setMessage(SAVING_MESSAGE + " calling server");
                     return m_client.save();
                   }
                   else {
@@ -5923,7 +5936,10 @@
                 return false;
               }
             }
-          );
+          ).finally(function(result) {
+            Cairo.LoadingMessage.setMessage(SAVING_MESSAGE);
+            return result;
+          });
         };
 
         self.setTabCtlIndex = function() {

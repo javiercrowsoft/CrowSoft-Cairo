@@ -195,6 +195,17 @@ case class Usuario(
 
 }
 
+case class PermisoItem(
+                        preId: Int,
+                        perId: Int,
+                        granted: Boolean
+                      )
+
+case class RolItem(
+                     rolId: Int,
+                     granted: Boolean
+                   )
+
 object Usuario {
 
   lazy val emptyUsuarioItems = UsuarioItems(
@@ -791,7 +802,11 @@ object Usuario {
 
     DB.withTransaction(user.database.database) { implicit connection =>
 
-      val sql = "select r.rol_id, rol_nombre, case when u.us_id is not null then 1 else 0 end as granted from Rol r left join UsuarioRol u on r.rol_id = u.rol_id where u.us_id = ?"
+      val sql = "select r.rol_id, rol_nombre, case when u.us_id is not null then 1 else 0 end as granted " +
+                "from Rol r " +
+                "left join UsuarioRol u on r.rol_id = u.rol_id " +
+                "and u.us_id = ? " +
+                "order by rol_nombre"
       val cs = connection.prepareCall(sql)
 
       cs.setInt(1, id)
@@ -811,4 +826,113 @@ object Usuario {
     }
   }
 
+  def updatePermission(user: CompanyUser, userId: Int)(permiso: PermisoItem) = {
+    Logger.info(s"update permiso $permiso for user $userId")
+    if(permiso.granted) createPermission(user, userId, permiso)
+    else deletePermission(user, permiso.perId)
+  }
+
+  def updateRole(user: CompanyUser, userId: Int)(rol: RolItem) = {
+    Logger.info(s"update rol $rol for user $userId")
+    if(rol.granted) createRole(user, userId, rol)
+    else deleteRole(user, rol.rolId, userId)
+  }
+
+  def deletePermission(user: CompanyUser, id: Int) = {
+    Logger.info(s"remove permiso per_id: $id")
+    DB.withConnection(user.database.database) { implicit connection =>
+      try {
+        SQL(s"DELETE FROM ${C.PERMISO} WHERE ${C.PER_ID} = {id}")
+          .on('id -> id)
+          .executeUpdate
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't delete a ${C.PERMISO}. ${C.PER_ID} id: $id. Error ${e.toString}")
+          throw e
+        }
+      }
+    }
+  }
+
+  def deleteRole(user: CompanyUser, rolId: Int, userId: Int) = {
+    Logger.info(s"remove usuario rol rol_id: $rolId for user_id: $userId")
+    DB.withConnection(user.database.database) { implicit connection =>
+      try {
+        SQL(s"DELETE FROM ${C.USUARIO_ROL} WHERE ${C.ROL_ID} = {rolId} AND ${C.US_ID} = {userId}")
+          .on('rolId -> rolId, 'userId -> userId)
+          .executeUpdate
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't delete a ${C.USUARIO_ROL}. ${C.ROL_ID} id: $rolId for id: ${userId}. Error ${e.toString}")
+          throw e
+        }
+      }
+    }
+  }
+
+  def createPermission(user: CompanyUser, userId: Int, permiso: PermisoItem) = {
+    Logger.info(s"create permiso $permiso for user $userId")
+    def getFields = {
+      List(
+        Field(C.PRE_ID, permiso.preId, FieldType.id),
+        Field(C.US_ID, userId, FieldType.id)
+      )
+    }
+    def throwException = {
+      throw new RuntimeException(s"Error when saving ${C.PERMISO}")
+    }
+
+    DBHelper.save(
+      user,
+      Register(
+        C.PERMISO,
+        C.PER_ID,
+        DBHelper.NoId,
+        false,
+        true,
+        true,
+        getFields),
+      true
+    ) match {
+      case SaveResult(true, _) =>
+      case SaveResult(false, _) => throwException
+    }
+  }
+  def createRole(user: CompanyUser, userId: Int, rol: RolItem) = {
+    Logger.info(s"add rol $rol for user $userId")
+    def getFields = {
+      List(
+        Field(C.ROL_ID, rol.rolId, FieldType.id),
+        Field(C.US_ID, userId, FieldType.id)
+      )
+    }
+    def throwException = {
+      throw new RuntimeException(s"Error when saving ${C.USUARIO_ROL}")
+    }
+
+    DBHelper.save(
+      user,
+      Register(
+        C.USUARIO_ROL,
+        "",
+        DBHelper.NoId,
+        false,
+        true,
+        true,
+        getFields),
+      true
+    ) match {
+      case SaveResult(true, _) =>
+      case SaveResult(false, _) => throwException
+    }
+  }
+
+  def updatePermissions(user: CompanyUser,
+                        permissions: List[PermisoItem],
+                        roles: List[RolItem],
+                        userId: Int) = {
+    Logger.info(s"updatePermissions: ${permissions.size}")
+    permissions.foreach(updatePermission(user, userId))
+    roles.foreach(updateRole(user, userId))
+  }
 }

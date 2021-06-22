@@ -66,6 +66,10 @@
       return defer.promise;
     },
 
+    finally: function(finallyCallback) {
+      return this.then(finallyCallback, finallyCallback);
+    },
+
     whenSuccess: function(successCallback, falseReturnValue, errorCallback) {
       if(!Cairo.isFunction(successCallback)) {
         Cairo.raiseError("Invalid argument", "Argument successCallback must be a function");

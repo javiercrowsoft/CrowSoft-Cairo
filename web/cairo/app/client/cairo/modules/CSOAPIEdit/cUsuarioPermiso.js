@@ -18,6 +18,7 @@
       var NO_ID = Cairo.Constants.NO_ID;
       var T = Dialogs.PropertyType;
       var getCell = Dialogs.cell;
+      var Types = Cairo.Constants.Types;
 
       var C_MODULE = "cUsuarioPermiso";
 
@@ -50,6 +51,7 @@
       var KIK_ROLES = 11;
 
       var KI_ROL_ID = 2;
+      var KI_GRANTED = 3;
 
       var m_userId = NO_ID;
       var m_userName = "";
@@ -60,8 +62,6 @@
 
       var m_dialog;
       var m_listController = null;
-
-      var m_itemsDeletedRoles = "";
 
       var m_apiPath = DB.getAPIVersion();
 
@@ -142,7 +142,11 @@
                     of calling saveDialog()
                     save is asynchronous (ajax call to server)
                   */
-                  return (answer === "yes");
+                  if(answer === "yes") {
+                    return m_dialog.save();
+                  } else {
+                    return answer === "no";
+                  }
                 });
             } else {
               p = P.resolvedPromise(true);
@@ -164,8 +168,10 @@
         register.setFieldId(C.US_ID);
         register.setTable(C.PERMISO);
 
-        register.setPath(m_apiPath + "general/usuario");
-        register.setTable(C.PERMISO)
+        register.setPath(m_apiPath + "general/usuario/permissions");
+        register.setTable(C.PERMISO);
+
+        register.setId(m_userId);
 
         saveItemsPermisos(register);
         saveItemsRoles(register);
@@ -209,12 +215,24 @@
 
           var register = new DB.Register();
 
-          var fields = register.getFields();
-          fields.add(C.PRE_ID, Dialogs.cell(row, KIK_PRE_NAME).getId(), Types.id);
-          fields.add(C.PER_ID, Dialogs.cell(row, KIK_PER_ID).getId(), Types.id);
-          fields.add(C.GRANTED, Dialogs.cell(row, KIK_GRANTED).getId(), Types.boolean);
+          if(
+            ( // is adding a permission
+              Dialogs.cell(row, KIK_PER_ID).getId() === NO_ID &&
+              Cairo.Util.bool(Dialogs.cell(row, KIK_GRANTED).getId())
+            )
+            ||
+            ( // is removing a permission
+              Dialogs.cell(row, KIK_PER_ID).getId() !== NO_ID &&
+              ! Cairo.Util.bool(Dialogs.cell(row, KIK_GRANTED).getId())
+            )
+          ) {
+            var fields = register.getFields();
+            fields.add(C.PRE_ID, Dialogs.cell(row, KIK_PRE_NAME).getId(), Types.id);
+            fields.add(C.PER_ID, Dialogs.cell(row, KIK_PER_ID).getId(), Types.id);
+            fields.add(C.GRANTED, Dialogs.cell(row, KIK_GRANTED).getId(), Types.boolean);
 
-          transaction.addRegister(register);
+            transaction.addRegister(register);
+          }
         }
 
         mainRegister.addTransaction(transaction);
@@ -229,16 +247,18 @@
         for(var _i = 0; _i < _count; _i++) {
 
           var row = rows.item(_i);
-          var register = new DB.Register();
-          var fields = register.getFields();
+          var rolId = Dialogs.cell(row, KI_ROL_ID).getId();
+          var granted = Dialogs.cell(row, KI_GRANTED).getId() !== 0;
 
-          fields.add(C.ROL_ID, Dialogs.cell(row, KI_ROL_ID).getId(), Types.id);
+          if((rolId > 0 && ! granted) || (rolId < 0 && granted)) {
+            var register = new DB.Register();
+            var fields = register.getFields();
 
-          transaction.addRegister(register);
-        }
+            fields.add(C.ROL_ID, Math.abs(rolId), Types.id);
+            fields.add(C.GRANTED, granted, Types.boolean);
 
-        if(m_itemsDeletedRoles) {
-          transaction.setDeletedList(m_itemsDeletedRoles);
+            transaction.addRegister(register);
+          }
         }
 
         mainRegister.addTransaction(transaction);
@@ -445,11 +465,9 @@
         elem.setName("Roles");
         elem.setKey(K_ROLES);
         elem.setTabIndex(TAB_ROLES);
-        elem.setGridAddEnabled(true);
+        elem.setGridAddEnabled(false);
         elem.setGridEditEnabled(true);
-        elem.setGridRemoveEnabled(true);
-
-        m_itemsDeletedRoles = "";
+        elem.setGridRemoveEnabled(false);
 
         return m_dialog.show(self);
       };
@@ -613,6 +631,11 @@
         elem.setSelectTable(Cairo.Tables.ROL);
         elem.setKey(KI_ROL_ID);
 
+        elem = columns.add(null);
+        elem.setName("");
+        elem.setType(T.check);
+        elem.setKey(KI_GRANTED);
+
         grid.getRows().clear();
       }
 
@@ -624,17 +647,25 @@
 
         rows.clear();
 
-        for(var _i = 0, count = m_data.roles.length; _i < count; _i += 1) {
+        var items = DB.getResultSetFromData(m_data.roles);
 
-          var row = rows.add(null, getValue(m_data.roles[_i], C.ROL_ID));
+        for(var _i = 0, count = items.length; _i < count; _i += 1) {
 
-          row.add(null); // aux column
+          var row = rows.add(null);
+
+          var granted = valField(items[_i], C.GRANTED)
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.roles[_i], C.ROL_NAME));
-          elem.setId(getValue(m_data.roles[_i], C.ROL_ID));
+          elem.setId(valField(items[_i], C.ROL_ID));
+
+          elem = row.add(null);
+          elem.setValue(valField(items[_i], C.ROL_NAME));
+          elem.setId(valField(items[_i], C.ROL_ID) * (granted ? 1 : -1));
           elem.setKey(KI_ROL_ID);
 
+          elem = row.add(null);
+          elem.setId(boolToInt(granted));
+          elem.setKey(KI_GRANTED);
         }
 
         return true;
@@ -688,22 +719,7 @@
       };
 
       self.deleteRow = function(key, row, lRow) {
-        var id = null;
-        var canDelete = true;
-
-        switch (key) {
-
-          case K_ROLES:
-            id = Dialogs.cell(row, KI_ROL_ID).getId();
-            if(id != NO_ID) { m_itemsDeletedRoles = m_itemsDeletedRoles+ id.toString()+ ","; }
-            break;
-
-          case K_PERMISO:
-            canDelete = false;
-            break;
-        }
-
-        return P.resolvedPromise(canDelete);
+        return P.resolvedPromise(false);
       };
 
       self.newRow = function(key, rows) {
@@ -711,7 +727,7 @@
       };
 
       self.validateRow = function(key, row, rowIndex) {
-        return P.resolvedPromise(false);
+        return P.resolvedPromise(true);
       };
 
       self.columnAfterUpdate = function(key, lRow, lCol) {

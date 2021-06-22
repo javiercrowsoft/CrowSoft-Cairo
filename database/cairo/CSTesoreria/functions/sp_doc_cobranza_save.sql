@@ -891,7 +891,19 @@ begin
    --
    if v_is_new = 0 then
 
-      -- antes que nada voy a tener que desvincular los cheques de los
+    drop table if exists tt_cobzi_cheque;
+    create temporary table tt_cobzi_cheque
+    (
+     cheq_id integer not null
+    ) on commit drop;
+
+    drop table if exists tt_cobzi_cupon;
+    create temporary table tt_cobzi_cupon
+    (
+     tjcc_id integer not null
+    ) on commit drop;
+
+    -- antes que nada voy a tener que desvincular los cheques de los
       -- asientoitem vinculados a esta cobranza
       --
       select as_id

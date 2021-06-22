@@ -4796,7 +4796,7 @@
               return M.showInfo(getText(4963, "")); // La operación concluyo con éxito
             } else {
               // TODO: create a new message in lenguajeitem
-              return M.showWarning(getText(, "")); // La operación concluyo pero ocurrieron algunos errores
+              return M.showWarning(getText(-1, "")); // La operación concluyo pero ocurrieron algunos errores
             }
           });
       };

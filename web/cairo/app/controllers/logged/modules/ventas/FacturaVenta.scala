@@ -646,7 +646,7 @@ object FacturaVentas extends Controller with ProvidesUser {
         case deletedList :: t => Map(deletedList)
       }
       val serieItems = serieRows.toList match {
-        case (k: String, item: JsValue) :: t => preprocessSeriesParam(item, C.FACTURA_VENTA_ITEM_SERIE_TMP)
+        case (_: String, item: JsValue) :: _ => preprocessSeriesParam(item, C.FACTURA_VENTA_ITEM_SERIE_TMP)
         case _ => Map(C.FACTURA_VENTA_ITEM_SERIE_TMP -> JsArray(List()))
       }
 
@@ -712,7 +712,7 @@ object FacturaVentas extends Controller with ProvidesUser {
       case deletedList :: t => Map(C.FACTURA_PERCEPCION_DELETED -> Json.toJson(deletedList._2))
     }
     val facturaPercepciones = percepcionRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessPercepcionesParam(item, C.FACTURA_VENTA_PERCEPCION_TMP)
+      case (_: String, item: JsValue) :: _ => preprocessPercepcionesParam(item, C.FACTURA_VENTA_PERCEPCION_TMP)
       case _ => Map(C.FACTURA_VENTA_PERCEPCION_TMP -> JsArray(List()))
     }
 
@@ -721,7 +721,7 @@ object FacturaVentas extends Controller with ProvidesUser {
     val remitosInfo = getJsValueAsMap(getParamsJsonRequestFor(C.REMITO_FACTURA_VENTA_TMP, params))
     val remitoRows = getParamsJsonRequestFor(GC.ITEMS, remitosInfo)
     val facturaRemitos = remitoRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessRemitosParam(item, C.REMITO_FACTURA_VENTA_TMP)
+      case (_: String, item: JsValue) :: _ => preprocessRemitosParam(item, C.REMITO_FACTURA_VENTA_TMP)
       case _ => Map(C.REMITO_FACTURA_VENTA_TMP -> JsArray(List()))
     }
 
@@ -788,7 +788,7 @@ object FacturaVentas extends Controller with ProvidesUser {
     val notasCreditoInfo = getJsValueAsMap(getParamsJsonRequestFor(TC.FACTURA_VENTA_NOTA_CREDITO_TMP, params))
     val notaCreditoRows = getParamsJsonRequestFor(GC.ITEMS, notasCreditoInfo)
     val notasCredito = notaCreditoRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessNotasCreditoParam(item, TC.FACTURA_VENTA_NOTA_CREDITO_TMP)
+      case (_: String, item: JsValue) :: _ => preprocessNotasCreditoParam(item, TC.FACTURA_VENTA_NOTA_CREDITO_TMP)
       case _ => Map(TC.FACTURA_VENTA_NOTA_CREDITO_TMP -> JsArray(List()))
     }
 
@@ -797,7 +797,7 @@ object FacturaVentas extends Controller with ProvidesUser {
     val pedidosVentaInfo = getJsValueAsMap(getParamsJsonRequestFor(C.PEDIDO_FACTURA_VENTA_TMP, params))
     val pedidosVentaRows = getParamsJsonRequestFor(GC.ITEMS, pedidosVentaInfo)
     val pedidosVenta = pedidosVentaRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessPedidosVentaParam(item, C.PEDIDO_FACTURA_VENTA_TMP)
+      case (_: String, item: JsValue) :: _ => preprocessPedidosVentaParam(item, C.PEDIDO_FACTURA_VENTA_TMP)
       case _ => Map(C.PEDIDO_FACTURA_VENTA_TMP -> JsArray(List()))
     }
 
@@ -806,7 +806,7 @@ object FacturaVentas extends Controller with ProvidesUser {
     val remitosInfo = getJsValueAsMap(getParamsJsonRequestFor(C.REMITO_FACTURA_VENTA_TMP, params))
     val remitoRows = getParamsJsonRequestFor(GC.ITEMS, remitosInfo)
     val remitosVenta = remitoRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessRemitosVentaParam(item, C.REMITO_FACTURA_VENTA_TMP)
+      case (_: String, item: JsValue) :: _ => preprocessRemitosVentaParam(item, C.REMITO_FACTURA_VENTA_TMP)
       case _ => Map(C.REMITO_FACTURA_VENTA_TMP -> JsArray(List()))
     }
 
@@ -843,7 +843,7 @@ object FacturaVentas extends Controller with ProvidesUser {
       val cobranzaRows = getParamsJsonRequestFor(GC.ITEMS, cobranzasInfo)
       Logger.debug(s"cobranzaRows: ${cobranzaRows}")
       val cobranzas = cobranzaRows.toList match {
-        case (k: String, item: JsValue) :: t => preprocessCobranzasParam(item, TC.FACTURA_VENTA_COBRANZA_TMP)
+        case (_: String, item: JsValue) :: _ => preprocessCobranzasParam(item, TC.FACTURA_VENTA_COBRANZA_TMP)
         case _ => Map(TC.FACTURA_VENTA_COBRANZA_TMP -> JsArray(List()))
       }
 
@@ -854,7 +854,7 @@ object FacturaVentas extends Controller with ProvidesUser {
       val ctaCteRows = getParamsJsonRequestFor(GC.ITEMS, ctasCteInfo)
       Logger.debug(s"ctaCteRows: ${ctaCteRows}")
       val ctaCteCobranza = ctaCteRows.toList match {
-        case (k: String, item: JsValue) :: t => preprocessCobranzasParam(item, TC.COBRANZA_ITEM_CUENTA_CORRIENTE_TMP)
+        case (_: String, item: JsValue) :: _ => preprocessCobranzasParam(item, TC.COBRANZA_ITEM_CUENTA_CORRIENTE_TMP)
         case _ => Map(TC.COBRANZA_ITEM_CUENTA_CORRIENTE_TMP -> JsArray(List()))
       }
 
@@ -873,7 +873,7 @@ object FacturaVentas extends Controller with ProvidesUser {
     val cobranzasItemInfo = getJsValueAsMap(getParamsJsonRequestFor(TC.COBRANZA_TMP, params))
     val cobranzaItemRows = getParamsJsonRequestFor(GC.ITEMS, cobranzasItemInfo)
     val cobranzasItem = cobranzaItemRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessCobranzasItemParam(item, TC.COBRANZA_TMP)
+      case (_: String, item: JsValue) :: _ => preprocessCobranzasItemParam(item, TC.COBRANZA_TMP)
       case _ => Map(TC.COBRANZA_TMP -> JsArray(List()))
     }
 

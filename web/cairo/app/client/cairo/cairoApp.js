@@ -1568,6 +1568,7 @@
     var message = null;
     var title = null;
     var activeInput = null;
+    var messageLabel = null;
 
     var showMessage = function() {
       if(!workDone) {
@@ -1578,12 +1579,14 @@
           });
           activeInput = $(document.activeElement);
           Cairo.dialogLoadingRegion.show(view);
+          messageLabel = $("#loading-view-message");
         }
       }
     };
 
     var closeView = function() {
       try {
+        messageLabel = null;
         Cairo.dialogLoadingRegion.closeDialog();
       }
       catch(ignore) {}
@@ -1624,11 +1627,19 @@
       show(title, message, 0);
     }
 
+    var setMessage = function(message_) {
+      if(messageLabel !== null) {
+        message = message_;
+        messageLabel.text(message);
+      }
+    };
+
     return {
       close: close,
       show: show,
       showWait: showWait,
-      showNow: showNow
+      showNow: showNow,
+      setMessage: setMessage
     };
 
   }());

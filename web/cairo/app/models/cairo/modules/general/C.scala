@@ -1115,6 +1115,7 @@ object C {
   val PRE_ID = "pre_id"
   val PRE_NAME = "pre_nombre"
   val PRE_GRUPO = "pre_grupo"
+  val GRANTED = "granted"
   
   // Empresa
   val EMPRESA = "Empresa"
@@ -1550,6 +1551,8 @@ object C {
 }
 
 object S {
+
+  val EDIT_PERMISO = 8
 
   val LIST_USUARIO = 10
   val NEW_USUARIO = 11

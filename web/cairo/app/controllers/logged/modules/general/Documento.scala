@@ -383,7 +383,7 @@ object Documentos extends Controller with ProvidesUser {
       case deletedList :: t => Map(C.REPORTES_DELETED -> Json.toJson(deletedList._2))
     }
     val documentoReportes = reporteRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessReportesParam(item, C.REPORTE_FORMULARIO)
+      case (_: String, item: JsValue) :: _ => preprocessReportesParam(item, C.REPORTE_FORMULARIO)
       case _ => Map(C.REPORTE_FORMULARIO -> JsArray(List()))
     }
 
@@ -396,7 +396,7 @@ object Documentos extends Controller with ProvidesUser {
       case deletedList :: t => Map(C.FIRMAS_DELETED -> Json.toJson(deletedList._2))
     }
     val documentoFirmas = firmaRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessFirmasParam(item, C.DOCUMENTO_FIRMA)
+      case (_: String, item: JsValue) :: _ => preprocessFirmasParam(item, C.DOCUMENTO_FIRMA)
       case _ => Map(C.DOCUMENTO_FIRMA -> JsArray(List()))
     }
 

@@ -498,7 +498,7 @@ object RemitoVentas extends Controller with ProvidesUser {
         case deletedList :: t => Map(deletedList)
       }
       val serieItems = serieRows.toList match {
-        case (k: String, item: JsValue) :: t => preprocessSeriesParam(item, C.REMITO_VENTA_ITEM_SERIE_TMP)
+        case (_: String, item: JsValue) :: _ => preprocessSeriesParam(item, C.REMITO_VENTA_ITEM_SERIE_TMP)
         case _ => Map(C.REMITO_VENTA_ITEM_SERIE_TMP -> JsArray(List()))
       }
 
@@ -550,7 +550,7 @@ object RemitoVentas extends Controller with ProvidesUser {
     val pedidosInfo = getJsValueAsMap(getParamsJsonRequestFor(C.PEDIDO_REMITO_VENTA_TMP, params))
     val pedidoRows = getParamsJsonRequestFor(GC.ITEMS, pedidosInfo)
     val remitoPedidos = pedidoRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessPedidosParam(item, C.PEDIDO_REMITO_VENTA_TMP)
+      case (_: String, item: JsValue) :: _ => preprocessPedidosParam(item, C.PEDIDO_REMITO_VENTA_TMP)
       case _ => Map(C.PEDIDO_REMITO_VENTA_TMP -> JsArray(List()))
     }
 
@@ -597,7 +597,7 @@ object RemitoVentas extends Controller with ProvidesUser {
     val pedidosVentaInfo = getJsValueAsMap(getParamsJsonRequestFor(C.PEDIDO_REMITO_VENTA_TMP, params))
     val pedidosVentaRows = getParamsJsonRequestFor(GC.ITEMS, pedidosVentaInfo)
     val pedidosVenta = pedidosVentaRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessPedidosVentaParam(item, C.PEDIDO_REMITO_VENTA_TMP)
+      case (_: String, item: JsValue) :: _ => preprocessPedidosVentaParam(item, C.PEDIDO_REMITO_VENTA_TMP)
       case _ => Map(C.PEDIDO_REMITO_VENTA_TMP -> JsArray(List()))
     }
 

@@ -465,7 +465,7 @@ object PedidoVentas extends Controller with ProvidesUser {
     val presupuestosInfo = getJsValueAsMap(getParamsJsonRequestFor(C.PRESUPUESTO_PEDIDO_VENTA_TMP, params))
     val remitoRows = getParamsJsonRequestFor(GC.ITEMS, presupuestosInfo)
     val pedidoPresupuestos = remitoRows.toList match {
-      case (k: String, item: JsValue) :: t => preprocessPresupuestosParam(item, C.PRESUPUESTO_PEDIDO_VENTA_TMP)
+      case (_: String, item: JsValue) :: _ => preprocessPresupuestosParam(item, C.PRESUPUESTO_PEDIDO_VENTA_TMP)
       case _ => Map(C.PRESUPUESTO_PEDIDO_VENTA_TMP -> JsArray(List()))
     }
 
