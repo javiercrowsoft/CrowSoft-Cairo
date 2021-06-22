@@ -16,6 +16,7 @@ dev-docker.conf
 database/no_repo_scripts
 
 web/cairo/logs
+web/target
 
 .DS_Store
 
@@ -30,4 +31,3 @@ database/backup/*salmax*.*
 tmp/
 web/cairo/app/client/extensions/*
 all_functions.txt
-
