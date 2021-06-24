@@ -1098,6 +1098,8 @@ object C {
   val ROL_NAME = "rol_nombre"
   val ROL_DESCRIP = "rol_descrip"
 
+  val ROL_ITEMS = "rolItems"
+
   // UsuarioRol
   val USUARIO_ROL = "UsuarioRol"
   val USUARIO_ROL_DELETED = "deletedRol"
@@ -1558,6 +1560,11 @@ object S {
   val NEW_USUARIO = 11
   val EDIT_USUARIO = 12
   val DELETE_USUARIO = 13
+
+  val LIST_ROL = 14
+  val NEW_ROL = 15
+  val EDIT_ROL = 16
+  val DELETE_ROL = 17
 
   val NEW_DEPOSITO_LOGICO = 1016
   val EDIT_DEPOSITO_LOGICO = 1017

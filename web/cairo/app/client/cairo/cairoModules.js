@@ -29,6 +29,8 @@ Cairo.SearchZona = {};
 
 Cairo.Usuario = {};
 Cairo.UsuarioPermiso = {};
+Cairo.Rol = {};
+Cairo.RolPermiso = {};
 Cairo.Producto = {};
 Cairo.Proveedor = {};
 Cairo.Cliente = {};

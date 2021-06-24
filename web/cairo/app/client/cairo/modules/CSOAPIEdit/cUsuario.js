@@ -144,7 +144,7 @@
       };
 
       self.editDocumentsEnabled = function() {
-        return m_id != NO_ID;
+        return m_id !== NO_ID;
       };
 
       self.copyEnabled = function() {
@@ -439,7 +439,7 @@
                 m_copy = false;
 
                 if(inModalWindow) {
-                  success = m_id != NO_ID;
+                  success = m_id !== NO_ID;
                 }
                 else {
                   success = true;
@@ -986,12 +986,10 @@
         for(var _i = 0; _i < _count; _i++) {
 
           var row = rows.item(_i);
-
           var register = new DB.Register();
-
           var fields = register.getFields();
+
           fields.add(C.ROL_ID, Dialogs.cell(row, KI_ROL_ID).getId(), Types.id);
-          fields.add(C.US_ID, m_id, Types.id);
 
           transaction.addRegister(register);
         }

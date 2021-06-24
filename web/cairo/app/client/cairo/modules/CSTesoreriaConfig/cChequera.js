@@ -106,7 +106,7 @@
       };
 
       self.editDocumentsEnabled = function() {
-        return m_id != NO_ID;
+        return m_id !== NO_ID;
       };
 
       self.copyEnabled = function() {

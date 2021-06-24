@@ -46,6 +46,7 @@
       US_DEPOSITO: "us_deposito",
 
       US_COPY_PERMISSIONS: "us_copy_permissions",
+      ROL_COPY_PERMISSIONS: "rol_copy_permissions",
 
       EMPRESA_USUARIO: "EmpresaUsuario",
       EMP_US_ID: "empus_id",

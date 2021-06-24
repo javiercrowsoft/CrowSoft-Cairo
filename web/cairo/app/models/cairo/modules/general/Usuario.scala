@@ -195,7 +195,7 @@ case class Usuario(
 
 }
 
-case class PermisoItem(
+case class UsuarioPermisoItem(
                         preId: Int,
                         perId: Int,
                         granted: Boolean
@@ -826,16 +826,16 @@ object Usuario {
     }
   }
 
-  def updatePermission(user: CompanyUser, userId: Int)(permiso: PermisoItem) = {
-    Logger.info(s"update permiso $permiso for user $userId")
-    if(permiso.granted) createPermission(user, userId, permiso)
+  def updatePermission(user: CompanyUser, usId: Int)(permiso: UsuarioPermisoItem) = {
+    Logger.info(s"update permiso $permiso for user $usId")
+    if(permiso.granted) createPermission(user, usId, permiso)
     else deletePermission(user, permiso.perId)
   }
 
-  def updateRole(user: CompanyUser, userId: Int)(rol: RolItem) = {
-    Logger.info(s"update rol $rol for user $userId")
-    if(rol.granted) createRole(user, userId, rol)
-    else deleteRole(user, rol.rolId, userId)
+  def updateRole(user: CompanyUser, usId: Int)(rol: RolItem) = {
+    Logger.info(s"update rol $rol for user $usId")
+    if(rol.granted) createRole(user, usId, rol)
+    else deleteRole(user, rol.rolId, usId)
   }
 
   def deletePermission(user: CompanyUser, id: Int) = {
@@ -854,28 +854,28 @@ object Usuario {
     }
   }
 
-  def deleteRole(user: CompanyUser, rolId: Int, userId: Int) = {
-    Logger.info(s"remove usuario rol rol_id: $rolId for user_id: $userId")
+  def deleteRole(user: CompanyUser, rolId: Int, usId: Int) = {
+    Logger.info(s"remove usuario rol rol_id: $rolId for user_id: $usId")
     DB.withConnection(user.database.database) { implicit connection =>
       try {
-        SQL(s"DELETE FROM ${C.USUARIO_ROL} WHERE ${C.ROL_ID} = {rolId} AND ${C.US_ID} = {userId}")
-          .on('rolId -> rolId, 'userId -> userId)
+        SQL(s"DELETE FROM ${C.USUARIO_ROL} WHERE ${C.ROL_ID} = {rolId} AND ${C.US_ID} = {usId}")
+          .on('rolId -> rolId, 'usId -> usId)
           .executeUpdate
       } catch {
         case NonFatal(e) => {
-          Logger.error(s"can't delete a ${C.USUARIO_ROL}. ${C.ROL_ID} id: $rolId for id: ${userId}. Error ${e.toString}")
+          Logger.error(s"can't delete a ${C.USUARIO_ROL}. ${C.ROL_ID} id: $rolId for id: ${usId}. Error ${e.toString}")
           throw e
         }
       }
     }
   }
 
-  def createPermission(user: CompanyUser, userId: Int, permiso: PermisoItem) = {
-    Logger.info(s"create permiso $permiso for user $userId")
+  def createPermission(user: CompanyUser, usId: Int, permiso: UsuarioPermisoItem) = {
+    Logger.info(s"create permiso $permiso for user $usId")
     def getFields = {
       List(
         Field(C.PRE_ID, permiso.preId, FieldType.id),
-        Field(C.US_ID, userId, FieldType.id)
+        Field(C.US_ID, usId, FieldType.id)
       )
     }
     def throwException = {
@@ -898,12 +898,12 @@ object Usuario {
       case SaveResult(false, _) => throwException
     }
   }
-  def createRole(user: CompanyUser, userId: Int, rol: RolItem) = {
-    Logger.info(s"add rol $rol for user $userId")
+  def createRole(user: CompanyUser, usId: Int, rol: RolItem) = {
+    Logger.info(s"add rol $rol to user $usId")
     def getFields = {
       List(
         Field(C.ROL_ID, rol.rolId, FieldType.id),
-        Field(C.US_ID, userId, FieldType.id)
+        Field(C.US_ID, usId, FieldType.id)
       )
     }
     def throwException = {
@@ -928,11 +928,11 @@ object Usuario {
   }
 
   def updatePermissions(user: CompanyUser,
-                        permissions: List[PermisoItem],
+                        permissions: List[UsuarioPermisoItem],
                         roles: List[RolItem],
-                        userId: Int) = {
-    Logger.info(s"updatePermissions: ${permissions.size}")
-    permissions.foreach(updatePermission(user, userId))
-    roles.foreach(updateRole(user, userId))
+                        usId: Int) = {
+    Logger.info(s"updatePermissions: permissions: ${permissions.size} - roles: ${roles.size}")
+    permissions.foreach(updatePermission(user, usId))
+    roles.foreach(updateRole(user, usId))
   }
 }

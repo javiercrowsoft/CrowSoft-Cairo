@@ -169,7 +169,6 @@
         register.setTable(C.PERMISO);
 
         register.setPath(m_apiPath + "general/usuario/permissions");
-        register.setTable(C.PERMISO);
 
         register.setId(m_userId);
 
@@ -627,8 +626,7 @@
 
         elem = columns.add(null);
         elem.setName(getText(2619, "")); // Rol
-        elem.setType(Dialogs.PropertyType.select);
-        elem.setSelectTable(Cairo.Tables.ROL);
+        elem.setType(T.text);
         elem.setKey(KI_ROL_ID);
 
         elem = columns.add(null);

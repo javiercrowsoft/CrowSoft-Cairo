@@ -1,5 +1,3 @@
-// Controller
-
 package controllers.logged.modules.general
 
 import controllers._
@@ -7,27 +5,25 @@ import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
 import actions._
-import controllers.logged.modules.compras.FacturaCompras.Ok
 import play.api.Logger
 import play.api.libs.json._
 import models.cairo.modules.general._
 import models.cairo.system.security.CairoSecurity
 import models.cairo.system.database.{DBHelper, Recordset}
 
-
 case class UsuarioCliProvData(
                                id: Int,
                                cliId: Int,
                                provId: Int
-                              )
+                             )
 
 case class EmpresaUsuarioData(
                                empId: Int
-                              )
+                             )
 
 case class UsuarioRolData(
                            rolId: Int
-                          )
+                         )
 
 case class UsuarioItemsData(
                              cliProvs: List[UsuarioCliProvData],
@@ -54,11 +50,11 @@ case class UsuarioData(
                         items: UsuarioItemsData
                       )
 
-case class PermisoData (
-                         id: Int,
-                         permisos: List[PermisoItem],
-                         roles: List[RolItem]
-                       )
+case class UsuarioPermisoData (
+                                id: Int,
+                                permisos: List[UsuarioPermisoItem],
+                                roles: List[RolItem]
+                              )
 
 object Usuarios extends Controller with ProvidesUser {
 
@@ -149,20 +145,20 @@ object Usuarios extends Controller with ProvidesUser {
   val permisosForm = Form(
     mapping(
       "id" -> number,
-      C.PERMISO -> Forms.list[PermisoItem](
+      C.PERMISO -> Forms.list[UsuarioPermisoItem](
         mapping(
           C.PRE_ID -> number,
           C.PER_ID -> number,
           C.GRANTED -> boolean
-        )(PermisoItem.apply)(PermisoItem.unapply)
+        )(UsuarioPermisoItem.apply)(UsuarioPermisoItem.unapply)
       ),
-      C.ROL -> Forms.list[RolItem](
+      C.USUARIO_ROL -> Forms.list[RolItem](
         mapping(
           C.ROL_ID -> number,
           C.GRANTED -> boolean
         )(RolItem.apply)(RolItem.unapply)
       )
-    )(PermisoData.apply)(PermisoData.unapply))
+    )(UsuarioPermisoData.apply)(UsuarioPermisoData.unapply))
 
   def get(id: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_USUARIO), { user =>
@@ -470,10 +466,10 @@ object Usuarios extends Controller with ProvidesUser {
         Logger.debug(s"invalid form: ${formWithErrors.toString}")
         BadRequest
       },
-      permisoData => {
-        Logger.debug(s"form: ${permisoData.toString}")
+      UsuarioPermisoData => {
+        Logger.debug(s"form: ${UsuarioPermisoData.toString}")
         LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_PERMISO), { user =>
-          Usuario.updatePermissions(user, permisoData.permisos, permisoData.roles, permisoData.id)
+          Usuario.updatePermissions(user, UsuarioPermisoData.permisos, UsuarioPermisoData.roles, UsuarioPermisoData.id)
           // Backbonejs requires at least an empty json object in the response
           // if not it will call errorHandler even when we responded with 200 OK :P
           Ok(JsonUtil.emptyJson)
@@ -481,6 +477,4 @@ object Usuarios extends Controller with ProvidesUser {
       }
     )
   }
-
-
 }
