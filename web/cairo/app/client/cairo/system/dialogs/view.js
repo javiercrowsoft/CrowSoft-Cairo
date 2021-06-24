@@ -837,6 +837,12 @@
         };
       };
 
+      that.onTextPasswordChange = function(control) {
+        return function() {
+          that.raiseEvent("textPasswordChange", control.getIndex());
+        };
+      };
+
       that.onTextAreaChange = function(control) {
         return function() {
           that.raiseEvent("textAreaChange", control.getIndex());

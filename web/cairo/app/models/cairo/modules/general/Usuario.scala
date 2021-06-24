@@ -588,12 +588,15 @@ object Usuario {
     val masterUserId: Int = masterUser match {
       case Some(user) => {
         val userNameWithDomain = getUserNameFromDomain
-        if(user.username != getUserNameFromDomain) {
+        if(user.username != userNameWithDomain) {
           User.update(
             usuario.id,
             userNameWithDomain,
             userNameWithDomain
           )
+        }
+        if(! usuario.password.isEmpty) {
+          User.updatePassword(usuario.id, usuario.password)
         }
         usuario.id
       }
@@ -927,12 +930,34 @@ object Usuario {
     }
   }
 
+  def updateSysModulo(user: CompanyUser, usId: Int) = {
+    DB.withTransaction(user.database.database) { implicit connection =>
+
+      val sql = "{call sp_sys_module_get_ex(?)}"
+      val cs = connection.prepareCall(sql)
+
+      cs.setInt(1, usId)
+
+      try {
+        cs.execute()
+      } catch {
+        case NonFatal(e) => {
+          Logger.error(s"can't get update sysModulo for user id $usId and current user ${user.toString}. Error ${e.toString}")
+          throw e
+        }
+      } finally {
+        cs.close
+      }
+    }
+  }
+
   def updatePermissions(user: CompanyUser,
                         permissions: List[UsuarioPermisoItem],
                         roles: List[RolItem],
-                        usId: Int) = {
+                        usId: Int): Unit = {
     Logger.info(s"updatePermissions: permissions: ${permissions.size} - roles: ${roles.size}")
     permissions.foreach(updatePermission(user, usId))
     roles.foreach(updateRole(user, usId))
+    if(! permissions.isEmpty || ! roles.isEmpty) updateSysModulo(user, usId)
   }
 }

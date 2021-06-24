@@ -28,42 +28,33 @@ http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
 */
--- Function: sp_sys_module_get()
+-- Function: sp_sys_module_role_get_ex()
 
--- drop function sp_sys_module_get_ex();
+-- drop function sp_sys_module_role_get_ex();
 
 /*
-	select * from usuario
- sp_sys_module_get_ex 38
+  sp_sys_module_role_get_ex 1
 */
-
-create or replace function sp_sys_module_get_ex(in p_us_id integer)
-  returns void as
+create or replace function sp_sys_module_role_get_ex(in p_rol_id integer)
+ returns void as
 $BODY$
 declare
+ v_us_id integer;
 begin
 
-   delete from sysModuloUser where us_id = p_us_id;
+   for v_us_id in
+      select us_id
+      from UsuarioRol
+      where rol_id = p_rol_id
+   loop
 
-   insert into sysModuloUser
-     ( sysm_id, us_id )
-     ( select distinct S.sysm_id, p_us_id
-       from sysModulo S
-       join Permiso p on S.pre_id = p.pre_id
-       where ( exists ( select per_id
-                        from Permiso
-                        where per_id = p.per_id
-                          and us_id = p_us_id )
-               or exists ( select per_id
-                           from Permiso
-                           join UsuarioRol
-                             on Permiso.rol_id = UsuarioRol.rol_id
-                           where per_id = p.per_id
-                             and UsuarioRol.us_id = p_us_id ) ) );
+      perform sp_sys_module_get_ex(v_us_id);
+
+   end loop;
 
 end;
 $BODY$
-  language plpgsql volatile
-  cost 100;
-alter function sp_sys_module_get_ex(integer)
-  owner to postgres;
+ language plpgsql volatile
+                  cost 100;
+alter function sp_sys_module_role_get_ex(integer)
+ owner to postgres;

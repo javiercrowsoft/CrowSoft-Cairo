@@ -50,6 +50,10 @@
 
       var superSetElement = that.setElement;
 
+      var isPassword = function() {
+        return self.type === Controls.InputType.password;
+      };
+
       var isText = function() {
         return (
           self.type === Controls.InputType.text
@@ -116,7 +120,15 @@
           onChange = onChangeHandler;
         }
         else {
-          onChange = isText() ? view.onTextChange(that) : view.onMaskEditChange(that);
+          if(isText()) {
+            if(isPassword()) {
+              onChange = view.onTextPasswordChange(that);
+            } else {
+              onChange = view.onTextChange(that);
+            }
+          } else {
+            onChange = view.onMaskEditChange(that);
+          }
         }
         input.change(function() {
           that.setText(input.val());
