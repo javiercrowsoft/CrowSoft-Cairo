@@ -56,6 +56,30 @@ object Router {
          |${menu.action}
          |${menu.path}
        """.stripMargin) )*/
-    menus.map( menu => createEntry(menu.handler, menu.action, menu.path, menu.action2, menu.path2) )
+    val entries: List[RouterEntry] = menus.map( menu => createEntry(menu.handler, menu.action, menu.path, menu.action2, menu.path2) )
+
+    val maybeMissingConfigObjects = List(
+      MissingEntry("CSContabilidadConfig/cContConfig", "edit", "contabilidad/contconfig", "", ""),
+      MissingEntry("CSStockConfig/cStockConfig", "edit", "stock/stockconfig", "", ""),
+      MissingEntry("CSVentaConfig/cVentaConfig", "edit", "venta/ventaconfig", "", ""),
+      MissingEntry("CSTesoreriaConfig/cTesoreriaConfig", "edit", "tesoreria/tesoreriaconfig", "", ""),
+      MissingEntry("CSGeneralEx2/cUsuarioConfig", "edit", "general/usuarioconfig", "", "")
+    )
+
+    addMissingConfigObjects(entries, maybeMissingConfigObjects)
+  }
+
+  case class MissingEntry(fileHandler: String, action: String, path: String, action2: String, path2: String)
+
+  def addMissingConfigObjects(entries: List[RouterEntry], mos: List[MissingEntry]): List[RouterEntry] = mos match {
+    case Nil => entries
+    case mo :: t => addMissingConfigObjects(addMissingConfigObject(entries, mo), t)
+  }
+  def addMissingConfigObject(entries: List[RouterEntry], mo: MissingEntry) = {
+    if(! entries.filter(c => c.fileHandler.equals(mo.fileHandler)).isEmpty) {
+      entries
+    } else {
+      createEntry(mo.fileHandler, mo.action, mo.path, mo.action2, mo.path2) :: entries
+    }
   }
 }

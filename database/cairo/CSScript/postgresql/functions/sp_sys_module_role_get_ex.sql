@@ -1,4 +1,4 @@
-/*
+﻿/*
 CrowSoft-Cairo
 ==============
 
@@ -33,7 +33,7 @@ javier at crowsoft.com.ar
 -- drop function sp_sys_module_role_get_ex();
 
 /*
-  sp_sys_module_role_get_ex 1
+  select * from sp_sys_module_role_get_ex (1)
 */
 create or replace function sp_sys_module_role_get_ex(in p_rol_id integer)
  returns void as

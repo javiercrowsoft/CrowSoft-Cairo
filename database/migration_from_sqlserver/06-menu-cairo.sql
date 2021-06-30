@@ -869,9 +869,9 @@ update sysmenu set me_object_handler = 'cProductoCVXI', me_action = 'edit', me_p
 update sysmodulo set sysm_objetoedicion = 'CSCVXI.cProductoCVXI' where sysm_id = 39015;
 
 
-update sysMenu set me_action = 'edit', me_object_handler = 'cUsuarioPermiso', me_path = 'sistema/usuarios/permisos', me_action2 = '', me_path2 = '', pre_id = 8, me_father = 2758 where me_id = 879
-update sysMenu set me_action = 'edit', me_object_handler = 'cRolPermiso', me_path = 'sistema/roles/permisos', me_action2 = '', me_path2 = '', pre_id = 8, me_father = 2756 where me_id = 876
+update sysMenu set me_action = 'edit', me_object_handler = 'cUsuarioPermiso', me_path = 'sistema/usuarios/permisos', me_action2 = '', me_path2 = '', pre_id = 8, me_father = 2758 where me_id = 879;
+update sysMenu set me_action = 'edit', me_object_handler = 'cRolPermiso', me_path = 'sistema/roles/permisos', me_action2 = '', me_path2 = '', pre_id = 8, me_father = 2756 where me_id = 876;
 
-update sysmodulo set sysm_objetoedicion = 'CSOAPIEdit.cUsuarioPermiso' where sysm_objetoedicion = 'CSOAPIEdit.cMenuPermisoUsuario'
-update sysmodulo set sysm_objetoedicion = 'CSOAPIEdit.cRolPermiso' where sysm_objetoedicion = 'CSOAPIEdit.cMenuPermisoRol'
+update sysmodulo set sysm_objetoedicion = 'CSOAPIEdit.cUsuarioPermiso' where sysm_objetoedicion = 'CSOAPIEdit.cMenuPermisoUsuario';
+update sysmodulo set sysm_objetoedicion = 'CSOAPIEdit.cRolPermiso' where sysm_objetoedicion = 'CSOAPIEdit.cMenuPermisoRol';
 

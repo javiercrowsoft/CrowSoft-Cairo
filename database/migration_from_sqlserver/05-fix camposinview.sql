@@ -50,3 +50,10 @@ where tbl_id = 4001;
 
 
 update tabla set tbl_sqlhelp = 'select pr_id, pr_nombrecompra as Nombre, pr_nombreventa as Venta, pr_codigo as Codigo, pr_descripcompra as Desc from Producto' where tbl_id = 30;
+
+update tabla set tbl_camposinview = 'Activo=activo,
+Persona=coalesce((select prs_apellido ||'', ''|| prs_nombre from persona where prs_id = usuario.prs_id),''''),
+Departamento=coalesce((select dpto_nombre from persona p inner join Departamento d on p.dpto_id = d.dpto_id where prs_id = usuario.prs_id),''''),
+Sucursal=coalesce((select suc_nombre from sucursal  where suc_id =usuario.suc_id),''''),
+Cargo=coalesce((select prs_cargo from persona  where prs_id =usuario.prs_id),''''),
+Modifico=(select us_nombre from usuario us where us_id =usuario.modifico)' where tbl_id = 3;
