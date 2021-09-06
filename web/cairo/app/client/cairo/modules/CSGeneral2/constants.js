@@ -264,6 +264,20 @@
       CLIS_COD_POSTAL: "clis_codpostal",
       CLIS_CONTACTO: "clis_contacto",
 
+      // Lenguaje
+      LENGUAJE: "Lenguaje",
+      LENG_ID: "leng_id",
+      LENG_ID_PADRE: "leng_id_padre",
+      LENG_NAME: "leng_nombre",
+      LENG_CODE: "leng_codigo",
+      LENG_DESCRIP: "leng_descrip",
+
+      // Lenguaje
+      LENGUAJE_ITEM: "LenguajeItem",
+      LENGI_ID: "lengi_id",
+      LENGI_TEXTO: "lengi_texto",
+      LENGI_CODIGO: "lengi_codigo",
+
       // Banco
       BANCO: "Banco",
       BCO_ID: "bco_id",
@@ -950,7 +964,7 @@
       RET_ES_IIBB: "ret_esiibb",
 
       // RetencionItem
-      RETENCIONITEM: "RetencionItem",
+      RETENCION_ITEM: "RetencionItem",
       RETI_ID: "reti_id",
       RETI_IMPORTE_DESDE: "reti_importedesde",
       RETI_IMPORTE_HASTA: "reti_importehasta",
@@ -1273,7 +1287,7 @@
       FE_RECURRENTE: "fe_recurrente",
 
       // PercepcionCategoriaFiscal
-      PERCEPCIONCATEGORIAFISCAL: "PercepcionCategoriaFiscal",
+      PERCEPCION_CATEGORIA_FISCAL: "PercepcionCategoriaFiscal",
       PERC_CATF_ID: "perccatf_id",
       PERC_CATF_BASE: "perccatf_base",
 
@@ -1286,17 +1300,17 @@
       PERC_EMP_ID: "percemp_id",
 
       // CategoriaFiscal
-      CATEGORIAFISCAL: "CategoriaFiscal",
+      CATEGORIA_FISCAL: "CategoriaFiscal",
       CATF_ID: "catf_id",
       CATF_NAME: "catf_nombre",
 
       // RetencionCategoriaFiscal
-      RETENCIONCATEGORIAFISCAL: "RetencionCategoriaFiscal",
+      RETENCION_CATEGORIA_FISCAL: "RetencionCategoriaFiscal",
       RET_CATF_ID: "retcatf_id",
       RET_CATF_BASE: "retcatf_base",
 
       // RetencionProvincia
-      RETENCIONPROVINCIA: "RetencionProvincia",
+      RETENCION_PROVINCIA: "RetencionProvincia",
       RET_PRO_ID: "retpro_id",
 
       // ProductoDepositoFisico
@@ -1576,6 +1590,29 @@
         noResponsableExento: 9,
         noCategorizado: 10,
         inscriptoM: 11
+      },
+
+      RetencionTipo: {
+        sobreIva: 1,
+        sobreNeto: 2,
+        ganancias: 3,
+        brutoEIva: 4
+      },
+
+      RetencionTipoAcumulado: {
+        noAcumula: 1,
+        mensual: 2
+      },
+
+      RetencionTipoMinimo: {
+        noImponible: 1,
+        imponible:2
+      },
+
+      RetencionBase: {
+        neto: 1,
+        netoGravado: 2,
+        total: 3
       },
 
       DepositosInternos: {

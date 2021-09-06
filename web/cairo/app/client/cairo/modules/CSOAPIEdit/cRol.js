@@ -19,7 +19,7 @@
       var M = Cairo.Modal;
       var valEmpty = Cairo.Util.valEmpty;
       var Types = Cairo.Constants.Types;
-      var bToI = Cairo.Util.boolToInt;
+      var b2i = Cairo.Util.boolToInt;
 
       var C_MODULE = "cUsuario";
 
@@ -399,7 +399,7 @@
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
         elem.setKey(K_ACTIVE);
-        elem.setValue(bToI(m_active));
+        elem.setValue(b2i(m_active));
 
         elem = properties.add(null, C.ROL_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
@@ -434,7 +434,7 @@
         property.setValue(m_name);
 
         property = properties.item(Cairo.Constants.ACTIVE);
-        property.setValue(bToI(m_active));
+        property.setValue(b2i(m_active));
 
         property = properties.item(C.ROL_DESCRIP);
         property.setValue(m_descrip);

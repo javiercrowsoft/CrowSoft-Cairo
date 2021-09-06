@@ -418,27 +418,27 @@
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        var elem = properties.add(null, C.RETT_CODE);
+        elem = properties.add(null, C.RETT_CODE);
         elem.setType(Dialogs.PropertyType.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(15);
         elem.setKey(K_CODE);
         elem.setValue(m_code);
 
-        var elem = properties.add(null, Cairo.Constants.ACTIVE);
+        elem = properties.add(null, Cairo.Constants.ACTIVE);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
         elem.setKey(K_ACTIVE);
         elem.setValue(Cairo.Util.boolToInt(m_active));
 
-        var elem = properties.add(null, C.RETT_GENERA_SICORE);
+        elem = properties.add(null, C.RETT_GENERA_SICORE);
         elem.setType(Dialogs.PropertyType.check);
         // Genera Sicore
         elem.setName(getText(1266, ""));
         elem.setKey(K_GENERASICORE);
         elem.setValue(Cairo.Util.boolToInt(m_generaSicore));
 
-        var elem = properties.add(null, C.RETT_CODIGO_SICORE);
+        elem = properties.add(null, C.RETT_CODIGO_SICORE);
         elem.setType(Dialogs.PropertyType.text);
         // Código Sicore
         elem.setName(getText(1265, ""));
@@ -446,7 +446,7 @@
         elem.setKey(K_CODIGOSICORE);
         elem.setValue(m_codigoSicore);
 
-        var elem = properties.add(null, C.CUE_ID);
+        elem = properties.add(null, C.CUE_ID);
         elem.setType(Dialogs.PropertyType.select);
         elem.setSelectTable(Cairo.Tables.CUENTA);
         // Cuenta
@@ -455,32 +455,34 @@
         elem.setValue(m_cuenta);
         elem.setSelectId(m_cue_id);
 
-        var elem = properties.add(null, C.RETT_TIPO);
+        elem = properties.add(null, C.RETT_TIPO);
         elem.setType(Dialogs.PropertyType.list);
         // Tipo
         elem.setName(getText(1223, ""));
         elem.setKey(K_TIPO);
-        elem.setListItemData(m_tipo);
         elem.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
+        elem.setListItemData(m_tipo);
 
-        var elem = row.add(null);
-        elem.Id = csE_RetencionTipo.cSERETTSOBREIVA;
+        var list = elem.getList();
+
+        elem = list.add(null);
+        elem.setId(C.RetencionTipo.sobreIva);
         // Sobre Iva
         elem.setValue(getText(1424, ""));
-        var elem = row.add(null);
-        elem.Id = csE_RetencionTipo.cSERETTSOBRENETO;
+        elem = list.add(null);
+        elem.setId(C.RetencionTipo.sobreNeto);
         // Sobre Neto
         elem.setValue(getText(1425, ""));
-        var elem = row.add(null);
-        elem.Id = csE_RetencionTipo.cSERETTGANANCIAS;
+        elem = list.add(null);
+        elem.setId(C.RetencionTipo.ganancias);
         // Ganancias
         elem.setValue(getText(1426, ""));
-        var elem = row.add(null);
-        elem.Id = csE_RetencionTipo.cSERETTBRUTOEIVA;
+        elem = list.add(null);
+        elem.setId(C.RetencionTipo.brutoEIva);
         // Sobre el Total
         elem.setValue(getText(1427, ""));
 
-        var elem = properties.add(null, C.RETT_DESCRIP);
+        elem = properties.add(null, C.RETT_DESCRIP);
         elem.setType(Dialogs.PropertyType.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);

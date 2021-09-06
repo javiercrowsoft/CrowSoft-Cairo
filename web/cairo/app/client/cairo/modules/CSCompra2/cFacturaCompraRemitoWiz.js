@@ -29,7 +29,7 @@
       var Percepciones = Cairo.Compras.Percepciones;
       var getCell = Dialogs.cell;
       var val = U.val;
-      var bToI = U.boolToInt;
+      var b2i = U.boolToInt;
       var WC = Cairo.Constants.WizardConstants;
       var WCS = Cairo.Constants.WizardSteps;
       var DWC = Cairo.Constants.WizardKeys;
@@ -373,7 +373,7 @@
         var remitos = getRemitos();
         for(var _i = 0, _count = remitos.getRows().size(); _i < _count; _i++) {
           var row = remitos.getRows().item(_i);
-          getCell(row, KI_SELECT).setId(bToI(bSelect));
+          getCell(row, KI_SELECT).setId(b2i(bSelect));
         }
 
         m_objWizard.showValueEx(getRemitosProperty(), true);
@@ -384,7 +384,7 @@
 
         for(var _i = 0, _count = items.getRows().size(); _i < _count; _i++) {
           var row = items.getRows().item(_i);
-          getCell(row, KII_SELECT).setId(bToI(bSelect));
+          getCell(row, KII_SELECT).setId(b2i(bSelect));
           selectItem(row, items.getColumns());
         }
 
@@ -1566,7 +1566,7 @@
                     row.add(null);
 
                     var elem = row.add(null);
-                    elem.setId(bToI(selected));
+                    elem.setId(b2i(selected));
                     elem.setKey(KI_SELECT);
 
                     elem = row.add(null);

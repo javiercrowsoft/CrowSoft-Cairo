@@ -32,7 +32,7 @@
       var Grids = Cairo.Dialogs.Grids;
       var val = U.val;
       var round = U.round;
-      var bToI = U.boolToInt;
+      var b2i = U.boolToInt;
       var WC = Cairo.Constants.WizardConstants;
       var WCS = Cairo.Constants.WizardSteps;
       var DWC = Cairo.Constants.WizardKeys;

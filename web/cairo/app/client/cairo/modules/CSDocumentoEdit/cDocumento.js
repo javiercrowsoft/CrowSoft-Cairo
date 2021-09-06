@@ -10,7 +10,6 @@
       var getText = Cairo.Language.getText;
 
       var P = Cairo.Promises;
-      var call = P.call;
       var Dialogs = Cairo.Dialogs;
       var DB = Cairo.Database;
       var C = Cairo.General.Constants;
@@ -18,11 +17,9 @@
       var Types = Cairo.Constants.Types;
       var D = Cairo.Documents;
       var U = Cairo.Util;
-      var bToI = U.boolToInt;
-      var bool = U.bool;
+      var b2i = U.boolToInt;
       var valField = DB.valField;
       var getValue = DB.getValue;
-      var getDateValue = DB.getDateValue;
       var M = Cairo.Modal;
       var T = Dialogs.PropertyType;
       var val = U.val;
@@ -2108,7 +2105,7 @@
         properties.clear();
 
         var elem = properties.add(null, C.DOCT_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TIPOS_DE_DOCUMENTO);
         elem.setName(getText(2366, "")); // Tipo de Documento
         elem.setKey(K_DOCT_ID);
@@ -2116,7 +2113,7 @@
         elem.setSelectId(m_doct_id);
 
         elem = properties.add(null, C.EMP_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.EMPRESA);
         elem.setName(getText(1114, "")); // Empresa
         elem.setKey(K_EMP_ID);
@@ -2124,7 +2121,7 @@
         elem.setSelectId(m_emp_id);
 
         elem = properties.add(null, C.CICO_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.CIRCUITO_CONTABLE);
         elem.setName(getText(1073, "")); // Circuito Contable
         elem.setKey(K_CICO_ID);
@@ -2132,33 +2129,33 @@
         elem.setSelectId(m_cico_id);
 
         elem = properties.add(null, C.DOC_NAME);
-        elem.setType(Dialogs.PropertyType.text);
+        elem.setType(T.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(255);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
         elem = properties.add(null, C.DOC_CODE);
-        elem.setType(Dialogs.PropertyType.text);
+        elem.setType(T.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(50);
         elem.setKey(K_CODE);
         elem.setValue(m_code);
 
         elem = properties.add(null, Cairo.Constants.ACTIVE);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
         elem.setKey(K_ACTIVE);
-        elem.setValue(m_active === true ? 1 : 0);
+        elem.setValue(b2i(m_active));
 
         elem = properties.add(null, C.DOC_EDITAR_IMPRESOS);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(3482, "")); // Permitir la edición de comprobantes impresos
         elem.setKey(K_EDITAR_IMPRESOS);
-        elem.setValue(Cairo.Util.boolToInt(m_editarImpresos));
+        elem.setValue(b2i(m_editarImpresos));
 
         elem = properties.add(null, C.FCA_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.FECHAS_DE_CONTROL_DE_ACCESO);
         elem.setName(getText(2571, "")); // Fecha Control de Acceso
         elem.setKey(K_FCA_ID);
@@ -2168,7 +2165,7 @@
         setTipoDoc();
 
         elem = properties.add(null, C.DOC_DESCRIP);
-        elem.setType(Dialogs.PropertyType.text);
+        elem.setType(T.text);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSize(5000);
         elem.setKey(K_DESCRIP);
@@ -2176,7 +2173,7 @@
         elem.setValue(m_descrip);
 
         elem = properties.add(null, C.DOC_OBJECT_EDIT);
-        elem.setType(Dialogs.PropertyType.text);
+        elem.setType(T.text);
         elem.setName(getText(2775, "")); // Objeto Edición
         elem.setKey(K_DOC_EDIT_OBJECT);
         elem.setValue(m_object_edit);
@@ -2212,10 +2209,10 @@
         property.setValue(m_code);
 
         property = properties.item(Cairo.Constants.ACTIVE);
-        property.setValue(m_active === true ? 1 : 0);
+        property.setValue(b2i(m_active));
 
         property = properties.item(C.DOC_EDITAR_IMPRESOS);
-        property.setValue(Cairo.Util.boolToInt(m_editarImpresos));
+        property.setValue(b2i(m_editarImpresos));
 
         property = properties.item(C.FCA_ID);
         property.setValue(m_fechaControlAcceso);
@@ -2435,7 +2432,7 @@
 
         elem = columns.add(null);
         elem.setName(getText(1137, "")); // Usuario
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.USUARIO);
         elem.setKey(KI_US_ID);
 
@@ -2477,39 +2474,39 @@
 
         elem = columns.add(null);
         elem.setName(Cairo.Constants.NAME_LABEL);
-        elem.setType(Dialogs.PropertyType.text);
+        elem.setType(T.text);
         elem.setKey(KI_NOMBRE);
 
         elem = columns.add(null);
         elem.setName(getText(2572, "")); // Archivo CSR
-        elem.setType(Dialogs.PropertyType.file);
+        elem.setType(T.file);
         elem.setSelectFilter("Reportes|*.csr");
         elem.setKey(KI_CSRFILE);
 
         elem = columns.add(null);
         elem.setName(getText(2573, "")); // Sugerido
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setKey(KI_SUGERIDO);
 
         elem = columns.add(null);
         elem.setName(getText(3915, "")); // Sugerido Mail
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setKey(KI_SUGERIDOMAIL);
 
         elem = columns.add(null);
         elem.setName(getText(2574, "")); // Copias
-        elem.setType(Dialogs.PropertyType.numeric);
+        elem.setType(T.numeric);
         elem.setSubType(Dialogs.PropertySubType.integer);
         elem.setKey(KI_COPIAS);
 
         elem = columns.add(null);
         elem.setName(getText(2575, "")); // Imprimir al grabar un Documento nuevo
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setKey(KI_PRINTINNEW);
 
         elem = columns.add(null);
         elem.setName(getText(2576, "")); // Objeto ActiveX
-        elem.setType(Dialogs.PropertyType.text);
+        elem.setType(T.text);
         elem.setKey(KI_RPT_OBJ);
 
         grid.getRows().clear();
@@ -2844,7 +2841,7 @@
         var properties = m_dialog.getProperties();
 
         var elem = properties.add(null, C.TA_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
@@ -2858,7 +2855,7 @@
         var properties = m_dialog.getProperties();
 
         var elem = properties.add(null, C.TA_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
@@ -2866,10 +2863,10 @@
         elem.setSelectId(m_ta_id);
 
         elem = properties.add(null, C.DOC_ST_CONSUMO);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(3524, "")); // Es Consumo de Stock
         elem.setKey(K_ST_CONSUMO);
-        elem.setValue(Cairo.Util.boolToInt(m_stConsumo));
+        elem.setValue(b2i(m_stConsumo));
 
       };
 
@@ -2878,7 +2875,7 @@
         var properties = m_dialog.getProperties();
 
         var elem = properties.add(null, C.TA_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
@@ -2886,7 +2883,7 @@
         elem.setSelectId(m_ta_id);
 
         elem = properties.add(null, C.MON_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
         elem.setName(getText(1113, "")); // Moneda
         elem.setKey(K_MON_ID);
@@ -2894,7 +2891,7 @@
         elem.setSelectId(m_mon_id);
 
         elem = properties.add(null, C.DOC_ID_STOCK);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setSelectFilter(D.TRANSFERENCIA_STOCK_DOC_FILTER + "|emp_id:" + m_emp_id.toString());
         elem.setName(getText(2580, "")); // Documento Stock"
@@ -2911,7 +2908,7 @@
         var properties = m_dialog.getProperties();
 
         var elem = properties.add(null, C.TA_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
@@ -2919,7 +2916,7 @@
         elem.setSelectId(m_ta_id);
 
         elem = properties.add(null, C.DOC_ID_STOCK);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setTable(C.DOCUMENTO);
         elem.setSelectFilter(D.TRANSFERENCIA_STOCK_DOC_FILTER + "|emp_id:" + m_emp_id.toString());
         elem.setName(getText(2580, "")); // Documento Stock
@@ -2936,7 +2933,7 @@
         var properties = m_dialog.getProperties();
 
         var elem = properties.add(null, C.TA_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
@@ -2954,25 +2951,25 @@
         var properties = m_dialog.getProperties();
 
         var elem = properties.add(null, C.DOC_LLEVA_FIRMA);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2582, "")); // Lleva Firma
         elem.setKey(K_LLEVA_FIRMA);
-        elem.setValue(Cairo.Util.boolToInt(m_llevaFirma));
+        elem.setValue(b2i(m_llevaFirma));
 
         elem = properties.add(null, C.DOC_LLEVA_FIRMA_CREDITO);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2583, "")); // Lleva Firma Crédito
         elem.setKey(K_LLEVA_FIRMA_CREDITO);
-        elem.setValue(Cairo.Util.boolToInt(m_llevaFirmaCredito));
+        elem.setValue(b2i(m_llevaFirmaCredito));
 
         elem = properties.add(null, C.DOC_PV_DESDE_PRV);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2584, "")); // Requiere Presupuesto de Venta
         elem.setKey(K_PV_DESDE_PRV);
-        elem.setValue(Cairo.Util.boolToInt(m_pvDesdePrv));
+        elem.setValue(b2i(m_pvDesdePrv));
 
         elem = properties.add(null, C.TA_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
@@ -2981,7 +2978,7 @@
         elem.setSelectFilter("generic_filter|emp_id:=:" + m_emp_id.toString());
 
         elem = properties.add(null, C.MON_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
         elem.setName(getText(1113, "")); // Moneda
         elem.setKey(K_MON_ID);
@@ -2999,31 +2996,31 @@
         var properties = m_dialog.getProperties();
 
         var elem = properties.add(null, C.DOC_LLEVA_FIRMA);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2582, "")); // Lleva Firma
         elem.setKey(K_LLEVA_FIRMA);
-        elem.setValue(Cairo.Util.boolToInt(m_llevaFirma));
+        elem.setValue(b2i(m_llevaFirma));
 
         elem = properties.add(null, C.DOC_RV_DESDE_PV);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2585, "")); // Requiere Pedido de Venta
         elem.setKey(K_RV_DESDE_PV);
-        elem.setValue(Cairo.Util.boolToInt(m_rvDesdePv));
+        elem.setValue(b2i(m_rvDesdePv));
 
         elem = properties.add(null, C.DOC_RV_DESDE_OS);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2586, "")); // Requiere Orden de Servicio
         elem.setKey(K_RV_DESDE_OS);
-        elem.setValue(Cairo.Util.boolToInt(m_rvDesdeOs));
+        elem.setValue(b2i(m_rvDesdeOs));
 
         elem = properties.add(null, C.DOC_RV_BOM);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2587, "")); // Consume Stock x B.O.M.
         elem.setKey(K_RV_BOM);
-        elem.setValue(Cairo.Util.boolToInt(m_rvBom));
+        elem.setValue(b2i(m_rvBom));
 
         elem = properties.add(null, C.TA_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
@@ -3032,7 +3029,7 @@
         elem.setSelectFilter("generic_filter|emp_id:=:" + m_emp_id.toString());
 
         elem = properties.add(null, C.MON_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
         elem.setName(getText(1113, "")); // Moneda
         elem.setKey(K_MON_ID);
@@ -3040,14 +3037,14 @@
         elem.setSelectId(m_mon_id);
 
         elem = properties.add(null, C.DOC_MUEVE_STOCK);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2588, "")); // Mueve Stock
         elem.setKey(K_MUEVE_STOCK);
-        elem.setValue(Cairo.Util.boolToInt(m_mueveStock));
+        elem.setValue(b2i(m_mueveStock));
         elem.setTabIndex(tab.getIndex());
 
         elem = properties.add(null, C.DOC_ID_STOCK);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setSelectFilter(D.TRANSFERENCIA_STOCK_DOC_FILTER + "|emp_id:" + m_emp_id.toString());
         elem.setName(getText(2580, "")); // Documento Stock
@@ -3065,13 +3062,13 @@
         var properties = m_dialog.getProperties();
 
         var elem = properties.add(null, C.DOC_LLEVA_FIRMA);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2582, "")); // Lleva Firma
         elem.setKey(K_LLEVA_FIRMA);
-        elem.setValue(Cairo.Util.boolToInt(m_llevaFirma));
+        elem.setValue(b2i(m_llevaFirma));
 
         elem = properties.add(null, C.TA_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
@@ -3089,13 +3086,13 @@
         var properties = m_dialog.getProperties();
 
         var elem = properties.add(null, C.DOC_LLEVA_FIRMA);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2582, "")); // Lleva Firma
         elem.setKey(K_LLEVA_FIRMA);
-        elem.setValue(Cairo.Util.boolToInt(m_llevaFirma));
+        elem.setValue(b2i(m_llevaFirma));
 
         elem = properties.add(null, C.TA_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
@@ -3103,7 +3100,7 @@
         elem.setSelectId(m_ta_id);
 
         elem = properties.add(null, C.MON_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
         elem.setName(getText(1113, "")); // Moneda
         elem.setKey(K_MON_ID);
@@ -3111,7 +3108,7 @@
         elem.setSelectId(m_mon_id);
 
         elem = properties.add(null, C_PACKING_LIST_DIRECTO);
-        elem.setType(Dialogs.PropertyType.option);
+        elem.setType(T.option);
         elem.setOptionGroup(0);
         elem.setName(getText(2589, "")); // Sin Documento previo
         elem.setKey(K_PKLST_DIRECTO);
@@ -3119,7 +3116,7 @@
         elem.setTabIndex(tab.getIndex());
 
         elem = properties.add(null, C_PACKING_LIST_DESDE_PEDIDO);
-        elem.setType(Dialogs.PropertyType.option);
+        elem.setType(T.option);
         elem.setOptionGroup(0);
         elem.setName(getText(2590, "")); // Desde Pedido Venta
         elem.setKey(K_PKLST_DESDE_PV);
@@ -3127,7 +3124,7 @@
         elem.setTabIndex(tab.getIndex());
 
         elem = properties.add(null, C_PACKING_LIST_DESDE_REMITO);
-        elem.setType(Dialogs.PropertyType.option);
+        elem.setType(T.option);
         elem.setOptionGroup(0);
         elem.setName(getText(2591, "")); // Desde remito
         elem.setKey(K_PKLST_DESDE_RV);
@@ -3135,7 +3132,7 @@
         elem.setTabIndex(tab.getIndex());
 
         elem = properties.add(null, C_PACKING_LIST_DESDE_MANIFIESTO);
-        elem.setType(Dialogs.PropertyType.option);
+        elem.setType(T.option);
         elem.setOptionGroup(0);
         elem.setName(getText(2592, "")); // Desde manifiesto
         elem.setKey(K_PKLST_DESDE_MFC);
@@ -3166,13 +3163,13 @@
         var properties = m_dialog.getProperties();
 
         var elem = properties.add(null, C.DOC_LLEVA_FIRMA);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2582, "")); // Lleva Firma
         elem.setKey(K_LLEVA_FIRMA);
-        elem.setValue(Cairo.Util.boolToInt(m_llevaFirma));
+        elem.setValue(b2i(m_llevaFirma));
 
         elem = properties.add(null, C.MON_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
         elem.setName(getText(1113, "")); // Moneda
         elem.setKey(K_MON_ID);
@@ -3190,25 +3187,25 @@
         var properties = m_dialog.getProperties();
 
         var elem = properties.add(null, C.DOC_LLEVA_FIRMA);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2582, "")); // Lleva Firma
         elem.setKey(K_LLEVA_FIRMA);
-        elem.setValue(Cairo.Util.boolToInt(m_llevaFirma));
+        elem.setValue(b2i(m_llevaFirma));
 
         elem = properties.add(null, C.DOC_RC_DESDE_OC);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2593, "")); // Requiere Orden de Compra
         elem.setKey(K_RC_DESDE_OC);
-        elem.setValue(Cairo.Util.boolToInt(m_rcDesdeOc));
+        elem.setValue(b2i(m_rcDesdeOc));
 
         elem = properties.add(null, C.DOC_RC_DESPACHO_IMPO);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2594, "")); // Es un Despacho de Importación"
         elem.setKey(K_RC_DESPACHOIMPO);
-        elem.setValue(Cairo.Util.boolToInt(m_rcDespachoImpo));
+        elem.setValue(b2i(m_rcDespachoImpo));
 
         elem = properties.add(null, C.TA_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
@@ -3217,7 +3214,7 @@
         elem.setSelectFilter("generic_filter|emp_id:=:" + m_emp_id.toString());
 
         elem = properties.add(null, C.MON_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
         elem.setName(getText(1113, "")); // Moneda
         elem.setKey(K_MON_ID);
@@ -3225,14 +3222,14 @@
         elem.setSelectId(m_mon_id);
 
         elem = properties.add(null, C.DOC_MUEVE_STOCK);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2588, "")); // Mueve Stock
         elem.setKey(K_MUEVE_STOCK);
-        elem.setValue(Cairo.Util.boolToInt(m_mueveStock));
+        elem.setValue(b2i(m_mueveStock));
         elem.setTabIndex(tab.getIndex());
 
         elem = properties.add(null, C.DOC_ID_STOCK);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setSelectFilter(D.TRANSFERENCIA_STOCK_DOC_FILTER + "|emp_id:" + m_emp_id.toString());
         elem.setName(getText(2580, "")); // Documento Stock
@@ -3254,13 +3251,13 @@
         var properties = m_dialog.getProperties();
 
         var elem = properties.add(null, C.DOC_LLEVA_FIRMA);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2582, "")); // Lleva Firma
         elem.setKey(K_LLEVA_FIRMA);
-        elem.setValue(Cairo.Util.boolToInt(m_llevaFirma));
+        elem.setValue(b2i(m_llevaFirma));
 
         elem = properties.add(null, C.TA_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
@@ -3269,7 +3266,7 @@
         elem.setSelectFilter("generic_filter|emp_id:=:" + m_emp_id.toString());
 
         elem = properties.add(null, C.MON_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
         elem.setName(getText(1113, "")); // Moneda
         elem.setKey(K_MON_ID);
@@ -3277,14 +3274,14 @@
         elem.setSelectId(m_mon_id);
 
         elem = properties.add(null, C.DOC_MUEVE_STOCK);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2588, "")); // Mueve Stock
         elem.setKey(K_MUEVE_STOCK);
-        elem.setValue(Cairo.Util.boolToInt(m_mueveStock));
+        elem.setValue(b2i(m_mueveStock));
         elem.setTabIndex(tab.getIndex());
 
         elem = properties.add(null, C.DOC_ID_STOCK);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setSelectFilter(D.TRANSFERENCIA_STOCK_DOC_FILTER + "|emp_id:" + m_emp_id.toString());
         elem.setName(getText(2580, "")); // Documento Stock
@@ -3306,13 +3303,13 @@
         var properties = m_dialog.getProperties();
 
         var elem = properties.add(null, C.DOC_LLEVA_FIRMA);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2582, "")); // Lleva Firma
         elem.setKey(K_LLEVA_FIRMA);
-        elem.setValue(Cairo.Util.boolToInt(m_llevaFirma));
+        elem.setValue(b2i(m_llevaFirma));
 
         elem = properties.add(null, C.TA_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
@@ -3320,7 +3317,7 @@
         elem.setSelectId(m_ta_id);
 
         elem = properties.add(null, C.MON_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
         elem.setName(getText(1113, "")); // Moneda
         elem.setKey(K_MON_ID);
@@ -3328,14 +3325,14 @@
         elem.setSelectId(m_mon_id);
 
         elem = properties.add(null, C.DOC_MUEVE_STOCK);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2588, "")); // Mueve Stock
         elem.setKey(K_MUEVE_STOCK);
-        elem.setValue(Cairo.Util.boolToInt(m_mueveStock));
+        elem.setValue(b2i(m_mueveStock));
         elem.setTabIndex(tab.getIndex());
 
         elem = properties.add(null, C.DOC_ID_STOCK);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setSelectFilter(D.TRANSFERENCIA_STOCK_DOC_FILTER + "|emp_id:" + m_emp_id.toString());
         elem.setName(getText(2580, "")); // Documento Stock
@@ -3353,13 +3350,13 @@
         var properties = m_dialog.getProperties();
 
         var elem = properties.add(null, C.DOC_LLEVA_FIRMA);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2582, "")); // Lleva Firma
         elem.setKey(K_LLEVA_FIRMA);
-        elem.setValue(Cairo.Util.boolToInt(m_llevaFirma));
+        elem.setValue(b2i(m_llevaFirma));
 
         elem = properties.add(null, C.TA_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
@@ -3367,7 +3364,7 @@
         elem.setSelectId(m_ta_id);
 
         elem = properties.add(null, C.MON_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
         elem.setName(getText(1113, "")); // Moneda
         elem.setKey(K_MON_ID);
@@ -3381,13 +3378,13 @@
         var properties = m_dialog.getProperties();
 
         var elem = properties.add(null, C.DOC_LLEVA_FIRMA);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2582, "")); // Lleva Firma
         elem.setKey(K_LLEVA_FIRMA);
-        elem.setValue(Cairo.Util.boolToInt(m_llevaFirma));
+        elem.setValue(b2i(m_llevaFirma));
 
         elem = properties.add(null, C.TA_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
@@ -3395,7 +3392,7 @@
         elem.setSelectId(m_ta_id);
 
         elem = properties.add(null, C.MON_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
         elem.setName(getText(1113, "")); // Moneda
         elem.setKey(K_MON_ID);
@@ -3403,7 +3400,7 @@
         elem.setSelectId(m_mon_id);
 
         elem = properties.add(null, C.DOC_ID_ASIENTO);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setSelectFilter(getAsIdFilter(m_emp_id));
         elem.setName(getText(2596, "")); // Documento Asiento
@@ -3420,13 +3417,13 @@
         var properties = m_dialog.getProperties();
 
         var elem = properties.add(null, C.DOC_LLEVA_FIRMA);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2582, "")); // Lleva Firma
         elem.setKey(K_LLEVA_FIRMA);
-        elem.setValue(Cairo.Util.boolToInt(m_llevaFirma));
+        elem.setValue(b2i(m_llevaFirma));
 
         elem = properties.add(null, C.TA_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
@@ -3434,7 +3431,7 @@
         elem.setSelectId(m_ta_id);
 
         elem = properties.add(null, C.DOC_ID_ASIENTO);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setSelectFilter(getAsIdFilter(m_emp_id));
         elem.setName(getText(2596, "")); // Documento Asiento
@@ -3455,19 +3452,19 @@
         var properties = m_dialog.getProperties();
 
         var elem = properties.add(null, C.DOC_LLEVA_FIRMA);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2582, "")); // Lleva Firma
         elem.setKey(K_LLEVA_FIRMA);
-        elem.setValue(Cairo.Util.boolToInt(m_llevaFirma));
+        elem.setValue(b2i(m_llevaFirma));
 
         elem = properties.add(null, C.DOC_LLEVA_FIRMA_PRINT0);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(3495, "")); // Lleva Firma por Importes en Cero
         elem.setKey(K_LLEVA_FIRMA_PRINT_0);
-        elem.setValue(Cairo.Util.boolToInt(m_llevaFirmaPrint0));
+        elem.setValue(b2i(m_llevaFirmaPrint0));
 
         elem = properties.add(null, C.MON_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
         elem.setName(getText(1113, "")); // Moneda
         elem.setKey(K_MON_ID);
@@ -3475,7 +3472,7 @@
         elem.setSelectId(m_mon_id);
 
         elem = properties.add(null, C.CUEG_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.GRUPO_DE_CUENTA);
         elem.setName(getText(2597, "")); // Cuenta Grupo
         elem.setValue(m_cuentaGrupo);
@@ -3484,7 +3481,7 @@
         elem.setSelectFilter("generic_filter|cueg_tipo:=:4");
 
         elem = properties.add(null, C.DOC_ID_ASIENTO);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setSelectFilter(getAsIdFilter(m_emp_id));
         elem.setName(getText(2596, "")); // Documento Asiento
@@ -3494,7 +3491,7 @@
         elem.setSelectNoUseActive(true);
 
         elem = properties.add(null, C.TA_ID_INSCRIPTO);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(2598, "")); // Talonario Inscripto
         elem.setKey(K_TA_ID_INSCRIPTO);
@@ -3504,7 +3501,7 @@
         elem.setSelectFilter("generic_filter|emp_id:=:" + m_emp_id.toString());
 
         elem = properties.add(null, C.TA_ID_FINAL);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(2599, "")); // Talonario Exento/Mono/C.F.
         elem.setKey(K_TA_ID_FINAL);
@@ -3514,7 +3511,7 @@
         elem.setSelectFilter("generic_filter|emp_id:=:" + m_emp_id.toString());
 
         elem = properties.add(null, C.TA_ID_EXTERNO);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(2600, "")); // Talonario Externo
         elem.setKey(K_TA_ID_EXTERNO);
@@ -3524,7 +3521,7 @@
         elem.setSelectFilter("generic_filter|emp_id:=:" + m_emp_id.toString());
 
         elem = properties.add(null, C_FACTURA_DIRECTA);
-        elem.setType(Dialogs.PropertyType.option);
+        elem.setType(T.option);
         elem.setOptionGroup(0);
         elem.setName(getText(2589, "")); // Sin documento previo
         elem.setKey(K_FV_DIRECTA);
@@ -3532,7 +3529,7 @@
         elem.setTabIndex(tab.getIndex());
 
         elem = properties.add(null, C_FACTURA_DESDE_PEDIDO);
-        elem.setType(Dialogs.PropertyType.option);
+        elem.setType(T.option);
         elem.setOptionGroup(0);
         elem.setName(getText(2590, "")); // Desde pedido de venta
         elem.setKey(K_FV_DESDE_PV);
@@ -3540,7 +3537,7 @@
         elem.setTabIndex(tab.getIndex());
 
         elem = properties.add(null, C_FACTURA_DESDE_REMITO);
-        elem.setType(Dialogs.PropertyType.option);
+        elem.setType(T.option);
         elem.setOptionGroup(0);
         elem.setName(getText(2591, "")); // Desde remito
         elem.setKey(K_FV_DESDE_RV);
@@ -3548,7 +3545,7 @@
         elem.setTabIndex(tab.getIndex());
 
         elem = properties.add(null, C_FACTURA_DESDE_PACKING_LIST);
-        elem.setType(Dialogs.PropertyType.option);
+        elem.setType(T.option);
         elem.setOptionGroup(0);
         elem.setName(getText(2601, "")); // Desde Packing List
         elem.setKey(K_FV_DESDE_PKLST);
@@ -3556,7 +3553,7 @@
         elem.setTabIndex(tab.getIndex());
 
         elem = properties.add(null, C_FACTURA_DESDE_PROYECTO);
-        elem.setType(Dialogs.PropertyType.option);
+        elem.setType(T.option);
         elem.setOptionGroup(0);
         elem.setName(getText(2602, "")); // Desde proyectos
         elem.setKey(K_FV_DESDE_PROY);
@@ -3586,14 +3583,14 @@
         }
 
         elem = properties.add(null, C.DOC_GENERA_REMITO);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2603, "")); // Genera Remito
         elem.setKey(K_GENERA_REMITO);
-        elem.setValue(Cairo.Util.boolToInt(m_generaRemito));
+        elem.setValue(b2i(m_generaRemito));
         elem.setTabIndex(tab.getIndex());
 
         elem = properties.add(null, C.DOC_ID_REMITO);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setSelectFilter(D.REMITO_VENTA_DOC_FILTER + "|emp_id:" + m_emp_id.toString());
         elem.setName(getText(2604, "")); // Documento Remito
@@ -3605,14 +3602,14 @@
         elem.setSelectNoUseActive(true);
 
         elem = properties.add(null, C.DOC_MUEVE_STOCK);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2588, "")); // Mueve Stock
         elem.setKey(K_MUEVE_STOCK);
-        elem.setValue(Cairo.Util.boolToInt(m_mueveStock));
+        elem.setValue(b2i(m_mueveStock));
         elem.setTabIndex(tab.getIndex());
 
         elem = properties.add(null, C.DOC_ID_STOCK);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setSelectFilter(D.TRANSFERENCIA_STOCK_DOC_FILTER + "|emp_id:" + m_emp_id.toString());
         elem.setName(getText(2580, "")); // Documento Stock
@@ -3624,35 +3621,35 @@
         elem.setSelectNoUseActive(true);
 
         elem = properties.add(null, C.DOC_ES_CREDITO_BANCO);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(3695, "")); // Factura de Aval x Credito Bancario
         elem.setKey(K_ES_CREDITO_BANCO);
-        elem.setValue(Cairo.Util.boolToInt(m_esCreditoBanco));
+        elem.setValue(b2i(m_esCreditoBanco));
 
         elem = properties.add(null, C.DOC_ES_VENTA_ACCION);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(3696, "")); // Factura por Venta de Acciones
         elem.setKey(K_ES_VENTA_ACCION);
-        elem.setValue(Cairo.Util.boolToInt(m_esVentaAccion));
+        elem.setValue(b2i(m_esVentaAccion));
 
         elem = properties.add(null, C.DOC_ES_VENTA_CHEQUE);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(3697, "")); // Factura por Venta de Cheques en Bolsa de Comercio
         elem.setKey(K_ES_VENTA_CHEQUE);
-        elem.setValue(Cairo.Util.boolToInt(m_esVentaCheque));
+        elem.setValue(b2i(m_esVentaCheque));
 
         elem = properties.add(null, C.DOC_ES_FACTURA_ELECTRONICA);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(5123, "")); // Factura Electronica
         elem.setKey(K_FACTURA_ELECTRONICA);
-        elem.setValue(Cairo.Util.boolToInt(m_esFacturaElectronica));
+        elem.setValue(b2i(m_esFacturaElectronica));
         elem.setTabIndex(tab.getIndex());
 
         elem = properties.add(null, C.DOC_FV_SIN_PERCEPCION);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2605, "")); // Sin Percepción
         elem.setKey(K_FV_SIN_PERCEPCION);
-        elem.setValue(Cairo.Util.boolToInt(m_fv_SinPercepcion));
+        elem.setValue(b2i(m_fv_SinPercepcion));
         elem.setTabIndex(tab.getIndex());
 
       };
@@ -3666,19 +3663,19 @@
         var properties = m_dialog.getProperties();
 
         var elem = properties.add(null, C.DOC_LLEVA_FIRMA);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2582, "")); // Lleva Firma
         elem.setKey(K_LLEVA_FIRMA);
-        elem.setValue(Cairo.Util.boolToInt(m_llevaFirma));
+        elem.setValue(b2i(m_llevaFirma));
 
         elem = properties.add(null, C.DOC_ES_RESUMEN_BANCO);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(3584, "")); // Es un Resumen Bancario
         elem.setKey(K_ES_RESUMEN_BCO);
-        elem.setValue(Cairo.Util.boolToInt(m_esResumenBco));
+        elem.setValue(b2i(m_esResumenBco));
 
         elem = properties.add(null, C.MON_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
         elem.setName(getText(1113, "")); // Moneda
         elem.setKey(K_MON_ID);
@@ -3686,7 +3683,7 @@
         elem.setSelectId(m_mon_id);
 
         elem = properties.add(null, C.CUEG_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.GRUPO_DE_CUENTA);
         elem.setName(getText(2597, "")); // Cuenta Grupo
         elem.setValue(m_cuentaGrupo);
@@ -3695,7 +3692,7 @@
         elem.setSelectFilter("generic_filter|cueg_tipo:=:3");
 
         elem = properties.add(null, C.DOC_ID_ASIENTO);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setSelectFilter(getAsIdFilter(m_emp_id));
         elem.setName(getText(2596, "")); // Documento Asiento
@@ -3705,7 +3702,7 @@
         elem.setSelectNoUseActive(true);
 
         elem = properties.add(null, C.TA_ID_INSCRIPTO);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(2598, "")); // Talonario Inscripto
         elem.setKey(K_TA_ID_INSCRIPTO);
@@ -3715,7 +3712,7 @@
         elem.setSelectFilter("generic_filter|emp_id:=:" + m_emp_id.toString());
 
         elem = properties.add(null, C.TA_ID_FINAL);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(2599, "")); // Talonario Exento/Mono/C.F./R.N.I.
         elem.setKey(K_TA_ID_FINAL);
@@ -3725,7 +3722,7 @@
         elem.setSelectFilter("generic_filter|emp_id:=:" + m_emp_id.toString());
 
         elem = properties.add(null, C.TA_ID_EXTERNO);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(2600, "")); // Talonario Externo
         elem.setKey(K_TA_ID_EXTERNO);
@@ -3735,7 +3732,7 @@
         elem.setSelectFilter("generic_filter|emp_id:=:" + m_emp_id.toString());
 
         elem = properties.add(null, C.TA_ID_INSCRIPTO_M);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(2606, "")); // Talonario Inscripto M
         elem.setKey(K_TA_ID_INSCRIPTOM);
@@ -3745,7 +3742,7 @@
         elem.setSelectFilter("generic_filter|emp_id:=:" + m_emp_id.toString());
 
         elem = properties.add(null, C_FACTURA_DIRECTA);
-        elem.setType(Dialogs.PropertyType.option);
+        elem.setType(T.option);
         elem.setOptionGroup(0);
         elem.setName(getText(2589, "")); // Sin documento previo
         elem.setKey(K_FC_DIRECTA);
@@ -3753,7 +3750,7 @@
         elem.setTabIndex(tab.getIndex());
 
         elem = properties.add(null, C_FACTURA_DESDE_ORDEN);
-        elem.setType(Dialogs.PropertyType.option);
+        elem.setType(T.option);
         elem.setOptionGroup(0);
         elem.setName(getText(2607, "")); // Desde Orden de Compra
         elem.setKey(K_FC_DESDE_OC);
@@ -3761,7 +3758,7 @@
         elem.setTabIndex(tab.getIndex());
 
         elem = properties.add(null, C_FACTURA_DESDE_REMITO);
-        elem.setType(Dialogs.PropertyType.option);
+        elem.setType(T.option);
         elem.setOptionGroup(0);
         elem.setName(getText(2591, "")); // Desde remito
         elem.setKey(K_FC_DESDE_RC);
@@ -3783,14 +3780,14 @@
         }
 
         elem = properties.add(null, C.DOC_GENERA_REMITO);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2603, "")); // Genera Remito
         elem.setKey(K_GENERA_REMITO);
-        elem.setValue(Cairo.Util.boolToInt(m_generaRemito));
+        elem.setValue(b2i(m_generaRemito));
         elem.setTabIndex(tab.getIndex());
 
         elem = properties.add(null, C.DOC_ID_REMITO);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setSelectFilter(D.REMITO_COMPRA_DOC_FILTER + "|emp_id:" + m_emp_id.toString());
         elem.setName(getText(2604, "")); // Documento Remito
@@ -3802,14 +3799,14 @@
         elem.setSelectNoUseActive(true);
 
         elem = properties.add(null, C.DOC_MUEVE_STOCK);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2588, "")); // Mueve Stock
         elem.setKey(K_MUEVE_STOCK);
-        elem.setValue(Cairo.Util.boolToInt(m_mueveStock));
+        elem.setValue(b2i(m_mueveStock));
         elem.setTabIndex(tab.getIndex());
 
         elem = properties.add(null, C.DOC_ID_STOCK);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setSelectFilter(D.TRANSFERENCIA_STOCK_DOC_FILTER + "|emp_id:" + m_emp_id.toString());
         elem.setName(getText(2580, "")); // Documento Stock
@@ -3821,7 +3818,7 @@
         elem.setSelectNoUseActive(true);
 
         elem = properties.add(null, C.DOCG_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.GRUPOS_DE_DOCUMENTOS);
         elem.setName(getText(1404, "")); //  Grupo
         elem.setValue(m_documentoGrupo);
@@ -3836,13 +3833,13 @@
         var properties = m_dialog.getProperties();
 
         var elem = properties.add(null, C.DOC_LLEVA_FIRMA);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2582, "")); // Lleva Firma
         elem.setKey(K_LLEVA_FIRMA);
-        elem.setValue(Cairo.Util.boolToInt(m_llevaFirma));
+        elem.setValue(b2i(m_llevaFirma));
 
         elem = properties.add(null, C.TA_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
@@ -3850,7 +3847,7 @@
         elem.setSelectId(m_ta_id);
 
         elem = properties.add(null, C.MON_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
         elem.setName(getText(1113, "")); // Moneda
         elem.setKey(K_MON_ID);
@@ -3864,13 +3861,13 @@
         var properties = m_dialog.getProperties();
 
         var elem = properties.add(null, C.DOC_LLEVA_FIRMA);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2582, "")); // Lleva Firma
         elem.setKey(K_LLEVA_FIRMA);
-        elem.setValue(Cairo.Util.boolToInt(m_llevaFirma));
+        elem.setValue(b2i(m_llevaFirma));
 
         elem = properties.add(null, C.TA_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
@@ -3879,7 +3876,7 @@
         elem.setSelectFilter("generic_filter|emp_id:=:" + m_emp_id.toString());
 
         elem = properties.add(null, C.DOC_ID_ASIENTO);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setSelectFilter(getAsIdFilter(m_emp_id));
         elem.setName(getText(2596, "")); // Documento Asiento
@@ -3889,16 +3886,16 @@
         elem.setSelectNoUseActive(true);
 
         elem = properties.add(null, C.DOC_ES_COB_CHEQUE_SGR);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(3698, "")); // Es cobranza de cheques comerciados en la bolsa de comercio
         elem.setKey(K_ES_COB_CHEQUE_SGR);
-        elem.setValue(Cairo.Util.boolToInt(m_esCobChequesgr));
+        elem.setValue(b2i(m_esCobChequesgr));
 
         elem = properties.add(null, C.DOC_ES_COB_CAIDA_SGR);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(3699, "")); // Es cobranza de cheques o prestamos caidos
         elem.setKey(K_ES_COB_CAIDA_SGR);
-        elem.setValue(Cairo.Util.boolToInt(m_esCobCaidasgr));
+        elem.setValue(b2i(m_esCobCaidasgr));
 
       };
 
@@ -3907,13 +3904,13 @@
         var properties = m_dialog.getProperties();
 
         var elem = properties.add(null, C.DOC_LLEVA_FIRMA);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2582, "")); // Lleva Firma
         elem.setKey(K_LLEVA_FIRMA);
-        elem.setValue(Cairo.Util.boolToInt(m_llevaFirma));
+        elem.setValue(b2i(m_llevaFirma));
 
         elem = properties.add(null, C.TA_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
@@ -3922,7 +3919,7 @@
         elem.setSelectFilter("generic_filter|emp_id:=:" + m_emp_id.toString());
 
         elem = properties.add(null, C.DOC_ID_ASIENTO);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setSelectFilter(getAsIdFilter(m_emp_id));
         elem.setName(getText(2596, "")); // Documento Asiento
@@ -3942,7 +3939,7 @@
         var properties = m_dialog.getProperties();
 
         var elem = properties.add(null, C_ORDEN_DIRECTA);
-        elem.setType(Dialogs.PropertyType.option);
+        elem.setType(T.option);
         elem.setOptionGroup(0);
         elem.setName(getText(2589, "")); // Sin documento previo
         elem.setKey(K_OC_DIRECTA);
@@ -3950,7 +3947,7 @@
         elem.setTabIndex(tab.getIndex());
 
         elem = properties.add(null, C_ORDEN_DESDE_PEDIDO);
-        elem.setType(Dialogs.PropertyType.option);
+        elem.setType(T.option);
         elem.setOptionGroup(0);
         elem.setName(getText(2608, "")); // Desde pedido
         elem.setKey(K_OC_DESDE_PC);
@@ -3958,7 +3955,7 @@
         elem.setTabIndex(tab.getIndex());
 
         elem = properties.add(null, C_ORDEN_DESDE_PRESUPUESTO);
-        elem.setType(Dialogs.PropertyType.option);
+        elem.setType(T.option);
         elem.setOptionGroup(0);
         elem.setName(getText(2609, "")); // Desde presupuesto
         elem.setKey(K_OC_DESDE_PRC);
@@ -3985,13 +3982,13 @@
         var properties = m_dialog.getProperties();
 
         var elem = properties.add(null, C.DOC_LLEVA_FIRMA);
-        elem.setType(Dialogs.PropertyType.check);
+        elem.setType(T.check);
         elem.setName(getText(2582, "")); // Lleva Firma
         elem.setKey(K_LLEVA_FIRMA);
-        elem.setValue(Cairo.Util.boolToInt(m_llevaFirma));
+        elem.setValue(b2i(m_llevaFirma));
 
         elem = properties.add(null, C.TA_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
@@ -3999,7 +3996,7 @@
         elem.setSelectId(m_ta_id);
 
         elem = properties.add(null, C.TA_ID_HABERES);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(4641, "")); // Talonario de Recibo
         elem.setKey(K_TA_ID_HABERES);
@@ -4007,7 +4004,7 @@
         elem.setSelectId(m_ta_id_Haberes);
 
         elem = properties.add(null, C.MON_ID);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.MONEDA);
         elem.setName(getText(1113, "")); // Moneda
         elem.setKey(K_MON_ID);
@@ -4015,7 +4012,7 @@
         elem.setSelectId(m_mon_id);
 
         elem = properties.add(null, C.DOC_ID_ASIENTO);
-        elem.setType(Dialogs.PropertyType.select);
+        elem.setType(T.select);
         elem.setSelectTable(Cairo.Tables.DOCUMENTO);
         elem.setSelectFilter(getAsIdFilter(m_emp_id));
         elem.setName(getText(2596, "")); // Documento Asiento
@@ -4036,7 +4033,7 @@
         var properties = m_dialog.getProperties();
 
         var elem = properties.add(null, C_REPORTES);
-        elem.setType(Dialogs.PropertyType.grid);
+        elem.setType(T.grid);
         setGridReportes(elem);
         loadReports(elem);
         elem.setName(getText(2577, "")); // Reportes
@@ -4061,7 +4058,7 @@
         var properties = m_dialog.getProperties();
 
         var elem = properties.add(null, C_FIRMAS);
-        elem.setType(Dialogs.PropertyType.grid);
+        elem.setType(T.grid);
         setGridFirmas(elem);
         loadFirmas(elem);
         elem.setName(getText(2610, "")); // Firmas

@@ -8,7 +8,7 @@
   var CV = Cairo.Ventas.Constants;
   var NO_ID = Cairo.Constants.NO_ID;
   var valField = Cairo.Database.valField;
-  var bToI = Cairo.Util.boolToInt;
+  var b2i = Cairo.Util.boolToInt;
   var getText = Cairo.Language.getText;
   var Dialogs = Cairo.Dialogs;
   var getCell = Dialogs.cell;

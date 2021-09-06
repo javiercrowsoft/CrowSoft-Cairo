@@ -31,7 +31,7 @@
       var Grids = Cairo.Dialogs.Grids;
       var val = U.val;
       var round = U.round;
-      var bToI = U.boolToInt;
+      var b2i = U.boolToInt;
       var WC = Cairo.Constants.WizardConstants;
       var WCS = Cairo.Constants.WizardSteps;
       var DWC = Cairo.Constants.WizardKeys;
@@ -3270,7 +3270,7 @@
         fields.add(CT.COBZ_COTIZACION, val(getCotizacion().getValue()), Types.double);
         fields.add(C.COB_ID, getCobrador().getSelectId(), Types.id);
         fields.add(C.LGJ_ID, getLegajo().getSelectId(), Types.id);
-        fields.add(CT.COBZ_HOJA_RUTA, bToI(m_isHojaRuta), Types.boolean);
+        fields.add(CT.COBZ_HOJA_RUTA, b2i(m_isHojaRuta), Types.boolean);
 
         fields.add(CT.COBZ_NETO, val(getCobroNeto().getValue()), Types.currency);
         fields.add(CT.COBZ_OTROS, val(getCobroOtros().getValue()), Types.currency);

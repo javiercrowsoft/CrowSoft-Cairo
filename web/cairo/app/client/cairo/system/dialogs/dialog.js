@@ -3772,7 +3772,7 @@
         };
 
         var comboChange = function(index) {
-          propertyHasChanged(Dialogs.PropertyType.list, index, getView().combos.get(index));
+          propertyHasChanged(Dialogs.PropertyType.list, index, getView().getCombos().get(index));
         };
 
         var checkboxClick = function(index) {

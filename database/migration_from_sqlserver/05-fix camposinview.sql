@@ -57,3 +57,8 @@ Departamento=coalesce((select dpto_nombre from persona p inner join Departamento
 Sucursal=coalesce((select suc_nombre from sucursal  where suc_id =usuario.suc_id),''''),
 Cargo=coalesce((select prs_cargo from persona  where prs_id =usuario.prs_id),''''),
 Modifico=(select us_nombre from usuario us where us_id =usuario.modifico)' where tbl_id = 3;
+
+
+update tabla set tbl_camposinview = 'Codigo=rett_codigo, Activo=Activo, Modifico=(select us_nombre from usuario where us_id=RetencionTipo.modifico)' where tbl_id = 1013;
+
+update tabla set tbl_camposinview = 'Codigo=perct_codigo, Activo=Activo, Modifico=(select us_nombre from usuario where us_id=PercepcionTipo.modifico)' where tbl_id = 1011;

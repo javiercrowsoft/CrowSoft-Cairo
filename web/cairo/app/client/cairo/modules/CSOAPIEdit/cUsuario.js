@@ -19,7 +19,7 @@
       var M = Cairo.Modal;
       var valEmpty = Cairo.Util.valEmpty;
       var Types = Cairo.Constants.Types;
-      var bToI = Cairo.Util.boolToInt;
+      var b2i = Cairo.Util.boolToInt;
 
       var C_MODULE = "cUsuario";
 
@@ -505,19 +505,19 @@
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
         elem.setKey(K_ACTIVE);
-        elem.setValue(bToI(m_active));
+        elem.setValue(b2i(m_active));
 
         elem = properties.add(null, C.US_DEPOSITO);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(getText(2808, "")); // Este usuario NO especifica Depósitos de trabajo
         elem.setKey(K_USDEPOSITO);
-        elem.setValue(bToI(m_usDeposito));
+        elem.setValue(b2i(m_usDeposito));
 
         elem = properties.add(null, C.US_EXTERNO);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(getText(2810, "")); // Externo
         elem.setKey(K_EXTERNO);
-        elem.setValue(bToI(m_externo));
+        elem.setValue(b2i(m_externo));
 
         elem = properties.add(null, C.US_CLAVE);
         elem.setType(Dialogs.PropertyType.password);
@@ -535,13 +535,13 @@
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(getText(2809, "")); // Clientes/Proveedores por departamento
         elem.setKey(K_CLIPROV_X_DPTO);
-        elem.setValue(bToI(m_empXDpto));
+        elem.setValue(b2i(m_empXDpto));
 
         elem = properties.add(null, C.US_EMPRESA_EX);
         elem.setType(Dialogs.PropertyType.check);
         elem.setName(getText(2811, "")); // Clientes/Proveedores por Usuario
         elem.setKey(K_EMPRESAEX);
-        elem.setValue(bToI(m_empresaEx));
+        elem.setValue(b2i(m_empresaEx));
 
         elem = properties.add(null, C.PRS_ID);
         elem.setType(Dialogs.PropertyType.select);
@@ -622,19 +622,19 @@
         property.setValue(m_password);
 
         property = properties.item(Cairo.Constants.ACTIVE);
-        property.setValue(bToI(m_active));
+        property.setValue(b2i(m_active));
 
         property = properties.item(C.US_DEPOSITO);
-        property.setValue(bToI(m_usDeposito));
+        property.setValue(b2i(m_usDeposito));
 
         property = properties.item(C.US_EXTERNO);
-        property.setValue(bToI(m_externo));
+        property.setValue(b2i(m_externo));
 
         property = properties.item(C.US_EMP_X_DPTO);
-        property.setValue(bToI(m_empXDpto));
+        property.setValue(b2i(m_empXDpto));
 
         property = properties.item(C.US_EMPRESA_EX);
-        property.setValue(bToI(m_empresaEx));
+        property.setValue(b2i(m_empresaEx));
 
         property = properties.item(C.PRS_ID);
         property.setSelectId(m_prsId);

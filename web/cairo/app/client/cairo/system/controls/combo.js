@@ -25,7 +25,7 @@
 
         element.addClass('form-control');
 
-        var onChange = view.onDateChange(that);
+        var onChange = view.comboChange(that);
         element.change(function() {
           setItemData(element.val());
           setText(self.list[element[0].selectedIndex].text);

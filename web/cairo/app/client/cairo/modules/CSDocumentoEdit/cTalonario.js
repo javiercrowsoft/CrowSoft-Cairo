@@ -15,6 +15,8 @@
       var NO_ID = Cairo.Constants.NO_ID;
       var Types = Cairo.Constants.Types;
       var T = Dialogs.PropertyType;
+      var U = Cairo.Util;
+      var b2i = U.boolToInt;
 
       var C_MODULE = "cTalonario";
 
@@ -506,7 +508,7 @@
         elem.setValue(m_ultimonro);
 
         elem = properties.item(Cairo.Constants.ACTIVE);
-        elem.setValue(m_active === true ? 1 : 0);
+        elem.setValue(b2i(m_active));
 
         elem = properties.item(C.TA_MASCARA);
         elem.setValue(m_mascara);

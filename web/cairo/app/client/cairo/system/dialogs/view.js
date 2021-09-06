@@ -825,6 +825,12 @@
         };
       };
 
+      that.comboChange = function(control) {
+        return function() {
+          that.raiseEvent("comboChange", control.getIndex());
+        };
+      };
+
       that.onDateChange = function(control) {
         return function() {
           that.raiseEvent("dateChange", control.getIndex());

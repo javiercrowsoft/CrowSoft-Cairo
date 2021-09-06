@@ -1,6 +1,14 @@
 (function() {
   "use strict";
 
+  /*
+  * TODO: cache
+  *
+  * take a look at https://github.com/sql-js/sql.js
+  * or use memoization
+  *
+  * */
+
   Cairo.module("Select", function(Select, Cairo, Backbone, Marionette, $, _) {
     "use strict";
 

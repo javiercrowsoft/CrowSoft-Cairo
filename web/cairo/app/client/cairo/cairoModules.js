@@ -34,6 +34,7 @@ Cairo.RolPermiso = {};
 Cairo.Producto = {};
 Cairo.Proveedor = {};
 Cairo.Cliente = {};
+Cairo.Retencion = {};
 Cairo.Documento = {};
 
 Cairo.EditDocumento = {};

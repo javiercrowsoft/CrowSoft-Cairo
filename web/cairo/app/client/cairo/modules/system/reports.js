@@ -484,7 +484,7 @@
     var C_MODULE = "Reports";
     var P = Cairo.Promises;
     var U = Cairo.Util;
-    var bToI = U.boolToInt;
+    var b2i = U.boolToInt;
 
     var createParam = function() {
       var self = {
@@ -781,7 +781,7 @@
 
             case RT.check:
 
-              value = bToI(value);
+              value = b2i(value);
               break;
 
             case RT.sqlstmt:

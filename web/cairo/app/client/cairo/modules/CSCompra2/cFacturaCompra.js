@@ -3409,8 +3409,6 @@
                 }
               }
 
-              m_data = emptyData;
-
               p = p || P.resolvedPromise(true);
 
               p = p
@@ -3466,9 +3464,9 @@
 
         var rows = getGrid(m_items, C_ITEMS).getRows();
 
-        for(var _i = 0, _count = rows.size(); _i < _count; _i++) {
+        for(var i = 0, count = rows.size(); i < count; i++) {
 
-          var row = rows.item(_i);
+          var row = rows.item(i);
 
           var register = new DB.Register();
           register.setFieldId(CC.FCI_TMP_ID);
@@ -3476,10 +3474,9 @@
 
           var fields = register.getFields();
 
-          var _countj = row.size();
-          for(var _j = 0; _j < _countj; _j++) {
+          for(var j = 0, countj = row.size(); j < countj; j++) {
 
-            var cell = row.item(_j);
+            var cell = row.item(j);
             switch (cell.getKey()) {
 
               case KI_FCI_ID:

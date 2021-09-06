@@ -1897,9 +1897,7 @@
 
             }
 
-            if(!m_genericEdit.load(m_id)) { return false; }
-
-            return true;
+            return m_genericEdit.load(m_id);
           });
 
       };

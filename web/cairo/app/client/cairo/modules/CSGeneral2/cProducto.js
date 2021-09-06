@@ -17,7 +17,7 @@
       var NO_ID = Cairo.Constants.NO_ID;
       var Types = Cairo.Constants.Types;
       var U = Cairo.Util;
-      var bToI = U.boolToInt;
+      var b2i = U.boolToInt;
       var bool = U.bool;
       var valField = DB.valField;
       var getValue = DB.getValue;
@@ -1256,13 +1256,13 @@
         //
         setKitConfig(kitInfo);
 
-        fields.add(C.PR_KIT_STOCK_X_ITEM, bToI(kitInfo.kitStockXItem), Types.boolean);
-        fields.add(C.PR_KIT_RESUMIDO, bToI(kitInfo.kitResumido), Types.boolean);
-        fields.add(C.PR_KIT_IDENTIDAD, bToI(kitInfo.kitIdentidad), Types.boolean);
-        fields.add(C.PR_KIT_IDENTIDAD_X_ITEM, bToI(kitInfo.kitIdentidadXItem), Types.boolean);
+        fields.add(C.PR_KIT_STOCK_X_ITEM, b2i(kitInfo.kitStockXItem), Types.boolean);
+        fields.add(C.PR_KIT_RESUMIDO, b2i(kitInfo.kitResumido), Types.boolean);
+        fields.add(C.PR_KIT_IDENTIDAD, b2i(kitInfo.kitIdentidad), Types.boolean);
+        fields.add(C.PR_KIT_IDENTIDAD_X_ITEM, b2i(kitInfo.kitIdentidadXItem), Types.boolean);
         fields.add(C.TA_ID_KIT_SERIE, kitInfo.taIdKitSerie, Types.id);
-        fields.add(C.PR_KIT_LOTE, bToI(kitInfo.kitLote), Types.boolean);
-        fields.add(C.PR_KIT_LOTE_X_ITEM, bToI(kitInfo.kitLoteXItem), Types.boolean);
+        fields.add(C.PR_KIT_LOTE, b2i(kitInfo.kitLote), Types.boolean);
+        fields.add(C.PR_KIT_LOTE_X_ITEM, b2i(kitInfo.kitLoteXItem), Types.boolean);
         fields.add(C.TA_ID_KIT_LOTE, kitInfo.taIdKitLote, Types.id);
 
         m_genericEdit.save(m_dialog, register);
@@ -1491,10 +1491,6 @@
         return p.whenSuccess(call(m_genericEdit.validate, m_dialog));
       };
 
-      self.getDialog = function() {
-        return m_dialog;
-      };
-
       self.setTreeId = function(value) {
         m_treeId = value;
       };
@@ -1505,6 +1501,10 @@
 
       self.list = function() {
         return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_PRODUCTO);
+      };
+
+      self.getDialog = function() {
+        return m_dialog;
       };
 
       self.setDialog = function(value) {
@@ -1661,7 +1661,7 @@
         elem.setType(T.check);
         elem.setName(Cairo.Constants.ACTIVE_LABEL);
         elem.setKey(K_ACTIVE);
-        elem.setValue(bToI(m_active));
+        elem.setValue(b2i(m_active));
 
         elem = properties.add(null, C.PR_CODIGO_EXTERNO);
         elem.setType(T.text);
@@ -1711,7 +1711,7 @@
         elem.setType(T.check);
         elem.setName(getText(4829, "")); // Es Plantilla
         elem.setKey(K_ESPLANTILLA);
-        elem.setValue(bToI(m_isTemplate));
+        elem.setValue(b2i(m_isTemplate));
 
         elem = properties.add(null, C.CUR_ID);
         elem.setType(T.select);
@@ -1795,7 +1795,7 @@
         elem.setTabIndex(tab_compra);
         elem.setName(getText(1309, "")); // Se Compra
         elem.setKey(K_SE_COMPRA);
-        elem.setValue(bToI(m_seCompra));
+        elem.setValue(b2i(m_seCompra));
 
         elem = properties.add(null, C.UN_ID_COMPRA);
         elem.setType(T.select);
@@ -1861,7 +1861,7 @@
         elem.setName(getText(1321, "")); // Se tiene en Stock
         elem.setTabIndex(tab_stock);
         elem.setKey(K_LLEVA_STOCK);
-        elem.setValue(bToI(m_llevaStock));
+        elem.setValue(b2i(m_llevaStock));
 
         elem = properties.add(null, C.UN_ID_STOCK);
         elem.setType(T.select);
@@ -1937,35 +1937,35 @@
         elem.setTabIndex(tab_stock);
         elem.setName(getText(1329, "")); // Lleva Nro Serie
         elem.setKey(K_LLEVA_NRO_SERIE);
-        elem.setValue(bToI(m_llevaNroSerie));
+        elem.setValue(b2i(m_llevaNroSerie));
 
         elem = properties.add(null, C.PR_LLEVA_NRO_LOTE);
         elem.setType(T.check);
         elem.setTabIndex(tab_stock);
         elem.setName(getText(1330, "")); // Lleva Nro. Lote
         elem.setKey(K_LLEVA_NRO_LOTE);
-        elem.setValue(bToI(m_llevaNroLote));
+        elem.setValue(b2i(m_llevaNroLote));
 
         elem = properties.add(null, C.PR_LOTE_FIFO);
         elem.setType(T.check);
         elem.setTabIndex(tab_stock);
         elem.setName(getText(1331, "")); // Consume Lotes X FIFO
         elem.setKey(K_LOTEFIFO);
-        elem.setValue(bToI(m_loteFifo));
+        elem.setValue(b2i(m_loteFifo));
 
         elem = properties.add(null, C.PR_SE_PRODUCE);
         elem.setType(T.check);
         elem.setTabIndex(tab_stock);
         elem.setName(getText(1332, "")); // Se Produce
         elem.setKey(K_SEPRODUCE);
-        elem.setValue(bToI(m_seProduce));
+        elem.setValue(b2i(m_seProduce));
 
         elem = properties.add(null, C.PR_ES_REPUESTO);
         elem.setType(T.check);
         elem.setTabIndex(tab_stock);
         elem.setName(getText(1333, "")); // Es un Repuesto
         elem.setKey(K_ESREPUESTO);
-        elem.setValue(bToI(m_esRepuesto));
+        elem.setValue(b2i(m_esRepuesto));
 
         //////////////////////////////////////////////////////////////
         // Ventas
@@ -1975,7 +1975,7 @@
         elem.setTabIndex(tab_venta);
         elem.setName(getText(1334, "")); // Se Vende
         elem.setKey(K_SE_VENDE);
-        elem.setValue(bToI(m_seVende));
+        elem.setValue(b2i(m_seVende));
 
         elem = properties.add(null, C.PR_NAME_VENTA);
         elem.setType(T.text);
@@ -2035,21 +2035,21 @@
         elem.setTabIndex(tab_venta);
         elem.setName(getText(1337, "")); // Es una Lista
         elem.setKey(K_ES_LISTA);
-        elem.setValue(bToI(m_esLista));
+        elem.setValue(b2i(m_esLista));
 
         elem = properties.add(null, C.PR_DINERARIO);
         elem.setType(T.check);
         elem.setTabIndex(tab_venta);
         elem.setName(getText(2552, "")); // Concepto Dinerario
         elem.setKey(K_DINERARIO);
-        elem.setValue(bToI(m_dinerario));
+        elem.setValue(b2i(m_dinerario));
 
         elem = properties.add(null, C.PR_NO_REDONDEO);
         elem.setType(T.check);
         elem.setTabIndex(tab_venta);
         elem.setName(getText(3651, "")); // No Redondear
         elem.setKey(K_NO_REDONDEO);
-        elem.setValue(bToI(m_noRedondeo));
+        elem.setValue(b2i(m_noRedondeo));
 
         elem = properties.add(null, C.TI_ID_RI_VENTA);
         elem.setType(T.select);
@@ -2165,7 +2165,7 @@
         elem.setType(T.check);
         elem.setName(getText(1315, "")); // Flete Expo
         elem.setKey(K_FLETEEXPO);
-        elem.setValue(bToI(m_fleteExpo));
+        elem.setValue(b2i(m_fleteExpo));
         elem.setTabIndex(tab_comex);
 
         elem = properties.add(null, C.EGP_ID);
@@ -2233,37 +2233,37 @@
         elem.setTabIndex(tab_kit);
         elem.setName(getText(1338, "")); // Es un Kit
         elem.setKey(K_ES_KIT);
-        elem.setValue(bToI(m_eskit));
+        elem.setValue(b2i(m_eskit));
 
         elem = properties.add(null, C.PR_KIT_STOCK_X_ITEM);
         elem.setType(T.check);
         elem.setTabIndex(tab_kit);
         elem.setName(getText(1339, "")); // Kit Stock x Item
         elem.setKey(K_KIT_STK_X_ITEM);
-        elem.setValue(bToI(m_kitStkXItem));
+        elem.setValue(b2i(m_kitStkXItem));
 
         elem = properties.add(null, C.PR_KIT_RESUMIDO);
         elem.setType(T.check);
         elem.setTabIndex(tab_kit);
         elem.setName(getText(1340, "")); // Producción Resumida
         elem.setKey(K_KIT_RESUMIDO);
-        elem.setValue(bToI(m_kitResumido));
+        elem.setValue(b2i(m_kitResumido));
 
         elem = properties.add(null, C.PR_KIT_IDENTIDAD);
         elem.setType(T.check);
         elem.setTabIndex(tab_kit);
         elem.setName(getText(1341, "")); // Posee Identidad
         elem.setKey(K_KIT_IDENTIDAD);
-        elem.setValue(bToI(m_kitIdentidad));
-        elem.setEnabled(bToI(m_kitResumido));
+        elem.setValue(b2i(m_kitIdentidad));
+        elem.setEnabled(b2i(m_kitResumido));
 
         elem = properties.add(null, C.PR_KIT_IDENTIDAD_X_ITEM);
         elem.setType(T.check);
         elem.setTabIndex(tab_kit);
         elem.setName(getText(1342, "")); // Identidad por Item
         elem.setKey(K_KIT_IDENTIDADXITEM);
-        elem.setValue(bToI(m_kitIdentidadXItem));
-        elem.setEnabled(bToI(m_kitIdentidad));
+        elem.setValue(b2i(m_kitIdentidadXItem));
+        elem.setEnabled(b2i(m_kitIdentidad));
 
         elem = properties.add(null, C.TA_ID_KIT_SERIE);
         elem.setType(T.select);
@@ -2280,16 +2280,16 @@
         elem.setTabIndex(tab_kit);
         elem.setName(getText(1344, "")); // Posee Lote
         elem.setKey(K_KIT_LOTE);
-        elem.setValue(bToI(m_kitLote));
-        elem.setEnabled(bToI(m_kitResumido));
+        elem.setValue(b2i(m_kitLote));
+        elem.setEnabled(b2i(m_kitResumido));
 
         elem = properties.add(null, C.PR_KIT_LOTE_X_ITEM);
         elem.setType(T.check);
         elem.setTabIndex(tab_kit);
         elem.setName(getText(1345, "")); // Lote por Item
         elem.setKey(K_KIT_LOTEXITEM);
-        elem.setValue(bToI(m_kitLoteXItem));
-        elem.setEnabled(bToI(m_kitLote));
+        elem.setValue(b2i(m_kitLoteXItem));
+        elem.setEnabled(b2i(m_kitLote));
 
         elem = properties.add(null, C.TA_ID_KIT_LOTE);
         elem.setType(T.select);
@@ -2432,14 +2432,14 @@
         elem.setName(getText(3557, "")); // Activo Web
         elem.setKey(K_ACTIVOWEB);
         elem.setTabIndex(tab_Web);
-        elem.setValue(bToI(m_activoWeb));
+        elem.setValue(b2i(m_activoWeb));
 
         elem = properties.add(null, C.PR_WEB_IMAGE_UPDATE);
         elem.setType(T.check);
         elem.setName(getText(4576, "")); // Actualizar Imagenes
         elem.setKey(K_WEB_IMAGE_UPDATE);
         elem.setTabIndex(tab_Web);
-        elem.setValue(bToI(m_webImageUpdate));
+        elem.setValue(b2i(m_webImageUpdate));
 
         elem = properties.add(null, C.PR_CODIGO_HTML);
         elem.setType(T.text);
@@ -3195,9 +3195,7 @@
             m_rubroHasChanged = m_lastRubId !== m_rub_id;
             m_lastRubId = m_rub_id;
 
-            if(!m_genericEdit.load(m_id)) { return false; }
-
-            return true;
+            return m_genericEdit.load(m_id);
           });
       };
 
@@ -3240,7 +3238,7 @@
         property.setValue(m_purchaseName);
 
         property = properties.item(Cairo.Constants.ACTIVE);
-        property.setValue(bToI(m_active));
+        property.setValue(b2i(m_active));
 
         property = properties.item(C.PR_CODE);
         property.setValue(m_code);
@@ -3293,7 +3291,7 @@
         property.setSelectId(m_rpt_id_nombreimgalt);
 
         property = properties.item(C.PR_SE_COMPRA);
-        property.setValue(bToI(m_seCompra));
+        property.setValue(b2i(m_seCompra));
 
         property = properties.item(C.UN_ID_COMPRA);
         property.setSelectId(m_un_id_compra);
@@ -3330,7 +3328,7 @@
         property.setSelectId(m_efm_id);
 
         property = properties.item(C.PR_FLETE_EXPO);
-        property.setValue(bToI(m_fleteExpo));
+        property.setValue(b2i(m_fleteExpo));
 
         property = properties.item(C.PR_CANT_X_CAJA_EXPO);
         property.setValue(m_cantXCajaExpo);
@@ -3372,7 +3370,7 @@
         property.setValue(m_webImageFolder);
 
         property = properties.item(C.PR_WEB_IMAGE_UPDATE);
-        property.setValue(bToI(m_webImageUpdate));
+        property.setValue(b2i(m_webImageUpdate));
 
         property = properties.item(C.TI_ID_RI_COMPRA);
         property.setValue(m_tiIvaRiCompra);
@@ -3389,7 +3387,7 @@
         // Stock
         //
         property = properties.item(C.PR_LLEVA_STOCK);
-        property.setValue(bToI(m_llevaStock));
+        property.setValue(b2i(m_llevaStock));
 
         property = properties.item(C.UN_ID_STOCK);
         property.setValue(m_unidadStock);
@@ -3417,25 +3415,25 @@
         property.setValue(m_reposicion);
 
         property = properties.item(C.PR_LLEVA_NRO_SERIE);
-        property.setValue(bToI(m_llevaNroSerie));
+        property.setValue(b2i(m_llevaNroSerie));
 
         property = properties.item(C.PR_LLEVA_NRO_LOTE);
-        property.setValue(bToI(m_llevaNroLote));
+        property.setValue(b2i(m_llevaNroLote));
 
         property = properties.item(C.PR_LOTE_FIFO);
-        property.setValue(bToI(m_loteFifo));
+        property.setValue(b2i(m_loteFifo));
 
         property = properties.item(C.PR_SE_PRODUCE);
-        property.setValue(bToI(m_seProduce));
+        property.setValue(b2i(m_seProduce));
 
         property = properties.item(C.PR_ES_REPUESTO);
-        property.setValue(bToI(m_esRepuesto));
+        property.setValue(b2i(m_esRepuesto));
 
         //////////////////////////////////////////////////////////////
         // Ventas
         //
         property = properties.item(C.PR_SE_VENDE);
-        property.setValue(bToI(m_seVende));
+        property.setValue(b2i(m_seVende));
 
         property = properties.item(C.PR_NAME_VENTA);
         property.setValue(m_saleName);
@@ -3458,7 +3456,7 @@
         property.setValue(m_cuentaGVenta);
 
         property = properties.item(C.PR_ES_LISTA);
-        property.setValue(bToI(m_esLista));
+        property.setValue(b2i(m_esLista));
 
         property = properties.item(C.TI_ID_RI_VENTA);
         property.setValue(m_tiIvaRiVenta);
@@ -3472,10 +3470,10 @@
         property.setValue(m_porcInternoV);
 
         property = properties.item(C.PR_DINERARIO);
-        property.setValue(bToI(m_dinerario));
+        property.setValue(b2i(m_dinerario));
 
         property = properties.item(C.PR_NO_REDONDEO);
-        property.setValue(bToI(m_noRedondeo));
+        property.setValue(b2i(m_noRedondeo));
 
         property = properties.item(C.CCOS_ID_VENTA);
         property.setSelectId(m_ccosId_venta);
@@ -3492,29 +3490,29 @@
         // Kit
         //
         property = properties.item(C.PR_ES_KIT);
-        property.setValue(bToI(m_eskit));
+        property.setValue(b2i(m_eskit));
 
         property = properties.item(C.PR_KIT_STOCK_X_ITEM);
-        property.setValue(bToI(m_kitStkXItem));
+        property.setValue(b2i(m_kitStkXItem));
 
         property = properties.item(C.PR_KIT_RESUMIDO);
-        property.setValue(bToI(m_kitResumido));
+        property.setValue(b2i(m_kitResumido));
 
         property = properties.item(C.PR_KIT_IDENTIDAD);
-        property.setValue(bToI(m_kitIdentidad));
+        property.setValue(b2i(m_kitIdentidad));
 
         property = properties.item(C.PR_KIT_IDENTIDAD_X_ITEM);
-        property.setValue(bToI(m_kitIdentidadXItem));
+        property.setValue(b2i(m_kitIdentidadXItem));
 
         property = properties.item(C.TA_ID_KIT_SERIE);
         property.setValue(m_talonarioKitSerie);
         property.setSelectId(m_ta_id_kitSerie);
 
         property = properties.item(C.PR_KIT_LOTE);
-        property.setValue(bToI(m_kitLote));
+        property.setValue(b2i(m_kitLote));
 
         property = properties.item(C.PR_KIT_LOTE_X_ITEM);
-        property.setValue(bToI(m_kitLoteXItem));
+        property.setValue(b2i(m_kitLoteXItem));
 
         property = properties.item(C.TA_ID_KIT_LOTE);
         property.setValue(m_talonarioKitLote);
@@ -3571,7 +3569,7 @@
         property.setSelectId(m_prIdWebPadre);
 
         property = properties.item(C.PR_ACTIVO_WEB);
-        property.setValue(bToI(m_activoWeb));
+        property.setValue(b2i(m_activoWeb));
 
         property = properties.item(C.PR_CODIGO_HTML);
         property.setValue(m_codigoHtml);
@@ -3601,6 +3599,7 @@
 
         m_genericEdit.refreshProperties(m_dialog);
 
+        var p = null;
         if(m_rubroHasChanged) {
           // if rubro has changed setRubro needs to call Dialog.show so
           // controls are loaded
@@ -3613,9 +3612,10 @@
         else {
 
           refreshRubro();
-          m_dialog.showValues(m_dialog.getProperties());
+          p = m_dialog.showValues(m_dialog.getProperties());
         }
 
+        return p || P.resolvedPromise(true);
       };
 
       var refreshRubro = function() {
@@ -4768,7 +4768,7 @@
 
         for(var _i = 0, count = m_data.proveedores.length; _i < count; _i += 1) {
 
-          var row = rows.add(null);
+          var row = rows.add(null, getValue(m_data.clientes[_i], C.PR_CLI_ID));
 
           elem = row.add(null);
           elem.setValue(getValue(m_data.proveedores[_i], C.PRPROV_ID));

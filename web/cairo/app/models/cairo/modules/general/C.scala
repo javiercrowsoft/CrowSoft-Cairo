@@ -1251,7 +1251,7 @@ object C {
   val FE_RECURRENTE = "fe_recurrente"
 
   // PercepcionCategoriaFiscal
-  val PERCEPCIONCATEGORIAFISCAL = "PercepcionCategoriaFiscal"
+  val PERCEPCION_CATEGORIA_FISCAL = "PercepcionCategoriaFiscal"
   val PERC_CATF_ID = "perccatf_id"
   val PERC_CATF_BASE = "perccatf_base"
 
@@ -1264,17 +1264,17 @@ object C {
   val PERC_EMP_ID = "percemp_id"
 
   // CategoriaFiscal
-  val CATEGORIAFISCAL = "CategoriaFiscal"
+  val CATEGORIA_FISCAL = "CategoriaFiscal"
   val CATF_ID = "catf_id"
   val CATF_NAME = "catf_nombre"
 
   // RetencionCategoriaFiscal
-  val RETENCIONCATEGORIAFISCAL = "RetencionCategoriaFiscal"
+  val RETENCION_CATEGORIA_FISCAL = "RetencionCategoriaFiscal"
   val RET_CATF_ID = "retcatf_id"
   val RET_CATF_BASE = "retcatf_base"
 
   // RetencionProvincia
-  val RETENCIONPROVINCIA = "RetencionProvincia"
+  val RETENCION_PROVINCIA = "RetencionProvincia"
   val RET_PRO_ID = "retpro_id"
 
   // ProductoDepositoFisico
