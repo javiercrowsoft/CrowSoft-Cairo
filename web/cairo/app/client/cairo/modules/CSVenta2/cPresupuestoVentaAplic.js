@@ -470,7 +470,7 @@
 
                 c = m_dialog.getProperties().add(null, C_PEDIDODEV);
                 c.setType(Dialogs.PropertyType.grid);
-                c.hideLabel();;
+                c.hideLabel();
                 if(!pItLoadPedidoDev(c)) { return false; }
                 c.setKey(K_PEDIDO_DEV);
                 c.setName("Items");
@@ -486,7 +486,7 @@
 
                 c = m_dialog.getProperties().add(null, C_APLICPEDIDODEV);
                 c.setType(Dialogs.PropertyType.grid);
-                c.hideLabel();;
+                c.hideLabel();
                 if(!pItSetGridAplicPedidoDev(c)) { return false; }
                 c.setKey(K_APLIC_PEDIDO_DEV);
                 c.setName("Pedidos");

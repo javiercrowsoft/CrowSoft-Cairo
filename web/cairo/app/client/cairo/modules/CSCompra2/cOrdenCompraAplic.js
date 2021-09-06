@@ -565,7 +565,7 @@
 
         c = properties.add(null, C_ITEMS);
         c.setType(Dialogs.PropertyType.grid);
-        c.hideLabel();;
+        c.hideLabel();
         if(!pItLoadItems(c)) { return false; }
         c.setKey(K_PEDIDO);
         c.setName("Items");
@@ -581,7 +581,7 @@
 
         c = properties.add(null, C_APLICORDEN);
         c.setType(Dialogs.PropertyType.grid);
-        c.hideLabel();;
+        c.hideLabel();
         if(!pItSetGridAplicPedido(c)) { return false; }
         c.setKey(K_APLIC_PEDIDO);
         c.setName("Orden");
@@ -598,7 +598,7 @@
 
         c = properties.add(null, C_FACDEV);
         c.setType(Dialogs.PropertyType.grid);
-        c.hideLabel();;
+        c.hideLabel();
         if(!pItLoadFacDev(c)) { return false; }
         c.setKey(K_FAC_DEV);
         c.setName("Items2");
@@ -615,7 +615,7 @@
 
         c = properties.add(null, C_APLICFACDEV);
         c.setType(Dialogs.PropertyType.grid);
-        c.hideLabel();;
+        c.hideLabel();
         if(!pItSetGridAplicFacDev(c)) { return false; }
         c.setKey(K_APLIC_FAC_DEV);
         c.setName("Facturas");

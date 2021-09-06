@@ -401,7 +401,7 @@
         elem.setType(T.check);
 
         elem = properties.add(null, C_FILTER);
-        elem.setName("Filter"); // TODO: move to language
+        elem.setName(getText(3432)); // Filtrar
         elem.setType(T.text);
 
         elem = properties.add(null, C_FILTER_CMD);

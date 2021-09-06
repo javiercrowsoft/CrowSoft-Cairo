@@ -24,10 +24,11 @@
       var val = U.val;
       var valEmpty = U.valEmpty;
 
-      var C_MODULE = "cRetencion";
+      var C_MODULE = "cLenguaje";
 
       var C_ITEMS = "Items";
       var C_FILTER = "filter";
+      var C_FILTER_CMD = "filterCmd";
       var C_TOP = "top";
 
       var K_NAME = 1;
@@ -38,7 +39,8 @@
       var K_ITEMS = 6;
       var K_CMD_FILTER = 7;
       var K_FILTER = 8;
-      var K_TOP = 9;
+      var K_FILTER_CMD = 9;
+      var K_TOP = 10;
 
       var KI_LENGI_ID = 1;
       var KI_CODIGO = 2;
@@ -97,10 +99,10 @@
           m_listController.updateEditorKey(self, NO_ID);
         }
 
-        var property = m_dialog.getProperties().item(C.RET_CODE);
+        var property = m_dialog.getProperties().item(C.LENG_CODE);
         property.setValue(Cairo.Constants.COPY_OF + property.getValue());
 
-        m_dialog.showValue(m_dialog.getProperties().item(C.RET_CODE));
+        m_dialog.showValue(m_dialog.getProperties().item(C.LENG_CODE));
 
         m_copy = true;
       };
@@ -144,7 +146,7 @@
 
           var doc = new Cairo.DocDigital();
 
-          doc.setClientTable(C.RETENCION);
+          doc.setClientTable(C.LENGUAJE);
           doc.setClientTableID(m_id);
 
           _rtn = doc.showDocs(Cairo.Database);
@@ -163,7 +165,7 @@
 
           case Dialogs.Message.MSG_DOC_INFO:
 
-            Cairo.Documentation.show("", "", Cairo.Security.Actions.General.NEW_RETENCION);
+            Cairo.Documentation.show("", "", Cairo.Security.Actions.General.NEW_LENGUAJE);
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
@@ -225,10 +227,10 @@
         var register = new DB.Register();
         var fields = register.getFields();
 
-        register.setFieldId(C.RET_ID);
-        register.setTable(C.RETENCION);
+        register.setFieldId(C.LENG_ID);
+        register.setTable(C.LENGUAJE);
 
-        register.setPath(m_apiPath + "general/retencion");
+        register.setPath(m_apiPath + "general/lenguaje");
 
         if(m_copy) {
           register.setId(Cairo.Constants.NEW_ID);
@@ -311,16 +313,16 @@
       };
 
       self.getPath = function() {
-        return "#general/retencion/" + m_id.toString();
+        return "#general/lenguaje/" + m_id.toString();
       };
 
       self.getEditorName = function() {
         var id = m_id ? m_id.toString() : "N" + (new Date).getTime().toString();
-        return "retencion" + id;
+        return "lenguaje" + id;
       };
 
       self.getTitle = function() {
-        return getText(1393, ""); // Retenciones
+        return getText(1006, ""); // Lenguajes
       };
 
       self.validate = function() {
@@ -370,16 +372,6 @@
           case K_ITEMS:
             id = val(Dialogs.cell(row, KI_RETI_ID).getValue());
             if(id !== NO_ID) { m_itemsDeleted = m_itemsDeleted + id.toString() + ","; }
-            break;
-
-          case K_CAT_FISCAL:
-            id = val(Dialogs.cell(row, KI_RET_CATF_ID).getValue());
-            if(id !== NO_ID) { m_catFiscalDeleted = m_catFiscalDeleted + id.toString() + ","; }
-            break;
-
-          case K_PROVINCIAS:
-            id = val(Dialogs.cell(row, KI_RET_PRO_ID).getValue());
-            if(id !== NO_ID) { m_provinciasDeleted = m_provinciasDeleted + id.toString() + ","; }
             break;
         }
 
@@ -448,7 +440,7 @@
       };
 
       self.list = function() {
-        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_RETENCION);
+        return Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.LIST_LENGUAJE);
       };
 
       self.getDialog = function() {
@@ -470,11 +462,11 @@
 
           if(id === NO_ID) {
             m_isNew = true;
-            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_RETENCION)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.NEW_LENGUAJE)) { return p; }
           }
           else {
             m_isNew = false;
-            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_RETENCION)) { return p; }
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.EDIT_LENGUAJE)) { return p; }
           }
 
           m_dialog.setInModalWindow(inModalWindow);
@@ -533,26 +525,18 @@
         tab.setIndex(1);
         tab.setName(C_ITEMS);
 
-        tab = tabs.add(null);
-        tab.setIndex(2);
-        tab.setName(getText(1181, "")); // Categoria Fiscales
-
-        tab = tabs.add(null);
-        tab.setIndex(3);
-        tab.setName(getText(1410, "")); // Provincias
-
         var properties = m_dialog.getProperties();
 
         properties.clear();
 
-        var elem = properties.add(null, C.RET_NAME);
+        var elem = properties.add(null, C.LENG_NAME);
         elem.setType(T.text);
         elem.setName(Cairo.Constants.NAME_LABEL);
         elem.setSize(100);
         elem.setKey(K_NAME);
         elem.setValue(m_name);
 
-        elem = properties.add(null, C.RET_CODE);
+        elem = properties.add(null, C.LENG_CODE);
         elem.setType(T.text);
         elem.setName(Cairo.Constants.CODE_LABEL);
         elem.setSize(15);
@@ -565,80 +549,15 @@
         elem.setKey(K_ACTIVE);
         elem.setValue(b2i(m_active));
 
-        elem = properties.add(null, C.RETT_ID);
+        elem = properties.add(null, C.LENG_ID_PADRE);
         elem.setType(T.select);
-        elem.setSelectTable(Cairo.Tables.RETENCIONTIPO);
-        elem.setName(getText(1420, "")); // Tipo de Retención
-        elem.setKey(K_RETT_ID);
-        elem.setValue(m_retencionTipo);
-        elem.setSelectId(m_rett_id);
+        elem.setSelectTable(Cairo.Tables.LENGUAJE);
+        elem.setName(getText(1002, "")); // Lenguaje Padre
+        elem.setKey(K_ID_PADRE);
+        elem.setValue(m_padre);
+        elem.setSelectId(m_id_padre);
 
-        elem = properties.add(null, C.RET_IMPORTE_MINIMO);
-        elem.setType(T.numeric);
-        elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setName(getText(1255, "")); // Importe Minimo
-        elem.setKey(K_IMPORTE_MINIMO);
-        elem.setValue(m_importeMinimo);
-        elem.setWidth(1000);
-
-        elem = properties.add(null, C.RET_ES_IIBB);
-        elem.setType(T.check);
-        elem.setName(getText(3753, "")); // Es de IIBB
-        elem.setKey(K_ES_IIBB);
-        elem.setValue(Cairo.Util.boolToInt(m_esIIBB));
-
-        elem = properties.add(null, C.RET_REGIMEN_SICORE);
-        elem.setType(T.text);
-        elem.setName(getText(1254, "")); // Regimen Sicore
-        elem.setSize(50);
-        elem.setKey(K_REGIMEN_SICORE);
-        elem.setValue(m_regimenSicore);
-
-        elem = properties.add(null, C.TA_ID);
-        elem.setType(T.select);
-        elem.setTable(Cairo.Tables.TALONARIO);
-        elem.setName(getText(1256, "")); // Talonario
-        elem.setKey(K_TA_ID);
-        elem.setValue(m_talonario);
-        elem.setSelectId(m_ta_id);
-
-        elem = properties.add(null, C.IBC_ID);
-        elem.setType(T.select);
-        elem.setSelectTable(Cairo.Tables.INGRESOS_BRUTOS_CATEGORIA);
-        elem.setName(getText(1308, "")); // Categoría Ingresos Brutos
-        elem.setKey(K_IBC_ID);
-        elem.setValue(m_iGBCategoria);
-        elem.setSelectId(m_ibc_id);
-
-        elem = properties.add(null, C.RET_ACUMULA_POR);
-        elem.setType(T.list);
-        elem.setName(getText(2939, "")); // Acumula Por
-        elem.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
-        elem.setListItemData(m_acumulaPor);
-        elem.setKey(K_ACUMULA_POR);
-        var list = elem.getList();
-        list.add(null)
-          .setId(Cairo.General.Constants.RetencionTipoAcumulado.noAcumula)
-          .setValue(getText(2940, "")); // No Acumula
-        list.add(null)
-          .setId(Cairo.General.Constants.RetencionTipoAcumulado.mensual)
-          .setValue(getText(1215, "")); // Mes
-
-        elem = properties.add(null, C.RET_TIPO_MINIMO);
-        elem.setType(T.list);
-        elem.setName(getText(2969, "")); // Tipo Minimo
-        elem.setListWhoSetItem(Dialogs.ListWhoSetItem.itemData);
-        elem.setListItemData(m_tipoMinimo);
-        elem.setKey(K_TIPO_MINIMO);
-        list = elem.getList();
-        list.add(null)
-          .setId(Cairo.General.Constants.RetencionTipoMinimo.noImponible)
-          .setValue(getText(2971, "")); // No Imponible
-        list.add(null)
-          .setId(Cairo.General.Constants.RetencionTipoMinimo.imponible)
-          .setValue(getText(2970, "")); // Imponible
-
-        elem = properties.add(null, C.RET_DESCRIP);
+        elem = properties.add(null, C.LENG_DESCRIP);
         elem.setType(T.text);
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
@@ -648,9 +567,25 @@
         elem.setKey(K_DESCRIP);
         elem.setValue(m_descrip);
 
+        elem = properties.add(null, C_FILTER);
+        elem.setName(getText(2826)); // Filtro
+        elem.setType(T.text);
+        elem.setKey(K_FILTER);
+
+        elem = properties.add(null, C_TOP);
+        elem.setName(getText(3479)); // Top
+        elem.setType(T.number());
+        elem.setKey(K_FILTER);
+
+        elem = properties.add(null, C_FILTER_CMD);
+        elem.setName(getText(3432)); // Filtrar
+        elem.setType(T.button);
+        elem.setKey(K_FILTER_CMD);
+        elem.hideLabel();
+
         elem = properties.add(null, C_ITEMS);
         elem.setType(T.grid);
-        elem.hideLabel();;
+        elem.hideLabel();
         setGridItems(elem);
         loadItems(elem);
         elem.setName(C_ITEMS);
@@ -662,34 +597,6 @@
 
         m_itemsDeleted = "";
 
-        elem = properties.add(null, C_CAT_FISCAL);
-        elem.setType(T.grid);
-        elem.hideLabel();;
-        setGridCatFiscal(elem);
-        loadCatFiscal(elem);
-        elem.setName(C_CAT_FISCAL);
-        elem.setKey(K_CAT_FISCAL);
-        elem.setTabIndex(2);
-        elem.setGridAddEnabled(true);
-        elem.setGridEditEnabled(true);
-        elem.setGridRemoveEnabled(true);
-
-        m_catFiscalDeleted = "";
-
-        elem = properties.add(null, C_PROVINCIAS);
-        elem.setType(T.grid);
-        elem.hideLabel();;
-        setGridProvincias(elem);
-        loadProvincias(elem);
-        elem.setName(C_PROVINCIAS);
-        elem.setKey(K_PROVINCIAS);
-        elem.setTabIndex(3);
-        elem.setGridAddEnabled(true);
-        elem.setGridEditEnabled(true);
-        elem.setGridRemoveEnabled(true);
-
-        m_provinciasDeleted = "";
-
         return m_dialog.show(self);
       };
 
@@ -699,44 +606,25 @@
 
         var properties = m_dialog.getProperties();
 
-        var elem = properties.item(C.RET_NAME);
+        var elem = properties.item(C.LENG_NAME);
         elem.setValue(m_name);
 
-        elem = properties.item(C.RET_CODE);
+        elem = properties.item(C.LENG_CODE);
         elem.setValue(m_code);
 
         elem = properties.item(Cairo.Constants.ACTIVE);
         elem.setValue(b2i(m_active));
 
-        elem = properties.item(C.RETT_ID);
-        elem.setValue(m_retencionTipo);
-        elem.setSelectId(m_rett_id);
+        elem = properties.item(C.LENG_ID_PADRE);
+        elem.setValue(m_padre);
+        elem.setSelectId(m_id_padre);
 
-        elem = properties.item(C.RET_IMPORTE_MINIMO);
-        elem.setValue(m_importeMinimo);
-
-        elem = properties.item(C.RET_ES_IIBB);
-        elem.setValue(b2i(m_esIIBB));
-
-        elem = properties.item(C.RET_REGIMEN_SICORE);
-        elem.setValue(m_regimenSicore);
-
-        elem = properties.item(C.TA_ID);
-        elem.setValue(m_talonario);
-        elem.setSelectId(m_ta_id);
-
-        elem = properties.item(C.IBC_ID);
-        elem.setValue(m_iGBCategoria);
-        elem.setSelectId(m_ibc_id);
-
-        elem = properties.item(C.RET_ACUMULA_POR);
-        elem.setItemData(m_acumulaPor);
-
-        elem = properties.item(C.RET_TIPO_MINIMO);
-        elem.setItemData(m_tipoMinimo);
-
-        elem = properties.item(C.RET_DESCRIP);
+        elem = properties.item(C.LENG_DESCRIP);
         elem.setValue(m_descrip);
+
+        elem = properties.item(C_ITEMS);
+        loadItems(elem);
+        m_itemsDeleted = "";
 
         return m_dialog.showValues(properties);
       };
@@ -745,8 +633,6 @@
         var data = response.data;
 
         data.items = data.get('items');
-        data.categoriasFiscales = data.get('categoriasFiscales');
-        data.provincias = data.get('provincias');
 
         return data;
       };
@@ -754,7 +640,7 @@
       var load = function(id) {
         m_data = emptyData;
 
-        return Cairo.Database.getData("load[" + m_apiPath + "general/retencion]", id).then(
+        return Cairo.Database.getData("load[" + m_apiPath + "general/lenguaje]", id).then(
           function(response) {
 
             if(response.success !== true) { return false; }
@@ -765,41 +651,23 @@
 
               var data = response.data;
 
-              m_rett_id = valField(data, C.RETT_ID);
-              m_retencionTipo = valField(data, C.RETT_NAME);
-              m_id = valField(data, C.RET_ID);
-              m_name = valField(data, C.RET_NAME);
-              m_code = valField(data, C.RET_CODE);
-              m_acumulaPor = valField(data, C.RET_ACUMULA_POR);
-              m_tipoMinimo = valField(data, C.RET_TIPO_MINIMO);
+              m_id = valField(data, C.LENG_ID);
+              m_id_padre = valField(data, C.LENG_ID_PADRE);
+              m_padre = valField(data, C.LENG_NAME_PADRE);
+              m_name = valField(data, C.LENG_NAME);
+              m_code = valField(data, C.LENG_CODE);
               m_active = valField(data, Cairo.Constants.ACTIVE);
-              m_descrip = valField(data, C.RET_DESCRIP);
-              m_importeMinimo = valField(data, C.RET_IMPORTE_MINIMO);
-              m_regimenSicore = valField(data, C.RET_REGIMEN_SICORE);
-              m_ta_id = valField(data, C.TA_ID);
-              m_talonario = valField(data, C.TA_NAME);
-              m_ibc_id = valField(data, C.IBC_ID);
-              m_iGBCategoria = valField(data, C.IBC_NAME);
-              m_esIIBB = valField(data, C.RET_ES_IIBB);
+              m_descrip = valField(data, C.LENG_DESCRIP);
 
             }
             else {
-              m_rett_id = NO_ID;
-              m_retencionTipo = "";
               m_id = NO_ID;
+              m_id_padre = NO_ID;
+              m_padre = "";
               m_name = "";
               m_code = "";
-              m_acumulaPor = Cairo.General.RetencionTipoAcumulado.noAcumula;
-              m_tipoMinimo = Cairo.General.RetencionTipoAcumulado.noImponible;
               m_active = true;
               m_descrip = "";
-              m_importeMinimo = 0;
-              m_regimenSicore = "";
-              m_ta_id = NO_ID;
-              m_talonario = "";
-              m_ibc_id = NO_ID;
-              m_iGBCategoria = "";
-              m_esIIBB = false;
             }
 
             return true;
@@ -867,34 +735,17 @@
 
         var elem = columns.add(null);
         elem.setVisible(false);
-        elem.setKey(KI_RETI_ID);
+        elem.setKey(KI_LENGI_ID);
 
         elem = columns.add(null);
-        elem.setName(getText(1257, "")); // Importe Desde
-        elem.setType(T.numeric);
-        elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setFormat("#,###,##0.00");
-        elem.setKey(KI_IMPORTE_DESDE);
+        elem.setName(Cairo.Constants.CODE_LABEL);
+        elem.setType(T.text);
+        elem.setKey(KI_CODIGO);
 
         elem = columns.add(null);
-        elem.setName(getText(1258, "")); // Importe Hasta
-        elem.setType(T.numeric);
-        elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setFormat("#,###,##0.00");
-        elem.setKey(KI_IMPORTE_HASTA);
-
-        elem = columns.add(null);
-        elem.setName(getText(1259, "")); // Importe Fijo
-        elem.setType(T.numeric);
-        elem.setSubType(Dialogs.PropertySubType.money);
-        elem.setFormat("#,###,##0.00");
-        elem.setKey(KI_IMPORTE_FIJO);
-
-        elem = columns.add(null);
-        elem.setName(getText(1105, "")); // Porcentaje
-        elem.setType(T.numeric);
-        elem.setSubType(Dialogs.PropertySubType.percentage);
-        elem.setKey(KI_PORCENTAJE);
+        elem.setName(getText(1005, "")); // Texto
+        elem.setType(T.text);
+        elem.setKey(KI_TEXTO);
 
         grid.getRows().clear();
       };
@@ -906,27 +757,19 @@
 
         for(var i = 0, count = m_data.items.length; i < count; i += 1) {
 
-          var row = rows.add(null, getValue(m_data.items[i], C.RETI_ID));
+          var row = rows.add(null, getValue(m_data.items[i], C.LENGI_ID));
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.items[i], C.RETI_ID));
-          elem.setKey(KI_RETI_ID);
+          elem.setValue(getValue(m_data.items[i], C.LENGI_ID));
+          elem.setKey(KI_LENGI_ID);
 
           elem = row.add(null);
-          elem.setValue(valField(m_data.items[i], C.RETI_IMPORTE_DESDE));
-          elem.setKey(KI_IMPORTE_DESDE);
+          elem.setValue(valField(m_data.items[i], C.LENGI_CODIGO));
+          elem.setKey(KI_CODIGO);
 
           elem = row.add(null);
-          elem.setValue(valField(m_data.items[i], C.RETI_IMPORTE_HASTA));
-          elem.setKey(KI_IMPORTE_HASTA);
-
-          elem = row.add(null);
-          elem.setValue(valField(m_data.items[i], C.RETI_IMPORTEFIJO));
-          elem.setKey(KI_IMPORTE_FIJO);
-
-          elem = row.add(null);
-          elem.setValue(valField(m_data.items[i], C.RETI_PORCENTAJE));
-          elem.setKey(KI_PORCENTAJE);
+          elem.setValue(valField(m_data.items[i], C.LENGI_TEXTO));
+          elem.setKey(KI_TEXTO);
 
         }
       };
@@ -936,14 +779,14 @@
         for (var i = 0, count = row.size(); i < count; i++) {
           var cell = row.item(i);
           switch (cell.getKey()) {
-            case KI_IMPORTE_DESDE:
-              if(!valEmpty(cell.getValue(), Types.currency)) {
+            case KI_CODIGO:
+              if(!valEmpty(cell.getValue(), Types.text)) {
                 bRowIsEmpty = false;
               }
               break;
 
-            case KI_IMPORTE_HASTA:
-              if(!valEmpty(cell.getValue(), Types.currency)) {
+            case KI_TEXTO:
+              if(!valEmpty(cell.getValue(), Types.text)) {
                 bRowIsEmpty = false;
               }
               break;
@@ -953,6 +796,15 @@
         return bRowIsEmpty;
       };
 
+      var validateCode = function(cell, strRow) {
+        return M.confirmViewYesDefault(getText(1003, "", strRow)) // No ha indicado un código & strRow & ;; Desea que el sistema le sugiera el próximo numero a usar?
+          .whenSuccess(function() {
+            return getItemCode().whenSuccessWithResult(function(code) {
+              cell.setValue(code);
+            });
+          });
+      }
+
       var validateRowItems = function(row, rowIndex) {
         var strRow = " (Row: " + rowIndex.toString() + ")";
         for (var i = 0, count = row.size(); i < count; i++) {
@@ -960,13 +812,22 @@
           switch (cell.getKey()) {
             case KI_CODIGO:
               if(valEmpty(cell.getValue(), Types.text)) {
-                return M.showInfoWithFalse(getText(1526, "", strRow)); // Debe indicar un código #1#
+                return validateCode(cell, strRow);
+              }
+              break;
+            case KI_TEXTO:
+              if(valEmpty(cell.getValue(), Types.text)) {
+                return M.showInfoWithFalse(getText(1004, "", strRow)); // Debe indicar un texto #1#
               }
               break;
           }
         }
 
         return P.resolvedPromise(true);
+      };
+
+      var getItemCode = function() {
+        return Cairo.Database.getData("load[" + m_apiPath + "general/lenguaje/get_item_code]")
       };
 
       var initialize = function() {
@@ -1016,355 +877,165 @@
     };
 
   });
+
+  Cairo.module("Lenguaje.List", function(List, Cairo, Backbone, Marionette, $, _) {
+
+    var NO_ID = Cairo.Constants.NO_ID;
+    var getText = Cairo.Language.getText;
+
+    List.Controller = {
+      list: function() {
+
+        var self = this;
+
+        /*
+         this function will be called by the tab manager every time the
+         view must be created. when the tab is not visible the tab manager
+         will not call this function but only make the tab visible
+         */
+        var createTreeDialog = function(tabId) {
+
+          var editors = Cairo.Editors.lenguajeEditors || Cairo.Collections.createCollection(null);
+          Cairo.Editors.lenguajeEditors = editors;
+
+          // ListController properties and methods
+          //
+          self.entityInfo = new Backbone.Model({
+            entitiesTitle: getText(1006, ""), // Lenguajes
+            entityName: "Lenguaje", // TODO: add to language
+            entitiesName: getText(1006, "")
+          });
+
+          self.showBranch = function(branchId) {
+            Cairo.log("Loading nodeId: " + branchId);
+            Cairo.Tree.List.Controller.listBranch(branchId, Cairo.Tree.List.Controller.showItems, self);
+          };
+
+          self.addLeave = function(id, branchId) {
+            try {
+              Cairo.Tree.List.Controller.addLeave(branchId, id, self);
+            }
+            catch(ignore) {
+              Cairo.log("Error when adding this item to the branch\n\n" + ignore.message);
+            }
+          };
+
+          self.refreshBranch = function(id, branchId) {
+            try {
+              Cairo.Tree.List.Controller.refreshBranchIfActive(branchId, id, self);
+            }
+            catch(ignore) {
+              Cairo.log("Error when refreshing a branch\n\n" + ignore.message);
+            }
+          };
+
+          var getIndexFromEditor = function(editor) {
+            var count = editors.count();
+            for(var i = 0; i < count; i += 1) {
+              if(editors.item(i).editor === editor) {
+                return i;
+              }
+            }
+            return -1;
+          };
+
+          self.removeEditor = function(editor) {
+            var index = getIndexFromEditor(editor);
+            if(index >= 0) {
+              editors.remove(index);
+            }
+          };
+
+          var getKey = function(id) {
+            if(id === NO_ID) {
+              return "new-id:" + (new Date).getTime().toString()
+            }
+            else {
+              return "k:" + id.toString();
+            }
+          };
+
+          self.updateEditorKey = function(editor, newId) {
+            var index = getIndexFromEditor(editor);
+            if(index >= 0) {
+              var editor = editors.item(index);
+              editors.remove(index);
+              var key = getKey(newId);
+              editors.add(editor, key);
+            }
+          };
+
+          self.edit = function(id, treeId, branchId) {
+            var key = getKey(id);
+            if(editors.contains(key)) {
+              editors.item(key).dialog.showDialog();
+            }
+            else {
+              var editor = Cairo.Lenguaje.Edit.Controller.getEditor();
+              var dialog = Cairo.Dialogs.Views.Controller.newDialog();
+
+              editor.setTree(self);
+              editor.setDialog(dialog);
+              editor.setTreeId(treeId);
+              editor.setBranchId(branchId);
+              editor.edit(id);
+
+              editors.add({editor: editor, dialog: dialog}, key);
+            }
+          };
+
+          self.destroy = function(id, treeId, branchId) {
+            if(!Cairo.Security.hasPermissionTo(Cairo.Security.Actions.General.DELETE_LENGUAJE)) {
+              return Cairo.Promises.resolvedPromise(false);
+            }
+            var apiPath = Cairo.Database.getAPIVersion();
+            return Cairo.Database.destroy(apiPath + "general/lenguaje", id, Cairo.Constants.DELETE_FUNCTION, "Lenguaje").success(
+              function() {
+                try {
+                  var key = getKey(id);
+                  if(editors.contains(key)) {
+                    editors.item(key).dialog.closeDialog();
+                  }
+                }
+                catch(ignore) {
+                  Cairo.log('Error closing dialog after delete');
+                }
+                return true;
+              }
+            );
+          };
+
+          // progress message
+          //
+          Cairo.LoadingMessage.show("Lenguajes", "Loading Lenguajes from CrowSoft Cairo server.");
+
+          // create the tree region
+          //
+          Cairo.addRegions({ lenguajeTreeRegion: tabId });
+
+          // create the dialog
+          //
+          Cairo.Tree.List.Controller.list(
+            Cairo.Tables.LENGUAJE,
+            new Cairo.Tree.List.TreeLayout({ model: self.entityInfo }),
+            Cairo.lenguajeTreeRegion,
+            self);
+        };
+
+        var showTreeDialog = function() {
+          Cairo.Tree.List.Controller.showTreeDialog(self);
+        };
+
+        var closeTreeDialog = function() {
+
+        }
+
+        // create the tab
+        //
+        Cairo.mainTab.showTab("Lenguajes", "lenguajeTreeRegion", "#general/lenguaje", createTreeDialog, closeTreeDialog, showTreeDialog);
+
+      }
+    };
+  });
+
 }());
-
-
-
-
-' funciones privadas
-Private Function LoadCollection() As Boolean
-  Dim c As cIABMProperty
-  Dim iProp As cABMProperty
-  
-  With m_ObjAbm.Tabs
-    .Clear
-      
-    With .Add(Nothing)
-      .Name = C_strGeneral
-    End With
-  
-    With .Add(Nothing)
-      .Index = 1
-      .Name = c_Items
-    End With
-    
-  End With
-      
-  With m_ObjAbm.Properties
-    
-    .Clear
-
-    With .Add(Nothing, cscLengNombre)
-      .PropertyType = cspText
-      .Name = C_strNombre
-      .Size = 100
-      .Key = K_NOMBRE
-      .Value = m_name
-      .Width = 6500
-    End With
-  
-    With .Add(Nothing, cscLengCodigo)
-      .PropertyType = cspText
-      .Name = C_strCodigo
-      .Size = 15
-      .Key = K_CODIGO
-      .Value = m_code
-    End With
-  
-    With .Add(Nothing, cscActivo)
-      .PropertyType = cspCheck
-      .Name = C_strActivo
-      .Key = K_ACTIVO
-      .Value = CInt(m_active)
-    End With
-    
-    With .Add(Nothing, cscLengIdpadre)
-      .PropertyType = cspHelp
-      .Table = csTblLenguaje
-      .Name = LNGGetText(1002, vbNullString) '"Lenguaje Padre"
-      .Key = K_ID_PADRE
-      .Value = m_padre
-      .HelpId = m_id_padre
-      .HelpFilter = "IsNull(leng_id_padre,0) <> " & m_id & " and leng_id <> " & m_id
-    End With
-  
-    With .Add(Nothing, cscLengDescrip)
-      .PropertyType = cspText
-      .SubType = cspMemo
-      .Name = C_strDescrip
-      .Size = 255
-      .Width = 6500
-      .Height = 880
-      .Key = K_DESCRIP
-      .Value = m_descrip
-    End With
-  
-    Set c = .Add(Nothing, c_Filter)
-    With c
-      .Name = LNGGetText(2826, vbNullString) 'Filtro
-      .PropertyType = cspText
-      .TabIndex = 1
-      Set iProp = c
-      iProp.IsEditProperty = False
-      .Key = K_FILTER
-    End With
-        
-    With .Add(Nothing)
-      .PropertyType = cspButton
-      .TopFromProperty = c_Filter
-      .Left = 4000
-      .LeftNotChange = True
-      .TopNotChange = True
-      .LeftLabel = -1
-      .Name = LNGGetText(3432, vbNullString) 'Filtrar
-      .TabIndex = 1
-      .Key = K_CMD_FILTER
-    End With
-    
-    Set c = .Add(Nothing, c_Top)
-    With c
-      .PropertyType = cspCheck
-      .Name = LNGGetText(3479, vbNullString) 'Top 50
-      .TopFromProperty = c_Filter
-      .Left = 7500
-      .LeftNotChange = True
-      .TopNotChange = True
-      .LeftLabel = -800
-      .TabIndex = 1
-      .Key = K_TOP
-      .Value = -1
-      Set iProp = c
-      iProp.IsEditProperty = False
-    End With
-    
-    Set c = .Add(Nothing, c_Items)
-    With c
-      .PropertyType = cspGrid
-      .LeftLabel = -1
-      If Not pLoadItems(c) Then Exit Function
-      .Name = c_Items
-      .Key = K_ITEMS
-      .TabIndex = 1
-      .Top = 1500
-      .Left = 200
-      .GridAdd = True
-      .GridEdit = True
-      .GridRemove = True
-    End With
-    
-  End With
-  
-  m_ItemsDeletedItems = vbNullString
-  
-  m_MaxCodigo = 0
-  
-  If Not m_ObjAbm.Show(Me) Then Exit Function
-  
-  LoadCollection = True
-End Function
-
-Private Function Load(ByVal Id As Long) As Boolean
-  Dim sqlstmt As String
-  Dim rs As Recordset
-  
-  sqlstmt = "select Lenguaje.*,L2.leng_nombre as padre " & _
-              " from Lenguaje left join Lenguaje L2 on Lenguaje.leng_id_padre = L2.leng_id" & _
-              " where Lenguaje.leng_id = " & Id
-
-  If Not gDB.OpenRs(sqlstmt, rs, csRsStatic, csLockReadOnly, csCmdText, "Load", C_Module) Then Exit Function
-
-  If Not rs.EOF Then
-
-    m_id = gDB.ValField(rs.fields, cscLengId)
-    m_name = gDB.ValField(rs.fields, cscLengNombre)
-    m_code = gDB.ValField(rs.fields, cscLengCodigo)
-    m_descrip = gDB.ValField(rs.fields, cscLengDescrip)
-    m_id_padre = gDB.ValField(rs.fields, cscLengIdpadre)
-    m_padre = gDB.ValField(rs.fields, "padre")
-    m_Creado = gDB.ValField(rs.fields, cscCreado)
-    m_Modificado = gDB.ValField(rs.fields, cscModificado)
-    m_Modifico = gDB.ValField(rs.fields, cscModifico)
-    m_active = gDB.ValField(rs.fields, cscActivo)
-
-  Else
-    
-    m_id = csNO_ID
-    m_name = vbNullString
-    m_code = vbNullString
-    m_descrip = vbNullString
-    m_id_padre = csNO_ID
-    m_padre = vbNullString
-    m_Creado = csNoDate
-    m_Modificado = csNoDate
-    m_Modifico = 0
-    m_active = True
-    
-  End If
-
-  m_MaxCodigo = 0
-
-  Load = True
-End Function
-
-Private Function pIsEmptyRowItems(ByRef Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
-  Dim Cell                  As cIABMGridCellValue
-  Dim bRowIsEmpty           As Boolean
-  
-  bRowIsEmpty = True
-  
-  For Each Cell In Row
-    Select Case Cell.Key
-      Case KI_CODIGO
-        If Not ValEmpty(Cell.Value, csText) Then
-          bRowIsEmpty = False
-          Exit For
-        End If
-      Case KI_TEXTO
-        If Not ValEmpty(Cell.Value, csText) Then
-          bRowIsEmpty = False
-          Exit For
-        End If
-    End Select
-  Next
-  
-  pIsEmptyRowItems = bRowIsEmpty
-End Function
-
-Private Function pValidateRowItems(Row As CSInterfacesABM.cIABMGridRow, ByVal RowIndex As Long) As Boolean
-  Dim Cell   As cIABMGridCellValue
-  Dim strRow As String
-  Dim Codigo As String
-  
-  strRow = " (Fila " & RowIndex & ")"
-  
-  For Each Cell In Row
-    Select Case Cell.Key
-        Case KI_CODIGO
-          If ValEmpty(Cell.Value, csText) Then
-          
-                  ' "No ha indicado un c�digo" & strRow & ";;�Desea que el sistema le sugiera el proximo numero a usar?"
-                  '
-            If Ask(LNGGetText(1003, vbNullString, strRow), vbYes) Then
-            
-              If Not pItemCodigoGet(Codigo) Then Exit Function
-              Cell.Value = Codigo
-            Else
-              Exit Function
-            End If
-          End If
-        Case KI_TEXTO
-          If ValEmpty(Cell.Value, csText) Then
-                                    ' Debe indicar un texto
-            MsgInfo LNGGetText(1004, vbNullString, strRow)
-            Exit Function
-          End If
-    End Select
-  Next
-  
-  pValidateRowItems = True
-End Function
-
-Private Function pLoadItems(ByRef Propiedad As cIABMProperty) As Boolean
-  Dim sqlstmt As String
-  Dim rs As ADODB.Recordset
-  
-  m_WasChanged = False
-  
-  Dim filter As String
-  
-  With m_ObjAbm.Properties
-    filter = .Item(c_Filter).Value
-    sqlstmt = "select " & IIf(Val(.Item(c_Top).Value), "top 50 ", vbNullString) & "* from LenguajeItem where leng_id = " & m_id
-  End With
-  
-  If LenB(filter) Then
-  
-    filter = gDB.sqlString(filter)
-  
-    sqlstmt = sqlstmt & _
-              " and (lengi_texto like " & filter & _
-              " or lengi_codigo like " & filter & ")"
-  End If
-  
-  sqlstmt = sqlstmt & " order by lengi_texto"
-  
-  If Not gDB.OpenRs(sqlstmt, rs, csRsStatic, csLockReadOnly, csCmdText, "pLoadItems", C_Module) Then Exit Function
-  
-  With Propiedad.Grid
-  
-    With .Columns
-    
-      .Clear
-    
-      With .Add(Nothing)
-        .Visible = False
-        .Key = KI_LENGI_ID
-      End With
-  
-      With .Add(Nothing)
-        .Name = C_strCodigo
-        .PropertyType = cspText
-        .Width = 3500
-        .Key = KI_CODIGO
-      End With
-      
-      With .Add(Nothing)
-        .Name = LNGGetText(1005, vbNullString)
-        .PropertyType = cspText
-        .SubType = cspTextButtonEx
-        .Width = 1200
-        .Key = KI_TEXTO
-      End With
-    
-    End With
-    
-    With .Rows
-      
-      .Clear
-      
-      While Not rs.EOF
-      
-        With .Add(Nothing, rs(csclengiId).Value)
-        
-          With .Add(Nothing)
-            .Value = rs(csclengiId).Value
-            .Key = KI_LENGI_ID
-          End With
-          
-          With .Add(Nothing)
-            .Value = gDB.ValField(rs.fields, csclengiCodigo)
-            .Key = KI_CODIGO
-          End With
-          
-          With .Add(Nothing)
-            .Value = gDB.ValField(rs.fields, csclengiTexto)
-            .Key = KI_TEXTO
-          End With
-          
-        End With
-        
-        rs.MoveNext
-      Wend
-    
-    End With
-  
-  End With
-  
-  pLoadItems = True
-End Function
-
-Private Function pItemCodigoGet(ByRef rtn As String) As Boolean
-  Dim sqlstmt As String
-  Dim rs      As ADODB.Recordset
-  
-  If m_MaxCodigo = 0 Then
-  
-    sqlstmt = "sp_LenguajeItemGetCodigo"
-    
-    If Not gDB.OpenRs(sqlstmt, rs) Then Exit Function
-    
-    rtn = gDB.ValField(rs.fields, 0)
-    
-    m_MaxCodigo = Val(rtn)
-  
-  Else
-  
-    m_MaxCodigo = m_MaxCodigo + 1
-    
-    rtn = m_MaxCodigo
-    
-  End If
-  
-  pItemCodigoGet = True
-End Function
-

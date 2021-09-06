@@ -563,7 +563,7 @@
                 if(!pItLoadItems(c)) { return false; }
                 c.setKey(K_PEDIDO);
                 c.setName("Items");
-                c.hideLabel();;
+                c.hideLabel();
                 c.setWidth(9400);
                 c.setLeft(250);
                 c.setHeight(2600);
@@ -579,7 +579,7 @@
                 if(!pItSetGridAplicPedido(c)) { return false; }
                 c.setKey(K_APLIC_PEDIDO);
                 c.setName("Pedido");
-                c.hideLabel();;
+                c.hideLabel();
                 c.setWidth(9400);
                 c.setLeft(250);
                 c.setTop(4200);
@@ -596,7 +596,7 @@
                 if(!pItLoadFacDev(c)) { return false; }
                 c.setKey(K_FAC_DEV);
                 c.setName("Items2");
-                c.hideLabel();;
+                c.hideLabel();
                 c.setWidth(9400);
                 c.setLeft(250);
                 c.setHeight(2600);
@@ -613,7 +613,7 @@
                 if(!pItSetGridAplicFacDev(c)) { return false; }
                 c.setKey(K_APLIC_FAC_DEV);
                 c.setName("Facturas");
-                c.hideLabel();;
+                c.hideLabel();
                 c.setWidth(9400);
                 c.setLeft(250);
                 c.setTop(4200);

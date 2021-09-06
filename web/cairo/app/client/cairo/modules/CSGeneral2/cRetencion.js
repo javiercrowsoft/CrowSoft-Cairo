@@ -28,7 +28,7 @@
 
       var C_ITEMS = "Items";
       var C_PROVINCIAS = "provincias";
-      var C_CAT_FISCAL = "CatFiscal";
+      var C_CAT_FISCAL = "catFiscal";
 
       var K_RETT_ID = 1;
       var K_NAME = 2;
@@ -696,7 +696,7 @@
 
         elem = properties.add(null, C_ITEMS);
         elem.setType(T.grid);
-        elem.hideLabel();;
+        elem.hideLabel();
         setGridItems(elem);
         loadItems(elem);
         elem.setName(C_ITEMS);
@@ -710,7 +710,7 @@
 
         elem = properties.add(null, C_CAT_FISCAL);
         elem.setType(T.grid);
-        elem.hideLabel();;
+        elem.hideLabel();
         setGridCatFiscal(elem);
         loadCatFiscal(elem);
         elem.setName(C_CAT_FISCAL);
@@ -724,7 +724,7 @@
 
         elem = properties.add(null, C_PROVINCIAS);
         elem.setType(T.grid);
-        elem.hideLabel();;
+        elem.hideLabel();
         setGridProvincias(elem);
         loadProvincias(elem);
         elem.setName(C_PROVINCIAS);
@@ -783,6 +783,18 @@
 
         elem = properties.item(C.RET_DESCRIP);
         elem.setValue(m_descrip);
+
+        elem = properties.item(C_ITEMS);
+        loadItems(elem);
+        m_itemsDeleted = "";
+
+        elem = properties.item(C_PROVINCIAS);
+        loadProvincias(elem);
+        m_provinciasDeleted = "";
+
+        elem = properties.item(C_CAT_FISCAL);
+        loadCatFiscal(elem);
+        m_catFiscalDeleted = "";
 
         return m_dialog.showValues(properties);
       };
@@ -1488,7 +1500,6 @@
       }
     };
   });
-
 
 }());
 

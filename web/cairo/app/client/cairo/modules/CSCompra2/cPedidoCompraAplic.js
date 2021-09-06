@@ -499,7 +499,7 @@
 
                 c = properties.add(null, C_FACDEV);
                 c.setType(Dialogs.PropertyType.grid);
-                c.hideLabel();;
+                c.hideLabel();
                 if(!pItLoadFacDev(c)) { return false; }
                 c.setKey(K_FAC_DEV);
                 c.setName("Items2");
@@ -515,7 +515,7 @@
 
                 c = properties.add(null, C_APLICFACDEV);
                 c.setType(Dialogs.PropertyType.grid);
-                c.hideLabel();;
+                c.hideLabel();
                 if(!pItSetGridAplicFacDev(c)) { return false; }
                 c.setKey(K_APLIC_FAC_DEV);
                 c.setName("Ordenes de compra");

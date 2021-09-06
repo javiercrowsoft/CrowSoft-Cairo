@@ -619,7 +619,7 @@
 
                 c = m_dialog.getProperties().add(null, C_PRESU);
                 c.setType(Dialogs.PropertyType.grid);
-                c.hideLabel();;
+                c.hideLabel();
                 if(!pItLoadPresupuesto(c)) { return false; }
                 c.setKey(K_PRESUPUESTO);
                 c.setName("Items1");
@@ -635,7 +635,7 @@
 
                 c = m_dialog.getProperties().add(null, C_APLICPRESU);
                 c.setType(Dialogs.PropertyType.grid);
-                c.hideLabel();;
+                c.hideLabel();
                 if(!pItSetGridAplicPresupuesto(c)) { return false; }
                 c.setKey(K_APLIC_PRESU);
                 c.setName("Presupuestos");
@@ -652,7 +652,7 @@
 
                 c = m_dialog.getProperties().add(null, C_ITEMS);
                 c.setType(Dialogs.PropertyType.grid);
-                c.hideLabel();;
+                c.hideLabel();
                 if(!pItLoadItems(c)) { return false; }
                 c.setKey(K_PACKING);
                 c.setName("Items");
@@ -669,7 +669,7 @@
 
                 c = m_dialog.getProperties().add(null, C_APLICPACKING);
                 c.setType(Dialogs.PropertyType.grid);
-                c.hideLabel();;
+                c.hideLabel();
                 if(!pItSetGridAplicPacking(c)) { return false; }
                 c.setKey(K_APLIC_PACKING);
                 c.setName("Packing");
@@ -687,7 +687,7 @@
 
                 c = m_dialog.getProperties().add(null, C_FACDEV);
                 c.setType(Dialogs.PropertyType.grid);
-                c.hideLabel();;
+                c.hideLabel();
                 if(!pItLoadFacDev(c)) { return false; }
                 c.setKey(K_FAC_DEV);
                 c.setName("Items2");
@@ -704,7 +704,7 @@
 
                 c = m_dialog.getProperties().add(null, C_APLICFACDEV);
                 c.setType(Dialogs.PropertyType.grid);
-                c.hideLabel();;
+                c.hideLabel();
                 if(!pItSetGridAplicFacDev(c)) { return false; }
                 c.setKey(K_APLIC_FAC_DEV);
                 c.setName("Facturas");

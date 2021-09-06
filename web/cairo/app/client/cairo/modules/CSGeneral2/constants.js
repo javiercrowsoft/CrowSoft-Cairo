@@ -271,6 +271,7 @@
       LENG_NAME: "leng_nombre",
       LENG_CODE: "leng_codigo",
       LENG_DESCRIP: "leng_descrip",
+      LENG_NAME_PADRE: "leng_nombre_padre",
 
       // Lenguaje
       LENGUAJE_ITEM: "LenguajeItem",
@@ -2083,7 +2084,12 @@
     NEW_DOCUMENTO_GRUPO: 4014,
     EDIT_DOCUMENTO_GRUPO: 4015,
     DELETE_DOCUMENTO_GRUPO: 4016,
-    LIST_DOCUMENTO_GRUPO: 4017
+    LIST_DOCUMENTO_GRUPO: 4017,
+
+    NEW_LENGUAJE: 14001,
+    EDIT_LENGUAJE: 14002,
+    DELETE_LENGUAJE: 14003,
+    LIST_LENGUAJE: 14004
   }                                                                    
                                                                         
 }());

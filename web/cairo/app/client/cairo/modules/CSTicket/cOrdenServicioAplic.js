@@ -457,7 +457,7 @@
 
                 c = m_dialog.getProperties().add(null, C_REMITO);
                 c.setType(Dialogs.PropertyType.grid);
-                c.hideLabel();;
+                c.hideLabel();
                 if(!pItLoadRemito(c)) { return false; }
                 c.setKey(K_REMITO);
                 //'Items2
@@ -474,7 +474,7 @@
 
                 c = m_dialog.getProperties().add(null, C_APLICREMITO);
                 c.setType(Dialogs.PropertyType.grid);
-                c.hideLabel();;
+                c.hideLabel();
                 if(!pItSetGridAplicRemito(c)) { return false; }
                 c.setKey(K_APLIC_REMITO);
                 //'Facturas
