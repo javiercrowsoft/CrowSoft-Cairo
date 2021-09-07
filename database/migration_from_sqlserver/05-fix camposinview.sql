@@ -13,7 +13,7 @@ Activo=Activo,
 Modifico=(select us_nombre from usuario where us_id =Producto.modifico)'
 where tbl_id = 30;
 
-update tabla set tbl_camposinview = 'Codigo=ret_codigo,Activo,Modifico=(select us_nombre from usuario where us_id =Retencion.modifico),
+update tabla set tbl_camposinview = 'Codigo=ret_codigo,Activo=Activo,Modifico=(select us_nombre from usuario where us_id =Retencion.modifico),
 IIBB=(case when ret_esiibb<> 0 then ''Si'' else ''No'' end),
 Tipo=(case ret_tipominimo when 1 then ''No imponible'' when 2 then ''Imponible'' end)'
 where tbl_id = 1014;

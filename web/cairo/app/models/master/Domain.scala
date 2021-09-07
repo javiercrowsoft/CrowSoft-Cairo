@@ -1,6 +1,7 @@
 package models.master
 
 import anorm._
+import models.cairo.system.database.Register
 //import play.api.db.DB
 import services.db.DB
 import anorm.SqlParser._
@@ -32,7 +33,7 @@ object Domain {
           'database -> domain.database,
           'username -> domain.username,
           'password -> domain.password,
-          'locked -> (if(domain.locked) 1 else 0)
+          'locked -> Register.boolToInt(domain.locked)
         ).executeInsert().map(id => id.toInt).getOrElse(throw new RuntimeException("Error when inserting domain"))
     }
   }
@@ -102,7 +103,7 @@ object Domain {
           'database -> domain.database,
           'username -> domain.username,
           'password -> domain.password,
-          'locked -> (if(domain.locked) 1 else 0)
+          'locked -> Register.boolToInt(domain.locked)
         ).executeUpdate
     }
   }

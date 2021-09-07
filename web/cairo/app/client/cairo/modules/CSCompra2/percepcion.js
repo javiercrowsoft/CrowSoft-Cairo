@@ -180,10 +180,11 @@
         case KIP_BASE:
           var row = grid.getRows().item(lRow);
           var cell = getCell(row, KIP_BASE);
-          if(val(newValue) < 0) {
+          newValue = val(newValue);
+          if(newValue < 0) {
             cell.setValue(0);
           }
-          else if(val(newValue) > 0) {
+          else if(newValue > 0) {
             getCell(row, KIP_IMPORTE).setValue((newValue * val(getCell(row, KIP_PORCENTAJE).getValue())) / 100);
           }
           break;
@@ -191,12 +192,12 @@
         case KIP_IMPORTE:
           var row = grid.getRows().item(lRow);
           var cell = getCell(row, KIP_IMPORTE);
-          if(val(newValue) < 0) {
+          newValue = val(newValue);
+          if(newValue < 0) {
             cell.setValue(0);
           }
-          else if(val(newValue) > 0) {
-            var percent = null;
-            percent = val(getCell(row, KIP_PORCENTAJE).getValue());
+          else if(newValue > 0) {
+            var percent = val(getCell(row, KIP_PORCENTAJE).getValue());
             if(percent === 0) {
               percent = 1;
               getCell(row, KIP_PORCENTAJE).setValue(1);
@@ -208,10 +209,11 @@
         case KIP_PORCENTAJE:
           var row = grid.getRows().item(lRow);
           var cell = getCell(row, KIP_PORCENTAJE);
-          if(val(newValue) < 0) {
+          newValue = val(newValue);
+          if(newValue < 0) {
             cell.setValue(0);
           }
-          else if(val(newValue) > 0) {
+          else if(newValue > 0) {
             getCell(row, KIP_IMPORTE).setValue((val(getCell(row, KIP_BASE).getValue()) * newValue) / 100);
           }
           break;

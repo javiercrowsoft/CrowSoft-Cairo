@@ -12,7 +12,7 @@ import models.cairo.system.security.CairoSecurity
 import models.cairo.system.database.DBHelper
 
 
-case class RetenciontipoData(
+case class RetencionTipoData(
               id: Option[Int],
               name: String,
               code: String,
@@ -37,10 +37,10 @@ object RetencionesTipo extends Controller with ProvidesUser {
       C.CUE_ID -> number,
       C.RETT_TIPO -> number,
       C.RETT_DESCRIP -> text
-    )(RetenciontipoData.apply)(RetenciontipoData.unapply))
+    )(RetencionTipoData.apply)(RetencionTipoData.unapply))
 
-  implicit val retencionTipoWrites = new Writes[Retenciontipo] {
-    def writes(retencionTipo: Retenciontipo) = Json.obj(
+  implicit val retencionTipoWrites = new Writes[RetencionTipo] {
+    def writes(retencionTipo: RetencionTipo) = Json.obj(
       "id" -> Json.toJson(retencionTipo.id),
       C.RETT_ID -> Json.toJson(retencionTipo.id),
       C.RETT_NAME -> Json.toJson(retencionTipo.name),
@@ -57,7 +57,7 @@ object RetencionesTipo extends Controller with ProvidesUser {
 
   def get(id: Int) = GetAction { implicit request =>
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.LIST_RETENCIONTIPO), { user =>
-      Ok(Json.toJson(Retenciontipo.get(user, id)))
+      Ok(Json.toJson(RetencionTipo.get(user, id)))
     })
   }
 
@@ -73,8 +73,8 @@ object RetencionesTipo extends Controller with ProvidesUser {
         LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.EDIT_RETENCIONTIPO), { user =>
           Ok(
             Json.toJson(
-              Retenciontipo.update(user,
-                Retenciontipo(
+              RetencionTipo.update(user,
+                RetencionTipo(
                   id,
                   retencionTipo.name,
                   retencionTipo.code,
@@ -102,8 +102,8 @@ object RetencionesTipo extends Controller with ProvidesUser {
         LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.NEW_RETENCIONTIPO), { user =>
           Ok(
             Json.toJson(
-              Retenciontipo.create(user,
-                Retenciontipo(
+              RetencionTipo.create(user,
+                RetencionTipo(
                   retencionTipo.name,
                   retencionTipo.code,
                   retencionTipo.active,
@@ -121,7 +121,7 @@ object RetencionesTipo extends Controller with ProvidesUser {
   def delete(id: Int) = PostAction { implicit request =>
     Logger.debug("in RetencionesTipo.delete")
     LoggedIntoCompanyResponse.getAction(request, CairoSecurity.hasPermissionTo(S.DELETE_RETENCIONTIPO), { user =>
-      Retenciontipo.delete(user, id)
+      RetencionTipo.delete(user, id)
       // Backbonejs requires at least an empty json object in the response
       // if not it will call errorHandler even when we responded with 200 OK :P
       Ok(JsonUtil.emptyJson)

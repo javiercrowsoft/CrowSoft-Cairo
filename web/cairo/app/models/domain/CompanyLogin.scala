@@ -3,6 +3,7 @@ package models.domain
 import play.api.Logger
 import anorm._
 import anorm.SqlParser._
+import models.cairo.system.database.Register
 //import play.api.db.DB
 import services.db.DB
 import services._
@@ -83,7 +84,7 @@ object CompanyLogin {
           'ip_address -> companyLogin.ip_address,
           'user_agent -> companyLogin.user_agent,
           'accept_language -> companyLogin.accept_language,
-          'is_mobile -> (if(companyLogin.is_mobile) 1 else 0)
+          'is_mobile -> Register.boolToInt(companyLogin.is_mobile)
         ).executeUpdate
     }
     resultCode

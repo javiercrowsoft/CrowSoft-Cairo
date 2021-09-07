@@ -268,6 +268,11 @@ POST    /api/v1/general/retenciontipo                                           
 PUT     /api/v1/general/retenciontipo/:id                                                    controllers.logged.modules.general.RetencionesTipo.update(id: Int)
 DELETE  /api/v1/general/retenciontipo/:id                                                    controllers.logged.modules.general.RetencionesTipo.delete(id: Int)
 
+GET     /api/v1/general/retencion/:id                                                        controllers.logged.modules.general.Retenciones.get(id: Int)
+POST    /api/v1/general/retencion                                                            controllers.logged.modules.general.Retenciones.create
+PUT     /api/v1/general/retencion/:id                                                        controllers.logged.modules.general.Retenciones.update(id: Int)
+DELETE  /api/v1/general/retencion/:id                                                        controllers.logged.modules.general.Retenciones.delete(id: Int)
+
 GET     /api/v1/general/sucursal/:id                                                         controllers.logged.modules.general.Sucursales.get(id: Int)
 POST    /api/v1/general/sucursal                                                             controllers.logged.modules.general.Sucursales.create
 PUT     /api/v1/general/sucursal/:id                                                         controllers.logged.modules.general.Sucursales.update(id: Int)

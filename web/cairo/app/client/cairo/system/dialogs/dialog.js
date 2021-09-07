@@ -3032,8 +3032,12 @@
         // TODO: refactor promise is returned by this function
         //
         var masterHandlerGridColumnBeforeEdit = function(index, eventArgs) {
-          // TODO: investigate why it calls gridColumnEdit instead of gridBeforeColumnEdit()
-          return gridColumnEdit(false, index, eventArgs.row, eventArgs.col, eventArgs.keyAscii, 0, 0);
+          if(gridColumnBeforeEdit(index, eventArgs.row, eventArgs.col)) {
+            return gridColumnEdit(false, index, eventArgs.row, eventArgs.col, eventArgs.keyAscii, 0, 0);
+          }
+          else {
+            return P.resolvedPromise(false);
+          }
         };
 
         var masterHandlerGridColumnButtonClick = function(index, eventArgs) {
@@ -4589,7 +4593,7 @@
               cell.setValue(Cairo.Util.getDateValueFromGrid(gridCell.getText()));
             }
             else if(col.getSubType() === Dialogs.PropertySubType.percentage) {
-              cell.setValue(val(gridCell.getText()) * 100);
+              cell.setValue(val(gridCell.getText()));
             }
             else {
               cell.setValue(gridCell.getText());
@@ -4624,7 +4628,7 @@
               gridCell.setText(Cairo.Util.getDateValueForGrid(cell.getValue()));
             }
             else if(col.getSubType() === Dialogs.PropertySubType.percentage) {
-              gridCell.setText(val(cell.getValue()) / 100);
+              gridCell.setText(val(cell.getValue()));
             }
             else {
               gridCell.setText(cell.getValue());

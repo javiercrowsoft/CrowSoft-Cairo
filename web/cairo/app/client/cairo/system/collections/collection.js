@@ -298,15 +298,23 @@
         return selected;
       };
 
+      var stringify = function(o) {
+        var info = ""
+        for (var f in o) {
+          if(typeof o[f] === "function") {
+            if(f.substr(0,3) === "get") {
+              info += f.substr(3,1).toLowerCase() + f.substr(4) + ": " + o[f]() + ", ";
+            }
+          }
+        }
+        return "{" + info.slice(0, -2) + "}";
+      }
+
       that.inspect = function(f) {
+        Cairo.log("Size:" + that.size());
         var printToLog = function(item, i) {
           try {
-            Cairo.log("item " + i.toString()
-              + ": " + item.toString()
-              + " - Name: " + (item.getName ? item.getName() : "")
-              + " - Text: " + (item.getText ? item.getText() : "")
-              + " - f: " + (f ? item[f].apply(item) : "")
-            );
+            Cairo.log("item " + i.toString() + ": " + (f ? item[f].apply(item) : stringify(item)));
           }
           catch(ignore) {}
           return true;

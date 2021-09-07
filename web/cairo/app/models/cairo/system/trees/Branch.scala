@@ -1,14 +1,15 @@
 package models.cairo.system.trees
 
-import java.sql.{Connection, CallableStatement, ResultSet, Types, SQLException}
+import java.sql.{CallableStatement, Connection, ResultSet, SQLException, Types}
 import anorm.SqlParser._
 import anorm._
 import services.db.DB
-import models.cairo.system.database.DBHelper
+import models.cairo.system.database.{DBHelper, Register}
 import play.api.Play.current
 import models.domain.CompanyUser
 import play.api.Logger
 import play.api.libs.json._
+
 import scala.util.control.NonFatal
 
 case class Branch(id: Int, name: String, leaves: List[Leave], items: List[Branch], fatherId: Int)
@@ -277,7 +278,7 @@ object Branch {
       cs.setInt(1, user.masterUserId)
       cs.setInt(2, idFrom)
       cs.setInt(3, idTo)
-      cs.setShort(4, (if(onlyChildren) 1 else 0).toShort)
+      cs.setShort(4, Register.boolToInt(onlyChildren).toShort)
       cs.registerOutParameter(5, Types.OTHER)
 
       try {

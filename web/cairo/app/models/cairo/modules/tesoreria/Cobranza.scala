@@ -1942,8 +1942,8 @@ object Cobranza {
 
       cs.setInt(1, user.cairoCompanyId)
       cs.setInt(2, cliId)
-      cs.setInt(3, if(onlyExpired) 1 else 0)
-      cs.setInt(4, if(grouped) 1 else 0)
+      cs.setInt(3, Register.boolToInt(onlyExpired))
+      cs.setInt(4, Register.boolToInt(grouped))
       cs.registerOutParameter(5, Types.OTHER)
       cs.registerOutParameter(6, Types.OTHER)
 

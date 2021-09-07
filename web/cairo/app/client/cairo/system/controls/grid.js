@@ -92,6 +92,7 @@
         selectNoUseActive: false,
         selectType: Cairo.Select.SelectType.normal,
         selectTable: 0,
+        list: Cairo.Collections.createCollection(null),
 
         defaultValue: null, /* is a Dialogs.Grids.Cell object */
 
@@ -203,7 +204,12 @@
           self.defaultValue = value;
         },
 
-        setList: function(list) { /* TODO: implement this. */},
+        getList: function() {
+          return self.list;
+        },
+        setList: function(list) {
+          self.list = list;
+        },
 
         getIndex: function() {
           return self.index;
@@ -427,6 +433,12 @@
         };
       };
 
+      eventHandler.comboChange = function(control) {
+        return function() {
+
+        };
+      }
+
       //
       // end event handlers for edition
       //
@@ -492,6 +504,15 @@
         return dateCtrl;
       };
 
+      var comboCtrl = null;
+      var getComboCtrl = function() {
+        if(comboCtrl === null) {
+          comboCtrl = Cairo.Controls.createCombo();
+          createHtmlElement(comboCtrl);
+        }
+        return comboCtrl;
+      };
+
       var getButtonStyle = function(col) {
         return (
           col.getSubType() === S.textButtonEx
@@ -511,6 +532,10 @@
             case T.numeric:
               ctrl = getInputCtrl();
               ctrl.setType(D.getCtrlType(col.getSubType()));
+              break;
+
+            case T.list:
+              ctrl = getComboCtrl();
               break;
 
             case T.file:
@@ -570,8 +595,8 @@
                   break;
 
                 case T.list:
-                  newValue = ctrl.getValue();
-                  newValueId = ctrl.getId();
+                  newValue = ctrl.getText();
+                  newValueId = ctrl.getItemData();
                   break;
 
                 case T.numeric:
@@ -644,13 +669,17 @@
             break;
 
           case T.list:
+            ctrl.clear();
+            col.getList().each(function(v) {
+              ctrl.add(v.getValue(), v.getId());
+            });
             if(newValue.text !== undefined) {
-              ctrl.setValue(newValue.text);
-              ctrl.setId(newValue.id);
+              ctrl.selectById(val(newValue.id));
             }
             else {
-              ctrl.setValue(newValue);
+              ctrl.selectByIndex(newValue);
             }
+            break;
 
           case T.numeric:
             ctrl.setValue(newValue);
@@ -691,7 +720,7 @@
 
           case T.numeric:
             if(column.getSubType() === S.percentage) {
-              value = Cairo.accounting.formatNumber(val(cell.getText()) * 100,2);
+              value = Cairo.accounting.formatNumber(val(cell.getText()),2);
             }
             else {
               value = cell.getText();
@@ -785,7 +814,7 @@
                   $(td).text(Cairo.accounting.formatNumber(value, 0));
                 }
                 if(col.getSubType() === S.percentage) {
-                  cell.setText(value / 100);
+                  cell.setText(value);
                   $(td).text((Cairo.accounting.formatNumber(value, 2)) + "%");
                 }
                 else {
@@ -1214,7 +1243,7 @@
                 };
                 endEdit().then(function() {
                   var nextTD = nextVisibleTD(td.parentNode.childNodes, td.cellIndex, moveToCol);
-                  nextTD.focus();
+                  if(nextTD) { nextTD.focus(); }
                 }).then(
                   call(raiseEvent, 'onSelectionChange', args)
                 );
@@ -1460,11 +1489,17 @@
                 return Cairo.accounting.formatNumber(cell.getText(), 0);
               }
               if(col.getSubType() === S.percentage) {
-                return (Cairo.accounting.formatNumber(val(cell.getText()) * 100, 2)) + "%";
+                return (Cairo.accounting.formatNumber(val(cell.getText()), 2)) + "%";
               }
               else {
                 return Cairo.accounting.formatNumber(cell.getText(), 2);
               }
+            case T.list:
+              var text = "";
+              col.getList().each(function(v) {
+                if(v.getId() === val(cell.getItemData())) text = v.getValue();
+              });
+              return text;
             default:
               return cell.getText();
           }

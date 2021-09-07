@@ -1,6 +1,8 @@
 package models.cairo.system.trees
 
-import java.sql.{Connection, CallableStatement, ResultSet, Types, SQLException}
+import models.cairo.system.database.Register
+
+import java.sql.{CallableStatement, Connection, ResultSet, SQLException, Types}
 import play.api.Logger
 import services.db.DB
 import play.api.Play.current
@@ -84,7 +86,7 @@ object Tree {
 
       cs.setInt(1, user.masterUserId)
       cs.setInt(2, id)
-      cs.setInt(3, (if(direction == "DESC") 1 else 0))
+      cs.setInt(3, Register.boolToInt(direction == "DESC"))
       cs.registerOutParameter(4, Types.OTHER)
 
       try {

@@ -222,10 +222,10 @@ object VentaModo {
         Field(C.VM_CODE, ventamodo.code, FieldType.text),
         Field(DBHelper.ACTIVE, Register.boolToInt(ventamodo.active), FieldType.boolean),
         Field(C.VM_CTA_CTE, ventamodo.ctaCte, FieldType.integer),
-        Field(C.VM_PV, ventamodo.pv, FieldType.boolean),
-        Field(C.VM_OS, ventamodo.os, FieldType.boolean),
-        Field(C.VM_COBZ, ventamodo.cobz, FieldType.boolean),
-        Field(C.VM_CMVXI, ventamodo.cmvxi, FieldType.boolean),
+        Field(C.VM_PV, Register.boolToInt(ventamodo.pv), FieldType.boolean),
+        Field(C.VM_OS, Register.boolToInt(ventamodo.os), FieldType.boolean),
+        Field(C.VM_COBZ, Register.boolToInt(ventamodo.cobz), FieldType.boolean),
+        Field(C.VM_CMVXI, Register.boolToInt(ventamodo.cmvxi), FieldType.boolean),
         Field(C.CUE_ID, ventamodo.cueId, FieldType.id),
         Field(C.VM_DESCRIP, ventamodo.descrip, FieldType.text)
       )

@@ -3,6 +3,7 @@ package models.master
 import play.api.Logger
 import anorm._
 import anorm.SqlParser._
+import models.cairo.system.database.Register
 //import play.api.db.DB
 import services.db.{CairoDB, DB}
 import services._
@@ -115,13 +116,13 @@ object User {
           'email -> user.email,
           'password -> user.password,
           'code -> user.code,
-          'active -> (if(user.active) 1 else 0),
-          'locked -> (if(user.locked) 1 else 0),
+          'active -> Register.boolToInt(user.active),
+          'locked -> Register.boolToInt(user.locked),
           'platform -> user.platform,
           'ip_address -> user.ip_address,
           'user_agent -> user.user_agent,
           'accept_language -> user.accept_language,
-          'is_mobile -> (if(user.is_mobile) 1 else 0)
+          'is_mobile -> Register.boolToInt(user.is_mobile)
       ).executeInsert().map(id => id.toInt).getOrElse(throw new RuntimeException("Error when inserting user"))
     }
   }

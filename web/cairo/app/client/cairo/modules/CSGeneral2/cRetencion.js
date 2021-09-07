@@ -191,6 +191,8 @@
 
       self.messageEx = function(messageID, info) {
         var _rtn = null;
+        var p = null;
+
         switch (messageID) {
 
           case Dialogs.Message.MSG_DOC_INFO:
@@ -199,12 +201,17 @@
             _rtn = Dialogs.Message.MSG_DOC_INFO_HANDLED;
             break;
 
+          case Dialogs.Message.MSG_GRID_VIRTUAL_ROW:
+
+            p = P.resolvedPromise(info);
+            break;
+
           default:
             _rtn = true;
             break;
         }
 
-        return P.resolvedPromise(_rtn);
+        return p || P.resolvedPromise(_rtn);
       };
 
       self.discardChanges = function() {
@@ -456,7 +463,7 @@
           Cairo.manageErrorEx(ex.message, ex, Cairo.Constants.IS_EMPTY_ROW_FUNCTION, C_MODULE, "");
         }
 
-        return isEmpty;
+        return P.resolvedPromise(isEmpty);
       };
 
       self.validateRow = function(key, row, rowIndex) {
@@ -613,7 +620,7 @@
 
         elem = properties.add(null, C.RETT_ID);
         elem.setType(T.select);
-        elem.setSelectTable(Cairo.Tables.RETENCIONTIPO);
+        elem.setSelectTable(Cairo.Tables.RETENCION_TIPO);
         elem.setName(getText(1420, "")); // Tipo de Retención
         elem.setKey(K_RETT_ID);
         elem.setValue(m_retencionTipo);
@@ -625,7 +632,6 @@
         elem.setName(getText(1255, "")); // Importe Minimo
         elem.setKey(K_IMPORTE_MINIMO);
         elem.setValue(m_importeMinimo);
-        elem.setWidth(1000);
 
         elem = properties.add(null, C.RET_ES_IIBB);
         elem.setType(T.check);
@@ -642,7 +648,7 @@
 
         elem = properties.add(null, C.TA_ID);
         elem.setType(T.select);
-        elem.setTable(Cairo.Tables.TALONARIO);
+        elem.setSelectTable(Cairo.Tables.TALONARIOS);
         elem.setName(getText(1256, "")); // Talonario
         elem.setKey(K_TA_ID);
         elem.setValue(m_talonario);
@@ -689,8 +695,6 @@
         elem.setSubType(Dialogs.PropertySubType.memo);
         elem.setName(Cairo.Constants.DESCRIPTION_LABEL);
         elem.setSize(255);
-        elem.setWidth(6250);
-        elem.setHeight(600);
         elem.setKey(K_DESCRIP);
         elem.setValue(m_descrip);
 
@@ -776,10 +780,10 @@
         elem.setSelectId(m_ibc_id);
 
         elem = properties.item(C.RET_ACUMULA_POR);
-        elem.setItemData(m_acumulaPor);
+        elem.setListItemData(m_acumulaPor);
 
         elem = properties.item(C.RET_TIPO_MINIMO);
-        elem.setItemData(m_tipoMinimo);
+        elem.setListItemData(m_tipoMinimo);
 
         elem = properties.item(C.RET_DESCRIP);
         elem.setValue(m_descrip);
@@ -950,8 +954,11 @@
             switch (cell.getKey()) {
 
               case KI_RET_CATF_ID:
-                if(!m_copy) {
-                  register.setId(val(cell.getValue()));
+                if(m_copy) {
+                  fields.add(C.RET_CATF_ID, Cairo.Constants.NEW_ID, Types.integer);
+                }
+                else {
+                  fields.add(C.RET_CATF_ID, val(cell.getValue()), Types.integer);
                 }
                 break;
 
@@ -981,7 +988,7 @@
 
         transaction.setTable(C.RETENCION_PROVINCIA);
 
-        var property = m_dialog.getProperties().item(C_CAT_FISCAL);
+        var property = m_dialog.getProperties().item(C_PROVINCIAS);
 
         var rows = property.getGrid().getRows();
         for (var i = 0, count = rows.size(); i < count; i++) {
@@ -1066,7 +1073,7 @@
         var elem;
         var grid = property.getGrid();
         var rows = grid.getRows();
-        
+        rows.clear();
         for(var i = 0, count = m_data.items.length; i < count; i += 1) {
 
           var row = rows.add(null, getValue(m_data.items[i], C.RETI_ID));
@@ -1076,19 +1083,19 @@
           elem.setKey(KI_RETI_ID);
 
           elem = row.add(null);
-          elem.setValue(valField(m_data.items[i], C.RETI_IMPORTE_DESDE));
+          elem.setValue(getValue(m_data.items[i], C.RETI_IMPORTE_DESDE));
           elem.setKey(KI_IMPORTE_DESDE);
 
           elem = row.add(null);
-          elem.setValue(valField(m_data.items[i], C.RETI_IMPORTE_HASTA));
+          elem.setValue(getValue(m_data.items[i], C.RETI_IMPORTE_HASTA));
           elem.setKey(KI_IMPORTE_HASTA);
 
           elem = row.add(null);
-          elem.setValue(valField(m_data.items[i], C.RETI_IMPORTEFIJO));
+          elem.setValue(getValue(m_data.items[i], C.RETI_IMPORTEFIJO));
           elem.setKey(KI_IMPORTE_FIJO);
 
           elem = row.add(null);
-          elem.setValue(valField(m_data.items[i], C.RETI_PORCENTAJE));
+          elem.setValue(getValue(m_data.items[i], C.RETI_PORCENTAJE));
           elem.setKey(KI_PORCENTAJE);
 
         }
@@ -1131,7 +1138,7 @@
         var elem;
         var grid = property.getGrid();
         var rows = grid.getRows();
-
+        rows.clear();
         for(var i = 0, count = m_data.categoriasFiscales.length; i < count; i += 1) {
 
           var row = rows.add(null, getValue(m_data.categoriasFiscales[i], C.RET_CATF_ID));
@@ -1141,12 +1148,12 @@
           elem.setKey(KI_RET_CATF_ID);
 
           elem = row.add(null);
-          elem.setValue(valField(m_data.categoriasFiscales[i], C.CATF_NAME));
-          elem.setId(valField(m_data.categoriasFiscales[i], C.CATF_ID));
+          elem.setValue(getValue(m_data.categoriasFiscales[i], C.CATF_NAME));
+          elem.setId(getValue(m_data.categoriasFiscales[i], C.CATF_ID));
           elem.setKey(KI_CATF_ID);
 
           elem = row.add(null);
-          elem.setId(valField(m_data.categoriasFiscales[i], C.RET_CATF_BASE));
+          elem.setId(getValue(m_data.categoriasFiscales[i], C.RET_CATF_BASE));
           elem.setKey(KI_BASE);
 
         }
@@ -1174,7 +1181,7 @@
         var elem;
         var grid = property.getGrid();
         var rows = grid.getRows();
-
+        rows.clear();
         for(var i = 0, count = m_data.provincias.length; i < count; i += 1) {
 
           var row = rows.add(null, getValue(m_data.provincias[i], C.RET_PRO_ID));
@@ -1184,8 +1191,8 @@
           elem.setKey(KI_RET_PRO_ID);
 
           elem = row.add(null);
-          elem.setValue(valField(m_data.provincias[i], C.PRO_NAME));
-          elem.setId(valField(m_data.provincias[i], C.PRO_ID));
+          elem.setValue(getValue(m_data.provincias[i], C.PRO_NAME));
+          elem.setId(getValue(m_data.provincias[i], C.PRO_ID));
           elem.setKey(KI_PRO_ID);
 
         }
@@ -1332,7 +1339,7 @@
     Edit.Controller = { getEditor: createObject };
 
     Edit.Controller.edit = function(id) {
-      var editor = Cairo.Producto.Edit.Controller.getEditor();
+      var editor = Cairo.Retencion.Edit.Controller.getEditor();
       var dialog = Cairo.Dialogs.Views.Controller.newDialog();
 
       editor.setDialog(dialog);

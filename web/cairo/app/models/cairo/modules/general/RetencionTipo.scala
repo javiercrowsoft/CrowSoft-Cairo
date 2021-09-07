@@ -13,7 +13,7 @@ import play.api.Logger
 import play.api.libs.json._
 import scala.util.control.NonFatal
 
-case class Retenciontipo(
+case class RetencionTipo(
               id: Int,
               name: String,
               code: String,
@@ -80,9 +80,9 @@ case class Retenciontipo(
 
 }
 
-object Retenciontipo {
+object RetencionTipo {
 
-  lazy val emptyRetenciontipo = Retenciontipo(
+  lazy val emptyRetenciontipo = RetencionTipo(
     "",
     "",
     false,
@@ -103,7 +103,7 @@ object Retenciontipo {
       tipo: Int,
       descrip: String) = {
 
-    new Retenciontipo(
+    new RetencionTipo(
       id,
       name,
       code,
@@ -125,7 +125,7 @@ object Retenciontipo {
       tipo: Int,
       descrip: String) = {
 
-    new Retenciontipo(
+    new RetencionTipo(
       name,
       code,
       active,
@@ -136,7 +136,7 @@ object Retenciontipo {
       descrip)
   }
 
-  private val retencionTipoParser: RowParser[Retenciontipo] = {
+  private val retencionTipoParser: RowParser[RetencionTipo] = {
       SqlParser.get[Int](C.RETT_ID) ~
       SqlParser.get[String](C.RETT_NAME) ~
       SqlParser.get[String](C.RETT_CODE) ~
@@ -164,7 +164,7 @@ object Retenciontipo {
               createdAt ~
               updatedAt ~
               updatedBy =>
-        Retenciontipo(
+        RetencionTipo(
               id,
               name,
               code,
@@ -181,15 +181,15 @@ object Retenciontipo {
     }
   }
 
-  def create(user: CompanyUser, retencionTipo: Retenciontipo): Retenciontipo = {
+  def create(user: CompanyUser, retencionTipo: RetencionTipo): RetencionTipo = {
     save(user, retencionTipo, true)
   }
 
-  def update(user: CompanyUser, retencionTipo: Retenciontipo): Retenciontipo = {
+  def update(user: CompanyUser, retencionTipo: RetencionTipo): RetencionTipo = {
     save(user, retencionTipo, false)
   }
 
-  private def save(user: CompanyUser, retencionTipo: Retenciontipo, isNew: Boolean): Retenciontipo = {
+  private def save(user: CompanyUser, retencionTipo: RetencionTipo, isNew: Boolean): RetencionTipo = {
     def getFields = {
       List(
         Field(C.RETT_NAME, retencionTipo.name, FieldType.text),
@@ -224,7 +224,7 @@ object Retenciontipo {
     }
   }
 
-  def load(user: CompanyUser, id: Int): Option[Retenciontipo] = {
+  def load(user: CompanyUser, id: Int): Option[RetencionTipo] = {
     loadWhere(user, s"${C.RETT_ID} = {id}", 'id -> id)
   }
 
@@ -252,7 +252,7 @@ object Retenciontipo {
     }
   }
 
-  def get(user: CompanyUser, id: Int): Retenciontipo = {
+  def get(user: CompanyUser, id: Int): RetencionTipo = {
     load(user, id) match {
       case Some(p) => p
       case None => emptyRetenciontipo

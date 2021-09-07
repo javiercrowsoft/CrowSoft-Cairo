@@ -201,7 +201,7 @@ object Rol {
     def getFields = {
       List(
         Field(C.ROL_NAME, rol.name, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(rol.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(rol.active), FieldType.boolean),
         Field(C.ROL_DESCRIP, rol.descrip, FieldType.text)
       )
     }
@@ -333,7 +333,7 @@ object Rol {
 
       cs.setInt(1, user.cairoCompanyId)
       cs.setInt(2, id)
-      cs.setInt(3, if(onlyGranted.getOrElse(false)) 1 else 0)
+      cs.setInt(3, Register.boolToInt(onlyGranted.getOrElse(false)))
       cs.setString(4, filter.getOrElse(""))
       cs.registerOutParameter(5, Types.OTHER)
 

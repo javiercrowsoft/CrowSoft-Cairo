@@ -212,7 +212,7 @@ object Camion {
       List(
         Field(C.CAM_CODE, camion.code, FieldType.text),
         Field(DBHelper.ACTIVE, Register.boolToInt(camion.active), FieldType.boolean),
-        Field(C.CAM_ES_SEMI, camion.esSemi, FieldType.boolean),
+        Field(C.CAM_ES_SEMI, Register.boolToInt(camion.esSemi), FieldType.boolean),
         Field(C.CAM_PATENTE, camion.patente, FieldType.text),
         Field(C.CAM_PATENTE_SEMI, camion.patentesemi, FieldType.text),
         Field(C.CAM_TARA, camion.tara, FieldType.number),

@@ -3,6 +3,7 @@ package models.master
 import play.api.Logger
 import anorm._
 import anorm.SqlParser._
+import models.cairo.system.database.Register
 //import play.api.db.DB
 import services.db.DB
 import services._
@@ -87,7 +88,7 @@ object UserLogin {
         'ip_address -> user.ip_address,
         'user_agent -> user.user_agent,
         'accept_language -> user.accept_language,
-        'is_mobile -> (if(user.is_mobile) 1 else 0)
+        'is_mobile -> Register.boolToInt(user.is_mobile)
       ).executeUpdate
     }
     resultCode

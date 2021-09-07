@@ -1168,18 +1168,7 @@ object Proveedor {
           loadProveedorItems(user, id)
         )
       }
-      case None => Proveedor(
-        emptyProveedor.id,
-        emptyProveedor.active,
-        emptyProveedor.code,
-
-        emptyProveedor.base,
-
-        emptyProveedor.address,
-        emptyProveedor.references,
-
-        loadProveedorItems(user, id)
-      )
+      case None => emptyProveedor
     }
   }
 

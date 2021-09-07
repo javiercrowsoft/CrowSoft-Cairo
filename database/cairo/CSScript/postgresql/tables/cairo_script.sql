@@ -1153,7 +1153,7 @@ create table RetencionProvincia(
  CONSTRAINT PK_RetencionProvincia PRIMARY KEY  
 (
 	retpro_id 
-) 
+)
 ) 
 ;
 /****** Object:  Table FacturaCompraPercepcionTMP    Script Date: 07/30/2012 17:11:45 ******/
@@ -25543,7 +25543,10 @@ REFERENCES webArticulo (wart_id)
 ;
 -- FK_webArticuloUsuario_webArticulo
 ;
-
+alter table retencionprovincia add CONSTRAINT fk_retencion_provincia FOREIGN KEY (pro_id)
+  REFERENCES provincia (pro_id) MATCH SIMPLE
+  ON UPDATE NO ACTION ON DELETE NO ACTION
+;
 /* WARNING: Check if this script creates the sequence automaticlay because of the use of the serial type in column me_id
 create SEQUENCE sysmenu_me_id_seq;
 

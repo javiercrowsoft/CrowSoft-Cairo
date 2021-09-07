@@ -830,7 +830,12 @@ object C {
   val RETI_IMPORTE_DESDE = "reti_importedesde"
   val RETI_IMPORTE_HASTA = "reti_importehasta"
   val RETI_PORCENTAJE = "reti_porcentaje"
-  val RETI_IMPORTEFIJO = "reti_importefijo"
+  val RETI_IMPORTE_FIJO = "reti_importefijo"
+
+  val RETENCION_ITEMS = "retencionItems"
+  val RETENCION_ITEM_DELETED = "deletedItem"
+  val RETENCION_PROVINCIA_DELETED = "deletedProvincia"
+  val RETENCION_CATEGORIA_FISCAL_DELETED = "deletedCatFiscal"
 
   // Monedas
   val MONEDA = "moneda"

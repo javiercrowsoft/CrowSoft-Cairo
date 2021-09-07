@@ -39,6 +39,7 @@
         ctrlColumn.setSelectNoUseActive(propertyColumn.getSelectNoUseActive());
 
         ctrlColumn.setDefault(propertyColumn.getDefaultValue());
+        ctrlColumn.setList(propertyColumn.getList());
       };
 
       that.loadFromRows = function(gridControl, grid, noChangeColumns, name) {

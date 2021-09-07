@@ -456,14 +456,14 @@ object Usuario {
     def getFields = {
       List(
         Field(C.US_NAME, usuario.name, FieldType.text),
-        Field(DBHelper.ACTIVE, (if(usuario.active) 1 else 0), FieldType.boolean),
+        Field(DBHelper.ACTIVE, Register.boolToInt(usuario.active), FieldType.boolean),
 
         /* TODO: save password */
 
-        Field(C.US_DEPOSITO, (if(usuario.usDeposito) 1 else 0), FieldType.boolean),
-        Field(C.US_EXTERNO, (if(usuario.externo) 1 else 0), FieldType.boolean),
-        Field(C.US_EMP_X_DPTO, (if(usuario.empXDpto) 1 else 0), FieldType.boolean),
-        Field(C.US_EMPRESA_EX, (if(usuario.empresaEx) 1 else 0), FieldType.boolean),
+        Field(C.US_DEPOSITO, Register.boolToInt(usuario.usDeposito), FieldType.boolean),
+        Field(C.US_EXTERNO, Register.boolToInt(usuario.externo), FieldType.boolean),
+        Field(C.US_EMP_X_DPTO, Register.boolToInt(usuario.empXDpto), FieldType.boolean),
+        Field(C.US_EMPRESA_EX, Register.boolToInt(usuario.empresaEx), FieldType.boolean),
 
         Field(C.PRS_ID, usuario.prsId, FieldType.id),
         Field(C.SUC_ID, usuario.sucId, FieldType.id),
@@ -778,9 +778,9 @@ object Usuario {
 
       cs.setInt(1, user.cairoCompanyId)
       cs.setInt(2, id)
-      cs.setInt(3, if(onlyGranted.getOrElse(false)) 1 else 0)
-      cs.setInt(4, if(onlyDirect.getOrElse(false)) 1 else 0)
-      cs.setInt(5, if(onlyInherited.getOrElse(false)) 1 else 0)
+      cs.setInt(3, Register.boolToInt(onlyGranted.getOrElse(false)))
+      cs.setInt(4, Register.boolToInt(onlyDirect.getOrElse(false)))
+      cs.setInt(5, Register.boolToInt(onlyInherited.getOrElse(false)))
       cs.setString(6, filter.getOrElse(""))
       cs.registerOutParameter(7, Types.OTHER)
 

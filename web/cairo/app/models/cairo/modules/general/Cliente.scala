@@ -1542,18 +1542,7 @@ object Cliente {
           loadClienteItems(user, id)
         )
       }
-      case None => Cliente(
-        emptyCliente.id,
-        emptyCliente.active,
-        emptyCliente.code,
-
-        emptyCliente.base,
-
-        emptyCliente.address,
-        emptyCliente.references,
-
-        loadClienteItems(user, id)
-      )
+      case None => emptyCliente
     }
   }
   

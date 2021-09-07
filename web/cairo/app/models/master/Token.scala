@@ -3,6 +3,7 @@ package models.master
 import play.api.Logger
 import anorm._
 import anorm.SqlParser._
+import models.cairo.system.database.Register
 //import play.api.db.DB
 import services.db.DB
 import java.util.Date
@@ -93,13 +94,13 @@ object Token {
           'expires -> token.expires,
           'token_type -> token.token_type,
           'data -> token.data,
-          'used -> (if(token.used) 1 else 0),
+          'used -> Register.boolToInt(token.used),
           'us_id -> (if(token.us_id !=0) token.us_id else null),
           'platform -> token.platform,
           'ip_address -> token.ip_address,
           'user_agent -> token.user_agent,
           'accept_language -> token.accept_language,
-          'is_mobile -> (if(token.is_mobile) 1 else 0)
+          'is_mobile -> Register.boolToInt(token.is_mobile)
         ).executeUpdate
     }
     token
