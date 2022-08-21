@@ -1147,7 +1147,7 @@
                 </Aspect>
               </Image>
               <Label Text="" CanGrow="0">
-                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="855" nZOrder="44" SelectColor="0" Top="13035" Width="5790" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
+                <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="855" nZOrder="44" SelectColor="0" Top="13035" Width="10230" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                   <Font ForeColor="0" Bold="-1" Italic="0" Name="Tahoma" Size="10" UnderLine="0" Strike="0" />
                 </Aspect>
               </Label>
@@ -1324,7 +1324,7 @@
   <RptGroups>
     <G_0 Key="K314839" Name="G_0" Indice="0" ComparisonType="1" FieldName="{frOrdendePago}.tipo" OderType="1" PrintInNewPage="0" RePrintInNewPage="0" GrandTotalGroup="0">
       <H>
-        <K317711 Name="G_0" Key="K317711" Indice="1" TypeSection="3" HasFormulaHide="0">
+        <K317579 Name="G_0" Key="K317579" Indice="1" TypeSection="3" HasFormulaHide="0">
           <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="1245" Format="" Left="0" nZOrder="0" SelectColor="0" Top="3660" Width="12240" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
             <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
           </Aspect>
@@ -1531,10 +1531,10 @@
               </RptControls>
             </K314860>
           </RptSectionLines>
-        </K317711>
+        </K317579>
       </H>
       <F>
-        <K317713 Name="G_0" Key="K317713" Indice="1" TypeSection="4" HasFormulaHide="0">
+        <K317581 Name="G_0" Key="K317581" Indice="1" TypeSection="4" HasFormulaHide="0">
           <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="345" Format="" Left="0" nZOrder="0" SelectColor="0" Top="6645" Width="12240" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
             <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
           </Aspect>
@@ -1548,12 +1548,12 @@
               <RptControls />
             </K314842>
           </RptSectionLines>
-        </K317713>
+        </K317581>
       </F>
     </G_0>
     <G_1 Key="K315306" Name="G_1" Indice="1" ComparisonType="2" FieldName="{frOrdendePago}.fc_id" OderType="1" PrintInNewPage="0" RePrintInNewPage="0" GrandTotalGroup="0">
       <H>
-        <K317715 Name="G_1" Key="K317715" Indice="2" TypeSection="3" HasFormulaHide="0">
+        <K317583 Name="G_1" Key="K317583" Indice="2" TypeSection="3" HasFormulaHide="0">
           <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="300" Format="" Left="0" nZOrder="0" SelectColor="0" Top="4905" Width="12240" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
             <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
           </Aspect>
@@ -1706,10 +1706,10 @@
               </RptControls>
             </K315307>
           </RptSectionLines>
-        </K317715>
+        </K317583>
       </H>
       <F>
-        <K317717 Name="G_1" Key="K317717" Indice="2" TypeSection="4" HasFormulaHide="0">
+        <K317585 Name="G_1" Key="K317585" Indice="2" TypeSection="4" HasFormulaHide="0">
           <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="345" Format="" Left="0" nZOrder="0" SelectColor="0" Top="6300" Width="12240" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
             <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
           </Aspect>
@@ -1723,7 +1723,7 @@
               <RptControls />
             </K315309>
           </RptSectionLines>
-        </K317717>
+        </K317585>
       </F>
     </G_1>
   </RptGroups>
