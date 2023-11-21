@@ -508,7 +508,7 @@
                             </Chart>
                         </K306598>
                         <K306565 Key="K306565" Name="Control25" KeyPaint="P112" HasFormulaHide="0" HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
-                            <Field Index="4" Name="Cliente/Proveedor" FieldType="200"/>
+                            <Field Index="4" Name="Cliente_Proveedor" FieldType="200"/>
                             <Image Data="AA==">
                                 <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="0" Format="" Left="0" nZOrder="0" SelectColor="0" Top="0" Width="0" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                                     <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
