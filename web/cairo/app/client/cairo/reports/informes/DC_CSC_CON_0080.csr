@@ -514,7 +514,7 @@
                                     <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                                 </Aspect>
                             </Image>
-                            <Label Text="{DC_CSC_CON_0080}.Cliente/Proveedor" CanGrow="0">
+                            <Label Text="{DC_CSC_CON_0080}.Cliente_Proveedor" CanGrow="0">
                                 <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285" Format="" Left="1598" nZOrder="17" SelectColor="0" Top="3034" Width="2766" Transparent="-1" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                                     <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="7" UnderLine="0" Strike="0"/>
                                 </Aspect>
