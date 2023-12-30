@@ -16,7 +16,7 @@ object Reports extends Controller {
   implicit val dataSourceWrites = new Writes[DataSource] {
     def writes(dataSource: DataSource) = Json.obj(
       "name" -> Json.toJson(dataSource.name),
-      "items" -> Json.toJson(writeParams(dataSource.params))
+      "params" -> Json.toJson(writeParams(dataSource.params))
     )
 
     def paramWrites(param: ReportParam) = Json.obj(
