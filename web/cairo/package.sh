@@ -1,1 +1,1 @@
-play -Dconfig.file=conf/dev.conf clean compile stage
+play -Dconfig.file=conf/dev.conf compile stage

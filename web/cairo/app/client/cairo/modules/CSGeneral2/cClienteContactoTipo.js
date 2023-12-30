@@ -266,7 +266,6 @@
               if(Cairo.Util.valEmpty(property.getValue(), Types.text)) {
                 property.setValue(Cairo.Constants.GET_CODE_FROM_ID);
               }
-
               break;
           }
         }

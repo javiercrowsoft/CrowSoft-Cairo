@@ -253,7 +253,7 @@ object User {
   }
 
   def createResetPasswordToken(usId: Int, requestOrigin: RequestOrigin) = {
-    Token.newToken(
+    Token.newTokenForUser(
       Token.tokenTypes(Token.resetPasswordTokenType),
       DateUtil.plusDays(DateUtil.currentTime, 2),
       "",

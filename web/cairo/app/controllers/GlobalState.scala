@@ -1,10 +1,10 @@
 package controllers
 
-import play.api.libs.json.{JsValue, Json, JsObject}
+import play.api.libs.json.{JsObject, JsValue, Json}
 import play.api.mvc._
 import actions._
-import models.master.{ LoggedUser, User }
-import models.domain.{ CompanyUser, Company }
+import models.master.{ApiApplication, ApiLoginData, ApiApplicationLogin, LoggedApplication, LoggedUser, User}
+import models.domain.{Company, CompanyUser}
 import services.db.CairoDB
 import services.RequestOrigin
 import play.api.Logger
@@ -158,6 +158,53 @@ object LoggedIntoCompanyResponse extends Controller {
       else
         Unauthorized(views.html.errorpages.unauthorized("CrowSoft Cairo - Unauthorized"))
     })
+  }
+}
+
+object ApiApplicationLoggedResponse extends Controller {
+
+  def getAction[A](request: Request[A], hasPermission: (ApiApplication) => Boolean, f: (ApiApplication) => play.api.mvc.SimpleResult): play.api.mvc.SimpleResult = {
+    loggedApplication(request, { application =>
+      if(hasPermission(application))
+        f(application)
+      else
+        Unauthorized(views.html.errorpages.unauthorized("CrowSoft Cairo - Unauthorized"))
+    })
+  }
+
+  def loggedApplication[A](implicit request: Request[A], f: (ApiApplication) => play.api.mvc.SimpleResult): play.api.mvc.SimpleResult = {
+    Logger.debug("loggedApplication called")
+    val apiKey = request.headers.get("Api-Key").getOrElse("")
+    val secret = request.headers.get("Secret").getOrElse("")
+    login(RequestOrigin.parse(request), ApiLoginData(apiKey, secret),
+      { application =>
+        CairoDB.connectCairoForApp(application)
+        f(application)
+      })
+  }
+
+  def login(requestOrigin: RequestOrigin, loginForm: ApiLoginData, f: (ApiApplication) => play.api.mvc.SimpleResult) = {
+    val userAgent = requestOrigin.userAgent
+
+    val success = ApiLoginData.save(
+      loginForm,
+      userAgent.platform,
+      requestOrigin.remoteAddress,
+      userAgent.userAgent,
+      requestOrigin.acceptLanguages,
+      userAgent.isMobile)
+
+    if(ApiApplicationLogin.successCodes.contains(success)) {
+      f(ApiApplication.findByApiKey(loginForm.apiKey).get)
+    }
+    else if(ApiApplicationLogin.loginErrorCodes.contains(success))
+      Unauthorized(Json.obj("error" -> "Api key or secret invalid"))
+    else if(success == ApiApplicationLogin.resultCodes(ApiApplicationLogin.resultLocationBlocked))
+      Unauthorized(Json.obj("error" -> "Location is locked"))
+    else if(success == ApiApplicationLogin.resultCodes(ApiApplicationLogin.resultLocked))
+      Unauthorized(Json.obj("error" -> "Application is locked"))
+    else
+      Unauthorized(Json.obj("error" -> "There was an error when trying to sign in you into the system. Please try again."))
   }
 }
 

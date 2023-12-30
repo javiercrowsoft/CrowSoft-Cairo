@@ -564,6 +564,13 @@ DELETE  /api/v1/stock/stock/:id                                                 
 
 GET     /api/v1/stock/stock/notes/:id                                                        controllers.logged.modules.stock.Stocks.notes(id: Int)
 
+# api endpoints for apps - authenticated by apiKey and secret
+OPTIONS /                                                                                     controllers.Application.options(path: String ?= "")
+OPTIONS /*path                                                                                controllers.Application.options(path)
+GET     /api/v1/apps/reports                                                                 controllers.apps.reports.Reports.list
+GET     /api/v1/apps/reports/data-sources                                                    controllers.apps.reports.Reports.listDataSources
+
+
 # end Cairo
 #--------------------------------------------------------------------------------------------------
 

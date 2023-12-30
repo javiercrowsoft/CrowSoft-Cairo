@@ -11,15 +11,23 @@ object Settings {
   }
 
   val registrationEmailFrom = {
-    config.getString("registrationEmailFrom").getOrElse("Thank you for registering to CrowSoft Cairo")
+    config.getString("registrationEmailFrom").getOrElse("registration@crowsoft.com.ar")
   }
 
   val registrationSubject = {
-    config.getString("registrationSubject").getOrElse("registration@crowsoft.com.ar")
+    config.getString("registrationSubject").getOrElse("Thank you for registering into CrowSoft Cairo")
+  }
+
+  val registrationSubjectForApplication = {
+    config.getString("registrationSubject").getOrElse("Thank you for registering an application into CrowSoft Cairo")
   }
 
   val resetPasswordSubject = {
     config.getString("resetPasswordSubject").getOrElse("You have requested to reset your CrowSoft Cairo password")
+  }
+
+  val resetPasswordSubjectForApplication = {
+    config.getString("resetPasswordSubject").getOrElse("You have requested to reset your application CrowSoft Cairo password")
   }
 
 }

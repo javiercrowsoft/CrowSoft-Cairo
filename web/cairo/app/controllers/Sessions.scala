@@ -56,7 +56,7 @@ object Sessions extends Controller with ProvidesUser {
       userAgent.platform,
       requestOrigin.remoteAddress,
       userAgent.userAgent,
-      requestOrigin.acceptLanguages.toString,
+      requestOrigin.acceptLanguages,
       userAgent.isMobile)
 
     if(UserLogin.successCodes.contains(success)) {

@@ -3,7 +3,7 @@ package models.master
 import play.api.Logger
 import anorm._
 import anorm.SqlParser._
-import models.cairo.system.database.Register
+import models.cairo.system.database.{DBHelper, Register}
 //import play.api.db.DB
 import services.db.DB
 import java.util.Date
@@ -19,6 +19,7 @@ case class Token(
                   data: String,
                   used: Boolean,
                   us_id: Int,
+                  app_id: Int,
                   platform: String,
                   ip_address: String,
                   user_agent: String,
@@ -61,10 +62,16 @@ object Token {
     resetPasswordTokenType -> "RESET_PASSWORD_TOKEN"
   )
 
-  val invalidToken = Token(anorm.NotAssigned, "", DateUtil.currentTime, "INVALID_TOKEN", "", false, 0,
+  val invalidToken = Token(anorm.NotAssigned, "", DateUtil.currentTime, "INVALID_TOKEN", "", false, 0, 0,
                             "", "0.0.0.0", "", "", false, DateUtil.currentTime, DateUtil.currentTime)
 
-  def newToken(tokenType: String, expires: Date, data: String, usId: Int, requestOrigin: RequestOrigin) = {
+  def newTokenForUser(tokenType: String, expires: Date, data: String, usId: Int, requestOrigin: RequestOrigin): Token = {
+    newToken(tokenType, expires, data, Option(usId), Option.empty, requestOrigin)
+  }
+  def newTokenForApp(tokenType: String, expires: Date, data: String, appId: Int, requestOrigin: RequestOrigin): Token = {
+    newToken(tokenType, expires, data, Option.empty, Option(appId), requestOrigin)
+  }
+  def newToken(tokenType: String, expires: Date, data: String, usId: Option[Int], appId: Option[Int], requestOrigin: RequestOrigin): Token = {
     save(Token(
       anorm.NotAssigned,
       PasswordHash.createCode(expires.toString),
@@ -72,11 +79,12 @@ object Token {
       tokenType,
       data,
       false,
-      usId,
+      usId.getOrElse(DBHelper.NoId),
+      appId.getOrElse(DBHelper.NoId),
       requestOrigin.userAgent.platform,
       requestOrigin.remoteAddress,
       requestOrigin.userAgent.userAgent,
-      requestOrigin.acceptLanguages.toString,
+      requestOrigin.acceptLanguages,
       requestOrigin.userAgent.isMobile,
       null,
       null
@@ -87,8 +95,8 @@ object Token {
   def save(token: Token): Token = {
     DB.withConnection("master") { implicit connection =>
       SQL("""
-          INSERT INTO token(tk_token, tk_expires, tk_type, tk_data, tk_used, us_id, tk_platform, tk_ip_address, tk_user_agent, tk_accept_language, tk_is_mobile)
-          VALUES({token}, {expires}, {token_type}, {data}, {used}, {us_id}, {platform}, {ip_address}, {user_agent}, {accept_language}, {is_mobile})
+          INSERT INTO token(tk_token, tk_expires, tk_type, tk_data, tk_used, us_id, app_id, tk_platform, tk_ip_address, tk_user_agent, tk_accept_language, tk_is_mobile)
+          VALUES({token}, {expires}, {token_type}, {data}, {used}, {us_id}, {app_id}, {platform}, {ip_address}, {user_agent}, {accept_language}, {is_mobile})
           """).on(
           'token -> token.token,
           'expires -> token.expires,
@@ -96,6 +104,7 @@ object Token {
           'data -> token.data,
           'used -> Register.boolToInt(token.used),
           'us_id -> (if(token.us_id !=0) token.us_id else null),
+          'app_id -> (if(token.app_id !=0) token.app_id else null),
           'platform -> token.platform,
           'ip_address -> token.ip_address,
           'user_agent -> token.user_agent,
@@ -114,6 +123,7 @@ object Token {
       get[String]("tk_data") ~
       get[Int]("tk_used") ~
       get[Int]("us_id") ~
+      get[Int]("app_id") ~
       get[String]("tk_platform") ~
       get[String]("tk_ip_address") ~
       get[String]("tk_user_agent") ~
@@ -121,8 +131,8 @@ object Token {
       get[Int]("tk_is_mobile") ~
       get[Date]("created_at") ~
       get[Date]("updated_at") map {
-      case tk_id ~ tk_token ~ tk_expires ~ tk_type ~ tk_data ~ tk_used ~ us_id ~ tk_platform ~ tk_ip_address ~ tk_user_agent ~ tk_accept_language ~ tk_is_mobile ~ created_at ~ updated_at =>
-        Token(tk_id, tk_token, tk_expires, tk_type, tk_data, tk_used != 0, us_id, tk_platform, tk_ip_address, tk_user_agent, tk_accept_language, tk_is_mobile != 0, created_at, updated_at)
+      case tk_id ~ tk_token ~ tk_expires ~ tk_type ~ tk_data ~ tk_used ~ us_id  ~ app_id ~ tk_platform ~ tk_ip_address ~ tk_user_agent ~ tk_accept_language ~ tk_is_mobile ~ created_at ~ updated_at =>
+        Token(tk_id, tk_token, tk_expires, tk_type, tk_data, tk_used != 0, us_id, app_id, tk_platform, tk_ip_address, tk_user_agent, tk_accept_language, tk_is_mobile != 0, created_at, updated_at)
     }
   }
 

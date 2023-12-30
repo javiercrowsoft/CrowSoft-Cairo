@@ -1,4 +1,4 @@
-/*
+﻿/*
 CrowSoft-Cairo
 ==============
 
@@ -34,7 +34,7 @@ javier at crowsoft.com.ar
 
 create or replace function sp_cliente_get_cuit_info
 (
-  in p_Cuit varchar,
+  in p_cuit varchar,
   
   out p_cli_id integer,
   out p_cli_code varchar,
@@ -52,9 +52,9 @@ begin
       select cli_razonsocial,
              cli_codigo,
              cli_id
-        into p_cli_id,
+        into p_cli_razonsocial,
              p_cli_code,
-             p_cli_razonsocial                
+             p_cli_id
       from Cliente
       where 1 = 2;
 
@@ -63,9 +63,9 @@ begin
       select cli_razonsocial,
              cli_codigo,
              cli_id
-        into p_cli_id,
+        into p_cli_razonsocial,
              p_cli_code,
-             p_cli_razonsocial                
+             p_cli_id
       from Cliente
       where cli_cuit = p_Cuit;
 

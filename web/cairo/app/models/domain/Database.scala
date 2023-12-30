@@ -25,7 +25,7 @@ object Database {
   def save(user: User, database: Database): Int = {
     DB.withConnection(user.domainDataSource) { implicit connection =>
       SQL("""
-          INSERT INTO domains(db_server, db_corporation, db_database, db_username, db_password)
+          INSERT INTO databases(db_server, db_corporation, db_database, db_username, db_password)
           VALUES({corporation}, {server}, {database}, {username}, {password})
           """).on(
           'corporation -> database.corporation,

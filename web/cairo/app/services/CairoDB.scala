@@ -2,11 +2,11 @@ package services.db
 
 import scala.collection.JavaConversions._
 import scala.collection.immutable.Map
-import play.api.{Logger, Configuration}
+import play.api.{Configuration, Logger}
 import com.typesafe.config._
 import play.api.Play.current
-import models.master.{ User, Domain }
-import models.domain.{ Company, Database, CompanyUser }
+import models.master.{ApiDatabase, ApiApplication, Domain, User}
+import models.domain.{Company, CompanyUser, Database}
 
 object CairoDB {
 
@@ -54,6 +54,23 @@ object CairoDB {
     else {
       Logger.error(s"user [${user.username}] isn't activated and CairoDB.connectCairoForUser was called")
       null
+    }
+  }
+
+  def connectCairoForApp(application: ApiApplication): String = {
+    if(application.active) {
+      val database = ApiDatabase.load(application.dbId).getOrElse(null)
+      connectDataSource(
+        database.database,
+        "org.postgresql.Driver",
+        s"${database.server}/${database.database}",
+        database.username,
+        database.password)
+      database.database
+    }
+    else {
+      Logger.error(s"application [${application.name}] isn't activated and CairoDB.connectDomainForUser was called")
+      ""
     }
   }
 

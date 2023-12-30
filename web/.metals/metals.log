@@ -1,0 +1,11 @@
+2023.10.21 13:08:12 INFO  Started: Metals version 1.1.0 in folders '/home/javier/Work/CrowSoft/CrowSoft-Cairo/web' for client Visual Studio Code 1.83.1.
+2023.10.21 13:08:13 WARN  Unsupported sbt version 0.13.6
+2023.10.21 13:08:13 ERROR Unexpected error initializing server: 
+scala.concurrent.Future$$anon$2: Future.filter predicate is not satisfied
+
+Oct 21, 2023 1:08:13 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 1
+2023.10.21 13:08:33 INFO  no build target found for /home/javier/Work/CrowSoft/CrowSoft-Cairo/web/cairo/app/Global.scala. Using presentation compiler with project's scala-library version: 3.3.1
+2023.10.21 22:29:09 INFO  Shutting down server
+2023.10.21 22:29:09 INFO  shutting down Metals
+2023.10.21 22:29:09 INFO  Exiting server

@@ -1,0 +1,27 @@
+Error when running report.
+
+Info: Specified cast is not valid.
+Source: CSReportDll
+Stack trace:    at CSReportDll.cReportCompiler.evalAddToVar(cReportFormulaInt fint) in Z:\Work\CSReports.net\CSReports\CSReport\CSReportDll\Codigo\CSReportDll\cReportCompiler.cs:line 1623
+   at CSReportDll.cReportCompiler.pEvalFunctionInt(cReportFormulaInt fint) in Z:\Work\CSReports.net\CSReports\CSReport\CSReportDll\Codigo\CSReportDll\cReportCompiler.cs:line 527
+   at CSReportDll.cReportCompiler.pExecFunction(String functionName, String parameters) in Z:\Work\CSReports.net\CSReports\CSReport\CSReportDll\Codigo\CSReportDll\cReportCompiler.cs:line 2343
+   at CSReportDll.cReportCompiler.pCompileAux(String code, String& codeC) in Z:\Work\CSReports.net\CSReports\CSReport\CSReportDll\Codigo\CSReportDll\cReportCompiler.cs:line 2251
+   at CSReportDll.cReportCompiler.pCompile(String code, Boolean bCompile, String codeC) in Z:\Work\CSReports.net\CSReports\CSReport\CSReportDll\Codigo\CSReportDll\cReportCompiler.cs:line 417
+   at CSReportDll.cReportCompiler.evalFunction(cReportFormula formula) in Z:\Work\CSReports.net\CSReports\CSReport\CSReportDll\Codigo\CSReportDll\cReportCompiler.cs:line 387
+   at CSReportDll.cReport.evalFunctions(Int32 idxGroup, csRptWhenEval whenEval) in Z:\Work\CSReports.net\CSReports\CSReport\CSReportDll\Codigo\CSReportDll\cReport.cs:line 4069
+   at CSReportDll.cReport.evalPre() in Z:\Work\CSReports.net\CSReports\CSReport\CSReportDll\Codigo\CSReportDll\cReport.cs:line 856
+   at CSReportPaint.cReportPrint.make() in Z:\Work\CSReports.net\CSReports\CSReport\CSReportPaint\Codigo\CSReportPaint\cReportPrint.cs:line 1114
+   at CSReportPaint.cReportPrint.makeReport() in Z:\Work\CSReports.net\CSReports\CSReport\CSReportPaint\Codigo\CSReportPaint\cReportPrint.cs:line 489
+   at CSReportDll.cReport.launch(cReportLaunchInfo oLaunchInfo) in Z:\Work\CSReports.net\CSReports\CSReport\CSReportDll\Codigo\CSReportDll\cReport.cs:line 2044
+Description: System.InvalidCastException: Specified cast is not valid.
+   at CSReportDll.cReportCompiler.evalAddToVar(cReportFormulaInt fint) in Z:\Work\CSReports.net\CSReports\CSReport\CSReportDll\Codigo\CSReportDll\cReportCompiler.cs:line 1623
+   at CSReportDll.cReportCompiler.pEvalFunctionInt(cReportFormulaInt fint) in Z:\Work\CSReports.net\CSReports\CSReport\CSReportDll\Codigo\CSReportDll\cReportCompiler.cs:line 527
+   at CSReportDll.cReportCompiler.pExecFunction(String functionName, String parameters) in Z:\Work\CSReports.net\CSReports\CSReport\CSReportDll\Codigo\CSReportDll\cReportCompiler.cs:line 2343
+   at CSReportDll.cReportCompiler.pCompileAux(String code, String& codeC) in Z:\Work\CSReports.net\CSReports\CSReport\CSReportDll\Codigo\CSReportDll\cReportCompiler.cs:line 2251
+   at CSReportDll.cReportCompiler.pCompile(String code, Boolean bCompile, String codeC) in Z:\Work\CSReports.net\CSReports\CSReport\CSReportDll\Codigo\CSReportDll\cReportCompiler.cs:line 417
+   at CSReportDll.cReportCompiler.evalFunction(cReportFormula formula) in Z:\Work\CSReports.net\CSReports\CSReport\CSReportDll\Codigo\CSReportDll\cReportCompiler.cs:line 387
+   at CSReportDll.cReport.evalFunctions(Int32 idxGroup, csRptWhenEval whenEval) in Z:\Work\CSReports.net\CSReports\CSReport\CSReportDll\Codigo\CSReportDll\cReport.cs:line 4069
+   at CSReportDll.cReport.evalPre() in Z:\Work\CSReports.net\CSReports\CSReport\CSReportDll\Codigo\CSReportDll\cReport.cs:line 856
+   at CSReportPaint.cReportPrint.make() in Z:\Work\CSReports.net\CSReports\CSReport\CSReportPaint\Codigo\CSReportPaint\cReportPrint.cs:line 1114
+   at CSReportPaint.cReportPrint.makeReport() in Z:\Work\CSReports.net\CSReports\CSReport\CSReportPaint\Codigo\CSReportPaint\cReportPrint.cs:line 489
+   at CSReportDll.cReport.launch(cReportLaunchInfo oLaunchInfo) in Z:\Work\CSReports.net\CSReports\CSReport\CSReportDll\Codigo\CSReportDll\cReport.cs:line 2044
