@@ -1393,8 +1393,8 @@ object Producto {
 
   private val productoProveedorParser: RowParser[ProductoProveedor] = {
     SqlParser.get[Int](C.PRPROV_ID) ~
-    SqlParser.get[Int](C.PROV_ID) ~
-    SqlParser.get[String](C.PROV_NAME) ~
+    SqlParser.get[Option[Int]](C.PROV_ID) ~
+    SqlParser.get[Option[String]](C.PROV_NAME) ~
     SqlParser.get[Option[Int]](C.PRPROV_FABRICANTE) ~
     SqlParser.get[Option[String]](C.PRPROV_NAME) ~
     SqlParser.get[Option[String]](C.PRPROV_CODE) ~
@@ -1423,8 +1423,8 @@ object Producto {
         priceDefault =>
       ProductoProveedor(
         id,
-        provId,
-        provName,
+        provId.getOrElse(0),
+        provName.getOrElse(""),
         maker.getOrElse(0) != 0,
         name.getOrElse(""),
         code.getOrElse(""),

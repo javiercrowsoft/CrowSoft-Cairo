@@ -540,6 +540,8 @@ object Report {
       val index = getParams(params.toList.sortWith(compareParams), 2)
       cs.registerOutParameter(index, Types.OTHER)
 
+      Logger.debug("index: " + index)
+
       try {
         cs.execute()
 

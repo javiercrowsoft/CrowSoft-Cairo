@@ -292,7 +292,7 @@
     getValue: getValue_,
 
     getDateValue: function(object, attribute) {
-      return new Date(getValue_(objec, attribute));
+      return new Date(getValue_(object, attribute));
     },
 
     Register: function() {

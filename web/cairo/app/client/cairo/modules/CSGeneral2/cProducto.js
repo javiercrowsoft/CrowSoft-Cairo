@@ -3967,7 +3967,7 @@
             var register = new DB.Register();
 
             var fields = register.getFields();
-            register.setFieldId(C.PRPROV_ID);
+            register.setFieldId(C.PR_PROV_ID);
             register.setId(Cairo.Constants.NEW_ID);
 
             var _countj = row.size();
@@ -3979,10 +3979,10 @@
 
                 case KIK_PRPROV_ID:
                   if(m_copy) {
-                    fields.add(C.PRPROV_ID, Cairo.Constants.NEW_ID, Types.integer);
+                    fields.add(C.PR_PROV_ID, Cairo.Constants.NEW_ID, Types.integer);
                   }
                   else {
-                    fields.add(C.PRPROV_ID, val(cell.getValue()), Types.integer);
+                    fields.add(C.PR_PROV_ID, val(cell.getValue()), Types.integer);
                   }
                   break;
 
@@ -3991,19 +3991,19 @@
                   break;
 
                 case KIK_PROV_FABRICANTE:
-                  fields.add(C.PRPROV_FABRICANTE, cell.getId(), Types.boolean);
+                  fields.add(C.PR_PROV_FABRICANTE, cell.getId(), Types.boolean);
                   break;
 
                 case KIK_PROV_NOMBRE:
-                  fields.add(C.PRPROV_NAME, cell.getValue(), Types.text);
+                  fields.add(C.PR_PROV_NAME, cell.getValue(), Types.text);
                   break;
 
                 case KIK_PROV_CODIGO:
-                  fields.add(C.PRPROV_CODE, cell.getValue(), Types.text);
+                  fields.add(C.PR_PROV_CODE, cell.getValue(), Types.text);
                   break;
 
                 case KIK_PROV_CODBARRA:
-                  fields.add(C.PRPROV_CODIGO_BARRA, cell.getValue(), Types.text);
+                  fields.add(C.PR_PROV_CODIGO_BARRA, cell.getValue(), Types.text);
                   break;
 
                 case KIK_PA_ID:
@@ -4768,10 +4768,10 @@
 
         for(var _i = 0, count = m_data.proveedores.length; _i < count; _i += 1) {
 
-          var row = rows.add(null, getValue(m_data.clientes[_i], C.PR_CLI_ID));
+          var row = rows.add(null, getValue(m_data.proveedores[_i], C.PR_PROV_ID));
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.proveedores[_i], C.PRPROV_ID));
+          elem.setValue(getValue(m_data.proveedores[_i], C.PR_PROV_ID));
           elem.setKey(KIK_PRPROV_ID);
 
           elem = row.add(null);
@@ -4780,19 +4780,19 @@
           elem.setKey(KIK_PROV_ID);
 
           elem = row.add(null);
-          elem.setId(getValue(m_data.proveedores[_i], C.PRPROV_FABRICANTE));
+          elem.setId(getValue(m_data.proveedores[_i], C.PR_PROV_FABRICANTE));
           elem.setKey(KIK_PROV_FABRICANTE);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.proveedores[_i], C.PRPROV_NAME));
+          elem.setValue(getValue(m_data.proveedores[_i], C.PR_PROV_NAME));
           elem.setKey(KIK_PROV_NOMBRE);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.proveedores[_i], C.PRPROV_CODE));
+          elem.setValue(getValue(m_data.proveedores[_i], C.PR_PROV_CODE));
           elem.setKey(KIK_PROV_CODIGO);
 
           elem = row.add(null);
-          elem.setValue(getValue(m_data.proveedores[_i], C.PRPROV_CODIGO_BARRA));
+          elem.setValue(getValue(m_data.proveedores[_i], C.PR_PROV_CODIGO_BARRA));
           elem.setKey(KIK_PROV_CODBARRA);
 
           elem = row.add(null);
