@@ -724,7 +724,7 @@
                     break;
 
                   case Dialogs.PropertyType.numeric:
-                    property.setText(c.getValue());
+                    property.setValue(c.getValue());
                     break;
 
                   case Dialogs.PropertyType.date:

@@ -47,7 +47,7 @@ create or replace function dc_csc_ven_0035
   in p_pr_id varchar,
   in p_doc_id varchar,
   in p_emp_id varchar,
-  in p_top integer,
+  in p_top numeric,
   out rtn refcursor
 )
  returns refcursor as
@@ -78,5 +78,5 @@ end;
 $BODY$
   language plpgsql volatile
   cost 100;
-alter function dc_csc_ven_0035(integer, timestamp with time zone, timestamp with time zone, varchar, varchar, varchar, varchar, integer)
+alter function dc_csc_ven_0035(integer, timestamp with time zone, timestamp with time zone, varchar, varchar, varchar, varchar, numeric)
   owner to postgres;
