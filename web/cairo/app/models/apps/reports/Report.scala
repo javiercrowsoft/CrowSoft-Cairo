@@ -77,7 +77,7 @@ order by 1
                    |left join (select proname, proargnames::text as param_names, (oid::regprocedure)::text as param_types from pg_proc) t on r.routine_name = t.proname
                    |where routine_type = 'FUNCTION'
                    |  and routine_schema = 'public'
-                   |  and (lower(routine_name) like 'dc%' or lower(routine_name) like 'fr%' or lower(routine_name) like 'ls%')
+                   |  and (lower(routine_name) like 'dc%' or lower(routine_name) like 'fr%' or lower(routine_name) like 'ls%' or lower(routine_name) like '%rpt%logo%')
                    |order by 1
                    |""".stripMargin
       val cs = connection.prepareStatement(sql)
