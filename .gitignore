@@ -29,6 +29,7 @@ database/backup/sdi*.*
 
 .settings
 .project
+.bsp
 
 \#*\#
 .\#*
