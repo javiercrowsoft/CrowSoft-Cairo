@@ -162,6 +162,8 @@ order by 1
           p.paramType match {
             case "timestamp with time zone" => cs.setDate(index, new java.sql.Date(DateFormatter.parse(p.value).getTime()))
             case "integer" => cs.setInt(index, p.value.toInt)
+            case "smallint" => cs.setShort(index, p.value.toShort)
+            case "numeric" => cs.setBigDecimal(index, new BigDecimal(p.value.toDouble))
             case "character varying" => cs.setString(index, p.value)
             case _ => throwException(s"Error unknown type ${p.paramType} in param ${p.name}")
         }

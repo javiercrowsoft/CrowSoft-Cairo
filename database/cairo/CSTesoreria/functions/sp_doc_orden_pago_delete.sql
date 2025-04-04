@@ -42,8 +42,7 @@ begin;
 end;
 */
 
-create or replace
-function sp_doc_orden_pago_delete
+create or replace function sp_doc_orden_pago_delete
 (
   in p_opg_id integer,
   in p_emp_id integer,

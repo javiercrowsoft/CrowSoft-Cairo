@@ -12,6 +12,9 @@
 production.conf
 dev.conf
 dev-docker.conf
+docker-compose-amazon.yml
+copy_to_amazon.sh
+docker-compose-old.yml
 
 database/no_repo_scripts
 
@@ -22,6 +25,7 @@ web/target
 
 database/backup/customers/*
 database/backup/*salmax*.*
+database/backup/sdi*.*
 
 .settings
 .project
@@ -31,3 +35,5 @@ database/backup/*salmax*.*
 tmp/
 web/cairo/app/client/extensions/*
 all_functions.txt
+
+target

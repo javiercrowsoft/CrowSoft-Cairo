@@ -1,13 +1,13 @@
 version: '3'
 services:
   web:
-    build: .
+    image: "javier2018/cairo-web:latest"
     volumes:
-     - ./web/cairo:/cairo
+      - ./web/cairo:/cairo
     ports:
-     - "9000:9000"
+      - "8081:9000"
     links:
-     - app-db
+      - app-db
     stdin_open: true
     command: play -Dhttps.protocols=TLSv1.2 -Dconfig.file=conf/dev-docker.conf run
 
@@ -19,4 +19,4 @@ services:
     environment:
       POSTGRES_PASSWORD: 14FeDyAr
     ports:
-     - '5432:5432'
+      - '5432:5432'

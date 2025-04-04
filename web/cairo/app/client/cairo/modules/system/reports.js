@@ -75,7 +75,12 @@
 
         m_pendingMessages[msgId] = pendingMessage;
 
-        window.postMessage(msg, window.location.href);
+        // window.postMessage(msg, window.location.href);
+        chrome.runtime.sendMessage(Cairo.CSREPORTS_EXTENSION_ID, msg,
+            function(response) {
+              if (!response.success)
+                console.error(response);
+            });
 
         chunk = msgData.substr(index, MAX_MESSAGE_LENGTH);
         index += MAX_MESSAGE_LENGTH;

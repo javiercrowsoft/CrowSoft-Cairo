@@ -30,7 +30,7 @@ javier at crowsoft.com.ar
 */
 -- Function: dc_csc_ven_0035()
 
--- drop function dc_csc_ven_0035(integer, timestamp with time zone, timestamp with time zone, varchar, varchar, varchar, varchar, integer);
+-- drop function dc_csc_ven_0035(integer, timestamp with time zone, timestamp with time zone, varchar, varchar, varchar, varchar, numeric);
 
 /*
 select * from dc_csc_ven_0035(1,'2010-09-30','2020-09-30','0','0','0','0', 4);
