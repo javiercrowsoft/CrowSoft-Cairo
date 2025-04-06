@@ -1,0 +1,1016 @@
+html * {
+    font-family: Arial;
+    font-size: 14px;
+}
+
+.nav {
+    margin: 0px;
+    padding: 0px;
+}
+
+#header {
+    overflow: hidden;
+    background-color: #5f5656;
+    font-family: Arial;
+}
+
+ul,
+ol {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.nav>li {
+    float: left;
+}
+
+.nav li a {
+    background-color: #5f5656;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 18px;
+    display: block;
+    position: relative;
+    z-index: 1;
+}
+
+.nav li a:hover {
+    background-color: #333;
+}
+
+.nav li ul {
+    display: none;
+    position: absolute;
+    min-width: 140px;
+}
+
+.nav li:hover>ul {
+    display: block;
+}
+
+.nav li ul li {
+    position: relative;
+}
+
+.nav li ul li ul {
+    right: -140px;
+    top: 0px;
+}
+
+.topbar>li {
+    padding: 5px;
+    z-index: 1;
+}
+
+.divider {
+    border-top: 1px solid #666666;
+    z-index: 1;
+    position: relative;
+}
+
+html,
+body {
+    height: 99%;
+}
+
+body { overflow-y: hidden; /* Hide vertical scrollbar */ overflow-x: hidden; /* Hide horizontal scrollbar */ }
+
+header {
+    width: 100%;
+    height: 44px;
+    position: relative;
+}
+
+header nav ul li {
+    display: inline;
+    padding: 0 30px 0 0;
+    float: left;
+}
+
+#wrapper {
+    min-height: 100%;
+    height: 100%;
+    width: 100%;
+    margin: 0 0 -30px 0;
+    /* the bottom margin is the negative value of the footer's height */
+    position: relative;
+}
+
+#main-view {
+    width: calc(100%);
+    height: calc(100% - 120px);
+    /*background-color: red;*/
+}
+
+#sidebar {
+    background-color: #f7f8f9;
+    width: 254px;
+    height: calc(100% - 218px);
+    padding: 25px 30px 25px 30px;
+    position: absolute;
+    bottom: 30px;
+    top: 135px;
+    color: #373636;
+    overflow: auto;
+}
+
+/*
+.table th {
+    text-align: left;
+    background-color: lightgrey;
+}*/
+
+
+/*------------------------------------------------------------*/
+
+.fl-table {
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: normal;
+    border: none;
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 100%;
+    white-space: nowrap;
+    background-color: white;
+}
+
+.fl-table td,
+.fl-table th {
+    text-align: left;
+    padding: 8px;
+}
+
+.fl-table td {
+    border-right: 1px solid #f8f8f8;
+    font-size: 12px;
+}
+
+.fl-table thead th {
+    color: #ffffff;
+    background: #92969b;
+}
+
+
+.fl-table thead th:nth-child(odd) {
+    color: #ffffff;
+    background: #92969b;
+}
+
+.fl-table tr:nth-child(even) {
+    background: #F8F8F8;
+}
+
+/*------------------------------------------------------------*/
+
+#right-sidebar {
+    background-color: #f7f8f9;
+    width: 445px;
+    height: calc(100% - 203px);
+    padding: 10px 30px 25px 30px;
+    bottom: 30px;
+    top: 135px;
+    color: #373636;
+    float: right;
+    position: absolute;
+    right: 0px;
+}
+
+#right-sidebar h1 {
+    font-size: 24px;
+}
+
+#right-sidebar label {
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+#right-sidebar .toolbar {
+    background-color: #494947;
+}
+
+.property-lock-editor {
+    background-color: black;
+    opacity: .2;
+    filter: alpha(opacity=20);
+    position: fixed !important;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 9990;
+    display: none;
+}
+
+.property-dialog {
+    z-index: 9994;
+}
+
+.property-tab {
+    margin-top: 20px;
+    width: 100%;
+    height: calc(100% - 190px);
+    overflow: auto;
+}
+
+.footer-bar {
+    top: calc(100% - 40px);
+    position: sticky;
+    text-align: right;
+    padding-right: 35px;
+}
+
+.multiline-label {
+    padding: 15px;
+    white-space: pre-wrap;
+    height: 80px;
+    overflow: auto;
+}
+
+.boxed {
+    border: 1px solid #c8d2d5;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0;
+    width: 95%;
+}
+
+.row label {
+    padding-left: 5px;
+}
+
+#right-sidebar button {
+
+    /* remove default behavior */
+    appearance: none;
+    -webkit-appearance: none;
+
+    /* usual styles */
+    padding: 10px 20px;
+    border: none;
+    background-color: #3F51B5;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 5px;
+}
+
+#right-sidebar button:active {
+    background-color: #ccc;
+}
+
+input[type=text],
+input[type=password],
+input[type=number],
+select {
+    display: block;
+    width: 90%;
+    margin: 5px 0 15px 5px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #eee;
+    transition: .3s border-color;
+}
+
+.col2 {
+    width: 50%;
+}
+
+.inner-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 0 20px 0;
+}
+
+.inner-row-left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.color-sample {
+    width: 20px;
+    height: 20px;
+    display: block;
+    padding: 0 !important;
+    border: solid 1px rgb(21, 20, 20);
+}
+
+.expand-width {
+    width: 100%;
+}
+
+.second-line {
+    margin-top: 35px;
+}
+
+/*----------------------------------*/
+/* container */
+.inner-row label {
+    position: relative;
+    /* to contain absolute elements */
+    padding-left: 30px;
+    /* free space for custom checkbox */
+    cursor: pointer;
+}
+
+/* hide default checkbox  */
+.inner-row label input[type=checkbox] {
+    position: absolute;
+    /* prevent taking any space */
+    /* cross-browser hiding */
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* custom checkbox */
+.inner-row label span {
+    position: absolute;
+    /* position to the free space in <label> */
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background-color: #ddd;
+    transition: .3s background-color;
+    /* slight transition */
+}
+
+/* the check icon */
+.inner-row label span:after {
+    content: "";
+    position: absolute;
+    display: none;
+
+    /* check icon */
+    left: 6px;
+    top: 2px;
+    width: 4px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+
+.inner-row label:hover span {
+    background-color: #ccc;
+}
+
+/**** Here's the trick ***/
+.inner-row label input:checked~span {
+    background-color: #2eaadc;
+}
+
+.inner-row label input:checked~span:after {
+    display: block;
+}
+
+/*----------------------------------*/
+/* container */
+.inner-row-radio label {
+    display: block;
+    margin-bottom: 4px;
+    position: relative;
+    /* to contain absolute elements */
+    padding-left: 30px;
+    /* free space for custom radio button */
+    cursor: pointer;
+}
+
+/* hide default radio button  */
+.inner-row-radio label input[type=radio] {
+    position: absolute;
+    /* prevent taking any space */
+    /* cross-browser hidingg */
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* custom radio button */
+.inner-row-radio label span {
+    position: absolute;
+    /* position to the free space in <label> */
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background-color: #ddd;
+    border-radius: 50%;
+    transition: .3s background-color;
+    /* slight transition */
+}
+
+/* the check icon */
+.inner-row-radio label span:after {
+    content: "";
+    position: absolute;
+    display: none;
+
+    /* middle */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.inner-row-radio label:hover span {
+    background-color: #ccc;
+}
+
+/**** Here's the trick ***/
+.inner-row-radio label input:checked~span {
+    background-color: #2eaadc;
+}
+
+.inner-row-radio label input:checked~span:after {
+    display: block;
+}
+
+/*----------------------------------*/
+
+.property-section {
+    border-top: 1px solid #cdcdcd;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    padding-top: 5px;
+    width: 95%;
+}
+
+.number7 {
+    width: 150px;
+}
+
+.editor {
+    /*background-color: yellow;*/
+    width: calc(100% - 820px);
+    height: calc(100% - 48px);
+    bottom: 30px;
+    color: black;
+    margin-left: 315px;
+    overflow: auto;
+}
+
+.editor-container {
+    width: 2000px;
+}
+
+.rule {
+    /*background-color: blue;*/
+    width: 300px;
+    height: 170px;
+    border: 5px pink;
+    float: left;
+}
+
+.report {
+    /*background-color: green;*/
+    width: 3000px;
+    height: 170px;
+    border: 5px grey;
+    float: left;
+}
+
+footer {
+    width: calc(100% - 15px);
+    height: 30px;
+    background-color: #5f5656;
+    color: white;
+    bottom: 0;
+    position: absolute;
+}
+
+footer p {
+    padding-top: 7px;
+    margin: 0 0 0 10px;
+    z-index: 99999;
+}
+
+.footer-content {
+    color: white;
+}
+
+/* Style the tab */
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 10px;
+}
+
+.tab div {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    padding: 14px 16px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #ccc;
+}
+
+.sidebar-tab {
+    width: 310px;
+    padding: 1px !important;
+    background-color: #bcb8b8 !important;
+}
+
+/* Style the close button (span) */
+.close {
+    cursor: pointer;
+    position: relative;
+    right: 0%;
+    top: -6px;
+    padding: 6px 8px;
+    margin-left: 5px;
+    color: #888888;
+    font-size: 14px;
+    transform: translate(0%, -50%);
+}
+
+.close:hover {
+    background: #bbb;
+}
+
+/* tree */
+ul.tree,
+ul.tree ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 500px;
+}
+
+ul.tree ul {
+    margin-left: 10px;
+}
+
+ul.tree li {
+    margin: 0;
+    padding: 0 7px;
+    line-height: 20px;
+    color: #373636;
+    /*border-left: 1px solid rgb(211, 207, 207);*/
+}
+
+ul.tree li:last-child {
+    border-left: none;
+}
+
+ul.tree li:before {
+    position: relative;
+    top: -0.3em;
+    height: 1em;
+    width: 12px;
+    color: #373636;
+    /*border-bottom: 1px solid rgb(211, 207, 207);*/
+    content: "";
+    display: inline-block;
+    left: -7px;
+    pointer-events: all;
+}
+
+ul.tree li.expanded::before {
+    content: "-";
+}
+
+ul.tree li.collapsed::before {
+    content: "+";
+}
+
+/*
+ul.tree li:last-child:before {
+    border-left: 1px solid rgb(211, 207, 207);
+}*/
+
+ul.tree a.nostyle:link {
+    text-decoration: inherit;
+    color: inherit;
+}
+
+ul.tree a.nostyle:visited {
+    text-decoration: inherit;
+    color: inherit;
+}
+
+ul.tree a.active {
+    background-color: #ddd;
+    font-weight: bold;
+}
+
+ul.toolbar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #676464;
+}
+
+ul.toolbar li {
+    float: left;
+}
+
+ul.toolbar img {
+    vertical-align: text-top;
+    margin-right: 10px;
+}
+
+ul.toolbar a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+ul.toolbar a:hover {
+    background-color: #111;
+}
+
+.toolbar-span-number {
+    margin-top: 15px;
+    border-width: 1px;
+    background-color: gray;
+    width: 50px;
+    display: block;
+    color: white;
+    height: 19px;
+    text-align: right;
+    padding-top: 3px;
+    padding-right: 10px;
+}
+
+/* Skin for Simple Dialog Box Plugin */
+.dialog-box {
+    width: 300px;
+    height: 150px;
+    background-color: white;
+    border: 1px solid #ccc;
+    -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, .2);
+    -mz-box-shadow: 0 1px 5px rgba(0, 0, 0, .2);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, .2);
+    position: absolute;
+    width: 200px;
+    height: 100px;
+    margin-top: -51px;
+    margin-left: -101px;
+    z-index: 9999;
+    color: #666;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.dialog-box .dialog-title {
+    margin: 0;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    font-weight: bold;
+    height: 2em;
+    line-height: 2em;
+    overflow: hidden;
+    padding: 0 .8em;
+    background-color: #eee;
+    cursor: move;
+}
+
+.dialog-box .dialog-content {
+    border-top: 1px solid #ccc;
+    padding: 1em;
+    position: absolute;
+    top: 2em;
+    right: 0;
+    bottom: 3em;
+    left: 0;
+    /*overflow: auto;*/
+}
+
+.dialog-box .dialog-content iframe {
+    display: block;
+    border: none;
+    background: none;
+    margin: 0;
+    padding: 0;
+    /*overflow: auto;*/
+    width: 100%;
+    height: 100%;
+}
+
+.dialog-box .dialog-content::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background-color: #f5f5f5;
+    border-left: 1px solid #ccc;
+}
+
+.dialog-box .dialog-content::-webkit-scrollbar-thumb {
+    background-color: #666;
+    border: none;
+}
+
+.dialog-box .dialog-content::-webkit-scrollbar-thumb:hover {
+    background-color: #555
+}
+
+.dialog-box .dialog-content::-webkit-scrollbar-thumb:active {
+    background-color: #444
+}
+
+.dialog-box .dialog-action {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 3em;
+    padding: .5em;
+    background-color: #eee;
+    border-top: 1px solid #ccc;
+    text-align: right;
+}
+
+.dialog-box .dialog-action .btn {
+    text-decoration: none;
+    border: none;
+    outline: none;
+    color: inherit;
+    font-weight: bold;
+    background-color: white;
+    border: 1px solid #ccc;
+    -webkit-border-radius: .2em;
+    -moz-border-radius: .2em;
+    border-radius: .2em;
+    padding: .4em 1em;
+    margin-left: .2em;
+    line-height: 2em;
+    cursor: pointer;
+}
+
+.dialog-box .dialog-close,
+.dialog-box .dialog-minmax {
+    border: none;
+    outline: none;
+    background: none;
+    font: inherit;
+    font-family: Arial, Sans-Serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 150%;
+    line-height: 1.4em;
+    color: #aaa;
+    text-decoration: none;
+    position: absolute;
+    top: 0;
+    right: .3em;
+    text-align: center;
+    cursor: pointer;
+}
+
+.dialog-box .dialog-minmax {
+    right: 1.5em
+}
+
+.dialog-box .dialog-close:focus,
+.dialog-box .dialog-minmax:focus,
+.dialog-box .dialog-action .btn:focus {
+    border-width: 0;
+    outline: none;
+}
+
+.dialog-box .dialog-close:hover,
+.dialog-box .dialog-minmax:hover {
+    color: #777
+}
+
+.dialog-box .dialog-close:focus,
+.dialog-box .dialog-minmax:focus {
+    color: #C90000
+}
+
+.dialog-box .dialog-close:active,
+.dialog-box .dialog-minmax:active {
+    color: #444
+}
+
+.dialog-box .dialog-action .btn:hover {
+    border-color: #bbb
+}
+
+.dialog-box .dialog-action .btn:focus {
+    border-color: #aaa;
+    border-width: 1px;
+}
+
+.dialog-box .dialog-action .btn:active {
+    border-color: #aaa;
+    background-color: #f5f5f5;
+}
+
+.dialog-box+.dialog-box-overlay {
+    background-color: black;
+    opacity: .2;
+    filter: alpha(opacity=20);
+    position: fixed !important;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 9997;
+    display: none;
+}
+
+.dialog-box.fixed-dialog-box {
+    position: fixed !important;
+    position: absolute;
+}
+
+.dialog-box.minimize {
+    width: 2em !important;
+    height: 2em !important;
+    overflow: hidden !important;
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    top: -1px !important;
+    left: 1em !important;
+}
+
+.dialog-box.minimize .dialog-title {
+    color: transparent;
+    text-shadow: none;
+    text-indent: -9999px;
+}
+
+.dialog-box.minimize .dialog-minmax {
+    right: 0;
+    left: 0;
+}
+
+.dialog-box.minimize .dialog-close,
+.dialog-box.minimize .dialog-content,
+.dialog-box.minimize .dialog-action {
+    display: none;
+    visibility: hidden;
+}
+
+.dialog-box button {
+
+    /* remove default behavior */
+    appearance: none;
+    -webkit-appearance: none;
+
+    /* usual styles */
+    padding: 10px 20px;
+    border: none;
+    background-color: #3F51B5;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 5px;
+}
+
+.dialog-box .button-delete {
+    background-color: orangered;
+}
+
+.dialog-box button:active {
+    background-color: #ccc;
+}
+
+/*-----------------------------------------------------*/
+#formula-dlg {
+    height: 100%;
+}
+
+.dlg-header {
+    height: 60px;
+    background-color: #f5f5f5;
+    margin-left: -15px;
+    margin-top: -15px;
+    margin-right: -15px;
+}
+
+.dlg-body {
+    text-align: left;
+    flex-direction: row;
+    display: flex;
+    height: calc(100% - 63px);
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
+#formula-dlg-code {
+    width: 100%;
+    height: 248px;
+    border: none;
+    background-color: #fff;
+    outline: none;
+}
+
+#formula-dlg-tree {
+    width: 300px;
+    height: 100%;
+    padding: 15px 10px 10px 10px;
+    overflow: auto;
+}
+
+.dlg-right-panel {
+    background-color: rgb(231, 167, 99);
+    width: 100%;
+}
+
+.formula-dlg-formula-overview {
+    height: 97px;
+    width: 100%;
+    background-color: rgb(234, 244, 224);
+    padding: 10px 10px 0px 10px;
+}
+
+#formula-dlg-description {
+    white-space: pre-wrap;
+}
+
+#error-dlg-description {
+    white-space: pre-wrap;
+}
+
+#error-dlg-info-add {
+    white-space: pre-wrap;
+}
+
+#progress-dlg-progress-bar {
+    width: 50%;
+    background-color: #ddd;
+}
+
+#progress-dlg-progress-bar-status {
+    width: 2%;
+    height: 20px;
+    background-color: #4CAF50;
+}
+
+.popup-menu {
+    position: fixed;
+    width: 1px;
+    height: 1px;
+    padding: 10px;
+    margin: 0px;
+    bottom: 0;
+    z-index: 10000;
+    display: none;
+}
+
+.popup-menu li a {
+    background-color: #5f5656;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 18px;
+    display: block;
+    position: relative;
+    z-index: 1;
+}
+
+.popup-menu li a:hover {
+    background-color: #333;
+}
+
+.popup-menu ul {
+    display: block;
+    position: absolute;
+    min-width: 140px;
+}
+
+
+.popup-menu ul li {
+    position: relative;
+}
+
+.popup-menu ul li ul {
+    right: -140px;
+    top: 0px;
+}
+

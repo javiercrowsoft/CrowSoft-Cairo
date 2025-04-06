@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <title>Report Editor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- custom font definition -->
+    <script src="fonts/tahoma-normal.js"></script>
+    <script src="fonts/tahoma-bold.js"></script>
+    <script src="fonts/arial-normal.js"></script>
+    <script src="fonts/arial-bold.js"></script>
+</head>
+<body>
+<div id="wrapper">
+
+    <header>
+
+        <div id="header">
+            <ul class="nav topbar">
+                <li><a>File</a>
+                    <ul>
+                        <li><a id="mnuFileNew" onclick="CSReports.CSReportEditor.cMainEditor.fMain.newReportClick()">New</a></li>
+                        <li><a id="mnuFileOpen" onclick="CSReports.CSReportEditor.cMainEditor.fMain.openReportClick()">Open</a></li>
+                        <!--<li><a id="mnuFileOpenRecent">Open Recent Files ...</a></li>-->
+                        <li><a id="mnuFileSave" onclick="CSReports.CSReportEditor.cMainEditor.fMain.saveReportClick()">Save</a></li>
+                        <li><a id="mnuFileSaveAs" onclick="CSReports.CSReportEditor.cMainEditor.fMain.saveAsReportClick()">Save As</a></li>
+                        <li class="divider"></li>
+                        <li><a id="mnuFilePageSetup" onclick="CSReports.CSReportEditor.cMainEditor.fMain.pageSetupClick()">Page Setup</a></li>
+                        <!--<li><a id="mnuFilePageSettings">Printer Settings</a></li>-->
+                        <li class="divider"></li>
+                        <li><a id="mnuFilePreview" onclick="CSReports.CSReportEditor.cMainEditor.fMain.debugReportClick()">Preview</a></li>
+                        <li><a id="mnuFilePrint">Print</a></li>
+                    </ul>
+                </li>
+                <li><a>Edit</a>
+                    <ul>
+                        <li><a id="mnuEditCopy" onclick="CSReports.CSReportEditor.cMainEditor.fMain.copyClick()">Copy &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ctrl+C</a></li>
+                        <li><a id="mnuEditPaste" onclick="CSReports.CSReportEditor.cMainEditor.fMain.pasteClick()">Paste &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ctrl+V</a></li>
+                        <li><a id="mnuEditPasteSpecial" onclick="CSReports.CSReportEditor.cMainEditor.fMain.pasteSpecialClick()">Paste Special</a></li>
+                        <li class="divider"></li>
+                        <li><a id="mnuEditSearch" onclick="CSReports.CSReportEditor.cMainEditor.fMain.searchClick()">Search &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ctrl+F</a></li>
+                        <li class="divider"></li>
+                        <li><a>Sections</a>
+                            <ul>
+                                <li><a id="mnuEditAddHeader" onclick="CSReports.CSReportEditor.cMainEditor.fMain.editAddHeaderClick()">Add Header</a></li>
+                                <li><a id="mnuEditAddGroup" onclick="CSReports.CSReportEditor.cMainEditor.fMain.editAddGroupClick()">Add Group</a></li>
+                                <li><a id="mnuEditAddFooter" onclick="CSReports.CSReportEditor.cMainEditor.fMain.editAddFooterClick()">Add Footer</a></li>
+                            </ul>
+                        </li>
+                        <li><a>Controls</a>
+                            <ul>
+                                <li><a id="mnuEditAddLabel" onclick="CSReports.CSReportEditor.cMainEditor.fMain.editAddLabelClick()">Add Label</a></li>
+                                <li><a id="mnuEditAddLine" onclick="CSReports.CSReportEditor.cMainEditor.fMain.editAddLineClick()">Add Line</a></li>
+                                <li><a id="mnuEditAddDatabaseField" onclick="CSReports.CSReportEditor.cMainEditor.fMain.editAddDbControlClick()">Add Field</a></li>
+                                <li><a id="mnuEditAddImage" onclick="CSReports.CSReportEditor.cMainEditor.fMain.editAddImageClick()">Add Image</a></li>
+                                <li><a id="mnuEditAddChart" onclick="CSReports.CSReportEditor.cMainEditor.fMain.editAddChartClick()">Add Chart</a></li>
+                            </ul>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a>Move</a>
+                            <ul>
+                                <li><a id="mnuEditMoveHorizontal" onclick="CSReports.CSReportEditor.cMainEditor.fMain.editMoveHorizontalClick()">Horizontal</a></li>
+                                <li><a id="mnuEditMoveVertical" onclick="CSReports.CSReportEditor.cMainEditor.fMain.editMoveVerticalClick()">Vertical</a></li>
+                                <li><a id="mnuEditMoveLocked" onclick="CSReports.CSReportEditor.cMainEditor.fMain.editMoveLockedClick()">Locked</a></li>
+                                <li><a id="mnuEditMoveFree" onclick="CSReports.CSReportEditor.cMainEditor.fMain.editMoveFreeClick()">All Directions</a></li>
+                                <li><a id="mnuEditMoveStepSize" onclick="CSReports.CSReportEditor.cMainEditor.fMain.editStepSizeClick()">Step Size</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><a>View</a>
+                    <ul>
+                        <li><a id="mnuViewShowToolbox">Toolbox</a></li>
+                        <li><a id="mnuViewShowCtrlsInTree">Controls in Tree</a></li>
+                        <li><a>Grid tools</a>
+                            <ul>
+                                <li><a id="mnuViewGridPoints">Points</a></li>
+                                <li><a id="mnuViewGridLines">Lines</a></li>
+                                <li><a id="mnuViewGridHidden">Hide Grid</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><a>Data Source</a>
+                    <ul>
+                        <li><a id="mnuDbConnectionSettings" onclick="CSReports.CSReportEditor.cMainEditor.fMain.setConnectionClick()">Connection Settings</a></li>
+                        <li class="divider"></li>
+                        <li><a id="mnuDbSetDataSource" onclick="CSReports.CSReportEditor.cMainEditor.fMain.setDataSourceClick()">Set Main Data Source</a></li>
+                        <li><a id="mnuDbSetParameter" onclick="CSReports.CSReportEditor.cMainEditor.fMain.setParamsAndExecuteClick()">Set Parameters and Execute</a></li>
+                        <li><a id="mnuDbSetAuxDataSource" onclick="CSReports.CSReportEditor.cMainEditor.fMain.setAdditionalDataSourcesClick()">Set Additional Data Sources</a></li>
+                        <li class="divider"></li>
+                        <li><a id="mnuDbSetDisconnected" onclick="CSReports.CSReportEditor.cMainEditor.fMain.setDisconnectedReport()">Not a Database Report</a></li>
+                    </ul>
+                </li>
+                <li><a>Debug</a>
+                    <ul>
+                        <li><a id="mnuDebugLoadData" onclick="CSReports.CSReportEditor.cMainEditor.fMain.loadDataClick()">Load Data</a></li>
+                    </ul>
+                </li>
+                <li><a>Tools</a>
+                    <ul>
+                        <li><a id="mnuToolsSettings">Settings</a></li>
+                    </ul>
+                </li>
+                <li><a>Help</a>
+                    <ul>
+                        <li><a id="mnuHelpAbout" onclick="CSReports.CSReportEditor.cMainEditor.fMain.helpAboutClick()">About</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </header>
+    <ul class="toolbar">
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.newReportClick()"><img src="images/toolbar/file.png">New</a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.openReportClick()"><img src="images/toolbar/folder-bw.png">Open</a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.saveReportClick()"><img src="images/toolbar/disk-bw.png">Save</a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.saveAsReportClick()">Save As</a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.setConnectionClick()">DB Connections</a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.debugReportClick()"><img src="images/toolbar/debug.png">Debug</a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.printReportClick()"><img src="images/toolbar/printer-bw.png">Print</a></li>
+
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.alignLeftClick()"><img src="images/toolbar/text_align_left.png"></a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.aligntCenterClick()"><img src="images/toolbar/text_align_center.png"></a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.alignRightClick()"><img src="images/toolbar/text_align_right.png"></a></li>
+
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.editMoveLockedClick()"><img id="toolbar-button-lock" src="images/toolbar/lock.png"></a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.ctrlAlignLeftClick()"><img src="images/toolbar/control_align_left.png"></a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.ctrlAlignTopClick()"><img src="images/toolbar/control_align_top.png"></a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.ctrlAlignBottomClick()"><img src="images/toolbar/control_align_bottom.png"></a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.ctrlAlignRightClick()"><img src="images/toolbar/control_align_right.png"></a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.ctrlSameWidthClick()"><img src="images/toolbar/control_align_horizontal.png"></a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.ctrlSameHeightClick()"><img src="images/toolbar/control_align_vertical.png"></a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.boldClick()"><img src="images/toolbar/text_bold.png"></a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.searchClick()"><img src="images/toolbar/magnifying-glass-3-24.png"></a></li>
+        <li>
+            <div class="inner-row" style="margin: 0;">
+                <label style="margin-top: 10px; color: white; padding-top: 4px;">Zoom</label>
+                <select id="cb_zoom" onchange="CSReports.CSReportEditor.cMainEditor.fMain.zoomClick(event)" style="margin-top: 7px; margin-bottom: 0;">
+                    <option>100</option>
+                    <option>120</option>
+                    <option>130</option>
+                    <option>140</option>
+                    <option>150</option>
+                    <option>175</option>
+                    <option>200</option>
+                </select>
+            </div>
+        </li>
+    </ul>
+    <div id="main-view">
+        <!-- Tab links -->
+        <div class="tab" id="tabReports">
+            <div class="tablinks sidebar-tab">
+                <button class="tablinks" id="sidebar-tv-controls-tab" onclick="CSReports.CSReportEditor.cMainEditor.showSideBarTab('sidebar-tv-controls')" style="background-color: #ddd;">Report</button>
+                <button class="tablinks" id="sidebar-lv-controls-tab" onclick="CSReports.CSReportEditor.cMainEditor.showSideBarTab('sidebar-lv-controls')">Ctrls</button>
+                <button class="tablinks" id="sidebar-lv-database-tab" onclick="CSReports.CSReportEditor.cMainEditor.showSideBarTab('sidebar-lv-database')">DB</button>
+                <button class="tablinks" id="sidebar-lv-properties-tab" onclick="CSReports.CSReportEditor.cMainEditor.showSideBarTab('sidebar-lv-properties')">Properties</button>
+                <button class="tablinks" onclick="CSReports.CSReportEditor.cMainEditor.hideOrShowSideBarTab()" id="sidebar-toogle-hide">&lt;&lt;</button>
+                <button class="tablinks" onclick="CSReports.CSReportEditor.cMainEditor.toggleSideBarTab()" id="sidebar-toogle-width">&gt;&gt;</button>
+            </div>
+            <!-- this added by code. I let it here just as an example
+            <button class="tablinks" onclick="openTab(event, 'Tab1')">Tab 1
+                <span class="close" onclick="closeTab(event, 'Tab1')">x</span>
+            </button>
+            -->
+        </div>
+        <div id="sidebar">
+            <div id="sidebar-tv-controls"></div>
+            <div id="sidebar-lv-controls" style="display: none;"></div>
+            <div id="sidebar-lv-properties" style="display: none;"></div>
+            <div id="sidebar-lv-database" style="display: none;"></div>
+        </div>
+
+        <!-- this added by code. I let it here just as an example
+        <div id="tbpEditor" class="editor">
+            <div id="pnEditor" class="editor-container">
+                <div id="picRule" class="rule">
+                </div>
+                <div id="picReport" class="report">
+                </div>
+            </div>
+        </div>
+        -->
+        <div id="right-sidebar" class="property-dialog">
+            <div class="inner-row-left" style="height: 60px;">
+                <img src="images/properties/config_page.jpg">
+                <h1 id="ctrl-lb-name" style="margin-left: 15px;"></h1>
+            </div>
+            <ul class="toolbar">
+                <li><a href="#" id="property-format-tab-selector" onclick="CSReports.CSReportEditor.cMainEditor.showPropertyTab('property-format-tab')">Format</a></li>
+                <li><a href="#" id="property-formulas-tab-selector" onclick="CSReports.CSReportEditor.cMainEditor.showPropertyTab('property-formulas-tab')">Formulas</a></li>
+                <li><a href="#" id="property-borders-tab-selector" onclick="CSReports.CSReportEditor.cMainEditor.showPropertyTab('property-borders-tab')">Borders</a></li>
+                <li><a href="#" id="property-database-tab-selector" onclick="CSReports.CSReportEditor.cMainEditor.showPropertyTab('property-database-tab')">Database</a></li>
+                <li><a href="#" id="property-image-tab-selector" onclick="CSReports.CSReportEditor.cMainEditor.showPropertyTab('property-image-tab')">Image</a></li>
+                <li><a href="#" id="property-chart-tab-selector" onclick="CSReports.CSReportEditor.cMainEditor.showPropertyTab('property-chart-tab')">Chart</a></li>
+                <li><a href="#" id="property-section-tab-selector" onclick="CSReports.CSReportEditor.cMainEditor.showPropertyTab('property-section-tab')">Section</a></li>
+                <li><a href="#" id="property-group-tab-selector" onclick="CSReports.CSReportEditor.cMainEditor.showPropertyTab('property-group-tab')">Group</a></li>
+            </ul><!-- toolbar -->
+
+            <div class="property-tab" id="property-borders-tab" style="display: none;">
+                <div>
+                    <div>
+                        <label>Type</label>
+                        <select id="ctl-border-type">
+                            <option>None</option>
+                            <option>Flat</option>
+                            <option>3D</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <label>Color</label>
+                            <div class="inner-row">
+                                <input type="text" id="ctrl-border-color" style="width: 150px;"/>
+                                <div style="margin-left: 10px; margin-top: 9px;">
+                                    <label id="ctrl-border-color-sample" class="color-sample"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <label>Color 3D</label>
+                            <div class="inner-row">
+                                <input type="text" id="ctrl-border-color-3d" style="width: 150px;"/>
+                                <div style="margin-left: 10px; margin-top: 9px;">
+                                    <label id="ctrl-border-color-3d-sample" class="color-sample"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <label>Color 3D shadow</label>
+                            <div class="inner-row">
+                                <input type="text" id="ctrl-border-color-shadow" style="width: 150px;"/>
+                                <div style="margin-left: 10px; margin-top: 9px;">
+                                    <label id="ctrl-border-color-shadow-sample" class="color-sample"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="number7">
+                        <label>width</label>
+                        <input type="number" id="ctrl-border-width"/>
+                    </div>
+                    <div class="row">
+                        <div class="inner-row">
+                            <label style="margin-top: 10px;">Rounded borders
+                                <input type="checkbox" id="ctrl-border-rounded"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- property-borders-tab -->
+
+            <div class="property-tab" id="property-chart-tab" style="display: none;">
+                <div>
+                    <label>Type</label>
+                    <select id="ctl-chart-type"></select>
+                </div>
+                <div class="row">
+                    <div style="width: 100%;">
+                        <label>Bar grid lines</label>
+                        <select id="ctl-chart-bar-grid-lines"></select>
+                    </div>
+                    <div style="width: 100%;">
+                        <label>Top</label>
+                        <input type="text" id="ctrl-chart-top"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="inner-row" style="width: 100%;">
+                        <div style="width: 100%;">
+                            <label>Show values
+                                <input type="checkbox" id="ctrl-chart-show-bar-values" />
+                                <span></span>
+                            </label>
+                        </div>
+                        <div style="width: 100%;">
+                            <label>Show outlines
+                                <input type="checkbox" id="ctrl-chart-show-outline" />
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div style="width: 100%;">
+                        <label>Pie chart size</label>
+                        <select id="ctl-chart-pie-size"></select>
+                    </div>
+                    <div style="width: 100%;">
+                        <label>Pie chart thickness</label>
+                        <select id="ctl-chart-pie-thickness"></select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="inner-row">
+                        <div style="width: 100%;">
+                            <label>Sort
+                                <input type="checkbox" id="ctrl-chart-sort" />
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="property-section" style="padding-top: 20px;">
+                    <span>Group</span>
+                </div>
+                <div>
+                    <label>Group field</label>
+                    <div class="inner-row">
+                        <input type="text" id="ctrl-chart-group-db-field"/>
+                        <button id="ctrl-chart-group-db-field-button" style="height: 30px;margin-top: 5px;margin-left: 10px;">...</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div>
+                        <label>Group value</label>
+                        <input type="text" id="ctrl-chart-group-value"/>
+                    </div>
+                </div>
+                <div class="property-section" style="padding-top: 20px;">
+                    <span>Serie 1</span>
+                </div>
+                <div>
+                    <label>Field value</label>
+                    <div class="inner-row">
+                        <input type="text" id="ctrl-chart-serie1-db-field-value"/>
+                        <button id="ctrl-chart-serie1-db-field-value-button" style="height: 30px;margin-top: 5px;margin-left: 10px;">...</button>
+                    </div>
+                </div>
+                <div>
+                    <label>Field label</label>
+                    <div class="inner-row">
+                        <input type="text" id="ctrl-chart-serie1-db-field-label"/>
+                        <button id="ctrl-chart-serie1-db-field-label-button" style="height: 30px;margin-top: 5px;margin-left: 10px;">...</button>
+                    </div>
+                </div>
+                <div>
+                    <label>Color</label>
+                    <select id="ctrl-chart-serie1-color"></select>
+                </div>
+                <div class="property-section" style="padding-top: 20px;">
+                    <span>Serie 2</span>
+                </div>
+                <div>
+                    <label>Field value</label>
+                    <div class="inner-row">
+                        <input type="text" id="ctrl-chart-serie2-db-field-value"/>
+                        <button id="ctrl-chart-serie2-db-field-value-button" style="height: 30px;margin-top: 5px;margin-left: 10px;">...</button>
+                    </div>
+                </div>
+                <div>
+                    <label>Field label</label>
+                    <div class="inner-row">
+                        <input type="text" id="ctrl-chart-serie2-db-field-label"/>
+                        <button id="ctrl-chart-serie2-db-field-label-button" style="height: 30px;margin-top: 5px;margin-left: 10px;">...</button>
+                    </div>
+                </div>
+                <div>
+                    <label>Color</label>
+                    <select id="ctrl-chart-serie2-color"></select>
+                </div>
+            </div><!-- property-chart-tab -->
+
+            <div class="property-tab" id="property-formulas-tab" style="display: none;">
+                <div style="width: 95%;">
+                    <div class="row">
+                        <div class="inner-row">
+                            <label style="margin-top: 10px;">The control has a formula to determine if it is visible
+                                <input type="checkbox" id="ctrl-has-visible-formula"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <label>The formula must return a non zero value to set the control to be visible</label>
+                    </div>
+                    <div class="boxed">
+                        <div class="multiline-label" id="ctrl-visible-formula">Function x ()
+
+ x =  _value( Control92 )  = 0
+
+End Function
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <button style="margin-top: 10px;" id="ctrl-hide-formula-edit">Edit</button>
+                    </div>
+                    <div class="property-section">
+                    </div>
+
+                    <div class="row">
+                        <div class="inner-row">
+                            <label style="margin-top: 10px;">Use a formula to calculate the control's value
+                                <input type="checkbox" id="ctrl-has-value-formula"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <p>
+                            The value of the field "Execute only on this group" mus follow this rules:<br/>
+                            <table>
+                                <tr><td>-2000</td><td>for a formula which is located in header asections and must be evaluted before printing the first line of the detail section</td></tr>
+                                <tr><td>+index</td><td>for a formula which is located in group headers</td></tr>
+                                <tr><td>-index</td><td>for a formula which is located in group footers</td></tr>
+                                <tr><td>0</td><td>for every formula which is located in detail section</td></tr>
+                                <tr><td>-2001</td><td>for a formula which is located in footer sections</td></tr>
+                            </table>
+                        </p>
+                        <label>Execute only on this group</label>
+                        <input type="number" value="0" id="ctrl-formula-group">
+                    </div>
+                    <label>Execute</label>
+                    <div class="row">
+                        <div class="inner-row-radio">
+                            <label style="margin-top: 10px;">before or
+                                <input type="radio" name="whenExecute" id="ctrl-formula-run-before"/>
+                                <span></span>
+                            </label>
+                            <label style="margin-top: 10px;">after printing the line
+                                <input type="radio" name="whenExecute" id="ctrl-formula-run-after"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="boxed" style="margin-top: 10px;">
+                        <div class="multiline-label" id="ctrl-value-formula">Function x ()
+
+ x =  _value( Control92 )  = 0
+
+End Function
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <button style="margin-top: 10px;" id="ctrl-value-formula-edit">Edit</button>
+                    </div>
+                </div>
+            </div><!-- property-formulas-tab -->
+
+            <div class="property-tab" id="property-database-tab" style="display: none;">
+                <div>
+                    <label>Field</label>
+                    <div class="inner-row">
+                        <input type="text" id="ctrl-db-field"/>
+                        <button id="ctrl-db-field-button" style="height: 30px;margin-top: 5px;margin-left: 10px;">...</button>
+                    </div>
+                </div>
+            </div><!-- property-database-tab -->
+
+            <div class="property-tab" id="property-image-tab" style="display: none;">
+                <div>
+                    <label>Image</label>
+                    <div class="inner-row">
+                        <input type="text" id="ctrl-image-file"/>
+                        <button style="height: 30px;margin-top: 5px;margin-left: 10px;">...</button>
+                    </div>
+                    <div id="ctrl-image-preview"></div>
+                </div>
+            </div><!-- property-image-tab -->
+
+            <div class="property-tab" id="property-format-tab">
+                <div>
+                    <label>Name</label>
+                    <input type="text" id="ctrl-name"/>
+                    <div class="property-section">
+                    </div>
+                    <label>Text</label>
+                    <input type="text" id="ctrl-text"/>
+                    <label>Tag</label>
+                    <input type="text" id="ctrl-tag"/>
+                    <div class="row">
+                        <div>
+                            <label>Font</label>
+                            <select id="ctrl-font"></select>
+                        </div>
+                        <div>
+                            <label>Size</label>
+                            <input type="number" id="ctrl-font-size"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <label>Align</label>
+                            <select id="ctrl-align">
+                                <option>Left</option>
+                                <option>Center</option>
+                                <option>Right</option>
+                            </select>
+                        </div>
+                        <div>
+                            <div class="inner-row">
+                                <div class="col2">
+                                    <label>Bold
+                                        <input type="checkbox" id="ctrl-bold" />
+                                        <span></span>
+                                    </label>
+                                </div>
+                                <div class="col2">
+                                    <label>Underline
+                                        <input type="checkbox" id="ctrl-underline" />
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="inner-row">
+                                <div class="col2">
+                                    <label>Italic
+                                        <input type="checkbox" id="ctrl-italic" />
+                                        <span></span>
+                                    </label>
+                                </div>
+                                <div class="col2">
+                                    <label>Strike
+                                        <input type="checkbox" id="ctrl-strike" />
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div>
+                            <label>Text color</label>
+                            <div class="inner-row">
+                                <input type="text" style="width: 150px;" id="ctrl-text-color"/>
+                                <div style="margin-left: 10px; margin-top: 9px;">
+                                    <label id="ctrl-text-color-sample" class="color-sample"></label></div>
+                            </div>
+                        </div>
+                        <div class="inner-row second-line">
+                            <label>Transparent
+                                <input type="checkbox" id="ctrl-transparent"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <label>Back color</label>
+                            <div class="inner-row">
+                                <input type="text" style="width: 150px;" id="ctrl-back-color"/>
+                                <div style="margin-left: 10px; margin-top: 9px; margin-right: 30px;">
+                                    <label id="ctrl-back-color-sample" class="color-sample"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label>Symbol</label>
+                            <input type="text" id="ctrl-symbol"/>
+                        </div>
+                    </div>
+                    <label>Format</label>
+                    <input type="text" id="ctrl-format"/>
+
+                    <div class="property-section" style="padding-top: 20px;">
+                        <span>Position</span>
+                    </div>
+                    <div class="row">
+                        <div class="number7">
+                            <label>Left</label>
+                            <input type="number" id="ctrl-left"/>
+                        </div>
+                        <div class="number7">
+                            <label>Top</label>
+                            <input type="number" id="ctrl-top"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="number7">
+                            <label>Height</label>
+                            <input type="number" id="ctrl-height"/>
+                        </div>
+                        <div class="number7">
+                            <label>Width</label>
+                            <input type="number" id="ctrl-width"/>
+                        </div>
+                    </div>
+                    <div class="property-section">
+                    </div>
+                    <div class="row">
+                        <div class="inner-row expand-width">
+                            <div class="col2">
+                                <label>The control can grow
+                                    <input type="checkbox" id="ctrl-can-grow"/>
+                                    <span></span>
+                                </label>
+                            </div>
+                            <div class="col2">
+                                <label>Wrap text
+                                    <input type="checkbox" id="ctrl-wrap-text"/>
+                                    <span></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="property-section">
+                    </div>
+                    <div class="row">
+                        <div class="inner-row">
+                            <label>The control is in the back of the page (the limit of the section doesn't apply to it)
+                                <input type="checkbox" id="ctrl-is-in-background"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="property-section">
+                    </div>
+                    <label>Column export ID for this control</label>
+                    <input type="text" id="ctrl-export-id"/>
+                </div>
+            </div><!-- property-format-tab -->
+
+            <div class="property-tab" id="property-section-tab" style="display: none;">
+                <label>Name</label>
+                <input type="text" id="section-name"/>
+                <div class="property-section">
+                </div>
+                <div style="width: 95%;">
+                    <div class="row">
+                        <div class="inner-row">
+                            <label style="margin-top: 10px;">The section has a formula to determine if it is visible
+                                <input type="checkbox" id="section-has-visible-formula"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <label>The formula must return a non zero value to set the section to be visible</label>
+                    </div>
+                    <div class="boxed">
+                        <div class="multiline-label" id="section-visible-formula">Function x ()
+
+ x =  _value( Control92 )  = 0
+
+End Function
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <button style="margin-top: 10px;" id="ctrl-section-hide-formula-edit">Edit</button>
+                    </div>
+                    <div class="property-section">
+                    </div>
+                    <label>Section Line Name</label>
+                    <label id="section-line-name"></label>
+                    <div class="row">
+                        <div class="inner-row">
+                            <label style="margin-top: 10px;">The section line has a formula to determine if it is visible
+                                <input type="checkbox" id="section-line-has-visible-formula"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <label>The formula must return a non zero value to set the section line to be visible</label>
+                    </div>
+                    <div class="boxed">
+                        <div class="multiline-label" id="section-line-visible-formula">Function x ()
+
+ x =  _value( Control92 )  = 0
+
+End Function
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <button style="margin-top: 10px;" id="ctrl-section-line-hide-formula-edit">Edit</button>
+                    </div>
+                </div>
+            </div><!-- property-section-tab -->
+
+            <div class="property-tab" id="property-group-tab" style="display: none;">
+                <label>Name</label>
+                <input type="text" id="group-name"/>
+                <div>
+                    <label>Field</label>
+                    <div class="inner-row">
+                        <input type="text" id="ctrl-group-db-field"/>
+                        <button style="height: 30px;margin-top: 5px;margin-left: 10px;">...</button>
+                    </div>
+                </div>
+                <div class="property-section">
+                    <label>Order</label>
+                    <div class="row">
+                        <div class="inner-row-radio">
+                            <label style="margin-top: 10px;">Ascend
+                                <input type="radio" name="sortType" id="ctrl-group-sort-asc"/>
+                                <span></span>
+                            </label>
+                            <label style="margin-top: 10px;">Descend
+                                <input type="radio" name="sortType" id="ctrl-group-sort-desc"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="property-section">
+                    <label>Comparison Type</label>
+                    <div class="row">
+                        <div class="inner-row-radio">
+                            <label style="margin-top: 10px;">Text
+                                <input type="radio" name="comparisonType" id="ctrl-group-comparison-text"/>
+                                <span></span>
+                            </label>
+                            <label style="margin-top: 10px;">Date
+                                <input type="radio" name="comparisonType" id="ctrl-group-comparison-date"/>
+                                <span></span>
+                            </label>
+                            <label style="margin-top: 10px;">Number
+                                <input type="radio" name="comparisonType" id="ctrl-group-comparison-number"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="property-section">
+                    <label>Page Options</label>
+                    <div class="row">
+                        <div class="inner-row">
+                            <label style="margin-top: 10px;">Print every group in a new page
+                                <input type="checkbox" id="ctrl-group-in-new-page"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="inner-row">
+                            <label style="margin-top: 10px;">Print group headers in a every page
+                                <input type="checkbox" id="ctrl-group-header-in-every-page"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="property-section">
+                    <label>Formulas</label>
+                    <div class="row">
+                        <div class="inner-row">
+                            <label style="margin-top: 10px;">It is a grand total group
+                                <input type="checkbox" id="ctrl-group-grand-total"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- property-group-tab -->
+
+            <div class="footer-bar">
+                <button id="ctrl-properties-dlg-apply">Apply</button>
+                <button id="ctrl-properties-dlg-cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <div id="lock-editor" class="property-lock-editor"></div>
+</div>
+
+<footer>
+    <p>CrowSoft CSReports 2024 - javier@crowsoft.com.ar</p>
+</footer>
+
+<!-- popup dialogs -->
+<div style="display: none;">
+    <div id="formula-dlg">
+        <div class="dlg-header">
+            <div class="inner-row-left" style="height: 60px;">
+                <img src="images/properties/config_page.jpg" style="margin-left: 20px;">
+                <h1 style="margin-left: 15px;">Formula Editor</h1>
+            </div>
+        </div>
+        <div class="dlg-body">
+            <div id="formula-dlg-tree"></div>
+            <div class="dlg-right-panel">
+                <div class="formula-dlg-formula-overview">
+                    <label id="formula-dlg-description"></label>
+                </div>
+                <div class="formula-dlg-formula-code">
+                    <textarea id="formula-dlg-code"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="dlg-footer">
+            <button id="formula-dlg-apply">Apply</button>
+            <button id="formula-dlg-cancel">Cancel</button>
+        </div>
+    </div>
+    <div id="db-connect-dlg">
+        <div class="dlg-header"></div>
+        <div class="dlg-body">
+        </div>
+        <div class="dlg-footer">
+            <button>Apply</button>
+            <button>Cancel</button>
+        </div>
+    </div>
+    <div id="search-dlg">
+        <div class="dlg-header">
+            <div class="inner-row-left" style="height: 60px;">
+                <img src="images/properties/config_page.jpg" style="margin-left: 20px;">
+                <h1 style="margin-left: 15px;">Search</h1>
+            </div>
+        </div>
+        <div class="dlg-body">
+            <div>
+                <div style="width: 100%; padding: 0px 0px 0px 50px;">
+                    <div class="row">
+                        <div style="margin-top: 20px;">
+                            <label>Search</label>
+                            <input type="text" id="search-text" style="width: 300px"/>
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 100%; padding: 0px 50px 0px 50px;">
+                    <div class="row">
+                        <div id="search-lv-rows" style="width: 100%; padding-top: 20px; padding-bottom: 20px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dlg-footer">
+            <button id="search-dlg-edit">Edit</button>
+            <button id="search-dlg-close">Close</button>
+        </div>
+    </div>
+    <div id="page-setup-dlg">
+        <div class="dlg-header">
+            <div class="inner-row-left" style="height: 60px;">
+                <img src="images/properties/config_page.jpg" style="margin-left: 20px;">
+                <h1 style="margin-left: 15px;">Page Setup</h1>
+            </div>
+        </div>
+        <div class="dlg-body">
+            <div style="width: 100%; padding: 0px 50px 0px 50px;">
+                <div class="property-section">
+                    <div class="row">
+                        <label style="padding-top: 13px;">Size</label>
+                        <select id="page-setup-paper-size">
+                            <option value="1">Letter</option>
+                            <option value="9">A4</option>
+                            <option value="5">Legal</option>
+                            <option value="8">A3</option>
+                            <option value="99">User</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="property-section">
+                    <label>Custom size</label>
+                    <div style="margin-top: 20px;">
+                        <label>Height</label>
+                        <input type="text" id="page-setup-height"/>
+                    </div>
+                    <div>
+                        <label>Width</label>
+                        <input type="text" id="page-setup-width"/>
+                    </div>
+                </div>
+                <div class="property-section">
+                    <label>Layout</label>
+                    <div class="inner-row-radio">
+                        <label style="margin-top: 10px;">Portrait
+                            <input type="radio" name="layout" id="page-setup-portrait"/>
+                            <span></span>
+                        </label>
+                        <label style="margin-top: 10px;">Landscape
+                            <input type="radio" name="layout" id="page-setup-landscape"/>
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dlg-footer">
+            <button id="page-setup-dlg-apply">Apply</button>
+            <button id="page-setup-dlg-cancel">Cancel</button>
+        </div>
+    </div>
+    <div id="db-columns-dlg">
+        <div class="dlg-header">
+            <div class="inner-row-left" style="height: 60px;">
+                <img src="images/properties/config_page.jpg" style="margin-left: 20px;">
+                <h1 style="margin-left: 15px;">Columns</h1>
+            </div>
+        </div>
+        <div class="dlg-body">
+            <div>
+                <div style="width: 100%; padding: 0px 50px 0px 50px;">
+                    <div class="row">
+                        <div id="db-columns-lv-columns" style="width: 100%; padding-top: 20px; padding-bottom: 20px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dlg-footer">
+            <button id="db-columns-dlg-apply">Apply</button>
+            <button id="db-columns-dlg-cancel">Cancel</button>
+        </div>
+    </div>
+    <div id="connect-aux-dlg">
+        <div class="dlg-header">
+            <div class="inner-row-left" style="height: 60px;">
+                <img src="images/properties/config_page.jpg" style="margin-left: 20px;">
+                <h1 style="margin-left: 15px;">Additional Connections</h1>
+            </div>
+        </div>
+        <div class="dlg-body">
+            <div>
+                <div style="width: 100%; padding: 0px 50px 0px 50px;">
+                    <div style="margin-top: 20px;">
+                        <button onclick="CSReports.CSReportEditor.cMainEditor.fMain.addAdditionalDataSourceClick()">Add</button>
+                        <button onclick="CSReports.CSReportEditor.cMainEditor.fMain.deleteAdditionalDataSourceClick()" class="button-delete" style="margin-left: 20px;">Delete</button>
+                    </div>
+                    <div class="row">
+                        <div id="connect-aux-lv-connections" style="width: 100%; padding-top: 20px; padding-bottom: 20px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dlg-footer">
+            <button id="connect-aux-dlg-apply">Close</button>
+        </div>
+    </div>
+    <div id="group-dlg">
+        <div class="dlg-header">
+            <div class="inner-row-left" style="height: 60px;">
+                <img src="images/properties/config_page.jpg" style="margin-left: 20px;">
+                <h1 id="ctrl-group-label" style="margin-left: 15px;">New Group</h1>
+            </div>
+        </div>
+        <div class="dlg-body">
+            <div class="property-tab" style="padding: 50px;">
+                <label>Name</label>
+                <input type="text" id="ctrl-group-name"/>
+                <div>
+                    <label>Field</label>
+                    <div class="inner-row">
+                        <input type="text" id="ctrl-group-dbfield-name"/>
+                        <button id="ctrl-group-dbfield-name-button" style="height: 30px;margin-top: 5px;margin-left: 10px;">...</button>
+                    </div>
+                </div>
+                <div class="property-section">
+                    <label>Order</label>
+                    <div class="row">
+                        <div class="inner-row-radio">
+                            <label style="margin-top: 10px;">Ascend
+                                <input type="radio" name="sortType" id="ctrl-group-op-asc"/>
+                                <span></span>
+                            </label>
+                            <label style="margin-top: 10px;">Descend
+                                <input type="radio" name="sortType" id="ctrl-group-op-desc"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="property-section">
+                    <label>Comparison Type</label>
+                    <div class="row">
+                        <div class="inner-row-radio">
+                            <label style="margin-top: 10px;">Text
+                                <input type="radio" name="comparisonType" id="ctrl-group-op-text"/>
+                                <span></span>
+                            </label>
+                            <label style="margin-top: 10px;">Date
+                                <input type="radio" name="comparisonType" id="ctrl-group-op-date"/>
+                                <span></span>
+                            </label>
+                            <label style="margin-top: 10px;">Number
+                                <input type="radio" name="comparisonType" id="ctrl-group-op-number"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="property-section">
+                    <label>Page Options</label>
+                    <div class="row">
+                        <div class="inner-row">
+                            <label style="margin-top: 10px;">Print every group in a new page
+                                <input type="checkbox" id="ctrl-group-print-in-new-page"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="inner-row">
+                            <label style="margin-top: 10px;">Print group headers in a every page
+                                <input type="checkbox" id="ctrl-group-reprint-group"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="property-section">
+                    <label>Formulas</label>
+                    <div class="row">
+                        <div class="inner-row">
+                            <label style="margin-top: 10px;">It is a grand total group
+                                <input type="checkbox" id="ctrl-group-grant-total"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dlg-footer">
+            <button id="group-dlg-apply">Apply</button>
+            <button id="group-dlg-cancel">Cancel</button>
+        </div>
+    </div>
+    <div id="datasource-dlg">
+        <div class="dlg-header">
+            <div class="inner-row-left" style="height: 60px;">
+                <img src="images/properties/config_page.jpg" style="margin-left: 20px;">
+                <h1 style="margin-left: 15px;">Data Sources</h1>
+            </div>
+        </div>
+        <div class="dlg-body">
+            <div>
+                <div style="width: 100%; padding: 0px 50px 0px 50px;">
+                    <div class="row">
+                        <div id="datasource-lv-datasources" style="width: 100%; padding-top: 20px; padding-bottom: 20px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dlg-footer">
+            <button id="datasource-dlg-apply">Apply</button>
+            <button id="datasource-dlg-cancel">Cancel</button>
+        </div>
+    </div>
+    <div id="server-settings-dlg">
+        <div class="dlg-header">
+            <div class="inner-row-left" style="height: 60px;">
+                <img src="images/properties/config_page.jpg" style="margin-left: 20px;">
+                <h1 style="margin-left: 15px;">Connection Settings</h1>
+            </div>
+        </div>
+        <div class="dlg-body">
+            <div>
+                <div style="width: 100%; padding: 0px 0px 0px 50px;">
+                    <div class="row">
+                        <div style="margin-top: 20px;">
+                            <label>URL</label>
+                            <input type="text" id="server-url" style="width: 300px"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <label>API Key</label>
+                            <input type="text" id="server-api-key" style="width: 300px"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dlg-footer">
+            <button id="server-settings-dlg-apply">Apply</button>
+            <button id="server-settings-dlg-cancel">Cancel</button>
+        </div>
+    </div>
+    <div id="params-dlg">
+        <div class="dlg-header">
+            <div class="inner-row-left" style="height: 60px;">
+                <img src="images/properties/config_page.jpg" style="margin-left: 20px;">
+                <h1 style="margin-left: 15px;">Connection Settings</h1>
+            </div>
+        </div>
+        <div class="dlg-body">
+            <div>
+                <div style="width: 100%; padding: 0px 0px 0px 50px;" id="params-params-section">
+                    <div class="row">
+                        <div style="margin-top: 20px;">
+                            <label>Param 1</label>
+                            <input type="text" id="param-1" style="width: 300px"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <label>Param 2</label>
+                            <input type="text" id="param-2" style="width: 300px"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dlg-footer">
+            <button id="params-dlg-apply">Apply</button>
+            <button id="params-dlg-cancel">Cancel</button>
+        </div>
+    </div>
+    <div id="error-dlg">
+        <div class="dlg-header">
+            <div class="inner-row-left" style="height: 60px;">
+                <img style="margin-left: 20px; width: 40px;" id="error-dlg-icon">
+                <h1 style="margin-left: 15px;" id="error-dlg-title">Error</h1>
+            </div>
+        </div>
+        <div class="dlg-body" style="padding: 50px;">
+            <div>
+                <div>
+                    <label id="error-dlg-description"></label>
+                    <br/>
+                    <br/>
+                </div>
+                <div>
+                    <label id="error-dlg-info-add"></label>
+                </div>
+            </div>
+        </div>
+        <div class="dlg-footer">
+            <button id="error-dlg-okay">Ok</button>
+        </div>
+    </div>
+    <div id="input-dlg">
+        <div class="dlg-header">
+            <div class="inner-row-left" style="height: 60px;">
+                <img style="margin-left: 20px; width: 40px;" id="input-dlg-icon">
+                <h1 style="margin-left: 15px;" id="input-dlg-title">Input</h1>
+            </div>
+        </div>
+        <div class="dlg-body" style="padding: 50px;">
+            <div>
+                <div>
+                    <label id="input-dlg-description"></label>
+                </div>
+                <div style="margin-top: 20px;">
+                    <input type="text" id="input-dlg-input" style="width: 500px; margin: 0;"/>
+                </div>
+            </div>
+        </div>
+        <div class="dlg-footer">
+            <button id="input-dlg-okay">Ok</button>
+        </div>
+    </div>
+    <div id="progress-dlg-template">
+        <div class="dlg-header">
+            <div class="inner-row-left" style="height: 60px;">
+                <img style="margin-left: 20px;" class="progress-dlg-icon" src="images/properties/config_page.jpg">
+                <h1 style="margin-left: 15px;" class="progress-dlg-title"></h1>
+                <lable class="progress-dlg-task" style="margin-left: 15px;"></lable>
+            </div>
+        </div>
+        <div class="dlg-body" style="padding: 50px;">
+            <div>
+                <div class="inner-row-left" style="height: 60px;">
+                    <label>Generating page</label>
+                    <label class="progress-dlg-curr-page" style="margin-left: 15px; margin-right: 30px; font-weight: bolder;"></label>
+                    <label>Rows</label>
+                    <label class="progress-dlg-row-count" style="margin-left: 15px; margin-right: 30px; font-weight: bolder;"></label>
+                    <label>Current row</label>
+                    <label class="progress-dlg-curr-row" style="margin-left: 15px; margin-right: 30px; font-weight: bolder;"></label>
+                </div>
+                <div class="progress-dlg-progress-bar">
+                    <div class="progress-dlg-progress-bar-status"></div>
+                </div>
+            </div>
+        </div>
+        <div class="dlg-footer">
+            <button class="progress-dlg-cancel">Cancel</button>
+        </div>
+    </div>
+    <div id="preview-dlg-template">
+        <div class="dlg-header">
+            <div class="inner-row-left" style="height: 60px;">
+                <img style="margin-left: 20px;" class="preview-dlg-icon" src="images/properties/config_page.jpg">
+                <h1 style="margin-left: 15px;" class="preview-dlg-title"></h1>
+            </div>
+        </div>
+        <div class="dlg-body" style="padding: 50px;">
+            <div class="preview-dlg-report-preview"></div>
+        </div>
+        <div class="dlg-footer">
+            <button class="preview-dlg-okay">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- popup menu -->
+<div id="popup-menu-control" class="popup-menu">
+    <ul>
+        <li><a id="cmctrl-copy" onclick="CSReports.CSReportEditor.cMainEditor.fMain.ctrlCopyClick()">Copy</a></li>
+        <li><a id="cmctrl-paste" onclick="CSReports.CSReportEditor.cMainEditor.fMain.ctrlPasteClick()">Paste</a></li>
+        <li><a id="cmctrl-paste-ex" onclick="CSReports.CSReportEditor.cMainEditor.fMain.ctrlPasteClick()">Paste Special</a></li>
+        <li class="cmctrl-divider"></li>
+        <li><a id="cmctrl-delete" onclick="CSReports.CSReportEditor.cMainEditor.fMain.ctrlDeleteClick()">Delete</a></li>
+        <li class="divider"></li>
+        <li><a id="cmctrl-send-back" onclick="CSReports.CSReportEditor.cMainEditor.fMain.ctrlSendBackClick()">Send Back</a></li>
+        <li><a id="cmctrl-bring-front"  onclick="CSReports.CSReportEditor.cMainEditor.fMain.ctrlBringFrontClick()">Bring Front</a></li>
+    </ul>
+</div>
+
+<div id="popup-menu-section" class="popup-menu">
+    <ul>
+        <li><a id="cmsec-add-line" onclick="CSReports.CSReportEditor.cMainEditor.fMain.secAddLineClick()">Add Line</a></li>
+        <li><a id="cmsec-delete-line" onclick="CSReports.CSReportEditor.cMainEditor.fMain.deleteLineClick()">Delete Line</a></li>
+        <li><a id="cmsec-delete" onclick="CSReports.CSReportEditor.cMainEditor.fMain.deleteSectionClick()">Delete Section</a></li>
+        <li class="cmctrl-divider"></li>
+        <li><a id="cmsec-move-group" onclick="CSReports.CSReportEditor.cMainEditor.fMain.moveGroupClick()">Move Group</a></li>
+    </ul>
+</div>
+
+</body>
+<script type="text/javascript" src="csreports.js"></script>
+<script defer>
+
+    String.prototype.contains = function(value) {
+        let d = String(this);
+        return(d.indexOf(value) > -1);
+    };
+
+    String.prototype.format = function(format) {
+        return String(this);
+    };
+
+    function openTab(event, id) {
+        console.log("Open " + id);
+    }
+
+    function closeTab(event, id) {
+        event.stopPropagation();
+        console.log("Close " + id);
+    }
+    (function() {
+        CSReports.CSReportEditor.cMainEditor.initEditor();
+    }())
+
+    setTimeout(()=> {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }, 1000);
+
+</script>
+</html>
