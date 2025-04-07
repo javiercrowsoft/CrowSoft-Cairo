@@ -48,7 +48,7 @@
       //
       // in development
       //
-      Cairo.log("Missing field: the field " + fieldName + " isn't present in this dataset", true);
+      Cairo.log("Missing field: the field " + fieldName + " isn't present in this dataset", false);
 
       //
       // if the field doesn't exists
@@ -68,7 +68,7 @@
       //
       // in development
       //
-      Cairo.log("Missing field: the field " + attribute + " isn't present in this dataset", true);
+      Cairo.log("Missing field: the field " + attribute + " isn't present in this dataset", false);
     }
     return value;
   };

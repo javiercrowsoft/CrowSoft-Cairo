@@ -185,12 +185,60 @@
     };
 
     that.printReport = function(reportDefinition) {
+      var previewReport = null;
+      var report = new CSReports.CSReportEngine.cReport();
+      return fetch(
+            reportDefinition.data.url 
+          + reportDefinition.data.type + "\\"  
+          + reportDefinition.data.file)
+        .then(response => response.text())
+        .then(text => {
+          var xml = text;
+          report.loadFromXml(xml);
+        })
+        .then(() => {
+          previewReport = new CSReports.CSReportWebServer.ReportWeb();
+          var data = {
+            name: reportDefinition.data.file,
+            content: reportDefinition
+          };
+          return previewReport.init(data, report, "./client/cairo/libs/csreports/csreports.js");
+        })
+        .then((result) => {
+          if(! result) return false;
+
+          return previewReport.makeReport();
+        })
+        .then((result) => {
+          if(! result) return false;
+
+          return previewReport.getPages();
+        })
+        .then((result) => {
+            if(! result) return false;
+
+            switch(reportDefinition.action) {
+              case "print":
+                previewReport.createPDF();
+                break;
+              case "preview":
+                var rpt = m_reports[reportDefinition.webReportId]
+                previewReport.previewFirstPage(rpt.previewControl);
+                break;
+            }
+
+        })
+        .catch((ignore) => {
+
+        });
+      /*
       return sendMessage(reportDefinition).then(function(response) {
         //console.log(JSON.stringify(response.request));
         //console.log(JSON.stringify(response.response));
         response.success = true;
         return response;
       });
+      */
     };
 
     var csEMoveTo =

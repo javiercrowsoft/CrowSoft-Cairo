@@ -667,7 +667,7 @@ ul.toolbar a:hover {
 }
 
 /* Skin for Simple Dialog Box Plugin */
-.dialog-box {
+.csreports-dialog-box {
     width: 300px;
     height: 150px;
     background-color: white;
@@ -686,7 +686,7 @@ ul.toolbar a:hover {
     opacity: 0;
 }
 
-.dialog-box .dialog-title {
+.csreports-dialog-box .csreports-dialog-title {
     margin: 0;
     padding: 0;
     font: inherit;
@@ -700,7 +700,7 @@ ul.toolbar a:hover {
     cursor: move;
 }
 
-.dialog-box .dialog-content {
+.csreports-dialog-box .csreports-dialog-content {
     border-top: 1px solid #ccc;
     padding: 1em;
     position: absolute;
@@ -711,7 +711,7 @@ ul.toolbar a:hover {
     /*overflow: auto;*/
 }
 
-.dialog-box .dialog-content iframe {
+.csreports-dialog-box .csreports-dialog-content iframe {
     display: block;
     border: none;
     background: none;
@@ -722,27 +722,27 @@ ul.toolbar a:hover {
     height: 100%;
 }
 
-.dialog-box .dialog-content::-webkit-scrollbar {
+.csreports-dialog-box .csreports-dialog-content::-webkit-scrollbar {
     width: 8px;
     height: 8px;
     background-color: #f5f5f5;
     border-left: 1px solid #ccc;
 }
 
-.dialog-box .dialog-content::-webkit-scrollbar-thumb {
+.csreports-dialog-box .csreports-dialog-content::-webkit-scrollbar-thumb {
     background-color: #666;
     border: none;
 }
 
-.dialog-box .dialog-content::-webkit-scrollbar-thumb:hover {
+.csreports-dialog-box .csreports-dialog-content::-webkit-scrollbar-thumb:hover {
     background-color: #555
 }
 
-.dialog-box .dialog-content::-webkit-scrollbar-thumb:active {
+.csreports-dialog-box .csreports-dialog-content::-webkit-scrollbar-thumb:active {
     background-color: #444
 }
 
-.dialog-box .dialog-action {
+.csreports-dialog-box .csreports-dialog-action {
     position: absolute;
     right: 0;
     bottom: 0;
@@ -754,7 +754,7 @@ ul.toolbar a:hover {
     text-align: right;
 }
 
-.dialog-box .dialog-action .btn {
+.csreports-dialog-box .csreports-dialog-action .btn {
     text-decoration: none;
     border: none;
     outline: none;
@@ -771,8 +771,8 @@ ul.toolbar a:hover {
     cursor: pointer;
 }
 
-.dialog-box .dialog-close,
-.dialog-box .dialog-minmax {
+.csreports-dialog-box .csreports-dialog-close,
+.csreports-dialog-box .csreports-dialog-minmax {
     border: none;
     outline: none;
     background: none;
@@ -791,47 +791,47 @@ ul.toolbar a:hover {
     cursor: pointer;
 }
 
-.dialog-box .dialog-minmax {
+.csreports-dialog-box .csreports-dialog-minmax {
     right: 1.5em
 }
 
-.dialog-box .dialog-close:focus,
-.dialog-box .dialog-minmax:focus,
-.dialog-box .dialog-action .btn:focus {
+.csreports-dialog-box .csreports-dialog-close:focus,
+.csreports-dialog-box .csreports-dialog-minmax:focus,
+.csreports-dialog-box .csreports-dialog-action .btn:focus {
     border-width: 0;
     outline: none;
 }
 
-.dialog-box .dialog-close:hover,
-.dialog-box .dialog-minmax:hover {
+.csreports-dialog-box .csreports-dialog-close:hover,
+.csreports-dialog-box .csreports-dialog-minmax:hover {
     color: #777
 }
 
-.dialog-box .dialog-close:focus,
-.dialog-box .dialog-minmax:focus {
+.csreports-dialog-box .csreports-dialog-close:focus,
+.csreports-dialog-box .csreports-dialog-minmax:focus {
     color: #C90000
 }
 
-.dialog-box .dialog-close:active,
-.dialog-box .dialog-minmax:active {
+.csreports-dialog-box .csreports-dialog-close:active,
+.csreports-dialog-box .csreports-dialog-minmax:active {
     color: #444
 }
 
-.dialog-box .dialog-action .btn:hover {
+.csreports-dialog-box .csreports-dialog-action .btn:hover {
     border-color: #bbb
 }
 
-.dialog-box .dialog-action .btn:focus {
+.csreports-dialog-box .csreports-dialog-action .btn:focus {
     border-color: #aaa;
     border-width: 1px;
 }
 
-.dialog-box .dialog-action .btn:active {
+.csreports-dialog-box .csreports-dialog-action .btn:active {
     border-color: #aaa;
     background-color: #f5f5f5;
 }
 
-.dialog-box+.dialog-box-overlay {
+.csreports-dialog-box+.csreports-dialog-box-overlay {
     background-color: black;
     opacity: .2;
     filter: alpha(opacity=20);
@@ -845,12 +845,12 @@ ul.toolbar a:hover {
     display: none;
 }
 
-.dialog-box.fixed-dialog-box {
+.csreports-dialog-box.fixed-csreports-dialog-box {
     position: fixed !important;
     position: absolute;
 }
 
-.dialog-box.minimize {
+.csreports-dialog-box.minimize {
     width: 2em !important;
     height: 2em !important;
     overflow: hidden !important;
@@ -860,25 +860,25 @@ ul.toolbar a:hover {
     left: 1em !important;
 }
 
-.dialog-box.minimize .dialog-title {
+.csreports-dialog-box.minimize .csreports-dialog-title {
     color: transparent;
     text-shadow: none;
     text-indent: -9999px;
 }
 
-.dialog-box.minimize .dialog-minmax {
+.csreports-dialog-box.minimize .csreports-dialog-minmax {
     right: 0;
     left: 0;
 }
 
-.dialog-box.minimize .dialog-close,
-.dialog-box.minimize .dialog-content,
-.dialog-box.minimize .dialog-action {
+.csreports-dialog-box.minimize .csreports-dialog-close,
+.csreports-dialog-box.minimize .csreports-dialog-content,
+.csreports-dialog-box.minimize .csreports-dialog-action {
     display: none;
     visibility: hidden;
 }
 
-.dialog-box button {
+.csreports-dialog-box button {
 
     /* remove default behavior */
     appearance: none;
@@ -893,11 +893,11 @@ ul.toolbar a:hover {
     border-radius: 5px;
 }
 
-.dialog-box .button-delete {
+.csreports-dialog-box .button-delete {
     background-color: orangered;
 }
 
-.dialog-box button:active {
+.csreports-dialog-box button:active {
     background-color: #ccc;
 }
 
@@ -906,7 +906,7 @@ ul.toolbar a:hover {
     height: 100%;
 }
 
-.dlg-header {
+.csreports-dlg-header {
     height: 60px;
     background-color: #f5f5f5;
     margin-left: -15px;
@@ -914,7 +914,7 @@ ul.toolbar a:hover {
     margin-right: -15px;
 }
 
-.dlg-body {
+.csreports-dlg-body {
     text-align: left;
     flex-direction: row;
     display: flex;
@@ -954,23 +954,12 @@ ul.toolbar a:hover {
     white-space: pre-wrap;
 }
 
-#error-dlg-description {
+#csreports-error-dlg-description {
     white-space: pre-wrap;
 }
 
-#error-dlg-info-add {
+#csreports-error-dlg-info-add {
     white-space: pre-wrap;
-}
-
-#progress-dlg-progress-bar {
-    width: 50%;
-    background-color: #ddd;
-}
-
-#progress-dlg-progress-bar-status {
-    width: 2%;
-    height: 20px;
-    background-color: #4CAF50;
 }
 
 .popup-menu {

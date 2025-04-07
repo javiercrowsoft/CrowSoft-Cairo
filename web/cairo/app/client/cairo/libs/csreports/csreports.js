@@ -970,40 +970,40 @@ var CSReports;
                 };
                 try {
                     this.dialog = document.createElement('div');
-                    this.dialog.className = 'dialog-box';
+                    this.dialog.className = 'csreports-dialog-box';
                     this.dialogTitle = document.createElement('h3');
-                    this.dialogTitle.className = 'dialog-title';
+                    this.dialogTitle.className = 'csreports-dialog-title';
                     this.dialog.appendChild(this.dialogTitle);
                     this.dialogMinmax = document.createElement('a');
-                    this.dialogMinmax.className = 'dialog-minmax';
+                    this.dialogMinmax.className = 'csreports-dialog-minmax';
                     this.dialogMinmax.title = 'Minimize';
                     this.dialogMinmax.innerHTML = '&ndash;';
                     this.dialogMinmax.href = 'javascript:;';
                     this.dialog.appendChild(this.dialogMinmax);
                     this.dialogClose = document.createElement('a');
-                    this.dialogClose.className = 'dialog-close';
+                    this.dialogClose.className = 'csreports-dialog-close';
                     this.dialogClose.title = 'Close';
                     this.dialogClose.innerHTML = '&times;';
                     this.dialogClose.href = 'javascript:;';
                     this.dialog.appendChild(this.dialogClose);
                     this.dialogContent = document.createElement('div');
-                    this.dialogContent.className = 'dialog-content';
+                    this.dialogContent.className = 'csreports-dialog-content';
                     this.dialogContent.appendChild(el);
                     this.dialog.appendChild(this.dialogContent);
                     const footer = Array.from(el.children)
-                        .filter(child => child.className === 'dlg-footer')[0];
+                        .filter(child => child.className === 'csreports-dlg-footer')[0];
                     this.dialogAction = document.createElement('div');
-                    this.dialogAction.className = 'dialog-action';
+                    this.dialogAction.className = 'csreports-dialog-action';
                     this.dialogAction.appendChild(footer);
                     this.dialog.appendChild(this.dialogAction);
                     this.dialogOverlay = document.createElement('div');
-                    this.dialogOverlay.className = 'dialog-box-overlay';
+                    this.dialogOverlay.className = 'csreports-dialog-box-overlay';
                     document.body.appendChild(this.dialog);
                     document.body.appendChild(this.dialogOverlay);
                     this.dialogTitle.onmousedown = P.call(this, this.initDrag);
                     this.dialogClose.onclick = P.call(this, () => this.close(false));
                     if (applyAndCloseButtonId) {
-                        const applyButton = U.el(applyAndCloseButtonId);
+                        let applyButton = U.el(applyAndCloseButtonId);
                         applyButton.onclick = P.call(this, () => this.onApplyClick());
                     }
                     if (cancelButtonId) {
@@ -1041,7 +1041,7 @@ var CSReports;
             show(settings) {
                 return new Promise(P.call(this, (resolve) => {
                     this.settings = Object.assign(Object.assign({}, this.defaults), settings);
-                    this.dialog.className = 'dialog-box ' + (this.settings.fixed ? 'fixed-dialog-box ' : '') + this.settings.specialClass;
+                    this.dialog.className = 'csreports-dialog-box ' + (this.settings.fixed ? 'fixed-csreports-dialog-box ' : '') + this.settings.specialClass;
                     this.dialog.style.visibility = 'visible';
                     this.dialog.style.opacity = '1';
                     this.dialog.style.width = this.settings.width + 'px';
@@ -1062,7 +1062,7 @@ var CSReports;
                     this.dialogMinmax.innerHTML = '&ndash;';
                     this.dialogMinmax.title = 'Minimize';
                     this.dialogMinmax.onclick = P.call(this, this.dialogMinMax);
-                    const body = U.elc('dlg-body', this.dialogContent);
+                    const body = U.elc('csreports-dlg-body', this.dialogContent);
                     body.style.height = (this.settings.height - 148) + 'px';
                     body.style.overflow = 'auto';
                     this.oldOnmousemove = document.onmousemove;
@@ -1144,18 +1144,19 @@ var CSReports;
         var Form = CSReports.CSForms.Form;
         var Dialog = CSReports.CSForms.Dialog;
         class fErrors extends Form {
-            constructor() {
+            constructor(rootPath = '') {
                 super();
-                this.el = U.el('error-dlg');
-                this.img = U.imageEl('error-dlg-icon');
-                this.title = U.labelEl('error-dlg-title');
-                this.infoAdd = U.labelEl('error-dlg-info-add');
-                this.description = U.labelEl('error-dlg-description');
-                this.dialog = new Dialog(this.el, 'error-dlg-okay');
+                this.el = U.el('csreports-error-dlg');
+                this.img = U.imageEl('csreports-error-dlg-icon');
+                this.title = U.labelEl('csreports-error-dlg-title');
+                this.infoAdd = U.labelEl('csreports-error-dlg-info-add');
+                this.description = U.labelEl('csreports-error-dlg-description');
+                this.dialog = new Dialog(this.el, 'csreports-error-dlg-okay');
+                this.rootPath = rootPath;
                 super.setDialog(this.dialog);
             }
             setErrorIcon() {
-                this.img.src = "images/dialogs/error.png";
+                this.img.src = this.rootPath + "images/dialogs/error.png";
             }
             setDetails(details) {
                 this.description.textContent = details;
@@ -1187,7 +1188,7 @@ var CSReports;
             static mngError(ex, infoAdd = "") {
                 console.log(ex);
                 if (this.f === null)
-                    this.f = new fErrors();
+                    this.f = new fErrors(this.rootPath);
                 this.f.setErrorIcon();
                 this.f.setDetails(ex.getMessage ? ex.getMessage() : ex.message || ex.toString());
                 this.f.setInfoAdd(infoAdd);
@@ -1195,7 +1196,7 @@ var CSReports;
             }
             static mngWarning(msg, title = "") {
                 if (this.f === null)
-                    this.f = new fErrors();
+                    this.f = new fErrors(this.rootPath);
                 this.f.setWarnIcon();
                 this.f.setTitle(title);
                 this.f.setDetails(msg);
@@ -1203,7 +1204,7 @@ var CSReports;
             }
             static mngInfo(msg, title = "") {
                 if (this.f === null)
-                    this.f = new fErrors();
+                    this.f = new fErrors(this.rootPath);
                 this.f.setInfoIcon();
                 this.f.setTitle(title);
                 this.f.setDetails(msg);
@@ -1221,6 +1222,7 @@ var CSReports;
         }
         cError.silent = false;
         cError.f = null;
+        cError.rootPath = '';
         CSKernelClient.cError = cError;
     })(CSKernelClient = CSReports.CSKernelClient || (CSReports.CSKernelClient = {}));
 })(CSReports || (CSReports = {}));
@@ -2475,6 +2477,7 @@ var CSReports;
     (function (CSDrawing) {
         var cError = CSReports.CSKernelClient.cError;
         var P = CSReports.CSKernelClient.Callable;
+        var U = CSReports.CSOAPI.Utils;
         class Bitmap {
             constructor(width, height, name) {
                 this.name = name;
@@ -3001,6 +3004,10 @@ var CSReports;
             dispose() {
             }
             color() {
+                if (U.isNumber(this._color)) {
+                    const numColor = U.valInt(this._color);
+                    return (numColor < 0 ? 0 : numColor).toString();
+                }
                 return this._color;
             }
             width() {
@@ -5745,13 +5752,12 @@ var CSReports;
 (function (CSReports) {
     var CSReportBarcode;
     (function (CSReportBarcode) {
-        var NotImplementedException = CSReports.CSOAPI.NotImplementedException;
         class cReportBarcode {
             encodeTo128(dataToEncode) {
-                throw new NotImplementedException();
+                return dataToEncode;
             }
             code128a(dataToEncode) {
-                throw new NotImplementedException();
+                return dataToEncode;
             }
         }
         CSReportBarcode.cReportBarcode = cReportBarcode;
@@ -9170,6 +9176,17 @@ var CSReports;
                 return report;
             }
             loadFromDocXml(docXml) {
+                this.path = docXml.getPath();
+                this.name = docXml.getName();
+                let property = docXml.getNodeProperty(docXml.getRootNode(), "ReportDisconnected");
+                this.reportDisconnected = property.getValueBool(eTypes.eBoolean);
+                return this.nLoad(docXml);
+            }
+            loadFromXml(xml) {
+                let docXml = new cXml();
+                if (!docXml.openXml(xml)) {
+                    return false;
+                }
                 this.path = docXml.getPath();
                 this.name = docXml.getName();
                 let property = docXml.getNodeProperty(docXml.getRootNode(), "ReportDisconnected");
@@ -21545,7 +21562,7 @@ var CSReports;
             init2(request) {
                 this.init(request, new cReport());
             }
-            init(request, report) {
+            init(request, report, workerPath = null) {
                 try {
                     this.webReportId = request["content"]["webReportId"].toString();
                     this.reportId = this.uid();
@@ -21562,7 +21579,7 @@ var CSReports;
                         }
                         this.report.getLaunchInfo().setStrConnect(this.database);
                         this.report.setPathDefault("~");
-                        this.reportWorker = new Worker("./csreports.js");
+                        this.reportWorker = new Worker(workerPath || "./csreports.js");
                         this.reportWorker.onmessage = this.onmessage();
                         this.reportWorker.postMessage({
                             action: 'init'
@@ -29635,20 +29652,20 @@ var CSReports;
         class FProgress extends Form {
             constructor() {
                 super();
-                this.el = U.el('progress-dlg-template').cloneNode(true);
+                this.el = U.el('csreports-progress-dlg-template').cloneNode(true);
                 this.el.id = null;
-                this.currPage = new Label(U.labelElc('progress-dlg-curr-page', this.el));
-                this.task = new Label(U.labelElc('progress-dlg-task', this.el));
-                this.rowCount = new Label(U.labelElc('progress-dlg-row-count', this.el));
-                this.currRow = new Label(U.labelElc('progress-dlg-curr-row', this.el));
-                this.progressBar = new ProgressBar(U.divElc('progress-dlg-progress-bar-status', this.el));
+                this.currPage = new Label(U.labelElc('csreports-progress-dlg-curr-page', this.el));
+                this.task = new Label(U.labelElc('csreports-progress-dlg-task', this.el));
+                this.rowCount = new Label(U.labelElc('csreports-progress-dlg-row-count', this.el));
+                this.currRow = new Label(U.labelElc('csreports-progress-dlg-curr-row', this.el));
+                this.progressBar = new ProgressBar(U.divElc('csreports-progress-dlg-progress-bar-status', this.el));
                 this.progressBar.setWidth(600);
                 this.progressBar.setHeight(10);
                 this.progressBar.setValue(0);
                 this.progressBar.setBackColor("green");
-                this.title = U.labelElc('progress-dlg-title', this.el);
+                this.title = U.labelElc('csreports-progress-dlg-title', this.el);
                 this.title.textContent = 'Executing report';
-                this.dialog = new Dialog(this.el, 'error-dlg-okay');
+                this.dialog = new Dialog(this.el, 'csreports-progress-dlg-cancel');
                 super.setDialog(this.dialog);
             }
             getLbCurrPage() {
