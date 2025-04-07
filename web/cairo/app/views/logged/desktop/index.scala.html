@@ -378,6 +378,63 @@
 .csreports-dialog-box button:active {
     background-color: #ccc;
 }
+
+.csreports-editor-container {
+    width: 2000px;
+}
+
+.csreports-report {
+    /*background-color: green;*/
+    width: 3000px;
+    height: 170px;
+    border: 5px grey;
+    float: left;
+}
+
+/* toolbar */
+
+ul.csreports-toolbar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #676464;
+}
+
+ul.csreports-toolbar li {
+    float: left;
+}
+
+ul.csreports-toolbar img {
+    vertical-align: text-top;
+    margin-right: 10px;
+}
+
+ul.csreports-toolbar a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+ul.csreports-toolbar a:hover {
+    background-color: #111;
+}
+
+.csreports-toolbar-span-number {
+    margin-top: 15px;
+    border-width: 1px;
+    background-color: gray;
+    width: 50px;
+    display: block;
+    color: white;
+    height: 26px;
+    text-align: right;
+    padding-top: 3px;
+    padding-right: 10px;
+}
+
 </style>
 <div style="display: none;">
     <div id="csreports-progress-dlg-template">
@@ -563,6 +620,7 @@ Backbone templates
 <script src="./client/cairo/system/controls/select.js?version=@{version}"></script>
 <script src="./client/cairo/system/controls/treeSelect.js?version=@{version}"></script>
 
+<script src="./client/cairo/system/controls/div.js?version=@{version}"></script>
 <script src="./client/cairo/system/controls/button.js?version=@{version}"></script>
 <script src="./client/cairo/system/controls/label.js?version=@{version}"></script>
 <script src="./client/cairo/system/controls/menu.js?version=@{version}"></script>
@@ -635,10 +693,10 @@ Backbone templates
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <!-- custom font definition -->
-<script src="fonts/tahoma-normal.js"></script>
-<script src="fonts/tahoma-bold.js"></script>
-<script src="fonts/arial-normal.js"></script>
-<script src="fonts/arial-bold.js"></script>
+<script src="./client/cairo/libs/csreports/fonts/tahoma-normal.js"></script>
+<script src="./client/cairo/libs/csreports/fonts/tahoma-bold.js"></script>
+<script src="./client/cairo/libs/csreports/fonts/arial-normal.js"></script>
+<script src="./client/cairo/libs/csreports/fonts/arial-bold.js"></script>
 <script src="./client/cairo/libs/csreports/csreports.js"></script>
 <script>
     CSReports.CSKernelClient.cError.rootPath = './client/cairo/libs/csreports/';

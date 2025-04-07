@@ -1641,6 +1641,7 @@
     Views.createPreviewView = function() {
 
       var self = {
+        previewControl: Controls.createDiv(),
         pageImage: Controls.createImage(),
         previewTab: null,
         btnFirstPage: Controls.createButton(),
@@ -1682,6 +1683,8 @@
 
       that.bindView = function(view) {
         superBindView(view);
+        
+        self.previewControl.setElement(view.$('.report-preview-ctrl'));
 
         self.pageImage.setElement(view.$('.dialog-page-image'));
 
@@ -1698,7 +1701,6 @@
         self.btnNextPage.getElement().click(onNextPageClick);
         self.btnLastPage.setElement(view.$('.report-last-page'));
         self.btnLastPage.getElement().click(onLastPageClick);
-
       };
 
       that.showPage = function(page) {
@@ -1727,6 +1729,10 @@
 
       that.getCurrentPage = function() {
         return self.currentPage.getValue();
+      };
+
+      that.getPreviewControl = function() {
+        return self.previewControl;
       };
 
       return that;

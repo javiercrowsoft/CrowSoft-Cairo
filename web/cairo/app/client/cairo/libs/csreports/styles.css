@@ -186,7 +186,7 @@ header nav ul li {
     margin-top: 10px;
 }
 
-#right-sidebar .toolbar {
+#right-sidebar .csreports-toolbar {
     background-color: #494947;
 }
 
@@ -461,7 +461,7 @@ select {
     overflow: auto;
 }
 
-.editor-container {
+.csreports-editor-container {
     width: 2000px;
 }
 
@@ -473,7 +473,7 @@ select {
     float: left;
 }
 
-.report {
+.csreports-report {
     /*background-color: green;*/
     width: 3000px;
     height: 170px;
@@ -624,7 +624,7 @@ ul.tree a.active {
     font-weight: bold;
 }
 
-ul.toolbar {
+ul.csreports-toolbar {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -632,16 +632,16 @@ ul.toolbar {
     background-color: #676464;
 }
 
-ul.toolbar li {
+ul.csreports-toolbar li {
     float: left;
 }
 
-ul.toolbar img {
+ul.csreports-toolbar img {
     vertical-align: text-top;
     margin-right: 10px;
 }
 
-ul.toolbar a {
+ul.csreports-toolbar a {
     display: block;
     color: white;
     text-align: center;
@@ -649,11 +649,11 @@ ul.toolbar a {
     text-decoration: none;
 }
 
-ul.toolbar a:hover {
+ul.csreports-toolbar a:hover {
     background-color: #111;
 }
 
-.toolbar-span-number {
+.csreports-toolbar-span-number {
     margin-top: 15px;
     border-width: 1px;
     background-color: gray;

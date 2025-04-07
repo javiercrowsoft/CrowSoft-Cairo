@@ -2566,7 +2566,12 @@ var CSReports;
                         }
                     }
                     else {
-                        img.src = "data:image/jpeg;base64," + self.imageData;
+                        try {
+                            img.src = "data:image/jpeg;base64," + self.imageData;
+                        }
+                        catch (ex) {
+                            console.log(ex);
+                        }
                     }
                 });
             }
@@ -3767,7 +3772,7 @@ var CSReports;
         var U = CSReports.CSOAPI.Utils;
         var P = CSReports.CSKernelClient.Callable;
         class ReportPreview extends CSForms.Control {
-            constructor(name, el, parent = null) {
+            constructor(name, el, parent = null, rootPath = '') {
                 super(el);
                 this.firstPage = null;
                 this.previousPage = null;
@@ -3778,21 +3783,22 @@ var CSReports;
                 this.print = null;
                 this.name = name;
                 this.parent = parent;
+                this.rootPath = rootPath;
                 const toolbarNode = document.createElement('div');
-                toolbarNode.className = "preview-toolbar";
+                toolbarNode.className = "csreports-preview-toolbar";
                 el.appendChild(toolbarNode);
                 const pnEditorNode = document.createElement('div');
-                pnEditorNode.className = "editor-container";
+                pnEditorNode.className = "csreports-editor-container";
                 el.appendChild(pnEditorNode);
                 const picReportNode = document.createElement('div');
-                picReportNode.className = "report";
+                picReportNode.className = "csreports-report";
                 pnEditorNode.appendChild(picReportNode);
                 this.div = el;
                 this.createToolbar(toolbarNode);
                 this.picPreview = new CSForms.PictureBox("pnReport" + ReportPreview.previewIndex++, picReportNode);
             }
             createToolbar(toolbarNode) {
-                this.toolbar = new CSForms.Toolbar("preview-toolbar" + ReportPreview.previewIndex++, toolbarNode);
+                this.toolbar = new CSForms.Toolbar("csreports-preview-toolbar" + ReportPreview.previewIndex++, toolbarNode, this.rootPath);
                 this.toolbar.addButton("firstPage", ReportPreview.IMAGE_FIRST_PAGE, P.call(this, () => this.buttonClick(this.firstPage, EventArgs.Empty)));
                 this.toolbar.addButton("previousPage", ReportPreview.IMAGE_PREVIOUS_PAGE, P.call(this, () => this.buttonClick(this.previousPage, EventArgs.Empty)));
                 this.toolbar.addInput("moveToPage", P.call(this, (event) => {
@@ -3997,13 +4003,14 @@ var CSReports;
     var CSForms;
     (function (CSForms) {
         class Toolbar extends CSForms.Control {
-            constructor(name, el) {
+            constructor(name, el, rootPath = '') {
                 super(el);
                 this.controls = new CSReports.CSOAPI.Map;
                 this.name = name;
+                this.rootPath = rootPath;
                 this.div = el;
                 this.ul = document.createElement('ul');
-                this.ul.className = "toolbar";
+                this.ul.className = "csreports-toolbar";
                 this.div.appendChild(this.ul);
             }
             addButton(buttonId, image, onclic) {
@@ -4012,7 +4019,7 @@ var CSReports;
                 link.href = "#";
                 link.onclick = onclic;
                 const img = document.createElement('img');
-                img.src = "images/toolbar/" + image;
+                img.src = this.rootPath + "images/toolbar/" + image;
                 img.style.height = "25px";
                 link.appendChild(img);
                 li.appendChild(link);
@@ -4032,7 +4039,7 @@ var CSReports;
             addNumberLabel(labelId) {
                 const li = document.createElement('li');
                 const span = document.createElement('span');
-                span.className = "toolbar-span-number";
+                span.className = "csreports-toolbar-span-number";
                 li.appendChild(span);
                 this.ul.appendChild(li);
                 this.controls.add(span, labelId);
@@ -22024,13 +22031,13 @@ var CSReports;
                 tabPageNode.className = "editor";
                 this.mainView.appendChild(tabPageNode);
                 const pnEditorNode = document.createElement('div');
-                pnEditorNode.className = "editor-container";
+                pnEditorNode.className = "csreports-editor-container";
                 tabPageNode.appendChild(pnEditorNode);
                 const picRuleNode = document.createElement('div');
                 picRuleNode.className = "rule";
                 pnEditorNode.appendChild(picRuleNode);
                 const picReportNode = document.createElement('div');
-                picReportNode.className = "report";
+                picReportNode.className = "csreports-report";
                 pnEditorNode.appendChild(picReportNode);
                 let pnEditor = new Panel("pnEditor" + this.editorIndex, pnEditorNode);
                 let picRule = new PictureBox("pnRule" + this.editorIndex, picRuleNode);
@@ -22071,7 +22078,7 @@ var CSReports;
                 tabPageNode.className = "editor";
                 this.mainView.appendChild(tabPageNode);
                 const previewNode = document.createElement('div');
-                previewNode.className = "editor-container";
+                previewNode.className = "csreports-editor-container";
                 tabPageNode.appendChild(previewNode);
                 let reportPreview = new ReportPreview("reportPreview", previewNode);
                 let tab = new TabPage("tbpPreview" + this.editorIndex, tabPageNode);

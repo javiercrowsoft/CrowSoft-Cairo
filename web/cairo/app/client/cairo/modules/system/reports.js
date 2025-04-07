@@ -222,8 +222,10 @@
                 previewReport.createPDF();
                 break;
               case "preview":
-                var rpt = m_reports[reportDefinition.webReportId]
-                previewReport.previewFirstPage(rpt.previewControl);
+                var rpt = m_reports[reportDefinition.webReportId];
+                var previewNode = rpt.getDialog().getView().getPreviewControl().getElement()[0];
+                var previewControl = new CSReports.CSForms.ReportPreview("reportPreview", previewNode, null, "./client/cairo/libs/csreports/");
+                previewReport.previewFirstPage(previewControl);
                 break;
             }
 
@@ -1336,6 +1338,10 @@
       self.setDialog = function(dialog) {
         m_dialog = dialog;
         m_properties = dialog.getProperties();
+      };
+
+      self.getDialog = function() {
+        return m_dialog;
       };
 
       var initialize = function() {
