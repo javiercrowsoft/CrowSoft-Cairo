@@ -224,6 +224,9 @@
               case "preview":
                 var rpt = m_reports[reportDefinition.webReportId];
                 var previewNode = rpt.getDialog().getView().getPreviewControl().getElement()[0];
+                while (previewNode.firstChild) {
+                  previewNode.removeChild(previewNode.lastChild);
+                }                
                 var previewControl = new CSReports.CSForms.ReportPreview("reportPreview", previewNode, null, "./client/cairo/libs/csreports/");
                 previewReport.previewFirstPage(previewControl);
                 break;
@@ -1145,6 +1148,10 @@
         m_menuLoaded = true;
 
         m_dialog.clearMenu();
+      };
+
+      self.getDialog = function() {
+        return m_dialog;
       };
 
       var initialize = function() {

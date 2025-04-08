@@ -1325,7 +1325,18 @@ var CSReports;
                 return "'" + val.replace(/'/g, "''") + "'";
             }
             static sqlDate(val) {
-                const date = new Date(val);
+                let date = new Date(val);
+                if (isNaN(date)) {
+                    let arr = null;
+                    if (val.contains("/"))
+                        arr = val.split("/");
+                    if (val.contains("-"))
+                        arr = val.split("-");
+                    if (arr != null && arr.length == 3) {
+                        val = arr[1] + "/" + arr[0] + "/" + arr[2];
+                    }
+                    date = new Date(val);
+                }
                 return "'" + new Intl.DateTimeFormat('ja-JP', Database.SQL_DATE_FORMAT).format(date) + "'";
             }
             static sqlNumber(number) {
@@ -1393,6 +1404,7 @@ var CSReports;
                     case "datetime":
                     case "datetime2":
                     case "date":
+                    case "timestamptz":
                     case "timestamp with time zone":
                         return csDataType.CS_TD_DBDATE;
                     case "tinyint":

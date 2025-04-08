@@ -1422,6 +1422,7 @@
     Views.createParametersView = function() {
 
       var self = {
+        previewControl: Controls.createDiv(),
         btnPrint: Controls.createButton(),
         btnPreview: Controls.createButton(),
         btnGrid: Controls.createButton(),
@@ -1502,7 +1503,7 @@
       };
 
       var onPDFClick = function() {
-        that.raiseEvent("pdfClick");
+        that.raiseEvent("printClick"); // print and pdf are the same until we update csreports native tool
       };
 
       var onEmailClick = function() {
@@ -1542,6 +1543,8 @@
 
       that.bindView = function(view) {
         superBindView(view);
+
+        self.previewControl.setElement(view.$('.report-preview-ctrl'));
 
         self.btnPrint.setElement(view.$('.dialog-print-button'));
         self.btnPrint.getElement().click(onPrintClick);
@@ -1633,6 +1636,10 @@
 
       that.getCurrentPage = function() {
         return self.currentPage.getValue();
+      };
+
+      that.getPreviewControl = function() {
+        return self.previewControl;
       };
 
       return that;
