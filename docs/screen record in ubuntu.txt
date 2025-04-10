@@ -1,0 +1,1 @@
+ffmpeg -f x11grab -framerate 25 -r 25 -s 1980x1080 -i :0.0 ./output.mp4
