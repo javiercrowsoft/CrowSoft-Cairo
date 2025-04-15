@@ -726,7 +726,9 @@
                 </Aspect>
               </Line>
               <H Name="H" Text="" idxGroup="0" WhenEval="0" />
-              <V Name="V" Text="Function x ()&#xD;&#xA;  x = FormatDateTime(now,0)&#xD;&#xA;End Function" idxGroup="0" WhenEval="0" />
+              <V Name="V" Text="function x() {&#xD; &#xA;
+  x = FormatDateTime(now,0)&#xD; &#xA;
+}" idxGroup="0" WhenEval="0" />
               <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0" ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
                 <Series />
               </Chart>
@@ -1054,7 +1056,9 @@
                     </Aspect>
                   </Line>
                   <H Name="H" Text="" idxGroup="0" WhenEval="0" />
-                  <V Name="V" Text="function x()&#xD;&#xA;  x = &quot;Total &quot; &amp;  _getstring(var_db_cuenta) &#xD;&#xA;end function" idxGroup="0" WhenEval="0" />
+                  <V Name="V" Text="function x() {&#xD; &#xA;
+  x = &quot;Total &quot; &amp;  _getstring(var_db_cuenta) &#xD; &#xA;
+}" idxGroup="0" WhenEval="0" />
                   <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0" ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
                     <Series />
                   </Chart>
@@ -1184,7 +1188,9 @@
                     </Aspect>
                   </Line>
                   <H Name="H" Text="" idxGroup="0" WhenEval="0" />
-                  <V Name="V" Text="function x()&#xD;&#xA;  x = &quot;Total &quot; &amp;  _getstring(var_db_cliente) &#xD;&#xA;end function" idxGroup="0" WhenEval="0" />
+                  <V Name="V" Text="function x() {&#xD; &#xA;
+  x = &quot;Total &quot; &amp;  _getstring(var_db_cliente) &#xD; &#xA;
+}" idxGroup="0" WhenEval="0" />
                   <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0" ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
                     <Series />
                   </Chart>

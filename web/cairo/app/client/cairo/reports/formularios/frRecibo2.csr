@@ -422,7 +422,9 @@
           <Aspect Align="3" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="360" Format="" Left="0" nZOrder="0" SelectColor="0" Top="4905" Width="12240" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
             <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
           </Aspect>
-          <H Name="H" Text="Function x()&#xD;&#xA;  x = _value( Control58 ) =0&#xD;&#xA;End Function " idxGroup="0" WhenEval="0" />
+          <H Name="H" Text="function x() {&#xD; &#xA;
+  x = _value( Control58 ) =0&#xD; &#xA;
+} " idxGroup="0" WhenEval="0" />
           <RptControls>
             <K313210 Key="K313210" Name="Control46" KeyPaint="P104" HasFormulaHide="0" HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
               <Field Index="9" Name="{frRecibo2}.Fecha comprobante" FieldType="135" />
@@ -568,7 +570,9 @@
           <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="375" Format="" Left="0" nZOrder="0" SelectColor="0" Top="5265" Width="0" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
             <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
           </Aspect>
-          <H Name="H" Text="Function x()&#xD;&#xA;  x = _value( Control58 ) =1&#xD;&#xA;End Function " idxGroup="0" WhenEval="0" />
+          <H Name="H" Text="function x() {&#xD; &#xA;
+  x = _value( Control58 ) =1&#xD; &#xA;
+} " idxGroup="0" WhenEval="0" />
           <RptControls>
             <K313213 Key="K313213" Name="Control49" KeyPaint="P110" HasFormulaHide="0" HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
               <Field Index="17" Name="{frRecibo2}.Cuenta" FieldType="200" />
@@ -997,7 +1001,9 @@
                 </Aspect>
               </Line>
               <H Name="H" Text="" idxGroup="0" WhenEval="0" />
-              <V Name="V" Text="Function x()&#xD;&#xA;x = &quot;Pesos &quot; &amp; _getstring(  _numbertostring( Control60, 1 ) )&#xD;&#xA;End Function " idxGroup="0" WhenEval="0" />
+              <V Name="V" Text="function x() {&#xD; &#xA;
+x = &quot;Pesos &quot; &amp; _getstring(  _numbertostring( Control60, 1 ) )&#xD; &#xA;
+} " idxGroup="0" WhenEval="0" />
               <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0" ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
                 <Series />
               </Chart>
@@ -1082,7 +1088,9 @@
               <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="420" Format="" Left="0" nZOrder="0" SelectColor="0" Top="3660" Width="12240" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
               </Aspect>
-              <H Name="H" Text="Function x()&#xD;&#xA;  x = _value( Control58 ) =0&#xD;&#xA;End Function " idxGroup="0" WhenEval="0" />
+              <H Name="H" Text="function x() {&#xD; &#xA;
+  x = _value( Control58 ) =0&#xD; &#xA;
+} " idxGroup="0" WhenEval="0" />
               <RptControls>
                 <K313083 Key="K313083" Name="Control34" KeyPaint="P131" HasFormulaHide="0" HasFormulaValue="0" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
                   <Field Index="0" Name="" FieldType="0" />
@@ -1136,7 +1144,9 @@
               <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="825" Format="" Left="0" nZOrder="0" SelectColor="0" Top="4080" Width="0" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
               </Aspect>
-              <H Name="H" Text="Function x()&#xD;&#xA;  x = _value( Control58 ) =1&#xD;&#xA;End Function " idxGroup="0" WhenEval="0" />
+              <H Name="H" Text="function x() {&#xD; &#xA;
+  x = _value( Control58 ) =1&#xD; &#xA;
+} " idxGroup="0" WhenEval="0" />
               <RptControls>
                 <K313224 Key="K313224" Name="Control56" KeyPaint="P133" HasFormulaHide="0" HasFormulaValue="0" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
                   <Field Index="0" Name="" FieldType="0" />

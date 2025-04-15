@@ -197,7 +197,11 @@
                   <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
                 </Aspect>
               </Line>
-              <H Name="H" Text="function x ()&#xD;&#xA;&#xD;&#xA;  x =  _value( var_db_doct_id )  = 9 or _value( var_db_doct_id )  = 7&#xD;&#xA;&#xD;&#xA;end function" idxGroup="-1000" WhenEval="0" />
+              <H Name="H" Text="function x() {&#xD; &#xA;
+&#xD; &#xA;
+  return _value( var_db_doct_id )  = 9 or _value( var_db_doct_id ) === 0;7&#xD; &#xA;
+&#xD; &#xA;
+}" idxGroup="-1000" WhenEval="0" />
               <V Name="V" Text="" idxGroup="0" WhenEval="0" />
               <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0" ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
                 <Series />
@@ -220,8 +224,18 @@
                   <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
                 </Aspect>
               </Line>
-              <H Name="H" Text="function x ()&#xD;&#xA;&#xD;&#xA;  x =  _value( var_db_doct_id )  = 9 or _value( var_db_doct_id )  = 7&#xD;&#xA;&#xD;&#xA;end function" idxGroup="-1000" WhenEval="0" />
-              <V Name="V" Text="function x ()&#xD;&#xA;    if  _value( var_db_doct_id )  = 9 then &#xD;&#xA;           x= &quot;NOTA DE DEBITO&quot;&#xD;&#xA;    elseif   _value( var_db_doct_id )  = 7 then&#xD;&#xA;             x= &quot;NOTA DE CREDITO&quot;&#xD;&#xA;   end if&#xD;&#xA;end function" idxGroup="-1000" WhenEval="0" />
+              <H Name="H" Text="function x() { &#xA;
+  return  _value( var_db_doct_id ) === 9 || _value( var_db_doct_id ) === 7; &#xA;
+}"
+                 idxGroup="-1000" WhenEval="0" />
+              <V Name="V" Text="function x() {&#xA;
+    if ( _value( var_db_doct_id ) === 9 ) { &#xA;
+           return 'NOTA DE DEBITO'; &#xA;
+    } else if ( _value( var_db_doct_id ) === 7 ) { &#xA;
+             return 'NOTA DE CREDITO'; &#xA;
+    } else return '';&#xA;
+}"
+                 idxGroup="-1000" WhenEval="0" />
               <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0" ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
                 <Series />
               </Chart>
@@ -764,7 +778,16 @@
                 </Aspect>
               </Line>
               <H Name="H" Text="0" idxGroup="0" WhenEval="0" />
-              <V Name="V" Text="function x ()&#xD;&#xA;&#xD;&#xA;  dim total&#xD;&#xA;  total = _sum(var_db_fvi_importe)&#xD;&#xA;  x = total *  _value( var_db_coef ) &#xD;&#xA;&#xD;&#xA;end function&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;" idxGroup="0" WhenEval="0" />
+              <V Name="V" Text="function x() {&#xD; &#xA;
+&#xD; &#xA;
+  dim total&#xD; &#xA;
+  total = _sum(var_db_fvi_importe)&#xD; &#xA;
+  x = total *  _value( var_db_coef ) &#xD; &#xA;
+&#xD; &#xA;
+}&#xD; &#xA;
+&#xD; &#xA;
+&#xD; &#xA;
+" idxGroup="0" WhenEval="0" />
               <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0" ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
                 <Series />
               </Chart>
@@ -787,7 +810,12 @@
                 </Aspect>
               </Line>
               <H Name="H" Text="" idxGroup="0" WhenEval="0" />
-              <V Name="V" Text="Function x()&#xD;&#xA;&#xD;&#xA;    x =  &quot;SON  &quot; &amp; _getstring(var_db_mon_nombre).ToUpper() &amp; &quot; &quot;&#xD;&#xA;    x = x &amp; _getstring(  _numbertostring( var_total, 1 ) ).ToUpper() &#xD;&#xA;&#xD;&#xA;End Function" idxGroup="0" WhenEval="0" />
+              <V Name="V" Text="function x() {&#xD; &#xA;
+&#xD; &#xA;
+    x =  &quot;SON  &quot; &amp; _getstring(var_db_mon_nombre).ToUpper() &amp; &quot; &quot;&#xD; &#xA;
+    x = x &amp; _getstring(  _numbertostring( var_total, 1 ) ).ToUpper() &#xD; &#xA;
+&#xD; &#xA;
+}" idxGroup="0" WhenEval="0" />
               <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0" ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
                 <Series />
               </Chart>
@@ -826,7 +854,16 @@
                 </Aspect>
               </Line>
               <H Name="H" Text="" idxGroup="0" WhenEval="0" />
-              <V Name="V" Text="function x ()&#xD;&#xA;&#xD;&#xA;  dim total&#xD;&#xA;  total = _sum(var_db_fvi_importe)&#xD;&#xA;  x = total ' *  _value( var_db_coef ) &#xD;&#xA;&#xD;&#xA;end function&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;" idxGroup="0" WhenEval="0" />
+              <V Name="V" Text="function x() {&#xD; &#xA;
+&#xD; &#xA;
+  dim total&#xD; &#xA;
+  total = _sum(var_db_fvi_importe)&#xD; &#xA;
+  x = total ' *  _value( var_db_coef ) &#xD; &#xA;
+&#xD; &#xA;
+}&#xD; &#xA;
+&#xD; &#xA;
+&#xD; &#xA;
+" idxGroup="0" WhenEval="0" />
               <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0" ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
                 <Series />
               </Chart>
@@ -849,7 +886,13 @@
                 </Aspect>
               </Line>
               <H Name="H" Text="_value( var_db_bShowIva )" idxGroup="-1001" WhenEval="0" />
-              <V Name="V" Text="function x ()&#xD;&#xA;&#xD;&#xA;  dim total&#xD;&#xA;  total =  _sum( var_db_fvi_ivari ) &#xD;&#xA;  x = total *  _value( var_db_coef ) &#xD;&#xA;&#xD;&#xA;end function" idxGroup="0" WhenEval="0" />
+              <V Name="V" Text="function x() {&#xD; &#xA;
+&#xD; &#xA;
+  dim total&#xD; &#xA;
+  total =  _sum( var_db_fvi_ivari ) &#xD; &#xA;
+  x = total *  _value( var_db_coef ) &#xD; &#xA;
+&#xD; &#xA;
+}" idxGroup="0" WhenEval="0" />
               <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0" ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
                 <Series />
               </Chart>
@@ -872,7 +915,13 @@
                 </Aspect>
               </Line>
               <H Name="H" Text="_value( var_db_bShowIva )" idxGroup="-1001" WhenEval="0" />
-              <V Name="V" Text="function x ()&#xD;&#xA;  dim subtotal&#xD;&#xA;  subtotal = _sum(var_db_importe)&#xD;&#xA;  x = subtotal * _value( var_db_coef ) &#xD;&#xA;end function&#xD;&#xA;&#xD;&#xA;" idxGroup="0" WhenEval="0" />
+              <V Name="V" Text="function x() {&#xD; &#xA;
+  dim subtotal&#xD; &#xA;
+  subtotal = _sum(var_db_importe)&#xD; &#xA;
+  x = subtotal * _value( var_db_coef ) &#xD; &#xA;
+}&#xD; &#xA;
+&#xD; &#xA;
+" idxGroup="0" WhenEval="0" />
               <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0" ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
                 <Series />
               </Chart>
@@ -895,7 +944,13 @@
                 </Aspect>
               </Line>
               <H Name="H" Text="_value( var_db_bShowIva )" idxGroup="-1001" WhenEval="0" />
-              <V Name="V" Text="function x ()&#xD;&#xA;  dim subtotal&#xD;&#xA;  subtotal = _sum(var_db_importe)&#xD;&#xA;  x = subtotal * _value( var_db_coef ) &#xD;&#xA;end function&#xD;&#xA;&#xD;&#xA;" idxGroup="0" WhenEval="0" />
+              <V Name="V" Text="function x() {&#xD; &#xA;
+  dim subtotal&#xD; &#xA;
+  subtotal = _sum(var_db_importe)&#xD; &#xA;
+  x = subtotal * _value( var_db_coef ) &#xD; &#xA;
+}&#xD; &#xA;
+&#xD; &#xA;
+" idxGroup="0" WhenEval="0" />
               <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0" ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
                 <Series />
               </Chart>
