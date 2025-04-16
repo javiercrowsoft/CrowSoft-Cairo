@@ -334,7 +334,7 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() {
+                    <H Name="H"  Text="function x() { &#xA;
   return _value( Control107 ) === -1;
 }" idxGroup="0" WhenEval="0"/>
                     <RptControls>
@@ -369,7 +369,7 @@
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H" Text="function x() {
+                            <H Name="H"  Text="function x() { &#xA;
   return _value( Control129 ) &lt; 0;
 }" idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -526,7 +526,7 @@
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H" Text="function x() {
+                            <H Name="H"  Text="function x() { &#xA;
   return _value( Control127 ) &gt; 0;
 }" idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -738,7 +738,7 @@
                             BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() {
+                    <H Name="H"  Text="function x() { &#xA;
   return _value( Control107 ) &gt; 0;
 }" idxGroup="0" WhenEval="0"/>
                     <RptControls>
@@ -849,8 +849,8 @@
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H" Text="function x() {
-  x =  _value( Control96) &lt;0
+                            <H Name="H"  Text="function x() { &#xA;
+      return _value( Control96) &lt;0; &#xA;
 }
 " idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -891,7 +891,7 @@
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H" Text="function x() {
+                            <H Name="H"  Text="function x() { &#xA;
   return _value( Control97 ) &gt; 0;
 }" idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -1737,7 +1737,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() {
+                            <H Name="H"  Text="function x() { &#xA;
   return _value( Control107 ) === -1;
 }" idxGroup="0" WhenEval="0"/>
                             <RptControls>
@@ -1997,7 +1997,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() {
+                            <H Name="H"  Text="function x() { &#xA;
   return _value( Control107 ) &gt; 0;
 }" idxGroup="0" WhenEval="0"/>
                             <RptControls>
@@ -2229,7 +2229,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() {
+                            <H Name="H"  Text="function x() { &#xA;
   return _value( Control107 ) === -1;
 }" idxGroup="0" WhenEval="0"/>
                             <RptControls>
@@ -2494,7 +2494,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() {
+                            <H Name="H"  Text="function x() { &#xA;
   return _value( Control107 ) &gt; 0;
 }" idxGroup="0" WhenEval="0"/>
                             <RptControls/>

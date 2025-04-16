@@ -1253,7 +1253,8 @@
                      + currentdate.getMinutes() + ':' &#xA;
                      + currentdate.getSeconds(); &#xA;
      return datetime; &#xA;
-}" idxGroup="0" WhenEval="0"/>
+}"
+                               idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
                                    GroupFieldIndex="0" GroupValue="" Sort="0">

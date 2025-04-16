@@ -2071,7 +2071,7 @@
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
-  x = &quot;Total &quot; &amp; _getstring(var_db_cliente) &amp; &quot;:&quot; &#xA;
+    return 'Total ' + _getstring(var_db_cliente) + ':'; &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2209,7 +2209,7 @@
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
-  x = &quot;Total &quot; &amp; _getstring(var_db_empresa) &amp;&quot;:&quot; &#xA;
+    return 'Total ' + _getstring(var_db_empresa) + ':'; &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"

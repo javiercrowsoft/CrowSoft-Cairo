@@ -665,7 +665,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="function x() { &#xA;
-  x = _value(var_db_cantidad) &gt;= _value(var_db_minimo) &#xA;
+  return _value(var_db_cantidad) &gt;== _value(var_db_minimo); &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -707,7 +707,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="function x() { &#xA;
-  x = _value(var_db_cantidad) &lt;= _value(var_db_maximo) &#xA;
+    return _value(var_db_cantidad) &lt;= _value(var_db_maximo); &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -787,7 +787,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="function x() { &#xA;
-  x = _value(var_db_cantidad) &lt; _value(var_db_minimo) &#xA;
+    return _value(var_db_cantidad) &lt; _value(var_db_minimo); &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -871,7 +871,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="function x() { &#xA;
-  x = _value(var_db_cantidad) &lt;= _value(var_db_reposicion) &#xA;
+      return _value(var_db_cantidad) &lt;= _value(var_db_reposicion); &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>

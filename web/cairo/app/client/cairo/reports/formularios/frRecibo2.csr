@@ -423,7 +423,7 @@
             <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
           </Aspect>
           <H Name="H" Text="function x() {&#xD; &#xA;
-  x = _value( Control58 ) =0&#xD; &#xA;
+      return _value( Control58 ) =0&#xD;; &#xA;
 } " idxGroup="0" WhenEval="0" />
           <RptControls>
             <K313210 Key="K313210" Name="Control46" KeyPaint="P104" HasFormulaHide="0" HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -571,7 +571,7 @@
             <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
           </Aspect>
           <H Name="H" Text="function x() {&#xD; &#xA;
-  x = _value( Control58 ) =1&#xD; &#xA;
+      return _value( Control58 ) =1&#xD;; &#xA;
 } " idxGroup="0" WhenEval="0" />
           <RptControls>
             <K313213 Key="K313213" Name="Control49" KeyPaint="P110" HasFormulaHide="0" HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -1002,7 +1002,7 @@
               </Line>
               <H Name="H" Text="" idxGroup="0" WhenEval="0" />
               <V Name="V" Text="function x() {&#xD; &#xA;
-x = &quot;Pesos &quot; &amp; _getstring(  _numbertostring( Control60, 1 ) )&#xD; &#xA;
+return 'Pesos ' + _getstring( _numbertostring( Control60, 1 ) ); &#xA;
 } " idxGroup="0" WhenEval="0" />
               <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0" ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
                 <Series />
@@ -1089,7 +1089,7 @@ x = &quot;Pesos &quot; &amp; _getstring(  _numbertostring( Control60, 1 ) )&#xD;
                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
               </Aspect>
               <H Name="H" Text="function x() {&#xD; &#xA;
-  x = _value( Control58 ) =0&#xD; &#xA;
+      return _value( Control58 ) =0&#xD;; &#xA;
 } " idxGroup="0" WhenEval="0" />
               <RptControls>
                 <K313083 Key="K313083" Name="Control34" KeyPaint="P131" HasFormulaHide="0" HasFormulaValue="0" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -1145,7 +1145,7 @@ x = &quot;Pesos &quot; &amp; _getstring(  _numbertostring( Control60, 1 ) )&#xD;
                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
               </Aspect>
               <H Name="H" Text="function x() {&#xD; &#xA;
-  x = _value( Control58 ) =1&#xD; &#xA;
+      return _value( Control58 ) =1&#xD;; &#xA;
 } " idxGroup="0" WhenEval="0" />
               <RptControls>
                 <K313224 Key="K313224" Name="Control56" KeyPaint="P133" HasFormulaHide="0" HasFormulaValue="0" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">

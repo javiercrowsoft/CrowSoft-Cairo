@@ -775,24 +775,24 @@
                             <H Name="H" Text="function x() { &#xA;
   if _value(var_db_ventas) != 0 &amp;&amp; _value(var_db_costo) != 0 then &#xA;
     if _value(var_db_ventas) &lt; _value(var_db_costo) then &#xA;
-      x = 0 &#xA;
+          return 0; &#xA;
     else &#xA;
-      x = 1 &#xA;
+          return 1; &#xA;
     } &#xA;
   else &#xA;
-    x = 1 &#xA;
+        return 1; &#xA;
   } &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="function x() { &#xA;
   if _value(var_db_ventas) != 0 &amp;&amp; _value(var_db_costo) != 0 then &#xA;
     if _value(var_db_ventas) &lt; _value(var_db_costo) then &#xA;
-     x = _value(var_db_ventas) / _value(var_db_costo) &#xA;
+         return _value(var_db_ventas) / _value(var_db_costo); &#xA;
    else &#xA;
-     x = 1 - _value(var_db_costo) / _value(var_db_ventas) &#xA;
+         return 1 - _value(var_db_costo) / _value(var_db_ventas); &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
@@ -836,24 +836,24 @@
                             <H Name="H" Text="function x() { &#xA;
   if _value(var_db_ventas) != 0 &amp;&amp; _value(var_db_costo) != 0 then &#xA;
     if _value(var_db_ventas) &lt; _value(var_db_costo) then &#xA;
-     x = 1 &#xA;
+         return 1; &#xA;
    else &#xA;
-     x = 0 &#xA;
+         return 0; &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="function x() { &#xA;
   if _value(var_db_ventas) != 0 &amp;&amp; _value(var_db_costo) != 0 then &#xA;
     if _value(var_db_ventas) &lt; _value(var_db_costo) then &#xA;
-     x = _value(var_db_ventas) / _value(var_db_costo) &#xA;
+         return _value(var_db_ventas) / _value(var_db_costo); &#xA;
    else &#xA;
-     x = 1 - _value(var_db_costo) / _value(var_db_ventas) &#xA;
+         return 1 - _value(var_db_costo) / _value(var_db_ventas); &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
@@ -1120,24 +1120,24 @@
                                     <H Name="H" Text="function x() { &#xA;
   if _value(var_total_ventas) != 0 &amp;&amp; _value(var_total_costos) != 0 then &#xA;
     if _value(var_total_ventas) &lt; _value(var_total_costos) then &#xA;
-     x = 0 &#xA;
+         return 0; &#xA;
    else &#xA;
-     x = 1 &#xA;
+         return 1; &#xA;
    } &#xA;
   else &#xA;
-    x = 1 &#xA;
+        return 1; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
   if _value(var_total_ventas) != 0 &amp;&amp; _value(var_total_costos) != 0 then &#xA;
     if _value(var_total_ventas) &lt; _value(var_total_costos) then &#xA;
-     x = _value(var_total_ventas) / _value(var_total_costos) &#xA;
+         return _value(var_total_ventas) / _value(var_total_costos); &#xA;
    else &#xA;
-     x = 1 - _value(var_total_costos) / _value(var_total_ventas) &#xA;
+         return 1 - _value(var_total_costos) / _value(var_total_ventas); &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -1308,24 +1308,24 @@
                                     <H Name="H" Text="function x() { &#xA;
   if _value(var_total_ventas) != 0 &amp;&amp; _value(var_total_costos) != 0 then &#xA;
     if _value(var_total_ventas) &lt; _value(var_total_costos) then &#xA;
-     x = 1 &#xA;
+         return 1; &#xA;
    else &#xA;
-     x = 0 &#xA;
+         return 0; &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
   if _value(var_total_ventas) != 0 &amp;&amp; _value(var_total_costos) != 0 then &#xA;
     if _value(var_total_ventas) &lt; _value(var_total_costos) then &#xA;
-     x = _value(var_total_ventas) / _value(var_total_costos) &#xA;
+         return _value(var_total_ventas) / _value(var_total_costos); &#xA;
    else &#xA;
-     x = 1 - _value(var_total_costos) / _value(var_total_ventas) &#xA;
+         return 1 - _value(var_total_costos) / _value(var_total_ventas); &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -1548,7 +1548,7 @@
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
-x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel2) ) &#xA;
+    return 'Total ' + _getstring( _value(var_db_nivel2) ); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1593,24 +1593,24 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel2) ) &#xA;
                                     <H Name="H" Text="function x() { &#xA;
   if _value(var_n1_ventas) != 0 &amp;&amp; _value(var_n1_costos) != 0 then &#xA;
     if _value(var_n1_ventas) &lt; _value(var_n1_costos) then &#xA;
-     x = 1 &#xA;
+         return 1; &#xA;
    else &#xA;
-     x = 0 &#xA;
+         return 0; &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
   if _value(var_n1_ventas) != 0 &amp;&amp; _value(var_n1_costos) != 0 then &#xA;
     if _value(var_n1_ventas) &lt; _value(var_n1_costos) then &#xA;
-     x = _value(var_n1_ventas) / _value(var_n1_costos) &#xA;
+         return _value(var_n1_ventas) / _value(var_n1_costos); &#xA;
    else &#xA;
-     x = 1 - _value(var_n1_costos) / _value(var_n1_ventas) &#xA;
+         return 1 - _value(var_n1_costos) / _value(var_n1_ventas); &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -1656,24 +1656,24 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel2) ) &#xA;
                                     <H Name="H" Text="function x() { &#xA;
   if _value(var_n1_ventas) != 0 &amp;&amp; _value(var_n1_costos) != 0 then &#xA;
     if _value(var_n1_ventas) &lt; _value(var_n1_costos) then &#xA;
-     x = 0 &#xA;
+         return 0; &#xA;
    else &#xA;
-      x = 1 &#xA;
+          return 1; &#xA;
     } &#xA;
   else &#xA;
-    x = 1 &#xA;
+        return 1; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
   if _value(var_n1_ventas) != 0 &amp;&amp; _value(var_n1_costos) != 0 then &#xA;
     if _value(var_n1_ventas) &lt; _value(var_n1_costos) then &#xA;
-     x = _value(var_n1_ventas) / _value(var_n1_costos) &#xA;
+         return _value(var_n1_ventas) / _value(var_n1_costos); &#xA;
    else &#xA;
-     x = 1 - _value(var_n1_costos) / _value(var_n1_ventas) &#xA;
+         return 1 - _value(var_n1_costos) / _value(var_n1_ventas); &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -1896,7 +1896,7 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel2) ) &#xA;
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
-x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel3) ) &#xA;
+    return 'Total ' + _getstring( _value(var_db_nivel3) ); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1941,24 +1941,24 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel3) ) &#xA;
                                     <H Name="H" Text="function x() { &#xA;
   if _value(var_n2_ventas) != 0 &amp;&amp; _value(var_n2_costos) != 0 then &#xA;
     if _value(var_n2_ventas) &lt; _value(var_n2_costos) then &#xA;
-     x = 1 &#xA;
+         return 1; &#xA;
    else &#xA;
-     x = 0 &#xA;
+         return 0; &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
   if _value(var_n2_ventas) != 0 &amp;&amp; _value(var_n2_costos) != 0 then &#xA;
     if _value(var_n2_ventas) &lt; _value(var_n2_costos) then &#xA;
-     x = _value(var_n2_ventas) / _value(var_n2_costos) &#xA;
+         return _value(var_n2_ventas) / _value(var_n2_costos); &#xA;
    else &#xA;
-     x = 1 - _value(var_n2_costos) / _value(var_n2_ventas) &#xA;
+         return 1 - _value(var_n2_costos) / _value(var_n2_ventas); &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -2004,24 +2004,24 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel3) ) &#xA;
                                     <H Name="H" Text="function x() { &#xA;
   if _value(var_n2_ventas) != 0 &amp;&amp; _value(var_n2_costos) != 0 then &#xA;
     if _value(var_n2_ventas) &lt; _value(var_n2_costos) then &#xA;
-     x = 0 &#xA;
+         return 0; &#xA;
    else &#xA;
-     x = 1 &#xA;
+         return 1; &#xA;
    } &#xA;
   else &#xA;
-    x = 1 &#xA;
+        return 1; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
   if _value(var_n2_ventas) != 0 &amp;&amp; _value(var_n2_costos) != 0 then &#xA;
     if _value(var_n2_ventas) &lt; _value(var_n2_costos) then &#xA;
-     x = _value(var_n2_ventas) / _value(var_n2_costos) &#xA;
+         return _value(var_n2_ventas) / _value(var_n2_costos); &#xA;
    else &#xA;
-     x = 1 - _value(var_n2_costos) / _value(var_n2_ventas) &#xA;
+         return 1 - _value(var_n2_costos) / _value(var_n2_ventas); &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -2244,7 +2244,7 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel3) ) &#xA;
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
-x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel4) ) &#xA;
+    return 'Total ' + _getstring( _value(var_db_nivel4) ); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2289,24 +2289,24 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel4) ) &#xA;
                                     <H Name="H" Text="function x() { &#xA;
   if _value(var_n3_ventas) != 0 &amp;&amp; _value(var_n3_costos) != 0 then &#xA;
     if _value(var_n3_ventas) &lt; _value(var_n3_costos) then &#xA;
-     x = 1 &#xA;
+         return 1; &#xA;
    else &#xA;
-     x = 0 &#xA;
+         return 0; &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
   if _value(var_n3_ventas) != 0 &amp;&amp; _value(var_n3_costos) != 0 then &#xA;
     if _value(var_n3_ventas) &lt; _value(var_n3_costos) then &#xA;
-     x = _value(var_n3_ventas) / _value(var_n3_costos) &#xA;
+         return _value(var_n3_ventas) / _value(var_n3_costos); &#xA;
    else &#xA;
-     x = 1 - _value(var_n3_costos) / _value(var_n3_ventas) &#xA;
+         return 1 - _value(var_n3_costos) / _value(var_n3_ventas); &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -2352,24 +2352,24 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel4) ) &#xA;
                                     <H Name="H" Text="function x() { &#xA;
   if _value(var_n3_ventas) != 0 &amp;&amp; _value(var_n3_costos) != 0 then &#xA;
     if _value(var_n3_ventas) &lt; _value(var_n3_costos) then &#xA;
-     x = 0 &#xA;
+         return 0; &#xA;
    else &#xA;
-     x = 1 &#xA;
+         return 1; &#xA;
    } &#xA;
   else &#xA;
-    x = 1 &#xA;
+        return 1; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
   if _value(var_n3_ventas) != 0 &amp;&amp; _value(var_n3_costos) != 0 then &#xA;
     if _value(var_n3_ventas) &lt; _value(var_n3_costos) then &#xA;
-     x = _value(var_n3_ventas) / _value(var_n3_costos) &#xA;
+         return _value(var_n3_ventas) / _value(var_n3_costos); &#xA;
    else &#xA;
-     x = 1 - _value(var_n3_costos) / _value(var_n3_ventas) &#xA;
+         return 1 - _value(var_n3_costos) / _value(var_n3_ventas); &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -2592,7 +2592,7 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel4) ) &#xA;
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
-x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel5) ) &#xA;
+    return 'Total ' + _getstring( _value(var_db_nivel5) ); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2637,24 +2637,24 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel5) ) &#xA;
                                     <H Name="H" Text="function x() { &#xA;
   if _value(var_n4_ventas) != 0 &amp;&amp; _value(var_n4_costos) != 0 then &#xA;
     if _value(var_n4_ventas) &lt; _value(var_n4_costos) then &#xA;
-     x = 1 &#xA;
+         return 1; &#xA;
    else &#xA;
-     x = 0 &#xA;
+         return 0; &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
   if _value(var_n4_ventas) != 0 &amp;&amp; _value(var_n4_costos) != 0 then &#xA;
     if _value(var_n4_ventas) &lt; _value(var_n4_costos) then &#xA;
-     x = _value(var_n4_ventas) / _value(var_n4_costos) &#xA;
+         return _value(var_n4_ventas) / _value(var_n4_costos); &#xA;
    else &#xA;
-     x = 1 - _value(var_n4_costos) / _value(var_n4_ventas) &#xA;
+         return 1 - _value(var_n4_costos) / _value(var_n4_ventas); &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -2700,24 +2700,24 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel5) ) &#xA;
                                     <H Name="H" Text="function x() { &#xA;
   if _value(var_n4_ventas) != 0 &amp;&amp; _value(var_n4_costos) != 0 then &#xA;
     if _value(var_n4_ventas) &lt; _value(var_n4_costos) then &#xA;
-     x = 0 &#xA;
+         return 0; &#xA;
    else &#xA;
-     x = 1 &#xA;
+         return 1; &#xA;
    } &#xA;
   else &#xA;
-    x = 1 &#xA;
+        return 1; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
   if _value(var_n4_ventas) != 0 &amp;&amp; _value(var_n4_costos) != 0 then &#xA;
     if _value(var_n4_ventas) &lt; _value(var_n4_costos) then &#xA;
-     x = _value(var_n4_ventas) / _value(var_n4_costos) &#xA;
+         return _value(var_n4_ventas) / _value(var_n4_costos); &#xA;
    else &#xA;
-     x = 1 - _value(var_n4_costos) / _value(var_n4_ventas) &#xA;
+         return 1 - _value(var_n4_costos) / _value(var_n4_ventas); &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -2940,7 +2940,7 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel5) ) &#xA;
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
-x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel6) ) &#xA;
+    return 'Total ' + _getstring( _value(var_db_nivel6) ); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2985,24 +2985,24 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel6) ) &#xA;
                                     <H Name="H" Text="function x() { &#xA;
   if _value(var_n5_ventas) != 0 &amp;&amp; _value(var_n5_costos) != 0 then &#xA;
     if _value(var_n5_ventas) &lt; _value(var_n5_costos) then &#xA;
-     x = 1 &#xA;
+         return 1; &#xA;
    else &#xA;
-     x = 0 &#xA;
+         return 0; &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
   if _value(var_n5_ventas) != 0 &amp;&amp; _value(var_n5_costos) != 0 then &#xA;
     if _value(var_n5_ventas) &lt; _value(var_n5_costos) then &#xA;
-     x = _value(var_n5_ventas) / _value(var_n5_costos) &#xA;
+         return _value(var_n5_ventas) / _value(var_n5_costos); &#xA;
    else &#xA;
-     x = 1 - _value(var_n5_costos) / _value(var_n5_ventas) &#xA;
+         return 1 - _value(var_n5_costos) / _value(var_n5_ventas); &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -3048,24 +3048,24 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel6) ) &#xA;
                                     <H Name="H" Text="function x() { &#xA;
   if _value(var_n5_ventas) != 0 &amp;&amp; _value(var_n5_costos) != 0 then &#xA;
     if _value(var_n5_ventas) &lt; _value(var_n5_costos) then &#xA;
-     x = 0 &#xA;
+         return 0; &#xA;
    else &#xA;
-     x = 1 &#xA;
+         return 1; &#xA;
    } &#xA;
   else &#xA;
-    x = 1 &#xA;
+        return 1; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
   if _value(var_n5_ventas) != 0 &amp;&amp; _value(var_n5_costos) != 0 then &#xA;
     if _value(var_n5_ventas) &lt; _value(var_n5_costos) then &#xA;
-     x = _value(var_n5_ventas) / _value(var_n5_costos) &#xA;
+         return _value(var_n5_ventas) / _value(var_n5_costos); &#xA;
    else &#xA;
-     x = 1 - _value(var_n5_costos) / _value(var_n5_ventas) &#xA;
+         return 1 - _value(var_n5_costos) / _value(var_n5_ventas); &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -3288,7 +3288,7 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel6) ) &#xA;
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
-x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel7) ) &#xA;
+    return 'Total ' + _getstring( _value(var_db_nivel7) ); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -3333,24 +3333,24 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel7) ) &#xA;
                                     <H Name="H" Text="function x() { &#xA;
   if _value(var_n6_ventas) != 0 &amp;&amp; _value(var_n6_costos) != 0 then &#xA;
     if _value(var_n6_ventas) &lt; _value(var_n6_costos) then &#xA;
-     x = 1 &#xA;
+         return 1; &#xA;
    else &#xA;
-     x = 0 &#xA;
+         return 0; &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
   if _value(var_n6_ventas) != 0 &amp;&amp; _value(var_n6_costos) != 0 then &#xA;
     if _value(var_n6_ventas) &lt; _value(var_n6_costos) then &#xA;
-     x = _value(var_n6_ventas) / _value(var_n6_costos) &#xA;
+         return _value(var_n6_ventas) / _value(var_n6_costos); &#xA;
    else &#xA;
-     x = 1 - _value(var_n6_costos) / _value(var_n6_ventas) &#xA;
+         return 1 - _value(var_n6_costos) / _value(var_n6_ventas); &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -3396,24 +3396,24 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel7) ) &#xA;
                                     <H Name="H" Text="function x() { &#xA;
   if _value(var_n6_ventas) != 0 &amp;&amp; _value(var_n6_costos) != 0 then &#xA;
     if _value(var_n6_ventas) &lt; _value(var_n6_costos) then &#xA;
-     x = 0 &#xA;
+         return 0; &#xA;
    else &#xA;
-     x = 1 &#xA;
+         return 1; &#xA;
    } &#xA;
   else &#xA;
-    x = 1 &#xA;
+        return 1; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
   if _value(var_n6_ventas) != 0 &amp;&amp; _value(var_n6_costos) != 0 then &#xA;
     if _value(var_n6_ventas) &lt; _value(var_n6_costos) then &#xA;
-     x = _value(var_n6_ventas) / _value(var_n6_costos) &#xA;
+         return _value(var_n6_ventas) / _value(var_n6_costos); &#xA;
    else &#xA;
-     x = 1 - _value(var_n6_costos) / _value(var_n6_ventas) &#xA;
+         return 1 - _value(var_n6_costos) / _value(var_n6_ventas); &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -3636,7 +3636,7 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel7) ) &#xA;
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
-x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel8) ) &#xA;
+    return 'Total ' + _getstring( _value(var_db_nivel8) ); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -3681,24 +3681,24 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel8) ) &#xA;
                                     <H Name="H" Text="function x() { &#xA;
   if _value(var_n7_ventas) != 0 &amp;&amp; _value(var_n7_costos) != 0 then &#xA;
     if _value(var_n7_ventas) &lt; _value(var_n7_costos) then &#xA;
-     x = 1 &#xA;
+         return 1; &#xA;
    else &#xA;
-     x = 0 &#xA;
+         return 0; &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
   if _value(var_n7_ventas) != 0 &amp;&amp; _value(var_n7_costos) != 0 then &#xA;
     if _value(var_n7_ventas) &lt; _value(var_n7_costos) then &#xA;
-     x = _value(var_n7_ventas) / _value(var_n7_costos) &#xA;
+         return _value(var_n7_ventas) / _value(var_n7_costos); &#xA;
    else &#xA;
-     x = 1 - _value(var_n7_costos) / _value(var_n7_ventas) &#xA;
+         return 1 - _value(var_n7_costos) / _value(var_n7_ventas); &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -3744,24 +3744,24 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel8) ) &#xA;
                                     <H Name="H" Text="function x() { &#xA;
   if _value(var_n7_ventas) != 0 &amp;&amp; _value(var_n7_costos) != 0 then &#xA;
     if _value(var_n7_ventas) &lt; _value(var_n7_costos) then &#xA;
-     x = 0 &#xA;
+         return 0; &#xA;
    else &#xA;
-     x = 1 &#xA;
+         return 1; &#xA;
    } &#xA;
   else &#xA;
-    x = 1 &#xA;
+        return 1; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
   if _value(var_n7_ventas) != 0 &amp;&amp; _value(var_n7_costos) != 0 then &#xA;
     if _value(var_n7_ventas) &lt; _value(var_n7_costos) then &#xA;
-     x = _value(var_n7_ventas) / _value(var_n7_costos) &#xA;
+         return _value(var_n7_ventas) / _value(var_n7_costos); &#xA;
    else &#xA;
-     x = 1 - _value(var_n7_costos) / _value(var_n7_ventas) &#xA;
+         return 1 - _value(var_n7_costos) / _value(var_n7_ventas); &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -3984,7 +3984,7 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel8) ) &#xA;
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
-x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel9) ) &#xA;
+    return 'Total ' + _getstring( _value(var_db_nivel9) ); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -4029,24 +4029,24 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel9) ) &#xA;
                                     <H Name="H" Text="function x() { &#xA;
   if _value(var_n8_ventas) != 0 &amp;&amp; _value(var_n8_costos) != 0 then &#xA;
     if _value(var_n8_ventas) &lt; _value(var_n8_costos) then &#xA;
-     x = 1 &#xA;
+         return 1; &#xA;
    else &#xA;
-     x = 0 &#xA;
+         return 0; &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
   if _value(var_n8_ventas) != 0 &amp;&amp; _value(var_n8_costos) != 0 then &#xA;
     if _value(var_n8_ventas) &lt; _value(var_n8_costos) then &#xA;
-     x = _value(var_n8_ventas) / _value(var_n8_costos) &#xA;
+         return _value(var_n8_ventas) / _value(var_n8_costos); &#xA;
    else &#xA;
-     x = 1 - _value(var_n8_costos) / _value(var_n8_ventas) &#xA;
+         return 1 - _value(var_n8_costos) / _value(var_n8_ventas); &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -4092,24 +4092,24 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel9) ) &#xA;
                                     <H Name="H" Text="function x() { &#xA;
   if _value(var_n8_ventas) != 0 &amp;&amp; _value(var_n8_costos) != 0 then &#xA;
     if _value(var_n8_ventas) &lt; _value(var_n8_costos) then &#xA;
-     x = 0 &#xA;
+         return 0; &#xA;
    else &#xA;
-     x = 1 &#xA;
+         return 1; &#xA;
    } &#xA;
   else &#xA;
-    x = 1 &#xA;
+        return 1; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
   if _value(var_n8_ventas) != 0 &amp;&amp; _value(var_n8_costos) != 0 then &#xA;
     if _value(var_n8_ventas) &lt; _value(var_n8_costos) then &#xA;
-     x = _value(var_n8_ventas) / _value(var_n8_costos) &#xA;
+         return _value(var_n8_ventas) / _value(var_n8_costos); &#xA;
    else &#xA;
-     x = 1 - _value(var_n8_costos) / _value(var_n8_ventas) &#xA;
+         return 1 - _value(var_n8_costos) / _value(var_n8_ventas); &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -4249,24 +4249,24 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel9) ) &#xA;
                                     <H Name="H" Text="function x() { &#xA;
   if _value(var_rubro_ventas) != 0 &amp;&amp; _value(var_rubro_costos) != 0 then &#xA;
     if _value(var_rubro_ventas) &lt; _value(var_rubro_costos) then &#xA;
-     x = 0 &#xA;
+         return 0; &#xA;
    else &#xA;
-     x = 1 &#xA;
+         return 1; &#xA;
    } &#xA;
   else &#xA;
-    x = 1 &#xA;
+        return 1; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
   if _value(var_rubro_ventas) != 0 &amp;&amp; _value(var_rubro_costos) != 0 then &#xA;
     if _value(var_rubro_ventas) &lt; _value(var_rubro_costos) then &#xA;
-     x = _value(var_rubro_ventas) / _value(var_rubro_costos) &#xA;
+         return _value(var_rubro_ventas) / _value(var_rubro_costos); &#xA;
    else &#xA;
-     x = 1 - _value(var_rubro_costos) / _value(var_rubro_ventas) &#xA;
+         return 1 - _value(var_rubro_costos) / _value(var_rubro_ventas); &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -4353,7 +4353,7 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel9) ) &#xA;
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
-x= &quot;Total &quot; &amp; _getstring( _value(var_db_rubro) ) &#xA;
+    return 'Total ' + _getstring( _value(var_db_rubro) ); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -4440,24 +4440,24 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_rubro) ) &#xA;
                                     <H Name="H" Text="function x() { &#xA;
   if _value(var_rubro_ventas) != 0 &amp;&amp; _value(var_rubro_costos) != 0 then &#xA;
     if _value(var_rubro_ventas) &lt; _value(var_rubro_costos) then &#xA;
-     x = 1 &#xA;
+         return 1; &#xA;
    else &#xA;
-     x = 0 &#xA;
+         return 0; &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
   if _value(var_rubro_ventas) != 0 &amp;&amp; _value(var_rubro_costos) != 0 then &#xA;
     if _value(var_rubro_ventas) &lt; _value(var_rubro_costos) then &#xA;
-     x = _value(var_rubro_ventas) / _value(var_rubro_costos) &#xA;
+         return _value(var_rubro_ventas) / _value(var_rubro_costos); &#xA;
    else &#xA;
-     x = 1 - _value(var_rubro_costos) / _value(var_rubro_ventas) &#xA;
+         return 1 - _value(var_rubro_costos) / _value(var_rubro_ventas); &#xA;
    } &#xA;
   else &#xA;
-    x = 0 &#xA;
+        return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>

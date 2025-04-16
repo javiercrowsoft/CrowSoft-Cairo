@@ -338,7 +338,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="function x() { &#xA;
-  x =  _getparam(@@bResumido) =0 &#xA;
+      return _getparam(@@bResumido) === 0; &#xA;
 }"
                                idxGroup="-1000" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -417,7 +417,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="function x() { &#xA;
-  x =  _getparam(@@bResumido) =0 &#xA;
+      return _getparam(@@bResumido) === 0; &#xA;
 }"
                                idxGroup="-1000" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -458,7 +458,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="function x() { &#xA;
-  x =  _getparam(@@bResumido) =0 &#xA;
+      return _getparam(@@bResumido) === 0; &#xA;
 }"
                                idxGroup="-1000" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -499,7 +499,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="function x() { &#xA;
-  x =  _getparam(@@bResumido) =0 &#xA;
+      return _getparam(@@bResumido) === 0; &#xA;
 }"
                                idxGroup="-1000" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -540,7 +540,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="function x() { &#xA;
-  x =  _getparam(@@bResumido) =0 &#xA;
+      return _getparam(@@bResumido) === 0; &#xA;
 }"
                                idxGroup="-1000" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -581,7 +581,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="function x() { &#xA;
-  x =  _getparam(@@bResumido) =0 &#xA;
+      return _getparam(@@bResumido) === 0; &#xA;
 }"
                                idxGroup="-1000" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -780,7 +780,7 @@
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
                     <H Name="H" Text="function x() { &#xA;
-  x =  _getparam(@@bResumido) =0 &#xA;
+      return _getparam(@@bResumido) === 0; &#xA;
 }"
                        idxGroup="0" WhenEval="0"/>
                     <RptControls>
@@ -816,9 +816,9 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="function x() { &#xA;
-  dim n &#xA;
+  var n; &#xA;
   n =  _getvar(var_renglon) &#xA;
-  x = n mod 2 &#xA;
+      return n % 2; &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -979,7 +979,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="function x() { &#xA;
-  x = _value(var_db_cantidad) &gt;= _value(var_db_minimo) &#xA;
+  return _value(var_db_cantidad) &gt;== _value(var_db_minimo); &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -1021,7 +1021,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="function x() { &#xA;
-  x = _value(var_db_cantidad) &lt;= _value(var_db_maximo) &#xA;
+      return _value(var_db_cantidad) &lt;= _value(var_db_maximo); &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -1101,7 +1101,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="function x() { &#xA;
-  x = _value(var_db_cantidad) &lt; _value(var_db_minimo) &#xA;
+      return _value(var_db_cantidad) &lt; _value(var_db_minimo); &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -1185,7 +1185,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="function x() { &#xA;
-  x = _value(var_db_cantidad) &lt;= _value(var_db_reposicion) &#xA;
+      return _value(var_db_cantidad) &lt;= _value(var_db_reposicion); &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -1277,9 +1277,9 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="function x() { &#xA;
-  dim n &#xA;
+  var n; &#xA;
   n =  _getvar(var_renglon) &#xA;
-  x = n mod 2 &#xA;
+      return n % 2; &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>

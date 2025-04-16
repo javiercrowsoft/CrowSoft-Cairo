@@ -846,9 +846,9 @@
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="function x() { &#xA;
-  x =       _getstring( Control46 )  &amp; &quot; &quot;    &amp; _getstring( Control49 )  &amp; &quot; x &quot; &#xA;
-  x = x &amp; _getstring( Control50 )  &amp; &quot; x &quot; &amp; _getstring( Control51 )  &amp; &quot; &quot;  &#xA;
-  x = x &amp; _getstring( Control52 ) &#xA;
+  return _getstring( Control46 ) + ' ' + _getstring( Control49 ) + ' x ' &#xA;
+       + _getstring( Control50 ) + ' x ' + _getstring( Control51 ) + ' ' &#xA;
+       + _getstring( Control52 ) &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
                         </K88494>

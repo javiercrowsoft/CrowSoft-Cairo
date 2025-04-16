@@ -1338,7 +1338,7 @@
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
-x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel2) ) &#xA;
+    return 'Total ' + _getstring( _value(var_db_nivel2) ); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1560,7 +1560,7 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel2) ) &#xA;
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
-x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel3) ) &#xA;
+    return 'Total ' + _getstring( _value(var_db_nivel3) ); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1782,7 +1782,7 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel3) ) &#xA;
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
-x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel4) ) &#xA;
+    return 'Total ' + _getstring( _value(var_db_nivel4) ); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2004,7 +2004,7 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel4) ) &#xA;
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
-x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel5) ) &#xA;
+    return 'Total ' + _getstring( _value(var_db_nivel5) ); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2226,7 +2226,7 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel5) ) &#xA;
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
-x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel6) ) &#xA;
+    return 'Total ' + _getstring( _value(var_db_nivel6) ); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2448,7 +2448,7 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel6) ) &#xA;
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
-x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel7) ) &#xA;
+    return 'Total ' + _getstring( _value(var_db_nivel7) ); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2670,7 +2670,7 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel7) ) &#xA;
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
-x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel8) ) &#xA;
+    return 'Total ' + _getstring( _value(var_db_nivel8) ); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2892,7 +2892,7 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel8) ) &#xA;
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
-x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel9) ) &#xA;
+    return 'Total ' + _getstring( _value(var_db_nivel9) ); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -3114,7 +3114,7 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel9) ) &#xA;
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
-x= &quot;Total &quot; &amp; _getstring( _value(var_db_rubro) ) &#xA;
+    return 'Total ' + _getstring( _value(var_db_rubro) ); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -3252,8 +3252,9 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_rubro) ) &#xA;
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
-x= &quot;Total &quot; &amp; _getstring( _value(var_db_articulo) ) &#xA;
-}" idxGroup="0" WhenEval="0"/>
+    return 'Total ' + _getstring( _value(var_db_articulo) ); &#xA;
+}"
+                                       idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
                                            GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">

@@ -780,9 +780,9 @@
               <H Name="H" Text="0" idxGroup="0" WhenEval="0" />
               <V Name="V" Text="function x() {&#xD; &#xA;
 &#xD; &#xA;
-  dim total&#xD; &#xA;
+  var total;&#xD; &#xA;
   total = _sum(var_db_fvi_importe)&#xD; &#xA;
-  x = total *  _value( var_db_coef ) &#xD; &#xA;
+      return total *  _value( var_db_coef ) &#xD;; &#xA;
 &#xD; &#xA;
 }&#xD; &#xA;
 &#xD; &#xA;
@@ -810,12 +810,11 @@
                 </Aspect>
               </Line>
               <H Name="H" Text="" idxGroup="0" WhenEval="0" />
-              <V Name="V" Text="function x() {&#xD; &#xA;
-&#xD; &#xA;
-    x =  &quot;SON  &quot; &amp; _getstring(var_db_mon_nombre).ToUpper() &amp; &quot; &quot;&#xD; &#xA;
-    x = x &amp; _getstring(  _numbertostring( var_total, 1 ) ).ToUpper() &#xD; &#xA;
-&#xD; &#xA;
-}" idxGroup="0" WhenEval="0" />
+              <V Name="V" Text="function x() { &#xA;
+    return 'SON  ' + _getstring(var_db_mon_nombre).ToUpper() + ' ' &#xA;
+                   + _getstring(  _numbertostring( var_total, 1 ) ).ToUpper() &#xA;
+}"
+                 idxGroup="0" WhenEval="0" />
               <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0" ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
                 <Series />
               </Chart>
@@ -856,9 +855,9 @@
               <H Name="H" Text="" idxGroup="0" WhenEval="0" />
               <V Name="V" Text="function x() {&#xD; &#xA;
 &#xD; &#xA;
-  dim total&#xD; &#xA;
+  var total;&#xD; &#xA;
   total = _sum(var_db_fvi_importe)&#xD; &#xA;
-  x = total ' *  _value( var_db_coef ) &#xD; &#xA;
+      return total ' *  _value( var_db_coef ) &#xD;; &#xA;
 &#xD; &#xA;
 }&#xD; &#xA;
 &#xD; &#xA;
@@ -888,9 +887,9 @@
               <H Name="H" Text="_value( var_db_bShowIva )" idxGroup="-1001" WhenEval="0" />
               <V Name="V" Text="function x() {&#xD; &#xA;
 &#xD; &#xA;
-  dim total&#xD; &#xA;
+  var total;&#xD; &#xA;
   total =  _sum( var_db_fvi_ivari ) &#xD; &#xA;
-  x = total *  _value( var_db_coef ) &#xD; &#xA;
+      return total *  _value( var_db_coef ) &#xD;; &#xA;
 &#xD; &#xA;
 }" idxGroup="0" WhenEval="0" />
               <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0" ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
@@ -916,9 +915,9 @@
               </Line>
               <H Name="H" Text="_value( var_db_bShowIva )" idxGroup="-1001" WhenEval="0" />
               <V Name="V" Text="function x() {&#xD; &#xA;
-  dim subtotal&#xD; &#xA;
+  var subtotal;&#xD; &#xA;
   subtotal = _sum(var_db_importe)&#xD; &#xA;
-  x = subtotal * _value( var_db_coef ) &#xD; &#xA;
+      return subtotal * _value( var_db_coef ) &#xD;; &#xA;
 }&#xD; &#xA;
 &#xD; &#xA;
 " idxGroup="0" WhenEval="0" />
@@ -945,9 +944,9 @@
               </Line>
               <H Name="H" Text="_value( var_db_bShowIva )" idxGroup="-1001" WhenEval="0" />
               <V Name="V" Text="function x() {&#xD; &#xA;
-  dim subtotal&#xD; &#xA;
+  var subtotal;&#xD; &#xA;
   subtotal = _sum(var_db_importe)&#xD; &#xA;
-  x = subtotal * _value( var_db_coef ) &#xD; &#xA;
+      return subtotal * _value( var_db_coef ) &#xD;; &#xA;
 }&#xD; &#xA;
 &#xD; &#xA;
 " idxGroup="0" WhenEval="0" />

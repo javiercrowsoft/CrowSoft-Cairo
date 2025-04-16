@@ -264,7 +264,7 @@
                                           Strike="0"/>
                                 </Aspect>
                             </Image>
-                            <Label Text="dim var_puesto_ranking" CanGrow="0">
+                            <Label Text="var var_puesto_ranking;" CanGrow="0">
                                 <Aspect Align="0" BackColor="16711680" BorderColor="0" BorderColor3D="0"
                                         BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285"
                                         Format="" Left="9536" nZOrder="5" SelectColor="0" Top="824" Width="2284"
@@ -6096,7 +6096,7 @@
                                       Strike="0"/>
                             </Aspect>
                             <H Name="H" Text="function x() { &#xA;
-  x = _value(orden_id)=4 &amp;&amp; _getparam(@@showChartCant) &#xA;
+      return _value(orden_id) === 4 &amp;&amp; _getparam(@@showChartCant); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K1591036 Key="K1591036" Name="Control132" KeyPaint="P213" HasFormulaHide="0"
@@ -6569,7 +6569,7 @@
                                       Strike="0"/>
                             </Aspect>
                             <H Name="H" Text="function x() { &#xA;
-  x = _value(orden_id)=8 or _value(orden_id)=5 &#xA;
+      return _value(orden_id) === 8 or _value(orden_id) === 5; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K1605249 Key="K1605249" Name="Control196" KeyPaint="P203" HasFormulaHide="0"

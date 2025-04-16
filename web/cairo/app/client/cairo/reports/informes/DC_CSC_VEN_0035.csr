@@ -269,8 +269,9 @@
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
                     <H Name="H" Text="function x() { &#xA;
-  x = _value(var_db_orden)=1 &#xA;
-}" idxGroup="0" WhenEval="0"/>
+  return _value(var_db_orden) === 1; &#xA;
+}"
+                       idxGroup="0" WhenEval="0"/>
                     <RptControls>
                         <K691432 Key="K691432" Name="Control116" KeyPaint="P105" HasFormulaHide="0" HasFormulaValue="0"
                                  ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -437,8 +438,9 @@
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
                     <H Name="H" Text="function x() { &#xA;
-  x = _value(var_db_orden)=2 &#xA;
-}" idxGroup="0" WhenEval="0"/>
+  return _value(var_db_orden) === 2; &#xA;
+}"
+                       idxGroup="0" WhenEval="0"/>
                     <RptControls>
                         <K691428 Key="K691428" Name="Control112" KeyPaint="P109" HasFormulaHide="0" HasFormulaValue="0"
                                  ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -937,10 +939,10 @@
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="function x() { &#xA;
-  if(_value(var_db_orden) == 1) { &#xA;
-    x = &quot;Ventas por Monto&quot; &#xA;
+  if(_value(var_db_orden) === 1) { &#xA;
+    return 'Ventas por Monto'; &#xA;
   else &#xA;
-    x = &quot;Compras por Monto&quot; &#xA;
+    return 'Compras por Monto'; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -1097,8 +1099,9 @@
                                       Strike="0"/>
                             </Aspect>
                             <H Name="H" Text="function x() { &#xA;
-  x = _value(var_db_orden)=1 &#xA;
-}" idxGroup="0"
+  return _value(var_db_orden) === 1; &#xA;
+}"
+                               idxGroup="0"
                                WhenEval="0"/>
                             <RptControls>
                                 <K691245 Key="K691245" Name="Control104" KeyPaint="P117" HasFormulaHide="0"
@@ -1271,8 +1274,9 @@
                                       Strike="0"/>
                             </Aspect>
                             <H Name="H" Text="function x() { &#xA;
-  x = _value(var_db_orden)=2 &#xA;
-}" idxGroup="0"
+  return _value(var_db_orden) === 2; &#xA;
+}"
+                               idxGroup="0"
                                WhenEval="0"/>
                             <RptControls>
                                 <K691249 Key="K691249" Name="Control106" KeyPaint="P120" HasFormulaHide="0"

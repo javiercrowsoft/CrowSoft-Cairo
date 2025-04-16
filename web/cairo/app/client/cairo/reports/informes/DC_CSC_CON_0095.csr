@@ -1859,7 +1859,7 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() {
+                                    <V Name="V"  Text="function x() { &#xA;
   x =  _value(Control102) -_value(Control101)
 }
 " idxGroup="0" WhenEval="0"/>

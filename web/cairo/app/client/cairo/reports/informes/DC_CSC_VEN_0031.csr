@@ -631,7 +631,8 @@
                     </Aspect>
                     <H Name="H" Text="function x() { &#xA;
  x  = _value( Control85 ) =2 &#xA;
-}" idxGroup="0" WhenEval="0"/>
+}"
+                       idxGroup="0" WhenEval="0"/>
                     <RptControls>
                         <K80399 Key="K80399" Name="Control81" KeyPaint="P109" HasFormulaHide="0" HasFormulaValue="0"
                                 ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -800,7 +801,8 @@
                     </Aspect>
                     <H Name="H" Text="function x() { &#xA;
  x  = _value( Control85 ) =1 &#xA;
-}" idxGroup="0" WhenEval="0"/>
+}"
+                       idxGroup="0" WhenEval="0"/>
                     <RptControls>
                         <K80400 Key="K80400" Name="Control82" KeyPaint="P113" HasFormulaHide="0" HasFormulaValue="0"
                                 ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">

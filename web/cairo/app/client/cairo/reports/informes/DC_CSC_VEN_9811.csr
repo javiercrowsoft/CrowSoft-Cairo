@@ -211,7 +211,8 @@
                     </Aspect>
                     <H Name="H" Text="function x() { &#xA;
    x= _value( Control67 ) = 0 &#xA;
-}" idxGroup="0"
+}"
+                       idxGroup="0"
                        WhenEval="0"/>
                     <RptControls>
                         <K13259 Key="K13259" Name="Control63" KeyPaint="P108" HasFormulaHide="0" HasFormulaValue="0"
@@ -324,7 +325,8 @@
                             </Line>
                             <H Name="H" Text="function x() { &#xA;
 x= _value( Control101 ) =0 &#xA;
-}" idxGroup="0"
+}"
+                               idxGroup="0"
                                WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -537,7 +539,8 @@ x= _value( Control101 ) =0 &#xA;
                     </Aspect>
                     <H Name="H" Text="function x() { &#xA;
    x= _value( Control67 ) = 1 &#xA;
-}" idxGroup="0"
+}"
+                       idxGroup="0"
                        WhenEval="0"/>
                     <RptControls>
                         <K13099 Key="K13099" Name="Control44" KeyPaint="P116" HasFormulaHide="0" HasFormulaValue="0"
@@ -665,7 +668,8 @@ x= _value( Control101 ) =0 &#xA;
                     </Aspect>
                     <H Name="H" Text="function x() { &#xA;
    x= _value( Control67 ) = 2 &#xA;
-}" idxGroup="0"
+}"
+                       idxGroup="0"
                        WhenEval="0"/>
                     <RptControls>
                         <K338845 Key="K338845" Name="Control86" KeyPaint="P119" HasFormulaHide="0" HasFormulaValue="0"
@@ -1657,7 +1661,8 @@ x= _value( Control101 ) =0 &#xA;
                                     </Line>
                                     <H Name="H" Text="function x() { &#xA;
   x= _value( Control94 ) =0 &#xA;
-}" idxGroup="1"
+}"
+                                       idxGroup="1"
                                        WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1701,7 +1706,8 @@ x= _value( Control101 ) =0 &#xA;
                                     </Line>
                                     <H Name="H" Text="function x() { &#xA;
   x= _value( Control94 ) =0 &#xA;
-}" idxGroup="1"
+}"
+                                       idxGroup="1"
                                        WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1880,7 +1886,8 @@ x= _value( Control101 ) =0 &#xA;
                                     </Line>
                                     <H Name="H" Text="function x() { &#xA;
   x= _value( Control94 ) =0 &#xA;
-}" idxGroup="1"
+}"
+                                       idxGroup="1"
                                        WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2088,7 +2095,8 @@ x= _value( Control101 ) =0 &#xA;
                                     </Line>
                                     <H Name="H" Text="function x() { &#xA;
   x= _value( Control94 ) =0 &#xA;
-}" idxGroup="1"
+}"
+                                       idxGroup="1"
                                        WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2292,7 +2300,8 @@ x= _value( Control101 ) =0 &#xA;
                             </Aspect>
                             <H Name="H" Text="function x() { &#xA;
    x= _value( Control67 ) = 0 &#xA;
-}" idxGroup="0"
+}"
+                               idxGroup="0"
                                WhenEval="0"/>
                             <RptControls>
                                 <K345885 Key="K345885" Name="Control107" KeyPaint="P155" HasFormulaHide="0"
@@ -2494,7 +2503,8 @@ x= _value( Control101 ) =0 &#xA;
                                     </Line>
                                     <H Name="H" Text="function x() { &#xA;
 x= _value( Control101 ) =0 &#xA;
-}" idxGroup="2"
+}"
+                                       idxGroup="2"
                                        WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2579,7 +2589,8 @@ x= _value( Control101 ) =0 &#xA;
                                     </Line>
                                     <H Name="H" Text="function x() { &#xA;
 x= _value( Control101 ) =0 &#xA;
-}" idxGroup="0"
+}"
+                                       idxGroup="0"
                                        WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2600,7 +2611,8 @@ x= _value( Control101 ) =0 &#xA;
                             </Aspect>
                             <H Name="H" Text="function x() { &#xA;
    x= _value( Control67 ) = 1 &#xA;
-}" idxGroup="0"
+}"
+                               idxGroup="0"
                                WhenEval="0"/>
                             <RptControls>
                                 <K345902 Key="K345902" Name="Control108" KeyPaint="P162" HasFormulaHide="0"
@@ -2738,7 +2750,8 @@ x= _value( Control101 ) =0 &#xA;
                             </Aspect>
                             <H Name="H" Text="function x() { &#xA;
    x= _value( Control67 ) = 2 &#xA;
-}" idxGroup="0"
+}"
+                               idxGroup="0"
                                WhenEval="0"/>
                             <RptControls>
                                 <K345935 Key="K345935" Name="Control109" KeyPaint="P165" HasFormulaHide="0"
@@ -3104,7 +3117,8 @@ x= _value( Control101 ) =0 &#xA;
                                     </Line>
                                     <H Name="H" Text="function x() { &#xA;
 x= _value( Control101 ) =0 &#xA;
-}" idxGroup="0"
+}"
+                                       idxGroup="0"
                                        WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -3148,7 +3162,8 @@ x= _value( Control101 ) =0 &#xA;
                                     </Line>
                                     <H Name="H" Text="function x() { &#xA;
 x= _value( Control101 ) =0 &#xA;
-}" idxGroup="0"
+}"
+                                       idxGroup="0"
                                        WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"

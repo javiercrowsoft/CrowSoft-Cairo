@@ -147,8 +147,9 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text=" _declarevar(lastInvoice)
- _setvar(lastInvoice,&quot;&quot;&quot;&quot;&quot;&quot;) " idxGroup="-2000" WhenEval="0"/>
+                            <V Name="V" Text="_declarevar(lastInvoice) &#xA;
+_setvar(lastInvoice, '\'\'') &#xA;"
+                               idxGroup="-2000" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
                                    GroupFieldIndex="0" GroupValue="" Sort="0">
@@ -225,7 +226,7 @@
                     BorderRounded="0">
                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
             </Aspect>
-            <H Name="H" Text="function x() {
+            <H Name="H"  Text="function x() { &#xA;
 
  return _value( Control92 ) === 0;
 
@@ -794,7 +795,7 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() {
+                    <H Name="H"  Text="function x() { &#xA;
 
   var bShow
   var lastInvoice
@@ -1341,7 +1342,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="function x() {
+                            <V Name="V"  Text="function x() { &#xA;
 
   var bShow
   var lastInvoice
@@ -1354,9 +1355,9 @@
   bShow =  (_value( Control92 )  = 0 &amp;&amp; bShow)
 
   If bShow  Then
-    x = _value( Control76 ) 
+        return _value( Control76 ) ; &#xA;
   Else
-    x = 0
+        return 0; &#xA;
   }
 }
 " idxGroup="0" WhenEval="0"/>
@@ -1658,7 +1659,7 @@
                             BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() {
+                    <H Name="H"  Text="function x() { &#xA;
 
   var bShow
   var lastInvoice
@@ -2152,7 +2153,7 @@
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H" Text="function x() {
+                            <H Name="H"  Text="function x() { &#xA;
 
  return _value( Control92 ) === 0;
 
@@ -2238,7 +2239,7 @@
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H" Text="function x() {
+                            <H Name="H"  Text="function x() { &#xA;
 
  return _value( Control92 ) === 0;
 
@@ -2328,7 +2329,7 @@
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H" Text="function x() {
+                            <H Name="H"  Text="function x() { &#xA;
 
  return _value( Control92 ) === 0;
 
@@ -2371,7 +2372,7 @@
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H" Text="function x() {
+                            <H Name="H"  Text="function x() { &#xA;
 
  return _value( Control92 ) === 0;
 
@@ -2680,7 +2681,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() {
+                            <H Name="H"  Text="function x() { &#xA;
 
  return _value( Control92 ) === 0;
 
@@ -2721,8 +2722,8 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() {
-  x =  _value( Control80 ) + _value( Control81 ) + _value( Control82 ) + _value( Control100 )
+                                    <V Name="V"  Text="function x() { &#xA;
+      return _value( Control80 ) + _value( Control81 ) + _value( Control82 ) + _value( Control100 ); &#xA;
 }" idxGroup="0" WhenEval="1"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"

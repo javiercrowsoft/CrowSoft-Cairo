@@ -2543,8 +2543,8 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() {
-x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel6) )
+                                    <V Name="V"  Text="function x() { &#xA;
+return 'Total ' + _getstring( _value(var_db_nivel6) ); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -2586,13 +2586,13 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel6) )
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() {
+                                    <V Name="V"  Text="function x() { &#xA;
 
-  x = _value(var_sum_neto_6)
+      return _value(var_sum_neto_6); &#xA;
 
   if (x === 0) { &#xA;
 
-   x = 1 - _value(var_sum_costo_6)/x
+       return 1 - _value(var_sum_costo_6)/x; &#xA;
 
  }
 
@@ -2815,8 +2815,8 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel6) )
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() {
-x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel7) )
+                                    <V Name="V"  Text="function x() { &#xA;
+return 'Total ' + _getstring( _value(var_db_nivel7) ); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -2858,13 +2858,13 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel7) )
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() {
+                                    <V Name="V"  Text="function x() { &#xA;
 
-  x = _value(var_sum_neto_7)
+      return _value(var_sum_neto_7); &#xA;
 
   if (x === 0) { &#xA;
 
-   x = 1 - _value(var_sum_costo_7)/x
+       return 1 - _value(var_sum_costo_7)/x; &#xA;
 
  }
 
@@ -3087,8 +3087,8 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel7) )
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() {
-x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel8) )
+                                    <V Name="V"  Text="function x() { &#xA;
+return 'Total ' + _getstring( _value(var_db_nivel8) ); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -3130,13 +3130,13 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel8) )
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() {
+                                    <V Name="V"  Text="function x() { &#xA;
 
-  x = _value(var_sum_neto_8)
+      return _value(var_sum_neto_8); &#xA;
 
   if (x === 0) { &#xA;
 
-   x = 1 - _value(var_sum_costo_8)/x
+       return 1 - _value(var_sum_costo_8)/x; &#xA;
 
  }
 
@@ -3359,8 +3359,8 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel8) )
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() {
-x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel9) )
+                                    <V Name="V"  Text="function x() { &#xA;
+return 'Total ' + _getstring( _value(var_db_nivel9) ); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -3402,13 +3402,13 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel9) )
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() {
+                                    <V Name="V"  Text="function x() { &#xA;
 
-  x = _value(var_sum_neto_9)
+      return _value(var_sum_neto_9); &#xA;
 
   if (x === 0) { &#xA;
 
-   x = 1 - _value(var_sum_costo_9)/x
+       return 1 - _value(var_sum_costo_9)/x; &#xA;
 
  }
 
@@ -3631,8 +3631,8 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_nivel9) )
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() {
-x= &quot;Total &quot; &amp; _getstring( _value(var_db_rubro) )
+                                    <V Name="V"  Text="function x() { &#xA;
+return 'Total ' + _getstring( _value(var_db_rubro) ); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -3674,13 +3674,13 @@ x= &quot;Total &quot; &amp; _getstring( _value(var_db_rubro) )
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() {
+                                    <V Name="V"  Text="function x() { &#xA;
 
-  x = _value(var_sum_neto_rubro)
+      return _value(var_sum_neto_rubro); &#xA;
 
   if (x === 0) { &#xA;
 
-   x = 1 - _value(var_sum_costo_rubro)/x
+       return 1 - _value(var_sum_costo_rubro)/x; &#xA;
 
  }
 

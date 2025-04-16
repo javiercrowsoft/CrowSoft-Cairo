@@ -157,7 +157,8 @@
                      + currentdate.getMinutes() + ':' &#xA;
                      + currentdate.getSeconds(); &#xA;
      return datetime; &#xA;
-}" idxGroup="-1000" WhenEval="0"/>
+}"
+                               idxGroup="-1000" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
                                    GroupFieldIndex="0" GroupValue="" Sort="0">
@@ -381,9 +382,10 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() {
+                    <H Name="H"  Text="function x() { &#xA;
   return _value( Control107 ) === -1;
-}" idxGroup="0" WhenEval="0"/>
+}"
+                       idxGroup="0" WhenEval="0"/>
                     <RptControls>
                         <K650389 Key="K650389" Name="Control125" KeyPaint="P106" HasFormulaHide="0" HasFormulaValue="0"
                                  ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -494,9 +496,10 @@
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H" Text="function x() {
+                            <H Name="H"  Text="function x() { &#xA;
   return _value( Control127 ) &gt; 0;
-}" idxGroup="0" WhenEval="0"/>
+}"
+                               idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -535,9 +538,10 @@
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H" Text="function x() {
+                            <H Name="H"  Text="function x() { &#xA;
   return _value( Control129 ) &lt; 0;
-}" idxGroup="0" WhenEval="0"/>
+}"
+                               idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -785,9 +789,10 @@
                             BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() {
+                    <H Name="H"  Text="function x() { &#xA;
   return _value( Control107 ) &gt; 0;
-}" idxGroup="0" WhenEval="0"/>
+}"
+                       idxGroup="0" WhenEval="0"/>
                     <RptControls>
                         <K114865 Key="K114865" Name="Control91" KeyPaint="P116" HasFormulaHide="0" HasFormulaValue="0"
                                  ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -896,9 +901,10 @@
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H" Text="function x() {
-  x =  _value( Control96) &lt;0
-}" idxGroup="0" WhenEval="0"/>
+                            <H Name="H"  Text="function x() { &#xA;
+      return _value( Control96) &lt;0; &#xA;
+}"
+                               idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -937,9 +943,10 @@
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H" Text="function x() {
+                            <H Name="H"  Text="function x() { &#xA;
   return _value( Control97 ) &gt; 0;
-}" idxGroup="0" WhenEval="0"/>
+}"
+                               idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -1736,9 +1743,10 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() {
+                            <H Name="H"  Text="function x() { &#xA;
   return _value( Control107 ) === -1;
-}" idxGroup="0" WhenEval="0"/>
+}"
+                               idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K651218 Key="K651218" Name="Control141" KeyPaint="P142" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -1996,9 +2004,10 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() {
+                            <H Name="H"  Text="function x() { &#xA;
   return _value( Control107 ) &gt; 0;
-}" idxGroup="0" WhenEval="0"/>
+}"
+                               idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K651248 Key="K651248" Name="Control143" KeyPaint="P148" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -2228,9 +2237,10 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() {
+                            <H Name="H"  Text="function x() { &#xA;
   return _value( Control107 ) === -1;
-}" idxGroup="0" WhenEval="0"/>
+}"
+                               idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K12918 Key="K12918" Name="Control41" KeyPaint="P129" HasFormulaHide="0"
                                         HasFormulaValue="0" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -2493,9 +2503,10 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() {
+                            <H Name="H"  Text="function x() { &#xA;
   return _value( Control107 ) &gt; 0;
-}" idxGroup="0" WhenEval="0"/>
+}"
+                               idxGroup="0" WhenEval="0"/>
                             <RptControls/>
                         </K652059>
                     </RptSectionLines>

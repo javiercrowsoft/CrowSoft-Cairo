@@ -482,7 +482,8 @@
                     </Aspect>
                     <H Name="H" Text="function x() { &#xA;
   x=  _value( var_db_insumo ) =0 &#xA;
-}" idxGroup="0"
+}"
+                       idxGroup="0"
                        WhenEval="0"/>
                     <RptControls>
                         <K306588 Key="K306588" Name="Control29" KeyPaint="P104" HasFormulaHide="0" HasFormulaValue="0"
