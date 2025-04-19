@@ -610,15 +610,16 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
-    var currentdate = new Date(); &#xA;
-    var datetime = currentdate.getFullYear() + '/' &#xA;
-                     + (currentdate.getMonth() + 1) + '/' &#xA;
-                     + currentdate.getDate() + ' @ ' &#xA;
-                     + currentdate.getHours() + ':' &#xA;
-                     + currentdate.getMinutes() + ':' &#xA;
-                     + currentdate.getSeconds(); &#xA;
-     return datetime; &#xA;
+                            <V Name="V" Text="
+function x() { &#xA;
+    var currentDate = new Date(); &#xA;
+    var datetime = currentDate.getFullYear() + '/' &#xA;
+                     + (currentDate.getMonth() + 1) + '/' &#xA;
+                     + currentDate.getDate() + ' @ ' &#xA;
+                     + currentDate.getHours() + ':' &#xA;
+                     + currentDate.getMinutes() + ':' &#xA;
+                     + currentDate.getSeconds(); &#xA;
+    return datetime; &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -729,7 +730,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel1 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel1) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K816263 Key="K816263" Name="Control98" KeyPaint="P150" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -795,7 +796,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel1 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel1) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815714 Key="K815714" Name="Control86" KeyPaint="P147" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -810,7 +811,7 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Image>
-                                    <Label Text="sum( cantidad )" CanGrow="0">
+                                    <Label Text="sum(cantidad)" CanGrow="0">
                                         <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0"
                                                 BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0"
                                                 Height="285" Format="###,###,###,###,##0.00;-###,###,###,###,##0.00"
@@ -852,7 +853,7 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Image>
-                                    <Label Text="sum( valor )" CanGrow="0">
+                                    <Label Text="sum(valor)" CanGrow="0">
                                         <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0"
                                                 BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0"
                                                 Height="285" Format="###,###,###,###,##0.00;-###,###,###,###,##0.00"
@@ -948,7 +949,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel2 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel2) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K816105 Key="K816105" Name="Control97" KeyPaint="P151" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -1014,7 +1015,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel2 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel2) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815713 Key="K815713" Name="Control85" KeyPaint="P144" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -1029,7 +1030,7 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Image>
-                                    <Label Text="sum( cantidad )" CanGrow="0">
+                                    <Label Text="sum(cantidad)" CanGrow="0">
                                         <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0"
                                                 BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0"
                                                 Height="285" Format="###,###,###,###,##0.00;-###,###,###,###,##0.00"
@@ -1071,7 +1072,7 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Image>
-                                    <Label Text="sum( valor )" CanGrow="0">
+                                    <Label Text="sum(valor)" CanGrow="0">
                                         <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0"
                                                 BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0"
                                                 Height="285" Format="###,###,###,###,##0.00;-###,###,###,###,##0.00"
@@ -1167,7 +1168,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel3 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel3) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K816264 Key="K816264" Name="Control99" KeyPaint="P152" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -1233,7 +1234,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel3 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel3) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815712 Key="K815712" Name="Control84" KeyPaint="P141" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -1248,7 +1249,7 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Image>
-                                    <Label Text="sum( cantidad )" CanGrow="0">
+                                    <Label Text="sum(cantidad)" CanGrow="0">
                                         <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0"
                                                 BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0"
                                                 Height="285" Format="###,###,###,###,##0.00;-###,###,###,###,##0.00"
@@ -1290,7 +1291,7 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Image>
-                                    <Label Text="sum( valor )" CanGrow="0">
+                                    <Label Text="sum(valor)" CanGrow="0">
                                         <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0"
                                                 BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0"
                                                 Height="285" Format="###,###,###,###,##0.00;-###,###,###,###,##0.00"
@@ -1386,7 +1387,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel4 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel4) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K816265 Key="K816265" Name="Control100" KeyPaint="P153" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -1452,7 +1453,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel4 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel4) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815711 Key="K815711" Name="Control83" KeyPaint="P138" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -1467,7 +1468,7 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Image>
-                                    <Label Text="sum( cantidad )" CanGrow="0">
+                                    <Label Text="sum(cantidad)" CanGrow="0">
                                         <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0"
                                                 BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0"
                                                 Height="285" Format="###,###,###,###,##0.00;-###,###,###,###,##0.00"
@@ -1509,7 +1510,7 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Image>
-                                    <Label Text="sum( valor )" CanGrow="0">
+                                    <Label Text="sum(valor)" CanGrow="0">
                                         <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0"
                                                 BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0"
                                                 Height="285" Format="###,###,###,###,##0.00;-###,###,###,###,##0.00"
@@ -1605,7 +1606,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel5 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel5) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K816308 Key="K816308" Name="Control101" KeyPaint="P154" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -1671,7 +1672,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel5 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel5) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815710 Key="K815710" Name="Control82" KeyPaint="P135" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -1686,7 +1687,7 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Image>
-                                    <Label Text="sum( cantidad )" CanGrow="0">
+                                    <Label Text="sum(cantidad)" CanGrow="0">
                                         <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0"
                                                 BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0"
                                                 Height="285" Format="###,###,###,###,##0.00;-###,###,###,###,##0.00"
@@ -1728,7 +1729,7 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Image>
-                                    <Label Text="sum( valor )" CanGrow="0">
+                                    <Label Text="sum(valor)" CanGrow="0">
                                         <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0"
                                                 BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0"
                                                 Height="285" Format="###,###,###,###,##0.00;-###,###,###,###,##0.00"
@@ -1824,7 +1825,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel6 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel6) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K816309 Key="K816309" Name="Control102" KeyPaint="P155" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -1890,7 +1891,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel6 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel6) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815709 Key="K815709" Name="Control81" KeyPaint="P132" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -1905,7 +1906,7 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Image>
-                                    <Label Text="sum( cantidad )" CanGrow="0">
+                                    <Label Text="sum(cantidad)" CanGrow="0">
                                         <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0"
                                                 BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0"
                                                 Height="285" Format="###,###,###,###,##0.00;-###,###,###,###,##0.00"
@@ -1947,7 +1948,7 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Image>
-                                    <Label Text="sum( valor )" CanGrow="0">
+                                    <Label Text="sum(valor)" CanGrow="0">
                                         <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0"
                                                 BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0"
                                                 Height="285" Format="###,###,###,###,##0.00;-###,###,###,###,##0.00"
@@ -2043,7 +2044,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel7 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel7) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K816310 Key="K816310" Name="Control103" KeyPaint="P156" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -2109,7 +2110,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel7 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel7) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815473 Key="K815473" Name="var_db_nivel7" KeyPaint="P129" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -2165,7 +2166,7 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Image>
-                                    <Label Text="sum( cantidad )" CanGrow="0">
+                                    <Label Text="sum(cantidad)" CanGrow="0">
                                         <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0"
                                                 BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0"
                                                 Height="285" Format="###,###,###,###,##0.00;-###,###,###,###,##0.00"
@@ -2207,7 +2208,7 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Image>
-                                    <Label Text="sum( valor )" CanGrow="0">
+                                    <Label Text="sum(valor)" CanGrow="0">
                                         <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0"
                                                 BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0"
                                                 Height="285" Format="###,###,###,###,##0.00;-###,###,###,###,##0.00"
@@ -2262,7 +2263,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel8 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel8) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K816311 Key="K816311" Name="Control104" KeyPaint="P157" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -2328,7 +2329,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel8 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel8) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815474 Key="K815474" Name="var_db_nivel8" KeyPaint="P126" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -2384,7 +2385,7 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Image>
-                                    <Label Text="sum( cantidad )" CanGrow="0">
+                                    <Label Text="sum(cantidad)" CanGrow="0">
                                         <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0"
                                                 BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0"
                                                 Height="285" Format="###,###,###,###,##0.00;-###,###,###,###,##0.00"
@@ -2426,7 +2427,7 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Image>
-                                    <Label Text="sum( valor )" CanGrow="0">
+                                    <Label Text="sum(valor)" CanGrow="0">
                                         <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0"
                                                 BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0"
                                                 Height="285" Format="###,###,###,###,##0.00;-###,###,###,###,##0.00"
@@ -2481,7 +2482,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel9 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel9) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K818181 Key="K818181" Name="Control108" KeyPaint="P158" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -2547,7 +2548,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel9 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel9) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815475 Key="K815475" Name="var_db_nivel9" KeyPaint="P123" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -2603,7 +2604,7 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Image>
-                                    <Label Text="sum( cantidad )" CanGrow="0">
+                                    <Label Text="sum(cantidad)" CanGrow="0">
                                         <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0"
                                                 BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0"
                                                 Height="285" Format="###,###,###,###,##0.00;-###,###,###,###,##0.00"
@@ -2645,7 +2646,7 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Image>
-                                    <Label Text="sum( valor )" CanGrow="0">
+                                    <Label Text="sum(valor)" CanGrow="0">
                                         <Aspect Align="1" BackColor="16777215" BorderColor="0" BorderColor3D="0"
                                                 BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0"
                                                 Height="285" Format="###,###,###,###,##0.00;-###,###,###,###,##0.00"

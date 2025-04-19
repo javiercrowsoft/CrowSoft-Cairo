@@ -642,7 +642,7 @@
           <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="315" Format="" Left="0" nZOrder="0" SelectColor="0" Top="3705" Width="12240" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
             <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
           </Aspect>
-          <H Name="H" Text=" _length( var_db_descrip ) " idxGroup="0" WhenEval="0" />
+          <H Name="H" Text=" _length(var_db_descrip) " idxGroup="0" WhenEval="0" />
           <RptControls>
             <K685976 Key="K685976" Name="var_db_descrip" KeyPaint="P116" HasFormulaHide="0" HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
               <Field Index="32" Name="{DC_CSC_TSR_0090}.Observaciones" FieldType="200" />
@@ -726,8 +726,9 @@
                 </Aspect>
               </Line>
               <H Name="H" Text="" idxGroup="0" WhenEval="0" />
-              <V Name="V" Text="function x() {&#xD; &#xA;
-      return FormatDateTime(now,0)&#xD;; &#xA;
+              <V Name="V" Text="
+function x() { &#xA;
+    return FormatDateTime(now,0)&#xA;
 }" idxGroup="0" WhenEval="0" />
               <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0" ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
                 <Series />
@@ -1056,8 +1057,9 @@
                     </Aspect>
                   </Line>
                   <H Name="H" Text="" idxGroup="0" WhenEval="0" />
-                  <V Name="V" Text="function x() { &#xA;
-  return 'Total ' + _getstring(var_db_cuenta); &#xA;
+                  <V Name="V" Text="
+function x() { &#xA;
+    return 'Total ' + _getString(var_db_cuenta); &#xA;
 }" idxGroup="0" WhenEval="0" />
                   <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0" ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
                     <Series />
@@ -1188,8 +1190,9 @@
                     </Aspect>
                   </Line>
                   <H Name="H" Text="" idxGroup="0" WhenEval="0" />
-                  <V Name="V" Text="function x() { &#xA;
-  return 'Total ' + _getstring(var_db_cliente); &#xA;
+                  <V Name="V" Text="
+function x() { &#xA;
+    return 'Total ' + _getString(var_db_cliente); &#xA;
 }" idxGroup="0" WhenEval="0" />
                   <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0" ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
                     <Series />

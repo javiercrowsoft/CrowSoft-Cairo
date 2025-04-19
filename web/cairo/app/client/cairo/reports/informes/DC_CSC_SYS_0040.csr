@@ -264,8 +264,9 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() { &#xA;
-  return =  _value( Control29 ) === 1; &#xA;
+                    <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 1; &#xA;
 }"
                        idxGroup="0"
                        WhenEval="0"/>
@@ -471,8 +472,9 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() { &#xA;
-  return _value( Control29 ) === 1 &amp;&amp; _length( Control43 ) &gt; 0; &#xA;
+                    <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 1 &amp;&amp; _length(Control43) &gt; 0; &#xA;
 }"
                        idxGroup="0" WhenEval="0"/>
                     <RptControls>
@@ -523,8 +525,9 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() { &#xA;
-  return =  _value( Control29 ) === 2; &#xA;
+                    <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 2; &#xA;
 }"
                        idxGroup="0"
                        WhenEval="0"/>
@@ -807,8 +810,9 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() { &#xA;
-  return =  _value( Control29 ) === 3; &#xA;
+                    <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 3; &#xA;
 }"
                        idxGroup="0"
                        WhenEval="0"/>
@@ -860,8 +864,9 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() { &#xA;
-  return =  _value( Control29 ) === 4; &#xA;
+                    <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 4; &#xA;
 }"
                        idxGroup="0"
                        WhenEval="0"/>
@@ -913,8 +918,9 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() { &#xA;
-  return =  _value( Control29 ) === 5; &#xA;
+                    <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 5; &#xA;
 }"
                        idxGroup="0"
                        WhenEval="0"/>
@@ -1042,8 +1048,9 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() { &#xA;
-  return =  _value( Control29 ) === 6; &#xA;
+                    <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 6; &#xA;
 }"
                        idxGroup="0"
                        WhenEval="0"/>
@@ -1095,8 +1102,9 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() { &#xA;
-  return _value( Control29 ) === 7 &amp;&amp; _length( Control69 ) &gt; 0; &#xA;
+                    <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 7 &amp;&amp; _length(Control69) &gt; 0; &#xA;
 }"
                        idxGroup="0" WhenEval="0"/>
                     <RptControls>
@@ -1147,8 +1155,9 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() { &#xA;
-  return =  _value( Control29 ) === 8; &#xA;
+                    <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 8; &#xA;
 }"
                        idxGroup="0"
                        WhenEval="0"/>
@@ -1277,8 +1286,9 @@
                             BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() { &#xA;
-  return =  _value( Control29 ) === 9; &#xA;
+                    <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 9; &#xA;
 }"
                        idxGroup="0"
                        WhenEval="0"/>
@@ -1435,15 +1445,16 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
-    var currentdate = new Date(); &#xA;
-    var datetime = currentdate.getFullYear() + '/' &#xA;
-                     + (currentdate.getMonth() + 1) + '/' &#xA;
-                     + currentdate.getDate() + ' @ ' &#xA;
-                     + currentdate.getHours() + ':' &#xA;
-                     + currentdate.getMinutes() + ':' &#xA;
-                     + currentdate.getSeconds(); &#xA;
-     return datetime; &#xA;
+                            <V Name="V" Text="
+function x() { &#xA;
+    var currentDate = new Date(); &#xA;
+    var datetime = currentDate.getFullYear() + '/' &#xA;
+                     + (currentDate.getMonth() + 1) + '/' &#xA;
+                     + currentDate.getDate() + ' @ ' &#xA;
+                     + currentDate.getHours() + ':' &#xA;
+                     + currentDate.getMinutes() + ':' &#xA;
+                     + currentDate.getSeconds(); &#xA;
+    return datetime; &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1782,8 +1793,9 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() { &#xA;
-  return =  _value( Control29 ) === 7; &#xA;
+                            <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 7; &#xA;
 }"
                                idxGroup="0"
                                WhenEval="0"/>
@@ -2003,8 +2015,9 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() { &#xA;
-  return =  _value( Control29 ) === 2; &#xA;
+                            <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 2; &#xA;
 }"
                                idxGroup="0"
                                WhenEval="0"/>
@@ -2306,8 +2319,9 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() { &#xA;
-  return =  _value( Control29 ) === 1; &#xA;
+                            <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 1; &#xA;
 }"
                                idxGroup="0"
                                WhenEval="0"/>
@@ -2486,8 +2500,9 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() { &#xA;
-  return =  _value( Control29 ) === 4; &#xA;
+                            <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 4; &#xA;
 }"
                                idxGroup="0"
                                WhenEval="0"/>
@@ -2584,8 +2599,9 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() { &#xA;
-  return =  _value( Control29 ) === 5; &#xA;
+                            <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 5; &#xA;
 }"
                                idxGroup="0"
                                WhenEval="0"/>
@@ -2764,8 +2780,9 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() { &#xA;
-  return =  _value( Control29 ) === 6; &#xA;
+                            <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 6; &#xA;
 }"
                                idxGroup="0"
                                WhenEval="0"/>
@@ -2862,8 +2879,9 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() { &#xA;
-  return =  _value( Control29 ) === 8; &#xA;
+                            <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 8; &#xA;
 }"
                                idxGroup="0"
                                WhenEval="0"/>
@@ -3001,8 +3019,9 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() { &#xA;
-  return =  _value( Control29 ) === 9; &#xA;
+                            <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 9; &#xA;
 }"
                                idxGroup="0"
                                WhenEval="0"/>

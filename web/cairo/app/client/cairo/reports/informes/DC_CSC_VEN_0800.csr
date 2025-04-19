@@ -247,11 +247,12 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="-1000" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
+                            <V Name="V" Text="
+function x() { &#xA;
     var desde; &#xA;
     var hasta; &#xA;
     &#xA;
-    hasta  = _getstring( _getparam(@@Ffin) ); &#xA;
+    hasta  = _getString(_getparam(@@Ffin)); &#xA;
     var dt = new Date(hasta); &#xA;
     desde = dt.setMonth(dt.getMonth() - _getparam(@@periodo1)); &#xA;
     &#xA;
@@ -295,16 +296,17 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="-1000" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
+                            <V Name="V" Text="
+function x() { &#xA;
     var desde; &#xA;
     var hasta; &#xA;
     var dt; &#xA;
     &#xA;
-    hasta  = _getstring( _getparam(@@Ffin)); &#xA;
+    hasta  = _getString(_getparam(@@Ffin)); &#xA;
     dt = new Date(hasta); &#xA;
     hasta = dt.setMonth(dt.getMonth() - _getparam(@@periodo1)); &#xA;
     &#xA;
-    desde = _getstring( _getparam(@@Ffin)); &#xA;
+    desde = _getString(_getparam(@@Ffin)); &#xA;
     dt = new Date(desde); &#xA;
     desde = dt.setMonth(dt.getMonth() - _getparam(@@periodo2)); &#xA;
     &#xA;
@@ -348,16 +350,17 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="-1000" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
+                            <V Name="V" Text="
+function x() { &#xA;
     var desde; &#xA;
     var hasta; &#xA;
     var dt; &#xA;
     &#xA;
-    hasta  = _getstring( _getparam(@@Ffin)); &#xA;
+    hasta  = _getString(_getparam(@@Ffin)); &#xA;
     dt = new Date(hasta); &#xA;
     hasta  = dt.setMonth(dt.getMonth() - _getparam(@@periodo2)); &#xA;
     &#xA;
-    desde = _getstring( _getparam(@@Ffin)); &#xA;
+    desde = _getString(_getparam(@@Ffin)); &#xA;
     dt = new Date(hasta); &#xA;
     desde = dt.setMonth(dt.getMonth() - _getparam(@@periodo3)); &#xA;
     &#xA;
@@ -1048,8 +1051,9 @@ PTveamf3PTveQD6o9vf4////AAD///////////+mpsghIbdDQ94iIsVISqn///////8AAP//
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H"  Text="function x() { &#xA;
-      return _value(var_db_promedio1) &lt; _value(var_db_promedio3); &#xA;
+                            <H Name="H"  Text="
+function x() { &#xA;
+    return _value(var_db_promedio1) &lt; _value(var_db_promedio3); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1096,8 +1100,9 @@ AIUAQs1EL8IwI4Ih////////AAD///////////////8IjAoLlBAmqij///////////8AAP//
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H"  Text="function x() { &#xA;
-      return _value(var_db_promedio1) &gt; _value(var_db_promedio3); &#xA;
+                            <H Name="H"  Text="
+function x() { &#xA;
+    return _value(var_db_promedio1) &gt; _value(var_db_promedio3); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1144,8 +1149,9 @@ PTveamf3PTveQD6o9vf4////AAD///////////+mpsghIbdDQ94iIsVISqn///////8AAP//
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H"  Text="function x() { &#xA;
-      return _value(var_db_promedio1) &lt; _value(var_db_promedio2); &#xA;
+                            <H Name="H"  Text="
+function x() { &#xA;
+    return _value(var_db_promedio1) &lt; _value(var_db_promedio2); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1192,8 +1198,9 @@ AIUAQs1EL8IwI4Ih////////AAD///////////////8IjAoLlBAmqij///////////8AAP//
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H"  Text="function x() { &#xA;
-      return _value(var_db_promedio1) &gt; _value(var_db_promedio2); &#xA;
+                            <H Name="H"  Text="
+function x() { &#xA;
+    return _value(var_db_promedio1) &gt; _value(var_db_promedio2); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1238,8 +1245,9 @@ s3w/u1wS4KBz8eLe////////AAAA">
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H"  Text="function x() { &#xA;
-      return _value(var_db_promedio1) === _value(var_db_promedio3); &#xA;
+                            <H Name="H"  Text="
+function x() { &#xA;
+    return _value(var_db_promedio1) === _value(var_db_promedio3); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1284,8 +1292,9 @@ s3w/u1wS4KBz8eLe////////AAAA">
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H"  Text="function x() { &#xA;
-      return _value(var_db_promedio1) === _value(var_db_promedio2); &#xA;
+                            <H Name="H"  Text="
+function x() { &#xA;
+    return _value(var_db_promedio1) === _value(var_db_promedio2); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1370,15 +1379,16 @@ s3w/u1wS4KBz8eLe////////AAAA">
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
-    var currentdate = new Date(); &#xA;
-    var datetime = currentdate.getFullYear() + '/' &#xA;
-                     + (currentdate.getMonth() + 1) + '/' &#xA;
-                     + currentdate.getDate() + ' @ ' &#xA;
-                     + currentdate.getHours() + ':' &#xA;
-                     + currentdate.getMinutes() + ':' &#xA;
-                     + currentdate.getSeconds(); &#xA;
-     return datetime; &#xA;
+                            <V Name="V" Text="
+function x() { &#xA;
+    var currentDate = new Date(); &#xA;
+    var datetime = currentDate.getFullYear() + '/' &#xA;
+                     + (currentDate.getMonth() + 1) + '/' &#xA;
+                     + currentDate.getDate() + ' @ ' &#xA;
+                     + currentDate.getHours() + ':' &#xA;
+                     + currentDate.getMinutes() + ':' &#xA;
+                     + currentDate.getSeconds(); &#xA;
+    return datetime; &#xA;
 }
 " idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1723,8 +1733,9 @@ PTveamf3PTveQD6o9vf4////AAD///////////+mpsghIbdDQ94iIsVISqn///////8AAP//
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="function x() { &#xA;
-      return _value(var_total_promedio1) &lt; _value(var_total_promedio3); &#xA;
+                                    <H Name="H"  Text="
+function x() { &#xA;
+    return _value(var_total_promedio1) &lt; _value(var_total_promedio3); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1774,8 +1785,9 @@ PTveamf3PTveQD6o9vf4////AAD///////////+mpsghIbdDQ94iIsVISqn///////8AAP//
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="function x() { &#xA;
-      return _value(var_total_promedio1) &lt; _value(var_total_promedio2); &#xA;
+                                    <H Name="H"  Text="
+function x() { &#xA;
+    return _value(var_total_promedio1) &lt; _value(var_total_promedio2); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1823,8 +1835,9 @@ s3w/u1wS4KBz8eLe////////AAAA">
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text="function x() { &#xA;
-      return _value(var_total_promedio1) === _value(var_total_promedio3); &#xA;
+                                    <H Name="H" Text="
+function x() { &#xA;
+    return _value(var_total_promedio1) === _value(var_total_promedio3); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1872,8 +1885,9 @@ s3w/u1wS4KBz8eLe////////AAAA">
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="function x() { &#xA;
-      return _value(var_total_promedio1) === _value(var_total_promedio2); &#xA;
+                                    <H Name="H"  Text="
+function x() { &#xA;
+    return _value(var_total_promedio1) === _value(var_total_promedio2); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1923,8 +1937,9 @@ AIUAQs1EL8IwI4Ih////////AAD///////////////8IjAoLlBAmqij///////////8AAP//
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="function x() { &#xA;
-      return _value(var_total_promedio1) &gt; _value(var_total_promedio3); &#xA;
+                                    <H Name="H"  Text="
+function x() { &#xA;
+    return _value(var_total_promedio1) &gt; _value(var_total_promedio3); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1974,8 +1989,9 @@ AIUAQs1EL8IwI4Ih////////AAD///////////////8IjAoLlBAmqij///////////8AAP//
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="function x() { &#xA;
-      return _value(var_total_promedio1) &gt; _value(var_total_promedio2); &#xA;
+                                    <H Name="H"  Text="
+function x() { &#xA;
+    return _value(var_total_promedio1) &gt; _value(var_total_promedio2); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2112,8 +2128,9 @@ AIUAQs1EL8IwI4Ih////////AAD///////////////8IjAoLlBAmqij///////////8AAP//
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
-return 'Total ' + _getstring( _value(var_db_vendedor) ); &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
+    return 'Total ' + _getString(_value(var_db_vendedor)); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -2273,7 +2290,7 @@ return 'Total ' + _getstring( _value(var_db_vendedor) ); &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_cliente) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_cliente) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815341 Key="K815341" Name="var_db_cliente" KeyPaint="P200" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -2339,7 +2356,7 @@ return 'Total ' + _getstring( _value(var_db_vendedor) ); &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_cliente) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_cliente) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K831496 Key="K831496" Name="Control149" KeyPaint="P175" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -2375,8 +2392,9 @@ return 'Total ' + _getstring( _value(var_db_vendedor) ); &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
-return 'Total ' + _getstring( _value(var_db_cliente) ); &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
+    return 'Total ' + _getString(_value(var_db_cliente)); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -2551,8 +2569,9 @@ PTveamf3PTveQD6o9vf4////AAD///////////+mpsghIbdDQ94iIsVISqn///////8AAP//
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="function x() { &#xA;
-      return _value(var_sum_promedio1) &lt; _value(var_sum_promedio3); &#xA;
+                                    <H Name="H"  Text="
+function x() { &#xA;
+    return _value(var_sum_promedio1) &lt; _value(var_sum_promedio3); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2602,8 +2621,9 @@ PTveamf3PTveQD6o9vf4////AAD///////////+mpsghIbdDQ94iIsVISqn///////8AAP//
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="function x() { &#xA;
-      return _value(var_sum_promedio1) &lt; _value(var_sum_promedio2); &#xA;
+                                    <H Name="H"  Text="
+function x() { &#xA;
+    return _value(var_sum_promedio1) &lt; _value(var_sum_promedio2); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2653,8 +2673,9 @@ AIUAQs1EL8IwI4Ih////////AAD///////////////8IjAoLlBAmqij///////////8AAP//
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="function x() { &#xA;
-      return _value(var_sum_promedio1) &gt; _value(var_sum_promedio3); &#xA;
+                                    <H Name="H"  Text="
+function x() { &#xA;
+    return _value(var_sum_promedio1) &gt; _value(var_sum_promedio3); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2704,8 +2725,9 @@ AIUAQs1EL8IwI4Ih////////AAD///////////////8IjAoLlBAmqij///////////8AAP//
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="function x() { &#xA;
-      return _value(var_sum_promedio1) &gt; _value(var_sum_promedio2); &#xA;
+                                    <H Name="H"  Text="
+function x() { &#xA;
+    return _value(var_sum_promedio1) &gt; _value(var_sum_promedio2); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2753,8 +2775,9 @@ s3w/u1wS4KBz8eLe////////AAAA">
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="function x() { &#xA;
-      return _value(var_sum_promedio1) === _value(var_sum_promedio3); &#xA;
+                                    <H Name="H"  Text="
+function x() { &#xA;
+    return _value(var_sum_promedio1) === _value(var_sum_promedio3); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2802,8 +2825,9 @@ s3w/u1wS4KBz8eLe////////AAAA">
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="function x() { &#xA;
-      return _value(var_sum_promedio1) === _value(var_sum_promedio2); &#xA;
+                                    <H Name="H"  Text="
+function x() { &#xA;
+    return _value(var_sum_promedio1) === _value(var_sum_promedio2); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2838,7 +2862,7 @@ s3w/u1wS4KBz8eLe////////AAAA">
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel2 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel2) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815342 Key="K815342" Name="var_db_nivel2" KeyPaint="P201" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -2904,7 +2928,7 @@ s3w/u1wS4KBz8eLe////////AAAA">
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel2 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel2) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K828610 Key="K828610" Name="Control137" KeyPaint="P171" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -3024,8 +3048,9 @@ s3w/u1wS4KBz8eLe////////AAAA">
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
-return 'Total ' + _getstring( _value(var_db_nivel2) ); &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
+    return 'Total ' + _getString(_value(var_db_nivel2)); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -3101,7 +3126,7 @@ return 'Total ' + _getstring( _value(var_db_nivel2) ); &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel3 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel3) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815343 Key="K815343" Name="var_db_nivel3" KeyPaint="P202" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -3167,7 +3192,7 @@ return 'Total ' + _getstring( _value(var_db_nivel2) ); &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel3 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel3) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K828609 Key="K828609" Name="Control136" KeyPaint="P167" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -3287,8 +3312,9 @@ return 'Total ' + _getstring( _value(var_db_nivel2) ); &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
-return 'Total ' + _getstring( _value(var_db_nivel3) ); &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
+    return 'Total ' + _getString(_value(var_db_nivel3)); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -3364,7 +3390,7 @@ return 'Total ' + _getstring( _value(var_db_nivel3) ); &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel4 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel4) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815344 Key="K815344" Name="var_db_nivel4" KeyPaint="P203" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -3430,7 +3456,7 @@ return 'Total ' + _getstring( _value(var_db_nivel3) ); &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel4 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel4) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K828608 Key="K828608" Name="Control135" KeyPaint="P163" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -3550,8 +3576,9 @@ return 'Total ' + _getstring( _value(var_db_nivel3) ); &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
-return 'Total ' + _getstring( _value(var_db_nivel4) ); &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
+    return 'Total ' + _getString(_value(var_db_nivel4)); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -3627,7 +3654,7 @@ return 'Total ' + _getstring( _value(var_db_nivel4) ); &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel5 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel5) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815345 Key="K815345" Name="var_db_nivel5" KeyPaint="P204" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -3693,7 +3720,7 @@ return 'Total ' + _getstring( _value(var_db_nivel4) ); &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel5 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel5) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K828607 Key="K828607" Name="Control134" KeyPaint="P159" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -3813,8 +3840,9 @@ return 'Total ' + _getstring( _value(var_db_nivel4) ); &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
-return 'Total ' + _getstring( _value(var_db_nivel5) ); &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
+    return 'Total ' + _getString(_value(var_db_nivel5)); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -3890,7 +3918,7 @@ return 'Total ' + _getstring( _value(var_db_nivel5) ); &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel6 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel6) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815472 Key="K815472" Name="var_db_nivel6" KeyPaint="P205" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -3956,7 +3984,7 @@ return 'Total ' + _getstring( _value(var_db_nivel5) ); &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel6 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel6) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K828606 Key="K828606" Name="Control133" KeyPaint="P155" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -4076,8 +4104,9 @@ return 'Total ' + _getstring( _value(var_db_nivel5) ); &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
-return 'Total ' + _getstring( _value(var_db_nivel6) ); &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
+    return 'Total ' + _getString(_value(var_db_nivel6)); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -4153,7 +4182,7 @@ return 'Total ' + _getstring( _value(var_db_nivel6) ); &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel7 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel7) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815473 Key="K815473" Name="var_db_nivel7" KeyPaint="P206" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -4219,7 +4248,7 @@ return 'Total ' + _getstring( _value(var_db_nivel6) ); &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel7 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel7) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K828605 Key="K828605" Name="Control132" KeyPaint="P151" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -4339,8 +4368,9 @@ return 'Total ' + _getstring( _value(var_db_nivel6) ); &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
-return 'Total ' + _getstring( _value(var_db_nivel7) ); &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
+    return 'Total ' + _getString(_value(var_db_nivel7)); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -4416,7 +4446,7 @@ return 'Total ' + _getstring( _value(var_db_nivel7) ); &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel8 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel8) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815474 Key="K815474" Name="var_db_nivel8" KeyPaint="P207" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -4482,7 +4512,7 @@ return 'Total ' + _getstring( _value(var_db_nivel7) ); &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel8 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel8) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K828604 Key="K828604" Name="Control131" KeyPaint="P147" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -4602,8 +4632,9 @@ return 'Total ' + _getstring( _value(var_db_nivel7) ); &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
-return 'Total ' + _getstring( _value(var_db_nivel8) ); &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
+    return 'Total ' + _getString(_value(var_db_nivel8)); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -4679,7 +4710,7 @@ return 'Total ' + _getstring( _value(var_db_nivel8) ); &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel9 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel9) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815475 Key="K815475" Name="var_db_nivel9" KeyPaint="P208" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -4745,7 +4776,7 @@ return 'Total ' + _getstring( _value(var_db_nivel8) ); &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel9 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel9) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K828603 Key="K828603" Name="Control130" KeyPaint="P143" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -4865,8 +4896,9 @@ return 'Total ' + _getstring( _value(var_db_nivel8) ); &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
-return 'Total ' + _getstring( _value(var_db_nivel9) ); &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
+    return 'Total ' + _getString(_value(var_db_nivel9)); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -5128,8 +5160,9 @@ return 'Total ' + _getstring( _value(var_db_nivel9) ); &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
-return 'Total ' + _getstring( _value(var_db_rubro) ); &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
+    return 'Total ' + _getString(_value(var_db_rubro)); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"

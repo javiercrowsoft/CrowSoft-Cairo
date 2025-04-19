@@ -280,13 +280,14 @@ _setvar(lastInvoice, '\'\'') &#xA;"
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() { &#xA;
+                    <H Name="H" Text="
+function x() { &#xA;
     let bShow; &#xA;
     let lastInvoice; &#xA;
     let currentInvoice; &#xA;
  &#xA;
-    lastInvoice = _getvar(lastInvoice); &#xA;
-    currentInvoice = _getstring(Control45); &#xA;
+    lastInvoice = _getVar(lastInvoice); &#xA;
+    currentInvoice = _getString(Control45); &#xA;
     bShow = lastInvoice !== currentInvoice; &#xA;
  &#xA;
     return (_value(Control92) === 0 &amp;&amp; bShow); &#xA;
@@ -825,20 +826,21 @@ _setvar(lastInvoice, '\'\'') &#xA;"
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
+                            <V Name="V" Text="
+function x() { &#xA;
     let bShow; &#xA;
     let lastInvoice; &#xA;
     let currentInvoice; &#xA;
  &#xA;
-    lastInvoice = _getvar(lastInvoice); &#xA;
-    currentInvoice = _getstring(Control45); &#xA;
+    lastInvoice = _getVar(lastInvoice); &#xA;
+    currentInvoice = _getString(Control45); &#xA;
     bShow = lastInvoice !== currentInvoice; &#xA;
     bShow = (_value(Control92) === 0 &amp;&amp; bShow); &#xA;
  &#xA;
     if (bShow) { &#xA;
-        return _value(Control76); &#xA;
+       return _value(Control76); &#xA;
     } else { &#xA;
-        return 0; &#xA;
+       return 0; &#xA;
     } &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -856,7 +858,8 @@ _setvar(lastInvoice, '\'\'') &#xA;"
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() { &#xA;
+                    <H Name="H" Text="
+function x() { &#xA;
     return _value(Control92) === 1; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                     <RptControls>
@@ -1102,13 +1105,14 @@ _setvar(lastInvoice, '\'\'') &#xA;"
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() { &#xA;
+                    <H Name="H" Text="
+function x() { &#xA;
     let bShow; &#xA;
     let lastInvoice; &#xA;
     let currentInvoice; &#xA;
  &#xA;
-    lastInvoice = _getvar(lastInvoice); &#xA;
-    currentInvoice = _getstring(Control45); &#xA;
+    lastInvoice = _getVar(lastInvoice); &#xA;
+    currentInvoice = _getString(Control45); &#xA;
     bShow = lastInvoice === currentInvoice; &#xA;
  &#xA;
     return (_value(Control92) === 0 &amp;&amp; bShow); &#xA;
@@ -1164,7 +1168,7 @@ _setvar(lastInvoice, '\'\'') &#xA;"
                                           Strike="0"/>
                                 </Aspect>
                             </Image>
-                            <Label Text="(lastInvoice,  _getstring( Control45 )" CanGrow="0">
+                            <Label Text="(lastInvoice,  _getString(Control45)" CanGrow="0">
                                 <Aspect Align="0" BackColor="16711680" BorderColor="0" BorderColor3D="0"
                                         BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285"
                                         Format="" Left="1800" nZOrder="25" SelectColor="0" Top="4515" Width="1995"
@@ -1183,7 +1187,7 @@ _setvar(lastInvoice, '\'\'') &#xA;"
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="_setvar(lastInvoice,  _getstring( Control45 ) ) " idxGroup="0"
+                            <V Name="V" Text="_setvar(lastInvoice,  _getString(Control45)) " idxGroup="0"
                                WhenEval="1"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -1433,7 +1437,8 @@ _setvar(lastInvoice, '\'\'') &#xA;"
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() { &#xA;
+                    <H Name="H" Text="
+function x() { &#xA;
     return _value(Control92) === 2; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                     <RptControls>
@@ -1678,7 +1683,8 @@ _setvar(lastInvoice, '\'\'') &#xA;"
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() { &#xA;
+                    <H Name="H" Text="
+function x() { &#xA;
     return _value(Control92) === 3; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                     <RptControls>
@@ -2160,7 +2166,8 @@ _setvar(lastInvoice, '\'\'') &#xA;"
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H" Text="function x() { &#xA;
+                            <H Name="H" Text="
+function x() { &#xA;
     return _value(Control92) === 0; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="_Sum(Control77)" idxGroup="0" WhenEval="1"/>
@@ -2201,10 +2208,12 @@ _setvar(lastInvoice, '\'\'') &#xA;"
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H" Text="function x() { &#xA;
+                            <H Name="H" Text="
+function x() { &#xA;
     return _value(Control92) === 0; &#xA;
 }" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
+                            <V Name="V" Text="
+function x() { &#xA;
     return _value(Control93) + _value(Control94) + _value(Control95); &#xA;
 }" idxGroup="0" WhenEval="1"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2244,7 +2253,8 @@ _setvar(lastInvoice, '\'\'') &#xA;"
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H" Text="function x() { &#xA;
+                            <H Name="H" Text="
+function x() { &#xA;
     return _value(Control92) === 0; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="_Sum(Control98)" idxGroup="0" WhenEval="1"/>
@@ -2285,14 +2295,15 @@ _setvar(lastInvoice, '\'\'') &#xA;"
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
-    var currentdate = new Date(); &#xA;
-    var datetime = currentdate.getFullYear() + '/' &#xA;
-        + (currentdate.getMonth() + 1) + '/' &#xA;
-        + currentdate.getDate() + ' @ ' &#xA;
-        + currentdate.getHours() + ':' &#xA;
-        + currentdate.getMinutes() + ':' &#xA;
-        + currentdate.getSeconds(); &#xA;
+                            <V Name="V" Text="
+function x() { &#xA;
+    var currentDate = new Date(); &#xA;
+    var datetime = currentDate.getFullYear() + '/' &#xA;
+        + (currentDate.getMonth() + 1) + '/' &#xA;
+        + currentDate.getDate() + ' @ ' &#xA;
+        + currentDate.getHours() + ':' &#xA;
+        + currentDate.getMinutes() + ':' &#xA;
+        + currentDate.getSeconds(); &#xA;
     return datetime; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2332,7 +2343,8 @@ _setvar(lastInvoice, '\'\'') &#xA;"
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H" Text="function x() { &#xA;
+                            <H Name="H" Text="
+function x() { &#xA;
     return _value(Control92) === 0; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="_Sum(Control78)" idxGroup="0" WhenEval="1"/>
@@ -2373,7 +2385,8 @@ _setvar(lastInvoice, '\'\'') &#xA;"
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H" Text="function x() { &#xA;
+                            <H Name="H" Text="
+function x() { &#xA;
     return _value(Control92) === 0; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="_sum(var_db_base)" idxGroup="0" WhenEval="1"/>
@@ -2409,7 +2422,8 @@ _setvar(lastInvoice, '\'\'') &#xA;"
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() { &#xA;
+                            <H Name="H" Text="
+function x() { &#xA;
     return _value(Control92) === 0; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <RptControls>
@@ -2997,7 +3011,8 @@ _setvar(lastInvoice, '\'\'') &#xA;"
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() { &#xA;
+                            <H Name="H" Text="
+function x() { &#xA;
     return _value(Control92) === 1; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <RptControls>
@@ -3257,7 +3272,8 @@ _setvar(lastInvoice, '\'\'') &#xA;"
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() { &#xA;
+                            <H Name="H" Text="
+function x() { &#xA;
     return _value(Control92) === 2; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <RptControls>
@@ -3558,7 +3574,8 @@ _setvar(lastInvoice, '\'\'') &#xA;"
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() { &#xA;
+                            <H Name="H" Text="
+function x() { &#xA;
     return _value(Control92) === 3; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <RptControls>
@@ -3913,7 +3930,8 @@ _setvar(lastInvoice, '\'\'') &#xA;"
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() { &#xA;
+                            <H Name="H" Text="
+function x() { &#xA;
     return _value(Control92) === 0; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <RptControls>
@@ -3952,7 +3970,8 @@ _setvar(lastInvoice, '\'\'') &#xA;"
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
     return _value(Control80) + _value(Control81) + _value(Control82); &#xA;
 }" idxGroup="0" WhenEval="1"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"

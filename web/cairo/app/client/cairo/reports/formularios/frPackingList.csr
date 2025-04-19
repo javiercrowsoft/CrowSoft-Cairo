@@ -202,9 +202,10 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() { &#xA;
-  return =  _value( Control29 ) === 0; &#xA;
-} "
+                    <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 0; &#xA;
+}"
                        idxGroup="0" WhenEval="0"/>
                     <RptControls>
                         <K35343 Key="K35343" Name="Control4" KeyPaint="P104" HasFormulaHide="0" HasFormulaValue="0"
@@ -548,9 +549,10 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() { &#xA;
-  return =  _value( Control29 ) === 1; &#xA;
-} "
+                    <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 1; &#xA;
+}"
                        idxGroup="0" WhenEval="0"/>
                     <RptControls>
                         <K80303 Key="K80303" Name="Control33" KeyPaint="P114" HasFormulaHide="0" HasFormulaValue="0"
@@ -595,9 +597,10 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() { &#xA;
-  return =  _value( Control29 ) === 2; &#xA;
-} "
+                    <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 2; &#xA;
+}"
                        idxGroup="0" WhenEval="0"/>
                     <RptControls>
                         <K81681 Key="K81681" Name="Control39" KeyPaint="P115" HasFormulaHide="0" HasFormulaValue="0"
@@ -676,9 +679,10 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() { &#xA;
-  return =  _value( Control29 ) === 3; &#xA;
-} "
+                    <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 3; &#xA;
+}"
                        idxGroup="0" WhenEval="0"/>
                     <RptControls>
                         <K88309 Key="K88309" Name="Control43" KeyPaint="P117" HasFormulaHide="0" HasFormulaValue="0"
@@ -845,10 +849,11 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
-  return _getstring( Control46 ) + ' ' + _getstring( Control49 ) + ' x ' &#xA;
-       + _getstring( Control50 ) + ' x ' + _getstring( Control51 ) + ' ' &#xA;
-       + _getstring( Control52 ) &#xA;
+                            <V Name="V" Text="
+function x() { &#xA;
+    return _getString(Control46) + ' ' + _getString(Control49) + ' x ' &#xA;
+       + _getString(Control50) + ' x ' + _getString(Control51) + ' ' &#xA;
+       + _getString(Control52) &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
                         </K88494>
@@ -1163,9 +1168,10 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() { &#xA;
-  return =  _value( Control29 ) === 4; &#xA;
-} "
+                    <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 4; &#xA;
+}"
                        idxGroup="0" WhenEval="0"/>
                     <RptControls>
                         <K54471 Key="K54471" Name="Control29" KeyPaint="P131" HasFormulaHide="-1" HasFormulaValue="0"
@@ -1518,9 +1524,10 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() { &#xA;
-  return =  _value( Control29 ) === 0; &#xA;
-} "
+                            <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 0; &#xA;
+}"
                                idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K70393 Key="K70393" Name="Control30" KeyPaint="P152" HasFormulaHide="0"
@@ -1821,9 +1828,10 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() { &#xA;
-  return =  _value( Control29 ) === 1; &#xA;
-} "
+                            <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 1; &#xA;
+}"
                                idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K81629 Key="K81629" Name="Control37" KeyPaint="P160" HasFormulaHide="0"
@@ -1908,9 +1916,10 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() { &#xA;
-  return =  _value( Control29 ) === 2; &#xA;
-} "
+                            <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 2; &#xA;
+}"
                                idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K81630 Key="K81630" Name="Control38" KeyPaint="P162" HasFormulaHide="0"
@@ -1995,9 +2004,10 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() { &#xA;
-  return =  _value( Control29 ) === 3; &#xA;
-} "
+                            <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 3; &#xA;
+}"
                                idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K88354 Key="K88354" Name="Control45" KeyPaint="P164" HasFormulaHide="0"
@@ -2046,9 +2056,10 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() { &#xA;
-  return =  _value( Control29 ) === 4; &#xA;
-} "
+                            <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 4; &#xA;
+}"
                                idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K108076 Key="K108076" Name="Control63" KeyPaint="P165" HasFormulaHide="0"
@@ -2218,9 +2229,10 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() { &#xA;
-  return =  _value( Control29 ) === 2; &#xA;
-} "
+                            <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 2; &#xA;
+}"
                                idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K81704 Key="K81704" Name="Control41" KeyPaint="P140" HasFormulaHide="0"
@@ -2306,9 +2318,10 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() { &#xA;
-  return =  _value( Control29 ) === 3; &#xA;
-} "
+                            <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 3; &#xA;
+}"
                                idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K101290 Key="K101290" Name="Control60" KeyPaint="P142" HasFormulaHide="0"
@@ -2466,9 +2479,10 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() { &#xA;
-  return =  _value( Control29 ) === 4; &#xA;
-} "
+                            <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control29) === 4; &#xA;
+}"
                                idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K108125 Key="K108125" Name="Control65" KeyPaint="P146" HasFormulaHide="0"

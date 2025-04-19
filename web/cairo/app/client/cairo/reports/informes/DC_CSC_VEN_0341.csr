@@ -797,8 +797,9 @@ _setvar(acum_porc,0) " idxGroup="-2000" WhenEval="0"/>
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H"  Text="function x() { &#xA;
-      return _getvar(top) &lt;=  _getparam(@@top) ; &#xA;
+                    <H Name="H"  Text="
+function x() { &#xA;
+    return _getVar(top) &lt;=  _getparam(@@top) ; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                     <RptControls>
                         <K316469 Key="K316469" Name="Control33" KeyPaint="P111" HasFormulaHide="0" HasFormulaValue="0"
@@ -1178,7 +1179,7 @@ _setvar(acum_porc,0) " idxGroup="-2000" WhenEval="0"/>
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="_addtovar(acum_porc,  _value(Control36) )" idxGroup="0" WhenEval="0"/>
+                            <V Name="V" Text="_addToVar(acum_porc,  _value(Control36))" idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
                                    GroupFieldIndex="0" GroupValue="" Sort="0">
@@ -1255,7 +1256,7 @@ _setvar(acum_porc,0) " idxGroup="-2000" WhenEval="0"/>
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="_getvar(acum_porc)" idxGroup="0" WhenEval="0"/>
+                            <V Name="V" Text="_getVar(acum_porc)" idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
                                    GroupFieldIndex="0" GroupValue="" Sort="0">
@@ -1294,7 +1295,7 @@ _setvar(acum_porc,0) " idxGroup="-2000" WhenEval="0"/>
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="_addtovar(top,1) " idxGroup="0" WhenEval="0"/>
+                            <V Name="V" Text="_addToVar(top,1) " idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
                                    GroupFieldIndex="0" GroupValue="" Sort="0">
@@ -1377,15 +1378,16 @@ _setvar(acum_porc,0) " idxGroup="-2000" WhenEval="0"/>
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
-    var currentdate = new Date(); &#xA;
-    var datetime = currentdate.getFullYear() + '/' &#xA;
-                     + (currentdate.getMonth() + 1) + '/' &#xA;
-                     + currentdate.getDate() + ' @ ' &#xA;
-                     + currentdate.getHours() + ':' &#xA;
-                     + currentdate.getMinutes() + ':' &#xA;
-                     + currentdate.getSeconds(); &#xA;
-     return datetime; &#xA;
+                            <V Name="V" Text="
+function x() { &#xA;
+    var currentDate = new Date(); &#xA;
+    var datetime = currentDate.getFullYear() + '/' &#xA;
+                     + (currentDate.getMonth() + 1) + '/' &#xA;
+                     + currentDate.getDate() + ' @ ' &#xA;
+                     + currentDate.getHours() + ':' &#xA;
+                     + currentDate.getMinutes() + ':' &#xA;
+                     + currentDate.getSeconds(); &#xA;
+    return datetime; &#xA;
 }
 " idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"

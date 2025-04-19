@@ -811,16 +811,18 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
-    var currentdate = new Date(); &#xA;
-    var datetime = currentdate.getFullYear() + '/' &#xA;
-                     + (currentdate.getMonth() + 1) + '/' &#xA;
-                     + currentdate.getDate() + ' @ ' &#xA;
-                     + currentdate.getHours() + ':' &#xA;
-                     + currentdate.getMinutes() + ':' &#xA;
-                     + currentdate.getSeconds(); &#xA;
-     return datetime; &#xA;
-}" idxGroup="0" WhenEval="0"/>
+                            <V Name="V" Text="
+function x() { &#xA;
+    var currentDate = new Date(); &#xA;
+    var datetime = currentDate.getFullYear() + '/' &#xA;
+                     + (currentDate.getMonth() + 1) + '/' &#xA;
+                     + currentDate.getDate() + ' @ ' &#xA;
+                     + currentDate.getHours() + ':' &#xA;
+                     + currentDate.getMinutes() + ':' &#xA;
+                     + currentDate.getSeconds(); &#xA;
+    return datetime; &#xA;
+}"
+                               idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
                                    GroupFieldIndex="0" GroupValue="" Sort="0">
@@ -957,7 +959,7 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text=" _length( Control123 ) " idxGroup="0" WhenEval="0"/>
+                    <H Name="H" Text=" _length(Control123) " idxGroup="0" WhenEval="0"/>
                     <RptSectionLines>
                         <K80302 Key="K80302" Indice="1" IdField="" HasFormulaHide="0">
                             <Aspect Align="3" BackColor="16777215" BorderColor="0" BorderColor3D="0"
@@ -1218,7 +1220,7 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text=" _length( Control124 ) " idxGroup="0" WhenEval="0"/>
+                    <H Name="H" Text=" _length(Control124) " idxGroup="0" WhenEval="0"/>
                     <RptSectionLines>
                         <K80331 Key="K80331" Indice="1" IdField="" HasFormulaHide="0">
                             <Aspect Align="3" BackColor="16777215" BorderColor="0" BorderColor3D="0"
@@ -1479,7 +1481,7 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text=" _length( Control125 ) " idxGroup="0" WhenEval="0"/>
+                    <H Name="H" Text=" _length(Control125) " idxGroup="0" WhenEval="0"/>
                     <RptSectionLines>
                         <K694606 Key="K694606" Indice="1" IdField="" HasFormulaHide="0">
                             <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0"

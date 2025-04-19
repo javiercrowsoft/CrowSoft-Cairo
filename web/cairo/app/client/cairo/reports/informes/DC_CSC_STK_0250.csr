@@ -678,8 +678,9 @@ Posible" CanGrow="0">
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H"  Text="function x() { &#xA;
-      return _value(var_db_pr_id_subkit) === 0 &amp;&amp; _value(var_db_pr_id_kit) === 0; &#xA;
+                    <H Name="H"  Text="
+function x() { &#xA;
+    return _value(var_db_pr_id_subkit) === 0 &amp;&amp; _value(var_db_pr_id_kit) === 0; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                     <RptControls>
                         <K810436 Key="K810436" Name="Control56" KeyPaint="P112" HasFormulaHide="0" HasFormulaValue="0"
@@ -1030,15 +1031,16 @@ Posible" CanGrow="0">
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
-    var currentdate = new Date(); &#xA;
-    var datetime = currentdate.getFullYear() + '/' &#xA;
-                     + (currentdate.getMonth() + 1) + '/' &#xA;
-                     + currentdate.getDate() + ' @ ' &#xA;
-                     + currentdate.getHours() + ':' &#xA;
-                     + currentdate.getMinutes() + ':' &#xA;
-                     + currentdate.getSeconds(); &#xA;
-     return datetime; &#xA;
+                            <V Name="V" Text="
+function x() { &#xA;
+    var currentDate = new Date(); &#xA;
+    var datetime = currentDate.getFullYear() + '/' &#xA;
+                     + (currentDate.getMonth() + 1) + '/' &#xA;
+                     + currentDate.getDate() + ' @ ' &#xA;
+                     + currentDate.getHours() + ':' &#xA;
+                     + currentDate.getMinutes() + ':' &#xA;
+                     + currentDate.getSeconds(); &#xA;
+    return datetime; &#xA;
 }
 " idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2054,8 +2056,9 @@ Posible" CanGrow="0">
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
-  return 'Total ' + _getstring(var_db_kit); &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
+    return 'Total ' + _getString(var_db_kit); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -2191,8 +2194,9 @@ Posible" CanGrow="0">
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
-  return 'Total ' + _getstring(var_db_proveedor); &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
+    return 'Total ' + _getString(var_db_proveedor); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"

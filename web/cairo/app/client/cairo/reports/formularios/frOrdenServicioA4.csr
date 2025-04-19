@@ -647,9 +647,11 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() { &#xA;
-  x =  _value(var_db_orden)  = 0
-}" idxGroup="0" WhenEval="0"/>
+                    <H Name="H" Text="
+function x() { &#xA;
+    return _value(var_db_orden) === 0; &#xA;
+}"
+                       idxGroup="0" WhenEval="0"/>
                     <RptControls>
                         <K317413 Key="K317413" Name="Control150" KeyPaint="P113" HasFormulaHide="0" HasFormulaValue="0"
                                  ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -774,9 +776,11 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() { &#xA;
-  x =  _value(var_db_orden)  = 0 &amp;&amp; _length(var_db_osi_descrip)
-} " idxGroup="0" WhenEval="0"/>
+                    <H Name="H" Text="
+function x() { &#xA;
+    return _value(var_db_orden) === 0 &amp;&amp; _length(var_db_osi_descrip); &gt; 0; &#xA;
+}"
+                       idxGroup="0" WhenEval="0"/>
                     <RptControls>
                         <K317448 Key="K317448" Name="var_db_osi_descrip" KeyPaint="P116" HasFormulaHide="0"
                                  HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -934,12 +938,12 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
-    var v; &#xA;
+                            <V Name="V" Text="
+function x() { &#xA;
     const isNumeric = (str) => !isNaN(str) &amp;&amp; !isNaN(parseFloat(str)); &#xA;
-    v =  _getstring(var_db_oss_valor); &#xA;
-    if( isNumeric(v) ) { &#xA;
-        if( parseFloat(v) !== 0 ) { &#xA;
+    var v = _getString(var_db_oss_valor); &#xA;
+    if(isNumeric(v)) { &#xA;
+        if(parseFloat(v) !== 0) { &#xA;
             v = 'SI'; &#xA;
         } else {
             v = 'NO'; &#xA;
@@ -1146,15 +1150,16 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
-    var currentdate = new Date(); &#xA;
-    var datetime = currentdate.getFullYear() + '/' &#xA;
-                     + (currentdate.getMonth() + 1) + '/' &#xA;
-                     + currentdate.getDate() + ' @ ' &#xA;
-                     + currentdate.getHours() + ':' &#xA;
-                     + currentdate.getMinutes() + ':' &#xA;
-                     + currentdate.getSeconds(); &#xA;
-     return datetime; &#xA;
+                            <V Name="V" Text="
+function x() { &#xA;
+    var currentDate = new Date(); &#xA;
+    var datetime = currentDate.getFullYear() + '/' &#xA;
+                     + (currentDate.getMonth() + 1) + '/' &#xA;
+                     + currentDate.getDate() + ' @ ' &#xA;
+                     + currentDate.getHours() + ':' &#xA;
+                     + currentDate.getMinutes() + ':' &#xA;
+                     + currentDate.getSeconds(); &#xA;
+    return datetime; &#xA;
 }
 " idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"

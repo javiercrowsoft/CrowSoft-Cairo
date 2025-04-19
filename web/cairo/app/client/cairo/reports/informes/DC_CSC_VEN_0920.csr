@@ -234,8 +234,8 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="-1000" WhenEval="0"/>
-                            <V Name="V" Text=" _declarevar( Saldo )
- _setvar( Saldo, 0 ) " idxGroup="-2000" WhenEval="0"/>
+                            <V Name="V" Text=" _declarevar(Saldo)
+ _setvar(Saldo, 0) " idxGroup="-2000" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
                                    GroupFieldIndex="0" GroupValue="" Sort="0">
@@ -683,7 +683,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="_addtovar(Saldo, _calculo( var_db_debe,  var_db_haber, 0, 2) )"
+                            <V Name="V" Text="_addToVar(Saldo, _calculo(var_db_debe,  var_db_haber, 0, 2))"
                                idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -722,7 +722,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text=" _calculo(var_db_debe, var_db_haber, 0, 2 )" idxGroup="0" WhenEval="0"/>
+                            <V Name="V" Text=" _calculo(var_db_debe, var_db_haber, 0, 2)" idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
                                    GroupFieldIndex="0" GroupValue="" Sort="0">
@@ -1041,7 +1041,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text=" _getvar(Saldo)" idxGroup="0" WhenEval="0"/>
+                            <V Name="V" Text=" _getVar(Saldo)" idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
                                    GroupFieldIndex="0" GroupValue="" Sort="0">
@@ -1180,15 +1180,16 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
-    var currentdate = new Date(); &#xA;
-    var datetime = currentdate.getFullYear() + '/' &#xA;
-                     + (currentdate.getMonth() + 1) + '/' &#xA;
-                     + currentdate.getDate() + ' @ ' &#xA;
-                     + currentdate.getHours() + ':' &#xA;
-                     + currentdate.getMinutes() + ':' &#xA;
-                     + currentdate.getSeconds(); &#xA;
-     return datetime; &#xA;
+                            <V Name="V" Text="
+function x() { &#xA;
+    var currentDate = new Date(); &#xA;
+    var datetime = currentDate.getFullYear() + '/' &#xA;
+                     + (currentDate.getMonth() + 1) + '/' &#xA;
+                     + currentDate.getDate() + ' @ ' &#xA;
+                     + currentDate.getHours() + ':' &#xA;
+                     + currentDate.getMinutes() + ':' &#xA;
+                     + currentDate.getSeconds(); &#xA;
+    return datetime; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -1522,8 +1523,9 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() {&#xA;
-  return _value(var_debe_g1) - _value(var_haber_g1);&#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+    return _value(var_debe_g1) - _value(var_haber_g1); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1892,8 +1894,9 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() {&#xA;
-  return _value(var_debe_g2) - _value(var_haber_g2);&#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+    return _value(var_debe_g2) - _value(var_haber_g2); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -2112,7 +2115,7 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="0" idxGroup="3" WhenEval="0"/>
-                                    <V Name="V" Text=" _setvar( Saldo, 0 ) " idxGroup="-3" WhenEval="0"/>
+                                    <V Name="V" Text=" _setvar(Saldo, 0) " idxGroup="-3" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
                                            GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
@@ -2196,8 +2199,9 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() {&#xA;
-  return _value(var_debe_g3) - _value(var_haber_g3);&#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+    return _value(var_debe_g3) - _value(var_haber_g3); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"

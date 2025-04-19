@@ -919,7 +919,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="_addtovar(Saldo, _calculo( Control98,  Control97, 0, 2) )" idxGroup="0"
+                            <V Name="V" Text="_addToVar(Saldo, _calculo(Control98,  Control97, 0, 2))" idxGroup="0"
                                WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -959,7 +959,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text=" _getvar(Saldo)" idxGroup="0" WhenEval="0"/>
+                            <V Name="V" Text=" _getVar(Saldo)" idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
                                    GroupFieldIndex="0" GroupValue="" Sort="0">
@@ -1173,15 +1173,16 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
-    var currentdate = new Date(); &#xA;
-    var datetime = currentdate.getFullYear() + '/' &#xA;
-                     + (currentdate.getMonth() + 1) + '/' &#xA;
-                     + currentdate.getDate() + ' @ ' &#xA;
-                     + currentdate.getHours() + ':' &#xA;
-                     + currentdate.getMinutes() + ':' &#xA;
-                     + currentdate.getSeconds(); &#xA;
-     return datetime; &#xA;
+                            <V Name="V" Text="
+function x() { &#xA;
+    var currentDate = new Date(); &#xA;
+    var datetime = currentDate.getFullYear() + '/' &#xA;
+                     + (currentDate.getMonth() + 1) + '/' &#xA;
+                     + currentDate.getDate() + ' @ ' &#xA;
+                     + currentDate.getHours() + ':' &#xA;
+                     + currentDate.getMinutes() + ':' &#xA;
+                     + currentDate.getSeconds(); &#xA;
+    return datetime; &#xA;
 }" idxGroup="-1000" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -1474,8 +1475,9 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-      return _value(Control102) -_value(Control101); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+    return _value(Control102) - _value(Control101); &#xA;
 }
 " idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1738,8 +1740,9 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-      return _value(Control102) -_value(Control101); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+    return _value(Control102) - _value(Control101); &#xA;
 }
 " idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1782,8 +1785,9 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-    return 'Cuenta ' + _getstring( Control100 ) + ':'; &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+    return 'Cuenta ' + _getString(Control100) + ':'; &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2005,8 +2009,9 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-      return _value(Control102) -_value(Control101); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+    return _value(Control102) - _value(Control101); &#xA;
 }
 " idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2049,8 +2054,9 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-    return 'Empresa ' + _getstring( Control114 ) + ':'; &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+    return 'Empresa ' + _getString(Control114) + ':'; &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2272,8 +2278,9 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-      return _value(Control102) -_value(Control101); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+    return _value(Control102) - _value(Control101); &#xA;
 }
 " idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2316,8 +2323,9 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-    return 'Circuito contable ' + _getstring( Control115 ) + ':'; &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+    return 'Circuito contable ' + _getString(Control115) + ':'; &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"

@@ -862,9 +862,11 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() { &#xA;
-    return _value( Control58 ) == 0 &amp;&amp; _length(var_db_centrocosto) &#xA;
-}" idxGroup="0" WhenEval="0"/>
+                    <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control58) === 0 &amp;&amp; _length(var_db_centrocosto) &#xA;
+}"
+                       idxGroup="0" WhenEval="0"/>
                     <RptControls>
                         <K313428 Key="K313428" Name="Control58" KeyPaint="P119" HasFormulaHide="-1" HasFormulaValue="0"
                                  ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -1029,9 +1031,11 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() { &#xA;
-    return _value( Control58 ) == 1; &#xA;
-}" idxGroup="0" WhenEval="0"/>
+                    <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control58) === 1; &#xA;
+}"
+                       idxGroup="0" WhenEval="0"/>
                     <RptControls>
                         <K313213 Key="K313213" Name="Control49" KeyPaint="P123" HasFormulaHide="0" HasFormulaValue="0"
                                  ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -1234,9 +1238,11 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() { &#xA;
-    return _value( Control58 ) == 0 &amp;&amp; _length(var_db_centrocosto) == 0 &amp;&amp; _value(var_db_nc_id) != 0; &#xA;
-}" idxGroup="0" WhenEval="0"/>
+                    <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control58) === 0 &amp;&amp; _length(var_db_centrocosto) === 0 &amp;&amp; _value(var_db_nc_id) !== 0; &#xA;
+}"
+                       idxGroup="0" WhenEval="0"/>
                     <RptControls>
                         <K315944 Key="K315944" Name="var_db_nc_id" KeyPaint="P128" HasFormulaHide="-1"
                                  HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -1440,9 +1446,11 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() { &#xA;
-    return _value( Control58 ) == 0 &amp;&amp; _length(var_db_centrocosto) == 0 &amp;&amp; _value(var_db_nc_id) == 0; &#xA;
-}" idxGroup="0" WhenEval="0"/>
+                    <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control58) === 0 &amp;&amp; _length(var_db_centrocosto) === 0 &amp;&amp; _value(var_db_nc_id) === 0; &#xA;
+}"
+                       idxGroup="0" WhenEval="0"/>
                     <RptControls>
                         <K315890 Key="K315890" Name="Control86" KeyPaint="P133" HasFormulaHide="0" HasFormulaValue="0"
                                  ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -1880,8 +1888,9 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
-    return 'Pesos ' + _getstring( _numbertostring( Control60, 1 ) ); &#xA;
+                            <V Name="V" Text="
+function x() { &#xA;
+    return 'Pesos ' + _getString(_numberToString(Control60, 1)); &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2166,9 +2175,11 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() { &#xA;
-    return _value( Control58 ) == 0 &#xA;
-}" idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control58) === 0; &#xA;
+}"
+                               idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K313083 Key="K313083" Name="Control34" KeyPaint="P150" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -2303,9 +2314,11 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() { &#xA;
-    return _value( Control58 ) == 1; &#xA;
-}" idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control58) === 1; &#xA;
+}"
+                               idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K313224 Key="K313224" Name="Control56" KeyPaint="P153" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -2562,9 +2575,11 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() { &#xA;
-    return _value( Control58 ) == 0; &#xA;
-}" idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text="
+function x() { &#xA;
+    return _value(Control58) === 0; &#xA;
+}"
+                               idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K313210 Key="K313210" Name="Control46" KeyPaint="P158" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">

@@ -155,16 +155,18 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
-    var currentdate = new Date(); &#xA;
-    var datetime = currentdate.getFullYear() + '/' &#xA;
-                     + (currentdate.getMonth() + 1) + '/' &#xA;
-                     + currentdate.getDate() + ' @ ' &#xA;
-                     + currentdate.getHours() + ':' &#xA;
-                     + currentdate.getMinutes() + ':' &#xA;
-                     + currentdate.getSeconds(); &#xA;
-     return datetime; &#xA;
-}" idxGroup="-1000" WhenEval="0"/>
+                            <V Name="V" Text="
+function x() { &#xA;
+    var currentDate = new Date(); &#xA;
+    var datetime = currentDate.getFullYear() + '/' &#xA;
+                     + (currentDate.getMonth() + 1) + '/' &#xA;
+                     + currentDate.getDate() + ' @ ' &#xA;
+                     + currentDate.getHours() + ':' &#xA;
+                     + currentDate.getMinutes() + ':' &#xA;
+                     + currentDate.getSeconds(); &#xA;
+    return datetime; &#xA;
+}"
+                               idxGroup="-1000" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
                                    GroupFieldIndex="0" GroupValue="" Sort="0">
@@ -766,7 +768,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="_addtovar(Saldo, _calculo( Control98,  Control97, 0, 2) )" idxGroup="0"
+                            <V Name="V" Text="_addToVar(Saldo, _calculo(Control98,  Control97, 0, 2))" idxGroup="0"
                                WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -806,7 +808,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text=" _getvar(Saldo)" idxGroup="0" WhenEval="0"/>
+                            <V Name="V" Text=" _getVar(Saldo)" idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
                                    GroupFieldIndex="0" GroupValue="" Sort="0">
@@ -1287,10 +1289,11 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-      return _value(Control124) -_value(Control125); &#xA;
-}
-" idxGroup="0" WhenEval="0"/>
+                                    <V Name="V" Text="
+function x() { &#xA;
+    return _value(Control124) - _value(Control125); &#xA;
+}"
+                                       idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
                                            GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
@@ -1482,8 +1485,9 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-   return '[' + _getstring( var_db_cue_codigo ) + '] ' + _getstring( var_db_cue_nombre ); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+    return '[' + _getString(var_db_cue_codigo) + '] ' + _getString(var_db_cue_nombre); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1677,10 +1681,11 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-      return _value(Control102) -_value(Control101); &#xA;
-}
-" idxGroup="0" WhenEval="0"/>
+                                    <V Name="V" Text="
+function x() { &#xA;
+    return _value(Control102) - _value(Control101); &#xA;
+}"
+                                       idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
                                            GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
@@ -1721,9 +1726,11 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-   return '[' + _getstring( var_db_cue_codigo ) + '] ' + _getstring( var_db_cue_nombre ); &#xA;
-}" idxGroup="0" WhenEval="0"/>
+                                    <V Name="V" Text="
+function x() { &#xA;
+    return '[' + _getString(var_db_cue_codigo) + '] ' + _getString(var_db_cue_nombre); &#xA;
+}"
+                                       idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
                                            GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
@@ -1792,13 +1799,15 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-  if _value(var_db_de_compras) then
+                                    <V Name="V" Text="
+function x() { &#xA;
+  if(_value(var_db_de_compras)) { &#xA;
     return 'Documentos de Compras'; &#xA;
-  else
+  } else { &#xA;
     return 'Otros Documentos'; &#xA;
-  }
-}" idxGroup="0" WhenEval="0"/>
+  } &#xA;
+}"
+                                       idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
                                            GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
@@ -1990,10 +1999,11 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-      return _value(Control129) -_value(Control130); &#xA;
-}
-" idxGroup="0" WhenEval="0"/>
+                                    <V Name="V" Text="
+function x() { &#xA;
+    return _value(Control129) - _value(Control130); &#xA;
+}"
+                                       idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
                                            GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
@@ -2034,13 +2044,15 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-  if _value(var_db_de_compras) then
-    return 'Documentos de Compras'; &#xA;
-  else
-    return 'Otros Documentos'; &#xA;
-  }
-}" idxGroup="0" WhenEval="0"/>
+                                    <V Name="V" Text="
+function x() { &#xA;
+    if(_value(var_db_de_compras)) { &#xA;
+        return 'Documentos de Compras'; &#xA;
+    } else { &#xA;
+        return 'Otros Documentos'; &#xA;
+    } &#xA;
+}"
+                                       idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
                                            GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">
@@ -2260,10 +2272,11 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-      return _value(Control116) -_value(Control117); &#xA;
-}
-" idxGroup="0" WhenEval="0"/>
+                                    <V Name="V" Text="
+function x() { &#xA;
+    return _value(Control116) - _value(Control117); &#xA;
+}"
+                                       idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
                                            GroupFieldName="" GroupFieldIndex="0" GroupValue="" Sort="0">

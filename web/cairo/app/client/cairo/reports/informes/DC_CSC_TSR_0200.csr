@@ -245,7 +245,8 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="-1000" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
+                            <V Name="V" Text="
+function x() { &#xA;
     if (_currentpage() === 1) { &#xA;
         report.addvar('inv1'); &#xA;
         report.addvar('inv2'); &#xA;
@@ -416,8 +417,9 @@
                     BorderRounded="0">
                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
             </Aspect>
-            <H Name="H" Text="function x() { &#xA;
-  x =  _getparam(@@resumido) =0
+            <H Name="H" Text="
+function x() { &#xA;
+    return _getparam(@@resumido) === 0; &#xA;
 }" idxGroup="0" WhenEval="0"/>
             <RptSectionLines>
                 <K701674 Key="K701674" Indice="2" IdField="" HasFormulaHide="0">
@@ -1055,7 +1057,8 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
+                            <V Name="V" Text="
+function x() { &#xA;
     var rub_id_inv; &#xA;
     rub_id_inv = _getparam(@@rub_id_inversiones); &#xA;
     &#xA;
@@ -1169,15 +1172,16 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
-    var currentdate = new Date(); &#xA;
-    var datetime = currentdate.getFullYear() + '/' &#xA;
-                     + (currentdate.getMonth() + 1) + '/' &#xA;
-                     + currentdate.getDate() + ' @ ' &#xA;
-                     + currentdate.getHours() + ':' &#xA;
-                     + currentdate.getMinutes() + ':' &#xA;
-                     + currentdate.getSeconds(); &#xA;
-     return datetime; &#xA;
+                            <V Name="V" Text="
+function x() { &#xA;
+    var currentDate = new Date(); &#xA;
+    var datetime = currentDate.getFullYear() + '/' &#xA;
+                     + (currentDate.getMonth() + 1) + '/' &#xA;
+                     + currentDate.getDate() + ' @ ' &#xA;
+                     + currentDate.getHours() + ':' &#xA;
+                     + currentDate.getMinutes() + ':' &#xA;
+                     + currentDate.getSeconds(); &#xA;
+    return datetime; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -2667,8 +2671,9 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() { &#xA;
-  return _getstring(var_db_tipo) === 'Compras'; &#xA;
+                            <H Name="H" Text="
+function x() { &#xA;
+    return _getString(var_db_tipo) === 'Compras'; &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
                             <RptControls>
@@ -3275,8 +3280,9 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="function x() { &#xA;
-  x =  _getparam(@@resumido) =0
+                    <H Name="H" Text="
+function x() { &#xA;
+    return _getparam(@@resumido) === 0; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                     <RptSectionLines>
                         <K701765 Key="K701765" Indice="1" IdField="" HasFormulaHide="0">
@@ -3353,8 +3359,9 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() { &#xA;
-  x =  _getparam(@@resumido) =0
+                            <H Name="H" Text="
+function x() { &#xA;
+    return _getparam(@@resumido) === 0; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K714479 Key="K714479" Name="Control170" KeyPaint="P134" HasFormulaHide="0"
@@ -3995,8 +4002,9 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="function x() { &#xA;
-  x =  _getparam(@@resumido)
+                            <H Name="H" Text="
+function x() { &#xA;
+  return  _getparam(@@resumido)
 }" idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K943280 Key="K943280" Name="Control280" KeyPaint="P149" HasFormulaHide="0"

@@ -932,15 +932,16 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
-    var currentdate = new Date(); &#xA;
-    var datetime = currentdate.getFullYear() + '/' &#xA;
-                     + (currentdate.getMonth() + 1) + '/' &#xA;
-                     + currentdate.getDate() + ' @ ' &#xA;
-                     + currentdate.getHours() + ':' &#xA;
-                     + currentdate.getMinutes() + ':' &#xA;
-                     + currentdate.getSeconds(); &#xA;
-     return datetime; &#xA;
+                            <V Name="V" Text="
+function x() { &#xA;
+    var currentDate = new Date(); &#xA;
+    var datetime = currentDate.getFullYear() + '/' &#xA;
+                     + (currentDate.getMonth() + 1) + '/' &#xA;
+                     + currentDate.getDate() + ' @ ' &#xA;
+                     + currentDate.getHours() + ':' &#xA;
+                     + currentDate.getMinutes() + ':' &#xA;
+                     + currentDate.getSeconds(); &#xA;
+    return datetime; &#xA;
 }
 "
                                idxGroup="0" WhenEval="0"/>
@@ -1237,9 +1238,10 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
     var total = _value(var_sum_neto_total); &#xA;
-    if (total === 0) { &#xA;
+    if (total !== 0) { &#xA;
         total = 1 - _value(var_sum_costo_total) / total; &#xA;
     } &#xA;
     return total; &#xA;
@@ -1277,7 +1279,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel2 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel2) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815342 Key="K815342" Name="var_db_nivel2" KeyPaint="P173" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -1343,7 +1345,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel2 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel2) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K828610 Key="K828610" Name="var_sum_neto_2" KeyPaint="P165" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -1463,8 +1465,9 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-    return 'Total ' + _getstring( _value(var_db_nivel2) ); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+    return 'Total ' + _getString(_value(var_db_nivel2)); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1507,9 +1510,10 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
     var neto = _value(var_sum_neto_2); &#xA;
-    if (neto === 0) { &#xA;
+    if (neto !== 0) { &#xA;
         neto = 1 - _value(var_sum_costo_2) / neto; &#xA;
     } &#xA;
     return neto; &#xA;
@@ -1547,7 +1551,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel3 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel3) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815343 Key="K815343" Name="var_db_nivel3" KeyPaint="P174" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -1613,7 +1617,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel3 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel3) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K828609 Key="K828609" Name="var_sum_neto_3" KeyPaint="P161" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -1733,8 +1737,9 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-    return 'Total ' + _getstring( _value(var_db_nivel3) ); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+    return 'Total ' + _getString(_value(var_db_nivel3)); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1777,9 +1782,10 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
     var neto = _value(var_sum_neto_3); &#xA;
-    if (neto === 0) { &#xA;
+    if (neto !== 0) { &#xA;
         neto = 1 - _value(var_sum_costo_3) / neto; &#xA;
     } &#xA;
     return neto; &#xA;
@@ -1817,7 +1823,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel4 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel4) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815344 Key="K815344" Name="var_db_nivel4" KeyPaint="P175" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -1883,7 +1889,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel4 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel4) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K828608 Key="K828608" Name="var_sum_neto_4" KeyPaint="P157" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -2003,8 +2009,9 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-    return 'Total ' + _getstring( _value(var_db_nivel4) ); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+    return 'Total ' + _getString(_value(var_db_nivel4)); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2047,9 +2054,10 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
     var neto = _value(var_sum_neto_4); &#xA;
-    if (neto === 0) { &#xA;
+    if (neto !== 0) { &#xA;
         neto = 1 - _value(var_sum_costo_4) / neto; &#xA;
     } &#xA;
     return neto; &#xA;
@@ -2087,7 +2095,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel5 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel5) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815345 Key="K815345" Name="var_db_nivel5" KeyPaint="P176" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -2153,7 +2161,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel5 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel5) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K828607 Key="K828607" Name="var_sum_neto_5" KeyPaint="P153" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -2273,8 +2281,9 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-    return 'Total ' + _getstring( _value(var_db_nivel5) ); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+    return 'Total ' + _getString(_value(var_db_nivel5)); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2317,9 +2326,10 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
     var neto = _value(var_sum_neto_5); &#xA;
-    if (neto === 0) { &#xA;
+    if (neto !== 0) { &#xA;
         neto = 1 - _value(var_sum_costo_5) / neto; &#xA;
     } &#xA;
     return neto; &#xA;
@@ -2357,7 +2367,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel6 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel6) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815472 Key="K815472" Name="var_db_nivel6" KeyPaint="P177" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -2423,7 +2433,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel6 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel6) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K828606 Key="K828606" Name="var_sum_neto_6" KeyPaint="P149" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -2543,8 +2553,9 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
-return 'Total ' + _getstring( _value(var_db_nivel6) ); &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
+    return 'Total ' + _getString(_value(var_db_nivel6)); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -2586,16 +2597,13 @@ return 'Total ' + _getstring( _value(var_db_nivel6) ); &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
-
-      return _value(var_sum_neto_6); &#xA;
-
-  if (x === 0) { &#xA;
-
-       return 1 - _value(var_sum_costo_6)/x; &#xA;
-
- }
-
+                                    <V Name="V"  Text="
+function x() { &#xA;
+    var neto = _value(var_sum_neto_6); &#xA;
+    if (neto !== 0) { &#xA;
+        neto = 1 - _value(var_sum_costo_6) / neto; &#xA;
+    } &#xA;
+    return neto; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -2629,7 +2637,7 @@ return 'Total ' + _getstring( _value(var_db_nivel6) ); &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel7 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel7) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815473 Key="K815473" Name="var_db_nivel7" KeyPaint="P178" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -2695,7 +2703,7 @@ return 'Total ' + _getstring( _value(var_db_nivel6) ); &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel7 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel7) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K828605 Key="K828605" Name="var_sum_neto_7" KeyPaint="P145" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -2815,8 +2823,9 @@ return 'Total ' + _getstring( _value(var_db_nivel6) ); &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
-return 'Total ' + _getstring( _value(var_db_nivel7) ); &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
+    return 'Total ' + _getString(_value(var_db_nivel7)); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -2858,16 +2867,13 @@ return 'Total ' + _getstring( _value(var_db_nivel7) ); &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
-
-      return _value(var_sum_neto_7); &#xA;
-
-  if (x === 0) { &#xA;
-
-       return 1 - _value(var_sum_costo_7)/x; &#xA;
-
- }
-
+                                    <V Name="V"  Text="
+function x() { &#xA;
+    var neto = _value(var_sum_neto_7); &#xA;
+    if (neto !== 0) { &#xA;
+        neto = 1 - _value(var_sum_costo_7) / neto; &#xA;
+    } &#xA;
+    return neto; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -2901,7 +2907,7 @@ return 'Total ' + _getstring( _value(var_db_nivel7) ); &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel8 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel8) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815474 Key="K815474" Name="var_db_nivel8" KeyPaint="P179" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -2967,7 +2973,7 @@ return 'Total ' + _getstring( _value(var_db_nivel7) ); &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel8 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel8) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K828604 Key="K828604" Name="var_sum_neto_8" KeyPaint="P141" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -3087,8 +3093,9 @@ return 'Total ' + _getstring( _value(var_db_nivel7) ); &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
-return 'Total ' + _getstring( _value(var_db_nivel8) ); &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
+    return 'Total ' + _getString(_value(var_db_nivel8)); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -3130,16 +3137,13 @@ return 'Total ' + _getstring( _value(var_db_nivel8) ); &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
-
-      return _value(var_sum_neto_8); &#xA;
-
-  if (x === 0) { &#xA;
-
-       return 1 - _value(var_sum_costo_8)/x; &#xA;
-
- }
-
+                                    <V Name="V"  Text="
+function x() { &#xA;
+    var neto = _value(var_sum_neto_8); &#xA;
+    if (neto !== 0) { &#xA;
+        neto = 1 - _value(var_sum_costo_8) / neto; &#xA;
+    } &#xA;
+    return neto; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -3173,7 +3177,7 @@ return 'Total ' + _getstring( _value(var_db_nivel8) ); &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel9 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel9) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815475 Key="K815475" Name="var_db_nivel9" KeyPaint="P180" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -3239,7 +3243,7 @@ return 'Total ' + _getstring( _value(var_db_nivel8) ); &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel9 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel9) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K828603 Key="K828603" Name="var_sum_neto_9" KeyPaint="P137" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -3359,8 +3363,9 @@ return 'Total ' + _getstring( _value(var_db_nivel8) ); &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
-return 'Total ' + _getstring( _value(var_db_nivel9) ); &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
+    return 'Total ' + _getString(_value(var_db_nivel9)); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -3402,16 +3407,13 @@ return 'Total ' + _getstring( _value(var_db_nivel9) ); &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
-
-      return _value(var_sum_neto_9); &#xA;
-
-  if (x === 0) { &#xA;
-
-       return 1 - _value(var_sum_costo_9)/x; &#xA;
-
- }
-
+                                    <V Name="V"  Text="
+function x() { &#xA;
+    var neto = _value(var_sum_neto_9); &#xA;
+    if (neto !== 0) { &#xA;
+        neto = 1 - _value(var_sum_costo_9) / neto; &#xA;
+    } &#xA;
+    return neto; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -3631,8 +3633,9 @@ return 'Total ' + _getstring( _value(var_db_nivel9) ); &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
-return 'Total ' + _getstring( _value(var_db_rubro) ); &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
+    return 'Total ' + _getString(_value(var_db_rubro)); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -3674,16 +3677,13 @@ return 'Total ' + _getstring( _value(var_db_rubro) ); &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
-
-      return _value(var_sum_neto_rubro); &#xA;
-
-  if (x === 0) { &#xA;
-
-       return 1 - _value(var_sum_costo_rubro)/x; &#xA;
-
- }
-
+                                    <V Name="V"  Text="
+function x() { &#xA;
+    var neto = _value(var_sum_neto_rubro); &#xA;
+    if (neto !== 0) { &#xA;
+        neto = 1 - _value(var_sum_costo_rubro) / neto; &#xA;
+    } &#xA;
+    return neto; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"

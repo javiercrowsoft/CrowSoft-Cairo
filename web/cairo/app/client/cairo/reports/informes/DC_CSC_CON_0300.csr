@@ -260,56 +260,56 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="-1000" WhenEval="0"/>
-                            <V Name="V" Text=" _declarevar( Total1 )
- _setvar( Total1 , 0 )
- _declarevar( Total2 )
- _setvar( Total2 , 0 )
- _declarevar( Total3 )
- _setvar( Total3 , 0 )
- _declarevar( Total4 )
- _setvar( Total4 , 0 )
- _declarevar( Total5 )
- _setvar( Total5 , 0 )
- _declarevar( Total6 )
- _setvar( Total6 , 0 )
- _declarevar( Total7 )
- _setvar( Total7 , 0 )
- _declarevar( Total8 )
- _setvar( Total8 , 0 )
- _declarevar( Total9 )
- _setvar( Total9 , 0 )
- _declarevar( Total10 )
- _setvar( Total10 , 0 )
- _declarevar( Total11 )
- _setvar( Total11 , 0 )
- _declarevar( Total12 )
- _setvar( Total12 , 0 )
- _declarevar( Total13 )
- _setvar( Total13 , 0 )
- _declarevar( Total14 )
- _setvar( Total14 , 0 )
- _declarevar( Total15 )
- _setvar( Total15 , 0 )
- _declarevar( Total16 )
- _setvar( Total16 , 0 )
- _declarevar( Total17 )
- _setvar( Total17 , 0 )
- _declarevar( Total18 )
- _setvar( Total18 , 0 )
- _declarevar( Total19 )
- _setvar( Total19 , 0 )
- _declarevar( Total20 )
- _setvar( Total20 , 0 )
- _declarevar( Total21 )
- _setvar( Total21 , 0 )
- _declarevar( Total22 )
- _setvar( Total22 , 0 )
- _declarevar( Total23 )
- _setvar( Total23 , 0 )
- _declarevar( Total24 )
- _setvar( Total24 , 0 )
- _declarevar( Total_total)
- _setvar( Total_total , 0 )
+                            <V Name="V" Text=" _declarevar(Total1)
+ _setvar(Total1, 0)
+ _declarevar(Total2)
+ _setvar(Total2, 0)
+ _declarevar(Total3)
+ _setvar(Total3, 0)
+ _declarevar(Total4)
+ _setvar(Total4, 0)
+ _declarevar(Total5)
+ _setvar(Total5, 0)
+ _declarevar(Total6)
+ _setvar(Total6, 0)
+ _declarevar(Total7)
+ _setvar(Total7, 0)
+ _declarevar(Total8)
+ _setvar(Total8, 0)
+ _declarevar(Total9)
+ _setvar(Total9, 0)
+ _declarevar(Total10)
+ _setvar(Total10, 0)
+ _declarevar(Total11)
+ _setvar(Total11, 0)
+ _declarevar(Total12)
+ _setvar(Total12, 0)
+ _declarevar(Total13)
+ _setvar(Total13, 0)
+ _declarevar(Total14)
+ _setvar(Total14, 0)
+ _declarevar(Total15)
+ _setvar(Total15, 0)
+ _declarevar(Total16)
+ _setvar(Total16, 0)
+ _declarevar(Total17)
+ _setvar(Total17, 0)
+ _declarevar(Total18)
+ _setvar(Total18, 0)
+ _declarevar(Total19)
+ _setvar(Total19, 0)
+ _declarevar(Total20)
+ _setvar(Total20, 0)
+ _declarevar(Total21)
+ _setvar(Total21, 0)
+ _declarevar(Total22)
+ _setvar(Total22, 0)
+ _declarevar(Total23)
+ _setvar(Total23, 0)
+ _declarevar(Total24)
+ _setvar(Total24, 0)
+ _declarevar(Total_total)
+ _setvar(Total_total, 0)
 " idxGroup="-2000" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -3290,15 +3290,16 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="function x() { &#xA;
+                            <V Name="V"  Text="
+function x() { &#xA;
 
-  if  _isequal(var_db_tipo,-100)  then
+  if( _isequal(var_db_tipo,-100) ) {
 
-      x= _value(var_db_mes_1)
+    return _value(var_db_mes_1); &#xA;
 
-  else
+  } else {
 
-      x= 0
+    return 0; &#xA;
 
   }
 
@@ -3341,15 +3342,16 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="function x() { &#xA;
+                            <V Name="V"  Text="
+function x() { &#xA;
 
-  if  _isequal(var_db_tipo,-100)  then
+  if( _isequal(var_db_tipo,-100) ) {
 
-      x= _value(var_db_mes_2)
+    return _value(var_db_mes_2); &#xA;
 
-  else
+  } else {
 
-      x= 0
+    return 0; &#xA;
 
   }
 
@@ -3392,15 +3394,16 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="function x() { &#xA;
+                            <V Name="V"  Text="
+function x() { &#xA;
 
-  if  _isequal(var_db_tipo,-100)  then
+  if( _isequal(var_db_tipo,-100) ) {
 
-      x= _value(var_db_mes_3)
+    return _value(var_db_mes_3); &#xA;
 
-  else
+  } else {
 
-      x= 0
+    return 0; &#xA;
 
   }
 
@@ -3443,15 +3446,16 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="function x() { &#xA;
+                            <V Name="V"  Text="
+function x() { &#xA;
 
-  if  _isequal(var_db_tipo,-100)  then
+  if( _isequal(var_db_tipo,-100) ) {
 
-      x= _value(var_db_mes_4)
+    return _value(var_db_mes_4); &#xA;
 
-  else
+  } else {
 
-      x= 0
+    return 0; &#xA;
 
   }
 
@@ -3494,15 +3498,16 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="function x() { &#xA;
+                            <V Name="V"  Text="
+function x() { &#xA;
 
-  if  _isequal(var_db_tipo,-100)  then
+  if( _isequal(var_db_tipo,-100) ) {
 
-      x= _value(var_db_mes_5)
+    return _value(var_db_mes_5); &#xA;
 
-  else
+  } else {
 
-      x= 0
+    return 0; &#xA;
 
   }
 
@@ -3545,15 +3550,16 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="function x() { &#xA;
+                            <V Name="V"  Text="
+function x() { &#xA;
 
-  if  _isequal(var_db_tipo,-100)  then
+  if( _isequal(var_db_tipo,-100) ) {
 
-      x= _value(var_db_mes_6)
+    return _value(var_db_mes_6); &#xA;
 
-  else
+  } else {
 
-      x= 0
+    return 0; &#xA;
 
   }
 
@@ -3596,15 +3602,16 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="function x() { &#xA;
+                            <V Name="V"  Text="
+function x() { &#xA;
 
-  if  _isequal(var_db_tipo,-100)  then
+  if( _isequal(var_db_tipo,-100) ) {
 
-      x= _value(var_db_mes_7)
+    return _value(var_db_mes_7); &#xA;
 
-  else
+  } else {
 
-      x= 0
+    return 0; &#xA;
 
   }
 
@@ -3647,15 +3654,16 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="function x() { &#xA;
+                            <V Name="V"  Text="
+function x() { &#xA;
 
-  if  _isequal(var_db_tipo,-100)  then
+  if( _isequal(var_db_tipo,-100) ) {
 
-      x= _value(var_db_mes_8)
+    return _value(var_db_mes_8); &#xA;
 
-  else
+  } else {
 
-      x= 0
+    return 0; &#xA;
 
   }
 
@@ -3698,15 +3706,16 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="function x() { &#xA;
+                            <V Name="V"  Text="
+function x() { &#xA;
 
-  if  _isequal(var_db_tipo,-100)  then
+  if( _isequal(var_db_tipo,-100) ) {
 
-      x= _value(var_db_mes_9)
+    return _value(var_db_mes_9); &#xA;
 
-  else
+  } else {
 
-      x= 0
+    return 0; &#xA;
 
   }
 
@@ -3749,15 +3758,16 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="function x() { &#xA;
+                            <V Name="V"  Text="
+function x() { &#xA;
 
-  if  _isequal(var_db_tipo,-100)  then
+  if( _isequal(var_db_tipo,-100) ) {
 
-      x= _value(var_db_mes_10)
+    return _value(var_db_mes_10); &#xA;
 
-  else
+  } else {
 
-      x= 0
+    return 0; &#xA;
 
   }
 
@@ -3800,15 +3810,16 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="function x() { &#xA;
+                            <V Name="V"  Text="
+function x() { &#xA;
 
-  if  _isequal(var_db_tipo,-100)  then
+  if( _isequal(var_db_tipo,-100) ) {
 
-      x= _value(var_db_mes_11)
+    return _value(var_db_mes_11); &#xA;
 
-  else
+  } else {
 
-      x= 0
+    return 0; &#xA;
 
   }
 
@@ -3851,15 +3862,16 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="function x() { &#xA;
+                            <V Name="V"  Text="
+function x() { &#xA;
 
-  if  _isequal(var_db_tipo,-100)  then
+  if( _isequal(var_db_tipo,-100) ) {
 
-      x= _value(var_db_mes_12)
+    return _value(var_db_mes_12); &#xA;
 
-  else
+  } else {
 
-      x= 0
+    return 0; &#xA;
 
   }
 
@@ -3902,15 +3914,16 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="function x() { &#xA;
+                            <V Name="V"  Text="
+function x() { &#xA;
 
-  if  _isequal(var_db_tipo,-100)  then
+  if( _isequal(var_db_tipo,-100) ) {
 
-      x= _value(var_db_total)
+    return _value(var_db_total); &#xA;
 
-  else
+  } else {
 
-      x= 0
+    return 0; &#xA;
 
   }
 
@@ -3964,7 +3977,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="_addtovar(Total1, _value(var_mes_1))
+                            <V Name="V" Text="_addToVar(Total1, _value(var_mes_1))
 " idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -4004,7 +4017,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="_addtovar(Total2, _value(var_mes_2))
+                            <V Name="V" Text="_addToVar(Total2, _value(var_mes_2))
 " idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -4044,7 +4057,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="_addtovar(Total3, _value(var_mes_3))
+                            <V Name="V" Text="_addToVar(Total3, _value(var_mes_3))
 " idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -4084,7 +4097,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="_addtovar(Total4, _value(var_mes_4))
+                            <V Name="V" Text="_addToVar(Total4, _value(var_mes_4))
 " idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -4124,7 +4137,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="_addtovar(Total5, _value(var_mes_5))
+                            <V Name="V" Text="_addToVar(Total5, _value(var_mes_5))
 " idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -4164,7 +4177,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="_addtovar(Total6, _value(var_mes_6))
+                            <V Name="V" Text="_addToVar(Total6, _value(var_mes_6))
 " idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -4204,7 +4217,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="_addtovar(Total7, _value(var_mes_7))
+                            <V Name="V" Text="_addToVar(Total7, _value(var_mes_7))
 " idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -4244,7 +4257,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="_addtovar(Total8, _value(var_mes_8))
+                            <V Name="V" Text="_addToVar(Total8, _value(var_mes_8))
 " idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -4284,7 +4297,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="_addtovar(Total9, _value(var_mes_9))
+                            <V Name="V" Text="_addToVar(Total9, _value(var_mes_9))
 " idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -4324,7 +4337,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="_addtovar(Total10, _value(var_mes_10))
+                            <V Name="V" Text="_addToVar(Total10, _value(var_mes_10))
 " idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -4364,7 +4377,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="_addtovar(Total11, _value(var_mes_11))
+                            <V Name="V" Text="_addToVar(Total11, _value(var_mes_11))
 " idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -4404,7 +4417,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="_addtovar(Total12, _value(var_mes_12))
+                            <V Name="V" Text="_addToVar(Total12, _value(var_mes_12))
 " idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -4444,7 +4457,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="_addtovar(Total_total, _value(var_total))
+                            <V Name="V" Text="_addToVar(Total_total, _value(var_total))
 " idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -4528,15 +4541,16 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
-    var currentdate = new Date(); &#xA;
-    var datetime = currentdate.getFullYear() + '/' &#xA;
-                     + (currentdate.getMonth() + 1) + '/' &#xA;
-                     + currentdate.getDate() + ' @ ' &#xA;
-                     + currentdate.getHours() + ':' &#xA;
-                     + currentdate.getMinutes() + ':' &#xA;
-                     + currentdate.getSeconds(); &#xA;
-     return datetime; &#xA;
+                            <V Name="V" Text="
+function x() { &#xA;
+    var currentDate = new Date(); &#xA;
+    var datetime = currentDate.getFullYear() + '/' &#xA;
+                     + (currentDate.getMonth() + 1) + '/' &#xA;
+                     + currentDate.getDate() + ' @ ' &#xA;
+                     + currentDate.getHours() + ':' &#xA;
+                     + currentDate.getMinutes() + ':' &#xA;
+                     + currentDate.getSeconds(); &#xA;
+    return datetime; &#xA;
 }
 " idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -4838,11 +4852,11 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H"  Text="function x() { &#xA;
-
-  x = _isequal(var_db_tipo,1) or _isequal(var_db_tipo,2)
-
-}" idxGroup="0" WhenEval="0"/>
+                    <H Name="H"  Text="
+function x() { &#xA;
+    return _isequal(var_db_tipo,1) || _isequal(var_db_tipo,2); &#xA;
+}"
+                       idxGroup="0" WhenEval="0"/>
                     <RptSectionLines>
                         <K311706 Key="K311706" Indice="1" IdField="" HasFormulaHide="-1">
                             <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0"
@@ -6061,13 +6075,14 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
 
-  if _value(var_db_tipo)=1 then
+  if(_value(var_db_tipo)=1) {
 
     return 'Total Ingresos'; &#xA;
 
-  else
+  } else {
 
     return 'Total Egresos'; &#xA;
 
@@ -6096,7 +6111,7 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text=" _length( Control42 ) " idxGroup="0" WhenEval="0"/>
+                    <H Name="H" Text=" _length(Control42) " idxGroup="0" WhenEval="0"/>
                     <RptSectionLines>
                         <K308691 Key="K308691" Indice="1" IdField="" HasFormulaHide="0">
                             <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0"
@@ -6162,7 +6177,7 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text=" _length( Control60 ) " idxGroup="0" WhenEval="0"/>
+                    <H Name="H" Text=" _length(Control60) " idxGroup="0" WhenEval="0"/>
                     <RptSectionLines>
                         <K308693 Key="K308693" Indice="1" IdField="" HasFormulaHide="-1">
                             <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0"
@@ -6209,7 +6224,7 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="_getvar(Total1)
+                                    <V Name="V" Text="_getVar(Total1)
 " idxGroup="-2" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -6252,7 +6267,7 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="_getvar(Total2)
+                                    <V Name="V" Text="_getVar(Total2)
 " idxGroup="-2" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -6295,7 +6310,7 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="_getvar(Total3)
+                                    <V Name="V" Text="_getVar(Total3)
 " idxGroup="-2" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -6338,7 +6353,7 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="_getvar(Total4)
+                                    <V Name="V" Text="_getVar(Total4)
 " idxGroup="-2" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -6381,7 +6396,7 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="_getvar(Total5)
+                                    <V Name="V" Text="_getVar(Total5)
 " idxGroup="-2" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -6424,7 +6439,7 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="_getvar(Total6)
+                                    <V Name="V" Text="_getVar(Total6)
 " idxGroup="-2" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -6467,7 +6482,7 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="_getvar(Total7)
+                                    <V Name="V" Text="_getVar(Total7)
 " idxGroup="-2" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -6510,7 +6525,7 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="_getvar(Total8)
+                                    <V Name="V" Text="_getVar(Total8)
 " idxGroup="-2" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -6553,7 +6568,7 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="_getvar(Total9)
+                                    <V Name="V" Text="_getVar(Total9)
 " idxGroup="-2" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -6596,7 +6611,7 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="_getvar(Total10)
+                                    <V Name="V" Text="_getVar(Total10)
 " idxGroup="-2" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -6639,7 +6654,7 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="_getvar(Total11)
+                                    <V Name="V" Text="_getVar(Total11)
 " idxGroup="-2" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -6682,7 +6697,7 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="_getvar(Total12)
+                                    <V Name="V" Text="_getVar(Total12)
 " idxGroup="-2" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -6725,7 +6740,7 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="_getvar(Total_total)
+                                    <V Name="V" Text="_getVar(Total_total)
 " idxGroup="-2" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -6779,18 +6794,19 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
 
   var total;
   total = _value(var_total1)
 
-  if total then
+  if(total) {
 
-        return _value(var_sum_nivel_1_mes_1)/total; &#xA;
+       return _value(var_sum_nivel_1_mes_1)/total; &#xA;
 
-  else
+  } else {
 
-        return 0; &#xA;
+       return 0; &#xA;
 
   }
 
@@ -6876,18 +6892,19 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
 
   var total;
   total = _value(var_total2)
 
-  if total then
+  if(total) {
 
-        return _value(var_sum_nivel_1_mes_2)/total; &#xA;
+       return _value(var_sum_nivel_1_mes_2)/total; &#xA;
 
-  else
+  } else {
 
-        return 0; &#xA;
+       return 0; &#xA;
 
   }
 
@@ -6932,18 +6949,19 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
 
   var total;
   total = _value(var_total3)
 
-  if total then
+  if(total) {
 
-        return _value(var_sum_nivel_1_mes_3)/total; &#xA;
+       return _value(var_sum_nivel_1_mes_3)/total; &#xA;
 
-  else
+  } else {
 
-        return 0; &#xA;
+       return 0; &#xA;
 
   }
 
@@ -6988,18 +7006,19 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
 
   var total;
   total = _value(var_total4)
 
-  if total then
+  if(total) {
 
-        return _value(var_sum_nivel_1_mes_4)/total; &#xA;
+       return _value(var_sum_nivel_1_mes_4)/total; &#xA;
 
-  else
+  } else {
 
-        return 0; &#xA;
+       return 0; &#xA;
 
   }
 
@@ -7044,18 +7063,19 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
 
   var total;
   total = _value(var_total5)
 
-  if total then
+  if(total) {
 
-        return _value(var_sum_nivel_1_mes_5)/total; &#xA;
+       return _value(var_sum_nivel_1_mes_5)/total; &#xA;
 
-  else
+  } else {
 
-        return 0; &#xA;
+       return 0; &#xA;
 
   }
 
@@ -7100,18 +7120,19 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
 
   var total;
   total = _value(var_total6)
 
-  if total then
+  if(total) {
 
-        return _value(var_sum_nivel_1_mes_6)/total; &#xA;
+       return _value(var_sum_nivel_1_mes_6)/total; &#xA;
 
-  else
+  } else {
 
-        return 0; &#xA;
+       return 0; &#xA;
 
   }
 
@@ -7156,18 +7177,19 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
 
   var total;
   total = _value(var_total7)
 
-  if total then
+  if(total) {
 
-        return _value(var_sum_nivel_1_mes_7)/total; &#xA;
+       return _value(var_sum_nivel_1_mes_7)/total; &#xA;
 
-  else
+  } else {
 
-        return 0; &#xA;
+       return 0; &#xA;
 
   }
 
@@ -7212,18 +7234,19 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
 
   var total;
   total = _value(var_total8)
 
-  if total then
+  if(total) {
 
-        return _value(var_sum_nivel_1_mes_8)/total; &#xA;
+       return _value(var_sum_nivel_1_mes_8)/total; &#xA;
 
-  else
+  } else {
 
-        return 0; &#xA;
+       return 0; &#xA;
 
   }
 
@@ -7268,18 +7291,19 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
 
   var total;
   total = _value(var_total9)
 
-  if total then
+  if(total) {
 
-        return _value(var_sum_nivel_1_mes_9)/total; &#xA;
+       return _value(var_sum_nivel_1_mes_9)/total; &#xA;
 
-  else
+  } else {
 
-        return 0; &#xA;
+       return 0; &#xA;
 
   }
 
@@ -7324,18 +7348,19 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
 
   var total;
   total = _value(var_total10)
 
-  if total then
+  if(total) {
 
-        return _value(var_sum_nivel_1_mes_10)/total; &#xA;
+       return _value(var_sum_nivel_1_mes_10)/total; &#xA;
 
-  else
+  } else {
 
-        return 0; &#xA;
+       return 0; &#xA;
 
   }
 
@@ -7380,18 +7405,19 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
 
   var total;
   total = _value(var_total11)
 
-  if total then
+  if(total) {
 
-        return _value(var_sum_nivel_1_mes_11)/total; &#xA;
+       return _value(var_sum_nivel_1_mes_11)/total; &#xA;
 
-  else
+  } else {
 
-        return 0; &#xA;
+       return 0; &#xA;
 
   }
 
@@ -7436,18 +7462,19 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
 
   var total;
   total = _value(var_total12)
 
-  if total then
+  if(total) {
 
-        return _value(var_sum_nivel_1_mes_12)/total; &#xA;
+       return _value(var_sum_nivel_1_mes_12)/total; &#xA;
 
-  else
+  } else {
 
-        return 0; &#xA;
+       return 0; &#xA;
 
   }
 
@@ -7492,18 +7519,19 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
 
   var total;
   total = _value(var_total_total)
 
-  if total then
+  if(total) {
 
-        return _value(var_sum_nivel_1_total)/total; &#xA;
+       return _value(var_sum_nivel_1_total)/total; &#xA;
 
-  else
+  } else {
 
-        return 0; &#xA;
+       return 0; &#xA;
 
   }
 
@@ -8182,7 +8210,7 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text=" _length( Control51 ) " idxGroup="0" WhenEval="0"/>
+                    <H Name="H" Text=" _length(Control51) " idxGroup="0" WhenEval="0"/>
                     <RptSectionLines>
                         <K310330 Key="K310330" Indice="1" IdField="" HasFormulaHide="0">
                             <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0"
@@ -8248,7 +8276,7 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text=" _length( Control80 ) " idxGroup="0" WhenEval="0"/>
+                    <H Name="H" Text=" _length(Control80) " idxGroup="0" WhenEval="0"/>
                     <RptSectionLines>
                         <K310332 Key="K310332" Indice="1" IdField="" HasFormulaHide="0">
                             <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0"
@@ -8874,7 +8902,7 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text=" _length( Control52 ) " idxGroup="0" WhenEval="0"/>
+                    <H Name="H" Text=" _length(Control52) " idxGroup="0" WhenEval="0"/>
                     <RptSectionLines>
                         <K310425 Key="K310425" Indice="1" IdField="" HasFormulaHide="0">
                             <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0"
@@ -8940,7 +8968,7 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text=" _length( Control78 ) " idxGroup="0" WhenEval="0"/>
+                    <H Name="H" Text=" _length(Control78) " idxGroup="0" WhenEval="0"/>
                     <RptSectionLines>
                         <K310427 Key="K310427" Indice="1" IdField="" HasFormulaHide="0">
                             <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0"
@@ -9555,7 +9583,7 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text=" _length( Control53 ) " idxGroup="0" WhenEval="0"/>
+                    <H Name="H" Text=" _length(Control53) " idxGroup="0" WhenEval="0"/>
                     <RptSectionLines>
                         <K310430 Key="K310430" Indice="1" IdField="" HasFormulaHide="0">
                             <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0"
@@ -9621,7 +9649,7 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text=" _length( Control76 ) " idxGroup="0" WhenEval="0"/>
+                    <H Name="H" Text=" _length(Control76) " idxGroup="0" WhenEval="0"/>
                     <RptSectionLines>
                         <K310432 Key="K310432" Indice="1" IdField="" HasFormulaHide="0">
                             <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0"
@@ -10236,7 +10264,7 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text=" _length( Control54 ) " idxGroup="0" WhenEval="0"/>
+                    <H Name="H" Text=" _length(Control54) " idxGroup="0" WhenEval="0"/>
                     <RptSectionLines>
                         <K310435 Key="K310435" Indice="1" IdField="" HasFormulaHide="0">
                             <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0"
@@ -10302,7 +10330,7 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text=" _length( Control74 ) " idxGroup="0" WhenEval="0"/>
+                    <H Name="H" Text=" _length(Control74) " idxGroup="0" WhenEval="0"/>
                     <RptSectionLines>
                         <K310437 Key="K310437" Indice="1" IdField="" HasFormulaHide="0">
                             <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0"
@@ -10917,7 +10945,7 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text=" _length( Control55 ) " idxGroup="0" WhenEval="0"/>
+                    <H Name="H" Text=" _length(Control55) " idxGroup="0" WhenEval="0"/>
                     <RptSectionLines>
                         <K310440 Key="K310440" Indice="1" IdField="" HasFormulaHide="0">
                             <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0"
@@ -10983,7 +11011,7 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text=" _length( Control72 ) " idxGroup="0" WhenEval="0"/>
+                    <H Name="H" Text=" _length(Control72) " idxGroup="0" WhenEval="0"/>
                     <RptSectionLines>
                         <K310442 Key="K310442" Indice="1" IdField="" HasFormulaHide="0">
                             <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0"
@@ -11598,7 +11626,7 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text=" _length( Control56 ) " idxGroup="0" WhenEval="0"/>
+                    <H Name="H" Text=" _length(Control56) " idxGroup="0" WhenEval="0"/>
                     <RptSectionLines>
                         <K310479 Key="K310479" Indice="1" IdField="" HasFormulaHide="0">
                             <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0"
@@ -11664,7 +11692,7 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text=" _length( Control70 ) " idxGroup="0" WhenEval="0"/>
+                    <H Name="H" Text=" _length(Control70) " idxGroup="0" WhenEval="0"/>
                     <RptSectionLines>
                         <K310481 Key="K310481" Indice="1" IdField="" HasFormulaHide="0">
                             <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0"
@@ -12279,7 +12307,7 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text=" _length( Control57 ) " idxGroup="0" WhenEval="0"/>
+                    <H Name="H" Text=" _length(Control57) " idxGroup="0" WhenEval="0"/>
                     <RptSectionLines>
                         <K310484 Key="K310484" Indice="1" IdField="" HasFormulaHide="0">
                             <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0"
@@ -12345,7 +12373,7 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text=" _length( Control61 ) " idxGroup="0" WhenEval="0"/>
+                    <H Name="H" Text=" _length(Control61) " idxGroup="0" WhenEval="0"/>
                     <RptSectionLines>
                         <K310486 Key="K310486" Indice="1" IdField="" HasFormulaHide="0">
                             <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0"
@@ -12960,7 +12988,7 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text=" _length( Control58 ) " idxGroup="0" WhenEval="0"/>
+                    <H Name="H" Text=" _length(Control58) " idxGroup="0" WhenEval="0"/>
                     <RptSectionLines>
                         <K310489 Key="K310489" Indice="1" IdField="" HasFormulaHide="0">
                             <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0"
@@ -13026,7 +13054,7 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text=" _length(Control81 ) " idxGroup="0" WhenEval="0"/>
+                    <H Name="H" Text=" _length(Control81) " idxGroup="0" WhenEval="0"/>
                     <RptSectionLines>
                         <K310491 Key="K310491" Indice="1" IdField="" HasFormulaHide="0">
                             <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0"
@@ -13651,8 +13679,9 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H"  Text="function x() { &#xA;
-  x =  _getparam(@@bResumido) =0
+                            <H Name="H"  Text="
+function x() { &#xA;
+    return _getparam(@@bResumido) === 0; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K306569 Key="K306569" Name="var_db_cuenta" KeyPaint="P420" HasFormulaHide="0"

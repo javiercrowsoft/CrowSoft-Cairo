@@ -772,27 +772,27 @@
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H" Text="function x() { &#xA;
-  if _value(var_db_ventas) != 0 &amp;&amp; _value(var_db_costo) != 0 then &#xA;
-    if _value(var_db_ventas) &lt; _value(var_db_costo) then &#xA;
-          return 0; &#xA;
-    else &#xA;
-          return 1; &#xA;
+                            <H Name="H" Text="
+function x() { &#xA;
+    if(_value(var_db_ventas) !== 0 &amp;&amp; _value(var_db_costo) !== 0) { &#xA;
+        if(_value(var_db_ventas) &lt; _value(var_db_costo)) { &#xA;
+            return 0; &#xA;
+        } else { &#xA;
+            return 1; &#xA;
+        } else { &#xA;
+            return 1; &#xA;
     } &#xA;
-  else &#xA;
-        return 1; &#xA;
-  } &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
-  if _value(var_db_ventas) != 0 &amp;&amp; _value(var_db_costo) != 0 then &#xA;
-    if _value(var_db_ventas) &lt; _value(var_db_costo) then &#xA;
-         return _value(var_db_ventas) / _value(var_db_costo); &#xA;
-   else &#xA;
-         return 1 - _value(var_db_costo) / _value(var_db_ventas); &#xA;
-   } &#xA;
-  else &#xA;
-        return 0; &#xA;
+                            <V Name="V" Text="
+function x() { &#xA;
+  if(_value(var_db_ventas) != 0 &amp;&amp; _value(var_db_costo) != 0) { &#xA;
+    if(_value(var_db_ventas) &lt; _value(var_db_costo)) { &#xA;
+        return _value(var_db_ventas) / _value(var_db_costo); &#xA;
+   } else { &#xA;
+        return 1 - _value(var_db_costo) / _value(var_db_ventas); &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
@@ -833,27 +833,27 @@
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H" Text="function x() { &#xA;
-  if _value(var_db_ventas) != 0 &amp;&amp; _value(var_db_costo) != 0 then &#xA;
-    if _value(var_db_ventas) &lt; _value(var_db_costo) then &#xA;
-         return 1; &#xA;
-   else &#xA;
-         return 0; &#xA;
-   } &#xA;
-  else &#xA;
+                            <H Name="H" Text="
+function x() { &#xA;
+  if(_value(var_db_ventas) != 0 &amp;&amp; _value(var_db_costo) != 0) { &#xA;
+    if(_value(var_db_ventas) &lt; _value(var_db_costo)) { &#xA;
+        return 1; &#xA;
+   } else { &#xA;
         return 0; &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
-  if _value(var_db_ventas) != 0 &amp;&amp; _value(var_db_costo) != 0 then &#xA;
-    if _value(var_db_ventas) &lt; _value(var_db_costo) then &#xA;
-         return _value(var_db_ventas) / _value(var_db_costo); &#xA;
-   else &#xA;
-         return 1 - _value(var_db_costo) / _value(var_db_ventas); &#xA;
-   } &#xA;
-  else &#xA;
-        return 0; &#xA;
+                            <V Name="V" Text="
+function x() { &#xA;
+  if(_value(var_db_ventas) != 0 &amp;&amp; _value(var_db_costo) != 0) { &#xA;
+    if(_value(var_db_ventas) &lt; _value(var_db_costo)) { &#xA;
+        return _value(var_db_ventas) / _value(var_db_costo); &#xA;
+   } else { &#xA;
+        return 1 - _value(var_db_costo) / _value(var_db_ventas); &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
@@ -939,15 +939,16 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
-    var currentdate = new Date(); &#xA;
-    var datetime = currentdate.getFullYear() + '/' &#xA;
-                     + (currentdate.getMonth() + 1) + '/' &#xA;
-                     + currentdate.getDate() + ' @ ' &#xA;
-                     + currentdate.getHours() + ':' &#xA;
-                     + currentdate.getMinutes() + ':' &#xA;
-                     + currentdate.getSeconds(); &#xA;
-     return datetime; &#xA;
+                            <V Name="V" Text="
+function x() { &#xA;
+    var currentDate = new Date(); &#xA;
+    var datetime = currentDate.getFullYear() + '/' &#xA;
+                     + (currentDate.getMonth() + 1) + '/' &#xA;
+                     + currentDate.getDate() + ' @ ' &#xA;
+                     + currentDate.getHours() + ':' &#xA;
+                     + currentDate.getMinutes() + ':' &#xA;
+                     + currentDate.getSeconds(); &#xA;
+    return datetime; &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1117,27 +1118,29 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text="function x() { &#xA;
-  if _value(var_total_ventas) != 0 &amp;&amp; _value(var_total_costos) != 0 then &#xA;
-    if _value(var_total_ventas) &lt; _value(var_total_costos) then &#xA;
-         return 0; &#xA;
-   else &#xA;
-         return 1; &#xA;
-   } &#xA;
-  else &#xA;
+                                    <H Name="H" Text="
+function x() { &#xA;
+  if(_value(var_total_ventas) != 0 &amp;&amp; _value(var_total_costos) != 0) { &#xA;
+    if(_value(var_total_ventas) &lt; _value(var_total_costos)) { &#xA;
+        return 0; &#xA;
+   } else { &#xA;
         return 1; &#xA;
+   } &#xA;
+  } else { &#xA;
+       return 1; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-  if _value(var_total_ventas) != 0 &amp;&amp; _value(var_total_costos) != 0 then &#xA;
-    if _value(var_total_ventas) &lt; _value(var_total_costos) then &#xA;
-         return _value(var_total_ventas) / _value(var_total_costos); &#xA;
-   else &#xA;
-         return 1 - _value(var_total_costos) / _value(var_total_ventas); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+  if(_value(var_total_ventas) != 0 &amp;&amp; _value(var_total_costos) != 0) { &#xA;
+    if(_value(var_total_ventas) &lt; _value(var_total_costos)) { &#xA;
+        return _value(var_total_ventas) / _value(var_total_costos); &#xA;
+   } else { &#xA;
+        return 1 - _value(var_total_costos) / _value(var_total_ventas); &#xA;
    } &#xA;
-  else &#xA;
-        return 0; &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -1305,27 +1308,29 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text="function x() { &#xA;
-  if _value(var_total_ventas) != 0 &amp;&amp; _value(var_total_costos) != 0 then &#xA;
-    if _value(var_total_ventas) &lt; _value(var_total_costos) then &#xA;
-         return 1; &#xA;
-   else &#xA;
-         return 0; &#xA;
-   } &#xA;
-  else &#xA;
+                                    <H Name="H" Text="
+function x() { &#xA;
+  if(_value(var_total_ventas) != 0 &amp;&amp; _value(var_total_costos) != 0) { &#xA;
+    if(_value(var_total_ventas) &lt; _value(var_total_costos)) { &#xA;
+        return 1; &#xA;
+   } else { &#xA;
         return 0; &#xA;
+   } &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-  if _value(var_total_ventas) != 0 &amp;&amp; _value(var_total_costos) != 0 then &#xA;
-    if _value(var_total_ventas) &lt; _value(var_total_costos) then &#xA;
-         return _value(var_total_ventas) / _value(var_total_costos); &#xA;
-   else &#xA;
-         return 1 - _value(var_total_costos) / _value(var_total_ventas); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+  if(_value(var_total_ventas) != 0 &amp;&amp; _value(var_total_costos) != 0) { &#xA;
+    if(_value(var_total_ventas) &lt; _value(var_total_costos)) { &#xA;
+        return _value(var_total_ventas) / _value(var_total_costos); &#xA;
+   } else { &#xA;
+        return 1 - _value(var_total_costos) / _value(var_total_ventas); &#xA;
    } &#xA;
-  else &#xA;
-        return 0; &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -1361,7 +1366,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel2 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel2) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815342 Key="K815342" Name="var_db_nivel2" KeyPaint="P182" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -1427,7 +1432,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel2 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel2) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K828610 Key="K828610" Name="var_n1_ventas" KeyPaint="P172" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -1547,8 +1552,9 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-    return 'Total ' + _getstring( _value(var_db_nivel2) ); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+    return 'Total ' + _getString(_value(var_db_nivel2)); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1590,27 +1596,29 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text="function x() { &#xA;
-  if _value(var_n1_ventas) != 0 &amp;&amp; _value(var_n1_costos) != 0 then &#xA;
-    if _value(var_n1_ventas) &lt; _value(var_n1_costos) then &#xA;
-         return 1; &#xA;
-   else &#xA;
-         return 0; &#xA;
-   } &#xA;
-  else &#xA;
+                                    <H Name="H" Text="
+function x() { &#xA;
+  if(_value(var_n1_ventas) != 0 &amp;&amp; _value(var_n1_costos) != 0) { &#xA;
+    if(_value(var_n1_ventas) &lt; _value(var_n1_costos)) { &#xA;
+        return 1; &#xA;
+   } else { &#xA;
         return 0; &#xA;
+   } &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-  if _value(var_n1_ventas) != 0 &amp;&amp; _value(var_n1_costos) != 0 then &#xA;
-    if _value(var_n1_ventas) &lt; _value(var_n1_costos) then &#xA;
-         return _value(var_n1_ventas) / _value(var_n1_costos); &#xA;
-   else &#xA;
-         return 1 - _value(var_n1_costos) / _value(var_n1_ventas); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+  if(_value(var_n1_ventas) != 0 &amp;&amp; _value(var_n1_costos) != 0) { &#xA;
+    if(_value(var_n1_ventas) &lt; _value(var_n1_costos)) { &#xA;
+        return _value(var_n1_ventas) / _value(var_n1_costos); &#xA;
+   } else { &#xA;
+        return 1 - _value(var_n1_costos) / _value(var_n1_ventas); &#xA;
    } &#xA;
-  else &#xA;
-        return 0; &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -1653,27 +1661,29 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text="function x() { &#xA;
-  if _value(var_n1_ventas) != 0 &amp;&amp; _value(var_n1_costos) != 0 then &#xA;
-    if _value(var_n1_ventas) &lt; _value(var_n1_costos) then &#xA;
-         return 0; &#xA;
-   else &#xA;
-          return 1; &#xA;
+                                    <H Name="H" Text="
+function x() { &#xA;
+  if(_value(var_n1_ventas) != 0 &amp;&amp; _value(var_n1_costos) != 0) { &#xA;
+    if(_value(var_n1_ventas) &lt; _value(var_n1_costos)) { &#xA;
+        return 0; &#xA;
+   } else { &#xA;
+         return 1; &#xA;
     } &#xA;
-  else &#xA;
-        return 1; &#xA;
+  } else { &#xA;
+       return 1; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-  if _value(var_n1_ventas) != 0 &amp;&amp; _value(var_n1_costos) != 0 then &#xA;
-    if _value(var_n1_ventas) &lt; _value(var_n1_costos) then &#xA;
-         return _value(var_n1_ventas) / _value(var_n1_costos); &#xA;
-   else &#xA;
-         return 1 - _value(var_n1_costos) / _value(var_n1_ventas); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+  if(_value(var_n1_ventas) != 0 &amp;&amp; _value(var_n1_costos) != 0) { &#xA;
+    if(_value(var_n1_ventas) &lt; _value(var_n1_costos)) { &#xA;
+        return _value(var_n1_ventas) / _value(var_n1_costos); &#xA;
+   } else { &#xA;
+        return 1 - _value(var_n1_costos) / _value(var_n1_ventas); &#xA;
    } &#xA;
-  else &#xA;
-        return 0; &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -1709,7 +1719,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel3 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel3) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815343 Key="K815343" Name="var_db_nivel3" KeyPaint="P183" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -1775,7 +1785,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel3 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel3) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K828609 Key="K828609" Name="var_n2_ventas" KeyPaint="P167" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -1895,8 +1905,9 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-    return 'Total ' + _getstring( _value(var_db_nivel3) ); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+    return 'Total ' + _getString(_value(var_db_nivel3)); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1938,27 +1949,29 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text="function x() { &#xA;
-  if _value(var_n2_ventas) != 0 &amp;&amp; _value(var_n2_costos) != 0 then &#xA;
-    if _value(var_n2_ventas) &lt; _value(var_n2_costos) then &#xA;
-         return 1; &#xA;
-   else &#xA;
-         return 0; &#xA;
-   } &#xA;
-  else &#xA;
+                                    <H Name="H" Text="
+function x() { &#xA;
+  if(_value(var_n2_ventas) != 0 &amp;&amp; _value(var_n2_costos) != 0) { &#xA;
+    if(_value(var_n2_ventas) &lt; _value(var_n2_costos)) { &#xA;
+        return 1; &#xA;
+   } else { &#xA;
         return 0; &#xA;
+   } &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-  if _value(var_n2_ventas) != 0 &amp;&amp; _value(var_n2_costos) != 0 then &#xA;
-    if _value(var_n2_ventas) &lt; _value(var_n2_costos) then &#xA;
-         return _value(var_n2_ventas) / _value(var_n2_costos); &#xA;
-   else &#xA;
-         return 1 - _value(var_n2_costos) / _value(var_n2_ventas); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+  if(_value(var_n2_ventas) != 0 &amp;&amp; _value(var_n2_costos) != 0) { &#xA;
+    if(_value(var_n2_ventas) &lt; _value(var_n2_costos)) { &#xA;
+        return _value(var_n2_ventas) / _value(var_n2_costos); &#xA;
+   } else { &#xA;
+        return 1 - _value(var_n2_costos) / _value(var_n2_ventas); &#xA;
    } &#xA;
-  else &#xA;
-        return 0; &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -2001,27 +2014,29 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text="function x() { &#xA;
-  if _value(var_n2_ventas) != 0 &amp;&amp; _value(var_n2_costos) != 0 then &#xA;
-    if _value(var_n2_ventas) &lt; _value(var_n2_costos) then &#xA;
-         return 0; &#xA;
-   else &#xA;
-         return 1; &#xA;
-   } &#xA;
-  else &#xA;
+                                    <H Name="H" Text="
+function x() { &#xA;
+  if(_value(var_n2_ventas) != 0 &amp;&amp; _value(var_n2_costos) != 0) { &#xA;
+    if(_value(var_n2_ventas) &lt; _value(var_n2_costos)) { &#xA;
+        return 0; &#xA;
+   } else { &#xA;
         return 1; &#xA;
+   } &#xA;
+  } else { &#xA;
+       return 1; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-  if _value(var_n2_ventas) != 0 &amp;&amp; _value(var_n2_costos) != 0 then &#xA;
-    if _value(var_n2_ventas) &lt; _value(var_n2_costos) then &#xA;
-         return _value(var_n2_ventas) / _value(var_n2_costos); &#xA;
-   else &#xA;
-         return 1 - _value(var_n2_costos) / _value(var_n2_ventas); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+  if(_value(var_n2_ventas) != 0 &amp;&amp; _value(var_n2_costos) != 0) { &#xA;
+    if(_value(var_n2_ventas) &lt; _value(var_n2_costos)) { &#xA;
+        return _value(var_n2_ventas) / _value(var_n2_costos); &#xA;
+   } else { &#xA;
+        return 1 - _value(var_n2_costos) / _value(var_n2_ventas); &#xA;
    } &#xA;
-  else &#xA;
-        return 0; &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -2057,7 +2072,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel4 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel4) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815344 Key="K815344" Name="var_db_nivel4" KeyPaint="P184" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -2123,7 +2138,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel4 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel4) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K828608 Key="K828608" Name="var_n3_ventas" KeyPaint="P162" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -2243,8 +2258,9 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-    return 'Total ' + _getstring( _value(var_db_nivel4) ); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+    return 'Total ' + _getString(_value(var_db_nivel4)); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2286,27 +2302,29 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text="function x() { &#xA;
-  if _value(var_n3_ventas) != 0 &amp;&amp; _value(var_n3_costos) != 0 then &#xA;
-    if _value(var_n3_ventas) &lt; _value(var_n3_costos) then &#xA;
-         return 1; &#xA;
-   else &#xA;
-         return 0; &#xA;
-   } &#xA;
-  else &#xA;
+                                    <H Name="H" Text="
+function x() { &#xA;
+  if(_value(var_n3_ventas) != 0 &amp;&amp; _value(var_n3_costos) != 0) { &#xA;
+    if(_value(var_n3_ventas) &lt; _value(var_n3_costos)) { &#xA;
+        return 1; &#xA;
+   } else { &#xA;
         return 0; &#xA;
+   } &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-  if _value(var_n3_ventas) != 0 &amp;&amp; _value(var_n3_costos) != 0 then &#xA;
-    if _value(var_n3_ventas) &lt; _value(var_n3_costos) then &#xA;
-         return _value(var_n3_ventas) / _value(var_n3_costos); &#xA;
-   else &#xA;
-         return 1 - _value(var_n3_costos) / _value(var_n3_ventas); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+  if(_value(var_n3_ventas) != 0 &amp;&amp; _value(var_n3_costos) != 0) { &#xA;
+    if(_value(var_n3_ventas) &lt; _value(var_n3_costos)) { &#xA;
+        return _value(var_n3_ventas) / _value(var_n3_costos); &#xA;
+   } else { &#xA;
+        return 1 - _value(var_n3_costos) / _value(var_n3_ventas); &#xA;
    } &#xA;
-  else &#xA;
-        return 0; &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -2349,27 +2367,29 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text="function x() { &#xA;
-  if _value(var_n3_ventas) != 0 &amp;&amp; _value(var_n3_costos) != 0 then &#xA;
-    if _value(var_n3_ventas) &lt; _value(var_n3_costos) then &#xA;
-         return 0; &#xA;
-   else &#xA;
-         return 1; &#xA;
-   } &#xA;
-  else &#xA;
+                                    <H Name="H" Text="
+function x() { &#xA;
+  if(_value(var_n3_ventas) != 0 &amp;&amp; _value(var_n3_costos) != 0) { &#xA;
+    if(_value(var_n3_ventas) &lt; _value(var_n3_costos)) { &#xA;
+        return 0; &#xA;
+   } else { &#xA;
         return 1; &#xA;
+   } &#xA;
+  } else { &#xA;
+       return 1; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-  if _value(var_n3_ventas) != 0 &amp;&amp; _value(var_n3_costos) != 0 then &#xA;
-    if _value(var_n3_ventas) &lt; _value(var_n3_costos) then &#xA;
-         return _value(var_n3_ventas) / _value(var_n3_costos); &#xA;
-   else &#xA;
-         return 1 - _value(var_n3_costos) / _value(var_n3_ventas); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+  if(_value(var_n3_ventas) != 0 &amp;&amp; _value(var_n3_costos) != 0) { &#xA;
+    if(_value(var_n3_ventas) &lt; _value(var_n3_costos)) { &#xA;
+        return _value(var_n3_ventas) / _value(var_n3_costos); &#xA;
+   } else { &#xA;
+        return 1 - _value(var_n3_costos) / _value(var_n3_ventas); &#xA;
    } &#xA;
-  else &#xA;
-        return 0; &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -2405,7 +2425,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel5 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel5) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815345 Key="K815345" Name="var_db_nivel5" KeyPaint="P185" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -2471,7 +2491,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel5 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel5) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K828607 Key="K828607" Name="var_n4_ventas" KeyPaint="P157" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -2591,8 +2611,9 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-    return 'Total ' + _getstring( _value(var_db_nivel5) ); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+    return 'Total ' + _getString(_value(var_db_nivel5)); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2634,27 +2655,29 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text="function x() { &#xA;
-  if _value(var_n4_ventas) != 0 &amp;&amp; _value(var_n4_costos) != 0 then &#xA;
-    if _value(var_n4_ventas) &lt; _value(var_n4_costos) then &#xA;
-         return 1; &#xA;
-   else &#xA;
-         return 0; &#xA;
-   } &#xA;
-  else &#xA;
+                                    <H Name="H" Text="
+function x() { &#xA;
+  if(_value(var_n4_ventas) != 0 &amp;&amp; _value(var_n4_costos) != 0) { &#xA;
+    if(_value(var_n4_ventas) &lt; _value(var_n4_costos)) { &#xA;
+        return 1; &#xA;
+   } else { &#xA;
         return 0; &#xA;
+   } &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-  if _value(var_n4_ventas) != 0 &amp;&amp; _value(var_n4_costos) != 0 then &#xA;
-    if _value(var_n4_ventas) &lt; _value(var_n4_costos) then &#xA;
-         return _value(var_n4_ventas) / _value(var_n4_costos); &#xA;
-   else &#xA;
-         return 1 - _value(var_n4_costos) / _value(var_n4_ventas); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+  if(_value(var_n4_ventas) != 0 &amp;&amp; _value(var_n4_costos) != 0) { &#xA;
+    if(_value(var_n4_ventas) &lt; _value(var_n4_costos)) { &#xA;
+        return _value(var_n4_ventas) / _value(var_n4_costos); &#xA;
+   } else { &#xA;
+        return 1 - _value(var_n4_costos) / _value(var_n4_ventas); &#xA;
    } &#xA;
-  else &#xA;
-        return 0; &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -2697,27 +2720,29 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text="function x() { &#xA;
-  if _value(var_n4_ventas) != 0 &amp;&amp; _value(var_n4_costos) != 0 then &#xA;
-    if _value(var_n4_ventas) &lt; _value(var_n4_costos) then &#xA;
-         return 0; &#xA;
-   else &#xA;
-         return 1; &#xA;
-   } &#xA;
-  else &#xA;
+                                    <H Name="H" Text="
+function x() { &#xA;
+  if(_value(var_n4_ventas) != 0 &amp;&amp; _value(var_n4_costos) != 0) { &#xA;
+    if(_value(var_n4_ventas) &lt; _value(var_n4_costos)) { &#xA;
+        return 0; &#xA;
+   } else { &#xA;
         return 1; &#xA;
+   } &#xA;
+  } else { &#xA;
+       return 1; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-  if _value(var_n4_ventas) != 0 &amp;&amp; _value(var_n4_costos) != 0 then &#xA;
-    if _value(var_n4_ventas) &lt; _value(var_n4_costos) then &#xA;
-         return _value(var_n4_ventas) / _value(var_n4_costos); &#xA;
-   else &#xA;
-         return 1 - _value(var_n4_costos) / _value(var_n4_ventas); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+  if(_value(var_n4_ventas) != 0 &amp;&amp; _value(var_n4_costos) != 0) { &#xA;
+    if(_value(var_n4_ventas) &lt; _value(var_n4_costos)) { &#xA;
+        return _value(var_n4_ventas) / _value(var_n4_costos); &#xA;
+   } else { &#xA;
+        return 1 - _value(var_n4_costos) / _value(var_n4_ventas); &#xA;
    } &#xA;
-  else &#xA;
-        return 0; &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -2753,7 +2778,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel6 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel6) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815472 Key="K815472" Name="var_db_nivel6" KeyPaint="P186" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -2819,7 +2844,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel6 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel6) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K828606 Key="K828606" Name="var_n5_ventas" KeyPaint="P152" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -2939,8 +2964,9 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-    return 'Total ' + _getstring( _value(var_db_nivel6) ); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+    return 'Total ' + _getString(_value(var_db_nivel6)); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2982,27 +3008,29 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text="function x() { &#xA;
-  if _value(var_n5_ventas) != 0 &amp;&amp; _value(var_n5_costos) != 0 then &#xA;
-    if _value(var_n5_ventas) &lt; _value(var_n5_costos) then &#xA;
-         return 1; &#xA;
-   else &#xA;
-         return 0; &#xA;
-   } &#xA;
-  else &#xA;
+                                    <H Name="H" Text="
+function x() { &#xA;
+  if(_value(var_n5_ventas) != 0 &amp;&amp; _value(var_n5_costos) != 0) { &#xA;
+    if(_value(var_n5_ventas) &lt; _value(var_n5_costos)) { &#xA;
+        return 1; &#xA;
+   } else { &#xA;
         return 0; &#xA;
+   } &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-  if _value(var_n5_ventas) != 0 &amp;&amp; _value(var_n5_costos) != 0 then &#xA;
-    if _value(var_n5_ventas) &lt; _value(var_n5_costos) then &#xA;
-         return _value(var_n5_ventas) / _value(var_n5_costos); &#xA;
-   else &#xA;
-         return 1 - _value(var_n5_costos) / _value(var_n5_ventas); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+  if(_value(var_n5_ventas) != 0 &amp;&amp; _value(var_n5_costos) != 0) { &#xA;
+    if(_value(var_n5_ventas) &lt; _value(var_n5_costos)) { &#xA;
+        return _value(var_n5_ventas) / _value(var_n5_costos); &#xA;
+   } else { &#xA;
+        return 1 - _value(var_n5_costos) / _value(var_n5_ventas); &#xA;
    } &#xA;
-  else &#xA;
-        return 0; &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -3045,27 +3073,29 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text="function x() { &#xA;
-  if _value(var_n5_ventas) != 0 &amp;&amp; _value(var_n5_costos) != 0 then &#xA;
-    if _value(var_n5_ventas) &lt; _value(var_n5_costos) then &#xA;
-         return 0; &#xA;
-   else &#xA;
-         return 1; &#xA;
-   } &#xA;
-  else &#xA;
+                                    <H Name="H" Text="
+function x() { &#xA;
+  if(_value(var_n5_ventas) != 0 &amp;&amp; _value(var_n5_costos) != 0) { &#xA;
+    if(_value(var_n5_ventas) &lt; _value(var_n5_costos)) { &#xA;
+        return 0; &#xA;
+   } else { &#xA;
         return 1; &#xA;
+   } &#xA;
+  } else { &#xA;
+       return 1; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-  if _value(var_n5_ventas) != 0 &amp;&amp; _value(var_n5_costos) != 0 then &#xA;
-    if _value(var_n5_ventas) &lt; _value(var_n5_costos) then &#xA;
-         return _value(var_n5_ventas) / _value(var_n5_costos); &#xA;
-   else &#xA;
-         return 1 - _value(var_n5_costos) / _value(var_n5_ventas); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+  if(_value(var_n5_ventas) != 0 &amp;&amp; _value(var_n5_costos) != 0) { &#xA;
+    if(_value(var_n5_ventas) &lt; _value(var_n5_costos)) { &#xA;
+        return _value(var_n5_ventas) / _value(var_n5_costos); &#xA;
+   } else { &#xA;
+        return 1 - _value(var_n5_costos) / _value(var_n5_ventas); &#xA;
    } &#xA;
-  else &#xA;
-        return 0; &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -3101,7 +3131,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel7 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel7) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815473 Key="K815473" Name="var_db_nivel7" KeyPaint="P187" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -3167,7 +3197,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel7 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel7) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K828605 Key="K828605" Name="var_n6_ventas" KeyPaint="P147" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -3287,8 +3317,9 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-    return 'Total ' + _getstring( _value(var_db_nivel7) ); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+    return 'Total ' + _getString(_value(var_db_nivel7)); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -3330,27 +3361,29 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text="function x() { &#xA;
-  if _value(var_n6_ventas) != 0 &amp;&amp; _value(var_n6_costos) != 0 then &#xA;
-    if _value(var_n6_ventas) &lt; _value(var_n6_costos) then &#xA;
-         return 1; &#xA;
-   else &#xA;
-         return 0; &#xA;
-   } &#xA;
-  else &#xA;
+                                    <H Name="H" Text="
+function x() { &#xA;
+  if(_value(var_n6_ventas) != 0 &amp;&amp; _value(var_n6_costos) != 0) { &#xA;
+    if(_value(var_n6_ventas) &lt; _value(var_n6_costos)) { &#xA;
+        return 1; &#xA;
+   } else { &#xA;
         return 0; &#xA;
+   } &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-  if _value(var_n6_ventas) != 0 &amp;&amp; _value(var_n6_costos) != 0 then &#xA;
-    if _value(var_n6_ventas) &lt; _value(var_n6_costos) then &#xA;
-         return _value(var_n6_ventas) / _value(var_n6_costos); &#xA;
-   else &#xA;
-         return 1 - _value(var_n6_costos) / _value(var_n6_ventas); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+  if(_value(var_n6_ventas) != 0 &amp;&amp; _value(var_n6_costos) != 0) { &#xA;
+    if(_value(var_n6_ventas) &lt; _value(var_n6_costos)) { &#xA;
+        return _value(var_n6_ventas) / _value(var_n6_costos); &#xA;
+   } else { &#xA;
+        return 1 - _value(var_n6_costos) / _value(var_n6_ventas); &#xA;
    } &#xA;
-  else &#xA;
-        return 0; &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -3393,27 +3426,29 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text="function x() { &#xA;
-  if _value(var_n6_ventas) != 0 &amp;&amp; _value(var_n6_costos) != 0 then &#xA;
-    if _value(var_n6_ventas) &lt; _value(var_n6_costos) then &#xA;
-         return 0; &#xA;
-   else &#xA;
-         return 1; &#xA;
-   } &#xA;
-  else &#xA;
+                                    <H Name="H" Text="
+function x() { &#xA;
+  if(_value(var_n6_ventas) != 0 &amp;&amp; _value(var_n6_costos) != 0) { &#xA;
+    if(_value(var_n6_ventas) &lt; _value(var_n6_costos)) { &#xA;
+        return 0; &#xA;
+   } else { &#xA;
         return 1; &#xA;
+   } &#xA;
+  } else { &#xA;
+       return 1; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-  if _value(var_n6_ventas) != 0 &amp;&amp; _value(var_n6_costos) != 0 then &#xA;
-    if _value(var_n6_ventas) &lt; _value(var_n6_costos) then &#xA;
-         return _value(var_n6_ventas) / _value(var_n6_costos); &#xA;
-   else &#xA;
-         return 1 - _value(var_n6_costos) / _value(var_n6_ventas); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+  if(_value(var_n6_ventas) != 0 &amp;&amp; _value(var_n6_costos) != 0) { &#xA;
+    if(_value(var_n6_ventas) &lt; _value(var_n6_costos)) { &#xA;
+        return _value(var_n6_ventas) / _value(var_n6_costos); &#xA;
+   } else { &#xA;
+        return 1 - _value(var_n6_costos) / _value(var_n6_ventas); &#xA;
    } &#xA;
-  else &#xA;
-        return 0; &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -3449,7 +3484,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel8 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel8) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815474 Key="K815474" Name="var_db_nivel8" KeyPaint="P188" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -3515,7 +3550,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel8 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel8) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K828604 Key="K828604" Name="var_n7_ventas" KeyPaint="P142" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -3635,8 +3670,9 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-    return 'Total ' + _getstring( _value(var_db_nivel8) ); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+    return 'Total ' + _getString(_value(var_db_nivel8)); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -3678,27 +3714,29 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text="function x() { &#xA;
-  if _value(var_n7_ventas) != 0 &amp;&amp; _value(var_n7_costos) != 0 then &#xA;
-    if _value(var_n7_ventas) &lt; _value(var_n7_costos) then &#xA;
-         return 1; &#xA;
-   else &#xA;
-         return 0; &#xA;
-   } &#xA;
-  else &#xA;
+                                    <H Name="H" Text="
+function x() { &#xA;
+  if(_value(var_n7_ventas) != 0 &amp;&amp; _value(var_n7_costos) != 0) { &#xA;
+    if(_value(var_n7_ventas) &lt; _value(var_n7_costos)) { &#xA;
+        return 1; &#xA;
+   } else { &#xA;
         return 0; &#xA;
+   } &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-  if _value(var_n7_ventas) != 0 &amp;&amp; _value(var_n7_costos) != 0 then &#xA;
-    if _value(var_n7_ventas) &lt; _value(var_n7_costos) then &#xA;
-         return _value(var_n7_ventas) / _value(var_n7_costos); &#xA;
-   else &#xA;
-         return 1 - _value(var_n7_costos) / _value(var_n7_ventas); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+  if(_value(var_n7_ventas) != 0 &amp;&amp; _value(var_n7_costos) != 0) { &#xA;
+    if(_value(var_n7_ventas) &lt; _value(var_n7_costos)) { &#xA;
+        return _value(var_n7_ventas) / _value(var_n7_costos); &#xA;
+   } else { &#xA;
+        return 1 - _value(var_n7_costos) / _value(var_n7_ventas); &#xA;
    } &#xA;
-  else &#xA;
-        return 0; &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -3741,27 +3779,29 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text="function x() { &#xA;
-  if _value(var_n7_ventas) != 0 &amp;&amp; _value(var_n7_costos) != 0 then &#xA;
-    if _value(var_n7_ventas) &lt; _value(var_n7_costos) then &#xA;
-         return 0; &#xA;
-   else &#xA;
-         return 1; &#xA;
-   } &#xA;
-  else &#xA;
+                                    <H Name="H" Text="
+function x() { &#xA;
+  if(_value(var_n7_ventas) != 0 &amp;&amp; _value(var_n7_costos) != 0) { &#xA;
+    if(_value(var_n7_ventas) &lt; _value(var_n7_costos)) { &#xA;
+        return 0; &#xA;
+   } else { &#xA;
         return 1; &#xA;
+   } &#xA;
+  } else { &#xA;
+       return 1; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-  if _value(var_n7_ventas) != 0 &amp;&amp; _value(var_n7_costos) != 0 then &#xA;
-    if _value(var_n7_ventas) &lt; _value(var_n7_costos) then &#xA;
-         return _value(var_n7_ventas) / _value(var_n7_costos); &#xA;
-   else &#xA;
-         return 1 - _value(var_n7_costos) / _value(var_n7_ventas); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+  if(_value(var_n7_ventas) != 0 &amp;&amp; _value(var_n7_costos) != 0) { &#xA;
+    if(_value(var_n7_ventas) &lt; _value(var_n7_costos)) { &#xA;
+        return _value(var_n7_ventas) / _value(var_n7_costos); &#xA;
+   } else { &#xA;
+        return 1 - _value(var_n7_costos) / _value(var_n7_ventas); &#xA;
    } &#xA;
-  else &#xA;
-        return 0; &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -3797,7 +3837,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel9 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel9) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K815475 Key="K815475" Name="var_db_nivel9" KeyPaint="P189" HasFormulaHide="0"
                                          HasFormulaValue="0" ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -3863,7 +3903,7 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text=" _length( var_db_nivel9 ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _length(var_db_nivel9) " idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K828603 Key="K828603" Name="var_n8_ventas" KeyPaint="P137" HasFormulaHide="0"
                                          HasFormulaValue="-1" ControlType="1" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -3983,8 +4023,9 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-    return 'Total ' + _getstring( _value(var_db_nivel9) ); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+    return 'Total ' + _getString(_value(var_db_nivel9)); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -4026,27 +4067,29 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text="function x() { &#xA;
-  if _value(var_n8_ventas) != 0 &amp;&amp; _value(var_n8_costos) != 0 then &#xA;
-    if _value(var_n8_ventas) &lt; _value(var_n8_costos) then &#xA;
-         return 1; &#xA;
-   else &#xA;
-         return 0; &#xA;
-   } &#xA;
-  else &#xA;
+                                    <H Name="H" Text="
+function x() { &#xA;
+  if(_value(var_n8_ventas) != 0 &amp;&amp; _value(var_n8_costos) != 0) { &#xA;
+    if(_value(var_n8_ventas) &lt; _value(var_n8_costos)) { &#xA;
+        return 1; &#xA;
+   } else { &#xA;
         return 0; &#xA;
+   } &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-  if _value(var_n8_ventas) != 0 &amp;&amp; _value(var_n8_costos) != 0 then &#xA;
-    if _value(var_n8_ventas) &lt; _value(var_n8_costos) then &#xA;
-         return _value(var_n8_ventas) / _value(var_n8_costos); &#xA;
-   else &#xA;
-         return 1 - _value(var_n8_costos) / _value(var_n8_ventas); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+  if(_value(var_n8_ventas) != 0 &amp;&amp; _value(var_n8_costos) != 0) { &#xA;
+    if(_value(var_n8_ventas) &lt; _value(var_n8_costos)) { &#xA;
+        return _value(var_n8_ventas) / _value(var_n8_costos); &#xA;
+   } else { &#xA;
+        return 1 - _value(var_n8_costos) / _value(var_n8_ventas); &#xA;
    } &#xA;
-  else &#xA;
-        return 0; &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -4089,27 +4132,29 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text="function x() { &#xA;
-  if _value(var_n8_ventas) != 0 &amp;&amp; _value(var_n8_costos) != 0 then &#xA;
-    if _value(var_n8_ventas) &lt; _value(var_n8_costos) then &#xA;
-         return 0; &#xA;
-   else &#xA;
-         return 1; &#xA;
-   } &#xA;
-  else &#xA;
+                                    <H Name="H" Text="
+function x() { &#xA;
+  if(_value(var_n8_ventas) != 0 &amp;&amp; _value(var_n8_costos) != 0) { &#xA;
+    if(_value(var_n8_ventas) &lt; _value(var_n8_costos)) { &#xA;
+        return 0; &#xA;
+   } else { &#xA;
         return 1; &#xA;
+   } &#xA;
+  } else { &#xA;
+       return 1; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-  if _value(var_n8_ventas) != 0 &amp;&amp; _value(var_n8_costos) != 0 then &#xA;
-    if _value(var_n8_ventas) &lt; _value(var_n8_costos) then &#xA;
-         return _value(var_n8_ventas) / _value(var_n8_costos); &#xA;
-   else &#xA;
-         return 1 - _value(var_n8_costos) / _value(var_n8_ventas); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+  if(_value(var_n8_ventas) != 0 &amp;&amp; _value(var_n8_costos) != 0) { &#xA;
+    if(_value(var_n8_ventas) &lt; _value(var_n8_costos)) { &#xA;
+        return _value(var_n8_ventas) / _value(var_n8_costos); &#xA;
+   } else { &#xA;
+        return 1 - _value(var_n8_costos) / _value(var_n8_ventas); &#xA;
    } &#xA;
-  else &#xA;
-        return 0; &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -4246,27 +4291,29 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text="function x() { &#xA;
-  if _value(var_rubro_ventas) != 0 &amp;&amp; _value(var_rubro_costos) != 0 then &#xA;
-    if _value(var_rubro_ventas) &lt; _value(var_rubro_costos) then &#xA;
-         return 0; &#xA;
-   else &#xA;
-         return 1; &#xA;
-   } &#xA;
-  else &#xA;
+                                    <H Name="H" Text="
+function x() { &#xA;
+  if(_value(var_rubro_ventas) != 0 &amp;&amp; _value(var_rubro_costos) != 0) { &#xA;
+    if(_value(var_rubro_ventas) &lt; _value(var_rubro_costos)) { &#xA;
+        return 0; &#xA;
+   } else { &#xA;
         return 1; &#xA;
+   } &#xA;
+  } else { &#xA;
+       return 1; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-  if _value(var_rubro_ventas) != 0 &amp;&amp; _value(var_rubro_costos) != 0 then &#xA;
-    if _value(var_rubro_ventas) &lt; _value(var_rubro_costos) then &#xA;
-         return _value(var_rubro_ventas) / _value(var_rubro_costos); &#xA;
-   else &#xA;
-         return 1 - _value(var_rubro_costos) / _value(var_rubro_ventas); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+  if(_value(var_rubro_ventas) != 0 &amp;&amp; _value(var_rubro_costos) != 0) { &#xA;
+    if(_value(var_rubro_ventas) &lt; _value(var_rubro_costos)) { &#xA;
+        return _value(var_rubro_ventas) / _value(var_rubro_costos); &#xA;
+   } else { &#xA;
+        return 1 - _value(var_rubro_costos) / _value(var_rubro_ventas); &#xA;
    } &#xA;
-  else &#xA;
-        return 0; &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -4352,8 +4399,9 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-    return 'Total ' + _getstring( _value(var_db_rubro) ); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+    return 'Total ' + _getString(_value(var_db_rubro)); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -4437,27 +4485,29 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text="function x() { &#xA;
-  if _value(var_rubro_ventas) != 0 &amp;&amp; _value(var_rubro_costos) != 0 then &#xA;
-    if _value(var_rubro_ventas) &lt; _value(var_rubro_costos) then &#xA;
-         return 1; &#xA;
-   else &#xA;
-         return 0; &#xA;
-   } &#xA;
-  else &#xA;
+                                    <H Name="H" Text="
+function x() { &#xA;
+  if(_value(var_rubro_ventas) != 0 &amp;&amp; _value(var_rubro_costos) != 0) { &#xA;
+    if(_value(var_rubro_ventas) &lt; _value(var_rubro_costos)) { &#xA;
+        return 1; &#xA;
+   } else { &#xA;
         return 0; &#xA;
+   } &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-  if _value(var_rubro_ventas) != 0 &amp;&amp; _value(var_rubro_costos) != 0 then &#xA;
-    if _value(var_rubro_ventas) &lt; _value(var_rubro_costos) then &#xA;
-         return _value(var_rubro_ventas) / _value(var_rubro_costos); &#xA;
-   else &#xA;
-         return 1 - _value(var_rubro_costos) / _value(var_rubro_ventas); &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+  if(_value(var_rubro_ventas) != 0 &amp;&amp; _value(var_rubro_costos) != 0) { &#xA;
+    if(_value(var_rubro_ventas) &lt; _value(var_rubro_costos)) { &#xA;
+        return _value(var_rubro_ventas) / _value(var_rubro_costos); &#xA;
+   } else { &#xA;
+        return 1 - _value(var_rubro_costos) / _value(var_rubro_ventas); &#xA;
    } &#xA;
-  else &#xA;
-        return 0; &#xA;
+  } else { &#xA;
+       return 0; &#xA;
   } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>

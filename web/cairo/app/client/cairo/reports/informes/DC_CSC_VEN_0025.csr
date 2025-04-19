@@ -557,7 +557,7 @@
                     BorderRounded="0">
                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
             </Aspect>
-            <H Name="H" Text=" _value( Control94 ) " idxGroup="0" WhenEval="0"/>
+            <H Name="H" Text=" _value(Control94) " idxGroup="0" WhenEval="0"/>
             <RptSectionLines>
                 <K10517 Key="K10517" Indice="1" IdField="" HasFormulaHide="0">
                     <Aspect Align="3" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0"
@@ -790,7 +790,7 @@
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H" Text=" _value( var_db_orden ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _value(var_db_orden) " idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -1002,15 +1002,16 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
-    var currentdate = new Date(); &#xA;
-    var datetime = currentdate.getFullYear() + '/' &#xA;
-                     + (currentdate.getMonth() + 1) + '/' &#xA;
-                     + currentdate.getDate() + ' @ ' &#xA;
-                     + currentdate.getHours() + ':' &#xA;
-                     + currentdate.getMinutes() + ':' &#xA;
-                     + currentdate.getSeconds(); &#xA;
-     return datetime; &#xA;
+                            <V Name="V" Text="
+function x() { &#xA;
+    var currentDate = new Date(); &#xA;
+    var datetime = currentDate.getFullYear() + '/' &#xA;
+                     + (currentDate.getMonth() + 1) + '/' &#xA;
+                     + currentDate.getDate() + ' @ ' &#xA;
+                     + currentDate.getHours() + ':' &#xA;
+                     + currentDate.getMinutes() + ':' &#xA;
+                     + currentDate.getSeconds(); &#xA;
+    return datetime; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -1260,7 +1261,7 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text=" _value( var_db_orden ) " idxGroup="1" WhenEval="0"/>
+                                    <H Name="H" Text=" _value(var_db_orden) " idxGroup="1" WhenEval="0"/>
                                     <V Name="V" Text=" _sum(Control96) " idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -1468,7 +1469,7 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text=" _calculo( Control63,  Control111, 0, 2 ) " idxGroup="0"
+                                    <V Name="V" Text=" _calculo(Control63,  Control111, 0, 2) " idxGroup="0"
                                        WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -1603,11 +1604,12 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="function x() { &#xA;
+                                    <H Name="H"  Text="
+function x() { &#xA;
 
-      return _value( var_db_orden ) === 0; &#xA;
+    return _value(var_db_orden) === 0; &#xA;
 
-} " idxGroup="0" WhenEval="0"/>
+}" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text=" _sum(Control95) " idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -1649,7 +1651,7 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text=" _value( var_db_orden ) " idxGroup="2" WhenEval="0"/>
+                                    <H Name="H" Text=" _value(var_db_orden) " idxGroup="2" WhenEval="0"/>
                                     <V Name="V" Text=" _sum(Control96) " idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -1770,11 +1772,12 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-    if(datevalue(_getstring(var_db_fecha_cobz_nc)) = datevalue('1990-01-01')) { &#xA;
-        return ''; &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+    if(datevalue(_getString(var_db_fecha_cobz_nc)) = datevalue('1990-01-01')) { &#xA;
+       return ''; &#xA;
     } else { &#xA;
-        return datevalue(_getstring(var_db_fecha_cobz_nc)); &#xA;
+       return datevalue(_getString(var_db_fecha_cobz_nc)); &#xA;
     } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -1818,7 +1821,7 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text="_value( Control47 ) " idxGroup="4" WhenEval="0"/>
+                                    <H Name="H" Text="_value(Control47) " idxGroup="4" WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -1860,7 +1863,7 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text="_value( Control47 ) " idxGroup="4" WhenEval="0"/>
+                                    <H Name="H" Text="_value(Control47) " idxGroup="4" WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -2083,11 +2086,12 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H"  Text="function x() { &#xA;
+                            <H Name="H"  Text="
+function x() { &#xA;
 
-  if  _value(var_db_orden) = 0 then 
+  if( _value(var_db_orden) === 0) {
      x=_length(var_db_observaciones_cobz) 
-  else
+  } else {
     x=0
   }
 }" idxGroup="0" WhenEval="0"/>
@@ -2144,8 +2148,9 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H"  Text="function x() { &#xA;
-      return _length(var_db_cobz_nc_comp) === 0; &#xA;
+                            <H Name="H"  Text="
+function x() { &#xA;
+    return _length(var_db_cobz_nc_comp) === 0; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K1717664 Key="K1717664" Name="Control129" KeyPaint="P148" HasFormulaHide="0"
@@ -2182,11 +2187,12 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="function x() { &#xA;
-    if( _getparam(@@pendientes) === 0 ) { &#xA;
-        return 'Facturas'; &#xA;
+                                    <V Name="V" Text="
+function x() { &#xA;
+    if(_getparam(@@pendientes) === 0) { &#xA;
+       return 'Facturas'; &#xA;
     } else { &#xA;
-        return 'Facturas Pendientes'; &#xA;
+       return 'Facturas Pendientes'; &#xA;
     } &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -2219,8 +2225,9 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H"  Text="function x() { &#xA;
-  x=  _value(var_db_orden) = 0
+                            <H Name="H"  Text="
+function x() { &#xA;
+    return _value(var_db_orden) === 0; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K1637442 Key="K1637442" Name="Control123" KeyPaint="P127" HasFormulaHide="0"
@@ -2257,11 +2264,12 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="function x() { &#xA;
+                                    <H Name="H"  Text="
+function x() { &#xA;
 
-      return _value( var_db_orden ) === 0; &#xA;
+    return _value(var_db_orden) === 0; &#xA;
 
-} " idxGroup="0" WhenEval="0"/>
+}" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text=" _sum(Control95) " idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -2303,7 +2311,7 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text=" _value( var_db_orden ) " idxGroup="4" WhenEval="0"/>
+                                    <H Name="H" Text=" _value(var_db_orden) " idxGroup="4" WhenEval="0"/>
                                     <V Name="V" Text=" _sum(Control96) " idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"

@@ -644,8 +644,9 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H"  Text="function x() { &#xA;
-      return _getvar(top) &lt;=  _getparam(@@top) ; &#xA;
+                    <H Name="H"  Text="
+function x() { &#xA;
+    return _getVar(top) &lt;=  _getparam(@@top) ; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                     <RptControls>
                         <K355658 Key="K355658" Name="Control43" KeyPaint="P110" HasFormulaHide="0" HasFormulaValue="0"
@@ -834,7 +835,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="_addtovar(top,1) " idxGroup="0" WhenEval="0"/>
+                            <V Name="V" Text="_addToVar(top,1) " idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
                                    GroupFieldIndex="0" GroupValue="" Sort="0">
@@ -872,7 +873,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text=" _getvar(top) " idxGroup="0" WhenEval="0"/>
+                            <V Name="V" Text=" _getVar(top) " idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
                                    GroupFieldIndex="0" GroupValue="" Sort="0">
@@ -1008,7 +1009,7 @@
                                           Strike="0"/>
                                 </Aspect>
                             </Image>
-                            <Label Text="if &lt; top Neto else 0" CanGrow="0">
+                            <Label Text="if &lt; top Neto } else { 0" CanGrow="0">
                                 <Aspect Align="0" BackColor="16711680" BorderColor="0" BorderColor3D="0"
                                         BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285"
                                         Format="" Left="3527" nZOrder="23" SelectColor="0" Top="3188" Width="2000"
@@ -1027,10 +1028,11 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="function x() { &#xA;
-  if  _getvar(top) &lt;=  _getparam(@@top) then
-    x= _value( Control67 ) 
-  else
+                            <V Name="V"  Text="
+function x() { &#xA;
+  if( _getVar(top) &lt;=  _getparam(@@top)) {
+    return _value(Control67) ; &#xA;
+  } else {
     x=0
   }
 }" idxGroup="0" WhenEval="0"/>
@@ -1052,7 +1054,7 @@
                                           Strike="0"/>
                                 </Aspect>
                             </Image>
-                            <Label Text="if &lt; top Iva else 0" CanGrow="0">
+                            <Label Text="if &lt; top Iva } else { 0" CanGrow="0">
                                 <Aspect Align="0" BackColor="16711680" BorderColor="0" BorderColor3D="0"
                                         BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285"
                                         Format="" Left="3527" nZOrder="24" SelectColor="0" Top="3188" Width="2000"
@@ -1071,10 +1073,11 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="function x() { &#xA;
-  if  _getvar(top) &lt;=  _getparam(@@top) then
-    x= _value( Control43 ) 
-  else
+                            <V Name="V"  Text="
+function x() { &#xA;
+  if( _getVar(top) &lt;=  _getparam(@@top)) {
+    return _value(Control43) ; &#xA;
+  } else {
     x=0
   }
 }" idxGroup="0" WhenEval="0"/>
@@ -1096,7 +1099,7 @@
                                           Strike="0"/>
                                 </Aspect>
                             </Image>
-                            <Label Text="if &lt; top Otros else 0" CanGrow="0">
+                            <Label Text="if &lt; top Otros } else { 0" CanGrow="0">
                                 <Aspect Align="0" BackColor="16711680" BorderColor="0" BorderColor3D="0"
                                         BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285"
                                         Format="" Left="3527" nZOrder="25" SelectColor="0" Top="3188" Width="2000"
@@ -1115,10 +1118,11 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="function x() { &#xA;
-  if  _getvar(top) &lt;=  _getparam(@@top) then
-    x= _value( Control44 ) 
-  else
+                            <V Name="V"  Text="
+function x() { &#xA;
+  if( _getVar(top) &lt;=  _getparam(@@top)) {
+    return _value(Control44) ; &#xA;
+  } else {
     x=0
   }
 }" idxGroup="0" WhenEval="0"/>
@@ -1140,7 +1144,7 @@
                                           Strike="0"/>
                                 </Aspect>
                             </Image>
-                            <Label Text="if &lt; top Total else 0" CanGrow="0">
+                            <Label Text="if &lt; top Total } else { 0" CanGrow="0">
                                 <Aspect Align="0" BackColor="16711680" BorderColor="0" BorderColor3D="0"
                                         BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="285"
                                         Format="" Left="3527" nZOrder="26" SelectColor="0" Top="3188" Width="2000"
@@ -1159,10 +1163,11 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="function x() { &#xA;
-  if  _getvar(top) &lt;=  _getparam(@@top) then
-    x= _value( Control45 ) 
-  else
+                            <V Name="V"  Text="
+function x() { &#xA;
+  if( _getVar(top) &lt;=  _getparam(@@top)) {
+    return _value(Control45) ; &#xA;
+  } else {
     x=0
   }
 }" idxGroup="0" WhenEval="0"/>
@@ -1248,15 +1253,16 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
-    var currentdate = new Date(); &#xA;
-    var datetime = currentdate.getFullYear() + '/' &#xA;
-                     + (currentdate.getMonth() + 1) + '/' &#xA;
-                     + currentdate.getDate() + ' @ ' &#xA;
-                     + currentdate.getHours() + ':' &#xA;
-                     + currentdate.getMinutes() + ':' &#xA;
-                     + currentdate.getSeconds(); &#xA;
-     return datetime; &#xA;
+                            <V Name="V" Text="
+function x() { &#xA;
+    var currentDate = new Date(); &#xA;
+    var datetime = currentDate.getFullYear() + '/' &#xA;
+                     + (currentDate.getMonth() + 1) + '/' &#xA;
+                     + currentDate.getDate() + ' @ ' &#xA;
+                     + currentDate.getHours() + ':' &#xA;
+                     + currentDate.getMinutes() + ':' &#xA;
+                     + currentDate.getSeconds(); &#xA;
+    return datetime; &#xA;
 }
 " idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"

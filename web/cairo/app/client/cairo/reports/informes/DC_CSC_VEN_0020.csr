@@ -512,7 +512,7 @@
                     BorderRounded="0">
                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
             </Aspect>
-            <H Name="H" Text=" _value( var_db_fv_numero ) " idxGroup="0" WhenEval="0"/>
+            <H Name="H" Text=" _value(var_db_fv_numero) " idxGroup="0" WhenEval="0"/>
             <RptSectionLines>
                 <K10517 Key="K10517" Indice="1" IdField="" HasFormulaHide="0">
                     <Aspect Align="3" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0"
@@ -707,7 +707,7 @@
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H" Text=" _value( var_db_orden ) " idxGroup="0" WhenEval="0"/>
+                            <H Name="H" Text=" _value(var_db_orden) " idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -984,15 +984,16 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="function x() { &#xA;
-    var currentdate = new Date(); &#xA;
-    var datetime = currentdate.getFullYear() + '/' &#xA;
-                     + (currentdate.getMonth() + 1) + '/' &#xA;
-                     + currentdate.getDate() + ' @ ' &#xA;
-                     + currentdate.getHours() + ':' &#xA;
-                     + currentdate.getMinutes() + ':' &#xA;
-                     + currentdate.getSeconds(); &#xA;
-     return datetime; &#xA;
+                            <V Name="V" Text="
+function x() { &#xA;
+    var currentDate = new Date(); &#xA;
+    var datetime = currentDate.getFullYear() + '/' &#xA;
+                     + (currentDate.getMonth() + 1) + '/' &#xA;
+                     + currentDate.getDate() + ' @ ' &#xA;
+                     + currentDate.getHours() + ':' &#xA;
+                     + currentDate.getMinutes() + ':' &#xA;
+                     + currentDate.getSeconds(); &#xA;
+    return datetime; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -1338,7 +1339,7 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text=" _value( var_db_orden ) " idxGroup="0" WhenEval="0"/>
+                                    <H Name="H" Text=" _value(var_db_orden) " idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text=" _sum(var_db_fv_pendiente) " idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -1476,7 +1477,7 @@
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
                                     <V Name="V"
-                                       Text=" _calculo( var_total_fv_pendiente,  var_total_cobz_pendiente, 0, 2 ) "
+                                       Text=" _calculo(var_total_fv_pendiente,  var_total_cobz_pendiente, 0, 2) "
                                        idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -1546,12 +1547,13 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
 
   if(_value(var_db_orden) == 0) {
-   return 'Cobranzas y Notas de Credito'; &#xA;
-  else
-   return 'Facturas y Notas de Debito'; &#xA;
+    return 'Cobranzas y Notas de Credito'; &#xA;
+  } else {
+    return 'Facturas y Notas de Debito'; &#xA;
   }
 
 }" idxGroup="0" WhenEval="0"/>
@@ -1584,13 +1586,14 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H"  Text="function x() { &#xA;
+                            <H Name="H"  Text="
+function x() { &#xA;
   var IsCobranza;
   var Aplicado;
   IsCobranza = _value(var_db_orden)=0
   Aplicado = _value(var_cobz_aplicado)
 
-      return IsCobranza &amp;&amp; Aplicado; &#xA;
+    return IsCobranza &amp;&amp; Aplicado; &#xA;
 
 }" idxGroup="0" WhenEval="0"/>
                             <RptControls>
@@ -1628,11 +1631,12 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="function x() { &#xA;
+                                    <H Name="H"  Text="
+function x() { &#xA;
 
-      return _value( var_db_orden ) === 0; &#xA;
+    return _value(var_db_orden) === 0; &#xA;
 
-} " idxGroup="0" WhenEval="0"/>
+}" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text=" _sum(Control95) " idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -1674,7 +1678,7 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text=" _value( var_db_orden ) " idxGroup="0" WhenEval="0"/>
+                                    <H Name="H" Text=" _value(var_db_orden) " idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text=" _sum(var_db_fv_pendiente) " idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -1801,19 +1805,20 @@
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H"  Text="function x() { &#xA;
+                            <H Name="H"  Text="
+function x() { &#xA;
 
-  if _value(var_db_orden) then
+  if(_value(var_db_orden)) {
 
-        return 0; &#xA; 0
+       return 0; &#xA; 0
 
-  elseif _isequal(var_db_cobz_numero,-9999) then
+  } else {if(_isequal(var_db_cobz_numero,-9999)) {
 
-        return _value(var_db_cobz_pendiente); &#xA;
+       return _value(var_db_cobz_pendiente); &#xA;
 
-  else
+  } else {
 
-        return 1; &#xA;
+       return 1; &#xA;
 
   }
 
@@ -2211,11 +2216,12 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="function x() { &#xA;
+                                    <H Name="H"  Text="
+function x() { &#xA;
 
-      return _value( var_db_orden ) === 0; &#xA;
+    return _value(var_db_orden) === 0; &#xA;
 
-} " idxGroup="0" WhenEval="0"/>
+}" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text=" _sum(Control95) " idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -2257,7 +2263,7 @@
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text=" _value( var_db_orden ) " idxGroup="0" WhenEval="0"/>
+                                    <H Name="H" Text=" _value(var_db_orden) " idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text=" _sum(var_db_fv_pendiente) " idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                            ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0"
@@ -2299,11 +2305,12 @@
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="function x() { &#xA;
+                                    <V Name="V"  Text="
+function x() { &#xA;
   if(_value(var_db_orden) == 0) {
-   return 'Total Aplicado'; &#xA;
-  else
-   return 'Total Facturas'; &#xA;
+    return 'Total Aplicado'; &#xA;
+  } else {
+    return 'Total Facturas'; &#xA;
   }
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
