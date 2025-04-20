@@ -1849,8 +1849,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     var rtn; &#xA;
     var precio_fc = _value(var_db_fci_precio_ex); &#xA;
     var precio_lp = _value(var_db_lp_precio_ex); &#xA;
@@ -1902,8 +1901,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     var rtn; &#xA;
     var precio_fc = _value(var_db_fci_precio); &#xA;
     var precio_lp = _value(var_db_lp_precio); &#xA;
@@ -2086,8 +2084,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     var currentDate = new Date(); &#xA;
     var datetime = currentDate.getFullYear() + '/' &#xA;
                      + (currentDate.getMonth() + 1) + '/' &#xA;

@@ -1180,8 +1180,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     var currentDate = new Date(); &#xA;
     var datetime = currentDate.getFullYear() + '/' &#xA;
                      + (currentDate.getMonth() + 1) + '/' &#xA;
@@ -1523,8 +1522,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return _value(var_debe_g1) - _value(var_haber_g1); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -1894,8 +1892,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return _value(var_debe_g2) - _value(var_haber_g2); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2199,8 +2196,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return _value(var_debe_g3) - _value(var_haber_g3); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"

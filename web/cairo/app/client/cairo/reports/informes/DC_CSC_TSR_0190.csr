@@ -239,8 +239,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="-1000" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
 
   if(_currentpage() = 1) {  &#xA;
   &#xA;
@@ -417,8 +416,7 @@ function x() { &#xA;
                     BorderRounded="0">
                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
             </Aspect>
-            <H Name="H"  Text="
-function x() { &#xA;
+            <H Name="H"  Text="function x() { &#xA;
     return _getparam(@@resumido) === 0; &#xA;
 }" idxGroup="0" WhenEval="0"/>
             <RptSectionLines>
@@ -1057,8 +1055,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
 
   var rub_id_inv;
   rub_id_inv = _getparam(@@rub_id_inversiones)
@@ -1177,8 +1174,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     var currentDate = new Date(); &#xA;
     var datetime = currentDate.getFullYear() + '/' &#xA;
                      + (currentDate.getMonth() + 1) + '/' &#xA;
@@ -1447,8 +1443,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return _Sum(imes1) - report.getvar('inv1').value; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1492,8 +1487,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return _Sum(imes2) - report.getvar('inv2').value; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1537,8 +1531,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return _Sum(imes3) - report.getvar('inv3').value; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1582,8 +1575,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return _Sum(imes4) - report.getvar('inv4').value; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1627,8 +1619,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return _Sum(imes5) - report.getvar('inv5').value; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1672,8 +1663,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return _Sum(imes6) - report.getvar('inv6').value; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1717,8 +1707,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return _Sum(imes7) - report.getvar('inv7').value; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1762,8 +1751,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return _Sum(imes8) - report.getvar('inv8').value; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1807,8 +1795,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return _Sum(imes9) - report.getvar('inv9').value; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1852,8 +1839,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return _Sum(imes10) - report.getvar('inv10').value; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1897,8 +1883,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return _Sum(imes11) - report.getvar('inv11').value; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1942,8 +1927,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return _Sum(imes12) - report.getvar('inv12').value; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -1987,8 +1971,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return _Sum(iTotal) - report.getvar('iTotal').value; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2085,8 +2068,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return report.getvar('inv1').value; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2130,8 +2112,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return report.getvar('inv2').value; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2175,8 +2156,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return report.getvar('inv3').value; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2220,8 +2200,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return report.getvar('inv4').value; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2265,8 +2244,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return report.getvar('inv5').value; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2310,8 +2288,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return report.getvar('inv6').value; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2355,8 +2332,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return report.getvar('inv7').value; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2400,8 +2376,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return report.getvar('inv8').value; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2445,8 +2420,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return report.getvar('inv9').value; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2490,8 +2464,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return report.getvar('inv10').value; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2535,8 +2508,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return report.getvar('inv11').value; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2580,8 +2552,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return report.getvar('inv12').value; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2625,8 +2596,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return report.getvar('iTotal').value; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -3876,8 +3846,7 @@ function x() { &#xA;
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H"  Text="
-function x() { &#xA;
+                    <H Name="H"  Text="function x() { &#xA;
     return _getparam(@@resumido) === 0; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                     <RptSectionLines>
@@ -3955,8 +3924,7 @@ function x() { &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H"  Text="
-function x() { &#xA;
+                            <H Name="H"  Text="function x() { &#xA;
     return _getparam(@@resumido) === 0; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <RptControls>
@@ -4598,8 +4566,7 @@ function x() { &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H"  Text="
-function x() { &#xA;
+                            <H Name="H"  Text="function x() { &#xA;
     return _getparam(@@resumido); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <RptControls>

@@ -245,8 +245,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="-1000" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
 
   if(_currentpage() = 1) {
 
@@ -420,8 +419,7 @@ function x() { &#xA;
                     BorderRounded="0">
                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
             </Aspect>
-            <H Name="H"  Text="
-function x() { &#xA;
+            <H Name="H"  Text="function x() { &#xA;
     return _getparam(@@resumido) === 0; &#xA;
 }" idxGroup="0" WhenEval="0"/>
             <RptSectionLines>
@@ -1060,8 +1058,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     var rub_id_inv; &#xA;
     rub_id_inv = _getparam(@@rub_id_inversiones); &#xA;
     &#xA;
@@ -1175,8 +1172,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     var currentDate = new Date(); &#xA;
     var datetime = currentDate.getFullYear() + '/' &#xA;
                      + (currentDate.getMonth() + 1) + '/' &#xA;
@@ -2674,8 +2670,7 @@ function x() { &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H"  Text="
-function x() { &#xA;
+                            <H Name="H"  Text="function x() { &#xA;
 
     return _getString(var_db_tipo)='Compras'; &#xA;
 
@@ -3284,8 +3279,7 @@ function x() { &#xA;
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H"  Text="
-function x() { &#xA;
+                    <H Name="H"  Text="function x() { &#xA;
     return _getparam(@@resumido) === 0; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                     <RptSectionLines>
@@ -3363,8 +3357,7 @@ function x() { &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H"  Text="
-function x() { &#xA;
+                            <H Name="H"  Text="function x() { &#xA;
     return _getparam(@@resumido) === 0; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <RptControls>
@@ -4006,8 +3999,7 @@ function x() { &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H"  Text="
-function x() { &#xA;
+                            <H Name="H"  Text="function x() { &#xA;
     return _getparam(@@resumido); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <RptControls>

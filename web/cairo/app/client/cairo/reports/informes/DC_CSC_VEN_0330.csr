@@ -644,9 +644,8 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H"  Text="
-function x() { &#xA;
-    return _getVar(top) &lt;=  _getparam(@@top) ; &#xA;
+                    <H Name="H"  Text="function x() { &#xA;
+    return _getVar(top) &lt; = _getparam(@@top) ; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                     <RptControls>
                         <K355658 Key="K355658" Name="Control43" KeyPaint="P110" HasFormulaHide="0" HasFormulaValue="0"
@@ -1028,9 +1027,8 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
-  if( _getVar(top) &lt;=  _getparam(@@top)) {
+                            <V Name="V"  Text="function x() { &#xA;
+  if( _getVar(top) &lt; = _getparam(@@top)) {
     return _value(Control67) ; &#xA;
   } else {
     x=0
@@ -1073,9 +1071,8 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
-  if( _getVar(top) &lt;=  _getparam(@@top)) {
+                            <V Name="V"  Text="function x() { &#xA;
+  if( _getVar(top) &lt; = _getparam(@@top)) {
     return _value(Control43) ; &#xA;
   } else {
     x=0
@@ -1118,9 +1115,8 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
-  if( _getVar(top) &lt;=  _getparam(@@top)) {
+                            <V Name="V"  Text="function x() { &#xA;
+  if( _getVar(top) &lt; = _getparam(@@top)) {
     return _value(Control44) ; &#xA;
   } else {
     x=0
@@ -1163,9 +1159,8 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
-  if( _getVar(top) &lt;=  _getparam(@@top)) {
+                            <V Name="V"  Text="function x() { &#xA;
+  if( _getVar(top) &lt; = _getparam(@@top)) {
     return _value(Control45) ; &#xA;
   } else {
     x=0
@@ -1253,8 +1248,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     var currentDate = new Date(); &#xA;
     var datetime = currentDate.getFullYear() + '/' &#xA;
                      + (currentDate.getMonth() + 1) + '/' &#xA;

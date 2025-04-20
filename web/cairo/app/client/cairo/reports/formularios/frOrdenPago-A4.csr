@@ -669,8 +669,7 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="
-function x() { &#xA;
+                    <H Name="H" Text="function x() { &#xA;
     return _value(Control58) === 0 &amp;&amp; _length(var_db_centrocosto) &gt; 0; &#xA;
 }"
                        idxGroup="0" WhenEval="0"/>
@@ -838,8 +837,7 @@ function x() { &#xA;
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="
-function x() { &#xA;
+                    <H Name="H" Text="function x() { &#xA;
     return _value(Control58) === 1; &#xA;
 }"
                        idxGroup="0" WhenEval="0"/>
@@ -1044,8 +1042,7 @@ function x() { &#xA;
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="
-function x() { &#xA;
+                    <H Name="H" Text="function x() { &#xA;
     return _value(Control58) === 0 &amp;&amp; _length(var_db_centrocosto) === 0 &amp;&amp; _value(var_db_nc_id) !== 0; &#xA;
 }"
                        idxGroup="0" WhenEval="0"/>
@@ -1251,8 +1248,7 @@ function x() { &#xA;
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="
-function x() { &#xA;
+                    <H Name="H" Text="function x() { &#xA;
     return _value(Control58) === 0 &amp;&amp; _length(var_db_centrocosto) === 0 &amp;&amp; _value(var_db_nc_id) === 0; &#xA;
 }"
                        idxGroup="0" WhenEval="0"/>
@@ -1655,8 +1651,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     return 'Pesos ' + _getString(_numberToString(Control60, 1)); &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
@@ -1942,8 +1937,7 @@ function x() { &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="
-function x() { &#xA;
+                            <H Name="H" Text="function x() { &#xA;
     return _value(Control58) === 0; &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
@@ -2081,8 +2075,7 @@ function x() { &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="
-function x() { &#xA;
+                            <H Name="H" Text="function x() { &#xA;
     return _value(Control58) === 1; &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
@@ -2342,8 +2335,7 @@ function x() { &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="
-function x() { &#xA;
+                            <H Name="H" Text="function x() { &#xA;
     return _value(Control58) === 0; &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>

@@ -155,8 +155,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     var currentDate = new Date(); &#xA;
     var datetime = currentDate.getFullYear() + '/' &#xA;
                      + (currentDate.getMonth() + 1) + '/' &#xA;
@@ -1288,8 +1287,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return _value(Control124) - _value(Control125); &#xA;
 }
 " idxGroup="0" WhenEval="0"/>
@@ -1553,8 +1551,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return _value(Control116) - _value(Control117); &#xA;
 }
 " idxGroup="0" WhenEval="0"/>
@@ -1667,8 +1664,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
   if(_value(var_db_de_ventas)) {
     return 'Documentos De Ventas'; &#xA;
   } else {
@@ -1866,8 +1862,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return _value(Control129) - _value(Control130); &#xA;
 }
 " idxGroup="0" WhenEval="0"/>
@@ -1911,8 +1906,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
   if(_value(var_db_de_ventas)) {
     return 'Documentos De Ventas'; &#xA;
   } else {
@@ -2069,8 +2063,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return '[' + _getString(var_db_cue_codigo) + '] ' + _getString(var_db_cue_nombre); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2264,8 +2257,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return _value(Control102) - _value(Control101); &#xA;
 }
 " idxGroup="0" WhenEval="0"/>
@@ -2309,8 +2301,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return '[' + _getString(var_db_cue_codigo) + '] ' + _getString(var_db_cue_nombre); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"

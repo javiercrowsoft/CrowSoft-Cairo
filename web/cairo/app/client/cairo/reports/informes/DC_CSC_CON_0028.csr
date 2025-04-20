@@ -281,10 +281,9 @@ _setvar(lastInvoice, '\'\'') &#xA;"
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H"  Text="
-function x() { &#xA;
+                    <H Name="H"  Text="function x() { &#xA;
     var lastInvoice = _getVar(lastInvoice); &#xA;
-    var currentInvoice =  _getString(Control45); &#xA;
+    var currentInvoice  = _getString(Control45); &#xA;
     var bShow = lastInvoice !== currentInvoice; &#xA;
     return (_value(Control92) === 0 &amp;&amp; bShow); &#xA;
 }"
@@ -823,8 +822,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     var lastInvoice = _getVar(lastInvoice); &#xA;
     var currentInvoice = _getString(Control45); &#xA;
     var bShow = lastInvoice !== currentInvoice; &#xA;
@@ -850,10 +848,10 @@ function x() { &#xA;
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H"  Text="
-function x() { &#xA;
-    return _value(Control92) == 1; &#xA;
-}" idxGroup="0" WhenEval="0"/>
+                    <H Name="H"  Text="function x() { &#xA;
+    return _value(Control92) === 1; &#xA;
+}"
+                       idxGroup="0" WhenEval="0"/>
                     <RptControls>
                         <K242214 Key="K242214" Name="Control84" KeyPaint="P120" HasFormulaHide="0" HasFormulaValue="0"
                                  ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -1097,10 +1095,9 @@ function x() { &#xA;
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H"  Text="
-function x() { &#xA;
+                    <H Name="H"  Text="function x() { &#xA;
     var lastInvoice = _getVar(lastInvoice); &#xA;
-    var currentInvoice =  _getString(Control45); &#xA;
+    var currentInvoice  = _getString(Control45); &#xA;
     var bShow = lastInvoice === currentInvoice; &#xA;
     return (_value(Control92) === 0 &amp;&amp; bShow)); &#xA;
 }"
@@ -1425,10 +1422,10 @@ function x() { &#xA;
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H"  Text="
-function x() { &#xA;
-    return _value(Control92) == 2; &#xA;
-}" idxGroup="0" WhenEval="0"/>
+                    <H Name="H"  Text="function x() { &#xA;
+    return _value(Control92) === 2; &#xA;
+}"
+                       idxGroup="0" WhenEval="0"/>
                     <RptControls>
                         <K633809 Key="K633809" Name="Control125" KeyPaint="P134" HasFormulaHide="0" HasFormulaValue="0"
                                  ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -1671,10 +1668,10 @@ function x() { &#xA;
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H"  Text="
-function x() { &#xA;
-    return _value(Control92) == 3; &#xA;
-}" idxGroup="0" WhenEval="0"/>
+                    <H Name="H"  Text="function x() { &#xA;
+    return _value(Control92) === 3; &#xA;
+}"
+                       idxGroup="0" WhenEval="0"/>
                     <RptControls>
                         <K633991 Key="K633991" Name="Control144" KeyPaint="P140" HasFormulaHide="0" HasFormulaValue="0"
                                  ControlType="2" Tag="" ExportColIdx="0" IsFreeCtrl="0">
@@ -2154,10 +2151,10 @@ function x() { &#xA;
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H"  Text="
-function x() { &#xA;
+                            <H Name="H"  Text="function x() { &#xA;
     return _value(Control92) === 0; &#xA;
-}" idxGroup="0" WhenEval="0"/>
+}"
+                               idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="_Sum(Control77)" idxGroup="0" WhenEval="1"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -2196,13 +2193,11 @@ function x() { &#xA;
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H" Text="
-function x() { &#xA;
+                            <H Name="H" Text="function x() { &#xA;
     return _value(Control92) === 0; &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     return _value(Control93) + _value(Control94) + _value(Control95); &#xA;
 }"
                                idxGroup="0" WhenEval="1"/>
@@ -2243,10 +2238,10 @@ function x() { &#xA;
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H"  Text="
-function x() { &#xA;
+                            <H Name="H"  Text="function x() { &#xA;
     return _value(Control92) === 0; &#xA;
-}" idxGroup="0" WhenEval="0"/>
+}"
+                               idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="_Sum(Control98)" idxGroup="0" WhenEval="1"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -2285,8 +2280,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     var currentDate = new Date(); &#xA;
     var datetime = currentDate.getFullYear() + '/' &#xA;
                      + (currentDate.getMonth() + 1) + '/' &#xA;
@@ -2295,7 +2289,8 @@ function x() { &#xA;
                      + currentDate.getMinutes() + ':' &#xA;
                      + currentDate.getSeconds(); &#xA;
     return datetime; &#xA;
-}" idxGroup="0" WhenEval="0"/>
+}"
+                               idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
                                    GroupFieldIndex="0" GroupValue="" Sort="0">
@@ -2333,10 +2328,10 @@ function x() { &#xA;
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H"  Text="
-function x() { &#xA;
+                            <H Name="H"  Text="function x() { &#xA;
     return _value(Control92) === 0; &#xA;
-}" idxGroup="0" WhenEval="0"/>
+}"
+                               idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="_Sum(Control78)" idxGroup="0" WhenEval="1"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
                                    ImageFormat="0" Copyright="" ChartTitle="" ChartType="0" Top="0" GroupFieldName=""
@@ -2375,8 +2370,7 @@ function x() { &#xA;
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H"  Text="
-function x() { &#xA;
+                            <H Name="H"  Text="function x() { &#xA;
     return _value(Control92) === 0; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="_sum(var_db_base)" idxGroup="0" WhenEval="1"/>
@@ -2463,8 +2457,7 @@ function x() { &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H"  Text="
-function x() { &#xA;
+                            <H Name="H"  Text="function x() { &#xA;
     return _value(Control92) === 0; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <RptControls>
@@ -3052,9 +3045,8 @@ function x() { &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H"  Text="
-function x() { &#xA;
-    return _value(Control92) == 1; &#xA;
+                            <H Name="H"  Text="function x() { &#xA;
+    return _value(Control92) === 1; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K585809 Key="K585809" Name="Control113" KeyPaint="P178" HasFormulaHide="0"
@@ -3313,9 +3305,8 @@ function x() { &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H"  Text="
-function x() { &#xA;
-    return _value(Control92) == 2; &#xA;
+                            <H Name="H"  Text="function x() { &#xA;
+    return _value(Control92) === 2; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K633853 Key="K633853" Name="Control136" KeyPaint="P184" HasFormulaHide="0"
@@ -3615,9 +3606,8 @@ function x() { &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H"  Text="
-function x() { &#xA;
-    return _value(Control92) == 3; &#xA;
+                            <H Name="H"  Text="function x() { &#xA;
+    return _value(Control92) === 3; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <RptControls>
                                 <K634041 Key="K634041" Name="Control151" KeyPaint="P191" HasFormulaHide="0"
@@ -3971,8 +3961,7 @@ function x() { &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H"  Text="
-function x() { &#xA;
+                            <H Name="H"  Text="function x() { &#xA;
     return _value(Control92) === 0; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <RptControls>
@@ -4011,8 +4000,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return _value( Control80) + _value( Control81) + _value( Control82) ; &#xA;
 }"
                                        idxGroup="0" WhenEval="1"/>

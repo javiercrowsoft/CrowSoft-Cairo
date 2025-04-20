@@ -3290,8 +3290,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
 
   if( _isequal(var_db_tipo,-100) ) {
 
@@ -3342,8 +3341,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
 
   if( _isequal(var_db_tipo,-100) ) {
 
@@ -3394,8 +3392,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
 
   if( _isequal(var_db_tipo,-100) ) {
 
@@ -3446,8 +3443,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
 
   if( _isequal(var_db_tipo,-100) ) {
 
@@ -3498,8 +3494,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
 
   if( _isequal(var_db_tipo,-100) ) {
 
@@ -3550,8 +3545,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
 
   if( _isequal(var_db_tipo,-100) ) {
 
@@ -3602,8 +3596,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
 
   if( _isequal(var_db_tipo,-100) ) {
 
@@ -3654,8 +3647,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
 
   if( _isequal(var_db_tipo,-100) ) {
 
@@ -3706,8 +3698,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
 
   if( _isequal(var_db_tipo,-100) ) {
 
@@ -3758,8 +3749,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
 
   if( _isequal(var_db_tipo,-100) ) {
 
@@ -3810,8 +3800,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
 
   if( _isequal(var_db_tipo,-100) ) {
 
@@ -3862,8 +3851,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
 
   if( _isequal(var_db_tipo,-100) ) {
 
@@ -3914,8 +3902,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
 
   if( _isequal(var_db_tipo,-100) ) {
 
@@ -4541,8 +4528,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     var currentDate = new Date(); &#xA;
     var datetime = currentDate.getFullYear() + '/' &#xA;
                      + (currentDate.getMonth() + 1) + '/' &#xA;
@@ -4852,8 +4838,7 @@ function x() { &#xA;
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H"  Text="
-function x() { &#xA;
+                    <H Name="H"  Text="function x() { &#xA;
     return _isequal(var_db_tipo,1) || _isequal(var_db_tipo,2); &#xA;
 }"
                        idxGroup="0" WhenEval="0"/>
@@ -6075,8 +6060,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
 
   if(_value(var_db_tipo)=1) {
 
@@ -6794,8 +6778,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
 
   var total;
   total = _value(var_total1)
@@ -6892,8 +6875,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
 
   var total;
   total = _value(var_total2)
@@ -6949,8 +6931,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
 
   var total;
   total = _value(var_total3)
@@ -7006,8 +6987,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
 
   var total;
   total = _value(var_total4)
@@ -7063,8 +7043,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
 
   var total;
   total = _value(var_total5)
@@ -7120,8 +7099,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
 
   var total;
   total = _value(var_total6)
@@ -7177,8 +7155,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
 
   var total;
   total = _value(var_total7)
@@ -7234,8 +7211,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
 
   var total;
   total = _value(var_total8)
@@ -7291,8 +7267,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
 
   var total;
   total = _value(var_total9)
@@ -7348,8 +7323,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
 
   var total;
   total = _value(var_total10)
@@ -7405,8 +7379,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
 
   var total;
   total = _value(var_total11)
@@ -7462,8 +7435,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
 
   var total;
   total = _value(var_total12)
@@ -7519,8 +7491,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
 
   var total;
   total = _value(var_total_total)
@@ -13679,8 +13650,7 @@ function x() { &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H"  Text="
-function x() { &#xA;
+                            <H Name="H"  Text="function x() { &#xA;
     return _getparam(@@bResumido) === 0; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <RptControls>

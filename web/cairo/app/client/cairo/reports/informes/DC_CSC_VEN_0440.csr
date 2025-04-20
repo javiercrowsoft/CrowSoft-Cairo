@@ -955,8 +955,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     var currentDate = new Date(); &#xA;
     var datetime = currentDate.getFullYear() + '/' &#xA;
                      + (currentDate.getMonth() + 1) + '/' &#xA;
@@ -1326,8 +1325,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return _getString(var_db_transporte) + ' (' + _getString(var_db_codigo_transporte)+ ')'; &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -1673,8 +1671,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return _getString(var_db_chofer) + ' (' + _getString(var_db_codigo_chofer) + ')'; &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -1978,8 +1975,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return _getString(var_db_camion) + ' (' + _getString(var_db_codigo_camion) + ')'; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2282,8 +2278,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return _getString(var_db_cliente) + ' (' + _getString(var_db_codigo_cliente) + ')'; &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>

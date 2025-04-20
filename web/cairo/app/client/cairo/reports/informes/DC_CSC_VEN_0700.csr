@@ -3454,8 +3454,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     var currentDate = new Date(); &#xA;
     var datetime = currentDate.getFullYear() + '/' &#xA;
                      + (currentDate.getMonth() + 1) + '/' &#xA;
@@ -6096,8 +6095,7 @@ function x() { &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="
-function x() { &#xA;
+                            <H Name="H" Text="function x() { &#xA;
     return _value(orden_id) === 4 &amp;&amp; _getparam(@@showChartCant); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <RptControls>
@@ -6570,8 +6568,7 @@ function x() { &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H" Text="
-function x() { &#xA;
+                            <H Name="H" Text="function x() { &#xA;
     return _value(orden_id) === 8 || _value(orden_id) === 5; &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>

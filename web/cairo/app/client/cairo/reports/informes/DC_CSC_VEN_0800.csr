@@ -247,8 +247,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="-1000" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     var desde; &#xA;
     var hasta; &#xA;
     &#xA;
@@ -296,8 +295,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="-1000" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     var desde; &#xA;
     var hasta; &#xA;
     var dt; &#xA;
@@ -350,8 +348,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="-1000" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     var desde; &#xA;
     var hasta; &#xA;
     var dt; &#xA;
@@ -1051,8 +1048,7 @@ PTveamf3PTveQD6o9vf4////AAD///////////+mpsghIbdDQ94iIsVISqn///////8AAP//
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H"  Text="
-function x() { &#xA;
+                            <H Name="H"  Text="function x() { &#xA;
     return _value(var_db_promedio1) &lt; _value(var_db_promedio3); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -1100,8 +1096,7 @@ AIUAQs1EL8IwI4Ih////////AAD///////////////8IjAoLlBAmqij///////////8AAP//
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H"  Text="
-function x() { &#xA;
+                            <H Name="H"  Text="function x() { &#xA;
     return _value(var_db_promedio1) &gt; _value(var_db_promedio3); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -1149,8 +1144,7 @@ PTveamf3PTveQD6o9vf4////AAD///////////+mpsghIbdDQ94iIsVISqn///////8AAP//
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H"  Text="
-function x() { &#xA;
+                            <H Name="H"  Text="function x() { &#xA;
     return _value(var_db_promedio1) &lt; _value(var_db_promedio2); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -1198,8 +1192,7 @@ AIUAQs1EL8IwI4Ih////////AAD///////////////8IjAoLlBAmqij///////////8AAP//
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H"  Text="
-function x() { &#xA;
+                            <H Name="H"  Text="function x() { &#xA;
     return _value(var_db_promedio1) &gt; _value(var_db_promedio2); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -1245,8 +1238,7 @@ s3w/u1wS4KBz8eLe////////AAAA">
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H"  Text="
-function x() { &#xA;
+                            <H Name="H"  Text="function x() { &#xA;
     return _value(var_db_promedio1) === _value(var_db_promedio3); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -1292,8 +1284,7 @@ s3w/u1wS4KBz8eLe////////AAAA">
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H"  Text="
-function x() { &#xA;
+                            <H Name="H"  Text="function x() { &#xA;
     return _value(var_db_promedio1) === _value(var_db_promedio2); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -1379,8 +1370,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     var currentDate = new Date(); &#xA;
     var datetime = currentDate.getFullYear() + '/' &#xA;
                      + (currentDate.getMonth() + 1) + '/' &#xA;
@@ -1733,8 +1723,7 @@ PTveamf3PTveQD6o9vf4////AAD///////////+mpsghIbdDQ94iIsVISqn///////8AAP//
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="
-function x() { &#xA;
+                                    <H Name="H"  Text="function x() { &#xA;
     return _value(var_total_promedio1) &lt; _value(var_total_promedio3); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -1785,8 +1774,7 @@ PTveamf3PTveQD6o9vf4////AAD///////////+mpsghIbdDQ94iIsVISqn///////8AAP//
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="
-function x() { &#xA;
+                                    <H Name="H"  Text="function x() { &#xA;
     return _value(var_total_promedio1) &lt; _value(var_total_promedio2); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -1835,8 +1823,7 @@ s3w/u1wS4KBz8eLe////////AAAA">
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text="
-function x() { &#xA;
+                                    <H Name="H" Text="function x() { &#xA;
     return _value(var_total_promedio1) === _value(var_total_promedio3); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -1885,8 +1872,7 @@ s3w/u1wS4KBz8eLe////////AAAA">
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="
-function x() { &#xA;
+                                    <H Name="H"  Text="function x() { &#xA;
     return _value(var_total_promedio1) === _value(var_total_promedio2); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -1937,8 +1923,7 @@ AIUAQs1EL8IwI4Ih////////AAD///////////////8IjAoLlBAmqij///////////8AAP//
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="
-function x() { &#xA;
+                                    <H Name="H"  Text="function x() { &#xA;
     return _value(var_total_promedio1) &gt; _value(var_total_promedio3); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -1989,8 +1974,7 @@ AIUAQs1EL8IwI4Ih////////AAD///////////////8IjAoLlBAmqij///////////8AAP//
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="
-function x() { &#xA;
+                                    <H Name="H"  Text="function x() { &#xA;
     return _value(var_total_promedio1) &gt; _value(var_total_promedio2); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -2128,8 +2112,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return 'Total ' + _getString(_value(var_db_vendedor)); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2392,8 +2375,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return 'Total ' + _getString(_value(var_db_cliente)); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2569,8 +2551,7 @@ PTveamf3PTveQD6o9vf4////AAD///////////+mpsghIbdDQ94iIsVISqn///////8AAP//
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="
-function x() { &#xA;
+                                    <H Name="H"  Text="function x() { &#xA;
     return _value(var_sum_promedio1) &lt; _value(var_sum_promedio3); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -2621,8 +2602,7 @@ PTveamf3PTveQD6o9vf4////AAD///////////+mpsghIbdDQ94iIsVISqn///////8AAP//
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="
-function x() { &#xA;
+                                    <H Name="H"  Text="function x() { &#xA;
     return _value(var_sum_promedio1) &lt; _value(var_sum_promedio2); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -2673,8 +2653,7 @@ AIUAQs1EL8IwI4Ih////////AAD///////////////8IjAoLlBAmqij///////////8AAP//
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="
-function x() { &#xA;
+                                    <H Name="H"  Text="function x() { &#xA;
     return _value(var_sum_promedio1) &gt; _value(var_sum_promedio3); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -2725,8 +2704,7 @@ AIUAQs1EL8IwI4Ih////////AAD///////////////8IjAoLlBAmqij///////////8AAP//
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="
-function x() { &#xA;
+                                    <H Name="H"  Text="function x() { &#xA;
     return _value(var_sum_promedio1) &gt; _value(var_sum_promedio2); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -2775,8 +2753,7 @@ s3w/u1wS4KBz8eLe////////AAAA">
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="
-function x() { &#xA;
+                                    <H Name="H"  Text="function x() { &#xA;
     return _value(var_sum_promedio1) === _value(var_sum_promedio3); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -2825,8 +2802,7 @@ s3w/u1wS4KBz8eLe////////AAAA">
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="
-function x() { &#xA;
+                                    <H Name="H"  Text="function x() { &#xA;
     return _value(var_sum_promedio1) === _value(var_sum_promedio2); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="" idxGroup="0" WhenEval="0"/>
@@ -3048,8 +3024,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return 'Total ' + _getString(_value(var_db_nivel2)); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -3312,8 +3287,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return 'Total ' + _getString(_value(var_db_nivel3)); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -3576,8 +3550,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return 'Total ' + _getString(_value(var_db_nivel4)); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -3840,8 +3813,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return 'Total ' + _getString(_value(var_db_nivel5)); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -4104,8 +4076,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return 'Total ' + _getString(_value(var_db_nivel6)); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -4368,8 +4339,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return 'Total ' + _getString(_value(var_db_nivel7)); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -4632,8 +4602,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return 'Total ' + _getString(_value(var_db_nivel8)); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -4896,8 +4865,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return 'Total ' + _getString(_value(var_db_nivel9)); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -5160,8 +5128,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return 'Total ' + _getString(_value(var_db_rubro)); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"

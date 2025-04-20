@@ -670,8 +670,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     return (_getString(_numberToString(Control49,1))).toUpperCase(); &#xA;
 }"
                                idxGroup="-1000" WhenEval="0"/>

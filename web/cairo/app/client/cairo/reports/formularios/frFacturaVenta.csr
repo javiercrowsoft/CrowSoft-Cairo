@@ -264,8 +264,7 @@
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H" Text="
-function x() { &#xA;
+                            <H Name="H" Text="function x() { &#xA;
     return _value(var_db_doct_id) === 9 || _value(var_db_doct_id) === 7; &#xA;
 }"
                                idxGroup="-1000" WhenEval="0"/>
@@ -306,13 +305,11 @@ function x() { &#xA;
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H" Text="
-function x() { &#xA;
+                            <H Name="H" Text="function x() { &#xA;
     return _value(var_db_doct_id) === 9 || _value(var_db_doct_id) === 7; &#xA;
 }"
                                idxGroup="-1000" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     if (_value(var_db_doct_id) === 9) { &#xA;
         return 'NOTA DE DEBITO'; &#xA;
     } else if (_value(var_db_doct_id) === 7) { &#xA;
@@ -1211,8 +1208,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     return _sum(var_db_fvi_importe) * _value(var_db_coef); &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
@@ -1253,8 +1249,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     return 'SON  ' + _getString(var_db_mon_nombre).toUpperCase() + ' ' &#xA;
                    + _getString(_numberToString(var_total, 1)).toUpperCase() &#xA;
 }"
@@ -1319,8 +1314,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     return _sum(var_db_fvi_importe); // *  _value(var_db_coef); &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
@@ -1362,8 +1356,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="_value(var_db_bShowIva)" idxGroup="-1001" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     return _sum(var_db_fvi_ivari) * _value(var_db_coef); &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
@@ -1405,8 +1398,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="_value(var_db_bShowIva)" idxGroup="-1001" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     return _sum(var_db_importe) * _value(var_db_coef); &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
@@ -1448,8 +1440,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="_value(var_db_bShowIva)" idxGroup="-1001" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     return _sum(var_db_importe) * _value(var_db_coef); &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>

@@ -238,8 +238,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
    _declarevar(iRow) &#xA;
    _setvar(iRow,1) &#xA;
 }"
@@ -356,13 +355,11 @@ function x() { &#xA;
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H"  Text="
-function x() { &#xA;
+                            <H Name="H"  Text="function x() { &#xA;
     return _getVar(iRow) % 2; &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
     _addToVar(iRow,1) &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
@@ -954,8 +951,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     var currentDate = new Date(); &#xA;
     var datetime = currentDate.getFullYear() + '/' &#xA;
                      + (currentDate.getMonth() + 1) + '/' &#xA;
@@ -1828,8 +1824,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     var d = _getString(_getparam(@@Fini)); &#xA;
     var dt = new Date(d); &#xA;
     return dt.setMonth(dt.getMonth() + 1); &#xA;
@@ -1916,8 +1911,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     var d = _getString(_getparam(@@Fini)); &#xA;
     var dt = new Date(d); &#xA;
     return dt.setMonth(dt.getMonth() + 2); &#xA;
@@ -1963,8 +1957,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     var d = _getString(_getparam(@@Fini)); &#xA;
     var dt = new Date(d); &#xA;
     return dt.setMonth(dt.getMonth() + 3); &#xA;
@@ -2010,8 +2003,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     var d = _getString(_getparam(@@Fini)); &#xA;
     var dt = new Date(d); &#xA;
     return dt.setMonth(dt.getMonth() + 4); &#xA;
@@ -2057,8 +2049,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     var d = _getString(_getparam(@@Fini)); &#xA;
     var dt = new Date(d); &#xA;
     return dt.setMonth(dt.getMonth() + 5); &#xA;
@@ -2104,8 +2095,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     var d = _getString(_getparam(@@Fini)); &#xA;
     var dt = new Date(d); &#xA;
     return dt.setMonth(dt.getMonth() + 6); &#xA;
@@ -2151,8 +2141,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     var d = _getString(_getparam(@@Fini)); &#xA;
     var dt = new Date(d); &#xA;
     return dt.setMonth(dt.getMonth() + 7); &#xA;
@@ -2198,8 +2187,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     var d = _getString(_getparam(@@Fini)); &#xA;
     var dt = new Date(d); &#xA;
     return dt.setMonth(dt.getMonth() + 8); &#xA;
@@ -2245,8 +2233,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     var d = _getString(_getparam(@@Fini)); &#xA;
     var dt = new Date(d); &#xA;
     return dt.setMonth(dt.getMonth() + 9); &#xA;
@@ -2292,8 +2279,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     var d = _getString(_getparam(@@Fini)); &#xA;
     var dt = new Date(d); &#xA;
     return dt.setMonth(dt.getMonth() + 10); &#xA;
@@ -2339,8 +2325,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     var d = _getString(_getparam(@@Fini)); &#xA;
     var dt = new Date(d); &#xA;
     return dt.setMonth(dt.getMonth() + 11); &#xA;

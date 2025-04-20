@@ -855,8 +855,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     var currentDate = new Date(); &#xA;
     var datetime = currentDate.getFullYear() + '/' &#xA;
                      + (currentDate.getMonth() + 1) + '/' &#xA;
@@ -1338,8 +1337,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return 'Total ' + _getString(_value(var_db_nivel2)); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -1561,8 +1559,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return 'Total ' + _getString(_value(var_db_nivel3)); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -1784,8 +1781,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return 'Total ' + _getString(_value(var_db_nivel4)); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -2007,8 +2003,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return 'Total ' + _getString(_value(var_db_nivel5)); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -2230,8 +2225,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return 'Total ' + _getString(_value(var_db_nivel6)); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -2453,8 +2447,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return 'Total ' + _getString(_value(var_db_nivel7)); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -2676,8 +2669,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return 'Total ' + _getString(_value(var_db_nivel8)); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -2899,8 +2891,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return 'Total ' + _getString(_value(var_db_nivel9)); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -3122,8 +3113,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return 'Total ' + _getString(_value(var_db_rubro)); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -3261,8 +3251,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return 'Total ' + _getString(_value(var_db_articulo)); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>

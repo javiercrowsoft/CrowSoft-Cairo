@@ -692,8 +692,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     return _value(var_db_fv_nrodoc).substring(0, 1); &#xA;
 }"
                                idxGroup="-2000" WhenEval="0"/>
@@ -810,8 +809,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     if (_value(var_db_doct_id) === 9) { &#xA;
         return 'NOTA DE DEBITO'; &#xA;
     } else if (_value(var_db_doct_id) === 7) { &#xA;
@@ -3163,8 +3161,7 @@ Inicio de Actividades: 01/11/2011" CanGrow="0">
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     return _getBarcode(_getString(var_db_cod_barra)); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                             <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -3861,8 +3858,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     var rtn; &#xA;
     if (_value(ImporteOrigen) !== 0) { &#xA;
         rtn = 'Son Dolares Estadounidenses: '; &#xA;

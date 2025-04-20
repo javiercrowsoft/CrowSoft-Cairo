@@ -652,8 +652,7 @@
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H"  Text="
-function x() { &#xA;
+                    <H Name="H"  Text="function x() { &#xA;
     return _value(var_db_is_saldo) === 0;; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                     <RptControls>
@@ -843,8 +842,7 @@ function x() { &#xA;
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H" Text="
-function x() { &#xA;
+                            <H Name="H" Text="function x() { &#xA;
     return _value(var_db_circuito_id)=0; &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
@@ -1019,8 +1017,7 @@ function x() { &#xA;
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H"  Text="
-function x() { &#xA;
+                    <H Name="H"  Text="function x() { &#xA;
   if( _getparam(@@bDetallado) === 0) {
        return 0; &#xA;
   } else {
@@ -1176,8 +1173,7 @@ function x() { &#xA;
                                           Strike="0"/>
                                 </Aspect>
                             </Line>
-                            <H Name="H" Text="
-function x() { &#xA;
+                            <H Name="H" Text="function x() { &#xA;
     return _value(var_db_circuito_id)=0; &#xA;
 }"
                                idxGroup="0" WhenEval="0"/>
@@ -1411,8 +1407,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
   if(_value(var_db_circuito_id) === 0) {
        return _value(var_db_neto); &#xA;
   } else {
@@ -1457,8 +1452,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
   if(_value(var_db_circuito_id)=0) {
        return _value(var_db_iva); &#xA;
   } else {
@@ -1503,8 +1497,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
   if(_value(var_db_circuito_id)=0) {
        return _value(var_db_total); &#xA;
   } else {
@@ -1549,8 +1542,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
   if(_value(var_db_circuito_id)) {
        return _value(var_db_neto); &#xA;
   } else {
@@ -1595,8 +1587,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
   if(_value(var_db_circuito_id)) {
        return _value(var_db_iva); &#xA;
   } else {
@@ -1641,8 +1632,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
   if(_value(var_db_circuito_id)) {
        return _value(var_db_total); &#xA;
   } else {
@@ -1765,8 +1755,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
   if(_value(var_db_circuito_id) &amp;&amp; _value(var_db_is_saldo)) {
        return _value(var_db_neto); &#xA;
   } else {
@@ -1811,8 +1800,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
   if(_value(var_db_circuito_id) &amp;&amp; _value(var_db_is_saldo)) {
        return _value(var_db_iva); &#xA;
   } else {
@@ -1857,8 +1845,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
   if(_value(var_db_circuito_id) &amp;&amp; _value(var_db_is_saldo)) {
        return _value(var_db_total); &#xA;
   } else {
@@ -1903,8 +1890,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
   if(_value(var_db_circuito_id) === 0; &amp;&amp; _value(var_db_is_saldo)) {
        return _value(var_db_neto); &#xA;
   } else {
@@ -1949,8 +1935,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
   if(_value(var_db_circuito_id)=0 &amp;&amp; _value(var_db_is_saldo)) {
        return _value(var_db_iva); &#xA;
   } else {
@@ -1995,8 +1980,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V"  Text="
-function x() { &#xA;
+                            <V Name="V"  Text="function x() { &#xA;
   if(_value(var_db_circuito_id) === 0 &amp;&amp; _value(var_db_is_saldo)) { &#xA;
        return _value(var_db_total); &#xA;
   } else { &#xA;
@@ -2019,8 +2003,7 @@ function x() { &#xA;
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H"  Text="
-function x() { &#xA;
+                    <H Name="H"  Text="function x() { &#xA;
   if( _getparam(@@bDetallado) === 0) {
        return 0; &#xA;
   } else {
@@ -2146,8 +2129,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     var currentDate = new Date(); &#xA;
     var datetime = currentDate.getFullYear() + '/' &#xA;
                      + (currentDate.getMonth() + 1) + '/' &#xA;
@@ -2405,8 +2387,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
   return _Sum(var_neto_ventas) - _Sum(var_neto_compras)
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2450,8 +2431,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
   return _Sum(var_iva_ventas) - _Sum(var_iva_compras)
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2495,8 +2475,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
   return _Sum(var_total_ventas) - _Sum(var_total_compras)
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2665,8 +2644,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return _value(var_cobros) - _value(var_pagos); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -2793,8 +2771,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return _sum(var_neto_ventas_p) - _sum(var_neto_compras_p); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2838,8 +2815,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return _sum(var_iva_ventas_p) - _sum(var_iva_compras_p); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -2883,8 +2859,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return _sum(var_total_ventas_p) - _sum(var_total_compras_p); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -3133,8 +3108,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return _sum(var_neto_ventas) - _sum(var_neto_compras); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -3178,8 +3152,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return _sum(var_iva_ventas) - _sum(var_iva_compras); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -3223,8 +3196,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return _sum(var_total_ventas) - _sum(var_total_compras); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -3487,8 +3459,7 @@ function x() { &#xA;
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H" Text="
-function x() { &#xA;
+                                    <H Name="H" Text="function x() { &#xA;
     return _value(var_db_circuito_id)=0; &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -3575,8 +3546,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return 'Total ' + _getString(var_db_circuito); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -3839,8 +3809,7 @@ function x() { &#xA;
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="
-function x() { &#xA;
+                                    <H Name="H"  Text="function x() { &#xA;
     return _value(var_db_circuito_id)===0; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="_Sum(var_db_pagos)" idxGroup="0" WhenEval="0"/>
@@ -3926,8 +3895,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return 'Total ' + _getString(var_db_tipo); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -4190,8 +4158,7 @@ function x() { &#xA;
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="
-function x() { &#xA;
+                                    <H Name="H"  Text="function x() { &#xA;
     return _value(var_db_circuito_id)===0; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="_Sum(var_db_pagos)" idxGroup="0" WhenEval="0"/>
@@ -4277,8 +4244,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return 'Total ' + _getString(var_db_centro_costo); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -4297,8 +4263,7 @@ function x() { &#xA;
                                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0"
                                       Strike="0"/>
                             </Aspect>
-                            <H Name="H"  Text="
-function x() { &#xA;
+                            <H Name="H"  Text="function x() { &#xA;
   return _getparam(@@bDetallado) === 0;
 }" idxGroup="0" WhenEval="0"/>
                             <RptControls>
@@ -4462,8 +4427,7 @@ function x() { &#xA;
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="
-function x() { &#xA;
+                                    <H Name="H"  Text="function x() { &#xA;
     return _value(var_db_circuito_id)===0; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="_Sum(var_db_pagos)" idxGroup="0" WhenEval="0"/>
@@ -4810,8 +4774,7 @@ function x() { &#xA;
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="
-function x() { &#xA;
+                                    <H Name="H"  Text="function x() { &#xA;
     return _value(var_db_circuito_id)===0; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="_Sum(var_db_pagos)" idxGroup="0" WhenEval="0"/>
@@ -4897,8 +4860,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return 'Total ' + _getString(var_db_empresa); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -5119,8 +5081,7 @@ function x() { &#xA;
                                                   Strike="0"/>
                                         </Aspect>
                                     </Line>
-                                    <H Name="H"  Text="
-function x() { &#xA;
+                                    <H Name="H"  Text="function x() { &#xA;
     return _value(var_db_circuito_id)===0; &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <V Name="V" Text="_Sum(var_db_pagos)" idxGroup="0" WhenEval="0"/>
@@ -5248,8 +5209,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V"  Text="
-function x() { &#xA;
+                                    <V Name="V"  Text="function x() { &#xA;
     return 'Total ' + _getString(var_db_orden); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"

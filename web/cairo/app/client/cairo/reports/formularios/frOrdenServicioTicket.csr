@@ -704,8 +704,7 @@ no valido como
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     var rtn = _getString(var_db_direccion_suc); &#xA;
     if(rtn.length === 0) { &#xA;
         rtn = _getString(var_db_direccion); &#xA;
@@ -1042,8 +1041,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     var rtn = _getString(var_db_pr_codigo); &#xA;
     if(rtn.length === 0) { &#xA;
         rtn = _getString(var_db_osi_descrip); &#xA;
@@ -1268,8 +1266,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     var rtn = _getString(var_db_pr_codigo); &#xA;
     if(rtn.length === 0) { &#xA;
         rtn = _getString(var_db_osi_descrip); &#xA;
@@ -1441,8 +1438,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     var rtn = _getString(var_db_direccion_suc); &#xA;
     if(rtn.length === 0) { &#xA;
         rtn = _getString(var_db_direccion); &#xA;

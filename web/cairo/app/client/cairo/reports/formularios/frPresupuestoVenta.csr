@@ -187,8 +187,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     var currentDate = new Date(); &#xA;
     var datetime = currentDate.getFullYear() + '/' &#xA;
                      + (currentDate.getMonth() + 1) + '/' &#xA;
@@ -1357,8 +1356,7 @@ function x() { &#xA;
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="
-function x() { &#xA;
+                    <H Name="H" Text="function x() { &#xA;
     return _value(var_db_desc1) !==0 || _value(var_db_desc2) !==0; &#xA;
 }"
                        idxGroup="0" WhenEval="0"/>
@@ -1487,8 +1485,7 @@ function x() { &#xA;
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="
-function x() { &#xA;
+                    <H Name="H" Text="function x() { &#xA;
     return _value(var_db_desc1) !== 0; &#xA;
 }"
                        idxGroup="0" WhenEval="0"/>
@@ -1656,8 +1653,7 @@ function x() { &#xA;
                             WordWrap="0" BorderRounded="0">
                         <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0"/>
                     </Aspect>
-                    <H Name="H" Text="
-function x() { &#xA;
+                    <H Name="H" Text="function x() { &#xA;
     return _value(var_db_desc2) !== 0; &#xA;
 }"
                        idxGroup="0" WhenEval="0"/>

@@ -422,8 +422,7 @@
           <Aspect Align="3" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="360" Format="" Left="0" nZOrder="0" SelectColor="0" Top="4905" Width="12240" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
             <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
           </Aspect>
-          <H Name="H" Text="
-function x() { &#xA;
+          <H Name="H" Text="function x() { &#xA;
     return _value(Control58) === 0; &#xA;
 }"
              idxGroup="0" WhenEval="0" />
@@ -572,8 +571,7 @@ function x() { &#xA;
           <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="375" Format="" Left="0" nZOrder="0" SelectColor="0" Top="5265" Width="0" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
             <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
           </Aspect>
-          <H Name="H" Text="
-function x() { &#xA;
+          <H Name="H" Text="function x() { &#xA;
     return _value(Control58) === 1; &#xA;
 }"
              idxGroup="0" WhenEval="0" />
@@ -1005,8 +1003,7 @@ function x() { &#xA;
                 </Aspect>
               </Line>
               <H Name="H" Text="" idxGroup="0" WhenEval="0" />
-              <V Name="V" Text="
-function x() { &#xA;
+              <V Name="V" Text="function x() { &#xA;
     return 'Pesos ' + _getString(_numberToString(Control60, 1)); &#xA;
 }"
                  idxGroup="0" WhenEval="0" />
@@ -1094,8 +1091,7 @@ function x() { &#xA;
               <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="420" Format="" Left="0" nZOrder="0" SelectColor="0" Top="3660" Width="12240" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
               </Aspect>
-              <H Name="H" Text="
-function x() { &#xA;
+              <H Name="H" Text="function x() { &#xA;
     return _value(Control58) === 0; &#xA;
 }"
                  idxGroup="0" WhenEval="0" />
@@ -1152,8 +1148,7 @@ function x() { &#xA;
               <Aspect Align="0" BackColor="16777215" BorderColor="0" BorderColor3D="0" BorderColor3DShadow="0" BorderType="0" BorderWidth="0" CanGrow="0" Height="825" Format="" Left="0" nZOrder="0" SelectColor="0" Top="4080" Width="0" Transparent="0" Symbol="" IsAccounting="0" WordWrap="0" BorderRounded="0">
                 <Font ForeColor="0" Bold="0" Italic="0" Name="Tahoma" Size="8" UnderLine="0" Strike="0" />
               </Aspect>
-              <H Name="H" Text="
-function x() { &#xA;
+              <H Name="H" Text="function x() { &#xA;
     return _value(Control58) === 1; &#xA;
 }"
                  idxGroup="0" WhenEval="0" />

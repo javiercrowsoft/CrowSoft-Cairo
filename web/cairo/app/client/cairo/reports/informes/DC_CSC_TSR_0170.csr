@@ -245,8 +245,7 @@ declare total contribucion marginal
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="-1000" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
  &#xA;
   report.addvar('ing1c1'); &#xA;
   report.addvar('ing1c2'); &#xA;
@@ -1361,8 +1360,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="0" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     if(_value(var_db_grupo_id) === 1) { &#xA;
         var m1c1; &#xA;
         var m1c2; &#xA;
@@ -1490,8 +1488,7 @@ function x() { &#xA;
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     var currentDate = new Date(); &#xA;
     var datetime = currentDate.getFullYear() + '/' &#xA;
                      + (currentDate.getMonth() + 1) + '/' &#xA;
@@ -3657,8 +3654,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return report.getvar('ing1c1').value - _value(var_sum_m1c1); &#xA;
 }"
                                        idxGroup="3" WhenEval="0"/>
@@ -3703,8 +3699,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return report.getvar('ing1c2').value - _value(var_sum_m1c2); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -3749,8 +3744,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return report.getvar('ing1c3').value - _value(var_sum_m1c3); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -3795,8 +3789,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return report.getvar('ing1c4').value - _value(var_sum_m1c4); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -3841,8 +3834,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return report.getvar('ing1c5').value - _value(var_sum_m1c5); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -3887,8 +3879,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return report.getvar('ing1co').value - _value(var_sum_m1co); &#xA;
 }"
                                        idxGroup="3" WhenEval="0"/>
@@ -3933,8 +3924,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return report.getvar('ing2c1').value - _value(var_sum_m2c1); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -3979,8 +3969,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return report.getvar('ing2c2').value - _value(var_sum_m2c2); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -4025,8 +4014,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return report.getvar('ing2c3').value - _value(var_sum_m2c3); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -4071,8 +4059,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return report.getvar('ing2c4').value - _value(var_sum_m2c4); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -4117,8 +4104,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return report.getvar('ing2c5').value - _value(var_sum_m2c5); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -4163,8 +4149,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return report.getvar('ing2co').value - _value(var_sum_m2co); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -4209,8 +4194,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return report.getvar('ing3c1').value - _value(var_sum_m3c1); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -4255,8 +4239,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return report.getvar('ing3c2').value - _value(var_sum_m3c2); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -4301,8 +4284,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return report.getvar('ing3c3').value - _value(var_sum_m3c3); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -4347,8 +4329,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return report.getvar('ing3c4').value - _value(var_sum_m3c4); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -4393,8 +4374,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return report.getvar('ing3c5').value - _value(var_sum_m3c5); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -4439,8 +4419,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return report.getvar('ing3co').value - _value(var_sum_m3co); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -4538,8 +4517,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     var value; &#xA;
     value = report.getvar('ing1c1').value - _value(var_sum_m1c1) &#xA;
               + report.getvar('ing1c2').value - _value(var_sum_m1c2) &#xA;
@@ -4596,8 +4574,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     var value; &#xA;
     value = report.getvar('ing2c1').value - _value(var_sum_m2c1) &#xA;
               + report.getvar('ing2c2').value - _value(var_sum_m2c2) &#xA;
@@ -4654,8 +4631,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     var value; &#xA;
     value = report.getvar('ing3c1').value - _value(var_sum_m3c1) &#xA;
               + report.getvar('ing3c2').value - _value(var_sum_m3c2) &#xA;
@@ -4765,8 +4741,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return _value(var_sum_m1c1) &#xA;
    + _value(var_sum_m1c2) &#xA;
    + _value(var_sum_m1c3) &#xA;
@@ -4816,8 +4791,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return _value(var_sum_m2c1) &#xA;
    +  _value(var_sum_m2c2) &#xA;
    +  _value(var_sum_m2c3) &#xA;
@@ -4867,8 +4841,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return _value(var_sum_m3c1) &#xA;
    + _value(var_sum_m3c2) &#xA;
    + _value(var_sum_m3c3) &#xA;
@@ -4971,8 +4944,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
   var value; &#xA;
  &#xA;
   value = _value(var_sum_m1c1) &#xA;
@@ -5026,8 +4998,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
   var value; &#xA;
  &#xA;
   value = _value(var_sum_m2c1) &#xA;
@@ -5081,8 +5052,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
   var value; &#xA;
  &#xA;
   value = _value(var_sum_m3c1) &#xA;
@@ -5147,8 +5117,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return 'Impuesto a las Ganacias (' + (_getparam(@@impuestos)).toFixed(2) + '%)'; &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -5193,8 +5162,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return _value(var_rai_1) *  _getparam(@@impuestos) / 100; &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -5239,8 +5207,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return _value(var_rai_2) *  _getparam(@@impuestos) / 100; &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -5285,8 +5252,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return _value(var_rai_3) *  _getparam(@@impuestos) / 100; &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -5384,8 +5350,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return _value(var_rai_1) -  _value(var_ig_1); &#xA;
 }" idxGroup="0" WhenEval="0"/>
                                     <Chart LineStyle="0" BarOutline="0" ShowValues="0" PieThickness="0" PieDiameter="0"
@@ -5429,8 +5394,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return _value(var_rai_2) - _value(var_ig_2); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>
@@ -5475,8 +5439,7 @@ function x() { &#xA;
                                         </Aspect>
                                     </Line>
                                     <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                                    <V Name="V" Text="
-function x() { &#xA;
+                                    <V Name="V" Text="function x() { &#xA;
     return _value(var_rai_3) -  _value(var_ig_3); &#xA;
 }"
                                        idxGroup="0" WhenEval="0"/>

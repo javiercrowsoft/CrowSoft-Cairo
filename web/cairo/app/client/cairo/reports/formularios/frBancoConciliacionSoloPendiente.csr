@@ -737,8 +737,7 @@
                                 </Aspect>
                             </Line>
                             <H Name="H" Text="" idxGroup="0" WhenEval="0"/>
-                            <V Name="V" Text="
-function x() { &#xA;
+                            <V Name="V" Text="function x() { &#xA;
     if(_value(var_db_fechacheque)) { &#xA;
         return '[ X ]'; &#xA;
     } else { &#xA;
