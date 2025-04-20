@@ -15733,7 +15733,7 @@ var CSReports;
                 this.opening = false;
                 this.offSet = 0;
                 this.indexSecLnMoved = 0;
-                this.newSecLineOffSet = 0;
+                this.newSecLineOffset = 0;
                 this.bMoveVertical = false;
                 this.bMoveHorizontal = false;
                 this.bNoMove = false;
@@ -17773,7 +17773,7 @@ var CSReports;
                         aspect.setTop(sec.getSectionLines().item(0).getAspect().getTop() - CSReportEditor.cGlobals.HEIGHT_NEW_SECTION);
                         break;
                     default:
-                        this.newSecLineOffSet = CSReportEditor.cGlobals.HEIGHT_NEW_SECTION;
+                        this.newSecLineOffset = CSReportEditor.cGlobals.HEIGHT_NEW_SECTION;
                         aspect = sec.getSectionLines().add().getAspect();
                         aspect.setHeight(CSReportEditor.cGlobals.HEIGHT_NEW_SECTION);
                         aspect.setWidth(sec.getAspect().getWidth());
@@ -17782,7 +17782,7 @@ var CSReports;
                 aspect = sec.getAspect();
                 aspect.setHeight(aspect.getHeight() + CSReportEditor.cGlobals.HEIGHT_NEW_SECTION);
                 this.pAddSectionLinesAux(sec);
-                this.newSecLineOffSet = 0;
+                this.newSecLineOffset = 0;
             }
             pAddSectionLinesAux(sec) {
                 let typeSecLn = csRptSectionType.CONTROL;
@@ -19081,15 +19081,15 @@ var CSReports;
                     return false;
                 }
             }
-            pChangeTopSection(rptSec, offSetTopSection, bChangeTop, bZeroOffset) {
+            pChangeTopSection(rptSec, sectionTopChange, bChangeTop, changingHeightSection) {
                 let newTopCtrl = 0;
                 let bottom = 0;
-                let secLnHeight = 0;
-                let offSecLn = 0;
+                let heightOfPreviousSecLines = 0;
+                let sectionLineTopChange = 0;
                 let paintSec;
                 let secAspect = rptSec.getAspect();
-                secAspect.setTop(secAspect.getTop() + offSetTopSection);
-                let offSet = rptSec.getSectionLines().item(0).getAspect().getTop() - secAspect.getTop();
+                secAspect.setTop(secAspect.getTop() + sectionTopChange);
+                let firstSectionLineTopMinusSectionTop = rptSec.getSectionLines().item(0).getAspect().getTop() - secAspect.getTop();
                 const secTop = secAspect.getTop();
                 for (let _i = 0; _i < rptSec.getSectionLines().count(); _i++) {
                     let rptSecLine = rptSec.getSectionLines().item(_i);
@@ -19097,8 +19097,8 @@ var CSReports;
                     if (rptSec.getTypeSection() === csRptSectionType.MAIN_FOOTER
                         || rptSec.getTypeSection() === csRptSectionType.FOOTER) {
                         if (bChangeTop) {
-                            if (bZeroOffset) {
-                                offSet = 0;
+                            if (changingHeightSection) {
+                                firstSectionLineTopMinusSectionTop = 0;
                             }
                         }
                         else {
@@ -19108,13 +19108,13 @@ var CSReports;
                         }
                     }
                     else {
-                        offSecLn = -secLineAspect.getTop();
-                        if (offSetTopSection !== 0) {
-                            offSecLn = 0;
+                        if (sectionTopChange === 0) {
+                            const newTop = (secTop + heightOfPreviousSecLines);
+                            sectionLineTopChange = newTop - secLineAspect.getTop();
                         }
                     }
-                    secLineAspect.setTop(secTop + secLnHeight);
-                    secLnHeight = secLnHeight + secLineAspect.getHeight();
+                    secLineAspect.setTop(secTop + heightOfPreviousSecLines);
+                    heightOfPreviousSecLines += secLineAspect.getHeight();
                     if (rptSecLine.getKeyPaint() !== "") {
                         paintSec = this.paint.getPaintSections().item(rptSecLine.getKeyPaint());
                         paintSec.getAspect().setTop(secLineAspect.getTop() + secLineAspect.getHeight() - CSReportEditor.cGlobals.HEIGHT_BAR_SECTION);
@@ -19128,18 +19128,19 @@ var CSReports;
                     for (let _j = 0; _j < rptSecLine.getControls().count(); _j++) {
                         let rptCtrl = rptSecLine.getControls().item(_j);
                         let ctrLabelAspect = rptCtrl.getLabel().getAspect();
+                        let newBottom;
                         if (rptCtrl.getIsFreeCtrl()) {
-                            newTopCtrl = (ctrLabelAspect.getTop() - offSet) + offSecLn;
+                            newBottom = (ctrLabelAspect.getTop() - firstSectionLineTopMinusSectionTop) + sectionLineTopChange;
                         }
                         else {
-                            newTopCtrl = (ctrLabelAspect.getTop() + ctrLabelAspect.getHeight() - offSet) + offSecLn;
+                            newBottom = (ctrLabelAspect.getTop() + ctrLabelAspect.getHeight() - firstSectionLineTopMinusSectionTop) + sectionLineTopChange;
                         }
                         bottom = secLineAspect.getTop() + secLineAspect.getHeight();
-                        if (newTopCtrl > bottom) {
+                        if (newBottom > bottom) {
                             newTopCtrl = bottom - ctrLabelAspect.getHeight();
                         }
                         else {
-                            newTopCtrl = (ctrLabelAspect.getTop() - offSet) + offSecLn;
+                            newTopCtrl = (ctrLabelAspect.getTop() - firstSectionLineTopMinusSectionTop) + sectionLineTopChange;
                         }
                         if (newTopCtrl < secLineAspect.getTop()) {
                             newTopCtrl = secLineAspect.getTop();
@@ -19191,7 +19192,7 @@ var CSReports;
                     - secToMove.getAspect().getTop());
                 let offsetTop = 0;
                 aspect = secToMove.getAspect();
-                offsetTop = oldHeight - (aspect.getHeight() + this.newSecLineOffSet);
+                offsetTop = oldHeight - (aspect.getHeight() + this.newSecLineOffset);
                 switch (secToMove.getTypeSection()) {
                     case csRptSectionType.FOOTER:
                     case csRptSectionType.MAIN_FOOTER:
@@ -19279,15 +19280,15 @@ var CSReports;
                 }
             }
             pChangeHeightSection(sec, oldSecHeight) {
-                let heightLines = 0;
+                let sectionLinesHeight = 0;
                 let aspect;
                 for (let i = 0; i < sec.getSectionLines().count() - 1; i++) {
                     aspect = sec.getSectionLines().item(i).getAspect();
-                    heightLines = heightLines + aspect.getHeight();
+                    sectionLinesHeight = sectionLinesHeight + aspect.getHeight();
                 }
                 let sectionLines = sec.getSectionLines();
                 aspect = sectionLines.item(sectionLines.count() - 1).getAspect();
-                aspect.setHeight(sec.getAspect().getHeight() - heightLines);
+                aspect.setHeight(sec.getAspect().getHeight() - sectionLinesHeight);
                 this.pChangeTopSection(sec, 0, false, true);
             }
             getSectionRuleName(sec) {
