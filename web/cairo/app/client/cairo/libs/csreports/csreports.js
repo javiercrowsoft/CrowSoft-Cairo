@@ -14256,8 +14256,8 @@ var CSReports;
             imageBitmapToCanvas(bitmap) {
                 const canvas = document.createElement("canvas");
                 const context = canvas.getContext("2d");
-                canvas.width = bitmap.width * 0.75;
-                canvas.height = bitmap.height * 0.75;
+                canvas.width = bitmap.width * 0.80;
+                canvas.height = bitmap.height * 0.80;
                 context.mozImageSmoothingEnabled = true;
                 context.webkitImageSmoothingEnabled = true;
                 context.msImageSmoothingEnabled = true;
@@ -14685,7 +14685,7 @@ var CSReports;
                 this.createPaintObjects(page.getHeader(), cReportPrint.OFFSETHEADER);
                 this.createPaintObjects(page.getDetail(), cReportPrint.OFFSETDETAIL);
                 this.createPaintObjects(page.getFooter(), cReportPrint.OFFSETFOOTER);
-                if (!inPrinter) {
+                if (!inPrinter && this.rpwPrint != null) {
                     this.rpwPrint.setCurrPage(this.currPage);
                     this.rpwPrint.getBody().refresh();
                 }
@@ -14799,6 +14799,7 @@ var CSReports;
                     this.paint = new CSReportPaint.cReportPaint();
                 }
                 this.paint.setNotBorder(true);
+                this.changeZoom(140);
             }
             printPagesToPrinter(printer, objClient) {
                 try {
@@ -15346,19 +15347,21 @@ var CSReports;
                     this.drawPage(e.graphics, false);
                 }
             }
-            rpwPrint_ChangeZoom(zoom) {
+            changeZoom(zoom) {
                 let nZoom = 0;
                 let width = 0;
                 let height = 0;
                 switch (zoom) {
                     case csEZoom.csEZoomAllPage:
-                        width = this.rpwPrint.getWidth() / this.realWidth;
-                        height = this.rpwPrint.getHeight() / this.realHeight;
-                        if (width < height) {
-                            nZoom = this.rpwPrint.getWidth() / this.realWidth;
-                        }
-                        else {
-                            nZoom = this.rpwPrint.getHeight() / this.realHeight;
+                        if (this.rpwPrint != null) {
+                            width = this.rpwPrint.getWidth() / this.realWidth;
+                            height = this.rpwPrint.getHeight() / this.realHeight;
+                            if (width < height) {
+                                nZoom = this.rpwPrint.getWidth() / this.realWidth;
+                            }
+                            else {
+                                nZoom = this.rpwPrint.getHeight() / this.realHeight;
+                            }
                         }
                         break;
                     case csEZoom.csEZoomCustom:
@@ -15374,19 +15377,22 @@ var CSReports;
                 if (nZoom < 0.01) {
                     nZoom = 0.01;
                 }
-                let pic = this.rpwPrint.getBody();
-                pic.setWidth(this.realWidth * nZoom);
-                pic.setHeight(this.realHeight * nZoom);
+                if (this.rpwPrint != null) {
+                    let pic = this.rpwPrint.getBody();
+                    pic.setWidth(this.realWidth * nZoom);
+                    pic.setHeight(this.realHeight * nZoom);
+                }
                 if (nZoom > 0.5) {
                     this.paint.setZoom(100);
                     this.paint.setScaleX(nZoom);
                     this.paint.setScaleY(nZoom);
-                    this.scaleFont = nZoom;
+                    this.scaleFont = nZoom !== 1 ? nZoom * .8 : 1;
                     this.printPage(this.currPage);
                 }
                 else {
                     this.paint.setZoom(zoom);
-                    this.rpwPrint.getBody().refresh();
+                    if (this.rpwPrint != null)
+                        this.rpwPrint.getBody().refresh();
                 }
             }
             sendMail(files, emailAddress) {
